@@ -1,0 +1,19 @@
+.pagy-nav {
+  @apply flex space-x-2 justify-center text-gray-500 mt-10;
+}
+
+.pagy-nav .page a,
+.pagy-nav .page.active,
+.pagy-nav .page.prev.disabled,
+.pagy-nav .page.next.disabled {
+  @apply block px-3 py-2 text-base font-medium rounded-lg;
+}
+
+.pagy-nav .page.prev.disabled,
+.pagy-nav .page.next.disabled {
+  @apply text-gray-500 cursor-default;
+}
+
+.pagy-nav .page.active {
+  @apply cursor-default  bg-gray-200 text-gray-700;
+}

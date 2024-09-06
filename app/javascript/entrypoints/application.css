@@ -1,0 +1,35 @@
+@import "../../frontend/stylesheets/pagy.tailwind.css";
+@import "../../frontend/stylesheets/pagy_nav.css";
+@import "../../frontend/stylesheets/reports.css";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* GENERAL */
+
+div[data-lastpass-icon-root] {
+  display: none;
+}
+
+.fit-content {
+  width: fit-content;
+}
+
+/* MARGINS */
+
+.mt-05rem {
+  margin-top: 0.5rem !important;
+}
+
+/* NAVBAR */
+
+.no-tap-highlight {
+  outline: none;
+}
+
+.no-tap-highlight:focus,
+.no-tap-highlight:hover,
+.no-tap-highlight:active {
+  background-color: transparent !important;
+  outline: none !important;
+}
