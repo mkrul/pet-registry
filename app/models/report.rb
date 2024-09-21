@@ -2,7 +2,6 @@
 
 class Report < ApplicationRecord
   searchkick
-  Report.reindex
 
   has_many_attached :images, dependent: :destroy
 
