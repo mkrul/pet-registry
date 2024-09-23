@@ -1,5 +1,4 @@
 interface IReport {
-  id: number;
   title: string;
   description: string;
   name: string;
@@ -11,9 +10,6 @@ interface IReport {
   color2?: string;
   color3?: string;
   gender: string;
-  archivedAt?: string;
-  createdAt: string;
-  updatedAt: string;
   imageUrls: string[];
 }
 

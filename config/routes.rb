@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   namespace :api do
+    get 'cloudinary/credentials', to: 'cloudinary#credentials'
+
     resources :reports do
       get :index, on: :collection
       get :search, on: :collection

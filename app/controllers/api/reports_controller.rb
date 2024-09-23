@@ -25,6 +25,7 @@ module Api
     def edit; end
 
     def create
+      binding.remote_pry
       @report = Report.new(report_params)
 
       if @report.save
@@ -34,8 +35,7 @@ module Api
             @report.images.attach(io: URI.open(url), filename: File.basename(URI.parse(url).path))
           end
         end
-
-        render json: { message: 'Report created successfully' }, status: :created
+        render json: @report, serializer: ReportSerializer, status: :created
       else
         render json: { errors: @report.errors.full_messages }, status: :unprocessable_entity
       end
@@ -85,24 +85,26 @@ module Api
     end
 
     def report_params
-      params.fetch(:report, {}).permit(
+      params.require(:report).fetch(:data, {}).permit(
         :title,
         :status,
         :name,
         :description,
         :gender,
         :species,
-        :breed_1,
+        :breed_1,  # Make sure to match your param keys
         :breed_2,
         :color_1,
         :color_2,
         :color_3
       )
     end
-
+    
     def image_params
-      params.fetch(:report, {}).permit(image_urls: [])
-    end
+      params.require(:report).fetch(:data, {}).permit(
+        image_urls: []
+      )
+    end    
 
     def search_params
       params.permit(:query)

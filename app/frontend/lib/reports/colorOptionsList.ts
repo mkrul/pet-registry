@@ -1,7 +1,8 @@
 export const colorOptionsList: string[] = [
   "Black",
   "White",
-  "Gray/Blue/Silver",
+  "Gray",
+  "Yellow",
   "Brown",
   "Cream",
   "Red",

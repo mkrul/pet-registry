@@ -10,11 +10,37 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
   const maxImages = 3;
   const [currentImageCount, setCurrentImageCount] = useState(0);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [cloudinaryConfig, setCloudinaryConfig] = useState({
+    cloud_name: "",
+    api_key: "",
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch Cloudinary credentials from the backend API
+  useEffect(() => {
+    const fetchCloudinaryConfig = async () => {
+      try {
+        const response = await fetch("/api/cloudinary/credentials");
+        const data = await response.json();
+        setCloudinaryConfig({
+          cloud_name: data.cloud_name,
+          api_key: data.api_key,
+        });
+      } catch (error) {
+        setError("Failed to load Cloudinary credentials");
+        console.error("Failed to load Cloudinary credentials:", error);
+      }
+    };
+
+    fetchCloudinaryConfig();
+  }, []);
 
   useEffect(() => {
+    if (!cloudinaryConfig.cloud_name) return; // Prevents widget initialization until config is loaded
+
     const cloudinaryWidget = (window as any).cloudinary.createUploadWidget(
       {
-        cloud_name: "your-cloud-name",
+        cloudName: cloudinaryConfig.cloud_name,
         upload_preset: "pr_unsigned",
         multiple: true,
         sources: ["local", "url", "camera"],
@@ -39,38 +65,44 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         }
 
         if (error) {
+          setError("Error during upload");
           console.error("Error during upload:", error);
         }
       }
     );
 
-    document
-      .getElementById("cloudinary-widget")
-      ?.addEventListener("click", () => {
-        if (currentImageCount < maxImages) {
-          cloudinaryWidget.open();
-        } else {
-          alert(`You can only upload a maximum of ${maxImages} images.`);
-        }
-      });
+    const widgetButton = document.getElementById("cloudinary-widget");
+
+    const handleClick = () => {
+      if (currentImageCount < maxImages) {
+        cloudinaryWidget.open();
+      } else {
+        alert(`You can only upload a maximum of ${maxImages} images.`);
+      }
+    };
+
+    if (widgetButton) {
+      widgetButton.addEventListener("click", handleClick);
+    }
 
     return () => {
-      document
-        .getElementById("cloudinary-widget")
-        ?.removeEventListener("click", cloudinaryWidget.open);
+      if (widgetButton) {
+        widgetButton.removeEventListener("click", handleClick);
+      }
     };
-  }, [currentImageCount]);
+  }, [currentImageCount, cloudinaryConfig.cloud_name, onUploadSuccess]);
 
   return (
     <div>
+      {error && <p className="text-red-500">{error}</p>}
       <button
         id="cloudinary-widget"
         type="button"
-        className="cloudinary-upload btn"
+        className="cloudinary-upload btn upload-btn"
       >
         Upload Images
       </button>
-      <div className="uploaded-images">
+      <div className="uploaded-images mt-2">
         {imageUrls.map((url, index) => (
           <div
             key={index}
@@ -85,7 +117,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
             <button
               onClick={() => {
                 setImageUrls(imageUrls.filter((_, i) => i !== index));
-                setCurrentImageCount(currentImageCount - 1);
+                setCurrentImageCount((count) => count - 1);
               }}
               style={{
                 position: "absolute",

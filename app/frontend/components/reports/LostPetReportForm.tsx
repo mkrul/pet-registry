@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
+import snakecaseKeys from 'snakecase-keys';
+import camelcaseKeys from 'camelcase-keys';
 import CloudinaryWidget from "../shared/CloudinaryWidget";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation,
 } from "../../redux/features/reports/reportsApi";
-import IReport from "../../types/reports/IReport";
+import IReportForm from "../../types/reports/IReportForm";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
@@ -25,7 +27,7 @@ const LostPetReportForm: React.FC = () => {
   const [showColor2, setShowColor2] = useState(false);
   const [showColor3, setShowColor3] = useState(false);
 
-  const [formData, setFormData] = useState<IReport>({
+  const [formData, setFormData] = useState<IReportForm>({
     title: "",
     description: "",
     name: "",
@@ -37,10 +39,7 @@ const LostPetReportForm: React.FC = () => {
     color1: "",
     color2: "",
     color3: "",
-    imageUrls: [] as string[],
-    updatedAt: "",
-    createdAt: "",
-    archivedAt: "",
+    imageUrls: [] as string[]
   });
 
   // Memoizing options lists to avoid re-calculations on every render
@@ -97,8 +96,11 @@ const LostPetReportForm: React.FC = () => {
       color3: showColor3 ? formData.color3 : undefined,
     };
 
+    const coercedData = snakecaseKeys(filteredFormData, { deep: true });
+    const originalData = camelcaseKeys(coercedData, { deep: true });
+
     try {
-      await submitReport({ report: filteredFormData }).unwrap();
+      await submitReport({ data: originalData }).unwrap();
       alert("Report submitted successfully!");
     } catch (error) {
       console.error("Failed to submit report:", error);
@@ -115,9 +117,9 @@ const LostPetReportForm: React.FC = () => {
       onSubmit={handleSubmit}
     >
       <div className="mt-05rem">
-        Please provide as as many details as possible and upload{" "}
+        Please include as many details as possible and upload{" "}
         <strong>at least</strong> 1 to 3 photos of the animal. If the animal's
-        breeds are unknown, please provide your best guess and include a
+        breeds are unknown, please provide your best guess along with a
         thorough description.
       </div>
       <div className="text-sm text-gray-500 mb-3">

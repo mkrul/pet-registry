@@ -28,6 +28,8 @@ class Report < ApplicationRecord
   validate :image_count_within_limit
   validate :image_size_within_limit
 
+  has_many_attached :images, dependent: :destroy
+
   private
 
   def image_count_within_limit

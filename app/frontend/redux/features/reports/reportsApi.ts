@@ -1,6 +1,7 @@
 import { rootApiSlice } from "../rootApiSlice";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import IReport from "../../../types/reports/IReport";
+import IReportForm from "../../../types/reports/IReportForm";
 import IPagination from "../../../types/shared/IPagination";
 
 const reportsApi = createApi({
@@ -22,8 +23,8 @@ const reportsApi = createApi({
       providesTags: ["Reports"],
     }),
 
-    submitReport: build.mutation<void, { report: IReport }>({
-      query: (report) => ({
+    submitReport: build.mutation<void, { data: IReportForm }>({
+    query: (report) => ({
         url: "reports",
         method: "POST",
         body: { report },

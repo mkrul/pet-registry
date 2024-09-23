@@ -5,6 +5,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* CLOUDINARY */
+
+.upload-btn {
+  background-color: #BCBEC3 !important;
+}
+
 /* GENERAL */
 
 div[data-lastpass-icon-root] {
