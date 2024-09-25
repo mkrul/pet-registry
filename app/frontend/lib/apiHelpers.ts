@@ -16,3 +16,17 @@ export function queryPaginationTransform(response: Response) {
 }
 
 export const qsSettings = { arrayFormat: "brackets", encode: false };
+
+export function transformToSnakeCase(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map((v) => transformToSnakeCase(v));
+  } else if (obj !== null && typeof obj === 'object') {
+    return Object.keys(obj).reduce((result, key) => {
+      // Converts camelCase to snake_case (handles numbers and no-numbers)
+      const snakeKey = key.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/([a-z])([0-9])/g, '$1_$2').toLowerCase();
+      result[snakeKey] = transformToSnakeCase(obj[key]);
+      return result;
+    }, {} as any);
+  }
+  return obj;
+}

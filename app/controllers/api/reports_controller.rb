@@ -1,5 +1,8 @@
 # require 'pagy/extras/metadata'
-
+require 'pry'
+require 'pry-nav'
+require 'pry-remote'
+require 'pry-byebug'
 module Api
   class ReportsController < ApplicationController
     before_action :set_report, only: %i[show edit update destroy]
@@ -26,18 +29,12 @@ module Api
 
     def create
       binding.remote_pry
-      @report = Report.new(report_params)
+      outcome = Reports::Create.run(data: report_params)
 
-      if @report.save
-        if image_params[:image_urls].present?
-          image_urls = image_params[:image_urls]&.first&.split('🐶')&.reject(&:blank?)
-          image_urls.each do |url|
-            @report.images.attach(io: URI.open(url), filename: File.basename(URI.parse(url).path))
-          end
-        end
-        render json: @report, serializer: ReportSerializer, status: :created
+      if outcome.valid?
+        render json: outcome.result, serializer: ReportSerializer, status: :created
       else
-        render json: { errors: @report.errors.full_messages }, status: :unprocessable_entity
+        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
@@ -85,26 +82,42 @@ module Api
     end
 
     def report_params
-      params.require(:report).fetch(:data, {}).permit(
+      transformed_params = deep_transform_keys(params[:data], &:underscore)
+      permitted_params = transformed_params.permit(
         :title,
         :status,
         :name,
         :description,
         :gender,
         :species,
-        :breed_1,  # Make sure to match your param keys
+        :breed_1,
         :breed_2,
         :color_1,
         :color_2,
         :color_3
       )
+
+      permitted_params.merge(image_urls: image_params[:image_urls])
     end
-    
+
+    def deep_transform_keys(value, &block)
+      case value
+      when Array
+        value.map { |v| deep_transform_keys(v, &block) }
+      when Hash
+        value.transform_keys(&block).each do |key, v|
+          value[key] = deep_transform_keys(v, &block)
+        end
+      else
+        value
+      end
+    end
+
     def image_params
-      params.require(:report).fetch(:data, {}).permit(
+      params.require(:data).permit(
         image_urls: []
       )
-    end    
+    end
 
     def search_params
       params.permit(:query)

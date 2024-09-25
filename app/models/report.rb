@@ -9,8 +9,7 @@ class Report < ApplicationRecord
   validates :description, presence: true
   validates :status, presence: true, inclusion: { in: %w[active archived] }
   validates :breed_1, presence: true
-  validates :species, presence: true, inclusion: { in: %w[dog cat] }
-  validates :gender, presence: true, inclusion: { in: %w[male female unknown] }
+  validates :color_1, presence: true
   normalizes :title,
              :description,
              :status,
@@ -23,14 +22,29 @@ class Report < ApplicationRecord
              :color_2,
              :color_3,
              :gender,
-             with: -> { _1.presence }
+             with: ->(value) { value.presence || nil }
 
   validate :image_count_within_limit
   validate :image_size_within_limit
 
   has_many_attached :images, dependent: :destroy
 
+  before_validation :normalize_fields
+
   private
+
+  def normalize_fields
+    self.title = title&.strip
+    self.description = description&.strip
+    self.name = name&.presence
+    self.species = species&.presence
+    self.breed_1 = breed_1&.presence
+    self.breed_2 = breed_2&.presence
+    self.color_1 = color_1&.presence
+    self.color_2 = color_2&.presence
+    self.color_3 = color_3&.presence
+    self.status = status&.downcase
+  end
 
   def image_count_within_limit
     return unless images.attached? && images.count > 3

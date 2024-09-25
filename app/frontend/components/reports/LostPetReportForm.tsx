@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import snakecaseKeys from 'snakecase-keys';
-import camelcaseKeys from 'camelcase-keys';
+import snakecaseKeys from "snakecase-keys";
 import CloudinaryWidget from "../shared/CloudinaryWidget";
 import {
   useGetNewReportQuery,
-  useSubmitReportMutation,
+  useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
 import IReportForm from "../../types/reports/IReportForm";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
@@ -17,10 +16,9 @@ const LostPetReportForm: React.FC = () => {
   const {
     data: newReport,
     isLoading: isLoadingNewReport,
-    isError: isNewReportError,
+    isError: isNewReportError
   } = useGetNewReportQuery();
-  const [submitReport, { isLoading, isError, isSuccess }] =
-    useSubmitReportMutation();
+  const [submitReport, { isLoading, isError, isSuccess }] = useSubmitReportMutation();
 
   const [breedOptions, setBreedOptions] = useState<string[]>([]);
   const [showBreed2, setShowBreed2] = useState(false);
@@ -52,38 +50,23 @@ const LostPetReportForm: React.FC = () => {
   // Single effect for breed and color visibility logic
   useEffect(() => {
     setBreedOptions(
-      formData.species === "Dog"
-        ? dogBreeds
-        : formData.species === "Cat"
-        ? catBreeds
-        : []
+      formData.species === "Dog" ? dogBreeds : formData.species === "Cat" ? catBreeds : []
     );
     setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
-  }, [
-    formData.species,
-    formData.breed1,
-    formData.color1,
-    formData.color2,
-    dogBreeds,
-    catBreeds,
-  ]);
+  }, [formData.species, formData.breed1, formData.color1, formData.color2, dogBreeds, catBreeds]);
 
   const handleInputChange = useCallback(
-    (
-      e: React.ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-      >
-    ) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData(prev => ({ ...prev, [name]: value }));
     },
     []
   );
 
   const handleUploadSuccess = useCallback((urls: string[]) => {
-    setFormData((prev) => ({ ...prev, imageUrls: urls }));
+    setFormData(prev => ({ ...prev, imageUrls: urls }));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,10 +80,9 @@ const LostPetReportForm: React.FC = () => {
     };
 
     const coercedData = snakecaseKeys(filteredFormData, { deep: true });
-    const originalData = camelcaseKeys(coercedData, { deep: true });
 
     try {
-      await submitReport({ data: originalData }).unwrap();
+      await submitReport({ data: coercedData }).unwrap();
       alert("Report submitted successfully!");
     } catch (error) {
       console.error("Failed to submit report:", error);
@@ -111,21 +93,15 @@ const LostPetReportForm: React.FC = () => {
   if (isNewReportError) return <div>Failed to load new report.</div>;
 
   return (
-    <form
-      className="space-y-6"
-      id="lost-pet-report-form"
-      onSubmit={handleSubmit}
-    >
+    <form className="space-y-6" id="lost-pet-report-form" onSubmit={handleSubmit}>
       <div className="mt-05rem">
-        Please include as many details as possible and upload{" "}
-        <strong>at least</strong> 1 to 3 photos of the animal. If the animal's
-        breeds are unknown, please provide your best guess along with a
-        thorough description.
+        Please include as many details as possible and upload <strong>at least</strong> 1 to 3
+        photos of the animal. If the animal's breeds are unknown, please provide your best guess
+        along with a thorough description.
       </div>
       <div className="text-sm text-gray-500 mb-3">
         <p>
-          Fields marked with <span className="text-red-400">*</span> are
-          required.
+          Fields marked with <span className="text-red-400">*</span> are required.
         </p>
       </div>
       <div>
@@ -156,9 +132,7 @@ const LostPetReportForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Pet's name, if known:
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Pet's name, if known:</label>
         <input
           type="text"
           name="name"
@@ -230,9 +204,7 @@ const LostPetReportForm: React.FC = () => {
 
       {showBreed2 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Breed 2:
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Breed 2:</label>
           <select
             name="breed2"
             value={formData.breed2}
@@ -271,9 +243,7 @@ const LostPetReportForm: React.FC = () => {
 
       {showColor2 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Color 2:
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Color 2:</label>
           <select
             name="color2"
             value={formData.color2}
@@ -292,9 +262,7 @@ const LostPetReportForm: React.FC = () => {
 
       {showColor3 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Color 3:
-          </label>
+          <label className="block text-sm font-medium text-gray-700">Color 3:</label>
           <select
             name="color3"
             value={formData.color3}
@@ -321,9 +289,7 @@ const LostPetReportForm: React.FC = () => {
       </button>
 
       {isError && <p className="text-red-500">Failed to submit the report.</p>}
-      {isSuccess && (
-        <p className="text-green-500">Report submitted successfully.</p>
-      )}
+      {isSuccess && <p className="text-green-500">Report submitted successfully.</p>}
     </form>
   );
 };
