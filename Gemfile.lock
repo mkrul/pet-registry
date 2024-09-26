@@ -198,9 +198,6 @@ GEM
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.10.1)
-      byebug (~> 11.0)
-      pry (>= 0.13, < 0.15)
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
     pry-remote (0.1.8)
@@ -353,6 +350,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.14)
   bootsnap
   brakeman
+  byebug
   capybara
   cloudinary (~> 2.1, >= 2.1.1)
   cssbundling-rails (~> 1.4, >= 1.4.1)
@@ -364,7 +362,6 @@ DEPENDENCIES
   pagy (~> 9.0, >= 9.0.7)
   pg (~> 1.5.8)
   pry
-  pry-byebug
   pry-nav
   pry-remote
   puma (>= 5.0)

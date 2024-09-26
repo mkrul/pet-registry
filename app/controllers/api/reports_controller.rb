@@ -1,8 +1,6 @@
 # require 'pagy/extras/metadata'
-require 'pry'
-require 'pry-nav'
-require 'pry-remote'
-require 'pry-byebug'
+
+require 'byebug/core'
 module Api
   class ReportsController < ApplicationController
     before_action :set_report, only: %i[show edit update destroy]
@@ -28,7 +26,7 @@ module Api
     def edit; end
 
     def create
-      binding.remote_pry
+      byebug
       outcome = Reports::Create.run(data: report_params)
 
       if outcome.valid?

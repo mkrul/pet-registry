@@ -89,8 +89,8 @@ const LostPetReportForm: React.FC = () => {
     }
   };
 
-  if (isLoadingNewReport) return <div>Loading new report...</div>;
-  if (isNewReportError) return <div>Failed to load new report.</div>;
+  if (isLoadingNewReport) return <div>Loading report form...</div>;
+  if (isNewReportError) return <div>Failed to load report form.</div>;
 
   return (
     <form className="space-y-6" id="lost-pet-report-form" onSubmit={handleSubmit}>

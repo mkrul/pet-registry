@@ -60,6 +60,7 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem 'brakeman', require: false
+  gem 'byebug'
   gem 'pry'
   gem 'pry-nav'
   gem 'pry-remote'
