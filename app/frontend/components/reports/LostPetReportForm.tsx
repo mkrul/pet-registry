@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import snakecaseKeys from "snakecase-keys";
 import CloudinaryWidget from "../shared/CloudinaryWidget";
 import {
   useGetNewReportQuery,
@@ -14,12 +13,10 @@ import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 
 const LostPetReportForm: React.FC = () => {
   const {
-    data: newReport,
     isLoading: isLoadingNewReport,
     isError: isNewReportError
   } = useGetNewReportQuery();
   const [submitReport, { isLoading, isError, isSuccess }] = useSubmitReportMutation();
-
   const [breedOptions, setBreedOptions] = useState<string[]>([]);
   const [showBreed2, setShowBreed2] = useState(false);
   const [showColor2, setShowColor2] = useState(false);
@@ -29,7 +26,6 @@ const LostPetReportForm: React.FC = () => {
     title: "",
     description: "",
     name: "",
-    status: "",
     gender: "",
     species: "",
     breed1: "",
@@ -55,7 +51,7 @@ const LostPetReportForm: React.FC = () => {
     setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
-  }, [formData.species, formData.breed1, formData.color1, formData.color2, dogBreeds, catBreeds]);
+  }, [formData.species, formData.breed1, formData.breed2, formData.color1, formData.color2, formData.color3, dogBreeds, catBreeds]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -79,10 +75,8 @@ const LostPetReportForm: React.FC = () => {
       color3: showColor3 ? formData.color3 : undefined,
     };
 
-    const coercedData = snakecaseKeys(filteredFormData, { deep: true });
-
     try {
-      await submitReport({ data: coercedData }).unwrap();
+      await submitReport({ data: filteredFormData }).unwrap();
       alert("Report submitted successfully!");
     } catch (error) {
       console.error("Failed to submit report:", error);

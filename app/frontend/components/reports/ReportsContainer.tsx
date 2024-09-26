@@ -6,7 +6,6 @@ import Report from "./Report"; // Make sure you are importing Report component
 
 const ReportsContainer = () => {
   const { data, isFetching, error } = useGetReportsQuery({});
-  console.log(data);
 
   if (isFetching) return <div>Loading...</div>;
   if (error) return <div>Error loading reports</div>;

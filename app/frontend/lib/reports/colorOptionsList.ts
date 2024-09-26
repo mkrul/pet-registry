@@ -8,17 +8,4 @@ export const colorOptionsList: string[] = [
   "Red",
   "Orange",
   "Tan",
-  "Brindle",
-  "Ticked",
-  "Piebald",
-  "Tricolor",
-  "Sable",
-  "Merle",
-  "Spotted",
-  "Bicolor",
-  "Striped",
-  "Calico",
-  "Tortoiseshell",
-  "Fawn",
-  "Agouti"
 ].sort();

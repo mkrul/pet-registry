@@ -80,10 +80,8 @@ module Api
     end
 
     def report_params
-      transformed_params = deep_transform_keys(params[:data], &:underscore)
-      permitted_params = transformed_params.permit(
+      permitted_params = params.require(:data).permit(
         :title,
-        :status,
         :name,
         :description,
         :gender,
@@ -96,19 +94,6 @@ module Api
       )
 
       permitted_params.merge(image_urls: image_params[:image_urls])
-    end
-
-    def deep_transform_keys(value, &block)
-      case value
-      when Array
-        value.map { |v| deep_transform_keys(v, &block) }
-      when Hash
-        value.transform_keys(&block).each do |key, v|
-          value[key] = deep_transform_keys(v, &block)
-        end
-      else
-        value
-      end
     end
 
     def image_params

@@ -26,7 +26,6 @@ const reportsApi = createApi({
     submitReport: build.mutation<void, { data: IReportForm }>({
       query: (report) => {
         const snakeCasedReport = transformToSnakeCase(report);
-        console.log("Snake Cased Report Data:", snakeCasedReport);
         return {
           url: "reports",
           method: "POST",

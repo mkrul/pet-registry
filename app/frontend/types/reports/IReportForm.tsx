@@ -2,7 +2,6 @@ interface IReport {
   title: string;
   description: string;
   name: string;
-  status: string;
   species: string;
   breed1: string;
   breed2?: string;

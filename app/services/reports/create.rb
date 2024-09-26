@@ -10,26 +10,26 @@ class Reports::Create < ActiveInteraction::Base
     string :gender
     string :species
     string :breed_1
-    string :breed_2, default: nil
+    string :breed_2
     string :color_1
-    string :color_2, default: nil
-    string :color_3, default: nil
-    string :image_urls, default: nil
+    string :color_2
+    string :color_3
+    array :image_urls
   end
 
   def execute
-    binding.remote_pry
+    byebug
     report = Report.new(
-      title: data[:title],
-      description: data[:description],
-      name: data[:name],
-      species: data[:species],
-      gender: data[:gender],
-      breed_1: data[:breed_1],
-      breed_2: data[:breed_2],
-      color_1: data[:color_1],
-      color_2: data[:color_2],
-      color_3: data[:color_3],
+      title: data.fetch(:title),
+      description: data.fetch(:description),
+      name: data.fetch(:name),
+      species: data.fetch(:species),
+      gender: data.fetch(:gender),
+      breed_1: data.fetch(:breed_1),
+      breed_2: data.fetch(:breed_2),
+      color_1: data.fetch(:color_1),
+      color_2: data.fetch(:color_2),
+      color_3: data.fetch(:color_3),
       status: 'active',
     )
 
