@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import NavLink from "./shared/NavLink";
-import SearchBar from "./shared/SearchBar";
 
 const NavBar = () => {
   return (
@@ -16,12 +15,12 @@ const NavBar = () => {
 
         {/* Navigation for larger screens */}
         <div className="hidden md:flex flex-none">
-          <div className="align-right hidden lg:flex">
-            <SearchBar />
-          </div>
           <ul className="menu menu-horizontal px-1">
             <li>
               <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
+            </li>
+            <li>
+              <NavLink linkTo="/reports">Search</NavLink>
             </li>
             <li>
               <NavLink linkTo="#">About</NavLink>
@@ -80,17 +79,15 @@ const NavBar = () => {
             <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
           </li>
           <li>
+            <NavLink linkTo="/reports">Search</NavLink>
+          </li>
+          <li>
             <NavLink linkTo="#">About</NavLink>
           </li>
           <li>
             <NavLink linkTo="#">Contact</NavLink>
           </li>
         </ul>
-      </div>
-
-      {/* Full-width SearchBar for small screens */}
-      <div className="lg:hidden w-full px-4 mt-3 mb-5">
-        <SearchBar />
       </div>
     </div>
   );

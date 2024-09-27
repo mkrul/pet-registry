@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 interface CloudinaryWidgetProps {
   onUploadSuccess: (imageUrls: string[]) => void;
@@ -13,10 +13,10 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
   const [cloudinaryConfig, setCloudinaryConfig] = useState({
     cloud_name: "",
     api_key: "",
+    api_secret: "",
   });
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch Cloudinary credentials from the backend API
   useEffect(() => {
     const fetchCloudinaryConfig = async () => {
       try {
@@ -25,6 +25,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         setCloudinaryConfig({
           cloud_name: data.cloud_name,
           api_key: data.api_key,
+          api_secret: data.api_secret,
         });
       } catch (error) {
         setError("Failed to load Cloudinary credentials");
@@ -35,8 +36,18 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
     fetchCloudinaryConfig();
   }, []);
 
+  const handleUploadSuccess = useCallback(
+    (newImageUrl: string) => {
+      const updatedUrls = [...imageUrls, newImageUrl];
+      setImageUrls(updatedUrls);
+      setCurrentImageCount((count) => count + 1);
+      onUploadSuccess(updatedUrls);
+    },
+    [imageUrls, onUploadSuccess]
+  );
+
   useEffect(() => {
-    if (!cloudinaryConfig.cloud_name) return; // Prevents widget initialization until config is loaded
+    if (!cloudinaryConfig.cloud_name) return;
 
     const cloudinaryWidget = (window as any).cloudinary.createUploadWidget(
       {
@@ -54,14 +65,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
             alert(`You can only upload a maximum of ${maxImages} images.`);
             return;
           }
-
-          const newImageUrl = result.info.secure_url;
-          setImageUrls((prevUrls) => {
-            const updatedUrls = [...prevUrls, newImageUrl];
-            onUploadSuccess(updatedUrls);
-            return updatedUrls;
-          });
-          setCurrentImageCount((count) => count + 1);
+          handleUploadSuccess(result.info.secure_url);
         }
 
         if (error) {
@@ -90,7 +94,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         widgetButton.removeEventListener("click", handleClick);
       }
     };
-  }, [currentImageCount, cloudinaryConfig.cloud_name, onUploadSuccess]);
+  }, [currentImageCount, cloudinaryConfig.cloud_name, handleUploadSuccess]);
 
   return (
     <div>

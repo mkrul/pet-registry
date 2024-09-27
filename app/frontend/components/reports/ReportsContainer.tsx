@@ -21,12 +21,9 @@ const ReportsContainer = () => {
     page: 0,
   };
 
-  // Using sample data for testing
-  const sampleReports = [reports[0], reports[0], reports[0], reports[0]];
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {sampleReports.map((report: IReport, index: number) => (
+    <div className="grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-4 gap-4">
+      {reports.map((report: IReport, index: number) => (
         <Report key={index} report={report} />
       ))}
     </div>

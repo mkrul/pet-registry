@@ -21,12 +21,6 @@ div[data-lastpass-icon-root] {
   width: fit-content;
 }
 
-/* MARGINS */
-
-.mt-05rem {
-  margin-top: 0.5rem !important;
-}
-
 /* NAVBAR */
 
 .no-tap-highlight {

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_interaction'
+require 'open-uri'
 
 class Reports::Create < ActiveInteraction::Base
   hash :data do
@@ -41,8 +42,8 @@ class Reports::Create < ActiveInteraction::Base
   private
 
   def attach_images(report)
-    image_urls.each do |url|
-      report.images.attach(io: URI.open(url), filename: File.basename(URI.parse(url).path))
+    data.fetch(:image_urls).each do |url|
+      report.images.attach(io: OpenURI.open_uri(url), filename: File.basename(URI.parse(url).path))
     end
   end
 end

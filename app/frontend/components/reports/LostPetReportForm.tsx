@@ -72,7 +72,7 @@ const LostPetReportForm: React.FC = () => {
       ...formData,
       breed2: showBreed2 ? formData.breed2 : undefined,
       color2: showColor2 ? formData.color2 : undefined,
-      color3: showColor3 ? formData.color3 : undefined,
+      color3: showColor3 ? formData.color3 : "",
     };
 
     try {
@@ -88,7 +88,7 @@ const LostPetReportForm: React.FC = () => {
 
   return (
     <form className="space-y-6" id="lost-pet-report-form" onSubmit={handleSubmit}>
-      <div className="mt-05rem">
+      <div className="mt-[0.5rem]">
         Please include as many details as possible and upload <strong>at least</strong> 1 to 3
         photos of the animal. If the animal's breeds are unknown, please provide your best guess
         along with a thorough description.

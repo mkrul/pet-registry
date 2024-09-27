@@ -1,6 +1,7 @@
 # require 'pagy/extras/metadata'
 
 require 'byebug/core'
+
 module Api
   class ReportsController < ApplicationController
     before_action :set_report, only: %i[show edit update destroy]
@@ -26,7 +27,6 @@ module Api
     def edit; end
 
     def create
-      byebug
       outcome = Reports::Create.run(data: report_params)
 
       if outcome.valid?
