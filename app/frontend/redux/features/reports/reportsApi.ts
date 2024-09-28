@@ -1,9 +1,10 @@
 import snakecaseKeys from "snakecase-keys";
-import { transformToSnakeCase } from "../../../lib/apiHelpers";
+import camelcaseKeys from "camelcase-keys";
+import { transformToSnakeCase, transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import IReport from "../../../types/reports/IReport";
-import IReportForm from "../../../types/reports/IReportForm";
-import IPagination from "../../../types/shared/IPagination";
+import IReport from "../../../types/reports/Report";
+import IReportForm from "../../../types/reports/ReportForm";
+import IPagination from "../../../types/shared/Pagination";
 
 const reportsApi = createApi({
   reducerPath: "reportsApi", // Ensure this is different from rootApi
@@ -19,7 +20,9 @@ const reportsApi = createApi({
     getReports: build.query({
       query: () => "reports",
       transformResponse: (response: { reports: IReport[]; meta: IPagination }) => {
-        return { data: response.reports, pagination: response.meta };
+        const reports = response.reports.map((report) => transformToCamelCase(report));
+        const pagination = transformToCamelCase(response.meta);
+        return { data: reports, pagination };
       },
       providesTags: ["Reports"]
     }),

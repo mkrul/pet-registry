@@ -11,9 +11,9 @@ module Api
     def index
       pagy, reports = pagy(Report.all, items: 20)
 
-      render json: {
-        reports: reports, pagination: pagy_metadata(pagy)
-      }, each_serializer: ReportSerializer, status: :ok
+      serialized_reports = ActiveModelSerializers::SerializableResource.new(reports, each_serializer: ReportSerializer).as_json
+
+      render json: { reports: serialized_reports, pagination: pagy_metadata(pagy) }, status: :ok
     end
 
     def new

@@ -1,8 +1,8 @@
 import React from "react";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
-import IReport from "../../types/reports/IReport";
-import IPagination from "../../types/shared/IPagination";
-import Report from "./Report"; // Make sure you are importing Report component
+import IReport from "../../types/reports/Report";
+import IPagination from "../../types/shared/Pagination";
+import Report from "./Report";
 
 const ReportsContainer = () => {
   const { data, isFetching, error } = useGetReportsQuery({});
@@ -10,10 +10,8 @@ const ReportsContainer = () => {
   if (isFetching) return <div>Loading...</div>;
   if (error) return <div>Error loading reports</div>;
 
-  // Provide default empty array if data is undefined
   const reports: IReport[] = data?.data ?? [];
 
-  // Handle undefined pagination by providing a default fallback
   const pagination: IPagination = data?.pagination ?? {
     count: 0,
     items: 0,

@@ -1,9 +1,7 @@
 interface IReport {
-  id: number;
   title: string;
   description: string;
   name: string;
-  status: string;
   species: string;
   breed1: string;
   breed2?: string;
@@ -11,10 +9,7 @@ interface IReport {
   color2?: string;
   color3?: string;
   gender: string;
-  archivedAt?: string;
-  createdAt: string;
-  updatedAt: string;
-  imageUrls: string[];
+  images: string[];
 }
 
 export default IReport;

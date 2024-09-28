@@ -29,7 +29,9 @@ div[data-lastpass-icon-root] {
 
 .no-tap-highlight:focus,
 .no-tap-highlight:hover,
-.no-tap-highlight:active {
+.no-tap-highlight:active,
+.no-tap-highlight:visited,
+.no-tap-highlight:link {
   background-color: transparent !important;
   outline: none !important;
 }

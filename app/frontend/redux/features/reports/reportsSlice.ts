@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import IReport from "../../../types/reports/IReport";
+import IReport from "../../../types/reports/Report";
 
 interface ReportsState {
   data: IReport[];

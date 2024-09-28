@@ -4,7 +4,7 @@ import {
   useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
-import IReportForm from "../../types/reports/IReportForm";
+import IReportForm from "../../types/reports/ReportForm";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
@@ -33,7 +33,7 @@ const LostPetReportForm: React.FC = () => {
     color1: "",
     color2: "",
     color3: "",
-    imageUrls: [] as string[]
+    images: [] as string[]
   });
 
   // Memoizing options lists to avoid re-calculations on every render
@@ -62,7 +62,7 @@ const LostPetReportForm: React.FC = () => {
   );
 
   const handleUploadSuccess = useCallback((urls: string[]) => {
-    setFormData(prev => ({ ...prev, imageUrls: urls }));
+    setFormData(prev => ({ ...prev, images: urls }));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

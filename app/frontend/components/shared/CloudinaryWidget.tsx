@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 
 interface CloudinaryWidgetProps {
-  onUploadSuccess: (imageUrls: string[]) => void;
+  onUploadSuccess: (images: string[]) => void;
 }
 
 const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
@@ -9,7 +9,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
 }) => {
   const maxImages = 3;
   const [currentImageCount, setCurrentImageCount] = useState(0);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const [cloudinaryConfig, setCloudinaryConfig] = useState({
     cloud_name: "",
     api_key: "",
@@ -37,10 +37,10 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
   }, []);
 
   const handleUploadSuccess = useCallback(
-    (newImageUrl: string) => {
-      setImageUrls((prevUrls) => {
-        const updatedUrls = [...prevUrls, newImageUrl];
-        return updatedUrls;
+    (newImage: string) => {
+      setImages((prevImages) => {
+        const updatedImages = [...prevImages, newImage];
+        return updatedImages;
       });
     },
     []
@@ -48,9 +48,9 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
 
   // Handle image count and pass URLs to parent component in an effect
   useEffect(() => {
-    onUploadSuccess(imageUrls);
-    setCurrentImageCount(imageUrls.length);
-  }, [imageUrls, onUploadSuccess]);
+    onUploadSuccess(images);
+    setCurrentImageCount(images.length);
+  }, [images, onUploadSuccess]);
 
   useEffect(() => {
     if (!cloudinaryConfig.cloud_name) return;
@@ -114,7 +114,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         Upload Images
       </button>
       <div className="uploaded-images mt-2">
-        {imageUrls.map((url, index) => (
+        {images.map((url, index) => (
           <div
             key={index}
             style={{
@@ -128,8 +128,8 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
             <button
               onClick={(event) => {
                 event.preventDefault();
-                setImageUrls((prevUrls) =>
-                  prevUrls.filter((_, i) => i !== index)
+                setImages((prevImages) =>
+                  prevImages.filter((_, i) => i !== index)
                 );
               }}
               style={{
