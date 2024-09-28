@@ -38,13 +38,19 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
 
   const handleUploadSuccess = useCallback(
     (newImageUrl: string) => {
-      const updatedUrls = [...imageUrls, newImageUrl];
-      setImageUrls(updatedUrls);
-      setCurrentImageCount((count) => count + 1);
-      onUploadSuccess(updatedUrls);
+      setImageUrls((prevUrls) => {
+        const updatedUrls = [...prevUrls, newImageUrl];
+        return updatedUrls;
+      });
     },
-    [imageUrls, onUploadSuccess]
+    []
   );
+
+  // Handle image count and pass URLs to parent component in an effect
+  useEffect(() => {
+    onUploadSuccess(imageUrls);
+    setCurrentImageCount(imageUrls.length);
+  }, [imageUrls, onUploadSuccess]);
 
   useEffect(() => {
     if (!cloudinaryConfig.cloud_name) return;
@@ -63,9 +69,9 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         if (!error && result.event === "success") {
           if (currentImageCount >= maxImages) {
             alert(`You can only upload a maximum of ${maxImages} images.`);
-            return;
+          } else {
+            handleUploadSuccess(result.info.secure_url);
           }
-          handleUploadSuccess(result.info.secure_url);
         }
 
         if (error) {
@@ -103,6 +109,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         id="cloudinary-widget"
         type="button"
         className="cloudinary-upload btn upload-btn"
+        disabled={currentImageCount >= maxImages}
       >
         Upload Images
       </button>
@@ -117,11 +124,13 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
               marginRight: "10px",
             }}
           >
-            <img src={url} alt="Uploaded" style={{ maxWidth: "200px" }} />
+            <img src={url} alt="Uploaded" style={{ maxWidth: "150px" }} />
             <button
-              onClick={() => {
-                setImageUrls(imageUrls.filter((_, i) => i !== index));
-                setCurrentImageCount((count) => count - 1);
+              onClick={(event) => {
+                event.preventDefault();
+                setImageUrls((prevUrls) =>
+                  prevUrls.filter((_, i) => i !== index)
+                );
               }}
               style={{
                 position: "absolute",

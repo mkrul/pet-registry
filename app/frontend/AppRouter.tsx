@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "./components/Navbar";
 import ReportsPage from "./pages/reports/ReportsPage";
 import NewReportPage from "./pages/reports/NewReportPage";
+import Footer from "./components/shared/Footer";
 
 const AppRouter = () => {
   return (
@@ -13,6 +14,7 @@ const AppRouter = () => {
         <Route path="/reports/new" element={<NewReportPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <Footer />
     </div>
   );
 };

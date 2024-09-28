@@ -19,7 +19,6 @@ class Reports::Create < ActiveInteraction::Base
   end
 
   def execute
-    byebug
     report = Report.new(
       title: data.fetch(:title),
       description: data.fetch(:description),

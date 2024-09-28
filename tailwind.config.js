@@ -93,6 +93,9 @@ module.exports = {
         '5/7': '71.4285714%',
         '6/7': '85.7142857%',
       },
+      minHeight: {
+        '60rem': '60rem',
+      },
     },
   },
   corePlugins: {
