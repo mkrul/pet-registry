@@ -65,6 +65,7 @@ group :development, :test do
   gem 'pry-nav'
   gem 'pry-remote'
   gem 'rspec-rails', '~> 6.1.3'
+  gem 'progress_bar'
 end
 
 group :development do
