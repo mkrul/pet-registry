@@ -8,15 +8,17 @@ interface IReport {
   status: string;
   species: string;
   breed1: string;
-  breed2?: string;
+  breed2: string | null;
   color1: string;
-  color2?: string;
-  color3?: string;
+  color2: string | null;
+  color3: string | null;
   gender: string;
-  archivedAt?: string;
+  archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
   images: Image[];
+  microchipped: boolean | null;
+  microchipId: string | null;
 }
 
 export default IReport;

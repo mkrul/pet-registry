@@ -90,7 +90,9 @@ module Api
         :breed_2,
         :color_1,
         :color_2,
-        :color_3
+        :color_3,
+        :microchipped,
+        :microchip_id,
       )
 
       permitted_params.merge(image_urls: image_params[:image_urls])

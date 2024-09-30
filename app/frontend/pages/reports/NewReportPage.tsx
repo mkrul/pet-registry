@@ -1,5 +1,5 @@
 import React from "react";
-import LostPetReportForm from "../../components/reports/LostPetReportForm";
+import ReportForm from "../../components/reports/ReportForm";
 
 const NewReportPage = () => {
   return (
@@ -7,7 +7,7 @@ const NewReportPage = () => {
       <h1 className="text-3xl font-bold text-blue-600 mt-3 mb-6">
         Report a Lost Pet
       </h1>
-      <LostPetReportForm />
+      <ReportForm />
     </div>
   );
 };

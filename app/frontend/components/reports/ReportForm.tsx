@@ -11,7 +11,7 @@ import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
 import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 
-const LostPetReportForm: React.FC = () => {
+const ReportForm: React.FC = () => {
   const {
     isLoading: isLoadingNewReport,
     isError: isNewReportError
@@ -33,7 +33,9 @@ const LostPetReportForm: React.FC = () => {
     color1: "",
     color2: "",
     color3: "",
-    images: [] as string[]
+    images: [] as string[],
+    microchipped: null,  // Ensures microchipped is a boolean or null
+    microchipId: ""
   });
 
   // Memoizing options lists to avoid re-calculations on every render
@@ -51,12 +53,16 @@ const LostPetReportForm: React.FC = () => {
     setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
-  }, [formData.species, formData.breed1, formData.breed2, formData.color1, formData.color2, formData.color3, dogBreeds, catBreeds]);
+  }, [formData]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
+
+      setFormData(prev => ({
+        ...prev,
+        [name]: value === "true" ? true : value === "false" ? false : value // Handle microchipped as boolean, others as strings
+      }));
     },
     []
   );
@@ -70,9 +76,9 @@ const LostPetReportForm: React.FC = () => {
 
     const filteredFormData = {
       ...formData,
-      breed2: showBreed2 ? formData.breed2 : undefined,
-      color2: showColor2 ? formData.color2 : undefined,
-      color3: showColor3 ? formData.color3 : "",
+      breed2: showBreed2 ? formData.breed2 : null,
+      color2: showColor2 ? formData.color2 : null,
+      color3: showColor3 ? formData.color3 : null
     };
 
     try {
@@ -99,7 +105,7 @@ const LostPetReportForm: React.FC = () => {
         </p>
       </div>
       <div>
-        <label>
+        <label className="block font-medium text-gray-700">
           Title <span className="text-red-400">*</span>
         </label>
         <input
@@ -113,7 +119,7 @@ const LostPetReportForm: React.FC = () => {
       </div>
 
       <div>
-        <label>
+        <label className="block font-medium text-gray-700">
           Description <span className="text-red-400">*</span>
         </label>
         <textarea
@@ -126,7 +132,7 @@ const LostPetReportForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">Pet's name, if known:</label>
+        <label className="block font-medium text-gray-700">Pet's name, if known:</label>
         <input
           type="text"
           name="name"
@@ -137,8 +143,8 @@ const LostPetReportForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Sex: <span className="ml-1 text-red-400">*</span>
+        <label className="block font-medium text-gray-700">
+          Gender: <span className="ml-1 text-red-400">*</span>
         </label>
         <select
           name="gender"
@@ -157,7 +163,7 @@ const LostPetReportForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block font-medium text-gray-700">
           Species: <span className="ml-1 text-red-400">*</span>
         </label>
         <select
@@ -177,7 +183,66 @@ const LostPetReportForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block font-medium text-gray-700">
+          Is the animal microchipped?: <span className="ml-1 text-red-400">*</span>
+        </label>
+        <div className="mt-1">
+          <div>
+            <input
+              type="radio"
+              id="microchipped-yes"
+              name="microchipped"
+              value={"true"}
+              onChange={handleInputChange}
+              required
+            />
+            <label htmlFor="microchipped-yes" className="ml-2">
+              Yes
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="microchipped-no"
+              name="microchipped"
+              value={"false"}
+              onChange={handleInputChange}
+              required
+            />
+            <label htmlFor="microchipped-no" className="ml-2">
+              No
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="microchipped-unknown"
+              name="microchipped"
+              value={"unknown"}
+              onChange={handleInputChange}
+              required
+            />
+            <label htmlFor="microchipped-unknown" className="ml-2">
+              I don't know
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {formData.microchipped === true && (
+        <div className="mt-4">
+          <label className="block font-medium text-gray-700">Microchip number:</label>
+          <input
+            type="text"
+            name="microchipId"
+            value={formData.microchipId || ""}
+            onChange={handleInputChange}
+            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          />
+        </div>
+      )}
+      <div>
+        <label className="block font-medium text-gray-700">
           Breed 1: <span className="ml-1 text-red-400">*</span>
         </label>
         <select
@@ -198,10 +263,10 @@ const LostPetReportForm: React.FC = () => {
 
       {showBreed2 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">Breed 2:</label>
+          <label className="block font-medium text-gray-700">Breed 2:</label>
           <select
             name="breed2"
-            value={formData.breed2}
+            value={formData.breed2 || ""}
             onChange={handleInputChange}
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           >
@@ -216,7 +281,7 @@ const LostPetReportForm: React.FC = () => {
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block font-medium text-gray-700">
           Color 1: <span className="ml-1 text-red-400">*</span>
         </label>
         <select
@@ -237,10 +302,10 @@ const LostPetReportForm: React.FC = () => {
 
       {showColor2 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">Color 2:</label>
+          <label className="block font-medium text-gray-700">Color 2:</label>
           <select
             name="color2"
-            value={formData.color2}
+            value={formData.color2 || ""}
             onChange={handleInputChange}
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           >
@@ -256,10 +321,10 @@ const LostPetReportForm: React.FC = () => {
 
       {showColor3 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">Color 3:</label>
+          <label className="block font-medium text-gray-700">Color 3:</label>
           <select
             name="color3"
-            value={formData.color3}
+            value={formData.color3 || ""}
             onChange={handleInputChange}
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           >
@@ -288,4 +353,4 @@ const LostPetReportForm: React.FC = () => {
   );
 };
 
-export default LostPetReportForm;
+export default ReportForm;

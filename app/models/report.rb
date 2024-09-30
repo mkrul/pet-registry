@@ -22,6 +22,8 @@ class Report < ApplicationRecord
              :color_2,
              :color_3,
              :gender,
+             :microchipped,
+             :microchip_id,
              with: ->(value) { value.presence || nil }
 
   validate :image_count_within_limit
@@ -44,6 +46,8 @@ class Report < ApplicationRecord
     self.color_2 = color_2&.presence
     self.color_3 = color_3&.presence
     self.status = status&.downcase
+    self.microchipped = microchipped&.presence
+    self.microchip_id = microchip_id&.presence
   end
 
   def image_count_within_limit

@@ -12,7 +12,9 @@ class ReportSerializer < ActiveModel::Serializer
              :color_3,
              :name,
              :gender,
-             :images
+             :images,
+             :microchipped,
+             :microchip_id
 
   def attributes(*args)
     data = super

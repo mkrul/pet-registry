@@ -29,17 +29,11 @@ const Report = ({ report }: ReportProps) => {
                 : report.title}
             </h2>
             <div className="text-gray-500 text-sm mt-2">
-              Posted:
-              <div>
-                {formatDate(report.createdAt)}
-              </div>
+              Posted:{" "}{formatDate(report.createdAt)}
             </div>
             {report.createdAt !== report.updatedAt && (
               <div className="text-gray-500 text-sm mt-2">
-                Updated:
-                <div>
-                  {formatDate(report.updatedAt)}
-                </div>
+                Updated:{" "}{formatDate(report.updatedAt)}
               </div>
             )}
           </div>
