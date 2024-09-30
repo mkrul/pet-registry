@@ -593,6 +593,4 @@ if !Rails.env.production?
     report25.images.attach(io: OpenURI.open_uri(url), filename: File.basename(URI.parse(url).path))
   end
   bar.increment!
-
-  puts 'Seeding completed.'
 end

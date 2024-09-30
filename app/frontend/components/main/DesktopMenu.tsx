@@ -10,9 +10,6 @@ const DesktopMenu = () => {
       </div>
 
       <div className="hidden md:flex flex-none">
-        <div className="align-right hidden lg:flex">
-          <SearchBar />
-        </div>
         <ul className="menu menu-horizontal px-1">
           <li>
             <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>

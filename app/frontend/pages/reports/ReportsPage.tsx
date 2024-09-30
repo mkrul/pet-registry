@@ -4,19 +4,15 @@ import ReportsContainer from "../../components/reports/ReportsContainer";
 
 const ReportsPage = () => {
   return (
-    <div className="sm-report:w-7/7 md-report:w-6/7 lg-report:w-6/7 xl-report:w-6/7 xl-report:w-6/7 mx-auto p-4 mt-5">
-      <div className="flex justify-between grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-4 gap-4">
-        <div className="sm-report:flex md-report:hidden lg-report:hidden xl-report:hidden mb-4">
+    <div className="w-95% mx-auto p-4 mt-5">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="w-full md:w-auto md:order-2">
           <SearchBar />
         </div>
-        <h1 className="text-3xl font-bold text-blue-600">Lost Pets</h1>
-        <div className="hidden lg-report:hidden xl-report:flex"></div>
-        <div className="hidden lg-report:flex xl-report:flex"></div>
-        <div className="hidden md-report:flex lg-report:flex xl-report:flex">
-          <SearchBar />
-        </div>
+        <h1 className="mt-3 text-3xl font-bold text-blue-600 md:order-1 md:text-left">Lost Pets</h1>
       </div>
-      <div className="mt-[3rem]">
+
+      <div className="mt-[2rem]">
         <ReportsContainer />
       </div>
     </div>

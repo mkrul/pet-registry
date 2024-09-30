@@ -33,38 +33,21 @@ module.exports = {
     },
     screens: {
       'sm': '640px',
-      // => @media (min-width: 640px) { ... }
-
       'md': '768px',
-      // => @media (min-width: 768px) { ... }
-
       'lg': '1024px',
-      // => @media (min-width: 1024px) { ... }
-
       'xl': '1280px',
-      // => @media (min-width: 1280px) { ... }
-
       '2xl': '1536px',
-      // => @media (min-width: 1536px) { ... }
 
       // ---------------------- //
       // ------ REPORTS: ------ //
       // ---------------------- //
 
-      'sm-report': '640px',
-      // => @media (min-width: 640px) { ... }
-
-      'md-report': '768px',
-      // => @media (min-width: 768px) { ... }
-
-      'lg-report': '1294px',
-      // => @media (min-width: 1024px) { ... }
-
-      'xl-report': '1834px',
-      // => @media (min-width: 1280px) { ... }
-
-      '2xl-report': '2434',
-      // => @media (min-width: 1536px) { ... }
+      'xs-report': '768px',
+      'sm-report': '896px',
+      'md-report': '1024px',
+      'lg-report': '1280px',
+      'xl-report': '1536px',
+      '2xl-report': '1920px',
     },
     fontFamily: {
       'sans': ["BlinkMacSystemFont", "Avenir Next", "Avenir",
@@ -86,12 +69,8 @@ module.exports = {
         '5rem': '5rem',
       },
       width: {
-        '1/7': '14.2857143%',
-        '2/7': '28.5714286%',
-        '3/7': '42.8571429%',
-        '4/7': '57.1428571%',
-        '5/7': '71.4285714%',
-        '6/7': '85.7142857%',
+        '25%': '25%',
+        '95%': '95%',
       },
       minHeight: {
         '60rem': '60rem',

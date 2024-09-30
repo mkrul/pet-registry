@@ -9,10 +9,6 @@ const NavBar = () => {
       <DesktopMenu />
 
       <MobileMenu />
-
-      <div className="lg:hidden w-full px-4 mt-2">
-        <SearchBar />
-      </div>
     </div>
   );
 };

@@ -12,17 +12,31 @@ class ReportSerializer < ActiveModel::Serializer
              :color_3,
              :name,
              :gender,
-             :images,
-             :archived_at,
-             :created_at,
-             :updated_at
+             :images
 
   def attributes(*args)
     data = super
 
     data.transform_keys! { |key| key.to_s.camelize(:lower) }
+    data.merge!({
+      'createdAt' => created_at,
+      'updatedAt' => updated_at,
+      'archivedAt' => archived_at
+    })
 
     data
+  end
+
+  def created_at
+    object.archived_at&.iso8601
+  end
+
+  def updated_at
+    object.updated_at&.iso8601
+  end
+
+  def archived_at
+    object.archived_at&.iso8601
   end
 
   def images
