@@ -16,7 +16,7 @@ const Report = ({ report }: ReportProps) => {
           <div className="flex-shrink-0">
             {report.images?.length > 0 && (
               <img
-                src={report.images[0].url}
+                src={report.images[0].thumbnailUrl}
                 alt={report.title}
                 className="w-48 h-48 object-cover report__image"
               />
@@ -39,8 +39,8 @@ const Report = ({ report }: ReportProps) => {
           </div>
         </div>
         <p className="px-4 pb-4 text-gray-700">
-          {report.description.length > 150
-            ? `${report.description.substring(0, 125)}...`
+          {report.description.length > 250
+            ? `${report.description.substring(0, 250)}...`
             : report.description}
         </p>
       </Link>

@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.12'
 gem 'redis', '~> 5.3'
 # use cloudinary for image upload
 gem 'cloudinary', '~> 2.1', '>= 2.1.1'
+# use activestorage-cloudinary-service as Cloudinary adapter
+gem 'activestorage-cloudinary-service', '~> 0.2.0'
 # use searchkick for search
 gem 'searchkick', '~> 5.3', '>= 5.3.1'
 # use opensearch-ruby for search

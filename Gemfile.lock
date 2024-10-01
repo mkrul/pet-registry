@@ -68,6 +68,7 @@ GEM
       activerecord (= 7.2.1)
       activesupport (= 7.2.1)
       marcel (~> 1.0)
+    activestorage-cloudinary-service (0.2.3)
     activesupport (7.2.1)
       base64
       bigdecimal
@@ -354,6 +355,7 @@ PLATFORMS
 DEPENDENCIES
   active_interaction (~> 5.3)
   active_model_serializers (~> 0.10.14)
+  activestorage-cloudinary-service (~> 0.2.0)
   bootsnap
   brakeman
   byebug

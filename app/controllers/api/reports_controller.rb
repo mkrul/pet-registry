@@ -27,7 +27,21 @@ module Api
     def edit; end
 
     def create
-      outcome = Reports::Create.run(data: report_params)
+      outcome = Reports::Create.run(
+        title: report_params[:title],
+        description: report_params[:description],
+        name: report_params[:name],
+        gender: report_params[:gender],
+        species: report_params[:species],
+        breed_1: report_params[:breed_1],
+        breed_2: report_params[:breed_2],
+        color_1: report_params[:color_1],
+        color_2: report_params[:color_2],
+        color_3: report_params[:color_3],
+        microchipped: report_params[:microchipped],
+        microchip_id: report_params[:microchip_id],
+        image_urls: report_params[:image_urls]
+      )
 
       if outcome.valid?
         render json: outcome.result, serializer: ReportSerializer, status: :created

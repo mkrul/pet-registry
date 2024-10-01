@@ -18,14 +18,12 @@ class ReportSerializer < ActiveModel::Serializer
 
   def attributes(*args)
     data = super
-
     data.transform_keys! { |key| key.to_s.camelize(:lower) }
     data.merge!({
-      'createdAt' => created_at,
-      'updatedAt' => updated_at,
-      'archivedAt' => archived_at
+      createdAt: created_at,
+      updatedAt: updated_at,
+      archivedAt: archived_at
     })
-
     data
   end
 
@@ -43,7 +41,10 @@ class ReportSerializer < ActiveModel::Serializer
 
   def images
     object.images.map do |image|
-      { url: image.url }
+      {
+        url: Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true),
+        thumbnail_url: image.blob.thumbnail_url
+      }
     end
   end
 end

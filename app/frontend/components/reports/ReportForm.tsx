@@ -34,18 +34,16 @@ const ReportForm: React.FC = () => {
     color2: "",
     color3: "",
     images: [] as string[],
-    microchipped: null,  // Ensures microchipped is a boolean or null
+    microchipped: null,
     microchipId: ""
   });
 
-  // Memoizing options lists to avoid re-calculations on every render
   const genderOptions = useMemo(() => genderOptionsList, []);
   const speciesOptions = useMemo(() => speciesOptionsList, []);
   const colorOptions = useMemo(() => colorOptionsList, []);
   const dogBreeds = useMemo(() => dogBreedOptionsList, []);
   const catBreeds = useMemo(() => catBreedOptionsList, []);
 
-  // Single effect for breed and color visibility logic
   useEffect(() => {
     setBreedOptions(
       formData.species === "Dog" ? dogBreeds : formData.species === "Cat" ? catBreeds : []
@@ -61,7 +59,7 @@ const ReportForm: React.FC = () => {
 
       setFormData(prev => ({
         ...prev,
-        [name]: value === "true" ? true : value === "false" ? false : value // Handle microchipped as boolean, others as strings
+        [name]: value === "true" ? true : value === "false" ? false : value
       }));
     },
     []
