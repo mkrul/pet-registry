@@ -14,29 +14,20 @@ class ReportSerializer < ActiveModel::Serializer
              :gender,
              :images,
              :microchipped,
-             :microchip_id
+             :microchip_id,
+             :created_at,
+             :updated_at,
+             :archived_at
 
   def attributes(*args)
     data = super
     data.transform_keys! { |key| key.to_s.camelize(:lower) }
     data.merge!({
-      createdAt: created_at,
-      updatedAt: updated_at,
-      archivedAt: archived_at
+      createdAt: created_at&.iso8601,
+      updatedAt: updated_at&.iso8601,
+      archivedAt: archived_at&.iso8601
     })
     data
-  end
-
-  def created_at
-    object.archived_at&.iso8601
-  end
-
-  def updated_at
-    object.updated_at&.iso8601
-  end
-
-  def archived_at
-    object.archived_at&.iso8601
   end
 
   def images

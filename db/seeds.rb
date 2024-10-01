@@ -1,12 +1,6 @@
 # This file should ensure the existence of records required to run the application in every environment (production,
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
 
 require 'open-uri'
 gem 'progress_bar'
@@ -43,6 +37,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report01.jpg',
     ]
   )
+  report01.result.update(created_at: Time.now - 1.day, updated_at: Time.now - 1.day)
   bar.increment!
 
   report02 = Reports::Create.run(
@@ -64,6 +59,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report02.jpg',
     ]
   )
+  report02.result.update(created_at: Time.now - 3.days, updated_at: Time.now - 1.day)
   bar.increment!
 
   report03 = Reports::Create.run(
@@ -85,6 +81,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report03.jpg',
     ]
   )
+  report03.result.update(created_at: Time.now - 5.days, updated_at: Time.now - 5.days)
   bar.increment!
 
   report04 = Reports::Create.run(
@@ -106,6 +103,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report04.jpg',
     ]
   )
+  report04.result.update(created_at: Time.now - 6.days, updated_at: Time.now - 5.days)
   bar.increment!
 
   report05 = Reports::Create.run(
@@ -127,6 +125,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report05.jpg',
     ]
   )
+  report05.result.update(created_at: Time.now - 9.days, updated_at: Time.now - 7.days)
   bar.increment!
 
   report06 = Reports::Create.run(
@@ -143,11 +142,13 @@ if !Rails.env.production?
     color_3: nil,
     microchipped: false,
     microchip_id: nil,
+    created_at: Time.now - 10.days,
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report06.jpg',
     ]
   )
+  report06.result.update(created_at: Time.now - 10.days, updated_at: Time.now - 10.days)
   bar.increment!
 
   report07 = Reports::Create.run(
@@ -169,6 +170,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report07.jpg',
     ]
   )
+  report07.result.update(created_at: Time.now - 10.days, updated_at: Time.now - 10.days)
   bar.increment!
 
   report08 = Reports::Create.run(
@@ -190,6 +192,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report08.jpg',
     ]
   )
+  report08.result.update(created_at: Time.now - 4.days, updated_at: Time.now - 1.day)
   bar.increment!
 
   report09 = Reports::Create.run(
@@ -211,6 +214,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report09.jpg',
     ]
   )
+  report09.result.update(created_at: Time.now - 4.days, updated_at: Time.now - 4.days)
   bar.increment!
 
   report10 = Reports::Create.run(
@@ -232,6 +236,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report10.jpg',
     ]
   )
+  report10.result.update(created_at: Time.now - 6.days, updated_at: Time.now - 6.days)
   bar.increment!
 
   report11 = Reports::Create.run(
@@ -253,6 +258,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report11.jpg',
     ]
   )
+  report11.result.update(created_at: Time.now - 20.days, updated_at: Time.now - 20.days)
   bar.increment!
 
   report12 = Reports::Create.run(
@@ -274,6 +280,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report12.jpg',
     ]
   )
+  report12.result.update(created_at: Time.now - 22.days, updated_at: Time.now - 12.days)
   bar.increment!
 
   report13 = Reports::Create.run(
@@ -295,6 +302,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report13.jpg',
     ]
   )
+  report13.result.update(created_at: Time.now - 29.days, updated_at: Time.now - 29.days)
   bar.increment!
 
   report14 = Reports::Create.run(
@@ -316,6 +324,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report14.jpg',
     ]
   )
+  report14.result.update(created_at: Time.now - 36.days, updated_at: Time.now - 36.days)
   bar.increment!
 
   report15 = Reports::Create.run(
@@ -337,6 +346,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report15.jpg',
     ]
   )
+  report15.result.update(created_at: Time.now - 37.days, updated_at: Time.now - 3.days)
   bar.increment!
 
   report16 = Reports::Create.run(
@@ -358,6 +368,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report16.jpg',
     ]
   )
+  report16.result.update(created_at: Time.now - 40.days, updated_at: Time.now - 21.days)
   bar.increment!
 
   report17 = Reports::Create.run(
@@ -379,6 +390,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report17.jpg',
     ]
   )
+  report17.result.update(created_at: Time.now - 41.days, updated_at: Time.now - 41.days)
   bar.increment!
 
   report18 = Reports::Create.run(
@@ -400,6 +412,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report18.jpg',
     ]
   )
+  report18.result.update(created_at: Time.now - 45.days, updated_at: Time.now - 45.days)
   bar.increment!
 
   report19 = Reports::Create.run(
@@ -421,6 +434,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report19.jpg',
     ]
   )
+  report19.result.update(created_at: Time.now - 47.days, updated_at: Time.now - 47.days)
   bar.increment!
 
   report20 = Reports::Create.run(
@@ -442,6 +456,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report20.jpg',
     ]
   )
+  report20.result.update(created_at: Time.now - 53.days, updated_at: Time.now - 5.days)
   bar.increment!
 
   report21 = Reports::Create.run(
@@ -463,6 +478,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report21.jpg',
     ]
   )
+  report21.result.update(created_at: Time.now - 60.days, updated_at: Time.now - 60.days)
   bar.increment!
 
   report22 = Reports::Create.run(
@@ -484,6 +500,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report22.jpg',
     ]
   )
+  report22.result.update(created_at: Time.now - 64.days, updated_at: Time.now - 64.days)
   bar.increment!
 
   report23 = Reports::Create.run(
@@ -505,6 +522,7 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report23.jpg',
     ]
   )
+  report23.result.update(created_at: Time.now - 71.days, updated_at: Time.now - 71.days)
   bar.increment!
 
   report24 = Reports::Create.run(
@@ -521,11 +539,13 @@ if !Rails.env.production?
     color_3: nil,
     microchipped: true,
     microchip_id: SecureRandom.hex(15),
+    created_at: Time.now - 75.days,
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report24.jpg',
     ]
   )
+  report24.result.update(created_at: Time.now - 75.days, updated_at: Time.now - 75.days)
   bar.increment!
 
   report25 = Reports::Create.run(
@@ -547,5 +567,6 @@ if !Rails.env.production?
       '/app/lib/assets/reports/report25.jpg',
     ]
   )
+  report25.result.update(created_at: Time.now - 76.days, updated_at: Time.now - 1.day)
   bar.increment!
 end
