@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import INavLink from "../../types/shared/NavLink";
+import { INavLink } from "../../types/shared/NavLink";
 
 // Reusable NavLink component to handle consistent styling
 const NavLink = ({ linkTo: linkTo, children: children }: INavLink) => (

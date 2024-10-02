@@ -1,4 +1,4 @@
-interface IReport {
+export interface IReportForm {
   title: string;
   description: string;
   name: string;
@@ -13,5 +13,3 @@ interface IReport {
   microchipped: boolean | null;
   microchipId: string | null;
 }
-
-export default IReport;

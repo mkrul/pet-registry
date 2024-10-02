@@ -1,6 +1,6 @@
-import Image from "../shared/Image";
-
-interface IReport {
+import { IImage } from "../shared/Image";
+import { IPagination } from "../shared/Pagination";
+export interface IReport {
   id: number;
   title: string;
   description: string;
@@ -16,9 +16,13 @@ interface IReport {
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
-  images: Image[];
+  images: IImage[];
   microchipped: boolean | null;
   microchipId: string | null;
 }
 
-export default IReport;
+export interface GetReportsResponse {
+  data: IReport[];
+  pagination: IPagination;
+}
+

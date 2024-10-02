@@ -1,10 +1,9 @@
-import snakecaseKeys from "snakecase-keys";
-import camelcaseKeys from "camelcase-keys";
 import { transformToSnakeCase, transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import IReport from "../../../types/reports/Report";
-import IReportForm from "../../../types/reports/ReportForm";
-import IPagination from "../../../types/shared/Pagination";
+import { IReport } from "../../../types/reports/Report";
+import { IReportForm } from "../../../types/reports/ReportForm";
+import { IPagination } from "../../../types/shared/Pagination";
+import { IPaginationQuery } from "../../../types/shared/Pagination";
 
 const reportsApi = createApi({
   reducerPath: "reportsApi", // Ensure this is different from rootApi
@@ -18,10 +17,10 @@ const reportsApi = createApi({
   tagTypes: ["Reports"],
   endpoints: build => ({
     getReports: build.query({
-      query: () => "reports",
-      transformResponse: (response: { reports: IReport[]; meta: IPagination }) => {
+      query: ({ page, items }: IPaginationQuery) => `reports?page=${page}&items=${items}`,
+      transformResponse: (response: { reports: IReport[]; pagination: IPagination }) => {
         const reports = response.reports.map((report) => transformToCamelCase(report));
-        const pagination = transformToCamelCase(response.meta);
+        const pagination = transformToCamelCase(response.pagination);
         return { data: reports, pagination };
       },
       providesTags: ["Reports"]

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 const SearchBar = () => {
   const [query, setQuery] = useState("");
 

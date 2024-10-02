@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/shared/Navbar";
 import ReportsPage from "./pages/reports/ReportsPage";
 import NewReportPage from "./pages/reports/NewReportPage";
 import Footer from "./components/shared/Footer";

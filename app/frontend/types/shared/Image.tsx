@@ -1,6 +1,4 @@
-interface Image {
+export interface IImage {
   url: string;
   thumbnailUrl: string;
 }
-
-export default Image;

@@ -1,4 +1,4 @@
-export default interface NavLinkProps {
+export interface INavLink {
   linkTo: string;
   children: React.ReactNode;
 }

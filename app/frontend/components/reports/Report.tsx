@@ -1,6 +1,5 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import IReport from "../../types/reports/Report";
+import { IReport } from "../../types/reports/Report";
 import formatDate from "../../lib/formatDate";
 interface ReportProps {
   report: IReport;
