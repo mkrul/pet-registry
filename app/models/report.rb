@@ -33,6 +33,8 @@ class Report < ApplicationRecord
 
   before_validation :normalize_fields
 
+  REPORT_PAGE_LIMIT = 20
+
   private
 
   def normalize_fields

@@ -4,9 +4,14 @@ import { IReport } from "../../types/reports/Report";
 import { IPagination } from "../../types/shared/Pagination";
 import Report from "./Report";
 
-const ReportsContainer = () => {
-  const [ page, setPage ] = useState<number>(1);
-  const { data, isFetching, error } = useGetReportsQuery({ page });
+const ReportsContainer = ({ query }: { query: string }) => {
+  const [page, setPage] = useState<number>(1);
+  const itemsPerPage = 20;
+  const { data, isFetching, error } = useGetReportsQuery({
+    page,
+    items: itemsPerPage,
+    query
+  });
 
   if (isFetching) return <div>Loading...</div>;
   if (error) return <div>Error loading reports</div>;
@@ -23,19 +28,19 @@ const ReportsContainer = () => {
     if (page < pagination.pages) {
       setPage(page + 1);
     }
-  }
+  };
 
   const handlePreviousPage = () => {
     if (page > 1) {
       setPage(page - 1);
     }
-  }
+  };
 
   return (
     <div>
       <div className="grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-3 2xl-report:grid-cols-4 gap-4">
-        {reports.map((report: IReport, index: number) => (
-          <div key={`report-${index}`} className="h-full">
+        {reports.map((report: IReport) => (
+          <div key={report.id} className="h-full">
             <Report report={report} />
           </div>
         ))}

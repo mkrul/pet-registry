@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
   const [query, setQuery] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSearch(query);
+  }
 
   const clearSearch = () => {
     setQuery("");
@@ -13,7 +18,7 @@ const SearchBar = () => {
 
   return (
     <div className="w-full md:w-auto">
-      <form action="/search_reports" method="get" className="relative w-full">
+      <form action="/search_reports" onSubmit={handleSubmit} method="get" className="relative w-full">
         <div className="relative w-full">
           <input
             type="text"

@@ -7,4 +7,5 @@ export interface IPagination {
 export interface IPaginationQuery {
   page?: number;
   items?: number;
+  query?: string;
 }

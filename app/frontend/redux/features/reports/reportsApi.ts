@@ -17,9 +17,9 @@ const reportsApi = createApi({
   tagTypes: ["Reports"],
   endpoints: build => ({
     getReports: build.query({
-      query: ({ page, items }: IPaginationQuery) => `reports?page=${page}&items=${items}`,
-      transformResponse: (response: { reports: IReport[]; pagination: IPagination }) => {
-        const reports = response.reports.map((report) => transformToCamelCase(report));
+      query: ({ page, items, query }: IPaginationQuery) => `reports?page=${page}&per_page=${items}&query=${query}`,
+      transformResponse: (response: { data: IReport[]; pagination: IPagination }) => {
+        const reports = response.data.map((report) => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);
         return { data: reports, pagination };
       },
