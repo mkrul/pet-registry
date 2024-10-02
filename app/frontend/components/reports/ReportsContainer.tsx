@@ -22,13 +22,12 @@ const ReportsContainer = () => {
   return (
     <div className="grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-3 2xl-report:grid-cols-4 gap-4">
       {reports.map((report: IReport, index: number) => (
-        <div className="h-full">
-          <Report key={index} report={report} />
+        <div key={`report-${index}`} className="h-full">
+          <Report report={report} />
         </div>
       ))}
     </div>
   );
-
 };
 
 export default ReportsContainer;

@@ -7,8 +7,6 @@ interface ReportProps {
 }
 
 const Report = ({ report }: ReportProps) => {
-
-  console.log(report)
   return (
     <div key={`report-${report.id}`} className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       <Link to={`/reports/${report.id}`} className="block" target="_blank">
@@ -24,8 +22,8 @@ const Report = ({ report }: ReportProps) => {
           </div>
           <div className="flex flex-col justify-between h-full report__title">
             <h2 className="text-xl font-bold">
-              {report.title.length > 30
-                ? `${report.title.substring(0, 35)}...`
+              {report.title.length > 25
+                ? `${report.title.substring(0, 25)}...`
                 : report.title}
             </h2>
             <div className="text-gray-500 text-sm mt-2">

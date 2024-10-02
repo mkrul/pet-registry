@@ -22,11 +22,7 @@ class ReportSerializer < ActiveModel::Serializer
   def attributes(*args)
     data = super
     data.transform_keys! { |key| key.to_s.camelize(:lower) }
-    data.merge!({
-      createdAt: created_at&.iso8601,
-      updatedAt: updated_at&.iso8601,
-      archivedAt: archived_at&.iso8601
-    })
+
     data
   end
 
