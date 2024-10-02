@@ -12,7 +12,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="w-full md:w-auto ">
+    <div className="w-full md:w-auto">
       <form action="/search_reports" method="get" className="relative w-full">
         <div className="relative w-full">
           <input

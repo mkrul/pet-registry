@@ -69,8 +69,8 @@ module.exports = {
         '5rem': '5rem',
       },
       width: {
-        '25%': '25%',
         '95%': '95%',
+        '30rem': '35rem',
       },
       minHeight: {
         '60rem': '60rem',
