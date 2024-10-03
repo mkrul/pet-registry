@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import { IReport } from "../../types/reports/Report";
 import { IPagination } from "../../types/shared/Pagination";
-import Report from "./Report";
+import ReportCard from "./ReportCard";
 
 const ReportsContainer = ({ query }: { query: string }) => {
   const [page, setPage] = useState<number>(1);
@@ -17,6 +17,7 @@ const ReportsContainer = ({ query }: { query: string }) => {
   if (error) return <div>Error loading reports</div>;
 
   const reports: IReport[] = data?.data ?? [];
+
   const pagination: IPagination = data?.pagination ?? {
     count: 0,
     items: 0,
@@ -40,9 +41,7 @@ const ReportsContainer = ({ query }: { query: string }) => {
     <div>
       <div className="grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-3 2xl-report:grid-cols-4 gap-4">
         {reports.map((report: IReport) => (
-          <div key={report.id} className="h-full">
-            <Report report={report} />
-          </div>
+          <ReportCard key={report.id} report={report} />
         ))}
       </div>
       <div className="flex justify-between mt-4">

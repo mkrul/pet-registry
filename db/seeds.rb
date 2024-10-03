@@ -373,7 +373,7 @@ if !Rails.env.production?
 
   report17 = Reports::Create.run(
     title: 'Lost my sweet pibble mix 😭😭',
-    description: "My angel furbaby busted out of the house to chase after a cat and we haven't seen her since.  If you happen to find her please let us know!! She used to be a bait dog but don't don't let that scare you. She is very sweet and wouldn't hurt a fly!",
+    description: "My angel furbaby busted out of the house to chase after a cat and we haven't seen her since.  If you happen to find her please let us know!! She used to be a bait dog but don't let that scare you. She is very sweet and wouldn't hurt a fly!",
     name: 'Mauly',
     status: 'active',
     species: 'Dog',

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import ReportsContainer from "../../components/reports/ReportsContainer";
 
-const ReportsPage = () => {
+const ReportIndexPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (query: string) => {
@@ -25,4 +25,4 @@ const ReportsPage = () => {
   );
 };
 
-export default ReportsPage;
+export default ReportIndexPage;

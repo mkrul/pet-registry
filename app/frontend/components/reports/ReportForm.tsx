@@ -94,7 +94,7 @@ const ReportForm: React.FC = () => {
     <form className="space-y-6" id="lost-pet-report-form" onSubmit={handleSubmit}>
       <div className="mt-[0.5rem]">
         Please include as many details as possible and upload <strong>at least</strong> 1 to 3
-        photos of the animal. If the animal's breeds are unknown, please provide your best guess
+        photos of the animal. If the animal's breeds are unknown, provide your best guess
         along with a thorough description.
       </div>
       <div className="text-sm text-gray-500 mb-3">
