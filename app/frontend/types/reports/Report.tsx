@@ -21,6 +21,10 @@ export interface IReport {
   microchipId: string | null;
 }
 
+export interface IReportsState {
+  data: IReport[];
+  query: string;
+}
 export interface GetReportsResponse {
   data: IReport[];
   pagination: IPagination;

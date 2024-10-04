@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchQuery } from "../../redux/features/reports/reportsSlice";
+import { RootState } from "../../redux/store";
 
 const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
-  const [query, setQuery] = useState("");
+  const dispatch = useDispatch();
+  const queryFromState = useSelector((state: RootState) => state.reports.query); // Fetch the query from Redux
+  const [query, setQuery] = useState(queryFromState); // Set initial value from Redux
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -9,11 +14,13 @@ const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSearch(query);
-  }
+    dispatch(setSearchQuery(query)); // Store query in Redux
+    onSearch(query); // Trigger the search
+  };
 
   const clearSearch = () => {
     setQuery("");
+    dispatch(setSearchQuery("")); // Clear the query in Redux
   };
 
   return (
@@ -30,7 +37,6 @@ const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
             placeholder="Search lost pets..."
             autoComplete="off"
           />
-
           <div className="absolute left-0 inset-y-0 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"

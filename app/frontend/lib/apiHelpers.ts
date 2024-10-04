@@ -1,7 +1,6 @@
 import LinkHeader from "http-link-header";
 import { IPagination } from "../types/shared/Pagination";
 import _keyBy from "lodash/keyBy";
-import { PlainObject } from "../types/shared/ApiHelpers";
 
 export function queryPaginationTransform(response: Response): IPagination {
   const count = response.headers.get("count");
@@ -19,35 +18,35 @@ export function queryPaginationTransform(response: Response): IPagination {
 
 export const qsSettings = { arrayFormat: "brackets", encode: false };
 
-export function transformToSnakeCase(obj: PlainObject | PlainObject[]): PlainObject | PlainObject[] {
+export function transformToSnakeCase(obj: any): any {
   if (Array.isArray(obj)) {
-    return obj.map((v) => transformToSnakeCase(v as PlainObject));
+    return obj.map((v) => transformToSnakeCase(v as any));
   } else if (obj !== null && typeof obj === 'object') {
     return Object.keys(obj).reduce((result, key) => {
       const snakeKey = key
         .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
         .replace(/([a-z])([0-9])/g, '$1_$2')
         .toLowerCase();
-      (result as PlainObject)[snakeKey] = transformToSnakeCase(obj[key] as PlainObject);
+      (result as any)[snakeKey] = transformToSnakeCase(obj[key] as any);
       return result;
-    }, {} as PlainObject);
+    }, {} as any);
   }
   return obj;
 }
 
-export function transformToCamelCase(obj: PlainObject | PlainObject[]): PlainObject | PlainObject[] {
+export function transformToCamelCase(obj: any): any {
   if (Array.isArray(obj)) {
-    return obj.map((v) => transformToCamelCase(v as PlainObject));
+    return obj.map((v) => transformToCamelCase(v as any));
   } else if (obj !== null && typeof obj === 'object') {
     return Object.keys(obj).reduce((result, key) => {
       if (!obj[key]) {
-        (result as PlainObject)[key] = obj[key];
+        (result as any)[key] = obj[key];
         return result;
       }
       const camelKey = key.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
-      (result as PlainObject)[camelKey] = transformToCamelCase(obj[key] as PlainObject);
+      (result as any)[camelKey] = transformToCamelCase(obj[key] as any);
       return result;
-    }, {} as PlainObject);
+    }, {} as any);
   }
   return obj;
 }

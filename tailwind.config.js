@@ -12,6 +12,9 @@ module.exports = {
     './app/frontend/**/*.{js,jsx,ts,tsx}',
     './app/javascript/components/**/*.{js,jsx,ts,tsx}',
     './app/javascript/pages/**/*.{js,jsx,ts,tsx}',
+    './app/assets/stylesheets/**/*.css',
+    './app/frontend/stylesheets/**/*.css',
+    './app/frontend/stylesheets/*.css',
   ],
   daisyui: {
     themes: ["nord"],
@@ -71,6 +74,7 @@ module.exports = {
       width: {
         '95%': '95%',
         '30rem': '35rem',
+        '22rem': '22rem',
       },
       minHeight: {
         '60rem': '60rem',

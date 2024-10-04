@@ -1,6 +1,9 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 @import "../../frontend/stylesheets/pagy.tailwind.css";
 @import "../../frontend/stylesheets/pagy_nav.css";
 @import "../../frontend/stylesheets/reports.scss";
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -9,6 +12,12 @@
 
 .upload-btn {
   background-color: #b5b7bd !important;
+}
+
+.slick-slide {
+  float: none !important;
+  height: auto !important;
+  display: block !important;
 }
 
 /* GENERAL */

@@ -1,4 +1,5 @@
 import React from 'react';
+import Slider from "react-slick";
 import { Link } from 'react-router-dom';
 import { IReport } from '../../types/reports/Report'; // Import the report interface
 import formatDate from '../../lib/formatDate'; // Assuming you have a formatDate utility
@@ -9,9 +10,19 @@ interface ReportDetailsProps {
 }
 
 const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
+  const carouselSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    autoplay: true
+  };
+
+
   return (
     <div className="container mx-auto p-4">
-      {/* Error Display */}
       {errors && errors.length > 0 && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
           <strong className="font-bold">{errors.length} error(s) prohibited this report from being saved:</strong>
@@ -23,12 +34,25 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
         </div>
       )}
 
-      {/* Report Details */}
       <div className="p-6 bg-white rounded-lg shadow-lg">
-        {/* Title */}
+        {report.images && report.images.length > 0 && (
+          <div className="mb-8 w-[22rem]">
+            <Slider {...carouselSettings}>
+              {report.images.map((image, index) => (
+                (report.images[0] && report.images[0].url) &&
+                <div key={index}>
+                  <img
+                    src={image.url}
+                    alt={`Report image ${index + 1}`}
+                    className="object-cover w-full h-96 rounded-lg shadow-lg"
+                  />
+                </div>
+              ))}
+            </Slider>
+          </div>
+        )}
         <h2 className="text-2xl font-semibold mb-4 text-blue-600">{report.title}</h2>
 
-        {/* Name */}
         {report.name && (
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Name:</h3>
@@ -36,27 +60,35 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
           </div>
         )}
 
-        {/* Description */}
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Description:</h3>
           <p className="text-gray-700">{report.description}</p>
         </div>
 
-        {/* Species */}
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-gray-800">Microchip:</h3>
+          <p className="text-gray-700">{report.microchipped ? 'Yes' : 'No'}</p>
+        </div>
+
+        {report.microchipped && (
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Chip ID:</h3>
+            <p className="text-gray-700">{report.microchipId?.toUpperCase()}</p>
+          </div>
+        )}
+
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Species:</h3>
           <p className="text-gray-700">{report.species}</p>
         </div>
 
-        {/* Breeds */}
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Breed:</h3>
+          <h3 className="text-lg font-semibold text-gray-800">Breeds:</h3>
           {[report.breed1, report.breed2].filter(Boolean).map((breed, index) => (
             <p key={index} className="text-gray-700">{breed}</p>
           ))}
         </div>
 
-        {/* Colors */}
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Colors:</h3>
           {[report.color1, report.color2, report.color3].filter(Boolean).map((color, index) => (
@@ -64,7 +96,6 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
           ))}
         </div>
 
-        {/* Archived Date */}
         {report.archivedAt && (
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Archived At:</h3>
@@ -72,35 +103,19 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
           </div>
         )}
 
-        {/* Created and Updated Timestamps */}
-        <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-800">Timestamps:</h3>
-          <p className="text-gray-700">Created at: {formatDate(report.createdAt)}</p>
-          {report.createdAt !== report.updatedAt && (
-            <p className="text-gray-700">Last updated: {formatDate(report.updatedAt)}</p>
-          )}
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-gray-800">Posted:</h3>
+          <p className="text-gray-700">{formatDate(report.createdAt)}</p>
         </div>
 
-        {/* Images */}
-        {report.images && report.images.length > 0 && (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold text-gray-800 w-100">Images:</h3>
-            <div className="flex flex-wrap mt-4">
-              {report.images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.thumbnailUrl}
-                  alt={`Report image ${index + 1}`}
-                  className="object-cover rounded-lg shadow-lg mr-4 mb-4"
-                  width={200}
-                />
-              ))}
-            </div>
+        { report.createdAt !== report.updatedAt && (
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Updated:</h3>
+            <p className="text-gray-700">{formatDate(report.updatedAt)}</p>
           </div>
         )}
       </div>
 
-      {/* Action Buttons */}
       <div className="mt-6">
         <Link
           to={`/reports/${report.id}/edit`}
