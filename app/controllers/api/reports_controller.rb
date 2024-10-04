@@ -28,6 +28,9 @@ module Api
     end
 
     def show
+      serialized_report = ReportSerializer.new(@report).as_json
+
+      render json: serialized_report, status: :ok
     end
 
     def edit; end
