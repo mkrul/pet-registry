@@ -1,5 +1,4 @@
-import React from "react";
-import ReportForm from "../../components/reports/ReportForm";
+import NewReportForm from "../../components/reports/NewReportForm";
 
 const ReportNewPage = () => {
   return (
@@ -7,7 +6,7 @@ const ReportNewPage = () => {
       <h1 className="text-3xl font-bold text-blue-600 mt-3 mb-6">
         Report a Lost Pet
       </h1>
-      <ReportForm />
+      <NewReportForm />
     </div>
   );
 };

@@ -71,10 +71,15 @@ module.exports = {
         '4.5rem': '4.5rem',
         '5rem': '5rem',
       },
+      maxWidth: {
+        '22rem': '22rem',
+      },
       width: {
         '95%': '95%',
-        '30rem': '35rem',
         '22rem': '22rem',
+        '30rem': '35rem',
+        '40rem': '40rem',
+        '50rem': '50rem',
       },
       minHeight: {
         '60rem': '60rem',

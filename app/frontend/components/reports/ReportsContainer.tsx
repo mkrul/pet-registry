@@ -7,8 +7,8 @@ import ReportCard from "./ReportCard";
 
 const ReportsContainer = () => {
   const dispatch = useDispatch();
-  const query = useSelector((state: RootState) => state.reports.query); // Get the query from Redux
-  const reports = useSelector((state: RootState) => state.reports.data); // Get reports from Redux
+  const query = useSelector((state: RootState) => state.reports.query);
+  const reports = useSelector((state: RootState) => state.reports.data);
   const [page, setPage] = useState<number>(1);
   const itemsPerPage = 20;
 
@@ -20,7 +20,7 @@ const ReportsContainer = () => {
 
   useEffect(() => {
     if (data && data.data) {
-      dispatch(setReports(data.data)); // Store the fetched reports in Redux
+      dispatch(setReports(data.data));
     }
   }, [data, dispatch]);
 

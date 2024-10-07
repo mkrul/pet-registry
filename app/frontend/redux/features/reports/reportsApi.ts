@@ -1,7 +1,7 @@
 import { transformToSnakeCase, transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IReport } from "../../../types/reports/Report";
-import { IReportForm } from "../../../types/reports/ReportForm";
+import { IReportForm } from "../../../types/reports/Report";
 import { IPagination } from "../../../types/shared/Pagination";
 import { IPaginationQuery } from "../../../types/shared/Pagination";
 
@@ -30,6 +30,17 @@ const reportsApi = createApi({
       },
       providesTags: ["Reports"]
     }),
+    updateReport: build.mutation<IReport, { id: number; data: IReportForm }>({
+      query: ({ id, data }) => {
+        const snakeCasedData = transformToSnakeCase(data);
+        return {
+          url: `reports/${id}`,
+          method: "PUT",
+          body: snakeCasedData
+        };
+      },
+      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }]
+    }),
     submitReport: build.mutation<void, { data: IReportForm }>({
       query: (report) => {
         const snakeCasedReport = transformToSnakeCase(report);
@@ -48,5 +59,5 @@ const reportsApi = createApi({
   })
 });
 
-export const { useGetReportQuery, useGetReportsQuery, useSubmitReportMutation, useGetNewReportQuery } = reportsApi;
+export const { useGetReportQuery, useGetReportsQuery, useSubmitReportMutation, useGetNewReportQuery, useUpdateReportMutation } = reportsApi;
 export default reportsApi;

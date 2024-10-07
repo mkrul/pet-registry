@@ -19,7 +19,7 @@ const ReportIndexPage = () => {
       </div>
 
       <div className="mt-[2rem]">
-        <ReportsContainer query={searchQuery} />
+        <ReportsContainer/>
       </div>
     </div>
   );

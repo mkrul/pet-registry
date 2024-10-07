@@ -47,10 +47,10 @@ module Api
     end
 
     def update
-      if @report.update(report_params)
-        handle_images_update if image_params[:image_urls].present?
-        serialized_report = ReportSerializer.new(@report).as_json
+      outcome = Reports::Update.run(report_update_params)
 
+      if outcome.valid?
+        serialized_report = ReportSerializer.new(outcome.result).as_json
         render json: serialized_report, status: :ok
       else
         render json: { errors: @report.errors.full_messages }, status: :unprocessable_entity
@@ -89,6 +89,24 @@ module Api
         :microchip_id,
         image_urls: []
       )
+    end
+
+    def report_update_params
+      params.require(:data).permit(
+        :title,
+        :name,
+        :description,
+        :gender,
+        :species,
+        :breed_1,
+        :breed_2,
+        :color_1,
+        :color_2,
+        :color_3,
+        :microchipped,
+        :microchip_id,
+        image_urls: []
+      ).merge(report: @report)
     end
 
     def image_params

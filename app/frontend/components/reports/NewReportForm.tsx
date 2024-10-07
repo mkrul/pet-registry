@@ -4,7 +4,7 @@ import {
   useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
-import { IReportForm } from "../../types/reports/ReportForm";
+import { IReportForm } from "../../types/reports/Report";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
@@ -12,10 +12,7 @@ import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 
 const ReportForm: React.FC = () => {
-  const {
-    isLoading: isLoadingNewReport,
-    isError: isNewReportError
-  } = useGetNewReportQuery();
+  const { isLoading: isLoadingNewReport, isError: isNewReportError } = useGetNewReportQuery();
   const [submitReport, { isLoading, isError, isSuccess }] = useSubmitReportMutation();
   const [breedOptions, setBreedOptions] = useState<string[]>([]);
   const [showBreed2, setShowBreed2] = useState(false);
@@ -94,8 +91,8 @@ const ReportForm: React.FC = () => {
     <form className="space-y-6" id="lost-pet-report-form" onSubmit={handleSubmit}>
       <div className="mt-[0.5rem]">
         Please include as many details as possible and upload <strong>at least</strong> 1 to 3
-        photos of the animal. If the animal's breeds are unknown, provide your best guess
-        along with a thorough description.
+        photos of the animal. If the animal's breeds are unknown, provide your best guess along with
+        a thorough description.
       </div>
       <div className="text-sm text-gray-500 mb-3">
         <p>

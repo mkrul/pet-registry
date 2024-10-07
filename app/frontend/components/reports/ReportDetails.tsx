@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from "react";
 import Slider from "react-slick";
-import { Link } from 'react-router-dom';
-import { IReport } from '../../types/reports/Report'; // Import the report interface
-import formatDate from '../../lib/formatDate'; // Assuming you have a formatDate utility
+import { IReport } from "../../types/reports/Report";
+import { faPencil, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CloudinaryWidget from "../shared/CloudinaryWidget";
+import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
+import { colorOptionsList } from "../../lib/reports/colorOptionsList";
+import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
+import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
 
 interface ReportDetailsProps {
   report: IReport;
@@ -10,8 +15,25 @@ interface ReportDetailsProps {
 }
 
 const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState(report);
+  const [images, setImages] = useState(report.images);
+  const [updateReport] = useUpdateReportMutation();
+
+  // Initializing breed options based on species
+  const breedOptions =
+    formData.species.toLowerCase() === "dog"
+      ? dogBreedOptionsList
+      : formData.species.toLowerCase() === "cat"
+        ? catBreedOptionsList
+        : [];
+
+  const [showBreed2, setShowBreed2] = useState(!!formData.breed2);
+  const [showColor2, setShowColor2] = useState(!!formData.color2);
+  const [showColor3, setShowColor3] = useState(!!formData.color3);
+
   const carouselSettings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
@@ -20,115 +42,343 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
     autoplay: true
   };
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]:
+        value === "true" ? true : value === "false" ? false : value === "unknown" ? null : value
+    }));
+  };
+
+  const handleSaveChanges = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const filteredFormData = {
+      ...formData,
+      breed2: showBreed2 ? formData.breed2 || null : null,
+      color2: showColor2 ? formData.color2 || null : null,
+      color3: showColor3 ? formData.color3 || null : null,
+      microchipped: formData.microchipped !== null ? formData.microchipped : null,
+      images: images.map(image => image.url)
+    };
+
+    try {
+      await updateReport({ id: formData.id, data: filteredFormData }).unwrap();
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Failed to update report:", error);
+    }
+  };
+
+  // Only update the images state if new images are uploaded
+  const handleUploadSuccess = (uploadedUrls: string[]) => {
+    const newImages = uploadedUrls.map(url => ({ url }));
+
+    if (newImages.length > 0) {
+      setImages(prevImages => [...prevImages, ...newImages]);
+    }
+  };
+
+  const addBreed = () => {
+    setShowBreed2(true);
+  };
+
+  const removeBreed = () => {
+    setShowBreed2(false);
+    setFormData(prevData => ({
+      ...prevData,
+      breed2: null
+    }));
+  };
+
+  // Add additional color
+  const addColor = () => {
+    if (!showColor2) {
+      setShowColor2(true);
+    } else if (!showColor3) {
+      setShowColor3(true);
+    }
+  };
+
+  // Remove additional color
+  const removeColor = (colorIndex: number) => {
+    if (colorIndex === 2) {
+      setShowColor3(false);
+      setFormData(prevData => ({
+        ...prevData,
+        color3: null
+      }));
+    } else if (colorIndex === 1) {
+      setShowColor2(false);
+      setFormData(prevData => ({
+        ...prevData,
+        color2: null
+      }));
+    }
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      {errors && errors.length > 0 && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-          <strong className="font-bold">{errors.length} error(s) prohibited this report from being saved:</strong>
-          <ul className="mt-2 list-disc list-inside">
-            {errors.map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
+    <div className="container mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-lg">
-        {report.images && report.images.length > 0 && (
-          <div className="mb-8 w-[22rem]">
-            <Slider {...carouselSettings}>
-              {report.images.map((image, index) => (
-                (report.images[0] && report.images[0].url) &&
-                <div key={index}>
-                  <img
-                    src={image.url}
-                    alt={`Report image ${index + 1}`}
-                    className="object-cover w-full h-96 rounded-lg shadow-lg"
-                  />
-                </div>
-              ))}
-            </Slider>
-          </div>
-        )}
-        <h2 className="text-2xl font-semibold mb-4 text-blue-600">{report.title}</h2>
+        <div className="flex justify-between">
+          <h2 className="text-2xl font-semibold mb-4 text-blue-600">{formData.title}</h2>
+          {isEditing ? (
+            <button onClick={handleSaveChanges} className="text-green-600 flex items-center h-6">
+              <FontAwesomeIcon icon={faSave} className="mr-2" /> Save
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
+              className="text-blue-600 flex items-center h-6"
+            >
+              <FontAwesomeIcon icon={faPencil} className="mr-2" /> Edit Report
+            </button>
+          )}
+        </div>
 
-        {report.name && (
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Name:</h3>
-            <p className="text-gray-700">{report.name}</p>
+        {errors && errors.length > 0 && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+            <strong className="font-bold">
+              {errors.length} error(s) prohibited this report from being saved:
+            </strong>
+            <ul className="mt-2 list-disc list-inside">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
           </div>
         )}
+
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-gray-800">Name:</h3>
+          {isEditing ? (
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="border-gray-300 rounded-md shadow-sm"
+            />
+          ) : (
+            <p className="text-gray-700">{formData.name}</p>
+          )}
+        </div>
 
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Description:</h3>
-          <p className="text-gray-700">{report.description}</p>
+          {isEditing ? (
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-32"
+            />
+          ) : (
+            <p className="text-gray-700">{formData.description}</p>
+          )}
         </div>
 
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Microchip:</h3>
-          <p className="text-gray-700">{report.microchipped ? 'Yes' : 'No'}</p>
+          <h3 className="text-lg font-semibold text-gray-800">Photos:</h3>
+          {images.length > 0 && (
+            <div className="mb-8 w-100">
+              <Slider {...carouselSettings}>
+                {images.map((image, index) => (
+                  <div key={index}>
+                    <img
+                      src={image.url}
+                      alt={`Report image ${index + 1}`}
+                      className="object-cover sm:w-full md:w-1/2 rounded-lg sm:h-fit"
+                    />
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          )}
+          {isEditing && (
+            <div className="mt-4">
+              <CloudinaryWidget onUploadSuccess={handleUploadSuccess} />
+            </div>
+          )}
         </div>
-
-        {report.microchipped && (
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Chip ID:</h3>
-            <p className="text-gray-700">{report.microchipId?.toUpperCase()}</p>
-          </div>
-        )}
 
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Species:</h3>
-          <p className="text-gray-700">{report.species}</p>
+          {isEditing ? (
+            <select
+              name="species"
+              value={formData.species}
+              onChange={handleInputChange}
+              className="border-gray-300 rounded-md shadow-sm mb-2"
+            >
+              <option value="">Select species</option>
+              {["Dog", "Cat"].map((species, index) => (
+                <option key={index} value={species}>
+                  {species}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <p className="text-gray-700">{formData.species}</p>
+          )}
         </div>
 
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Breeds:</h3>
-          {[report.breed1, report.breed2].filter(Boolean).map((breed, index) => (
-            <p key={index} className="text-gray-700">{breed}</p>
-          ))}
+          {isEditing ? (
+            <>
+              <select
+                name="breed1"
+                value={formData.breed1}
+                onChange={handleInputChange}
+                className="border-gray-300 rounded-md shadow-sm mb-2"
+              >
+                <option value="">Select breed</option>
+                {breedOptions.map((breed, index) => (
+                  <option key={index} value={breed}>
+                    {breed}
+                  </option>
+                ))}
+              </select>
+
+              {showBreed2 && (
+                <div>
+                  <select
+                    name="breed2"
+                    value={formData.breed2 || ""}
+                    onChange={handleInputChange}
+                    className="border-gray-300 rounded-md shadow-sm"
+                  >
+                    <option value="">Select breed</option>
+                    {breedOptions.map((breed, index) => (
+                      <option key={index} value={breed}>
+                        {breed}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {!showBreed2 ? (
+                <div>
+                  <button
+                    type="button"
+                    onClick={addBreed}
+                    className="mt-2 text-blue-600 font-medium"
+                  >
+                    Add another breed
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <button
+                    type="button"
+                    onClick={removeBreed}
+                    className="mt-3 text-red-600 flex items-center font-medium"
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove second breed
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="text-gray-700">{formData.breed1}</p>
+              {formData.breed2 && <p className="text-gray-700">{formData.breed2}</p>}
+            </>
+          )}
         </div>
 
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Colors:</h3>
-          {[report.color1, report.color2, report.color3].filter(Boolean).map((color, index) => (
-            <p key={index} className="text-gray-700">{color}</p>
-          ))}
+          {isEditing ? (
+            <>
+              <select
+                name="color1"
+                value={formData.color1}
+                onChange={handleInputChange}
+                className="border-gray-300 rounded-md shadow-sm mb-2"
+              >
+                <option value="">Select color</option>
+                {colorOptionsList.map((color, index) => (
+                  <option key={index} value={color}>
+                    {color}
+                  </option>
+                ))}
+              </select>
+
+              {showColor2 && (
+                <div className="flex items-center mb-2">
+                  <select
+                    name="color2"
+                    value={formData.color2 || ""}
+                    onChange={handleInputChange}
+                    className="border-gray-300 rounded-md shadow-sm"
+                  >
+                    <option value="">Select color</option>
+                    {colorOptionsList.map((color, index) => (
+                      <option key={index} value={color}>
+                        {color}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => removeColor(1)}
+                    className="text-red-600 flex items-center ml-2 font-medium"
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
+                  </button>
+                </div>
+              )}
+
+              {showColor3 && (
+                <div className="flex items-center">
+                  <select
+                    name="color3"
+                    value={formData.color3 || ""}
+                    onChange={handleInputChange}
+                    className="border-gray-300 rounded-md shadow-sm"
+                  >
+                    <option value="">Select color</option>
+                    {colorOptionsList.map((color, index) => (
+                      <option key={index} value={color}>
+                        {color}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => removeColor(2)}
+                    className="text-red-600 flex items-center ml-2 font-medium"
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
+                  </button>
+                </div>
+              )}
+
+              {!showColor3 && (
+                <div>
+                  <button
+                    type="button"
+                    onClick={addColor}
+                    className="mt-2 text-blue-600 font-medium"
+                  >
+                    Add another color
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="text-gray-700">{formData.color1}</p>
+              {formData.color2 && <p className="text-gray-700">{formData.color2}</p>}
+              {formData.color3 && <p className="text-gray-700">{formData.color3}</p>}
+            </>
+          )}
         </div>
-
-        {report.archivedAt && (
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Archived At:</h3>
-            <p className="text-gray-700">{formatDate(report.archivedAt)}</p>
-          </div>
-        )}
-
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Posted:</h3>
-          <p className="text-gray-700">{formatDate(report.createdAt)}</p>
-        </div>
-
-        { report.createdAt !== report.updatedAt && (
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Updated:</h3>
-            <p className="text-gray-700">{formatDate(report.updatedAt)}</p>
-          </div>
-        )}
-      </div>
-
-      <div className="mt-6">
-        <Link
-          to={`/reports/${report.id}/edit`}
-          className="inline-block px-4 py-2 bg-yellow-500 text-white font-semibold rounded hover:bg-yellow-600"
-        >
-          Edit Report
-        </Link>
-        <Link
-          to="/reports"
-          className="inline-block ml-4 px-4 py-2 bg-gray-500 text-white font-semibold rounded hover:bg-gray-600"
-        >
-          Back to Reports
-        </Link>
       </div>
     </div>
   );
