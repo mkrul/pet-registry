@@ -17,7 +17,7 @@ class Reports::Update < ActiveInteraction::Base
   string :color_3, default: nil
   boolean :microchipped, default: nil
   string :microchip_id, default: nil
-  array :image_urls
+  array :image_urls, default: nil
 
   def execute
     update_report
@@ -46,11 +46,13 @@ class Reports::Update < ActiveInteraction::Base
   end
 
   def attach_images(report)
-    image_urls.each do |url|
-      if local_file?(url)
-        attach_local_image(report, url)
-      else
-        attach_remote_image(report, url)
+    if image_urls.present?
+      image_urls.each do |url|
+        if local_file?(url)
+          attach_local_image(report, url)
+        else
+          attach_remote_image(report, url)
+        end
       end
     end
   end

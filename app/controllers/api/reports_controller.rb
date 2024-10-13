@@ -92,7 +92,7 @@ module Api
     end
 
     def report_update_params
-      params.require(:data).permit(
+      permitted_params = params.permit(
         :title,
         :name,
         :description,
@@ -105,8 +105,13 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-        image_urls: []
-      ).merge(report: @report)
+      )
+
+      if params[:image_urls].present?
+        permitted_params.merge!(image_urls: params[:image_urls])
+      end
+
+      permitted_params.merge(report: @report)
     end
 
     def image_params

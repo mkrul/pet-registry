@@ -36,10 +36,29 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: images.length, // Show 1 image if only one, otherwise show 3
     slidesToScroll: 1,
     arrows: true,
-    autoplay: true
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: images.length, // Adjust slides for larger screens
+          slidesToScroll: 1,
+          infinite: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      }
+    ]
   };
 
   const handleInputChange = (
@@ -124,7 +143,18 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
     <div className="container mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between">
-          <h2 className="text-2xl font-semibold mb-4 text-blue-600">{formData.title}</h2>
+          {isEditing ? (
+            <>
+              <input
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                className="border-gray-300 rounded-md shadow-sm mb-4"
+              />
+            </>
+          ) : (
+            <h2 className="text-2xl font-semibold mb-4 text-blue-600">{formData.title}</h2>
+          )}
           {isEditing ? (
             <button onClick={handleSaveChanges} className="text-green-600 flex items-center h-6">
               <FontAwesomeIcon icon={faSave} className="mr-2" /> Save
@@ -183,20 +213,21 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Photos:</h3>
           {images.length > 0 && (
-            <div className="mb-8 w-100">
+            <div className="mb-8 w-full">
               <Slider {...carouselSettings}>
                 {images.map((image, index) => (
-                  <div key={index}>
+                  <div key={index} className="image-slide">
                     <img
                       src={image.url}
                       alt={`Report image ${index + 1}`}
-                      className="object-cover sm:w-full md:w-1/2 rounded-lg sm:h-fit"
+                      className="rounded-lg image-style"
                     />
                   </div>
                 ))}
               </Slider>
             </div>
           )}
+
           {isEditing && (
             <div className="mt-4">
               <CloudinaryWidget onUploadSuccess={handleUploadSuccess} />
@@ -297,7 +328,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
             <>
               <select
                 name="color1"
-                value={formData.color1}
+                value={formData.color1 || ""} // Ensure value falls back to an empty string if null/undefined
                 onChange={handleInputChange}
                 className="border-gray-300 rounded-md shadow-sm mb-2"
               >
@@ -313,7 +344,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
                 <div className="flex items-center mb-2">
                   <select
                     name="color2"
-                    value={formData.color2 || ""}
+                    value={formData.color2 || ""} // Ensure value falls back to an empty string if null/undefined
                     onChange={handleInputChange}
                     className="border-gray-300 rounded-md shadow-sm"
                   >
@@ -338,7 +369,7 @@ const ReportDetails: React.FC<ReportDetailsProps> = ({ report, errors }) => {
                 <div className="flex items-center">
                   <select
                     name="color3"
-                    value={formData.color3 || ""}
+                    value={formData.color3 || ""} // Ensure value falls back to an empty string if null/undefined
                     onChange={handleInputChange}
                     className="border-gray-300 rounded-md shadow-sm"
                   >

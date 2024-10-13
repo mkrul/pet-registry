@@ -4,16 +4,14 @@ interface CloudinaryWidgetProps {
   onUploadSuccess: (images: string[]) => void;
 }
 
-const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
-  onUploadSuccess,
-}) => {
+const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) => {
   const maxImages = 3;
   const [currentImageCount, setCurrentImageCount] = useState(0);
   const [images, setImages] = useState<string[]>([]);
   const [cloudinaryConfig, setCloudinaryConfig] = useState({
     cloud_name: "",
     api_key: "",
-    api_secret: "",
+    api_secret: ""
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +23,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         setCloudinaryConfig({
           cloud_name: data.cloud_name,
           api_key: data.api_key,
-          api_secret: data.api_secret,
+          api_secret: data.api_secret
         });
       } catch (error) {
         setError("Failed to load Cloudinary credentials");
@@ -36,21 +34,20 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
     fetchCloudinaryConfig();
   }, []);
 
-  const handleUploadSuccess = useCallback(
-    (newImage: string) => {
-      setImages((prevImages) => {
-        const updatedImages = [...prevImages, newImage];
-        return updatedImages;
-      });
-    },
-    []
-  );
+  const handleUploadSuccess = useCallback((newImage: string) => {
+    setImages(prevImages => {
+      const updatedImages = [...prevImages, newImage];
+      return updatedImages;
+    });
+  }, []);
 
   // Handle image count and pass URLs to parent component in an effect
   useEffect(() => {
-    onUploadSuccess(images);
+    if (images.length > 0) {
+      onUploadSuccess(images); // Only call this when images are updated
+    }
     setCurrentImageCount(images.length);
-  }, [images, onUploadSuccess]);
+  }, [images]); // Only run when the images array changes
 
   useEffect(() => {
     if (!cloudinaryConfig.cloud_name) return;
@@ -63,7 +60,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
         sources: ["local", "url", "camera"],
         folder: "petregistry",
         clientAllowedFormats: ["png", "jpg", "jpeg"],
-        maxFileSize: 5 * 1024 * 1024, // 5MB
+        maxFileSize: 5 * 1024 * 1024 // 5MB
       },
       (error: any, result: any) => {
         if (!error && result.event === "success") {
@@ -121,16 +118,14 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
               position: "relative",
               display: "inline-block",
               marginTop: "10px",
-              marginRight: "10px",
+              marginRight: "10px"
             }}
           >
             <img src={url} alt="Uploaded" style={{ maxWidth: "150px" }} />
             <button
-              onClick={(event) => {
+              onClick={event => {
                 event.preventDefault();
-                setImages((prevImages) =>
-                  prevImages.filter((_, i) => i !== index)
-                );
+                setImages(prevImages => prevImages.filter((_, i) => i !== index));
               }}
               style={{
                 position: "absolute",
@@ -142,7 +137,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({
                 cursor: "pointer",
                 padding: "0 4px",
                 fontSize: "12px",
-                borderRadius: "4px",
+                borderRadius: "4px"
               }}
             >
               Remove
