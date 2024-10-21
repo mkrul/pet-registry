@@ -1,4 +1,4 @@
 export interface IImage {
   url: string;
-  thumbnailUrl?: string;
+  thumbnailUrl: string;
 }

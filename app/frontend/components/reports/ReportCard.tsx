@@ -21,16 +21,12 @@ const ReportCard = ({ report }: ReportProps) => {
           </div>
           <div className="flex flex-col justify-between h-full report__title">
             <h2 className="text-xl font-bold">
-              {report.title.length > 25
-                ? `${report.title.substring(0, 25)}...`
-                : report.title}
+              {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
-            <div className="text-gray-500 text-sm mt-2">
-              Posted:{" "}{formatDate(report.createdAt)}
-            </div>
+            <div className="text-gray-500 text-sm mt-2">Posted: {formatDate(report.createdAt)}</div>
             {report.createdAt !== report.updatedAt && (
               <div className="text-gray-500 text-sm mt-2">
-                Updated:{" "}{formatDate(report.updatedAt)}
+                Updated: {formatDate(report.updatedAt)}
               </div>
             )}
           </div>

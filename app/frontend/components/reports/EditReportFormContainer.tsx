@@ -1,19 +1,21 @@
-import React from 'react';
-import { IReport } from '../../types/reports/Report';
-import { Link } from 'react-router-dom';
-import ReportDetails from './ReportDetails';
+import React from "react";
+import { IReport } from "../../types/reports/Report";
+import { Link } from "react-router-dom";
+import EditReportForm from "./EditReportForm";
 
-interface ReportDetailsContainerProps {
+interface EditReportFormContainerProps {
   report: IReport;
   errors?: string[]; // Ensure the 'errors' prop is included here
 }
 
-const ReportDetailsContainer: React.FC<ReportDetailsContainerProps> = ({ report, errors }) => {
+const EditReportFormContainer: React.FC<EditReportFormContainerProps> = ({ report, errors }) => {
   return (
     <div className="container mx-auto p-4 w-full md:w-[50rem] lg:w-[50rem]">
       {errors && errors.length > 0 && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-          <strong className="font-bold">{errors.length} error(s) prohibited this report from being saved:</strong>
+          <strong className="font-bold">
+            {errors.length} error(s) prohibited this report from being saved:
+          </strong>
           <ul className="mt-2 list-disc list-inside">
             {errors.map((error, index) => (
               <li key={index}>{error}</li>
@@ -29,9 +31,9 @@ const ReportDetailsContainer: React.FC<ReportDetailsContainerProps> = ({ report,
           Back to Reports
         </Link>
       </div>
-      <ReportDetails report={report} errors={errors} />
+      <EditReportForm report={report} errors={errors} />
     </div>
   );
 };
 
-export default ReportDetailsContainer;
+export default EditReportFormContainer;

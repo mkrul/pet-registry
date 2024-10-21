@@ -226,7 +226,7 @@ const ReportForm: React.FC = () => {
 
       {formData.microchipped === true && (
         <div className="mt-4">
-          <label className="block font-medium text-gray-700">Microchip number:</label>
+          <label className="block font-medium text-gray-700">Microchip ID:</label>
           <input
             type="text"
             name="microchipId"

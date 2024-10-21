@@ -1,7 +1,7 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useGetReportQuery } from '../../redux/features/reports/reportsApi';
-import ReportDetailsContainer from '../../components/reports/ReportDetailsContainer';
+import React from "react";
+import { useParams } from "react-router-dom";
+import { useGetReportQuery } from "../../redux/features/reports/reportsApi";
+import EditReportFormContainer from "../../components/reports/EditReportFormContainer";
 
 const ReportShowPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +19,7 @@ const ReportShowPage: React.FC = () => {
 
   return (
     <div>
-      <ReportDetailsContainer report={report} errors={errors} />
+      <EditReportFormContainer report={report} errors={errors} />
     </div>
   );
 };

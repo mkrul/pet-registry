@@ -20,6 +20,7 @@ class Reports::Update < ActiveInteraction::Base
   array :image_urls, default: nil
 
   def execute
+    debugger
     update_report
     attach_images(report)
 

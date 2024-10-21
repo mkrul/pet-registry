@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { IImage } from "../../types/shared/Image";
 
 interface CloudinaryWidgetProps {
-  onUploadSuccess: (images: string[]) => void;
+  imageUrls: IImage[];
+  onUploadSuccess: (imageUrls: string[]) => void;
 }
 
-const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) => {
+const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUploadSuccess }) => {
   const maxImages = 3;
   const [currentImageCount, setCurrentImageCount] = useState(0);
-  const [images, setImages] = useState<string[]>([]);
+  const [imagePaths, setImagePaths] = useState<IImage[]>(imageUrls);
   const [cloudinaryConfig, setCloudinaryConfig] = useState({
     cloud_name: "",
     api_key: "",
@@ -34,20 +36,25 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) 
     fetchCloudinaryConfig();
   }, []);
 
-  const handleUploadSuccess = useCallback((newImage: string) => {
-    setImages(prevImages => {
-      const updatedImages = [...prevImages, newImage];
-      return updatedImages;
+  const handleUploadSuccess = useCallback((cloudinaryUrls: string[]) => {
+    setImagePaths(prevImages => {
+      const existingUrls = prevImages.map(img => img.url);
+      const newImages = cloudinaryUrls
+        .filter(url => !existingUrls.includes(url))
+        .map(url => ({
+          url, // Use the same URL for both the full-size image and thumbnail if needed
+          thumbnailUrl: url
+        }));
+
+      return [...prevImages, ...newImages];
     });
   }, []);
 
-  // Handle image count and pass URLs to parent component in an effect
   useEffect(() => {
-    if (images.length > 0) {
-      onUploadSuccess(images); // Only call this when images are updated
+    if (imageUrls.length > 0 && currentImageCount !== imageUrls.length) {
+      setCurrentImageCount(imageUrls.length);
     }
-    setCurrentImageCount(images.length);
-  }, [images]); // Only run when the images array changes
+  }, [imageUrls, currentImageCount]);
 
   useEffect(() => {
     if (!cloudinaryConfig.cloud_name) return;
@@ -64,11 +71,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) 
       },
       (error: any, result: any) => {
         if (!error && result.event === "success") {
-          if (currentImageCount >= maxImages) {
-            alert(`You can only upload a maximum of ${maxImages} images.`);
-          } else {
-            handleUploadSuccess(result.info.secure_url);
-          }
+          handleUploadSuccess([result.info.secure_url]);
         }
 
         if (error) {
@@ -84,7 +87,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) 
       if (currentImageCount < maxImages) {
         cloudinaryWidget.open();
       } else {
-        alert(`You can only upload a maximum of ${maxImages} images.`);
+        alert(`You can only upload a maximum of ${maxImages} imageUrls.`);
       }
     };
 
@@ -110,8 +113,8 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) 
       >
         Upload Images
       </button>
-      <div className="uploaded-images mt-2">
-        {images.map((url, index) => (
+      <div className="uploaded-imageUrls mt-2">
+        {imageUrls.map((img, index) => (
           <div
             key={index}
             style={{
@@ -121,11 +124,15 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ onUploadSuccess }) 
               marginRight: "10px"
             }}
           >
-            <img src={url} alt="Uploaded" style={{ maxWidth: "150px" }} />
+            <img
+              src={img.thumbnailUrl}
+              alt="Uploaded"
+              style={{ maxWidth: "150px", maxHeight: "150px" }}
+            />
             <button
               onClick={event => {
                 event.preventDefault();
-                setImages(prevImages => prevImages.filter((_, i) => i !== index));
+                setImagePaths(prevImages => prevImages.filter((_, i) => i !== index));
               }}
               style={{
                 position: "absolute",

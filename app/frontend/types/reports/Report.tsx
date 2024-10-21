@@ -45,4 +45,3 @@ export interface IReportForm {
   microchipped: boolean | null;
   microchipId: string | null;
 }
-
