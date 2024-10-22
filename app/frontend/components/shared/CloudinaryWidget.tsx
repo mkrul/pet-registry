@@ -3,12 +3,11 @@ import { IImage } from "../../types/shared/Image";
 
 interface CloudinaryWidgetProps {
   imageUrls: IImage[];
-  onUploadSuccess: (imageUrls: string[]) => void;
+  onUploadSuccess: (images: IImage[]) => void; // Accept IImage[]
 }
 
 const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUploadSuccess }) => {
   const maxImages = 3;
-  const [currentImageCount, setCurrentImageCount] = useState(0);
   const [imagePaths, setImagePaths] = useState<IImage[]>(imageUrls);
   const [cloudinaryConfig, setCloudinaryConfig] = useState({
     cloud_name: "",
@@ -16,6 +15,13 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUpload
     api_secret: ""
   });
   const [error, setError] = useState<string | null>(null);
+
+  // Update imagePaths when imageUrls prop changes
+  useEffect(() => {
+    setImagePaths(imageUrls);
+  }, [imageUrls]);
+
+  const currentImageCount = imagePaths.length;
 
   useEffect(() => {
     const fetchCloudinaryConfig = async () => {
@@ -36,25 +42,37 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUpload
     fetchCloudinaryConfig();
   }, []);
 
-  const handleUploadSuccess = useCallback((cloudinaryUrls: string[]) => {
+  const handleUploadSuccess = useCallback(
+    (resultInfo: any) => {
+      const newImage: IImage = {
+        id: undefined, // Assign an ID if available
+        url: resultInfo.secure_url,
+        thumbnailUrl: resultInfo.thumbnail_url || resultInfo.secure_url,
+        publicId: resultInfo.public_id || ""
+      };
+
+      setImagePaths(prevImages => {
+        const updatedImages = [...prevImages, newImage];
+
+        // Inform parent component of the updated images
+        onUploadSuccess(updatedImages);
+
+        return updatedImages;
+      });
+    },
+    [onUploadSuccess]
+  );
+
+  const handleRemoveImage = (index: number) => {
     setImagePaths(prevImages => {
-      const existingUrls = prevImages.map(img => img.url);
-      const newImages = cloudinaryUrls
-        .filter(url => !existingUrls.includes(url))
-        .map(url => ({
-          url, // Use the same URL for both the full-size image and thumbnail if needed
-          thumbnailUrl: url
-        }));
+      const updatedImages = prevImages.filter((_, i) => i !== index);
 
-      return [...prevImages, ...newImages];
+      // Inform parent component of the updated images
+      onUploadSuccess(updatedImages);
+
+      return updatedImages;
     });
-  }, []);
-
-  useEffect(() => {
-    if (imageUrls.length > 0 && currentImageCount !== imageUrls.length) {
-      setCurrentImageCount(imageUrls.length);
-    }
-  }, [imageUrls, currentImageCount]);
+  };
 
   useEffect(() => {
     if (!cloudinaryConfig.cloud_name) return;
@@ -71,9 +89,8 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUpload
       },
       (error: any, result: any) => {
         if (!error && result.event === "success") {
-          handleUploadSuccess([result.info.secure_url]);
+          handleUploadSuccess(result.info);
         }
-
         if (error) {
           setError("Error during upload");
           console.error("Error during upload:", error);
@@ -87,7 +104,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUpload
       if (currentImageCount < maxImages) {
         cloudinaryWidget.open();
       } else {
-        alert(`You can only upload a maximum of ${maxImages} imageUrls.`);
+        alert(`You can only upload a maximum of ${maxImages} images.`);
       }
     };
 
@@ -114,7 +131,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUpload
         Upload Images
       </button>
       <div className="uploaded-imageUrls mt-2">
-        {imageUrls.map((img, index) => (
+        {imagePaths.map((img, index) => (
           <div
             key={index}
             style={{
@@ -132,7 +149,7 @@ const CloudinaryWidget: React.FC<CloudinaryWidgetProps> = ({ imageUrls, onUpload
             <button
               onClick={event => {
                 event.preventDefault();
-                setImagePaths(prevImages => prevImages.filter((_, i) => i !== index));
+                handleRemoveImage(index);
               }}
               style={{
                 position: "absolute",

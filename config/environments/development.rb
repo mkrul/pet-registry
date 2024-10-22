@@ -12,9 +12,11 @@ Rails.application.configure do
     ActiveStorage::Blob
   end
 
-  config.enable_reloading = true
-
+  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  config.enable_reloading = true
 
   # Do not eager load code on boot.
   config.eager_load = false

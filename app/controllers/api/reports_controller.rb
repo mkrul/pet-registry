@@ -47,8 +47,7 @@ module Api
     end
 
     def update
-      debugger
-      outcome = Reports::Update.run(report_update_params)
+      outcome = Reports::Update.run(update_params)
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
@@ -92,11 +91,11 @@ module Api
       )
     end
 
-    def report_update_params
-      permitted_params = params.permit(
+    def update_params
+      params.permit(
         :title,
-        :name,
         :description,
+        :name,
         :gender,
         :species,
         :breed_1,
@@ -106,17 +105,10 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-      )
-
-      if params[:image_urls].present?
-        permitted_params.merge!(image_urls: params[:image_urls])
-      end
-
-      permitted_params.merge(report: @report)
+        images: [],           # Accept images as an array of files
+        image_ids_to_keep: [] # IDs of images to retain
+      ).merge(report: @report)
     end
 
-    def image_params
-      params.require(:data).permit(image_urls: [])
-    end
   end
 end

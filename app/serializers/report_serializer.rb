@@ -29,9 +29,20 @@ class ReportSerializer < ActiveModel::Serializer
   def images
     object.images.map do |image|
       {
-        url: Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true),
-        thumbnail_url: image.blob.thumbnail_url
+        id: image.id,
+        url: Rails.application.routes.url_helpers.rails_blob_url(
+          image,
+          host: Rails.application.config.action_controller.default_url_options[:host],
+          port: Rails.application.config.action_controller.default_url_options[:port]
+        ),
+        thumbnail_url: Rails.application.routes.url_helpers.rails_representation_url(
+          image.variant(resize: '150x150').processed,
+          host: Rails.application.config.action_controller.default_url_options[:host],
+          port: Rails.application.config.action_controller.default_url_options[:port]
+        )
       }
     end
   end
+
+
 end

@@ -41,7 +41,8 @@ export interface IReportForm {
   color2: string | null;
   color3: string | null;
   gender: string;
-  images: string[];
   microchipped: boolean | null;
   microchipId: string | null;
+  images: IImage[]; // Ensure this is IImage[], not string[]
+  imageIdsToKeep: number[];
 }

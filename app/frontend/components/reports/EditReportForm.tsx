@@ -5,6 +5,7 @@ import { faPencil, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CloudinaryWidget from "../shared/CloudinaryWidget";
 import { IImage } from "../../types/shared/Image";
+import { IReportForm } from "../../types/reports/Report";
 import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
@@ -19,6 +20,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(report);
   const [images, setImages] = useState<IImage[]>(report.images); // Assuming report.images is also of type IImage[]
+  const [newImages, setNewImages] = useState<File[]>([]);
   const [updateReport] = useUpdateReportMutation();
 
   const breedOptions =
@@ -72,38 +74,59 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
     }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setNewImages(Array.from(e.target.files));
+    }
+  };
+
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("imageUrls:", images);
-    const filteredFormData = {
-      ...formData,
-      breed2: showBreed2 ? formData.breed2 || null : null,
-      color2: showColor2 ? formData.color2 || null : null,
-      color3: showColor3 ? formData.color3 || null : null,
-      microchipped: formData.microchipped,
-      imageUrls: images.map(image => image.url) // Use the correct image URL
-    };
+
+    const imageIdsToKeep = images.filter(img => img.id !== undefined).map(img => img.id as number);
+
+    const formDataToSend = new FormData();
+
+    // Append form fields
+    formDataToSend.append("title", formData.title || "");
+    formDataToSend.append("description", formData.description || "");
+    formDataToSend.append("name", formData.name || "");
+    formDataToSend.append("species", formData.species || "");
+    formDataToSend.append("breed_1", formData.breed1 || "");
+    formDataToSend.append("breed_2", formData.breed2 || "");
+    formDataToSend.append("color_1", formData.color1 || "");
+    formDataToSend.append("color_2", formData.color2 || "");
+    formDataToSend.append("color_3", formData.color3 || "");
+    formDataToSend.append("gender", formData.gender || "");
+    formDataToSend.append(
+      "microchipped",
+      formData.microchipped !== null ? formData.microchipped.toString() : ""
+    );
+    formDataToSend.append("microchip_id", formData.microchipId || "");
+
+    // Append image IDs to keep
+    imageIdsToKeep.forEach(id => {
+      formDataToSend.append("image_ids_to_keep[]", id.toString());
+    });
+
+    // Append new images
+    newImages.forEach(file => {
+      formDataToSend.append("images[]", file);
+    });
 
     try {
-      await updateReport({ id: formData.id, data: filteredFormData }).unwrap();
+      await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
       setIsEditing(false);
     } catch (error) {
       console.error("Failed to update report:", error);
     }
   };
 
-  const handleUploadSuccess = useCallback((cloudinaryUrls: string[]) => {
-    setImages(prevImages => {
-      const existingUrls = prevImages.map(img => img.url);
-      const newImages = cloudinaryUrls
-        .filter(url => !existingUrls.includes(url))
-        .map(url => ({ url, thumbnailUrl: url }));
-      return [...prevImages, ...newImages];
-    });
-  }, []);
-
-  const handleRemoveImage = useCallback((index: number) => {
-    setImages(prevImages => prevImages.filter((_, i) => i !== index));
+  const handleUploadSuccess = useCallback((updatedImages: IImage[]) => {
+    setFormData(prev => ({
+      ...prev,
+      images: updatedImages // updatedImages should be of type IImage[]
+    }));
   }, []);
 
   const addBreed = () => {
@@ -231,10 +254,12 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
           <h3 className="text-lg font-semibold text-gray-800">Photos:</h3>
           {isEditing ? (
             <div className="mt-4">
-              <CloudinaryWidget
-                imageUrls={images}
-                onUploadSuccess={handleUploadSuccess}
-                onRemoveImage={handleRemoveImage}
+              <input
+                type="file"
+                name="images"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange}
               />
             </div>
           ) : (
@@ -345,7 +370,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
           )}
 
           <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Breeds:</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mt-4">Breeds:</h3>
             {isEditing ? (
               <>
                 <select

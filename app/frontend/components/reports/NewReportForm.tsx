@@ -5,6 +5,7 @@ import {
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
 import { IReportForm } from "../../types/reports/Report";
+import { IImage } from "../../types/shared/Image";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
@@ -30,7 +31,8 @@ const ReportForm: React.FC = () => {
     color1: "",
     color2: "",
     color3: "",
-    images: [] as string[],
+    images: [], // Initialize as an empty array of IImage
+    imageIdsToKeep: [],
     microchipped: null,
     microchipId: ""
   });
@@ -62,9 +64,12 @@ const ReportForm: React.FC = () => {
     []
   );
 
-  const handleUploadSuccess = useCallback((urls: string[]) => {
-    setFormData(prev => ({ ...prev, images: urls }));
-  }, []);
+  const handleUploadSuccess = (images: IImage[]) => {
+    setFormData(prev => ({
+      ...prev,
+      images: images // images is IImage[]
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

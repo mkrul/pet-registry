@@ -1,6 +1,7 @@
 import { transformToSnakeCase, transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IReport } from "../../../types/reports/Report";
+import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/reports/Report";
 import { IPagination } from "../../../types/shared/Pagination";
 import { IPaginationQuery } from "../../../types/shared/Pagination";
@@ -30,24 +31,25 @@ const reportsApi = createApi({
       },
       providesTags: ["Reports"]
     }),
-    updateReport: build.mutation<IReport, { id: number; data: IReportForm }>({
-      query: ({ id, data }) => {
-        const snakeCasedData = transformToSnakeCase(data);
-        return {
-          url: `reports/${id}`,
-          method: "PUT",
-          body: snakeCasedData
-        };
-      },
-      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }]
+    updateReport: build.mutation<IReport, { id: number; data: FormData }>({
+      query: ({ id, data }) => ({
+        url: `reports/${id}`,
+        method: 'PUT',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: 'Reports', id }],
     }),
     submitReport: build.mutation<void, { data: IReportForm }>({
-      query: (report) => {
-        const snakeCasedReport = transformToSnakeCase(report);
+      query: ({ data }) => {
+        const { images, ...restData } = data;
+        const snakeCasedData = transformToSnakeCase({
+          ...restData,
+          image_urls: images,
+        });
         return {
           url: "reports",
           method: "POST",
-          body: snakeCasedReport,
+          body: snakeCasedData,
         };
       },
       invalidatesTags: ["Reports"],

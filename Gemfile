@@ -27,7 +27,7 @@ gem 'redis', '~> 5.3'
 # use cloudinary for image upload
 gem 'cloudinary', '~> 2.1', '>= 2.1.1'
 # use activestorage-cloudinary-service as Cloudinary adapter
-gem 'activestorage-cloudinary-service', '~> 0.2.0'
+gem 'activestorage-cloudinary-service', '~> 0.2.3'
 # use searchkick for search
 gem 'searchkick', '~> 5.3', '>= 5.3.1'
 # use opensearch-ruby for search
@@ -55,6 +55,9 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 gem 'bootsnap', require: false
 
 gem 'active_model_serializers', '~> 0.10.14'
+
+gem 'image_processing', '~> 1.12'
+gem 'mini_magick', '~> 4.11'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

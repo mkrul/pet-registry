@@ -17,12 +17,14 @@ class Reports::Update < ActiveInteraction::Base
   string :color_3, default: nil
   boolean :microchipped, default: nil
   string :microchip_id, default: nil
-  array :image_urls, default: nil
+  array :image_ids_to_keep, default: []
+  array :images, default: [] do
+    file
+  end
 
   def execute
-    debugger
     update_report
-    attach_images(report)
+    update_images
 
     report
   end
@@ -46,28 +48,14 @@ class Reports::Update < ActiveInteraction::Base
     )
   end
 
-  def attach_images(report)
-    if image_urls.present?
-      image_urls.each do |url|
-        if local_file?(url)
-          attach_local_image(report, url)
-        else
-          attach_remote_image(report, url)
-        end
-      end
+  def update_images
+    # Remove images not in the list of IDs to keep
+    images_to_remove = report.images.where.not(id: image_ids_to_keep)
+    images_to_remove.each(&:purge)
+
+    # Attach new images
+    images.each do |image|
+      report.images.attach(image)
     end
-  end
-
-  def local_file?(url)
-    File.exist?(Rails.root.join('lib', 'assets', 'reports', File.basename(url)))
-  end
-
-  def attach_local_image(report, path)
-    local_path = Rails.root.join('lib', 'assets', 'reports', File.basename(path))
-    report.images.attach(io: File.open(local_path), filename: File.basename(local_path), content_type: 'image/jpeg')
-  end
-
-  def attach_remote_image(report, url)
-    report.images.attach(io: OpenURI.open_uri(url), filename: File.basename(URI.parse(url).path))
   end
 end
