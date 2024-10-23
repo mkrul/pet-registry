@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import CloudinaryWidget from "../shared/CloudinaryWidget";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
@@ -337,8 +336,6 @@ const ReportForm: React.FC = () => {
           </select>
         </div>
       )}
-
-      <CloudinaryWidget onUploadSuccess={handleUploadSuccess} />
 
       <button
         type="submit"

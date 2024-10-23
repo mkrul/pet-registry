@@ -16,7 +16,7 @@ class CloudinaryService
   end
 
   def self.delete_image(public_id)
-    response = Cloudinary::Uploader.destroy(public_id)
+    response = Cloudinary::Uploader.destroy(public_id, invalidate: true, resource_type: 'image')
     raise CloudinaryError, response['error']['message'] if response['error']
 
     response

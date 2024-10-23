@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require 'active_interaction'
-require 'open-uri'
 
 class Reports::Destroy < ActiveInteraction::Base
   record :report
+  boolean :delete_seed, default: false
 
   def execute
-    delete_remote_image
+    delete_remote_images
     purge_local_images
 
     report.destroy!
@@ -15,9 +15,12 @@ class Reports::Destroy < ActiveInteraction::Base
 
   private
 
-  def delete_remote_image
+  def delete_remote_images
     report.images.each do |image|
-      CloudinaryService.delete_image(image.filename.to_s)
+      public_id = image.blob.metadata['cloudinary_public_id']
+      next unless public_id
+
+      CloudinaryService.delete_image(public_id)
     end
   end
 

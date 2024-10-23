@@ -3,7 +3,6 @@ import Slider from "react-slick";
 import { IReport } from "../../types/reports/Report";
 import { faPencil, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CloudinaryWidget from "../shared/CloudinaryWidget";
 import { IImage } from "../../types/shared/Image";
 import { IReportForm } from "../../types/reports/Report";
 import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";

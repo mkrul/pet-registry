@@ -12,7 +12,7 @@ module PetRegistry
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
-    config.active_storage.variant_processor = :vips
+    Rails.application.config.active_storage.variant_processor = :mini_magick
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do

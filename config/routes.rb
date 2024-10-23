@@ -18,6 +18,14 @@ Rails.application.routes.draw do
   # Render the React app
   root to: 'home#index'
 
+  direct :rails_blob do |blob|
+    route_for(:rails_blob, blob, only_path: true)
+  end
+
+  direct :rails_representation do |representation|
+    route_for(:rails_representation, representation, only_path: true)
+  end
+
   namespace :api do
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 

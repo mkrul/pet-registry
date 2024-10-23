@@ -9,10 +9,11 @@ if !Rails.env.production?
   print('Purging old seed data...')
 
   reports = Report.all
+  bar = ProgressBar.new(reports.count)
+
   reports.each do |report|
-    bar = ProgressBar.new(reports.count)
-    Reports::Destroy.run!(report: report)
-    bar.increment!
+    Reports::Destroy.run!(report: report, delete_seed: true)
+    bar.increment! # Increment progress for each report destroyed
   end
 
   print('Seeding database with sample data...')
@@ -35,11 +36,13 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report01.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report01.result.update_columns(created_at: Time.now - 1.day, updated_at: Time.now - 1.day)
   bar.increment!
 
+  return
   report02 = Reports::Create.run(
     title: '🐶 Help me find my dog!!',
     description: "My beagle mix has gone missing.  He's pretty small, brown and white, and doesn't like men.  He's wearing a rainbow colored harness.",
@@ -57,7 +60,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report02.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report02.result.update_columns(created_at: Time.now - 3.days, updated_at: Time.now - 1.day)
   bar.increment!
@@ -79,7 +83,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report03.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report03.result.update_columns(created_at: Time.now - 5.days, updated_at: Time.now - 5.days)
   bar.increment!
@@ -101,7 +106,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report04.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report04.result.update_columns(created_at: Time.now - 6.days, updated_at: Time.now - 5.days)
   bar.increment!
@@ -123,7 +129,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report05.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report05.result.update_columns(created_at: Time.now - 9.days, updated_at: Time.now - 7.days)
   bar.increment!
@@ -146,7 +153,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report06.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report06.result.update_columns(created_at: Time.now - 10.days, updated_at: Time.now - 10.days)
   bar.increment!
@@ -168,7 +176,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report07.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report07.result.update_columns(created_at: Time.now - 10.days, updated_at: Time.now - 10.days)
   bar.increment!
@@ -190,7 +199,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report08.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report08.result.update_columns(created_at: Time.now - 4.days, updated_at: Time.now - 1.day)
   bar.increment!
@@ -212,7 +222,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report09.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report09.result.update_columns(created_at: Time.now - 4.days, updated_at: Time.now - 4.days)
   bar.increment!
@@ -234,7 +245,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report10.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report10.result.update_columns(created_at: Time.now - 6.days, updated_at: Time.now - 6.days)
   bar.increment!
@@ -256,7 +268,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report11.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report11.result.update_columns(created_at: Time.now - 20.days, updated_at: Time.now - 20.days)
   bar.increment!
@@ -278,7 +291,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report12.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report12.result.update_columns(created_at: Time.now - 22.days, updated_at: Time.now - 12.days)
   bar.increment!
@@ -300,7 +314,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report13.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report13.result.update_columns(created_at: Time.now - 29.days, updated_at: Time.now - 29.days)
   bar.increment!
@@ -322,7 +337,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report14.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report14.result.update_columns(created_at: Time.now - 36.days, updated_at: Time.now - 36.days)
   bar.increment!
@@ -344,7 +360,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report15.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report15.result.update_columns(created_at: Time.now - 37.days, updated_at: Time.now - 3.days)
   bar.increment!
@@ -366,7 +383,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report16.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report16.result.update_columns(created_at: Time.now - 40.days, updated_at: Time.now - 21.days)
   bar.increment!
@@ -388,7 +406,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report17.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report17.result.update_columns(created_at: Time.now - 41.days, updated_at: Time.now - 41.days)
   bar.increment!
@@ -410,7 +429,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report18.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report18.result.update_columns(created_at: Time.now - 45.days, updated_at: Time.now - 45.days)
   bar.increment!
@@ -432,7 +452,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report19.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report19.result.update_columns(created_at: Time.now - 47.days, updated_at: Time.now - 47.days)
   bar.increment!
@@ -454,7 +475,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report20.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report20.result.update_columns(created_at: Time.now - 53.days, updated_at: Time.now - 5.days)
   bar.increment!
@@ -476,7 +498,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report21.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report21.result.update_columns(created_at: Time.now - 60.days, updated_at: Time.now - 60.days)
   bar.increment!
@@ -498,7 +521,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report22.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report22.result.update_columns(created_at: Time.now - 64.days, updated_at: Time.now - 64.days)
   bar.increment!
@@ -520,7 +544,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report23.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report23.result.update_columns(created_at: Time.now - 71.days, updated_at: Time.now - 71.days)
   bar.increment!
@@ -543,7 +568,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report24.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report24.result.update_columns(created_at: Time.now - 75.days, updated_at: Time.now - 75.days)
   bar.increment!
@@ -565,7 +591,8 @@ if !Rails.env.production?
     archived_at: nil,
     image_urls: [
       '/app/lib/assets/reports/report25.jpg',
-    ]
+    ],
+    create_seed: true
   )
   report25.result.update_columns(created_at: Time.now - 76.days, updated_at: Time.now - 1.day)
   bar.increment!

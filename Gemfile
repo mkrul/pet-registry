@@ -24,10 +24,7 @@ gem 'cssbundling-rails', '~> 1.4', '>= 1.4.1'
 gem 'jbuilder', '~> 2.12'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 5.3'
-# use cloudinary for image upload
-gem 'cloudinary', '~> 2.1', '>= 2.1.1'
-# use activestorage-cloudinary-service as Cloudinary adapter
-gem 'activestorage-cloudinary-service', '~> 0.2.3'
+
 # use searchkick for search
 gem 'searchkick', '~> 5.3', '>= 5.3.1'
 # use opensearch-ruby for search
@@ -56,6 +53,9 @@ gem 'bootsnap', require: false
 
 gem 'active_model_serializers', '~> 0.10.14'
 
+# image storage and processing
+gem 'cloudinary', '~> 2.1', '>= 2.1.1'
+gem 'activestorage-cloudinary-service', '~> 0.2.3'
 gem 'image_processing', '~> 1.12'
 gem 'mini_magick', '~> 4.11'
 
