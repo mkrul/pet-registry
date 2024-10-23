@@ -38,7 +38,6 @@ class Reports::Create < ActiveInteraction::Base
 
     if report.save
       create_seed ? handle_images_for_seeding(report) : handle_images(report)
-      process_image_variants(report)
     else
       errors.merge!(report.errors)
     end
@@ -78,10 +77,4 @@ class Reports::Create < ActiveInteraction::Base
     )
   end
 
-  def process_image_variants(report)
-    report.images.each do |image|
-      report.thumbnail_image(image)
-      report.medium_image(image)
-    end
-  end
 end

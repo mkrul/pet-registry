@@ -23,19 +23,19 @@ const ReportCard = ({ report }: ReportProps) => {
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
-            <div className="text-gray-500 text-sm mt-2">Posted: {formatDate(report.createdAt)}</div>
+            <div className="text-gray-500 text-sm mt-2">Mebane, North Carolina</div>
             {report.createdAt !== report.updatedAt && (
               <div className="text-gray-500 text-sm mt-2">
                 Updated: {formatDate(report.updatedAt)}
               </div>
             )}
+            <div className="text-gray-500 text-md mt-2">
+              {report.description.length > 100
+                ? `${report.description.substring(0, 100)}...`
+                : report.description}
+            </div>
           </div>
         </div>
-        <p className="px-4 pb-4 text-gray-700">
-          {report.description.length > 250
-            ? `${report.description.substring(0, 250)}...`
-            : report.description}
-        </p>
       </Link>
     </div>
   );

@@ -42,7 +42,6 @@ if !Rails.env.production?
   report01.result.update_columns(created_at: Time.now - 1.day, updated_at: Time.now - 1.day)
   bar.increment!
 
-  return
   report02 = Reports::Create.run(
     title: '🐶 Help me find my dog!!',
     description: "My beagle mix has gone missing.  He's pretty small, brown and white, and doesn't like men.  He's wearing a rainbow colored harness.",
