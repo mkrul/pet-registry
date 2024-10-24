@@ -16,7 +16,7 @@ export interface IReport {
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
-  images: IImage[];
+  image: IImage;
   microchipped: boolean | null;
   microchipId: string | null;
 }
@@ -43,6 +43,5 @@ export interface IReportForm {
   gender: string;
   microchipped: boolean | null;
   microchipId: string | null;
-  images: IImage[]; // Ensure this is IImage[], not string[]
-  imageIdsToKeep: number[];
+  image: IImage;
 }

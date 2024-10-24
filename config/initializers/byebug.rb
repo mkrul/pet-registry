@@ -1,4 +1,3 @@
-# config/initializers/byebug.rb
 # frozen_string_literal: true
 
 if Rails.env.development?

@@ -7,24 +7,25 @@ class Reports::Destroy < ActiveInteraction::Base
   boolean :delete_seed, default: false
 
   def execute
-    delete_remote_images
-    purge_local_images
+    delete_remote_image
+    purge_local_image
 
     report.destroy!
   end
 
   private
 
-  def delete_remote_images
-    report.images.each do |image|
-      public_id = image.blob.metadata['cloudinary_public_id']
-      next unless public_id
+  def delete_remote_image
+    return unless report.image.attached?
 
-      CloudinaryService.delete_image(public_id)
-    end
+    public_id = report.image.blob.metadata['cloudinary_public_id']
+
+    CloudinaryService.delete_image(public_id)
   end
 
-  def purge_local_images
-    report.images.purge
+  def purge_local_image
+    return unless report.image.attached?
+
+    report.image.purge
   end
 end

@@ -1,6 +1,7 @@
 export interface IImage {
-  id?: number; // Optional because new images won't have an ID yet
+  id?: number;
   url: string;
   thumbnailUrl: string;
+  variantUrl: string;
   publicId: string;
 }

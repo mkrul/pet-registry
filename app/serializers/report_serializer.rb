@@ -1,8 +1,8 @@
-# app/serializers/report_serializer.rb
+# frozen_string_literal: true
 
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
-             :color_1, :color_2, :color_3, :name, :gender, :images,
+             :color_1, :color_2, :color_3, :name, :gender, :image,
              :microchipped, :microchip_id, :created_at, :updated_at, :archived_at
 
   def attributes(*args)
@@ -11,21 +11,26 @@ class ReportSerializer < ActiveModel::Serializer
     data
   end
 
-  def images
-    object.images.map do |image|
-      public_id = image.blob.metadata['cloudinary_public_id']
-      next unless public_id
+  def image
+    return unless object.image.attached?
 
-      {
-        id: image.id,
-        url: Cloudinary::Utils.cloudinary_url(public_id),
-        thumbnail_url: Cloudinary::Utils.cloudinary_url(
-          public_id,
-          width: 150,
-          height: 150,
-          crop: 'fill'
-        )
-      }
-    end
+    public_id = object.image.blob.metadata['cloudinary_public_id']
+
+    {
+      id: object.image.id,
+      url: Cloudinary::Utils.cloudinary_url(public_id),
+      variant_url: Cloudinary::Utils.cloudinary_url(
+        public_id,
+        width: 600,
+        height: 600,
+        crop: 'fill'
+      ),
+      thumbnail_url: Cloudinary::Utils.cloudinary_url(
+        public_id,
+        width: 150,
+        height: 150,
+        crop: 'fill'
+      )
+    }
   end
 end

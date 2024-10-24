@@ -1,5 +1,4 @@
-import React, { useState, useCallback } from "react";
-import Slider from "react-slick";
+import React, { useState } from "react";
 import { IReport } from "../../types/reports/Report";
 import { faPencil, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,8 +17,8 @@ interface EditReportFormProps {
 const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(report);
-  const [images, setImages] = useState<IImage[]>(report.images); // Assuming report.images is also of type IImage[]
-  const [newImages, setNewImages] = useState<File[]>([]);
+  const [image, setImage] = useState<IImage>(report.image);
+  const [newImage, setNewImage] = useState<File>(null);
   const [updateReport] = useUpdateReportMutation();
 
   const breedOptions =
@@ -33,35 +32,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
   const [showColor2, setShowColor2] = useState(!!formData.color2);
   const [showColor3, setShowColor3] = useState(!!formData.color3);
 
-  const carouselSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: images.length,
-    slidesToScroll: 1,
-    arrows: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: images.length,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      }
-    ]
-  };
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -74,19 +44,16 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setNewImages(Array.from(e.target.files));
+    if (e.target.files && e.target.files.length > 0) {
+      setNewImage(e.target.files[0]);
     }
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const imageIdsToKeep = images.filter(img => img.id !== undefined).map(img => img.id as number);
-
     const formDataToSend = new FormData();
 
-    // Append form fields
     formDataToSend.append("title", formData.title || "");
     formDataToSend.append("description", formData.description || "");
     formDataToSend.append("name", formData.name || "");
@@ -102,16 +69,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
       formData.microchipped !== null ? formData.microchipped.toString() : ""
     );
     formDataToSend.append("microchip_id", formData.microchipId || "");
-
-    // Append image IDs to keep
-    imageIdsToKeep.forEach(id => {
-      formDataToSend.append("image_ids_to_keep[]", id.toString());
-    });
-
-    // Append new images
-    newImages.forEach(file => {
-      formDataToSend.append("images[]", file);
-    });
+    formDataToSend.append("image", newImage || "");
 
     try {
       await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
@@ -120,13 +78,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
       console.error("Failed to update report:", error);
     }
   };
-
-  const handleUploadSuccess = useCallback((updatedImages: IImage[]) => {
-    setFormData(prev => ({
-      ...prev,
-      images: updatedImages // updatedImages should be of type IImage[]
-    }));
-  }, []);
 
   const addBreed = () => {
     setShowBreed2(true);
@@ -222,6 +173,23 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
         )}
 
         <div className="mb-4">
+          {isEditing ? (
+            <>
+              <h3 className="text-lg font-semibold text-gray-800">Photo:</h3>
+              <div className="mt-4">
+                <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+              </div>
+            </>
+          ) : (
+            image && (
+              <div className="mb-8 w-full">
+                <img src={image.variantUrl} alt={formData.title} className="object-cover" />
+              </div>
+            )
+          )}
+        </div>
+
+        <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Name:</h3>
           {isEditing ? (
             <input
@@ -246,58 +214,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
             />
           ) : (
             <p className="text-gray-700">{formData.description}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Photos:</h3>
-          {isEditing ? (
-            <div className="mt-4">
-              <input
-                type="file"
-                name="images"
-                accept="image/*"
-                multiple
-                onChange={handleFileChange}
-              />
-            </div>
-          ) : (
-            images.length > 0 && (
-              <div className="mb-8 w-full">
-                <Slider {...carouselSettings}>
-                  {images.map((image, index) => (
-                    <div key={index} className="image-slide">
-                      <img
-                        src={image.url}
-                        alt={`Report image ${index + 1}`}
-                        className="rounded-lg image-style"
-                      />
-                    </div>
-                  ))}
-                </Slider>
-              </div>
-            )
-          )}
-        </div>
-
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Species:</h3>
-          {isEditing ? (
-            <select
-              name="species"
-              value={formData.species}
-              onChange={handleInputChange}
-              className="border-gray-300 rounded-md shadow-sm mb-2"
-            >
-              <option value="">Select species</option>
-              {["Dog", "Cat"].map((species, index) => (
-                <option key={index} value={species}>
-                  {species}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <p className="text-gray-700">{formData.species}</p>
           )}
         </div>
 
@@ -367,6 +283,27 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
               )}
             </div>
           )}
+
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Species:</h3>
+            {isEditing ? (
+              <select
+                name="species"
+                value={formData.species}
+                onChange={handleInputChange}
+                className="border-gray-300 rounded-md shadow-sm mb-2"
+              >
+                <option value="">Select species</option>
+                {["Dog", "Cat"].map((species, index) => (
+                  <option key={index} value={species}>
+                    {species}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-gray-700">{formData.species}</p>
+            )}
+          </div>
 
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-800 mt-4">Breeds:</h3>
@@ -481,7 +418,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
                   <div className="flex items-center">
                     <select
                       name="color3"
-                      value={formData.color3 || ""} // Ensure value falls back to an empty string if null/undefined
+                      value={formData.color3 || ""}
                       onChange={handleInputChange}
                       className="border-gray-300 rounded-md shadow-sm"
                     >

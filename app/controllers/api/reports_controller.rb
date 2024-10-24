@@ -87,7 +87,7 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-        image_urls: []
+        :image_url
       )
     end
 
@@ -105,8 +105,7 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-        images: [],           # Accept images as an array of files
-        image_ids_to_keep: [] # IDs of images to retain
+        :image
       ).merge(report: @report)
     end
 

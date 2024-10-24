@@ -32,14 +32,11 @@ if !Rails.env.production?
     color_2: 'White',
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: '7e66face07e025183b8a418cc96665',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report01.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report01.jpg',
     create_seed: true
   )
-  report01.result.update_columns(created_at: Time.now - 1.day, updated_at: Time.now - 1.day)
   bar.increment!
 
   report02 = Reports::Create.run(
@@ -55,18 +52,15 @@ if !Rails.env.production?
     color_2: 'White',
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: 'd1ad849b0c5bfe5fa0e4e669a7ce27',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report02.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report02.jpg',
     create_seed: true
   )
-  report02.result.update_columns(created_at: Time.now - 3.days, updated_at: Time.now - 1.day)
   bar.increment!
 
   report03 = Reports::Create.run(
-    title: 'Found a dog on the street',
+    title: 'Found dog in the street',
     description: "I found a dog wandering around the neighborhood.  He's a tiny little guy.  Appears to be some sort of chihuahua mix.  Medium white fur.  He is kind of timid but very sweet.",
     name: 'Unknown',
     status: 'active',
@@ -80,12 +74,9 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report03.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report03.jpg',
     create_seed: true
   )
-  report03.result.update_columns(created_at: Time.now - 5.days, updated_at: Time.now - 5.days)
   bar.increment!
 
   report04 = Reports::Create.run(
@@ -103,12 +94,9 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report04.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report04.jpg',
     create_seed: true
   )
-  report04.result.update_columns(created_at: Time.now - 6.days, updated_at: Time.now - 5.days)
   bar.increment!
 
   report05 = Reports::Create.run(
@@ -124,14 +112,11 @@ if !Rails.env.production?
     color_2: 'White',
     color_3: 'Black',
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: 'a55da8e924ac8005553bebf8b9f1de',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report05.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report05.jpg',
     create_seed: true
   )
-  report05.result.update_columns(created_at: Time.now - 9.days, updated_at: Time.now - 7.days)
   bar.increment!
 
   report06 = Reports::Create.run(
@@ -150,12 +135,9 @@ if !Rails.env.production?
     microchip_id: nil,
     created_at: Time.now - 10.days,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report06.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report06.jpg',
     create_seed: true
   )
-  report06.result.update_columns(created_at: Time.now - 10.days, updated_at: Time.now - 10.days)
   bar.increment!
 
   report07 = Reports::Create.run(
@@ -173,12 +155,9 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report07.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report07.jpg',
     create_seed: true
   )
-  report07.result.update_columns(created_at: Time.now - 10.days, updated_at: Time.now - 10.days)
   bar.increment!
 
   report08 = Reports::Create.run(
@@ -196,12 +175,9 @@ if !Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report08.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report08.jpg',
     create_seed: true
   )
-  report08.result.update_columns(created_at: Time.now - 4.days, updated_at: Time.now - 1.day)
   bar.increment!
 
   report09 = Reports::Create.run(
@@ -219,12 +195,9 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report09.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report09.jpg',
     create_seed: true
   )
-  report09.result.update_columns(created_at: Time.now - 4.days, updated_at: Time.now - 4.days)
   bar.increment!
 
   report10 = Reports::Create.run(
@@ -240,18 +213,15 @@ if !Rails.env.production?
     color_2: 'White',
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: '8c96b0ac554ec1a5d16e095e169cbc',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report10.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report10.jpg',
     create_seed: true
   )
-  report10.result.update_columns(created_at: Time.now - 6.days, updated_at: Time.now - 6.days)
   bar.increment!
 
   report11 = Reports::Create.run(
-    title: 'Found a very friendly beagle mix off of Turner Road',
+    title: 'Found beagle mix on Turner Rd',
     description: "We were driving north toward Jones road and saw a beagle wandering near the woodline.  We baited her closer to our car with some treats and took her back to our house.  She's currently chilling in the garage with our cat right now.  Please come get her!",
     name: 'Unknown',
     status: 'active',
@@ -265,16 +235,13 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report11.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report11.jpg',
     create_seed: true
   )
-  report11.result.update_columns(created_at: Time.now - 20.days, updated_at: Time.now - 20.days)
   bar.increment!
 
   report12 = Reports::Create.run(
-    title: 'Help me find Max the shepherd mix',
+    title: 'Help me find Max the shepherd',
     description: "Max got out again and I can't find him! He is a mixed breed, but we think he might be a German Shepherd / Australian Shepherd mix, with maybe some pit bull.  He's about 80 lbs.  Last we saw him he wasn't wearing his collar :( but he is microchipped!",
     name: 'Max',
     status: 'active',
@@ -288,16 +255,13 @@ if !Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report12.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report12.jpg',
     create_seed: true
   )
-  report12.result.update_columns(created_at: Time.now - 22.days, updated_at: Time.now - 12.days)
   bar.increment!
 
   report13 = Reports::Create.run(
-    title: 'My German Shepherd Mix ran away from home - please help us find him!',
+    title: 'German Shepherd Mix',
     description: "Our dog got out of the yard and we can't find him. He is a German Shepherd / Labrador Retriever mix",
     name: 'Simba',
     status: 'active',
@@ -309,18 +273,15 @@ if !Rails.env.production?
     color_2: 'White',
     color_3: 'Tan',
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: 'e45b898f0eb61bc51b2fa74d510b8f',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report13.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report13.jpg',
     create_seed: true
   )
-  report13.result.update_columns(created_at: Time.now - 29.days, updated_at: Time.now - 29.days)
   bar.increment!
 
   report14 = Reports::Create.run(
-    title: 'Lost my scruffy little scottie girl :(',
+    title: 'lost little scottie girl :(',
     description: "My furbaby Molly was last seen running down Grandview Avenue.  She is a Scottish Terrier / Schnauzer mix, about 20 lbs.  Super friendly and sweet girl, please help us find her.",
     name: 'Molly',
     status: 'active',
@@ -332,14 +293,11 @@ if !Rails.env.production?
     color_2: 'Grey',
     color_3: 'White',
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: 'a4c53afe5b34f498e7e33c48d164e1',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report14.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report14.jpg',
     create_seed: true
   )
-  report14.result.update_columns(created_at: Time.now - 36.days, updated_at: Time.now - 36.days)
   bar.increment!
 
   report15 = Reports::Create.run(
@@ -357,16 +315,13 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report15.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report15.jpg',
     create_seed: true
   )
-  report15.result.update_columns(created_at: Time.now - 37.days, updated_at: Time.now - 3.days)
   bar.increment!
 
   report16 = Reports::Create.run(
-    title: 'My Chihuahua / Pomeranian mix ran away',
+    title: 'My Pomchi ran away',
     description: "My little dog ran away last week and we have searched all over town and can't find him.  He is a Chihuahua / Pomeranian mix and weighs about 10 lbs. Please contact me if you see him.",
     name: 'Francis',
     status: 'active',
@@ -378,18 +333,15 @@ if !Rails.env.production?
     color_2: 'White',
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: '642f63972f20ad419c8e2dea1f9bf3',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report16.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report16.jpg',
     create_seed: true
   )
-  report16.result.update_columns(created_at: Time.now - 40.days, updated_at: Time.now - 21.days)
   bar.increment!
 
   report17 = Reports::Create.run(
-    title: 'Lost my sweet pibble mix 😭😭',
+    title: 'Lost my pibble mix 😭😭',
     description: "My angel furbaby busted out of the house to chase after a cat and we haven't seen her since.  If you happen to find her please let us know!! She used to be a bait dog but don't let that scare you. She is very sweet and wouldn't hurt a fly!",
     name: 'Mauly',
     status: 'active',
@@ -403,12 +355,9 @@ if !Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report17.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report17.jpg',
     create_seed: true
   )
-  report17.result.update_columns(created_at: Time.now - 41.days, updated_at: Time.now - 41.days)
   bar.increment!
 
   report18 = Reports::Create.run(
@@ -426,12 +375,9 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report18.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report18.jpg',
     create_seed: true
   )
-  report18.result.update_columns(created_at: Time.now - 45.days, updated_at: Time.now - 45.days)
   bar.increment!
 
   report19 = Reports::Create.run(
@@ -447,18 +393,15 @@ if !Rails.env.production?
     color_2: nil,
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: 'c38fb7d9a0b5a987efbc685d3d0fd3',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report19.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report19.jpg',
     create_seed: true
   )
-  report19.result.update_columns(created_at: Time.now - 47.days, updated_at: Time.now - 47.days)
   bar.increment!
 
   report20 = Reports::Create.run(
-    title: 'this is a Siamese cat i found',
+    title: 'a Siamese cat i found',
     description: "I found a Siamese cat trying to get into the trash can by my house. She doesn't have a collar.",
     name: 'Unknown',
     status: 'active',
@@ -472,16 +415,13 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report20.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report20.jpg',
     create_seed: true
   )
-  report20.result.update_columns(created_at: Time.now - 53.days, updated_at: Time.now - 5.days)
   bar.increment!
 
   report21 = Reports::Create.run(
-    title: 'Lost my cat, please help me find him',
+    title: 'Lost cat pls help me find him',
     description: "My cat got out of the house and I can't find him. He is a long haired cat wearing a green collar with a little bell on it.",
     name: 'Bob',
     status: 'active',
@@ -495,16 +435,13 @@ if !Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report21.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report21.jpg',
     create_seed: true
   )
-  report21.result.update_columns(created_at: Time.now - 60.days, updated_at: Time.now - 60.days)
   bar.increment!
 
   report22 = Reports::Create.run(
-    title: 'Discovered this very sweet black kitty in my backyard',
+    title: 'sweet black kitty',
     description: "I have never seen this kitty before but she is very friendly and seems to be well taken care of.  She has no collar on.",
     name: 'Unknown',
     status: 'active',
@@ -518,16 +455,13 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report22.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report22.jpg',
     create_seed: true
   )
-  report22.result.update_columns(created_at: Time.now - 64.days, updated_at: Time.now - 64.days)
   bar.increment!
 
   report23 = Reports::Create.run(
-    title: 'Sweet puppy found',
+    title: 'Puppy found',
     description: "I have no idea who owns this previous baby but I hope I can find his owner soon! I found him outside of a restaraunt on Main Street. I have no idea what breed he is, maybe a husky german shepherd mix?",
     name: 'Unknown',
     status: 'active',
@@ -541,16 +475,13 @@ if !Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report23.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report23.jpg',
     create_seed: true
   )
-  report23.result.update_columns(created_at: Time.now - 71.days, updated_at: Time.now - 71.days)
   bar.increment!
 
   report24 = Reports::Create.run(
-    title: 'My goldie girl has gone missing',
+    title: 'My goldie girl',
     description: "Pleease helpe me find my baby, she ran away last friday and I miss her so much.!!",
     name: 'Petunia',
     status: 'active',
@@ -562,19 +493,17 @@ if !Rails.env.production?
     color_2: nil,
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: '93f477556d705a1f5e0ffd69ecd925',
     created_at: Time.now - 75.days,
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report24.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report24.jpg',
     create_seed: true
   )
   report24.result.update_columns(created_at: Time.now - 75.days, updated_at: Time.now - 75.days)
   bar.increment!
 
   report25 = Reports::Create.run(
-    title: 'Bo is missing!',
+    title: 'Bo ran away!',
     description: "My dog Bo got out of the yard and I can't find him. He is a doodle wearing a blue bandana.",
     name: 'Bo',
     status: 'active',
@@ -586,13 +515,10 @@ if !Rails.env.production?
     color_2: 'Brown',
     color_3: nil,
     microchipped: true,
-    microchip_id: SecureRandom.hex(15),
+    microchip_id: 'e9cb1d752a8fd4ce3d644c1efd287e',
     archived_at: nil,
-    image_urls: [
-      '/app/lib/assets/reports/report25.jpg',
-    ],
+    image_url: '/app/assets/images/reports/report25.jpg',
     create_seed: true
   )
-  report25.result.update_columns(created_at: Time.now - 76.days, updated_at: Time.now - 1.day)
   bar.increment!
 end

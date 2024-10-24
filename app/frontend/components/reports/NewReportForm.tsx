@@ -30,8 +30,7 @@ const ReportForm: React.FC = () => {
     color1: "",
     color2: "",
     color3: "",
-    images: [], // Initialize as an empty array of IImage
-    imageIdsToKeep: [],
+    image: "",
     microchipped: null,
     microchipId: ""
   });
@@ -63,13 +62,6 @@ const ReportForm: React.FC = () => {
     []
   );
 
-  const handleUploadSuccess = (images: IImage[]) => {
-    setFormData(prev => ({
-      ...prev,
-      images: images // images is IImage[]
-    }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -94,9 +86,8 @@ const ReportForm: React.FC = () => {
   return (
     <form className="space-y-6" id="lost-pet-report-form" onSubmit={handleSubmit}>
       <div className="mt-[0.5rem]">
-        Please include as many details as possible and upload <strong>at least</strong> 1 to 3
-        photos of the animal. If the animal's breeds are unknown, provide your best guess along with
-        a thorough description.
+        Please include as many details as possible and upload your best photo of the animal. If the
+        animal's breeds are unknown, provide your best guess along with a thorough description.
       </div>
       <div className="text-sm text-gray-500 mb-3">
         <p>

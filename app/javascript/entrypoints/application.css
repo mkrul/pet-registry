@@ -3,7 +3,6 @@
 @import "../../frontend/stylesheets/pagy.tailwind.css";
 @import "../../frontend/stylesheets/pagy_nav.css";
 @import "../../frontend/stylesheets/reports.scss";
-@import "../../frontend/stylesheets/slider.css";
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";

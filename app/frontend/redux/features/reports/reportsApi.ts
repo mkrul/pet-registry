@@ -41,10 +41,10 @@ const reportsApi = createApi({
     }),
     submitReport: build.mutation<void, { data: IReportForm }>({
       query: ({ data }) => {
-        const { images, ...restData } = data;
+        const { image, ...restData } = data;
         const snakeCasedData = transformToSnakeCase({
           ...restData,
-          image_urls: images,
+          image_url: image,
         });
         return {
           url: "reports",

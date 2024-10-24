@@ -11,9 +11,9 @@ const ReportCard = ({ report }: ReportProps) => {
       <Link to={`/reports/${report.id}`} className="block">
         <div className="p-4 bg-white rounded-lg flex w-full">
           <div className="flex-shrink-0">
-            {report.images?.length > 0 && (
+            {report.image && (
               <img
-                src={report.images[0].thumbnailUrl}
+                src={report.image.thumbnailUrl}
                 alt={report.title}
                 className="w-48 h-48 object-cover report__image"
               />

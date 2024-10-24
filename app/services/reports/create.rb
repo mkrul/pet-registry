@@ -16,7 +16,7 @@ class Reports::Create < ActiveInteraction::Base
   string :color_3, default: nil
   boolean :microchipped, default: nil
   string :microchip_id, default: nil
-  array :image_urls
+  string :image_url
   boolean :create_seed, default: false
 
   def execute
@@ -37,7 +37,7 @@ class Reports::Create < ActiveInteraction::Base
     )
 
     if report.save
-      create_seed ? handle_images_for_seeding(report) : handle_images(report)
+      create_seed ? handle_image_for_seeding(report) : handle_image(report)
     else
       errors.merge!(report.errors)
     end
@@ -47,29 +47,22 @@ class Reports::Create < ActiveInteraction::Base
 
   private
 
-  def handle_images(report)
-    image_urls.each do |url|
-      # Upload image to Cloudinary in the 'petregistry/reports' folder
-      response = CloudinaryService.upload_image(url, folder: 'petregistry/reports')
+  def handle_image(report)
+    response = CloudinaryService.upload_image(image_url, folder: 'petregistry/reports')
 
-      attach_image(report, response)
-    end
+    attach_image(report, response)
   end
 
-  def handle_images_for_seeding(report)
-    image_urls.each do |url|
-      local_path = Rails.root.join('lib', 'assets', 'reports', File.basename(url))
-      next unless File.exist?(local_path)
+  def handle_image_for_seeding(report)
+    local_path = Rails.root.join('app', 'assets', 'images', 'reports', File.basename(image_url))
 
-      # Upload image to Cloudinary
-      response = CloudinaryService.upload_image(local_path, folder: 'petregistry/reports/seeds')
+    response = CloudinaryService.upload_image(local_path, folder: 'petregistry/reports/seeds')
 
-      attach_image(report, response)
-    end
+    attach_image(report, response)
   end
 
   def attach_image(report, response)
-    report.images.attach(
+    report.image.attach(
       io: URI.open(response['secure_url']),
       filename: response['public_id'],
       content_type: 'image/jpeg',
