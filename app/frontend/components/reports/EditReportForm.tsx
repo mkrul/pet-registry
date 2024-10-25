@@ -69,8 +69,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       formData.microchipped !== null ? formData.microchipped.toString() : ""
     );
     formDataToSend.append("microchip_id", formData.microchipId || "");
-    formDataToSend.append("image", newImageFile || "");
-
+    if (newImageFile) {
+      formDataToSend.append("image", newImageFile);
+    }
     try {
       await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
       setIsEditing(false);
@@ -135,14 +136,15 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       <div className="p-6 bg-white rounded-lg shadow-lg">
         <div className="flex justify-between">
           {isEditing ? (
-            <>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-semibold text-gray-800">Title:</h3>
               <input
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
                 className="border-gray-300 rounded-md shadow-sm mb-4"
               />
-            </>
+            </div>
           ) : (
             <h2 className="text-2xl font-semibold mb-4 text-blue-600 max-w-[60%]">
               {formData.title}
@@ -181,6 +183,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               <h3 className="text-lg font-semibold text-gray-800">Photo:</h3>
               <div className="mt-4">
                 <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+                {image && image.filename && (
+                  <p className="text-gray-700 mt-2">Current file: {image.filename}</p>
+                )}
               </div>
             </>
           ) : (
@@ -223,7 +228,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Microchipped:</h3>
           {isEditing ? (
-            <div className="mt-1">
+            <div className="mt-1 mb-4">
               <div>
                 <input
                   type="radio"

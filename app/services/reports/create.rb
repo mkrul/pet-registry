@@ -62,11 +62,15 @@ class Reports::Create < ActiveInteraction::Base
   end
 
   def attach_image(report, response)
+    filename = File.basename(image_url)
+
     report.image.attach(
       io: URI.open(response['secure_url']),
-      filename: response['public_id'],
+      filename: filename.presence || response['public_id'],
       content_type: 'image/jpeg',
-      metadata: { cloudinary_public_id: response['public_id'] }
+      metadata: {
+        cloudinary_public_id: response['public_id']
+      }
     )
   end
 

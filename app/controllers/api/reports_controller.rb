@@ -47,6 +47,7 @@ module Api
     end
 
     def update
+      debugger
       outcome = Reports::Update.run(update_params)
 
       if outcome.valid?
@@ -93,6 +94,7 @@ module Api
 
     def update_params
       params.permit(
+        :id,
         :title,
         :description,
         :name,

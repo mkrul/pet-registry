@@ -3,5 +3,6 @@ export interface IImage {
   url: string;
   thumbnailUrl: string;
   variantUrl: string;
+  filename: string;
   publicId: string;
 }

@@ -18,6 +18,7 @@ class ReportSerializer < ActiveModel::Serializer
 
     {
       id: object.image.id,
+      filename: object.image.filename,
       url: Cloudinary::Utils.cloudinary_url(public_id),
       variant_url: Cloudinary::Utils.cloudinary_url(
         public_id,
