@@ -8,10 +8,10 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
-      outcome = Reports::Fetch.run(report_index_params)
+      outcome = Reports::Fetch.run(index_params)
 
       if outcome.valid?
-        pagy, reports = pagy(outcome.result, items: report_index_params[:per_page] || Report::REPORT_PAGE_LIMIT, page: report_index_params[:page])
+        pagy, reports = pagy(outcome.result, items: index_params[:per_page] || Report::REPORT_PAGE_LIMIT, page: index_params[:page])
         serialized_reports = ActiveModelSerializers::SerializableResource.new(reports, each_serializer: ReportSerializer).as_json
 
         render json: { data: serialized_reports, pagination: pagy_metadata(pagy) }, status: :ok
@@ -36,7 +36,7 @@ module Api
     def edit; end
 
     def create
-      outcome = Reports::Create.run(report_creation_params)
+      outcome = Reports::Create.run(create_params)
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
@@ -69,11 +69,11 @@ module Api
       @report = Report.find(params[:id])
     end
 
-    def report_index_params
+    def index_params
       params.permit(:query, :page, :per_page)
     end
 
-    def report_create_params
+    def create_params
       params.require(:data).permit(
         :title,
         :name,

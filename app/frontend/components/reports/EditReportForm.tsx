@@ -11,14 +11,14 @@ import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
 
 interface EditReportFormProps {
   report: IReport;
-  errors?: string[];
 }
 
-const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
+const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(report);
   const [image, setImage] = useState<IImage>(report.image);
-  const [newImage, setNewImage] = useState<File>(null);
+  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+  const [errors, setErrors] = useState<string[]>([]);
   const [updateReport] = useUpdateReportMutation();
 
   const breedOptions =
@@ -45,7 +45,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setNewImage(e.target.files[0]);
+      setNewImageFile(e.target.files[0]);
     }
   };
 
@@ -69,13 +69,16 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report, errors }) => {
       formData.microchipped !== null ? formData.microchipped.toString() : ""
     );
     formDataToSend.append("microchip_id", formData.microchipId || "");
-    formDataToSend.append("image", newImage || "");
+    formDataToSend.append("image", newImageFile || "");
 
     try {
       await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
       setIsEditing(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to update report:", error);
+      if (error.data && error.data.errors) {
+        setErrors(error.data.errors); // Set errors to display in your component
+      }
     }
   };
 

@@ -5,23 +5,23 @@ require 'open-uri'
 
 class Reports::Update < ActiveInteraction::Base
   record :report, class: Report
-  string :title
-  string :description
+  string :title, default: nil
+  string :description, default: nil
   string :name, default: nil
-  string :gender
-  string :species
-  string :breed_1
+  string :gender, default: nil
+  string :species, default: nil
+  string :breed_1, default: nil
   string :breed_2, default: nil
-  string :color_1
+  string :color_1, default: nil
   string :color_2, default: nil
   string :color_3, default: nil
   boolean :microchipped, default: nil
   string :microchip_id, default: nil
-  file :image
+  file :image, default: nil
 
   def execute
+    update_image if image.present?
     update_report
-    update_image
 
     report
   end
@@ -46,8 +46,17 @@ class Reports::Update < ActiveInteraction::Base
   end
 
   def update_image
-    report.image(&:purge)
+    report.image.purge if report.image.attached?
 
     report.image.attach(image)
+
+    if report.image.attached?
+      cloudinary_response = CloudinaryService.upload_image(image.tempfile.path)
+      report.image.blob.update(
+        metadata: {
+          cloudinary_public_id: cloudinary_response['public_id']
+        }
+      )
+    end
   end
 end
