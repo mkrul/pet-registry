@@ -30,7 +30,14 @@ const ReportForm: React.FC = () => {
     color1: "",
     color2: "",
     color3: "",
-    image: "",
+    image: {
+      id: undefined,
+      url: "",
+      thumbnailUrl: "",
+      variantUrl: "",
+      filename: "",
+      publicId: ""
+    },
     microchipped: null,
     microchipId: ""
   });
