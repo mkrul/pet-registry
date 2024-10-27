@@ -9,7 +9,7 @@ class Report < ApplicationRecord
   validates :status, presence: true, inclusion: { in: %w[active archived] }
   validates :breed_1, presence: true
   validates :color_1, presence: true
-  validates :microchip_id, uniqueness: true, length: { maximum: 35 }
+  validates :microchip_id, uniqueness: { allow_nil: true }, length: { maximum: 35 }
   normalizes :title,
              :description,
              :status,

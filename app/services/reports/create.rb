@@ -39,7 +39,11 @@ class Reports::Create < ActiveInteraction::Base
     if report.save
       create_seed ? handle_image_for_seeding(report) : handle_image(report)
     else
-      errors.merge!(report.errors)
+      if report.errors.any?
+        puts "Errors while creating #{report.title}: #{report.errors.full_messages.join(', ')}"
+
+        errors.merge!(report.errors)
+      end
     end
 
     report
