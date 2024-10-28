@@ -56,6 +56,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
         publicId: ""
       };
       setFormData(prev => ({ ...prev, image: imageObject }));
+      setNewImageFile(file);
       setImageIsLoading(false);
     }
   };
@@ -199,7 +200,14 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               <div className="mt-4">
                 <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
                 {image && image.filename && (
-                  <p className="text-gray-700 mt-2">Current file: {image.filename}</p>
+                  <div>
+                    <p className="text-gray-700 mt-2">Current image:</p>
+                    <img
+                      src={image.thumbnailUrl}
+                      alt={formData.title}
+                      className="mt-2 object-cover w-32 h-32"
+                    />
+                  </div>
                 )}
               </div>
             </>
@@ -229,7 +237,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 </div>
               )}
               <img
-                src={image.variantUrl}
+                src={isEditing ? image.thumbnailUrl : image.variantUrl} // Use thumbnail when editing
                 alt={formData.title}
                 onLoad={handleImageLoad}
                 className="object-cover"

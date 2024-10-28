@@ -20,10 +20,13 @@ class Reports::Update < ActiveInteraction::Base
   file :image, default: nil
 
   def execute
-    update_image if image.present?
-    update_report
+    if image.present?
+      purge_local_image_data
+      update_local_image_data
+      update_remote_image
+    end
 
-    report
+    update_report
   end
 
   private
@@ -45,18 +48,20 @@ class Reports::Update < ActiveInteraction::Base
     )
   end
 
-  def update_image
+  def purge_local_image_data
     report.image.purge if report.image.attached?
+  end
 
+  def update_local_image_data
     report.image.attach(image)
 
     if report.image.attached?
-      cloudinary_response = CloudinaryService.upload_image(image.tempfile.path)
-      report.image.blob.update(
-        metadata: {
-          cloudinary_public_id: cloudinary_response['public_id']
-        }
-      )
+      cloudinary_public_id = report.image.blob.key
+      report.image.blob.update(metadata: { cloudinary_public_id: cloudinary_public_id })
     end
+  end
+
+  def update_remote_image
+    CloudinaryService.update_image(image.path, report.image.blob.key)
   end
 end

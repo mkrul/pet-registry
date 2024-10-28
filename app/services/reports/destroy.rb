@@ -4,7 +4,6 @@ require 'active_interaction'
 
 class Reports::Destroy < ActiveInteraction::Base
   record :report
-  boolean :delete_seed, default: false
 
   def execute
     delete_remote_image
@@ -16,7 +15,7 @@ class Reports::Destroy < ActiveInteraction::Base
   private
 
   def delete_remote_image
-    return unless report.image.attached?
+    return unless report.image.attached? && report.image.blob.metadata['cloudinary_public_id']
 
     public_id = report.image.blob.metadata['cloudinary_public_id']
 

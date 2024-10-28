@@ -1,15 +1,22 @@
 class CloudinaryService
   class CloudinaryError < StandardError; end
 
-  def self.upload_image(file_path, options = {})
-    response = Cloudinary::Uploader.upload(file_path, options)
+  OPTIONS = {
+    folder: Report::CLOUDINARY_REPORT_FOLDER,
+    overwrite: true,
+    invalidate: true
+  }
+
+  def self.upload_image(file_path)
+    response = Cloudinary::Uploader.upload(file_path, OPTIONS)
     raise CloudinaryError, response['error']['message'] if response['error']
 
     response
   end
 
-  def self.update_image(public_id, options = {})
-    response = Cloudinary::Uploader.explicit(public_id, options)
+  def self.update_image(file_path, public_id)
+    options = OPTIONS.merge(public_id: public_id)
+    response = Cloudinary::Uploader.upload(file_path, options)
     raise CloudinaryError, response['error']['message'] if response['error']
 
     response

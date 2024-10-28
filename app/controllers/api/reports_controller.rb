@@ -47,7 +47,6 @@ module Api
     end
 
     def update
-      debugger
       outcome = Reports::Update.run(update_params)
 
       if outcome.valid?

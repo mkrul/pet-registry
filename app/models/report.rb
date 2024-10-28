@@ -32,6 +32,7 @@ class Report < ApplicationRecord
   before_validation :normalize_fields
 
   REPORT_PAGE_LIMIT = 20
+  CLOUDINARY_REPORT_FOLDER = "petregistry/#{Rails.env}/reports"
 
   private
 

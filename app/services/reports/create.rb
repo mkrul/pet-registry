@@ -17,7 +17,6 @@ class Reports::Create < ActiveInteraction::Base
   boolean :microchipped, default: nil
   string :microchip_id, default: nil
   string :image_url
-  boolean :create_seed, default: false
 
   def execute
     report = Report.new(
@@ -37,7 +36,7 @@ class Reports::Create < ActiveInteraction::Base
     )
 
     if report.save
-      create_seed ? handle_image_for_seeding(report) : handle_image(report)
+      handle_image(report)
     else
       if report.errors.any?
         puts "Errors while creating #{report.title}: #{report.errors.full_messages.join(', ')}"
@@ -52,15 +51,7 @@ class Reports::Create < ActiveInteraction::Base
   private
 
   def handle_image(report)
-    response = CloudinaryService.upload_image(image_url, folder: 'petregistry/reports')
-
-    attach_image(report, response)
-  end
-
-  def handle_image_for_seeding(report)
-    local_path = Rails.root.join('app', 'assets', 'images', 'reports', File.basename(image_url))
-
-    response = CloudinaryService.upload_image(local_path, folder: 'petregistry/reports/seeds')
+    response = CloudinaryService.upload_image(image_url)
 
     attach_image(report, response)
   end
@@ -77,5 +68,4 @@ class Reports::Create < ActiveInteraction::Base
       }
     )
   end
-
 end
