@@ -71,6 +71,9 @@ module.exports = {
         '4.5rem': '4.5rem',
         '5rem': '5rem',
       },
+      marginTop: {
+        '6rem': '6rem',
+      },
       maxWidth: {
         '22rem': '22rem',
         '65%': '65%',
@@ -84,6 +87,9 @@ module.exports = {
         '30rem': '35rem',
         '40rem': '40rem',
         '50rem': '50rem',
+      },
+      height: {
+        '8rem': '8rem',
       },
       minHeight: {
         '60rem': '60rem',

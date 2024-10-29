@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Spinner from "../shared/Spinner";
 import { IReport } from "../../types/reports/Report";
 import { faPencil, faSave, faTimes, faCancel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,11 +17,11 @@ interface EditReportFormProps {
 const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(report);
-  const [image, setImage] = useState<IImage>(report.image);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [updateReport] = useUpdateReportMutation();
   const [imageIsLoading, setImageIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false); // Added state for saving
 
   const breedOptions =
     formData.species.toLowerCase() === "dog"
@@ -57,12 +58,14 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       };
       setFormData(prev => ({ ...prev, image: imageObject }));
       setNewImageFile(file);
-      setImageIsLoading(false);
+      setImageIsLoading(true); // Show spinner while the image loads
     }
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
+    setImageIsLoading(true);
+    setIsSaving(true); // Disable inputs during save
 
     const formDataToSend = new FormData();
 
@@ -85,20 +88,24 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       formDataToSend.append("image", newImageFile);
     }
     try {
-      await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
+      const updatedReport = await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
+      setFormData(updatedReport);
       setIsEditing(false);
     } catch (error: any) {
       console.error("Failed to update report:", error);
       if (error.data && error.data.errors) {
         setErrors(error.data.errors);
       }
+    } finally {
+      setImageIsLoading(false);
+      setIsSaving(false); // Re-enable inputs after save
     }
   };
 
   const handleCancelChanges = () => {
     setFormData(report);
-    setImage(report.image);
     setIsEditing(false);
+    setImageIsLoading(false);
     setErrors([]);
   };
 
@@ -166,6 +173,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 value={formData.title}
                 onChange={handleInputChange}
                 className="border-gray-300 rounded-md shadow-sm mb-4"
+                disabled={isSaving}
               />
             </div>
           ) : (
@@ -178,10 +186,15 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               <button
                 onClick={handleSaveChanges}
                 className="text-green-600 flex items-center h-6 mb-3 sm:mb-1"
+                disabled={isSaving}
               >
                 <FontAwesomeIcon icon={faSave} className="mr-1" /> Save
               </button>
-              <button onClick={handleCancelChanges} className="text-gray-600 flex items-center h-6">
+              <button
+                onClick={handleCancelChanges}
+                className="text-gray-600 flex items-center h-6"
+                disabled={isSaving}
+              >
                 <FontAwesomeIcon icon={faCancel} className="mr-1" /> Cancel
               </button>
             </div>
@@ -211,52 +224,38 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
         <div className="mb-4">
           {isEditing ? (
             <>
+              {/* Image Upload Section */}
               <h3 className="text-lg font-semibold text-gray-800">Photo:</h3>
-              <div className="mt-4">
-                <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
-                {image && image.filename && (
-                  <div>
-                    <p className="text-gray-700 mt-2">Current image:</p>
+              <div className="mt-1 relative">
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  disabled={isSaving}
+                />
+                {formData.image && formData.image.filename && (
+                  <div className="relative w-32 h-32 mt-3">
                     <img
-                      src={image.thumbnailUrl}
+                      src={formData.image.thumbnailUrl}
                       alt={formData.title}
-                      className="mt-2 object-cover w-32 h-32"
+                      className="object-cover w-full h-full"
+                      onLoad={handleImageLoad}
                     />
+                    {imageIsLoading && <Spinner />}
                   </div>
                 )}
               </div>
             </>
           ) : (
             <div className="mb-8 w-full relative">
-              {imageIsLoading && (
-                <div className="mt-6 absolute inset-0 flex justify-center items-center bg-white bg-opacity-75">
-                  <div role="status">
-                    <svg
-                      aria-hidden="true"
-                      className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-300 fill-blue-600"
-                      viewBox="0 0 100 101"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                        fill="currentFill"
-                      />
-                    </svg>
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              )}
               <img
-                src={isEditing ? image.thumbnailUrl : image.variantUrl} // Use thumbnail when editing
+                src={formData.image.variantUrl}
                 alt={formData.title}
                 onLoad={handleImageLoad}
                 className="object-cover"
               />
+              {!imageIsLoading && <Spinner />}
             </div>
           )}
         </div>
@@ -269,6 +268,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               value={formData.name}
               onChange={handleInputChange}
               className="border-gray-300 rounded-md shadow-sm"
+              disabled={isSaving}
             />
           ) : (
             <p className="text-gray-700">{formData.name}</p>
@@ -283,6 +283,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               value={formData.description}
               onChange={handleInputChange}
               className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-32"
+              disabled={isSaving}
             />
           ) : (
             <p className="text-gray-700">{formData.description}</p>
@@ -302,6 +303,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   checked={formData.microchipped === true}
                   onChange={handleInputChange}
                   required
+                  disabled={isSaving}
                 />
                 <label htmlFor="microchipped-yes" className="ml-2">
                   Yes
@@ -316,6 +318,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   checked={formData.microchipped === false}
                   onChange={handleInputChange}
                   required
+                  disabled={isSaving}
                 />
                 <label htmlFor="microchipped-no" className="ml-2">
                   No
@@ -330,6 +333,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   checked={formData.microchipped === null}
                   onChange={handleInputChange}
                   required
+                  disabled={isSaving}
                 />
                 <label htmlFor="microchipped-unknown" className="ml-2">
                   I don't know
@@ -349,6 +353,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   value={formData.microchipId || ""}
                   onChange={handleInputChange}
                   className="border-gray-300 rounded-md shadow-sm mb-4"
+                  disabled={isSaving}
                 />
               ) : (
                 <p className="text-gray-700 mb-4">{formData.microchipId}</p>
@@ -364,6 +369,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 value={formData.species}
                 onChange={handleInputChange}
                 className="border-gray-300 rounded-md shadow-sm mb-2"
+                disabled={isSaving}
               >
                 <option value="">Select species</option>
                 {["Dog", "Cat"].map((species, index) => (
@@ -386,6 +392,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   value={formData.breed1}
                   onChange={handleInputChange}
                   className="border-gray-300 rounded-md shadow-sm mb-2"
+                  disabled={isSaving}
                 >
                   <option value="">Select breed</option>
                   {breedOptions.map((breed, index) => (
@@ -402,6 +409,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       value={formData.breed2 || ""}
                       onChange={handleInputChange}
                       className="border-gray-300 rounded-md shadow-sm"
+                      disabled={isSaving}
                     >
                       <option value="">Select breed</option>
                       {breedOptions.map((breed, index) => (
@@ -419,6 +427,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       type="button"
                       onClick={addBreed}
                       className="mt-2 text-blue-600 font-medium"
+                      disabled={isSaving}
                     >
                       Add another breed
                     </button>
@@ -429,6 +438,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       type="button"
                       onClick={removeBreed}
                       className="mt-3 text-red-600 flex items-center font-medium"
+                      disabled={isSaving}
                     >
                       <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove second breed
                     </button>
@@ -452,6 +462,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   value={formData.color1 || ""}
                   onChange={handleInputChange}
                   className="border-gray-300 rounded-md shadow-sm mb-2"
+                  disabled={isSaving}
                 >
                   <option value="">Select color</option>
                   {colorOptionsList.map((color, index) => (
@@ -468,6 +479,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       value={formData.color2 || ""}
                       onChange={handleInputChange}
                       className="border-gray-300 rounded-md shadow-sm"
+                      disabled={isSaving}
                     >
                       <option value="">Select color</option>
                       {colorOptionsList.map((color, index) => (
@@ -480,6 +492,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       type="button"
                       onClick={() => removeColor(1)}
                       className="text-red-600 flex items-center ml-2 font-medium"
+                      disabled={isSaving}
                     >
                       <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
                     </button>
@@ -493,6 +506,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       value={formData.color3 || ""}
                       onChange={handleInputChange}
                       className="border-gray-300 rounded-md shadow-sm"
+                      disabled={isSaving}
                     >
                       <option value="">Select color</option>
                       {colorOptionsList.map((color, index) => (
@@ -505,6 +519,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       type="button"
                       onClick={() => removeColor(2)}
                       className="text-red-600 flex items-center ml-2 font-medium"
+                      disabled={isSaving}
                     >
                       <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
                     </button>
@@ -517,6 +532,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       type="button"
                       onClick={addColor}
                       className="mt-2 text-blue-600 font-medium"
+                      disabled={isSaving}
                     >
                       Add another color
                     </button>

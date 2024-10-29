@@ -10,7 +10,11 @@ const ReportShowPage: React.FC = () => {
   const errors = error ? [error.toString()] : [];
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (!report) {
