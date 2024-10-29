@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IReport } from "../../types/reports/Report";
-import { faPencil, faSave, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faSave, faTimes, faCancel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IImage } from "../../types/shared/Image";
 import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
@@ -95,6 +95,13 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     }
   };
 
+  const handleCancelChanges = () => {
+    setFormData(report);
+    setImage(report.image);
+    setIsEditing(false);
+    setErrors([]);
+  };
+
   const handleImageLoad = () => {
     setImageIsLoading(false);
   };
@@ -167,9 +174,17 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             </h2>
           )}
           {isEditing ? (
-            <button onClick={handleSaveChanges} className="text-green-600 flex items-center h-6">
-              <FontAwesomeIcon icon={faSave} className="mr-2" /> Save
-            </button>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:w-[9rem]">
+              <button
+                onClick={handleSaveChanges}
+                className="text-green-600 flex items-center h-6 mb-3 sm:mb-1"
+              >
+                <FontAwesomeIcon icon={faSave} className="mr-1" /> Save
+              </button>
+              <button onClick={handleCancelChanges} className="text-gray-600 flex items-center h-6">
+                <FontAwesomeIcon icon={faCancel} className="mr-1" /> Cancel
+              </button>
+            </div>
           ) : (
             <button
               onClick={() => setIsEditing(true)}
