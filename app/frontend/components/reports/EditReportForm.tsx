@@ -282,7 +282,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="border-gray-300 rounded-md shadow-sm"
+              className="border-gray-300 rounded-md shadow-sm w-full w-[85%] max-w-[20rem]"
               disabled={isSaving}
             />
           ) : (
@@ -365,7 +365,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   name="microchipId"
                   value={formData.microchipId || ""}
                   onChange={handleInputChange}
-                  className="border-gray-300 rounded-md shadow-sm mb-4"
+                  className="border-gray-300 rounded-md shadow-sm mb-4 w-[85%] max-w-[20rem]"
                   disabled={isSaving}
                 />
               ) : (

@@ -26,7 +26,11 @@ class Reports::Update < ActiveInteraction::Base
       update_remote_image
     end
 
-    update_report
+    return report if update_report
+
+    errors.merge!(report.errors)
+
+    report
   end
 
   private

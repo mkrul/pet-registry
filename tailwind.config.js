@@ -75,10 +75,12 @@ module.exports = {
         '6rem': '6rem',
       },
       maxWidth: {
+        '20rem': '20rem',
         '22rem': '22rem',
         '65%': '65%',
       },
       width: {
+        '85%': '85%',
         '95%': '95%',
         '5rem': '5rem',
         '9rem': '9rem',
