@@ -7,7 +7,7 @@ interface SpinnerProps {
 }
 
 const Spinner: React.FC<SpinnerProps> = ({ color = "text-gray-200", size = 40 }) => (
-  <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 h-[8rem]">
+  <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 h-full">
     <div role="status">
       <svg
         aria-hidden="true"

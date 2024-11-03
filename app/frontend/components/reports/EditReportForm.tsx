@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Spinner from "../shared/Spinner";
+import Notification from "../shared/Notification";
 import { IReport } from "../../types/reports/Report";
 import { faPencil, faSave, faTimes, faCancel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,9 +20,13 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const [formData, setFormData] = useState(report);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
+  const [notification, setNotification] = useState<{
+    type: "success" | "danger";
+    message: string;
+  } | null>(null);
   const [updateReport] = useUpdateReportMutation();
   const [imageIsLoading, setImageIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false); // Added state for saving
+  const [isSaving, setIsSaving] = useState(false);
 
   const breedOptions =
     formData.species.toLowerCase() === "dog"
@@ -65,7 +70,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
     setImageIsLoading(true);
-    setIsSaving(true); // Disable inputs during save
+    setIsSaving(true);
 
     const formDataToSend = new FormData();
 
@@ -91,21 +96,27 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       const updatedReport = await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
       setFormData(updatedReport);
       setIsEditing(false);
+      setNotification({ type: "success", message: "Report updated successfully!" }); // Success notification
     } catch (error: any) {
       console.error("Failed to update report:", error);
       if (error.data && error.data.errors) {
         setErrors(error.data.errors);
       }
+      setNotification({ type: "danger", message: "Failed to update report. Please try again." }); // Error notification
     } finally {
       setImageIsLoading(false);
-      setIsSaving(false); // Re-enable inputs after save
+      setIsSaving(false);
     }
+  };
+
+  const handleCloseNotification = () => {
+    setNotification(null);
   };
 
   const handleCancelChanges = () => {
     setFormData(report);
     setIsEditing(false);
-    setImageIsLoading(false);
+    setImageIsLoading(true);
     setErrors([]);
   };
 
@@ -164,6 +175,13 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   return (
     <div className="container mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-lg">
+        {notification && (
+          <Notification
+            type={notification.type}
+            message={notification.message}
+            onClose={handleCloseNotification}
+          />
+        )}
         <div className="flex justify-between">
           {isEditing ? (
             <div className="flex flex-col">
@@ -207,7 +225,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             </button>
           )}
         </div>
-
         {errors && errors.length > 0 && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
             <strong className="font-bold">
@@ -220,13 +237,12 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             </ul>
           </div>
         )}
-
         <div className="mb-4">
           {isEditing ? (
             <>
               {/* Image Upload Section */}
               <h3 className="text-lg font-semibold text-gray-800">Photo:</h3>
-              <div className="mt-1 relative">
+              <div className="mt-1 relative overflow-clip">
                 <input
                   type="file"
                   name="image"
@@ -249,17 +265,16 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             </>
           ) : (
             <div className="mb-8 w-full relative">
+              {imageIsLoading && <Spinner />}
               <img
                 src={formData.image.variantUrl}
                 alt={formData.title}
-                onLoad={handleImageLoad}
-                className="object-cover"
+                onLoad={() => setImageIsLoading(false)}
+                className={`object-cover w-full ${imageIsLoading ? "hidden" : ""}`}
               />
-              {!imageIsLoading && <Spinner />}
             </div>
           )}
         </div>
-
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Name:</h3>
           {isEditing ? (
@@ -274,7 +289,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             <p className="text-gray-700">{formData.name}</p>
           )}
         </div>
-
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Description:</h3>
           {isEditing ? (
@@ -289,7 +303,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             <p className="text-gray-700">{formData.description}</p>
           )}
         </div>
-
         <div className="mb-4">
           <h3 className="text-lg font-semibold text-gray-800">Microchipped:</h3>
           {isEditing ? (
