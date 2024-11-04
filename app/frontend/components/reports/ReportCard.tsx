@@ -1,25 +1,40 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IReport } from "../../types/reports/Report";
 import formatDate from "../../lib/formatDate";
+import Spinner from "../shared/Spinner"; // Make sure to import your Spinner component
+
 interface ReportProps {
   report: IReport;
 }
 
 const ReportCard = ({ report }: ReportProps) => {
+  const [imageIsLoading, setImageIsLoading] = useState(true);
+
+  const handleImageLoad = () => {
+    setImageIsLoading(false);
+  };
+
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       <Link to={`/reports/${report.id}`} className="block">
         <div className="p-4 bg-white rounded-lg flex w-full">
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 relative">
+            {imageIsLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Spinner />
+              </div>
+            )}
             {report.image && (
               <img
                 src={report.image.thumbnailUrl}
                 alt={report.title}
-                className="w-48 h-48 object-cover report__image"
+                className={`w-48 h-48 object-cover report__image ${imageIsLoading ? "hidden" : "block"}`}
+                onLoad={handleImageLoad}
               />
             )}
           </div>
-          <div className="flex flex-col justify-between h-full report__title">
+          <div className="flex flex-col justify-between h-full report__title ml-4">
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>

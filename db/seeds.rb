@@ -3,10 +3,10 @@
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
 require 'open-uri'
+require 'progress_bar'
 require_relative 'create_report'
-gem 'progress_bar'
 
-if !Rails.env.production?
+unless Rails.env.production?
   print('Purging old seed data...')
 
   reports = Report.all

@@ -51,6 +51,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNotification(null);
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const imageObject: IImage = {
@@ -68,6 +69,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
+    setNotification(null);
     e.preventDefault();
     setImageIsLoading(true);
     setIsSaving(true);
@@ -114,10 +116,16 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const handleCancelChanges = () => {
+    setNotification(null);
     setFormData(report);
     setIsEditing(false);
     setImageIsLoading(true);
     setErrors([]);
+  };
+
+  const displayEditForm = () => {
+    setNotification(null);
+    setIsEditing(true);
   };
 
   const handleImageLoad = () => {
@@ -218,7 +226,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             </div>
           ) : (
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={() => displayEditForm()}
               className="text-blue-600 flex items-center h-6"
             >
               <FontAwesomeIcon icon={faPencil} className="mr-2" /> Edit Report
