@@ -1,3 +1,5 @@
+# app/models/report.rb
+
 # frozen_string_literal: true
 
 class Report < ApplicationRecord
@@ -10,6 +12,7 @@ class Report < ApplicationRecord
   validates :breed_1, presence: true
   validates :color_1, presence: true
   validates :microchip_id, uniqueness: { allow_nil: true }, length: { maximum: 35 }
+
   normalizes :title,
              :description,
              :status,
@@ -25,6 +28,7 @@ class Report < ApplicationRecord
              :microchipped,
              :microchip_id,
              with: ->(value) { value.presence || nil }
+
   validate :image_size_within_limit?
 
   has_one_attached :image, dependent: :destroy
@@ -40,12 +44,12 @@ class Report < ApplicationRecord
     self.title = title&.strip
     self.description = description&.strip
     self.name = name&.presence
-    self.species = species&.presence
+    self.species = species&.presence&.downcase
     self.breed_1 = breed_1&.presence
     self.breed_2 = breed_2&.presence
-    self.color_1 = color_1&.presence
-    self.color_2 = color_2&.presence
-    self.color_3 = color_3&.presence
+    self.color_1 = color_1&.strip&.downcase
+    self.color_2 = color_2&.strip&.downcase
+    self.color_3 = color_3&.strip&.downcase
     self.status = status&.downcase
     self.microchipped = microchipped&.presence
     self.microchip_id = microchip_id&.presence

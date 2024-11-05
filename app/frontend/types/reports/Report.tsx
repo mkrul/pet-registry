@@ -19,6 +19,7 @@ export interface IReport {
   image: IImage;
   microchipped: boolean | null;
   microchipId: string | null;
+  updatedLastThreeDays: boolean;
 }
 
 export interface IReportsState {

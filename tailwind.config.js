@@ -80,6 +80,7 @@ module.exports = {
         '65%': '65%',
       },
       width: {
+        '300px': '300px',
         '85%': '85%',
         '95%': '95%',
         '5rem': '5rem',
@@ -91,6 +92,8 @@ module.exports = {
         '50rem': '50rem',
       },
       height: {
+        '20px': '20px',
+        '150px': '150px',
         '8rem': '8rem',
       },
       minHeight: {

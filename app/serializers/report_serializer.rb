@@ -9,6 +9,10 @@ class ReportSerializer < ActiveModel::Serializer
     data
   end
 
+  def updated_last_three_days
+    object.updated_at > 3.days.ago
+  end
+
   def image
     return unless object.image.attached?
 

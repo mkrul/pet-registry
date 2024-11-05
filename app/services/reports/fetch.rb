@@ -13,7 +13,7 @@ class Reports::Fetch < ActiveInteraction::Base
 
       outcome.result
     else
-      Report.all
+      Report.order(updated_at: :desc, created_at: :desc)
     end
   end
 
