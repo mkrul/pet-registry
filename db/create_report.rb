@@ -16,16 +16,19 @@ class CreateReport
 
   def handle_image(report, image_url)
     local_path = Rails.root.join('app', 'assets', 'images', 'reports', File.basename(image_url))
-    attach_image(report, local_path)
+    response = CloudinaryService.upload_image(local_path)
+    attach_image(report, response, image_url)
   end
-
-  def attach_image(report, local_path)
-    filename = File.basename(local_path)
+  def attach_image(report, response, image_url)
+    filename = File.basename(image_url)
 
     report.image.attach(
-      io: File.open(local_path),
-      filename: filename,
-      content_type: 'image/jpeg'
+      io: URI.open(response['secure_url']),
+      filename: filename.presence || response['public_id'],
+      content_type: 'image/jpeg',
+      metadata: {
+        cloudinary_public_id: response['public_id']
+      }
     )
   end
 end
