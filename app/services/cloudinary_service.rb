@@ -2,7 +2,6 @@ class CloudinaryService
   class CloudinaryError < StandardError; end
 
   OPTIONS = {
-    folder: Report::CLOUDINARY_REPORT_FOLDER,
     overwrite: true,
     invalidate: true
   }

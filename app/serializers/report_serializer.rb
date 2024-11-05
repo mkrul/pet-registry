@@ -17,11 +17,11 @@ class ReportSerializer < ActiveModel::Serializer
   def image
     return unless object.image.attached?
 
-    public_id = object.image.blob.metadata['cloudinary_public_id']
+    public_id = object.image.blob.key
 
     image_data = {
       id: object.image.id,
-      filename: object.image.filename,
+      filename: object.image.filename.to_s,
       url: Cloudinary::Utils.cloudinary_url(public_id),
       variant_url: Cloudinary::Utils.cloudinary_url(
         public_id,

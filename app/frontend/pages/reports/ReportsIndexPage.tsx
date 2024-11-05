@@ -19,7 +19,7 @@ const ReportIndexPage = () => {
       </div>
 
       <div className="mt-[2rem]">
-        <ReportsContainer/>
+        <ReportsContainer />
       </div>
     </div>
   );
