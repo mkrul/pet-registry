@@ -73,8 +73,12 @@ module Api
       params.permit(:query, :page, :per_page)
     end
 
+    private
+
     def create_params
-      params.require(:data).permit(
+      data = params.require(:data)
+      parsed_data = JSON.parse(data)
+      ActionController::Parameters.new(parsed_data).permit(
         :title,
         :name,
         :description,
@@ -87,7 +91,7 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-        :image_url
+        :image
       )
     end
 

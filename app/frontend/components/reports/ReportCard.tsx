@@ -13,7 +13,6 @@ const ReportCard = ({ report }: ReportProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const formattedUpdatedAt = formatDate(report.updatedAt);
-  console.log("REPORT", report);
 
   const handleImageLoad = () => {
     setImageIsLoading(false);

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'active_interaction'
-require 'open-uri'
 
 class Reports::Update < ActiveInteraction::Base
   record :report, class: Report
@@ -20,52 +19,43 @@ class Reports::Update < ActiveInteraction::Base
   file :image, default: nil
 
   def execute
-    if image.present?
-      purge_local_image_data
-      update_local_image_data
-      update_remote_image
+    ActiveRecord::Base.transaction do
+      purge_existing_image if image.present?
+
+      if update_report_attributes
+        attach_new_image if image.present?
+        report
+      else
+        errors.merge!(report.errors)
+        nil
+      end
     end
-
-    return report if update_report
-
-    errors.merge!(report.errors)
-
-    report
   end
 
   private
 
-  def update_report
+  def update_report_attributes
     report.update(
       title: title,
       description: description,
       name: name,
-      species: species,
+      species: species&.downcase,
       gender: gender,
       breed_1: breed_1,
       breed_2: breed_2,
-      color_1: color_1,
-      color_2: color_2,
-      color_3: color_3,
+      color_1: color_1&.downcase,
+      color_2: color_2&.downcase,
+      color_3: color_3&.downcase,
       microchipped: microchipped,
       microchip_id: microchip_id
     )
   end
 
-  def purge_local_image_data
-    report.image.purge if report.image.attached?
+  def purge_existing_image
+    report.image.purge_later if report.image.attached?
   end
 
-  def update_local_image_data
+  def attach_new_image
     report.image.attach(image)
-
-    if report.image.attached?
-      cloudinary_public_id = report.image.blob.key
-      report.image.blob.update(metadata: { cloudinary_public_id: cloudinary_public_id })
-    end
-  end
-
-  def update_remote_image
-    CloudinaryService.update_image(image.path, report.image.blob.key)
   end
 end

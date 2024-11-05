@@ -10,7 +10,25 @@ class ReportSerializer < ActiveModel::Serializer
     data
   end
 
+  def species
+    object.species&.capitalize
+  end
+
+  def color_1
+    object.color_1&.capitalize
+  end
+
+  def color_2
+    object.color_2&.capitalize
+  end
+
+  def color_3
+    object.color_3&.capitalize
+  end
+
   def updated_last_three_days
+    return nil unless object.updated_at
+
     object.updated_at > 3.days.ago
   end
 
