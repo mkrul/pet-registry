@@ -32,7 +32,7 @@ class Report < ApplicationRecord
   before_validation :normalize_fields
 
   REPORT_PAGE_LIMIT = 20
-  CLOUDINARY_REPORT_FOLDER = "petregistry/#{Rails.env}/reports"
+  CLOUDINARY_REPORT_FOLDER = "#{Rails.env}/reports"
 
   private
 
@@ -57,9 +57,5 @@ class Report < ApplicationRecord
 
   def image_size_within_limit?
     errors.add(:image, 'size cannot exceed 5MB') if image.attached? && image.blob.byte_size > 5.megabytes
-  end
-
-  def cloudinary_public_id
-    "petregistry/#{Rails.env}/reports/#{id}"
   end
 end

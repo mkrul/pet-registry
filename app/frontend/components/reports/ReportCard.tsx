@@ -19,7 +19,7 @@ const ReportCard = ({ report }: ReportProps) => {
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       <Link to={`/reports/${report.id}`} className="block">
         <div className="p-4 bg-white rounded-lg flex w-full">
-          <div className="flex-shrink-0 relative">
+          <div className="relative w-32 h-32 mt-3">
             {imageIsLoading && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <Spinner />
