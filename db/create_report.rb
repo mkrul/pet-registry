@@ -19,6 +19,7 @@ class CreateReport
     response = CloudinaryService.upload_image(local_path)
     attach_image(report, response, image_url)
   end
+
   def attach_image(report, response, image_url)
     filename = File.basename(image_url)
 

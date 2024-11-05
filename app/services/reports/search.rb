@@ -22,7 +22,7 @@ class Reports::Search < ActiveInteraction::Base
   def search_options
     options = {
       fields: %w[title description breed_1 breed_2 color_1 color_2 color_3],
-      misspellings: { edit_distance: 2 },
+      misspellings: { edit_distance: 1 },
       operator: 'or', # Changed from 'and' to 'or'
       where: dynamic_where_clause,
       page: page,

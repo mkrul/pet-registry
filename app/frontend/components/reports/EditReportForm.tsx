@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import formatDate from "../../lib/formatDate";
 import Spinner from "../shared/Spinner";
 import Notification from "../shared/Notification";
 import { IReport } from "../../types/reports/Report";
@@ -567,6 +568,14 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 {formData.color3 && <p className="text-gray-700">{formData.color3}</p>}
               </>
             )}
+            <div className="mb-4 mt-4">
+              <h3 className="text-lg font-semibold text-gray-800">Posted at:</h3>
+              <p className="text-gray-700">{formatDate(formData.createdAt)}</p>
+            </div>
+            <div className="mb-4 mt-4">
+              <h3 className="text-lg font-semibold text-gray-800">Updated at:</h3>
+              <p className="text-gray-700">{formatDate(formData.updatedAt)}</p>
+            </div>
           </div>
         </div>
       </div>
