@@ -56,7 +56,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const imageObject: IImage = {
-        id: undefined,
+        id: "",
         url: URL.createObjectURL(file),
         thumbnailUrl: URL.createObjectURL(file),
         variantUrl: URL.createObjectURL(file),

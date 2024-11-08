@@ -76,9 +76,7 @@ module Api
     private
 
     def create_params
-      data = params.require(:data)
-      parsed_data = JSON.parse(data)
-      ActionController::Parameters.new(parsed_data).permit(
+      params.permit(
         :title,
         :name,
         :description,
@@ -92,7 +90,7 @@ module Api
         :microchipped,
         :microchip_id,
         :image
-      )
+      ).merge(report: @report)
     end
 
     def update_params

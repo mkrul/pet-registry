@@ -50,6 +50,7 @@ class Reports::Create < ActiveInteraction::Base
   def attach_image(report)
     report.image.attach(image)
   rescue => e
+    debugger
     errors.add(:image, "Failed to attach image: #{e.message}")
   end
 end

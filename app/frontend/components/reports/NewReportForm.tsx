@@ -32,7 +32,7 @@ const NewReportForm: React.FC = () => {
     color2: "",
     color3: "",
     image: {
-      id: undefined,
+      id: "",
       url: "",
       thumbnailUrl: "",
       variantUrl: "",
@@ -138,8 +138,18 @@ const NewReportForm: React.FC = () => {
       microchip_id: formData.microchipId || ""
     };
 
-    // Append the data as a JSON string under the "data" key
-    formDataToSend.append("data", JSON.stringify(data));
+    formDataToSend.append("title", data.title);
+    formDataToSend.append("description", data.description);
+    formDataToSend.append("name", data.name);
+    formDataToSend.append("gender", data.gender);
+    formDataToSend.append("species", data.species);
+    formDataToSend.append("breed_1", data.breed_1);
+    formDataToSend.append("breed_2", data.breed_2);
+    formDataToSend.append("color_1", data.color_1);
+    formDataToSend.append("color_2", data.color_2);
+    formDataToSend.append("color_3", data.color_3);
+    formDataToSend.append("microchipped", data.microchipped);
+    formDataToSend.append("microchip_id", data.microchip_id);
 
     if (selectedImage) {
       formDataToSend.append("image", selectedImage);
@@ -160,7 +170,7 @@ const NewReportForm: React.FC = () => {
         color2: "",
         color3: "",
         image: {
-          id: undefined,
+          id: "",
           url: "",
           thumbnailUrl: "",
           variantUrl: "",
