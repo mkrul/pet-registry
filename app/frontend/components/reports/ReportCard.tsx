@@ -24,7 +24,7 @@ const ReportCard = ({ report }: ReportProps) => {
     if (imageSrc !== placeholderPath) {
       setImageSrc(placeholderPath);
     } else {
-      setImageIsLoading(false); // In case the placeholder also fails to load
+      setImageIsLoading(false);
     }
   };
 
@@ -49,21 +49,19 @@ const ReportCard = ({ report }: ReportProps) => {
             />
           </div>
           <div className="flex flex-col justify-between h-full ml-4 flex-grow">
-            {" "}
-            {/* Added margin and flex-grow */}
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
             <div className="flex justify-between items-center">
               {report.updatedLastThreeDays && (
                 <span
-                  className="relative h-[20px] mt-2 bg-green-300/80 text-green-900 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-700/90 dark:text-green-200 cursor-pointer"
+                  className="relative h-[20px] mt-2 bg-green-50/10 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-green-200 cursor-pointer"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
                 >
                   Updated
                   {showTooltip && (
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 text-xs text-green-800 bg-green-100 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400 shadow-lg whitespace-nowrap">
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 text-xs text-green-700 bg-green-50/10 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400 shadow-lg whitespace-nowrap">
                       {formattedUpdatedAt}
                     </div>
                   )}

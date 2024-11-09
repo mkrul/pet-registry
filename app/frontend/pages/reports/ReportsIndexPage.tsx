@@ -1,3 +1,5 @@
+// src/pages/ReportIndexPage.tsx
+
 import React, { useState } from "react";
 import SearchBar from "../../components/shared/SearchBar";
 import ReportsContainer from "../../components/reports/ReportsContainer";
@@ -19,7 +21,7 @@ const ReportIndexPage = () => {
       </div>
 
       <div className="mt-[2rem]">
-        <ReportsContainer />
+        <ReportsContainer query={searchQuery} />
       </div>
     </div>
   );
