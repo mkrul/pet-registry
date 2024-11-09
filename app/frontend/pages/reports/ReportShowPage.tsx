@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetReportQuery } from "../../redux/features/reports/reportsApi";
-import EditReportFormContainer from "../../components/reports/EditReportFormContainer";
+import ShowReportFormContainer from "../../components/reports/ShowReportFormContainer";
+import Spinner from "../../components/shared/Spinner";
 
 const ReportShowPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +13,7 @@ const ReportShowPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div>Loading...</div>
+        <Spinner bgFaded={false} />
       </div>
     );
   }
@@ -23,7 +24,7 @@ const ReportShowPage: React.FC = () => {
 
   return (
     <div>
-      <EditReportFormContainer report={report} errors={errors} />
+      <ShowReportFormContainer report={report} errors={errors} />
     </div>
   );
 };

@@ -17,6 +17,8 @@ interface EditReportFormProps {
 }
 
 const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
+  const placeholderPath = "/images/placeholder.png"; // Define placeholder path
+  const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || placeholderPath);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(report);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
@@ -131,6 +133,14 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
 
   const handleImageLoad = () => {
     setImageIsLoading(false);
+  };
+
+  const handleImageError = () => {
+    if (imageSrc !== placeholderPath) {
+      setImageSrc(placeholderPath);
+    } else {
+      setImageIsLoading(false);
+    }
   };
 
   const addBreed = () => {
@@ -262,24 +272,34 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 {formData.image && formData.image.filename && (
                   <div className="relative w-32 h-32 mt-3">
                     <img
-                      src={formData.image.thumbnailUrl}
+                      src={imageSrc}
                       alt={formData.title}
-                      className="object-cover w-full h-full"
+                      className={`object-cover w-full h-full ${imageIsLoading ? "hidden" : "block"} rounded-md`}
                       onLoad={handleImageLoad}
+                      onError={handleImageError}
                     />
-                    {imageIsLoading && <Spinner />}
+                    {imageIsLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-md">
+                        <Spinner />
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
             </>
           ) : (
             <div className="mb-8 w-full relative">
-              {imageIsLoading && <Spinner />}
+              {imageIsLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-md">
+                  <Spinner />
+                </div>
+              )}
               <img
-                src={formData.image.variantUrl}
+                src={imageSrc}
                 alt={formData.title}
-                onLoad={() => setImageIsLoading(false)}
-                className={`object-cover w-full ${imageIsLoading ? "hidden" : ""}`}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                className={`object-cover w-full rounded-md ${imageIsLoading ? "hidden" : "block"}`}
               />
             </div>
           )}

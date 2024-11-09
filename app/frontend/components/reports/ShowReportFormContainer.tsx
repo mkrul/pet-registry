@@ -3,12 +3,12 @@ import { IReport } from "../../types/reports/Report";
 import { Link } from "react-router-dom";
 import EditReportForm from "./EditReportForm";
 
-interface EditReportFormContainerProps {
+interface ShowReportFormContainerProps {
   report: IReport;
   errors?: string[]; // Ensure the 'errors' prop is included here
 }
 
-const EditReportFormContainer: React.FC<EditReportFormContainerProps> = ({ report, errors }) => {
+const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
   return (
     <div className="container mx-auto p-4 w-full md:w-[50rem] lg:w-[50rem]">
       {errors && errors.length > 0 && (
@@ -36,4 +36,4 @@ const EditReportFormContainer: React.FC<EditReportFormContainerProps> = ({ repor
   );
 };
 
-export default EditReportFormContainer;
+export default ShowReportFormContainer;

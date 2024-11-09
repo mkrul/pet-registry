@@ -4,10 +4,17 @@ import PropTypes from "prop-types";
 interface SpinnerProps {
   color?: string;
   size?: number;
+  bgFaded?: boolean;
 }
 
-const Spinner: React.FC<SpinnerProps> = ({ color = "text-gray-200", size = 40 }) => (
-  <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-75 h-full">
+const Spinner: React.FC<SpinnerProps> = ({
+  color = "text-gray-200",
+  size = 40,
+  bgFaded = true
+}) => (
+  <div
+    className={`absolute inset-0 flex justify-center items-center ${bgFaded ? "bg-white bg-opacity-75" : ""} h-full`}
+  >
     <div role="status">
       <svg
         aria-hidden="true"
