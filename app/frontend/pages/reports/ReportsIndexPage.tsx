@@ -1,14 +1,33 @@
 // src/pages/ReportIndexPage.tsx
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import SearchBar from "../../components/shared/SearchBar";
 import ReportsContainer from "../../components/reports/ReportsContainer";
 
 const ReportIndexPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryParam = searchParams.get("query") || "";
+  const pageParam = parseInt(searchParams.get("page") || "1", 10);
+
+  const [searchQuery, setSearchQuery] = useState(queryParam);
+  const [currentPage, setCurrentPage] = useState(pageParam);
+
+  useEffect(() => {
+    setSearchQuery(queryParam);
+    setCurrentPage(pageParam);
+  }, [queryParam, pageParam]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    setCurrentPage(1); // Reset to first page on new search
+    setSearchParams({ query, page: "1" });
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setSearchParams({ query: searchQuery, page: page.toString() });
   };
 
   return (

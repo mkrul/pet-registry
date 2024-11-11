@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_30_124721) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_10_084245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,8 +55,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_30_124721) do
     t.string "color_1", null: false
     t.string "color_2"
     t.string "color_3"
-    t.string "name", null: false
-    t.string "gender", null: false
+    t.string "name"
+    t.string "gender"
     t.boolean "microchipped"
     t.string "microchip_id"
   end

@@ -26,6 +26,10 @@ class ReportSerializer < ActiveModel::Serializer
     object.color_3&.capitalize
   end
 
+  def gender
+    object.gender&.capitalize
+  end
+
   def updated_last_three_days
     return nil unless object.updated_at
 

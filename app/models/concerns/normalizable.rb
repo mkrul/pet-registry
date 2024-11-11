@@ -10,8 +10,9 @@ module Normalizable
   def normalize_report
     self.title = title&.strip
     self.description = description&.strip
-    self.name = name&.presence
+    self.name = name&.strip&.presence
     self.species = species&.strip&.downcase
+    self.gender = gender&.strip&.downcase
     self.breed_1 = breed_1&.strip
     self.breed_2 = breed_2&.strip
     self.color_1 = color_1&.strip&.downcase
@@ -19,6 +20,6 @@ module Normalizable
     self.color_3 = color_3&.strip&.downcase
     self.status = status&.strip&.downcase
     self.microchipped = microchipped&.presence
-    self.microchip_id = microchip_id&.strip
+    self.microchip_id = microchip_id&.strip&.presence
   end
 end

@@ -25,7 +25,12 @@ const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
 
   return (
     <div className="w-full md:w-auto">
-      <form action="/search_reports" onSubmit={handleSubmit} method="get" className="relative w-full">
+      <form
+        action="/search_reports"
+        onSubmit={handleSubmit}
+        method="get"
+        className="relative w-full"
+      >
         <div className="relative w-full">
           <input
             type="text"

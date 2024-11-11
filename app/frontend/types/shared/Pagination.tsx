@@ -1,7 +1,7 @@
 export interface IPagination {
   count: number;
   items: number;
-  pages?: number;
+  pages: number;
   page: number;
 }
 export interface IPaginationQuery {

@@ -61,7 +61,7 @@ unless Rails.env.production?
   report03 = CreateReport.new.call(
     title: 'Found dog in the street',
     description: "I found a dog wandering around the neighborhood.  He's a tiny little guy.  Appears to be some sort of chihuahua mix.  Medium white fur.  He is kind of timid but very sweet.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'dog',
     gender: 'Male',
@@ -80,7 +80,7 @@ unless Rails.env.production?
   report04 = CreateReport.new.call(
     title: 'Golden Retriever found',
     description: "I found a golden retriever wandering around the park.  He's a big guy, very friendly.  Did not have a collar on when we found him and we're not sure if he's microchipped.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'dog',
     gender: 'Male (neutered)',
@@ -138,7 +138,7 @@ unless Rails.env.production?
   report07 = CreateReport.new.call(
     title: 'I found this black cat',
     description: "I found a black cat wandering around the neighborhood.  She is very friendly and seems to be well taken care of.  She has no collar on.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'cat',
     gender: 'Female',
@@ -176,10 +176,10 @@ unless Rails.env.production?
   report09 = CreateReport.new.call(
     title: 'Stray kitty',
     description: "Stray cat found by my garage last weekend. Very sweet, not sure if boy or girl.  white brown and grey, short hair length.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'cat',
-    gender: 'Unknown',
+    gender: nil,
     breed_1: 'Domestic Short Hair',
     breed_2: nil,
     color_1: 'white',
@@ -214,7 +214,7 @@ unless Rails.env.production?
   report11 = CreateReport.new.call(
     title: 'Found beagle mix on Turner Rd',
     description: "We were driving north toward Jones road and saw a beagle wandering near the woodline.  We baited her closer to our car with some treats and took her back to our house.  She's currently chilling in the garage with our cat right now.  Please come get her!",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'dog',
     gender: 'Female',
@@ -347,7 +347,7 @@ unless Rails.env.production?
   report18 = CreateReport.new.call(
     title: 'Scruffy yellow dog',
     description: "Come get your dog! She's been hanging out in my shed for a few days now.  She's a scruffy little lady, yellow and brownish with some white on her face.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'dog',
     gender: 'Female',
@@ -385,10 +385,10 @@ unless Rails.env.production?
   report20 = CreateReport.new.call(
     title: 'a Siamese cat i found',
     description: "I found a Siamese cat trying to get into the trash can by my house. She doesn't have a collar.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'cat',
-    gender: 'Unknown',
+    gender: nil,
     breed_1: 'Siamese',
     breed_2: nil,
     color_1: 'white',
@@ -423,10 +423,10 @@ unless Rails.env.production?
   report22 = CreateReport.new.call(
     title: 'sweet black kitty',
     description: "I have never seen this kitty before but she is very friendly and seems to be well taken care of.  She has no collar on.",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'cat',
-    gender: 'Unknown',
+    gender: nil,
     breed_1: 'Domestic Short Hair',
     breed_2: nil,
     color_1: 'black',
@@ -442,7 +442,7 @@ unless Rails.env.production?
   report23 = CreateReport.new.call(
     title: 'Puppy found',
     description: "I have no idea who owns this previous baby but I hope I can find his owner soon! I found him outside of a restaraunt on Main Street. I have no idea what breed he is, maybe a husky german shepherd mix?",
-    name: 'Unknown',
+    name: nil,
     status: 'active',
     species: 'dog',
     gender: 'Male',

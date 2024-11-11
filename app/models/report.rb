@@ -8,7 +8,7 @@ class Report < ApplicationRecord
   searchkick
 
   validates :title, presence: true, length: { maximum: 30 }
-  validates :name, length: { maximum: 20 }
+  validates :name, length: { maximum: 20 }, allow_nil: true
   validates :description, presence: true, length: { maximum: 500 }
   validates :status, presence: true, inclusion: { in: %w[active archived] }
   validates :breed_1, presence: true
@@ -34,11 +34,32 @@ class Report < ApplicationRecord
 
   validate :image_size_within_limit?
 
+  validate :unique_colors
+  validate :unique_breeds
+
   has_one_attached :image, dependent: :destroy
 
   REPORT_PAGE_LIMIT = 20
 
   private
+
+  def unique_colors
+    colors = [color_1, color_2, color_3].compact.reject(&:blank?)
+    duplicates = colors.select { |color| colors.count(color) > 1 }.uniq
+
+    if duplicates.any?
+      errors.add(:base, "Duplicate colors found: #{duplicates.join(', ')}")
+    end
+  end
+
+  def unique_breeds
+    breeds = [breed_1, breed_2].compact.reject(&:blank?)
+    duplicates = breeds.select { |breed| breeds.count(breed) > 1 }.uniq
+
+    if duplicates.any?
+      errors.add(:base, "Duplicate breeds found: #{duplicates.join(', ')}")
+    end
+  end
 
   def image_attached?
     errors.add(:image, 'could not be processed') unless image.attached?
