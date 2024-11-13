@@ -1,11 +1,31 @@
-# app/models/report.rb
-
-# frozen_string_literal: true
-
 class Report < ApplicationRecord
   include Normalizable
 
-  searchkick
+  searchkick synonyms: 'search_synonyms.txt'
+
+  def search_data
+    {
+      title: title,
+      description: description,
+      species: species,
+      breed_1: breed_1,
+      breed_2: breed_2,
+      color_1: color_1,
+      color_2: color_2,
+      color_3: color_3,
+      name: name,
+      gender: gender,
+      status: status,
+      updated_at: updated_at,
+      created_at: created_at
+    }
+  end
+
+  after_commit :reindex_report
+
+  def reindex_report
+    self.reindex
+  end
 
   validates :title, presence: true, length: { maximum: 30 }
   validates :name, length: { maximum: 20 }, allow_nil: true
@@ -33,7 +53,6 @@ class Report < ApplicationRecord
              with: ->(value) { value.presence || nil }
 
   validate :image_size_within_limit?
-
   validate :unique_colors
   validate :unique_breeds
 

@@ -1,0 +1,83 @@
+pitbull, bully, bulldog, pittbull, pit bull, pibble, pitty, pittie, bullie
+retriever, labrador, lab
+german shepherd, gsd, shepherd, german shep, shepard, sheppherd, shepphard, sheperd
+goldie, golden, golden retriever
+english bulldog, bulldog, bulldog dog
+frenchie, french bulldog, french bulldog, bulldog
+poodle, miniature poodle, standard poodle, doodle
+beag, beagle, beagle dog
+rottie, rottweiler, rottweiler dog
+yorkie, york, yorkshire terrier, yorkshire terrier dog
+doxie, weenie, dachshund, dachshund dog
+husky, siberian husky, siberian husky dog
+boxer, boxer dog
+chi, chihuahua, chihuahua dog
+pug, pug dog, puggie, puggle,
+shih tzu, shih tzu dog, shih tzu
+border, collie, border collie, border collie dog
+aussie, australian shepherd, australian shepherd dog
+dane, great dane, great dane dog
+cocker, cocker spaniel, cocker spaniel dog
+maltese, maltese dog
+pom, pomeranian, pomeranian dog
+boston, boston terrier, boston terrier dog
+sheltie, shetland sheepdog, shetland sheepdog dog
+bichon, bichon frise, bichon frise dog
+cane corso, corso, cane corso dog
+viz, vizsla, vizsla dog
+irish setter, irish setter dog
+dobie, doberman, doberman pinscher, doberman pinscher dog
+britt, brittany, brittany dog
+akita, akita dog, akita inu, akita inu dog
+basenji, basenji dog, basenji
+cavalier, king charles, cavalier king charles spaniel, cavalier king charles spaniel dog
+malamute, alaskan malamute, alaskan malamute dog
+corgi, pembroke welsh corgi, pembroke welsh corgi dog
+staffie, staffy, staffordshire bull terrier, staffordshire bull terrier dog
+springer, welsh springer spaniel, english springer spaniel, english springer spaniel dog
+jackie, jack russell, jack russell terrier, jack russell terrier dog
+scottie, scottish terrier, scottish terrier dog
+havana, havanese, havanese dog
+greyhound, greyhound dog
+saluki, saluki dog
+whippet, whippet dog
+italian greyhound, italian greyhound dog, ig
+irish wolfhound, irish wolfhound dog
+malinois, belgian malinois, belgian malinois dog
+shiba, shiba inu, shiba inu dog
+brindle, striped, streaked, tiger stripes
+merle, blotched, patchy, spotted
+sable, fawn, dark fawn
+tricolor, tri-color, three-color
+bicolor, bi-color, two-color
+tortoiseshell, tortie
+agouti, wild-type, multi-colored
+particolor, parti-color, multi-colored
+pied, harlequin, spotted, splotched
+solid, single color, uniform color
+tick, ticks, two-toned
+liver, chocolate, brown
+grey, gray, silver, ash, dove
+black, jet, ebony, coal, raven
+white, snow, pure white, alabaster, ivory
+brown, chocolate, mahogany, cocoa, espresso
+red, ginger, rust, auburn, scarlet
+tan, fawn, light brown, beige, sandy
+blue, grey, blue grey, slate
+cream, off-white, ivory, vanilla, pearl
+lemon, light yellow, pale yellow
+harlequin, spotted, black and white
+lacy, lacy patterns
+blue brindle, blue stripes, blue streaked brindle
+black, jet, ebony, coal, raven
+white, snow, pure white, alabaster, ivory
+brown, chocolate, mahogany, cocoa, espresso
+red, ginger, rust, auburn, scarlet
+tan, fawn, light brown, beige, sandy
+blue, grey, blue grey, slate, gray
+cream, off-white, ivory, vanilla, pearl
+grey, gray, silver, ash, charcoal, dove
+golden, gold, honey, amber
+rust, copper, burnt orange
+mustard, light yellow
+olive, green

@@ -1,7 +1,3 @@
-# app/interactions/reports/search.rb
-
-# frozen_string_literal: true
-
 require 'active_interaction'
 
 class Reports::Search < ActiveInteraction::Base
@@ -21,16 +17,24 @@ class Reports::Search < ActiveInteraction::Base
 
   def search_options
     options = {
-      fields: %w[title description breed_1 breed_2 color_1 color_2 color_3],
-      misspellings: { edit_distance: 1 },
-      operator: 'or', # Changed from 'and' to 'or'
+      fields: [
+        'title',
+        'description',
+        'breed_1^2',
+        'breed_2^2',
+        'color_1',
+        'color_2',
+        'color_3',
+        'status'
+      ],
+      misspellings: { edit_distance: 2 },
+      operator: 'or',
       where: dynamic_where_clause,
       page: page,
       per_page: per_page,
       order: { _score: :desc, updated_at: :desc, created_at: :desc }
     }
 
-    # When the query is empty, we can disable some search options that rely on the query
     options.delete(:fields) unless cleaned_query.present?
 
     options
