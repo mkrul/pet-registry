@@ -25,6 +25,7 @@ class Reports::Search < ActiveInteraction::Base
         'color_1',
         'color_2',
         'color_3',
+        'gender',
         'status'
       ],
       misspellings: { edit_distance: 2 },
