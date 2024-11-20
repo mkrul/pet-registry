@@ -8,7 +8,6 @@ interface User {
   email: string;
   name: string;
   image: string;
-  // Add other user fields as needed
 }
 
 interface AuthState {
@@ -37,52 +36,39 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
       state.error = null;
+      localStorage.setItem('token', action.payload.token);
     },
     clearCredentials: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
+      localStorage.removeItem('token');
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addMatcher(
-        authApiSlice.endpoints.googleLogin.matchFulfilled,
-        (state, { payload }) => {
-          state.user = payload.user;
-          state.token = payload.token;
-          state.isAuthenticated = true;
-          state.error = null;
-        }
-      )
-      .addMatcher(
-        authApiSlice.endpoints.googleLogin.matchRejected,
-        (state, { error }) => {
-          state.error = error?.data?.message || 'Google login failed.';
-          state.isAuthenticated = false;
-          state.user = null;
-          state.token = null;
-        }
-      )
-      .addMatcher(
-        authApiSlice.endpoints.logout.matchFulfilled,
-        (state, { payload }) => {
-          state.user = null;
-          state.token = null;
-          state.isAuthenticated = false;
-          state.error = null;
-        }
-      )
-      .addMatcher(
-        authApiSlice.endpoints.logout.matchRejected,
-        (state, { error }) => {
-          state.error = error?.data?.message || 'Logout failed.';
-        }
-      );
+    builder.addMatcher(
+      authApiSlice.endpoints.googleLogin.matchFulfilled,
+      (state, { payload }) => {
+        state.user = payload.user;
+        state.token = payload.token;
+        state.isAuthenticated = true;
+        state.error = null;
+        localStorage.setItem('token', payload.token);
+      }
+    );
+    builder.addMatcher(
+      authApiSlice.endpoints.logout.matchFulfilled,
+      (state) => {
+        state.user = null;
+        state.token = null;
+        state.isAuthenticated = false;
+        state.error = null;
+        localStorage.removeItem('token');
+      }
+    );
   },
 });
 
 export const { setCredentials, clearCredentials } = authSlice.actions;
-
 export default authSlice.reducer;

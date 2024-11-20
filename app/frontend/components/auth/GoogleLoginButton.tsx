@@ -1,53 +1,32 @@
 // src/components/Auth/GoogleLoginButton.tsx
 
 import React from "react";
-import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
+import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLoginMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { setCredentials } from "../../redux/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const GoogleLoginButton: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [googleLogin, { isLoading, error }] = useGoogleLoginMutation();
+  const [googleLogin] = useGoogleLoginMutation();
 
-  const handleSuccess = async (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
-    if ("tokenId" in response) {
-      try {
-        const result = await googleLogin({ tokenId: response.tokenId }).unwrap();
-        dispatch(setCredentials({ user: result.user, token: result.token }));
-        // Redirect to the dashboard or intended page
-        navigate("/dashboard");
-      } catch (err: any) {
-        console.error("Login failed:", err);
-      }
-    } else {
-      console.error("Received an offline response from Google");
+  const handleSuccess = async (credentialResponse: any) => {
+    try {
+      const { credential } = credentialResponse;
+      const result = await googleLogin({ token: credential }).unwrap();
+      dispatch(setCredentials({ user: result.user, token: result.token }));
+      // Redirect as needed
+    } catch (err) {
+      console.error("Login failed:", err);
     }
   };
 
-  const handleFailure = (response: any) => {
-    console.error("Google login failed:", response);
+  const handleError = () => {
+    console.error("Google Login Failed");
   };
 
-  // src/components/Auth/GoogleLoginButton.tsx
-
-  // ... existing imports and code ...
-
-  return (
-    <div>
-      <GoogleLogin
-        clientId="your_google_client_id" // Replace with your actual Client ID
-        buttonText="Login with Google"
-        onSuccess={handleSuccess}
-        onFailure={handleFailure}
-        cookiePolicy={"single_host_origin"}
-      />
-      {isLoading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>Login failed. Please try again.</p>}
-    </div>
-  );
+  return <GoogleLogin onSuccess={handleSuccess} onError={handleError} />;
 };
 
 export default GoogleLoginButton;

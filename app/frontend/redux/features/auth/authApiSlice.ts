@@ -10,7 +10,7 @@ interface AuthResponse {
     email: string;
     name: string;
     image: string;
-
+    // Add other user fields as needed
   };
   token: string;
 }
@@ -18,8 +18,7 @@ interface AuthResponse {
 export const authApiSlice = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://${window.location.hostname}:3000/api`,
-    credentials: 'include',
+    baseUrl: 'http://localhost:3000/api',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
       if (token) {
@@ -29,16 +28,12 @@ export const authApiSlice = createApi({
     },
   }),
   endpoints: (builder) => ({
-    googleLogin: builder.mutation<AuthResponse, { tokenId: string }>({
-      query: ({ tokenId }) => ({
-        url: '/auth/google_oauth2/callback',
+    googleLogin: builder.mutation<AuthResponse, { token: string }>({
+      query: ({ token }) => ({
+        url: '/auth/google_oauth2',
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: { tokenId },
+        body: { token },
       }),
-      // Optionally transform the response
     }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
