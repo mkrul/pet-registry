@@ -313,15 +313,21 @@ Devise.setup do |config|
 
   # ==> Configuration for :jwt_authenticatable
   config.jwt do |jwt|
-    jwt.secret = Rails.application.credentials.devise_jwt_secret_key
+    jwt.secret = Rails.application.credentials[:devise_jwt_secret_key]
     jwt.dispatch_requests = [
-      ['POST', %r{^/api/login$}],
       ['POST', %r{^/api/auth/google_oauth2$}]
     ]
     jwt.revocation_requests = [
-      ['DELETE', %r{^/api/logout$}]
+      ['DELETE', %r{^/api/auth/logout$}]
     ]
     jwt.expiration_time = 1.day.to_i
+    jwt.request_formats = { api: [:json] }
+    jwt.cookie = {
+      key: 'jwt',
+      httponly: true,
+      secure: Rails.env.production?,
+      same_site: :lax
+    }
   end
 
   config.omniauth :google_oauth2,

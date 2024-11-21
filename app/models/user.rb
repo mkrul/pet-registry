@@ -10,13 +10,16 @@ class User < ApplicationRecord
          jwt_revocation_strategy: JwtDenylist,
          omniauth_providers: [:google_oauth2]
 
-  def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20] if user.encrypted_password.blank?
-      user.name = auth.info.name
-      user.image = auth.info.image
-      user.save!
+  def self.from_omniauth(token)
+    client = Google::Auth::IDTokens.verify_oidc(token, aud: Rails.application.credentials.dig(:google_oauth, :client_id))
+
+    where(email: client['email']).first_or_create do |user|
+      user.email = client['email']
+      user.name = client['name'] || client['email']
+      user.password = Devise.friendly_token[0, 20]
+      user.image = client['picture']
     end
+  rescue Google::Auth::IDTokens::VerificationError => e
+    nil
   end
 end

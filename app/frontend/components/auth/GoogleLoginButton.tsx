@@ -1,11 +1,10 @@
-// src/components/Auth/GoogleLoginButton.tsx
+// src/components/auth/GoogleLoginButton.tsx
 
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLoginMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
-import { setCredentials } from "../../redux/features/auth/authSlice";
-import jwtDecode from "jwt-decode";
+import { setUser } from "../../redux/features/auth/authSlice";
 
 const GoogleLoginButton: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +14,7 @@ const GoogleLoginButton: React.FC = () => {
     try {
       const { credential } = credentialResponse;
       const result = await googleLogin({ token: credential }).unwrap();
-      dispatch(setCredentials({ user: result.user, token: result.token }));
+      dispatch(setUser(result.user));
       // Redirect as needed
     } catch (err) {
       console.error("Login failed:", err);

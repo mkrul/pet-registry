@@ -28,9 +28,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     devise_for :users, controllers: {
-      omniauth_callbacks: 'api/omniauth_callbacks',
       sessions: 'api/sessions'
     }
+
+    post 'auth/google_oauth2', to: 'auth#google_oauth2'
+    delete 'auth/logout', to: 'auth#logout'
 
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 

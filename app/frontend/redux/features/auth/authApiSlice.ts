@@ -10,25 +10,25 @@ interface AuthResponse {
     email: string;
     name: string;
     image: string;
-    // Add other user fields as needed
   };
   token: string;
+}
+
+interface User {
+  id: number;
+  email: string;
+  name: string;
+  image: string;
 }
 
 export const authApiSlice = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3000/api',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
-      if (token) {
-        headers.set('Authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
+    credentials: 'include', // Include cookies
   }),
   endpoints: (builder) => ({
-    googleLogin: builder.mutation<AuthResponse, { token: string }>({
+    googleLogin: builder.mutation<{ message: string; user: User }, { token: string }>({
       query: ({ token }) => ({
         url: '/auth/google_oauth2',
         method: 'POST',
@@ -37,7 +37,7 @@ export const authApiSlice = createApi({
     }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
-        url: '/logout',
+        url: '/auth/logout',
         method: 'DELETE',
       }),
     }),
