@@ -4,7 +4,17 @@ import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import { sortOptionsList } from "../../lib/reports/sortOptionsList";
 
-const Filters = ({ filters, handleFilterChange }) => {
+interface FiltersProps {
+  filters: {
+    color?: string;
+    species?: string;
+    gender?: string;
+    sort?: string;
+  };
+  handleFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
   const [breedOptions, setBreedOptions] = useState<string[]>([]);
 
   const genderOptions = useMemo(() => genderOptionsList, []);

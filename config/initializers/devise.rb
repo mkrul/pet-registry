@@ -322,12 +322,6 @@ Devise.setup do |config|
     ]
     jwt.expiration_time = 1.day.to_i
     jwt.request_formats = { api: [:json] }
-    jwt.cookie = {
-      key: 'jwt',
-      httponly: true,
-      secure: Rails.env.production?,
-      same_site: :lax
-    }
   end
 
   config.omniauth :google_oauth2,
