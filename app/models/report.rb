@@ -80,10 +80,6 @@ class Report < ApplicationRecord
     end
   end
 
-  def image_attached?
-    errors.add(:image, 'could not be processed') unless image.attached?
-  end
-
   def image_size_within_limit?
     errors.add(:image, 'size cannot exceed 5MB') if image.attached? && image.blob.byte_size > 5.megabytes
   end

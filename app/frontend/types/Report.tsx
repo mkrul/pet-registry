@@ -1,5 +1,5 @@
-import { IImage } from "../shared/Image";
-import { IPagination } from "../shared/Pagination";
+import { IImage } from "./shared/Image";
+import { IPagination } from "./shared/Pagination";
 export interface IReport {
   id: number;
   title: string;

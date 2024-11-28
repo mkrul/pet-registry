@@ -7,7 +7,7 @@ import { setReports } from "../../redux/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import ReportCard from "./ReportCard";
 import Spinner from "../shared/Spinner";
-import { IReport } from "../../types/reports/Report";
+import { IReport } from "../../types/Report";
 
 interface ReportsContainerProps {
   query: string;

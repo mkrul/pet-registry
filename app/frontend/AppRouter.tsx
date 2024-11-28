@@ -8,20 +8,24 @@ import ReportShowPage from "./pages/reports/ReportShowPage";
 import Footer from "./components/shared/Footer";
 import PrivateRoute from "./components/common/PrivateRoute";
 import LoginPage from "./pages/auth/LoginPage";
+import OAuthHandler from "./components/auth/OAuthHandler";
 
 const AppRouter = () => {
   return (
     <div>
       <NavBar />
       <Routes>
+        {/* OAuth Callback Route */}
+        <Route path="/auth/callback" element={<OAuthHandler />} />
+
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<ReportIndexPage />} />
+        <Route path="/reports/:id" element={<ReportShowPage />} />
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/reports/new" element={<ReportNewPage />} />
-          <Route path="/reports/:id" element={<ReportShowPage />} />
         </Route>
 
         {/* Fallback Route */}

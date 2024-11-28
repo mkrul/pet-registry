@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import formatDate from "../../lib/formatDate";
 import Spinner from "../shared/Spinner";
 import Notification from "../shared/Notification";
-import { IReport } from "../../types/reports/Report";
+import { IReport } from "../../types/Report";
 import { faPencil, faSave, faTimes, faCancel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IImage } from "../../types/shared/Image";

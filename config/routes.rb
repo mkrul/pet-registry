@@ -33,8 +33,10 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get 'config/google_client_id', to: 'config#google_client_id'
     post 'auth/google_oauth2', to: 'auth#google_oauth2'
     delete 'auth/logout', to: 'auth#logout'
+    get 'auth/fetch_current_user', to: 'auth#authenticated_user'
 
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 

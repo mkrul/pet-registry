@@ -15,7 +15,7 @@ const GoogleLoginButton: React.FC = () => {
       const { credential } = credentialResponse;
       const result = await googleLogin({ token: credential }).unwrap();
       dispatch(setUser(result.user));
-      // Redirect as needed
+      window.location.href = "/";
     } catch (err) {
       console.error("Login failed:", err);
     }
@@ -25,7 +25,7 @@ const GoogleLoginButton: React.FC = () => {
     console.error("Google Login Failed");
   };
 
-  return <GoogleLogin onSuccess={handleSuccess} onError={handleError} />;
+  return <GoogleLogin onSuccess={handleSuccess} onError={handleError} useOneTap />;
 };
 
 export default GoogleLoginButton;
