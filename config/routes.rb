@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'api/sessions',
+    omniauth_callbacks: 'api/omniauth_callbacks'
+  }, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+  }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -27,6 +33,11 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get 'config/google_client_id', to: 'config#google_client_id'
+    post 'auth/google_oauth2', to: 'auth#google_oauth2'
+    delete 'auth/logout', to: 'auth#logout'
+    get 'auth/fetch_current_user', to: 'auth#authenticated_user'
+
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 
     resources :reports do

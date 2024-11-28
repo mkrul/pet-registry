@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IReport } from "../../../types/reports/Report";
-import { IReportsState } from "../../../types/reports/Report";
+import { IReport } from "../../../types/Report";
+import { IReportsState } from "../../../types/Report";
 
 const initialState: IReportsState = {
   data: [],
-  query: "",
+  query: ""
 };
 
 const reportsSlice = createSlice({
@@ -16,8 +16,8 @@ const reportsSlice = createSlice({
     },
     setReports(state, action: PayloadAction<IReport[]>) {
       state.data = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const { setSearchQuery, setReports } = reportsSlice.actions;

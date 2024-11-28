@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { IReport } from "../../types/reports/Report";
+import { IReport } from "../../types/Report";
 import Spinner from "../shared/Spinner";
 
 interface ReportProps {

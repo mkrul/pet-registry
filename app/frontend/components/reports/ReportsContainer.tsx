@@ -6,7 +6,8 @@ import { RootState } from "../../redux/store";
 import { setReports } from "../../redux/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import ReportCard from "./ReportCard";
-import Spinner from "../shared/Spinner"; // Ensure Spinner is correctly imported
+import Spinner from "../shared/Spinner";
+import { IReport } from "../../types/Report";
 
 interface ReportsContainerProps {
   query: string;
@@ -14,7 +15,7 @@ interface ReportsContainerProps {
 
 const ReportsContainer: React.FC<ReportsContainerProps> = ({ query }) => {
   const dispatch = useDispatch();
-  const reports = useSelector((state: RootState) => state.reports.data);
+  const reports: IReport[] = useSelector((state: RootState) => state.reports.data);
   const [page, setPage] = useState<number>(1);
   const itemsPerPage = 20;
 

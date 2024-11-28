@@ -3,7 +3,7 @@ import {
   useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
-import { IReportForm } from "../../types/reports/Report";
+import { IReportForm } from "../../types/Report";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";

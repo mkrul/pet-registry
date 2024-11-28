@@ -1,5 +1,5 @@
 import React from "react";
-import { IReport } from "../../types/reports/Report";
+import { IReport } from "../../types/Report";
 import { Link } from "react-router-dom";
 import EditReportForm from "./EditReportForm";
 
