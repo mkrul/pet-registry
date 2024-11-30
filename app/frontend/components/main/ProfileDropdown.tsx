@@ -35,23 +35,21 @@ const ProfileDropdown = () => {
           className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
           <li>
-            <NavLink linkTo="#">My Reports</NavLink>
+            <NavLink>My Reports</NavLink>
           </li>
           <li>
-            <NavLink linkTo="#">My Pets</NavLink>
+            <NavLink>My Pets</NavLink>
           </li>
           <li>
-            <NavLink linkTo="#">
+            <NavLink>
               Profile <span className="badge">New</span>
             </NavLink>
           </li>
           <li>
-            <NavLink linkTo="#">Settings</NavLink>
+            <NavLink>Settings</NavLink>
           </li>
           <li>
-            <NavLink linkTo="#" handler={handleLogout}>
-              Logout
-            </NavLink>
+            <NavLink handler={handleLogout}>Logout</NavLink>
           </li>
         </ul>
       </div>

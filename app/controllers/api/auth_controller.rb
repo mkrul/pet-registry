@@ -2,6 +2,7 @@
 
 module Api
   class AuthController < ApplicationController
+    include Devise::Controllers::Helpers
     skip_before_action :verify_authenticity_token
 
     def google_oauth2
@@ -48,7 +49,7 @@ module Api
     end
 
     def authenticated_user
-      if user_signed_in?
+      if current_user
         render json: { user: current_user.as_json(only: [:id, :email, :name, :image]) }, status: :ok
       else
         render json: { user: nil }, status: :ok

@@ -1,26 +1,8 @@
 import { Link } from "react-router-dom";
 import ProfileDropdown from "../main/ProfileDropdown";
 import NavLink from "./NavLink";
-import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
-import { useAppDispatch } from "../../redux/hooks";
-import { clearUser } from "../../redux/features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const dispatch = useAppDispatch();
-  const [logout] = useLogoutMutation();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      dispatch(clearUser());
-      navigate("/");
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
-  };
-
   return (
     <div>
       {/* Main Navbar */}

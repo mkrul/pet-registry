@@ -20,7 +20,6 @@ const AppRouter = () => {
 
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/logout" element={<Navigate to="/login" />} />
         <Route path="/" element={<ReportIndexPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
 

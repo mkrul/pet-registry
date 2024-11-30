@@ -1,3 +1,5 @@
+// src/components/auth/OAuthHandler.tsx
+
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +10,6 @@ const OAuthHandler: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Since the JWT is stored in an HTTP-only cookie, we can fetch the current user
     const fetchCurrentUser = async () => {
       try {
         const response = await fetch("/api/auth/fetch_current_user", {

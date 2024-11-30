@@ -8,8 +8,8 @@ import reportsApi from "./features/reports/reportsApi";
 
 export const store = configureStore({
   reducer: {
-    [authApiSlice.reducerPath]: authApiSlice.reducer,
     auth: authReducer,
+    [authApiSlice.reducerPath]: authApiSlice.reducer,
     [reportsApi.reducerPath]: reportsApi.reducer,
     reports: reportsReducer
   },
