@@ -9,7 +9,7 @@ const NavBar = () => {
       <div className="navbar bg-base-100">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost text-xl hover:bg-transparent">
-            National Lost Pet Registry
+            Lost Pet Registry
           </Link>
         </div>
 

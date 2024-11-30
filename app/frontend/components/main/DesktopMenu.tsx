@@ -6,7 +6,7 @@ const DesktopMenu = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <NavLink linkTo="/">National Lost Pet Registry</NavLink>
+        <NavLink linkTo="/">Lost Pet Registry</NavLink>
       </div>
 
       <div className="hidden md:flex flex-none">
