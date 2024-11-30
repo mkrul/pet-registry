@@ -1,4 +1,5 @@
 export interface INavLink {
-  linkTo: string;
+  linkTo?: string;
   children: React.ReactNode;
+  handler?: () => void;
 }
