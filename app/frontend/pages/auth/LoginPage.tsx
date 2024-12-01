@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
           Lost Pet Registry!
         </h1>
         <p className="text-gray-600 text-center mb-8">
-          Log in to report an animal as lost or found.
+          Log in to report an animal as lost or found and help reunite pets with their owners.
         </p>
         <div className="flex justify-center">
           <GoogleLoginButton />

@@ -1,6 +1,6 @@
 // src/components/reports/ReportsContainer.tsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { setReports } from "../../redux/features/reports/reportsSlice";
@@ -11,12 +11,13 @@ import { IReport } from "../../types/Report";
 
 interface ReportsContainerProps {
   query: string;
+  page: number;
+  onPageChange: (page: number) => void;
 }
 
-const ReportsContainer: React.FC<ReportsContainerProps> = ({ query }) => {
+const ReportsContainer: React.FC<ReportsContainerProps> = ({ query, page, onPageChange }) => {
   const dispatch = useDispatch();
   const reports: IReport[] = useSelector((state: RootState) => state.reports.data);
-  const [page, setPage] = useState<number>(1);
   const itemsPerPage = 20;
 
   const { data, error, isLoading } = useGetReportsQuery({
@@ -33,13 +34,13 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({ query }) => {
 
   const handleNextPage = () => {
     if (data?.pagination.pages && page < data.pagination.pages) {
-      setPage(page + 1);
+      onPageChange(page + 1);
     }
   };
 
   const handlePreviousPage = () => {
     if (page > 1) {
-      setPage(page - 1);
+      onPageChange(page - 1);
     }
   };
 
@@ -61,7 +62,7 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({ query }) => {
     <div>
       <div className="grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-3 2xl-report:grid-cols-4 gap-4">
         {reports.map(report => (
-          <ReportCard key={report.id} report={report} />
+          <ReportCard key={report.id} report={report} currentPage={page} currentQuery={query} />
         ))}
       </div>
       {data && data.pagination && (
