@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import AppRouter from "../../frontend/AppRouter";
+import AppRouter from "../../frontend/components/common/AppRouter";
 import Spinner from "../../frontend/components/shared/Spinner";
 
 const App = () => {

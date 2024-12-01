@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ProfileDropdown from "../main/ProfileDropdown";
+import ProfileDropdown from "../common/ProfileDropdown";
 import NavLink from "./NavLink";
 
 const NavBar = () => {
