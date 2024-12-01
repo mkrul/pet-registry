@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { IReport } from "../../types/Report";
 import Spinner from "../shared/Spinner";
 
-interface ReportProps {
+interface ReportCardProps {
   report: IReport;
+  currentPage: number;
+  currentQuery: string;
 }
 
-const ReportCard = ({ report }: ReportProps) => {
+const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQuery }) => {
   const placeholderPath = "/images/placeholder.png";
   const [imageIsLoading, setImageIsLoading] = useState(true);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -40,9 +42,13 @@ const ReportCard = ({ report }: ReportProps) => {
     }
   };
 
+  // Construct the URL with query parameters
+  const reportUrl = `/reports/${report.id}?query=${encodeURIComponent(currentQuery)}&page=${currentPage}`;
+
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
-      <Link to={`/reports/${report.id}`} className="block">
+      {/* Pass `query` and `page` as query parameters */}
+      <Link to={reportUrl} className="block">
         <div className="p-4 bg-white rounded-lg flex w-full">
           <div className="flex-shrink-0 relative w-48 h-48">
             {/* Added relative positioning and fixed size */}

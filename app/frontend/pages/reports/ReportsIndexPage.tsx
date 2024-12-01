@@ -40,7 +40,7 @@ const ReportIndexPage = () => {
       </div>
 
       <div className="mt-[2rem]">
-        <ReportsContainer query={searchQuery} />
+        <ReportsContainer query={searchQuery} page={currentPage} onPageChange={handlePageChange} />
       </div>
     </div>
   );
