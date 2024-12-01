@@ -1,19 +1,21 @@
 // src/AppRouter.tsx
 
 import { Navigate, Route, Routes } from "react-router-dom";
-import NavBar from "./components/shared/Navbar";
-import ReportIndexPage from "./pages/reports/ReportsIndexPage";
-import ReportNewPage from "./pages/reports/ReportNewPage";
-import ReportShowPage from "./pages/reports/ReportShowPage";
-import Footer from "./components/shared/Footer";
-import PrivateRoute from "./components/common/PrivateRoute";
-import LoginPage from "./pages/auth/LoginPage";
-import OAuthHandler from "./components/auth/OAuthHandler";
+import NavBar from "../shared/Navbar";
+import ReportIndexPage from "../../pages/reports/ReportsIndexPage";
+import ReportNewPage from "../../pages/reports/ReportNewPage";
+import ReportShowPage from "../../pages/reports/ReportShowPage";
+import Footer from "../shared/Footer";
+import PrivateRoute from "./PrivateRoute";
+import LoginPage from "../../pages/auth/LoginPage";
+import OAuthHandler from "../auth/OAuthHandler";
+import ScrollToTop from "./ScrollToTop";
 
 const AppRouter = () => {
   return (
     <div>
       <NavBar />
+      <ScrollToTop />
       <Routes>
         {/* OAuth Callback Route */}
         <Route path="/auth/callback" element={<OAuthHandler />} />
