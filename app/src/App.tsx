@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/common/ScrollToTop"; // Adjust the path if necessary
 import ReportsIndexPage from "./pages/reports/ReportsIndexPage";
 import ReportShowPage from "./pages/reports/ReportShowPage";
-// Import other pages/components as needed
-
 /**
  * App Component
  *
@@ -18,7 +16,6 @@ const App: React.FC = () => {
       <ScrollToTop />
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/reports" element={<ReportsIndexPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
         {/* Define other routes here */}

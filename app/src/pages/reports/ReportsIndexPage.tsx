@@ -1,5 +1,3 @@
-// src/pages/ReportIndexPage.tsx
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "../../components/shared/SearchBar";

@@ -1,9 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "../../frontend/redux/store";
-import ErrorBoundary from "../../frontend/components/common/ErrorBoundary";
-import App from "./App";
+import { store } from "../../src/redux/store";
+import ErrorBoundary from "../../src/components/common/ErrorBoundary";
+import App from "./Main";
 
 // Render the application to the DOM
 const rootElement = document.getElementById("root") as HTMLElement;

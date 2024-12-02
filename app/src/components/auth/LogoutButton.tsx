@@ -1,5 +1,3 @@
-// src/components/auth/LogoutButton.tsx
-
 import React from "react";
 import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
@@ -11,7 +9,8 @@ const LogoutButton: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      const response = await logout().unwrap();
+      console.log(response.message);
       dispatch(clearUser());
       // Redirect to login if needed
     } catch (err) {
