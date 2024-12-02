@@ -4,17 +4,16 @@ Rails.application.routes.draw do
   namespace :api do
     devise_for :users, controllers: {
       sessions: 'api/sessions',
-      omniauth_callbacks: 'api/omniauth_callbacks'
+      registrations: 'api/registrations'
     }, path: 'auth', path_names: {
       sign_in: 'login',
       sign_out: 'logout',
+      registration: 'registration'
     }
 
     # Define other API routes here
     get 'config/google_client_id', to: 'config#google_client_id'
-    post 'auth/google_oauth2', to: 'auth#google_oauth2'
     delete 'auth/logout', to: 'auth#logout'
-    get 'auth/fetch_current_user', to: 'auth#authenticated_user'
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 
     resources :reports do

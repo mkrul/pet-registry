@@ -10,7 +10,7 @@ module Api
     end
 
     def respond_to_on_destroy
-      head :no_content
+      render json: { message: 'Logged out successfully.' }, status: :ok
     end
   end
 end

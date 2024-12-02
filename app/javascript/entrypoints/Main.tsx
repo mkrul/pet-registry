@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 import AppRouter from "../../src/components/common/AppRouter";
 import Spinner from "../../src/components/shared/Spinner";
 
@@ -47,11 +46,9 @@ const App = () => {
   }
 
   return (
-    <GoogleOAuthProvider clientId={googleClientId || ""}>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </GoogleOAuthProvider>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   );
 };
 

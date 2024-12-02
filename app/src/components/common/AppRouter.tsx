@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../../pages/auth/LoginPage";
 import OAuthHandler from "../auth/OAuthHandler";
 import ScrollToTop from "./ScrollToTop";
+import SignUpPage from "../../pages/auth/SignUpPage";
 
 const AppRouter = () => {
   return (
@@ -30,6 +31,9 @@ const AppRouter = () => {
 
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" />} />
+
+        {/* Sign Up Route */}
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
       <Footer />
     </div>

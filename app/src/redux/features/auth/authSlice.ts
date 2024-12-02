@@ -26,11 +26,6 @@ const authSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addMatcher(authApiSlice.endpoints.googleLogin.matchFulfilled, (state, { payload }) => {
-      state.user = payload.user;
-      state.isAuthenticated = true;
-      state.error = null;
-    });
     builder.addMatcher(authApiSlice.endpoints.logout.matchFulfilled, state => {
       state.user = null;
       state.isAuthenticated = false;

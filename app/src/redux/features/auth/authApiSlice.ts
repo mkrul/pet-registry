@@ -7,10 +7,16 @@ interface AuthResponse {
   user: {
     id: number;
     email: string;
-    name: string;
-    image: string;
   };
   token: string;
+}
+
+interface SignUpRequest {
+  user: {
+    email: string;
+    password: string;
+    password_confirmation: string;
+  };
 }
 
 export const authApiSlice = createApi({
@@ -23,16 +29,6 @@ export const authApiSlice = createApi({
     }
   }),
   endpoints: builder => ({
-    googleLogin: builder.mutation<{ user: IUser; message: string }, { token: string }>({
-      query: ({ token }) => ({
-        url: "/auth/google_oauth2",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: { token }
-      })
-    }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
         url: "/auth/logout",
@@ -44,8 +40,15 @@ export const authApiSlice = createApi({
         url: "auth/authenticated_user",
         method: "GET"
       })
+    }),
+    signUp: builder.mutation<AuthResponse, SignUpRequest>({
+      query: credentials => ({
+        url: "/auth/registration",
+        method: "POST",
+        body: credentials
+      })
     })
   })
 });
 
-export const { useGoogleLoginMutation, useLogoutMutation, useGetCurrentUserQuery } = authApiSlice;
+export const { useLogoutMutation, useGetCurrentUserQuery, useSignUpMutation } = authApiSlice;

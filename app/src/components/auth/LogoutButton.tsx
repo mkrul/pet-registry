@@ -9,7 +9,8 @@ const LogoutButton: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      const response = await logout().unwrap();
+      console.log(response.message);
       dispatch(clearUser());
       // Redirect to login if needed
     } catch (err) {
