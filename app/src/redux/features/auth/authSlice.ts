@@ -1,5 +1,3 @@
-// src/redux/features/auth/authSlice.ts
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authApiSlice } from "./authApiSlice";
 import { IUser } from "../../../types/User";

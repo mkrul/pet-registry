@@ -1,10 +1,8 @@
-// src/App.tsx
-
 import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import AppRouter from "../../frontend/components/common/AppRouter";
-import Spinner from "../../frontend/components/shared/Spinner";
+import AppRouter from "../../src/components/common/AppRouter";
+import Spinner from "../../src/components/shared/Spinner";
 
 const App = () => {
   const [googleClientId, setGoogleClientId] = useState<string | null>(null);

@@ -1,5 +1,3 @@
-// src/pages/auth/LoginPage.tsx
-
 import React from "react";
 import GoogleLoginButton from "../../components/auth/GoogleLoginButton";
 

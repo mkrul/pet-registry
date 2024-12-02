@@ -18,11 +18,11 @@ export default defineConfig({
     alias: [
       {
         find: "@/components",
-        replacement: path.resolve(__dirname, "./app/frontend/components")
+        replacement: path.resolve(__dirname, "./app/src/components")
       },
       {
         find: "@/stylesheets",
-        replacement: path.resolve(__dirname, "./app/frontend/stylesheets")
+        replacement: path.resolve(__dirname, "./app/src/stylesheets")
       },
       {
         find: "@/entrypoints",

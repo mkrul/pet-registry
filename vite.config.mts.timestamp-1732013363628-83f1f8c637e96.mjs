@@ -19,11 +19,11 @@ var vite_config_default = defineConfig({
     alias: [
       {
         find: "@/components",
-        replacement: path.resolve(__vite_injected_original_dirname, "./app/frontend/components")
+        replacement: path.resolve(__vite_injected_original_dirname, "./app/src/components")
       },
       {
         find: "@/stylesheets",
-        replacement: path.resolve(__vite_injected_original_dirname, "./app/frontend/stylesheets")
+        replacement: path.resolve(__vite_injected_original_dirname, "./app/src/stylesheets")
       },
       {
         find: "@/entrypoints",

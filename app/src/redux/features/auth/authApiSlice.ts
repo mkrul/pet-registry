@@ -1,5 +1,3 @@
-// src/redux/features/auth/authApiSlice.ts
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store";
 import { IUser } from "../../../types/User";

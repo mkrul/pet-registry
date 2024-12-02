@@ -1,5 +1,3 @@
-// src/AppRouter.tsx
-
 import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "../shared/Navbar";
 import ReportIndexPage from "../../pages/reports/ReportsIndexPage";

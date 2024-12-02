@@ -1,5 +1,3 @@
-// src/redux/store.ts
-
 import { configureStore } from "@reduxjs/toolkit";
 import { authApiSlice } from "./features/auth/authApiSlice";
 import authReducer from "./features/auth/authSlice";

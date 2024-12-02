@@ -13,8 +13,8 @@
   },
   "include": [
     "app/javascript/**/*", // Include your React/JavaScript files.
-    "app/frontend/**/*"     // Include any other front-end TypeScript files.
-, "app/frontend/types", "app/frontend/components"  ],
+    "app/src/**/*"     // Include any other front-end TypeScript files.
+, "app/src/types", "app/src/components"  ],
   "exclude": [
     "node_modules",         // Exclude node_modules folder to speed up the build process.
     "tmp",                  // Exclude temporary files from Rails.

@@ -1,5 +1,3 @@
-// src/components/auth/OAuthHandler.tsx
-
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";

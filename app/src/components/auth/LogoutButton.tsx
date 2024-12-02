@@ -1,5 +1,3 @@
-// src/components/auth/LogoutButton.tsx
-
 import React from "react";
 import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";

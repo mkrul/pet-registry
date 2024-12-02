@@ -1,5 +1,3 @@
-// src/components/auth/GoogleLoginButton.tsx
-
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLoginMutation } from "../../redux/features/auth/authApiSlice";
