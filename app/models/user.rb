@@ -1,4 +1,3 @@
-require 'googleauth/id_tokens'
 
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,

@@ -12,7 +12,6 @@ Rails.application.routes.draw do
     }
 
     # Define other API routes here
-    get 'config/google_client_id', to: 'config#google_client_id'
     delete 'auth/logout', to: 'auth#logout'
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 
