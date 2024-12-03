@@ -25,11 +25,11 @@ const AppRouter = () => {
           <Route path="/reports/new" element={<ReportNewPage />} />
         </Route>
 
-        {/* Fallback Route */}
-        <Route path="*" element={<Navigate to="/" />} />
-
         {/* Sign Up Route */}
         <Route path="/signup" element={<SignUpPage />} />
+
+        {/* Fallback Route */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
     </div>
