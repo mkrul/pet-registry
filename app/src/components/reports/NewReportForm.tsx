@@ -542,7 +542,7 @@ const NewReportForm: React.FC = () => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="fit-content inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+        className="w-fit inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
         disabled={isLoading}
       >
         {isLoading ? "Submitting..." : "Submit"}

@@ -5,39 +5,41 @@ import { RootState } from "../../redux/store";
 
 const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
   const dispatch = useDispatch();
-  const queryFromState = useSelector((state: RootState) => state.reports.query); // Fetch the query from Redux
-  const [query, setQuery] = useState(queryFromState); // Set initial value from Redux
+  const queryFromState = useSelector((state: RootState) => state.reports.query);
+  const [query, setQuery] = useState(queryFromState);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(setSearchQuery(query)); // Store query in Redux
-    onSearch(query); // Trigger the search
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission on Enter
+    }
+  };
+
+  const handleSearchClick = () => {
+    dispatch(setSearchQuery(query));
+    onSearch(query);
   };
 
   const clearSearch = () => {
     setQuery("");
-    dispatch(setSearchQuery("")); // Clear the query in Redux
+    dispatch(setSearchQuery(""));
+    onSearch("");
   };
 
   return (
     <div className="w-full md:w-auto">
-      <form
-        action="/search_reports"
-        onSubmit={handleSubmit}
-        method="get"
-        className="relative w-full"
-      >
-        <div className="relative w-full">
+      <div className="relative w-full flex gap-2">
+        <div className="relative flex-1">
           <input
             type="text"
             name="query"
             id="search_query"
             value={query}
             onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
             placeholder="Search lost pets..."
             autoComplete="off"
@@ -83,7 +85,13 @@ const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
             </div>
           )}
         </div>
-      </form>
+        <button
+          onClick={handleSearchClick}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Search
+        </button>
+      </div>
     </div>
   );
 };

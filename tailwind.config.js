@@ -40,17 +40,10 @@ module.exports = {
       'lg': '1024px',
       'xl': '1280px',
       '2xl': '1536px',
-
+      '3xl': '1720px',
       // ---------------------- //
       // ------ REPORTS: ------ //
       // ---------------------- //
-
-      'xs-report': '768px',
-      'sm-report': '896px',
-      'md-report': '1024px',
-      'lg-report': '1280px',
-      'xl-report': '1536px',
-      '2xl-report': '1920px',
     },
     fontFamily: {
       'sans': ["BlinkMacSystemFont", "Avenir Next", "Avenir",
@@ -99,6 +92,9 @@ module.exports = {
       minHeight: {
         '60rem': '60rem',
       },
+      maxWidth: {
+        'fit-content': 'fit-content',
+      }
     },
   },
   corePlugins: {
