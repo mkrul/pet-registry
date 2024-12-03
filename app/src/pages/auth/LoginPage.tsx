@@ -1,12 +1,42 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useLoginMutation } from "../../redux/features/auth/authApiSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/features/auth/authSlice";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
+
+interface ErrorResponse {
+  data: {
+    message: string;
+  };
+}
+
+const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError & ErrorResponse => {
+  return typeof error === "object" && error !== null && "data" in error;
+};
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [login, { isLoading, error }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement login logic here, e.g., dispatch a login action or call an API
+    try {
+      const response = await login({ user: { email, password } }).unwrap();
+      dispatch(setUser(response.user));
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
   };
 
   return (
@@ -41,10 +71,19 @@ const LoginPage: React.FC = () => {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
+
+        {error && (
+          <div className="mt-4 text-center text-red-500">
+            {isFetchBaseQueryError(error) && error.data?.message
+              ? error.data.message
+              : "Login failed. Please try again."}
+          </div>
+        )}
 
         <div className="mt-4 text-center">
           <p className="text-gray-600">
