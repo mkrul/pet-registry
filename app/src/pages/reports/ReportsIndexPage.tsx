@@ -64,11 +64,11 @@ const ReportIndexPage = () => {
   };
 
   return (
-    <div className="mx-auto p-4 md:p-8 mt-5">
-      <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
+    <div className="mx-auto p-4 mt-5">
+      <div className="md:px-8 flex flex-col lg:flex-row justify-between items-center gap-4">
         <h1 className="text-3xl font-bold text-blue-600 text-center">Lost Pets</h1>
         <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-end order-last lg:order-none">
-          <div className="w-full max-w-xl flex flex-col gap-2">
+          <div className="w-full sm:mt-2 max-w-xl flex flex-col gap-2">
             <div className="w-full">
               <SearchBar onSearch={handleSearch} />
             </div>
