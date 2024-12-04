@@ -28,7 +28,20 @@ const reportsApi = createApi({
       },
       IPaginationQuery
     >({
-      query: ({ page, items, query }) => `reports?page=${page}&per_page=${items}&query=${query}`,
+      query: ({ page, items, query, species, color, gender, sort }) => {
+        const params = new URLSearchParams({
+          page: page.toString(),
+          per_page: items.toString()
+        });
+
+        if (query) params.append("query", query);
+        if (species) params.append("species", species);
+        if (color) params.append("color", color);
+        if (gender) params.append("gender", gender);
+        if (sort) params.append("sort", sort);
+
+        return `reports?${params.toString()}`;
+      },
       transformResponse: (response: { data: IReport[]; pagination: IPagination }) => {
         const reports = response.data.map(report => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);

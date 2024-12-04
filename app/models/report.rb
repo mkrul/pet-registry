@@ -1,7 +1,10 @@
 class Report < ApplicationRecord
   include Normalizable
 
-  searchkick synonyms: 'search_synonyms.txt'
+  searchkick word_start: [:title, :description],
+             searchable: [:title, :description, :species, :breed_1, :breed_2, :color_1, :color_2, :color_3, :name, :gender],
+             filterable: [:species, :gender, :color_1, :color_2, :color_3],
+             suggest: [:title, :description]
 
   def search_data
     {
@@ -24,7 +27,7 @@ class Report < ApplicationRecord
   after_commit :reindex_report
 
   def reindex_report
-    self.reindex
+    reindex
   end
 
   validates :title, presence: true, length: { maximum: 30 }

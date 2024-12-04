@@ -70,7 +70,7 @@ module Api
     end
 
     def index_params
-      params.permit(:query, :page, :per_page)
+      params.permit(:query, :page, :per_page, :species, :color, :gender, :sort)
     end
 
     private

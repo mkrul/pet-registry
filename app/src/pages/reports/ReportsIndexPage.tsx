@@ -16,18 +16,30 @@ const ReportIndexPage = () => {
 
   const [searchQuery, setSearchQuery] = useState(queryParam);
   const [currentPage, setCurrentPage] = useState(pageParam);
-  const [filters, setFilters] = useState({
+  const [activeSearch, setActiveSearch] = useState<string>("");
+  const [activeFilters, setActiveFilters] = useState({
     species: speciesParam,
     color: colorParam,
     gender: genderParam,
     sort: sortParam
   });
-  const [activeSearch, setActiveSearch] = useState<string>("");
+  const [pendingFilters, setPendingFilters] = useState({
+    species: speciesParam,
+    color: colorParam,
+    gender: genderParam,
+    sort: sortParam
+  });
 
   useEffect(() => {
     setSearchQuery(queryParam);
     setCurrentPage(pageParam);
-    setFilters({
+    setPendingFilters({
+      species: speciesParam,
+      color: colorParam,
+      gender: genderParam,
+      sort: sortParam
+    });
+    setActiveFilters({
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
@@ -39,21 +51,28 @@ const ReportIndexPage = () => {
     setSearchQuery(query);
     setActiveSearch(query);
     setCurrentPage(1);
-    updateSearchParams(query, 1, filters);
+    setActiveFilters(pendingFilters);
+    updateSearchParams(query, 1, pendingFilters);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const newFilters = { ...filters, [name]: value };
-    setFilters(newFilters);
+    setPendingFilters(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    updateSearchParams(searchQuery, page, filters);
+    updateSearchParams(searchQuery, page, activeFilters);
   };
 
-  const updateSearchParams = (query: string, page: number, currentFilters: typeof filters) => {
+  const updateSearchParams = (
+    query: string,
+    page: number,
+    currentFilters: typeof activeFilters
+  ) => {
     const params: Record<string, string> = { page: page.toString() };
     if (query) params.query = query;
     if (currentFilters.species) params.species = currentFilters.species;
@@ -73,7 +92,7 @@ const ReportIndexPage = () => {
               <SearchBar onSearch={handleSearch} />
             </div>
             <div className="w-full">
-              <Filters filters={filters} handleFilterChange={handleFilterChange} />
+              <Filters filters={pendingFilters} handleFilterChange={handleFilterChange} />
             </div>
           </div>
         </div>
@@ -84,7 +103,7 @@ const ReportIndexPage = () => {
           query={activeSearch}
           page={currentPage}
           onPageChange={handlePageChange}
-          filters={filters}
+          filters={activeFilters}
         />
       </div>
     </div>

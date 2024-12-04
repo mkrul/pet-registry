@@ -10,39 +10,19 @@ class Reports::Search < ActiveInteraction::Base
   integer :per_page, default: Report::REPORT_PAGE_LIMIT
 
   def execute
-    Report.search(search_query, **search_options)
+    search_term = query.presence || "*"
+    Report.search search_term,
+      where: where_conditions,
+      fields: search_fields,
+      match: :word_start,
+      page: page,
+      per_page: per_page,
+      order: sort_order,
+      operator: "or",
+      misspellings: { edit_distance: 2 }
   end
 
   private
-
-  def search_query
-    cleaned_query.present? ? cleaned_query : '*'
-  end
-
-  def search_options
-    options = {
-      fields: [
-        'title^3',
-        'description^2',
-        'breed_1^2',
-        'breed_2^2',
-        'color_1',
-        'color_2',
-        'color_3',
-        'gender',
-        'status'
-      ],
-      misspellings: { edit_distance: 2 },
-      operator: 'or',
-      where: where_conditions,
-      page: page,
-      per_page: per_page,
-      order: sort_order
-    }
-
-    options.delete(:fields) unless cleaned_query.present?
-    options
-  end
 
   def where_conditions
     conditions = { status: 'active' }
@@ -51,14 +31,23 @@ class Reports::Search < ActiveInteraction::Base
     conditions[:gender] = gender.downcase if gender.present?
 
     if color.present?
+      color_value = color.downcase
       conditions[:or] = [
-        { color_1: color.downcase },
-        { color_2: color.downcase },
-        { color_3: color.downcase }
+        { color_1: color_value },
+        { color_2: color_value },
+        { color_3: color_value }
       ]
     end
 
     conditions
+  end
+
+  def search_fields
+    if query.present?
+      ['title^3', 'description^2', 'breed_1^2', 'breed_2^2', 'color_1', 'color_2', 'color_3', 'gender']
+    else
+      ['title', 'description', 'breed_1', 'breed_2', 'color_1', 'color_2', 'color_3', 'gender']
+    end
   end
 
   def sort_order

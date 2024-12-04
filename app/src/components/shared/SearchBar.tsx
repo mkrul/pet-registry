@@ -16,11 +16,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission on Enter
+      e.preventDefault();
+      handleSearch();
     }
   };
 
-  const handleSearchClick = () => {
+  const handleSearch = () => {
     dispatch(setSearchQuery(query));
     onSearch(query);
   };
@@ -88,7 +89,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           )}
         </div>
         <button
-          onClick={handleSearchClick}
+          onClick={handleSearch}
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
         >
           Search
