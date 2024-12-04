@@ -35,15 +35,12 @@ module.exports = {
       pink: colors.pink,
     },
     screens: {
-      'sm': '640px',
+      'sm': '600px',
       'md': '768px',
       'lg': '1024px',
       'xl': '1280px',
       '2xl': '1536px',
-      '3xl': '1720px',
-      // ---------------------- //
-      // ------ REPORTS: ------ //
-      // ---------------------- //
+      '3xl': '1720px'
     },
     fontFamily: {
       'sans': ["BlinkMacSystemFont", "Avenir Next", "Avenir",
@@ -68,8 +65,10 @@ module.exports = {
         '6rem': '6rem',
       },
       maxWidth: {
+        'fit-content': 'fit-content',
         '20rem': '20rem',
         '22rem': '22rem',
+        '33rem': '33rem',
         '65%': '65%',
       },
       width: {
@@ -92,9 +91,6 @@ module.exports = {
       minHeight: {
         '60rem': '60rem',
       },
-      maxWidth: {
-        'fit-content': 'fit-content',
-      }
     },
   },
   corePlugins: {

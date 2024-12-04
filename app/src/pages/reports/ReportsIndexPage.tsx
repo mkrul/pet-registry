@@ -64,15 +64,15 @@ const ReportIndexPage = () => {
   };
 
   return (
-    <div className="md:w-95% mx-auto p-4 mt-5">
-      <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-4">
-        <h1 className="text-3xl font-bold text-blue-600 text-center md:text-left">Lost Pets</h1>
-        <div className="w-full md:w-2/3 flex flex-col items-end">
-          <div className="w-full flex flex-wrap gap-2 justify-center md:justify-end">
+    <div className="mx-auto p-4 md:p-8 mt-5">
+      <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
+        <h1 className="text-3xl font-bold text-blue-600 text-center">Lost Pets</h1>
+        <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-end order-last lg:order-none">
+          <div className="w-full max-w-xl flex flex-col gap-2">
             <div className="w-full">
               <SearchBar onSearch={handleSearch} />
             </div>
-            <div className="xl:w-auto flex justify-center xl:justify-end">
+            <div className="w-full">
               <Filters filters={filters} handleFilterChange={handleFilterChange} />
             </div>
           </div>
