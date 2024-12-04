@@ -22,6 +22,7 @@ const ReportIndexPage = () => {
     gender: genderParam,
     sort: sortParam
   });
+  const [activeSearch, setActiveSearch] = useState<string>("");
 
   useEffect(() => {
     setSearchQuery(queryParam);
@@ -36,6 +37,7 @@ const ReportIndexPage = () => {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+    setActiveSearch(query);
     setCurrentPage(1);
     updateSearchParams(query, 1, filters);
   };
@@ -44,8 +46,6 @@ const ReportIndexPage = () => {
     const { name, value } = e.target;
     const newFilters = { ...filters, [name]: value };
     setFilters(newFilters);
-    setCurrentPage(1);
-    updateSearchParams(searchQuery, 1, newFilters);
   };
 
   const handlePageChange = (page: number) => {
@@ -68,7 +68,7 @@ const ReportIndexPage = () => {
       <div className="md:px-8 flex flex-col lg:flex-row justify-between items-center gap-4">
         <h1 className="text-3xl font-bold text-blue-600 text-center">Lost Pets</h1>
         <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-end order-last lg:order-none">
-          <div className="w-full sm:mt-2 max-w-xl flex flex-col gap-2">
+          <div className="w-full max-w-xl flex flex-col gap-2">
             <div className="w-full">
               <SearchBar onSearch={handleSearch} />
             </div>
@@ -81,7 +81,7 @@ const ReportIndexPage = () => {
 
       <div className="mt-[2rem]">
         <ReportsContainer
-          query={searchQuery}
+          query={activeSearch}
           page={currentPage}
           onPageChange={handlePageChange}
           filters={filters}

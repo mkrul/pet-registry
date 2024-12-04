@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setSearchQuery } from "../../redux/features/reports/reportsSlice";
-import { RootState } from "../../redux/store";
 
-const SearchBar = ({ onSearch }: { onSearch: (query: string) => void }) => {
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const dispatch = useDispatch();
-  const queryFromState = useSelector((state: RootState) => state.reports.query);
-  const [query, setQuery] = useState(queryFromState);
+  const [query, setQuery] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);

@@ -5,7 +5,7 @@ import { setReports } from "../../redux/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import ReportCard from "./ReportCard";
 import Spinner from "../shared/Spinner";
-import { IReport } from "../../types/Report";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 interface ReportsContainerProps {
   query: string;
@@ -26,15 +26,19 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   onPageChange
 }) => {
   const dispatch = useDispatch();
-  const reports: IReport[] = useSelector((state: RootState) => state.reports.data);
+  const reports = useSelector((state: RootState) => state.reports.data);
   const itemsPerPage = 20;
 
-  const { data, error, isLoading } = useGetReportsQuery({
-    page,
-    items: itemsPerPage,
-    query,
-    ...filters
-  });
+  const { data, error, isLoading } = useGetReportsQuery(
+    query !== undefined
+      ? {
+          page,
+          items: itemsPerPage,
+          query,
+          ...filters
+        }
+      : skipToken
+  );
 
   useEffect(() => {
     if (data && data.data) {
