@@ -1,23 +1,34 @@
 class Report < ApplicationRecord
   include Normalizable
 
-  searchkick word_start: [:title, :description],
-             searchable: [:title, :description, :species, :breed_1, :breed_2, :color_1, :color_2, :color_3, :name, :gender],
-             filterable: [:species, :gender, :color_1, :color_2, :color_3],
-             suggest: [:title, :description]
+  searchkick word_middle: [:title, :description, :breed_1, :breed_2, :name],
+             searchable: [:title, :description, :breed_1, :breed_2, :name],
+             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status],
+             suggest: [:title, :description],
+             settings: {
+               analysis: {
+                 analyzer: {
+                   searchkick_word_search: {
+                     type: "custom",
+                     tokenizer: "standard",
+                     filter: ["lowercase", "word_delimiter"]
+                   }
+                 }
+               }
+             }
 
   def search_data
     {
       title: title,
       description: description,
-      species: species,
+      species: species&.downcase,
       breed_1: breed_1,
       breed_2: breed_2,
-      color_1: color_1,
-      color_2: color_2,
-      color_3: color_3,
+      color_1: color_1&.downcase,
+      color_2: color_2&.downcase,
+      color_3: color_3&.downcase,
       name: name,
-      gender: gender,
+      gender: gender&.downcase,
       status: status,
       updated_at: updated_at,
       created_at: created_at

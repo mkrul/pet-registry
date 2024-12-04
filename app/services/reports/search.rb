@@ -14,7 +14,7 @@ class Reports::Search < ActiveInteraction::Base
     Report.search search_term,
       where: where_conditions,
       fields: search_fields,
-      match: :word_start,
+      match: :word_middle,
       page: page,
       per_page: per_page,
       order: sort_order,
@@ -47,24 +47,30 @@ class Reports::Search < ActiveInteraction::Base
 
   def search_fields
     if query.present?
-      ['title^3', 'description^2', 'breed_1^2', 'breed_2^2', 'color_1', 'color_2', 'color_3', 'gender']
+      [
+        "title^10",
+        "description^5",
+        "breed_1^3",
+        "breed_2^3",
+        "name^2"
+      ]
     else
-      ['title', 'description', 'breed_1', 'breed_2', 'color_1', 'color_2', 'color_3', 'gender']
+      ['title', 'description', 'breed_1', 'breed_2', 'name']
     end
   end
 
   def sort_order
-    case sort&.downcase
-    when 'newest'
-      { updated_at: :desc, created_at: :desc }
-    when 'oldest'
-      { updated_at: :asc, created_at: :asc }
+    if query.present?
+      { _score: :desc }
     else
-      { _score: :desc, updated_at: :desc, created_at: :desc }
+      case sort&.downcase
+      when 'newest'
+        { updated_at: :desc, created_at: :desc }
+      when 'oldest'
+        { updated_at: :asc, created_at: :asc }
+      else
+        { updated_at: :desc, created_at: :desc }
+      end
     end
-  end
-
-  def cleaned_query
-    query.presence
   end
 end
