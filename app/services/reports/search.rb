@@ -19,7 +19,10 @@ class Reports::Search < ActiveInteraction::Base
       per_page: per_page,
       order: sort_order,
       operator: "or",
-      misspellings: { edit_distance: 2 }
+      misspellings: { edit_distance: 2 },
+      includes: [:image_attachment],
+      load: false,
+      body_options: { track_total_hits: true }
   end
 
   private
@@ -32,7 +35,7 @@ class Reports::Search < ActiveInteraction::Base
 
     if color.present?
       color_value = color.downcase
-      conditions[:or] = [
+      conditions[:_or] = [
         { color_1: color_value },
         { color_2: color_value },
         { color_3: color_value }

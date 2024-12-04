@@ -11,10 +11,22 @@ module Api
       outcome = Reports::Fetch.run(index_params)
 
       if outcome.valid?
-        pagy, reports = pagy(outcome.result, items: index_params[:per_page] || Report::REPORT_PAGE_LIMIT, page: index_params[:page])
-        serialized_reports = ActiveModelSerializers::SerializableResource.new(reports, each_serializer: ReportSerializer).as_json
+        search_results = outcome.result
+        reports = Report.includes(image_attachment: :blob)
+                       .where(id: search_results.hits.map { |hit| hit["_id"] })
+                       .index_by(&:id)
+                       .values_at(*search_results.hits.map { |hit| hit["_id"].to_i })
+                       .compact
 
-        render json: { data: serialized_reports, pagination: pagy_metadata(pagy) }, status: :ok
+        pagination = {
+          count: search_results.total_count,
+          items: search_results.per_page,
+          pages: (search_results.total_count.to_f / search_results.per_page).ceil,
+          page: search_results.current_page
+        }
+
+        serialized_reports = ActiveModelSerializers::SerializableResource.new(reports, each_serializer: ReportSerializer).as_json
+        render json: { data: serialized_reports, pagination: pagination }, status: :ok
       else
         render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
       end
