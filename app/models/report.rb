@@ -1,11 +1,16 @@
 class Report < ApplicationRecord
   include Normalizable
 
-  searchkick word_middle: [:title, :description, :breed_1, :breed_2, :name],
+  searchkick word_middle: [:breed_1, :breed_2, :description],
              text_middle: [:gender],
-             searchable: [:title, :description, :breed_1, :breed_2, :name],
+             searchable: [:breed_1, :breed_2, :description],
              filterable: [:species, :gender, :color_1, :color_2, :color_3, :status],
-             suggest: [:title, :description],
+             suggest: [:breed_1, :breed_2],
+             synonyms: [
+               ["pitbull", "pit bull", "american pit bull terrier", "american bulldog", "bully", "bulldog"],
+               ["german shepherd", "germanshepherd", "gsd"],
+               ["golden retriever", "goldenretriever"]
+             ],
              settings: {
                analysis: {
                  analyzer: {
@@ -21,10 +26,10 @@ class Report < ApplicationRecord
   def search_data
     {
       title: title,
-      description: description,
+      description: description&.downcase,
       species: species&.downcase,
-      breed_1: breed_1,
-      breed_2: breed_2,
+      breed_1: breed_1&.downcase,
+      breed_2: breed_2&.downcase,
       color_1: color_1&.downcase,
       color_2: color_2&.downcase,
       color_3: color_3&.downcase,
