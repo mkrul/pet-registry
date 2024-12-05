@@ -9,8 +9,8 @@ export interface IPaginationQuery {
 }
 
 export interface IPagination {
-  current_page: number;
-  total_pages: number;
-  total_count: number;
-  per_page: number;
+  count: number;
+  page: number;
+  items: number;
+  pages: number;
 }

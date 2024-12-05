@@ -31,17 +31,33 @@ class Reports::Search < ActiveInteraction::Base
     conditions = { status: 'active' }
 
     conditions[:species] = species.downcase if species.present?
-    conditions[:gender] = gender.downcase if gender.present?
+
+    filters = []
+
+    if gender.present?
+      gender_value = gender.downcase
+      filters << {
+        _or: [
+          { gender: gender_value },
+          { gender: "#{gender_value} (intact)" },
+          { gender: "#{gender_value} (neutered)" },
+          { gender: "#{gender_value} (spayed)" }
+        ]
+      }
+    end
 
     if color.present?
       color_value = color.downcase
-      conditions[:_or] = [
-        { color_1: color_value },
-        { color_2: color_value },
-        { color_3: color_value }
-      ]
+      filters << {
+        _or: [
+          { color_1: color_value },
+          { color_2: color_value },
+          { color_3: color_value }
+        ]
+      }
     end
 
+    conditions[:_and] = filters if filters.any?
     conditions
   end
 
@@ -60,14 +76,14 @@ class Reports::Search < ActiveInteraction::Base
   end
 
   def sort_order
-    if query.present?
-      { _score: :desc }
+    case sort&.downcase
+    when 'oldest'
+      { updated_at: :asc, created_at: :asc }
+    when 'newest'
+      { updated_at: :desc, created_at: :desc }
     else
-      case sort&.downcase
-      when 'newest'
-        { updated_at: :desc, created_at: :desc }
-      when 'oldest'
-        { updated_at: :asc, created_at: :asc }
+      if query.present?
+        [{ _score: :desc }, { updated_at: :desc, created_at: :desc }]
       else
         { updated_at: :desc, created_at: :desc }
       end

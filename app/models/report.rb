@@ -2,6 +2,7 @@ class Report < ApplicationRecord
   include Normalizable
 
   searchkick word_middle: [:title, :description, :breed_1, :breed_2, :name],
+             text_middle: [:gender],
              searchable: [:title, :description, :breed_1, :breed_2, :name],
              filterable: [:species, :gender, :color_1, :color_2, :color_3, :status],
              suggest: [:title, :description],
