@@ -35,11 +35,11 @@ module.exports = {
       pink: colors.pink,
     },
     screens: {
-      'sm': '600px',
-      'md': '768px',
-      'lg': '1024px',
+      'sm': '640px',
+      'md': '750px',
+      'lg': '1080px',
       'xl': '1280px',
-      '2xl': '1536px',
+      '2xl': '1400px',
       '3xl': '1720px'
     },
     fontFamily: {
