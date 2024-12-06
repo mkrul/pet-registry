@@ -55,7 +55,7 @@ const reportsApi = createApi({
         method: "PUT",
         body: data
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }]
+      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"]
     }),
     submitReport: build.mutation<void, FormData>({
       query: formData => ({
