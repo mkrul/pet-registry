@@ -16,7 +16,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   // Fetch current user with polling enabled
-  const { data, isLoading } = useGetCurrentUserQuery(undefined, {
+  const { data: user, isLoading } = useGetCurrentUserQuery(undefined, {
     // Poll every 5 minutes to keep session alive
     pollingInterval: 5 * 60 * 1000
   });
@@ -24,15 +24,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Initial auth check and periodic updates
   useEffect(() => {
     if (!isLoading) {
-      if (data?.user) {
-        dispatch(setUser(data.user));
+      if (user) {
+        dispatch(setUser(user));
       } else {
         dispatch(clearUser());
       }
     } else {
       dispatch(setAuthLoading());
     }
-  }, [data, isLoading, dispatch]);
+  }, [user, isLoading, dispatch]);
 
   // Check auth timeout periodically
   useEffect(() => {

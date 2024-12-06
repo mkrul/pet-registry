@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_28_153616) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_06_133221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_28_153616) do
     t.string "gender"
     t.boolean "microchipped"
     t.string "microchip_id"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
   end
 
   create_table "users", force: :cascade do |t|

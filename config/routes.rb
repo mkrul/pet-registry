@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       registration: 'registration'
     }
 
+    # Current user endpoint
+    resource :current_user, only: [:show]
+
     # Define other API routes here
     delete 'auth/logout', to: 'auth#logout'
     get 'auth/authenticated_user', to: 'auth#authenticated_user'

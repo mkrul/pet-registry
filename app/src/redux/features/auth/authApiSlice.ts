@@ -67,25 +67,18 @@ export const authApiSlice = createApi({
         }
       }
     }),
-    getCurrentUser: builder.query<{ user: IUser | null }, void>({
+    getCurrentUser: builder.query<IUser, void>({
       query: () => ({
-        url: "auth/authenticated_user",
+        url: "/current_user",
         method: "GET"
       }),
-      transformResponse: (response: { user: IUser | null }) => {
-        return response;
-      },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         dispatch(setAuthLoading());
         try {
           const { data } = await queryFulfilled;
-          if (data.user) {
-            dispatch(setUser(data.user));
-          } else {
-            dispatch(clearUser());
-          }
+          dispatch(setUser(data));
         } catch (err) {
-          dispatch(setAuthError("Failed to verify authentication status."));
+          dispatch(clearUser());
         }
       }
     }),
