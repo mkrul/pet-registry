@@ -1,3 +1,4 @@
+import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "../shared/Navbar";
 import ReportIndexPage from "../../pages/reports/ReportsIndexPage";
@@ -15,20 +16,13 @@ const AppRouter = () => {
       <NavBar />
       <ScrollToTop />
       <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<ReportIndexPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
-
-        {/* Protected Routes */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route element={<PrivateRoute />}>
           <Route path="/reports/new" element={<ReportNewPage />} />
         </Route>
-
-        {/* Sign Up Route */}
-        <Route path="/signup" element={<SignUpPage />} />
-
-        {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       <Footer />
