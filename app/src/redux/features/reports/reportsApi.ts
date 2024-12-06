@@ -1,83 +1,79 @@
-import { transformToSnakeCase, transformToCamelCase } from "../../../lib/apiHelpers";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQuery } from "../../../lib/apiHelpers";
 import { IReport } from "../../../types/Report";
 import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
-import { IPagination, IPaginationQuery } from "../../../types/shared/Pagination";
+import { IPaginationResponse, IPaginationQuery } from "../../../types/shared/Pagination";
 
 const reportsApi = createApi({
   reducerPath: "reportsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `http://${window.location.hostname}:3000/api`,
-    credentials: "include",
-    paramsSerializer: params => {
-      return new URLSearchParams(params as Record<string, string>).toString();
-    }
-  }),
+  baseQuery,
   tagTypes: ["Reports"],
-  endpoints: build => ({
-    getReport: build.query<IReport, number>({
-      query: id => `reports/${id}`,
-      transformResponse: (response: IReport) => transformToCamelCase(response),
-      providesTags: (result, error, id) => [{ type: "Reports", id: id }]
+  endpoints: builder => ({
+    getNewReport: builder.query<IReport, void>({
+      query: () => "reports/new"
     }),
-    getReports: build.query<
+    getReport: builder.query<IReport, number>({
+      query: id => `reports/${id}`,
+      providesTags: ["Reports"]
+    }),
+    getReports: builder.query<
       {
         data: IReport[];
-        pagination: IPagination;
+        pagination: IPaginationResponse;
       },
       IPaginationQuery
     >({
-      query: ({ page, items, query, species, color, gender, sort }) => {
+      query: ({ page, query, species, gender, color, status, sort }) => {
         const params = new URLSearchParams({
           page: page.toString(),
-          per_page: items.toString()
+          per_page: "20"
         });
 
         if (query) params.append("query", query);
-        if (species) params.append("species", species);
-        if (color) params.append("color", color);
-        if (gender) params.append("gender", gender);
+        if (species.length > 0) params.append("species", species.join(","));
+        if (color.length > 0) params.append("color", color.join(","));
+        if (gender.length > 0) params.append("gender", gender.join(","));
+        if (status.length > 0) params.append("status", status.join(","));
         if (sort) params.append("sort", sort);
 
         return `reports?${params.toString()}`;
       },
-      transformResponse: (response: { data: IReport[]; pagination: IPagination }) => {
-        const reports = response.data.map(report => transformToCamelCase(report));
-        const pagination = transformToCamelCase(response.pagination);
-        return { data: reports, pagination };
-      },
       providesTags: ["Reports"]
     }),
-    updateReport: build.mutation<IReport, { id: number; data: FormData }>({
+    submitReport: builder.mutation<IReport, FormData>({
+      query: data => ({
+        url: "reports",
+        method: "POST",
+        body: data
+      }),
+      invalidatesTags: ["Reports"]
+    }),
+    updateReport: builder.mutation<IReport, { id: number; data: FormData }>({
       query: ({ id, data }) => ({
         url: `reports/${id}`,
         method: "PUT",
         body: data
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"]
-    }),
-    submitReport: build.mutation<void, FormData>({
-      query: formData => ({
-        url: "reports",
-        method: "POST",
-        body: formData
-        // Do not set 'Content-Type'; let the browser handle it
-      }),
       invalidatesTags: ["Reports"]
     }),
-    getNewReport: build.query<IReport, void>({
-      query: () => "reports/new",
-      providesTags: ["Reports"]
+    deleteReport: builder.mutation<void, number>({
+      query: id => ({
+        url: `reports/${id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ["Reports"]
     })
   })
 });
 
 export const {
+  useGetNewReportQuery,
   useGetReportQuery,
   useGetReportsQuery,
   useSubmitReportMutation,
-  useGetNewReportQuery,
-  useUpdateReportMutation
+  useUpdateReportMutation,
+  useDeleteReportMutation
 } = reportsApi;
+
 export default reportsApi;

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 interface MapProps {
   onLocationSelect: (location: {
@@ -12,73 +14,87 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [marker, setMarker] = useState<google.maps.Marker | null>(null);
-  const geocoder = useRef<google.maps.Geocoder | null>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
+  const markerRef = useRef<L.Marker | null>(null);
 
   useEffect(() => {
+    if (!mapRef.current || mapInstanceRef.current) return;
+
     // Initialize the map
-    if (mapRef.current && !map) {
-      const initialMap = new google.maps.Map(mapRef.current, {
-        center: { lat: 37.0902, lng: -95.7129 }, // Center of USA
-        zoom: 4
-      });
+    mapInstanceRef.current = L.map(mapRef.current).setView([37.0902, -95.7129], 4);
 
-      setMap(initialMap);
-      geocoder.current = new google.maps.Geocoder();
+    // Add OpenStreetMap tiles
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(mapInstanceRef.current);
 
-      // Add click listener to the map
-      initialMap.addListener("click", (event: google.maps.MapMouseEvent) => {
-        const position = event.latLng;
-        if (!position) return;
+    // Add click listener to the map
+    mapInstanceRef.current.on("click", async (e: L.LeafletMouseEvent) => {
+      const { lat, lng } = e.latlng;
 
-        // Remove existing marker if any
-        if (marker) {
-          marker.setMap(null);
-        }
+      // Remove existing marker if any
+      if (markerRef.current) {
+        markerRef.current.remove();
+      }
 
-        // Create new marker
-        const newMarker = new google.maps.Marker({
-          position,
-          map: initialMap,
-          draggable: true
-        });
+      // Create new marker
+      markerRef.current = L.marker([lat, lng], { draggable: true }).addTo(mapInstanceRef.current!);
 
-        setMarker(newMarker);
-
-        // Get address details from coordinates
-        geocoder.current?.geocode(
-          { location: { lat: position.lat(), lng: position.lng() } },
-          (results, status) => {
-            if (status === "OK" && results?.[0]) {
-              const addressComponents = results[0].address_components;
-              let city = "",
-                state = "",
-                country = "";
-
-              for (const component of addressComponents) {
-                if (component.types.includes("locality")) {
-                  city = component.long_name;
-                } else if (component.types.includes("administrative_area_level_1")) {
-                  state = component.long_name;
-                } else if (component.types.includes("country")) {
-                  country = component.long_name;
-                }
-              }
-
-              onLocationSelect({
-                latitude: position.lat(),
-                longitude: position.lng(),
-                city,
-                state,
-                country
-              });
-            }
-          }
+      // Get address details from coordinates using Nominatim
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
         );
+        const data = await response.json();
+
+        const address = data.address;
+        onLocationSelect({
+          latitude: lat,
+          longitude: lng,
+          city: address.city || address.town || address.village || "",
+          state: address.state || "",
+          country: address.country || ""
+        });
+      } catch (error) {
+        console.error("Error fetching location details:", error);
+      }
+
+      // Add dragend event listener to marker
+      markerRef.current.on("dragend", async () => {
+        const position = markerRef.current!.getLatLng();
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.lat}&lon=${position.lng}&zoom=18&addressdetails=1`
+          );
+          const data = await response.json();
+
+          const address = data.address;
+          onLocationSelect({
+            latitude: position.lat,
+            longitude: position.lng,
+            city: address.city || address.town || address.village || "",
+            state: address.state || "",
+            country: address.country || ""
+          });
+        } catch (error) {
+          console.error("Error fetching location details:", error);
+        }
       });
-    }
-  }, [mapRef, map, marker, onLocationSelect]);
+    });
+
+    // Cleanup function
+    return () => {
+      if (markerRef.current) {
+        markerRef.current.remove();
+        markerRef.current = null;
+      }
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [onLocationSelect]);
 
   return (
     <div className="w-full h-[400px] rounded-lg overflow-hidden border border-gray-300">

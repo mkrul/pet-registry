@@ -5,10 +5,10 @@ export interface IReportForm {
   gender: string;
   species: string;
   breed1: string;
-  breed2: string;
+  breed2: string | null;
   color1: string;
-  color2: string;
-  color3: string;
+  color2: string | null;
+  color3: string | null;
   image: {
     id: string;
     url: string;
@@ -32,4 +32,16 @@ export interface IReport extends IReportForm {
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
+  updatedLastThreeDays?: boolean;
+}
+
+export interface IReportsState {
+  reports: IReport[];
+  data: IReport[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  query: string;
 }

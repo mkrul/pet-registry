@@ -15,6 +15,8 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
   const [showTooltip, setShowTooltip] = useState(false);
   const [imageSrc, setImageSrc] = useState(report.image?.thumbnailUrl || placeholderPath);
 
+  const isRecentlyUpdated = report.updatedLastThreeDays ?? false;
+
   // Format the date
   const formattedDate = new Date(report.updatedAt).toLocaleDateString(undefined, {
     month: "2-digit",
@@ -71,7 +73,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
             <div className="flex items-center">
-              {report.updatedLastThreeDays && (
+              {isRecentlyUpdated && (
                 <span
                   className="relative h-[20px] mt-2 bg-green-100 text-green-900 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-700 dark:text-green-200 cursor-pointer"
                   onMouseEnter={() => setShowTooltip(true)}

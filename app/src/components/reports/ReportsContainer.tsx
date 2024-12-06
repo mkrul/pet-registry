@@ -1,108 +1,87 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
-import { setReports } from "../../redux/features/reports/reportsSlice";
+import React from "react";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import ReportCard from "./ReportCard";
 import Spinner from "../shared/Spinner";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { IReport } from "../../types/Report";
 
 interface ReportsContainerProps {
-  query: string;
   page: number;
-  filters: {
-    species?: string;
-    color?: string;
-    gender?: string;
-    sort?: string;
-  };
-  onPageChange: (page: number) => void;
+  query: string;
+  species: string[];
+  gender: string[];
+  color: string[];
+  status: string[];
+  sort: string;
 }
 
 const ReportsContainer: React.FC<ReportsContainerProps> = ({
-  query,
   page,
-  filters,
-  onPageChange
+  query,
+  species,
+  gender,
+  color,
+  status,
+  sort
 }) => {
-  const dispatch = useDispatch();
-  const reports = useSelector((state: RootState) => state.reports.data);
-  const itemsPerPage = 20;
-
-  const { data, error, isLoading } = useGetReportsQuery(
-    query !== undefined
+  const { data, isLoading, isError } = useGetReportsQuery(
+    page
       ? {
           page,
-          items: itemsPerPage,
           query,
-          ...filters
+          species,
+          gender,
+          color,
+          status,
+          sort
         }
       : skipToken
   );
 
-  useEffect(() => {
-    if (data && data.data) {
-      dispatch(setReports(data.data));
-    }
-  }, [data, dispatch]);
-
-  const handleNextPage = () => {
-    if (data?.pagination.pages && page < data.pagination.pages) {
-      onPageChange(page + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      onPageChange(page - 1);
-    }
-  };
-
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-64">
         <Spinner />
       </div>
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
-      <div className="text-red-500 text-center">Error loading reports. Please try again later.</div>
+      <div className="text-center text-red-500">Error loading reports. Please try again later.</div>
+    );
+  }
+
+  const reports = data?.data || [];
+
+  if (reports.length === 0) {
+    return (
+      <div className="text-center text-gray-500">No reports found matching your criteria.</div>
     );
   }
 
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-3 gap-4">
-        {reports.map(report => (
+        {reports.map((report: IReport) => (
           <ReportCard key={report.id} report={report} currentPage={page} currentQuery={query} />
         ))}
       </div>
       {data && data.pagination && (
         <div className="flex justify-between mt-4">
           <button
-            onClick={handlePreviousPage}
-            disabled={page === 1}
-            className={`px-4 py-2 rounded ${
-              page === 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+            onClick={() => {
+              // Handle pagination
+            }}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
             Previous
           </button>
-          <span>
-            Page {data.pagination.page} of {data.pagination.pages}
-          </span>
           <button
-            onClick={handleNextPage}
-            disabled={page === data.pagination.pages}
-            className={`px-4 py-2 rounded ${
-              page === data.pagination.pages
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+            onClick={() => {
+              // Handle pagination
+            }}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
             Next
           </button>

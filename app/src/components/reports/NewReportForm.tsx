@@ -10,6 +10,35 @@ import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
 import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import Spinner from "../shared/Spinner";
+import Map from "../shared/Map";
+
+const initialFormState: IReportForm = {
+  title: "",
+  description: "",
+  name: "",
+  gender: "",
+  species: "",
+  breed1: "",
+  breed2: null,
+  color1: "",
+  color2: null,
+  color3: null,
+  image: {
+    id: "",
+    url: "",
+    thumbnailUrl: "",
+    variantUrl: "",
+    filename: "",
+    publicId: ""
+  },
+  microchipped: null,
+  microchipId: "",
+  city: "",
+  state: "",
+  country: "",
+  latitude: null,
+  longitude: null
+};
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport, isError: isNewReportError } = useGetNewReportQuery();
@@ -20,29 +49,7 @@ const NewReportForm: React.FC = () => {
   const [showColor2, setShowColor2] = useState(false);
   const [showColor3, setShowColor3] = useState(false);
 
-  const [formData, setFormData] = useState<IReportForm>({
-    title: "",
-    description: "",
-    name: "",
-    gender: "",
-    species: "",
-    breed1: "",
-    breed2: "",
-    color1: "",
-    color2: "",
-    color3: "",
-    image: {
-      id: "",
-      url: "",
-      thumbnailUrl: "",
-      variantUrl: "",
-      filename: "",
-      publicId: ""
-    },
-    microchipped: null,
-    microchipId: ""
-  });
-
+  const [formData, setFormData] = useState<IReportForm>(initialFormState);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
 
@@ -53,13 +60,13 @@ const NewReportForm: React.FC = () => {
   const catBreeds = useMemo(() => catBreedOptionsList, []);
 
   useEffect(() => {
-    setBreedOptions(
-      formData.species.toLowerCase() === "dog"
-        ? dogBreeds
-        : formData.species.toLowerCase() === "cat"
-          ? catBreeds
-          : []
-    );
+    if (formData.species === "Dog") {
+      setBreedOptions(dogBreeds);
+    } else if (formData.species === "Cat") {
+      setBreedOptions(catBreeds);
+    } else {
+      setBreedOptions([]);
+    }
     setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
@@ -79,6 +86,22 @@ const NewReportForm: React.FC = () => {
       setFormData(prev => ({
         ...prev,
         [name]: processedValue
+      }));
+    },
+    []
+  );
+
+  const handleLocationSelect = useCallback(
+    (location: {
+      latitude: number;
+      longitude: number;
+      city: string;
+      state: string;
+      country: string;
+    }) => {
+      setFormData(prev => ({
+        ...prev,
+        ...location
       }));
     },
     []
@@ -130,26 +153,24 @@ const NewReportForm: React.FC = () => {
       gender: formData.gender,
       species: formData.species.toLowerCase(),
       breed_1: formData.breed1,
-      breed_2: showBreed2 && formData.breed2 ? formData.breed2 : "",
+      breed_2: formData.breed2,
       color_1: formData.color1.toLowerCase(),
-      color_2: showColor2 && formData.color2 ? formData.color2.toLowerCase() : "",
-      color_3: showColor3 && formData.color3 ? formData.color3.toLowerCase() : "",
+      color_2: formData.color2,
+      color_3: formData.color3,
       microchipped: formData.microchipped !== null ? formData.microchipped.toString() : "",
-      microchip_id: formData.microchipId || ""
+      microchip_id: formData.microchipId || "",
+      city: formData.city,
+      state: formData.state,
+      country: formData.country,
+      latitude: formData.latitude?.toString() || "",
+      longitude: formData.longitude?.toString() || ""
     };
 
-    formDataToSend.append("title", data.title);
-    formDataToSend.append("description", data.description);
-    formDataToSend.append("name", data.name);
-    formDataToSend.append("gender", data.gender);
-    formDataToSend.append("species", data.species);
-    formDataToSend.append("breed_1", data.breed_1);
-    formDataToSend.append("breed_2", data.breed_2);
-    formDataToSend.append("color_1", data.color_1);
-    formDataToSend.append("color_2", data.color_2);
-    formDataToSend.append("color_3", data.color_3);
-    formDataToSend.append("microchipped", data.microchipped);
-    formDataToSend.append("microchip_id", data.microchip_id);
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formDataToSend.append(key, value.toString());
+      }
+    });
 
     if (selectedImage) {
       formDataToSend.append("image", selectedImage);
@@ -157,34 +178,11 @@ const NewReportForm: React.FC = () => {
 
     try {
       await submitReport(formDataToSend).unwrap();
-      // Optionally, reset the form
-      setFormData({
-        title: "",
-        description: "",
-        name: "",
-        gender: "",
-        species: "",
-        breed1: "",
-        breed2: "",
-        color1: "",
-        color2: "",
-        color3: "",
-        image: {
-          id: "",
-          url: "",
-          thumbnailUrl: "",
-          variantUrl: "",
-          filename: "",
-          publicId: ""
-        },
-        microchipped: null,
-        microchipId: ""
-      });
+      setFormData(initialFormState);
       setSelectedImage(null);
       setImagePreview("");
     } catch (error) {
       console.error("Failed to submit report:", error);
-      // Optionally, display error messages to the user
     }
   };
 
@@ -376,7 +374,7 @@ const NewReportForm: React.FC = () => {
       </div>
 
       {/* Breed 2 */}
-      {showBreed2 && (
+      {formData.breed1 && (
         <div>
           <label className="block font-medium text-gray-700">Breed 2:</label>
           <select
@@ -405,7 +403,7 @@ const NewReportForm: React.FC = () => {
       )}
 
       {/* Button to Add Breed 2 */}
-      {!showBreed2 && formData.breed1 && (
+      {!formData.breed1 && (
         <button
           type="button"
           onClick={() => setShowBreed2(true)}
@@ -438,7 +436,7 @@ const NewReportForm: React.FC = () => {
       </div>
 
       {/* Color 2 */}
-      {showColor2 && (
+      {formData.color1 && (
         <div>
           <label className="block font-medium text-gray-700">Color 2:</label>
           <select
@@ -467,7 +465,7 @@ const NewReportForm: React.FC = () => {
       )}
 
       {/* Color 3 */}
-      {showColor3 && (
+      {formData.color2 && (
         <div>
           <label className="block font-medium text-gray-700">Color 3:</label>
           <select
@@ -496,7 +494,7 @@ const NewReportForm: React.FC = () => {
       )}
 
       {/* Button to Add Color 2 or 3 */}
-      {formData.color1 && !showColor2 && (
+      {formData.color1 && !formData.color2 && (
         <button
           type="button"
           onClick={() => setShowColor2(true)}
@@ -506,7 +504,7 @@ const NewReportForm: React.FC = () => {
           Add another color
         </button>
       )}
-      {showColor2 && !showColor3 && (
+      {formData.color2 && !formData.color3 && (
         <button
           type="button"
           onClick={() => setShowColor3(true)}
@@ -539,14 +537,71 @@ const NewReportForm: React.FC = () => {
         )}
       </div>
 
+      {/* Location Section */}
+      <div className="mt-8">
+        <h2 className="text-lg font-medium text-gray-900 mb-4">Location Information</h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Click on the map to drop a pin where the pet was last seen. The address details will be
+          automatically filled in.
+        </p>
+
+        <Map onLocationSelect={handleLocationSelect} />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div>
+            <label className="block font-medium text-gray-700">
+              City <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium text-gray-700">
+              State <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="state"
+              value={formData.state}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium text-gray-700">
+              Country <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="country"
+              value={formData.country}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Submit Button */}
-      <button
-        type="submit"
-        className="w-fit inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
-        disabled={isLoading}
-      >
-        {isLoading ? "Submitting..." : "Submit"}
-      </button>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+        >
+          {isLoading ? <Spinner /> : "Submit Report"}
+        </button>
+      </div>
 
       {/* Success and Error Messages */}
       {isError && <p className="text-red-500">Failed to submit the report.</p>}
