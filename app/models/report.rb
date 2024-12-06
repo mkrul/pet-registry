@@ -1,23 +1,32 @@
 class Report < ApplicationRecord
   include Normalizable
 
-  searchkick word_middle: [:breed_1, :breed_2, :description],
+  searchkick word_middle: [:breed_1, :breed_2, :description, :title],
              text_middle: [:gender],
-             searchable: [:breed_1, :breed_2, :description],
+             searchable: [:breed_1, :breed_2, :description, :title],
              filterable: [:species, :gender, :color_1, :color_2, :color_3, :status],
              suggest: [:breed_1, :breed_2],
-             synonyms: [
-               ["pitbull", "pit bull", "american pit bull terrier", "american bulldog", "bully", "bulldog"],
-               ["german shepherd", "germanshepherd", "gsd"],
-               ["golden retriever", "goldenretriever"]
-             ],
+             word_start: [:breed_1, :breed_2],
              settings: {
                analysis: {
+                 filter: {
+                   breed_synonym: {
+                     type: "synonym",
+                     synonyms: [
+                       "pitbull, pit bull, bully",
+                     ]
+                   }
+                 },
                  analyzer: {
                    searchkick_word_search: {
                      type: "custom",
                      tokenizer: "standard",
-                     filter: ["lowercase", "word_delimiter"]
+                     filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
+                   },
+                   searchkick_word_middle_search: {
+                     type: "custom",
+                     tokenizer: "standard",
+                     filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
                    }
                  }
                }
@@ -25,7 +34,7 @@ class Report < ApplicationRecord
 
   def search_data
     {
-      title: title,
+      title: title&.downcase,
       description: description&.downcase,
       species: species&.downcase,
       breed_1: breed_1&.downcase,
@@ -33,7 +42,7 @@ class Report < ApplicationRecord
       color_1: color_1&.downcase,
       color_2: color_2&.downcase,
       color_3: color_3&.downcase,
-      name: name,
+      name: name&.downcase,
       gender: gender&.downcase,
       status: status,
       updated_at: updated_at,

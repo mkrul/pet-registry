@@ -4,9 +4,10 @@ import { setSearchQuery } from "../../redux/features/reports/reportsSlice";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
+  onReset?: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
 
@@ -26,10 +27,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     onSearch(query);
   };
 
-  const clearSearch = () => {
+  const handleReset = () => {
     setQuery("");
     dispatch(setSearchQuery(""));
     onSearch("");
+    if (onReset) {
+      onReset();
+    }
   };
 
   return (
@@ -44,7 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
-            placeholder="Search lost pets..."
+            placeholder="Enter breed and descriptive keywords..."
             autoComplete="off"
           />
           <div className="absolute left-0 inset-y-0 flex items-center">
@@ -69,7 +73,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
               <button
                 type="button"
                 className="-ml-1 mr-3 h-5 w-5 text-gray-400 hover:text-gray-500"
-                onClick={clearSearch}
+                onClick={() => setQuery("")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,6 +97,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
         >
           Search
+        </button>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+        >
+          Reset
         </button>
       </div>
     </div>

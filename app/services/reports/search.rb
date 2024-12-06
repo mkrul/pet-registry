@@ -49,12 +49,8 @@ class Reports::Search < ActiveInteraction::Base
         search_options[:where][:species] = 'dog'
       end
 
-      # Create a combined query with all search terms
-      combined_query = {
-        any: search_terms.uniq
-      }
-
-      Report.search(combined_query, **search_options)
+      # Use the query directly instead of wrapping it in a hash
+      Report.search(query_downcase, **search_options)
     else
       Report.search("*", **search_options)
     end
