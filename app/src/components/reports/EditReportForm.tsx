@@ -10,6 +10,7 @@ import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
+import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 
 interface EditReportFormProps {
   report: IReport;
@@ -367,6 +368,26 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               />
             ) : (
               <p className="text-gray-700">{formData.description}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Gender:</h3>
+            {isEditing ? (
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="border-gray-300 rounded-md shadow-sm"
+                disabled={isSaving}
+              >
+                {genderOptionsList.map((gender, index) => (
+                  <option key={index} value={gender}>
+                    {gender}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-gray-700">{formData.gender}</p>
             )}
           </div>
           <div className="mb-4">

@@ -1,20 +1,49 @@
 class Report < ApplicationRecord
   include Normalizable
 
-  searchkick synonyms: 'search_synonyms.txt'
+  searchkick word_middle: [:breed_1, :breed_2, :description, :title],
+             text_middle: [:gender],
+             searchable: [:breed_1, :breed_2, :description, :title],
+             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status],
+             suggest: [:breed_1, :breed_2],
+             word_start: [:breed_1, :breed_2],
+             settings: {
+               analysis: {
+                 filter: {
+                   breed_synonym: {
+                     type: "synonym",
+                     synonyms: [
+                       "pitbull, pit bull, bully",
+                     ]
+                   }
+                 },
+                 analyzer: {
+                   searchkick_word_search: {
+                     type: "custom",
+                     tokenizer: "standard",
+                     filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
+                   },
+                   searchkick_word_middle_search: {
+                     type: "custom",
+                     tokenizer: "standard",
+                     filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
+                   }
+                 }
+               }
+             }
 
   def search_data
     {
-      title: title,
-      description: description,
-      species: species,
-      breed_1: breed_1,
-      breed_2: breed_2,
-      color_1: color_1,
-      color_2: color_2,
-      color_3: color_3,
-      name: name,
-      gender: gender,
+      title: title&.downcase,
+      description: description&.downcase,
+      species: species&.downcase,
+      breed_1: breed_1&.downcase,
+      breed_2: breed_2&.downcase,
+      color_1: color_1&.downcase,
+      color_2: color_2&.downcase,
+      color_3: color_3&.downcase,
+      name: name&.downcase,
+      gender: gender&.downcase,
       status: status,
       updated_at: updated_at,
       created_at: created_at
@@ -24,7 +53,7 @@ class Report < ApplicationRecord
   after_commit :reindex_report
 
   def reindex_report
-    self.reindex
+    reindex
   end
 
   validates :title, presence: true, length: { maximum: 30 }

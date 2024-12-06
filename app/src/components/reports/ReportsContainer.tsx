@@ -5,24 +5,40 @@ import { setReports } from "../../redux/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import ReportCard from "./ReportCard";
 import Spinner from "../shared/Spinner";
-import { IReport } from "../../types/Report";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 interface ReportsContainerProps {
   query: string;
   page: number;
+  filters: {
+    species?: string;
+    color?: string;
+    gender?: string;
+    sort?: string;
+  };
   onPageChange: (page: number) => void;
 }
 
-const ReportsContainer: React.FC<ReportsContainerProps> = ({ query, page, onPageChange }) => {
+const ReportsContainer: React.FC<ReportsContainerProps> = ({
+  query,
+  page,
+  filters,
+  onPageChange
+}) => {
   const dispatch = useDispatch();
-  const reports: IReport[] = useSelector((state: RootState) => state.reports.data);
+  const reports = useSelector((state: RootState) => state.reports.data);
   const itemsPerPage = 20;
 
-  const { data, error, isLoading } = useGetReportsQuery({
-    page,
-    items: itemsPerPage,
-    query
-  });
+  const { data, error, isLoading } = useGetReportsQuery(
+    query !== undefined
+      ? {
+          page,
+          items: itemsPerPage,
+          query,
+          ...filters
+        }
+      : skipToken
+  );
 
   useEffect(() => {
     if (data && data.data) {
@@ -58,7 +74,7 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({ query, page, onPage
 
   return (
     <div>
-      <div className="grid grid-cols-1 md-report:grid-cols-2 lg-report:grid-cols-3 xl-report:grid-cols-3 2xl-report:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-3 gap-4">
         {reports.map(report => (
           <ReportCard key={report.id} report={report} currentPage={page} currentQuery={query} />
         ))}

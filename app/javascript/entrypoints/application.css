@@ -13,11 +13,6 @@
 div[data-lastpass-icon-root] {
   display: none;
 }
-
-.fit-content {
-  width: fit-content;
-}
-
 /* NAVBAR */
 
 .no-tap-highlight {
