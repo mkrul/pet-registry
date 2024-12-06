@@ -24,6 +24,7 @@ const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError & E
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
   const [login, { isLoading, error }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -31,7 +32,13 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login({ user: { email, password } }).unwrap();
+      const response = await login({
+        user: {
+          email,
+          password,
+          remember_me: rememberMe ? "1" : "0"
+        }
+      }).unwrap();
       dispatch(setUser(response.user));
       navigate("/", { replace: true });
     } catch (err) {
@@ -68,6 +75,21 @@ const LoginPage: React.FC = () => {
             className="w-full p-2 mb-4 border rounded"
             required
           />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center mb-3">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                checked={rememberMe}
+                onChange={e => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                Remember me
+              </label>
+            </div>
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"

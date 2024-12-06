@@ -1,15 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store";
 import { IUser } from "../../../types/User";
-import { setUser, clearUser } from "./authSlice";
+import { setUser, clearUser, setAuthLoading, setAuthError } from "./authSlice";
 
 interface AuthResponse {
   message: string;
+  user: IUser;
+}
+
+interface LoginRequest {
   user: {
-    id: number;
     email: string;
+    password: string;
+    remember_me?: string;
   };
-  token: string;
 }
 
 interface SignUpRequest {
@@ -26,23 +30,25 @@ export const authApiSlice = createApi({
     baseUrl: "/api",
     credentials: "include",
     prepareHeaders: headers => {
+      headers.set("Accept", "application/json");
+      headers.set("Content-Type", "application/json");
       return headers;
     }
   }),
   endpoints: builder => ({
-    login: builder.mutation<{ user: IUser }, { user: { email: string; password: string } }>({
+    login: builder.mutation<AuthResponse, LoginRequest>({
       query: credentials => ({
         url: "/auth/login",
         method: "POST",
-        body: credentials,
-        credentials: "include"
+        body: credentials
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        dispatch(setAuthLoading());
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
         } catch (err) {
-          // Handle error if needed
+          dispatch(setAuthError("Login failed. Please check your credentials."));
         }
       }
     }),
@@ -52,11 +58,12 @@ export const authApiSlice = createApi({
         method: "DELETE"
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(setAuthLoading());
         try {
           await queryFulfilled;
           dispatch(clearUser());
         } catch (err) {
-          // Handle error if needed
+          dispatch(setAuthError("Logout failed. Please try again."));
         }
       }
     }),
@@ -64,14 +71,39 @@ export const authApiSlice = createApi({
       query: () => ({
         url: "auth/authenticated_user",
         method: "GET"
-      })
+      }),
+      transformResponse: (response: { user: IUser | null }) => {
+        return response;
+      },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(setAuthLoading());
+        try {
+          const { data } = await queryFulfilled;
+          if (data.user) {
+            dispatch(setUser(data.user));
+          } else {
+            dispatch(clearUser());
+          }
+        } catch (err) {
+          dispatch(setAuthError("Failed to verify authentication status."));
+        }
+      }
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
       query: credentials => ({
         url: "/auth/registration",
         method: "POST",
         body: credentials
-      })
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(setAuthLoading());
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setUser(data.user));
+        } catch (err) {
+          dispatch(setAuthError("Sign up failed. Please try again."));
+        }
+      }
     })
   })
 });

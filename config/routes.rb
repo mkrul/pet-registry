@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
     # Define other API routes here
     delete 'auth/logout', to: 'auth#logout'
+    get 'auth/authenticated_user', to: 'auth#authenticated_user'
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 
     resources :reports do

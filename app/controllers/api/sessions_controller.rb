@@ -8,6 +8,7 @@ module Api
       user = User.find_for_database_authentication(email: sign_in_params[:email])
       if user&.valid_password?(sign_in_params[:password])
         sign_in(user)
+        remember_me(user) unless params.dig(:user, :remember_me) == '0'
         render json: {
           message: 'Logged in successfully.',
           user: user.as_json(only: [:id, :email])
@@ -20,7 +21,7 @@ module Api
     private
 
     def sign_in_params
-      params.require(:user).permit(:email, :password)
+      params.require(:user).permit(:email, :password, :remember_me)
     end
 
     def respond_to_on_destroy
