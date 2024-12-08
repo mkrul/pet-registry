@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useLoginMutation } from "../../redux/features/auth/authApiSlice";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/features/auth/authSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 interface LocationState {
@@ -25,21 +22,11 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
-  const [login, { isLoading, error }] = useLoginMutation();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await login({
-        user: {
-          email,
-          password,
-          remember_me: rememberMe ? "1" : "0"
-        }
-      }).unwrap();
-      dispatch(setUser(response.user));
       navigate("/", { replace: true });
     } catch (err) {
       console.error("Login failed:", err);
