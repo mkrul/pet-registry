@@ -255,7 +255,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 <h3 className="text-lg font-semibold text-gray-800">Title:</h3>
                 <input
                   name="title"
-                  value={formData.title}
+                  value={formData.title || ""}
                   onChange={handleInputChange}
                   className="border-gray-300 rounded-md shadow-sm mb-4"
                   disabled={isSaving}
@@ -347,7 +347,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             {isEditing ? (
               <input
                 name="name"
-                value={formData.name}
+                value={formData.name || ""}
                 onChange={handleInputChange}
                 className="border-gray-300 rounded-md shadow-sm w-full w-[85%] max-w-[20rem]"
                 disabled={isSaving}
@@ -361,7 +361,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             {isEditing ? (
               <textarea
                 name="description"
-                value={formData.description}
+                value={formData.description || ""}
                 onChange={handleInputChange}
                 className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-32"
                 disabled={isSaving}
@@ -375,7 +375,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             {isEditing ? (
               <select
                 name="gender"
-                value={formData.gender}
+                value={formData.gender || ""}
                 onChange={handleInputChange}
                 className="border-gray-300 rounded-md shadow-sm"
                 disabled={isSaving}
@@ -466,7 +466,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               {isEditing ? (
                 <select
                   name="species"
-                  value={formData.species}
+                  value={formData.species || ""}
                   onChange={handleInputChange}
                   className="border-gray-300 rounded-md shadow-sm mb-2"
                   disabled={isSaving}
@@ -489,7 +489,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 <>
                   <select
                     name="breed1"
-                    value={formData.breed1}
+                    value={formData.breed1 || ""}
                     onChange={handleInputChange}
                     className="border-gray-300 rounded-md shadow-sm mb-2"
                     disabled={isSaving}
