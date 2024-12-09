@@ -1,16 +1,17 @@
 export interface IPaginationQuery {
   page: number;
-  items: number;
-  query?: string;
-  species?: string;
-  color?: string;
-  gender?: string;
-  sort?: string;
+  query: string;
+  species: string[];
+  gender: string[];
+  color: string[];
+  status: string[];
+  sort: string;
 }
 
-export interface IPagination {
-  count: number;
-  page: number;
-  items: number;
-  pages: number;
+export interface IPaginationResponse {
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  nextPage: number | null;
+  prevPage: number | null;
 }

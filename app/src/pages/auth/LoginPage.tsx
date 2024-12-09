@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useLoginMutation } from "../../redux/features/auth/authApiSlice";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/features/auth/authSlice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 interface LocationState {
@@ -24,18 +21,24 @@ const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError & E
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { isLoading, error }] = useLoginMutation();
-  const dispatch = useAppDispatch();
+  const [rememberMe, setRememberMe] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown>(null);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
     try {
-      const response = await login({ user: { email, password } }).unwrap();
-      dispatch(setUser(response.user));
+      // TODO: Implement actual login logic
       navigate("/", { replace: true });
     } catch (err) {
       console.error("Login failed:", err);
+      setError(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,6 +71,21 @@ const LoginPage: React.FC = () => {
             className="w-full p-2 mb-4 border rounded"
             required
           />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center mb-3">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                checked={rememberMe}
+                onChange={e => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                Remember me
+              </label>
+            </div>
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"

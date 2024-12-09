@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store } from "../../src/redux/store";
 import ErrorBoundary from "../../src/components/common/ErrorBoundary";
-import App from "./Main";
+import App from "./App";
 
 // Render the application to the DOM
 const rootElement = document.getElementById("root") as HTMLElement;

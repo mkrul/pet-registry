@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSignUpMutation } from "../../redux/features/auth/authApiSlice";
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
-  const [signUp] = useSignUpMutation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,19 +24,6 @@ const SignUpPage: React.FC = () => {
     if (formData.password !== formData.passwordConfirmation) {
       setError("Passwords don't match");
       return;
-    }
-
-    try {
-      await signUp({
-        user: {
-          email: formData.email,
-          password: formData.password,
-          password_confirmation: formData.passwordConfirmation
-        }
-      }).unwrap();
-      navigate("/");
-    } catch (err) {
-      setError("Sign up failed. Please try again.");
     }
   };
 
