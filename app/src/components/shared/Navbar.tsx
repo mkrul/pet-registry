@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom";
 import ProfileDropdown from "../common/ProfileDropdown";
 import NavLink from "./NavLink";
-import { useAppSelector } from "../../redux/hooks";
 
 const NavBar = () => {
-  const { isAuthenticated } = useAppSelector(state => state.auth);
-
   return (
     <div>
       {/* Main Navbar */}
@@ -19,11 +16,9 @@ const NavBar = () => {
         {/* Navigation for larger screens */}
         <div className="hidden md:flex flex-none">
           <ul className="menu menu-horizontal px-1">
-            {isAuthenticated && (
-              <li>
-                <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
-              </li>
-            )}
+            <li>
+              <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
+            </li>
             <li>
               <NavLink linkTo="/reports">Search</NavLink>
             </li>
@@ -42,11 +37,9 @@ const NavBar = () => {
       {/* Navigation for smaller devices */}
       <div className="md:hidden w-full px-4 mt-2 mb-5 text-center">
         <ul className="flex justify-center space-x-6">
-          {isAuthenticated && (
-            <li>
-              <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
-            </li>
-          )}
+          <li>
+            <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
+          </li>
           <li>
             <NavLink linkTo="/reports">Search</NavLink>
           </li>

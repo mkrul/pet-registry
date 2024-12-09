@@ -1,20 +1,6 @@
 # config/routes.rb
 
 Rails.application.routes.draw do
-  # Devise routes with custom controllers
-  devise_for :users,
-    path: 'api',
-    path_names: {
-      sign_in: 'login',
-      sign_out: 'logout',
-      registration: 'signup'
-    },
-    controllers: {
-      sessions: 'api/sessions',
-      registrations: 'api/registrations'
-    },
-    defaults: { format: :json }
-
   namespace :api do
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 

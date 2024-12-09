@@ -1,61 +1,51 @@
-import { Link } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { useLogoutMutation } from "../../redux/features/auth/authApi";
-import { logout } from "../../redux/features/auth/authSlice";
 import NavLink from "../shared/NavLink";
+import { useNavigate } from "react-router-dom";
 
 const ProfileDropdown = () => {
-  const { user, isAuthenticated } = useAppSelector(state => state.auth);
-  const dispatch = useAppDispatch();
-  const [logoutMutation] = useLogoutMutation();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await logoutMutation().unwrap();
-      dispatch(logout());
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed:", err);
     }
   };
 
-  if (!isAuthenticated || !user) {
-    return (
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
+  return (
+    <div className="flex-none gap-2">
+      <div className="dropdown dropdown-end">
+        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+          <div className="w-10 rounded-full">
+            <img
+              alt="Tailwind CSS Navbar component"
+              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+            />
+          </div>
+        </div>
+        <ul
+          tabIndex={0}
+          className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+        >
           <li>
-            <NavLink linkTo="/login">Login</NavLink>
+            <NavLink>My Reports</NavLink>
+          </li>
+          <li>
+            <NavLink>My Pets</NavLink>
+          </li>
+          <li>
+            <NavLink>
+              Profile <span className="badge">New</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink>Settings</NavLink>
+          </li>
+          <li>
+            <NavLink handler={handleLogout}>Logout</NavLink>
           </li>
         </ul>
       </div>
-    );
-  }
-
-  return (
-    <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <div className="flex items-center justify-center w-full h-full bg-primary text-white text-xl">
-            {user.email[0].toUpperCase()}
-          </div>
-        </div>
-      </div>
-      <ul
-        tabIndex={0}
-        className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-      >
-        <li>
-          <a className="justify-between">
-            Profile
-            <span className="badge">New</span>
-          </a>
-        </li>
-        <li>
-          <a>Settings</a>
-        </li>
-        <li>
-          <a onClick={handleLogout}>Logout</a>
-        </li>
-      </ul>
     </div>
   );
 };

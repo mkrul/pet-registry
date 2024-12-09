@@ -42,12 +42,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_06_133221) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "jwt_denylist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.index ["jti"], name: "index_jwt_denylist_on_jti"
-  end
-
   create_table "reports", force: :cascade do |t|
     t.string "title", null: false
     t.string "status", null: false
@@ -80,9 +74,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_06_133221) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "jti", default: "99768727-a882-4e36-b217-da4b50f6e627", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

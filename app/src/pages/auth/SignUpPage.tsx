@@ -1,20 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSignupMutation } from "../../redux/features/auth/authApi";
-import { useAppDispatch } from "../../redux/hooks";
-import { setUser } from "../../redux/features/auth/authSlice";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-
-interface ErrorResponse {
-  data: {
-    message: string;
-    errors?: string[];
-  };
-}
-
-const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError & ErrorResponse => {
-  return typeof error === "object" && error !== null && "data" in error;
-};
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,8 +8,7 @@ const SignUpPage: React.FC = () => {
     password: "",
     passwordConfirmation: ""
   });
-  const [signup, { isLoading, error }] = useSignupMutation();
-  const dispatch = useAppDispatch();
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -35,22 +19,11 @@ const SignUpPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting signup form:", formData);
+    setError(null);
 
-    try {
-      const response = await signup({
-        user: {
-          email: formData.email,
-          password: formData.password,
-          password_confirmation: formData.passwordConfirmation
-        }
-      }).unwrap();
-
-      console.log("Signup successful:", response);
-      dispatch(setUser(response.data));
-      navigate("/", { replace: true });
-    } catch (err) {
-      console.error("Signup failed:", err);
+    if (formData.password !== formData.passwordConfirmation) {
+      setError("Passwords don't match");
+      return;
     }
   };
 
@@ -63,14 +36,7 @@ const SignUpPage: React.FC = () => {
           required to activate your new account.
         </p>
 
-        {error && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
-            {isFetchBaseQueryError(error) &&
-            (error.data?.errors?.length ? error.data.errors.join(", ") : error.data?.message)
-              ? error.data?.errors?.join(", ") || error.data?.message
-              : "Registration failed. Please try again."}
-          </div>
-        )}
+        {error && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">{error}</div>}
 
         <form onSubmit={handleSubmit} className="mt-4">
           <input
@@ -103,9 +69,8 @@ const SignUpPage: React.FC = () => {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-            disabled={isLoading}
           >
-            {isLoading ? "Creating Account..." : "Sign Up"}
+            Sign Up
           </button>
         </form>
 

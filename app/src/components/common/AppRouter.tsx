@@ -4,8 +4,6 @@ import NavBar from "../shared/Navbar";
 import ReportIndexPage from "../../pages/reports/ReportsIndexPage";
 import ReportNewPage from "../../pages/reports/ReportNewPage";
 import ReportShowPage from "../../pages/reports/ReportShowPage";
-import LoginPage from "../../pages/auth/LoginPage";
-import SignUpPage from "../../pages/auth/SignUpPage";
 import Footer from "../shared/Footer";
 import ScrollToTop from "./ScrollToTop";
 
@@ -16,8 +14,6 @@ const AppRouter = () => {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<ReportIndexPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
         <Route path="/reports/new" element={<ReportNewPage />} />
         <Route path="*" element={<Navigate to="/" />} />
