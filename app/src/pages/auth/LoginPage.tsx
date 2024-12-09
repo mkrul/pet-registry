@@ -22,14 +22,23 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown>(null);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
     try {
+      // TODO: Implement actual login logic
       navigate("/", { replace: true });
     } catch (err) {
       console.error("Login failed:", err);
+      setError(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
