@@ -8,13 +8,23 @@ module Api
       user = User.find_for_database_authentication(email: sign_in_params[:email])
       if user&.valid_password?(sign_in_params[:password])
         sign_in(user)
+        token = user.generate_jwt
+        response.headers['Authorization'] = "Bearer #{token}"
         render json: {
           message: 'Logged in successfully.',
-          user: user.as_json(only: [:id, :email])
+          user: UserSerializer.new(user).as_json,
+          token: token
         }, status: :ok
       else
         render json: { message: 'Invalid email or password.' }, status: :unauthorized
       end
+    end
+
+    def destroy
+      signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+      render json: {
+        message: 'Logged out successfully.'
+      }, status: :ok
     end
 
     private
@@ -24,7 +34,7 @@ module Api
     end
 
     def respond_to_on_destroy
-      render json: { message: 'Logged out successfully.' }, status: :ok
+      head :no_content
     end
   end
 end

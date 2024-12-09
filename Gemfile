@@ -6,6 +6,8 @@ ruby '3.3.3'
 gem 'rails', '~> 7.2.1'
 # use devise for authentication
 gem 'devise', '~> 4.9.2'
+# use devise-jwt for JWT authentication
+gem 'devise-jwt', '~> 0.11.0'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails', '~> 3.5', '>= 3.5.2'
 # Use postgresql as the database for Active Record
