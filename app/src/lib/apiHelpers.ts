@@ -1,52 +1,37 @@
-import LinkHeader from "http-link-header";
-import { IPagination } from "../types/shared/Pagination";
-import _keyBy from "lodash/keyBy";
+import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { IPaginationResponse } from "../types/shared/Pagination";
 
-export function queryPaginationTransform(response: Response): IPagination {
-  const count = response.headers.get("count");
-  const link = response.headers.get("link");
-  const page = response.headers.get("page");
-  const perPage = response.headers.get("per-page");
-  const links = link ? _keyBy(LinkHeader.parse(link).refs, "rel") : null;
-  return {
-    count: parseInt(count as string, 10),
-    page: parseInt(page as string, 10),
-    items: parseInt(perPage as string, 10),
-    pages: links ? parseInt(links.last.page, 10) : 1,
-  };
-}
+export const baseQuery = fetchBaseQuery({
+  baseUrl: `http://${window.location.hostname}:3000/api`,
+  credentials: "include"
+});
 
-export const qsSettings = { arrayFormat: "brackets", encode: false };
-
-export function transformToSnakeCase(obj: any): any {
+export const transformToCamelCase = <T>(obj: any): T => {
   if (Array.isArray(obj)) {
-    return obj.map((v) => transformToSnakeCase(v as any));
-  } else if (obj !== null && typeof obj === 'object') {
+    return obj.map(v => transformToCamelCase<T>(v)) as unknown as T;
+  } else if (obj !== null && obj !== undefined && typeof obj === "object") {
     return Object.keys(obj).reduce((result, key) => {
-      const snakeKey = key
-        .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
-        .replace(/([a-z])([0-9])/g, '$1_$2')
-        .toLowerCase();
-      (result as any)[snakeKey] = transformToSnakeCase(obj[key] as any);
-      return result;
-    }, {} as any);
+      const camelKey = key.replace(/_([a-z])/g, g => g[1].toUpperCase());
+      return {
+        ...result,
+        [camelKey]: transformToCamelCase(obj[key])
+      };
+    }, {}) as T;
   }
   return obj;
-}
+};
 
-export function transformToCamelCase(obj: any): any {
+export const transformToSnakeCase = (obj: any): any => {
   if (Array.isArray(obj)) {
-    return obj.map((v) => transformToCamelCase(v as any));
-  } else if (obj !== null && typeof obj === 'object') {
+    return obj.map(v => transformToSnakeCase(v));
+  } else if (obj !== null && obj !== undefined && typeof obj === "object") {
     return Object.keys(obj).reduce((result, key) => {
-      if (!obj[key]) {
-        (result as any)[key] = obj[key];
-        return result;
-      }
-      const camelKey = key.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
-      (result as any)[camelKey] = transformToCamelCase(obj[key] as any);
-      return result;
-    }, {} as any);
+      const snakeKey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+      return {
+        ...result,
+        [snakeKey]: transformToSnakeCase(obj[key])
+      };
+    }, {});
   }
   return obj;
-}
+};

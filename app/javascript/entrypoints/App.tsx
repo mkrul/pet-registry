@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "../../src/redux/store";
 import AppRouter from "../../src/components/common/AppRouter";
 
 const App = () => {
@@ -14,9 +16,11 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </Provider>
   );
 };
 

@@ -5,7 +5,6 @@ module Api
     include Pagy::Backend
 
     before_action :set_report, only: %i[show edit update destroy]
-    skip_before_action :verify_authenticity_token
 
     def index
       outcome = Reports::Fetch.run(index_params)
