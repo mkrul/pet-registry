@@ -1,15 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../../store";
 import { IUser } from "../../../types/User";
 import { setUser, clearUser } from "./authSlice";
 
 interface AuthResponse {
   message: string;
-  user: {
-    id: number;
-    email: string;
-  };
-  token: string;
+  user: IUser;
 }
 
 interface SignUpRequest {
@@ -26,52 +21,97 @@ export const authApiSlice = createApi({
     baseUrl: "/api",
     credentials: "include",
     prepareHeaders: headers => {
+      console.debug("============ Preparing Request Headers ============");
+      console.debug("Current headers:", Object.fromEntries(headers.entries()));
+      headers.set("Content-Type", "application/json");
       return headers;
     }
   }),
   endpoints: builder => ({
-    login: builder.mutation<{ user: IUser }, { user: { email: string; password: string } }>({
-      query: credentials => ({
-        url: "/auth/login",
-        method: "POST",
-        body: credentials,
-        credentials: "include"
-      }),
+    login: builder.mutation<AuthResponse, { user: { email: string; password: string } }>({
+      query: credentials => {
+        console.debug("============ Login Request Started ============");
+        console.debug("Login credentials:", {
+          ...credentials,
+          user: { ...credentials.user, password: "[REDACTED]" }
+        });
+        return {
+          url: "/auth/login",
+          method: "POST",
+          body: credentials,
+          credentials: "include"
+        };
+      },
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
+          console.debug("Awaiting login response...");
           const { data } = await queryFulfilled;
+          console.debug("Login successful, user data:", data);
           dispatch(setUser(data.user));
         } catch (err) {
-          // Handle error if needed
+          console.error("Login failed:", err);
         }
       }
     }),
     logout: builder.mutation<{ message: string }, void>({
-      query: () => ({
-        url: "/auth/logout",
-        method: "DELETE"
-      }),
+      query: () => {
+        console.debug("============ Logout Request Started ============");
+        return {
+          url: "/auth/logout",
+          method: "DELETE",
+          credentials: "include"
+        };
+      },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
+          console.debug("Awaiting logout response...");
           await queryFulfilled;
+          console.debug("Logout successful");
           dispatch(clearUser());
         } catch (err) {
-          // Handle error if needed
+          console.error("Logout failed:", err);
         }
       }
     }),
     getCurrentUser: builder.query<{ user: IUser | null }, void>({
-      query: () => ({
-        url: "auth/authenticated_user",
-        method: "GET"
-      })
+      query: () => {
+        console.debug("============ Checking Current User ============");
+        return {
+          url: "/auth/authenticated_user",
+          method: "GET",
+          credentials: "include"
+        };
+      }
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
-      query: credentials => ({
-        url: "/auth/registration",
-        method: "POST",
-        body: credentials
-      })
+      query: credentials => {
+        console.debug("============ Signup Request Started ============");
+        console.debug("Signup credentials:", {
+          ...credentials,
+          user: {
+            ...credentials.user,
+            password: "[REDACTED]",
+            password_confirmation: "[REDACTED]"
+          }
+        });
+        return {
+          url: "/auth",
+          method: "POST",
+          body: credentials,
+          credentials: "include"
+        };
+      },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          console.debug("Awaiting signup response...");
+          const { data } = await queryFulfilled;
+          console.debug("Signup successful, user data:", data);
+          dispatch(setUser(data.user));
+        } catch (err) {
+          console.error("Signup failed:", err);
+          throw err;
+        }
+      }
     })
   })
 });
