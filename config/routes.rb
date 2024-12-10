@@ -1,20 +1,20 @@
 # config/routes.rb
 
 Rails.application.routes.draw do
-  namespace :api do
-    devise_for :users,
-      controllers: {
-        sessions: 'api/sessions',
-        registrations: 'api/registrations'
-      },
-      path: 'auth',
-      defaults: { format: :json },
-      path_names: {
-        sign_in: 'login',
-        sign_out: 'logout',
-        sign_up: 'register'
-      }
+  devise_for :users,
+    path: 'api/auth',
+    defaults: { format: :json },
+    controllers: {
+      sessions: 'api/sessions',
+      registrations: 'api/registrations'
+    },
+    path_names: {
+      sign_in: 'login',
+      sign_out: 'logout',
+      sign_up: 'register'
+    }
 
+  namespace :api do
     # Define other API routes here
     get 'auth/authenticated_user', to: 'auth#authenticated_user'
     get 'cloudinary/credentials', to: 'cloudinary#credentials'

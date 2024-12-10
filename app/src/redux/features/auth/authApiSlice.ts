@@ -27,6 +27,7 @@ export const authApiSlice = createApi({
       return headers;
     }
   }),
+  tagTypes: ["Auth"],
   endpoints: builder => ({
     login: builder.mutation<AuthResponse, { user: { email: string; password: string } }>({
       query: credentials => {
@@ -51,7 +52,8 @@ export const authApiSlice = createApi({
         } catch (err) {
           console.error("Login failed:", err);
         }
-      }
+      },
+      invalidatesTags: ["Auth"]
     }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => {
@@ -71,7 +73,8 @@ export const authApiSlice = createApi({
         } catch (err) {
           console.error("Logout failed:", err);
         }
-      }
+      },
+      invalidatesTags: ["Auth"]
     }),
     getCurrentUser: builder.query<{ user: IUser | null }, void>({
       query: () => {
@@ -81,6 +84,21 @@ export const authApiSlice = createApi({
           method: "GET",
           credentials: "include"
         };
+      },
+      providesTags: ["Auth"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          console.debug("Current user check response:", data);
+          if (data.user) {
+            dispatch(setUser(data.user));
+          } else {
+            dispatch(clearUser());
+          }
+        } catch (err) {
+          console.error("Current user check failed:", err);
+          dispatch(clearUser());
+        }
       }
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
@@ -111,7 +129,8 @@ export const authApiSlice = createApi({
           console.error("Signup failed:", err);
           throw err;
         }
-      }
+      },
+      invalidatesTags: ["Auth"]
     })
   })
 });
