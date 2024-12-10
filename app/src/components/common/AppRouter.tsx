@@ -17,16 +17,15 @@ const AppRouter = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/" element={<ReportIndexPage />} />
+        <Route path="/reports" element={<ReportIndexPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/reports/new" element={<ReportNewPage />} />
         </Route>
-
-        {/* Sign Up Route */}
-        <Route path="/signup" element={<SignUpPage />} />
 
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" />} />

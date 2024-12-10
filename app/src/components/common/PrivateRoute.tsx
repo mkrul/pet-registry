@@ -1,12 +1,17 @@
 import React from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 
-const PrivateRoute: React.FC = () => {
+const PrivateRoute = () => {
   const user = useAppSelector(state => state.auth.user);
-  const location = useLocation();
 
-  return user ? <Outlet /> : <Navigate to="/login" replace state={{ from: location }} />;
+  if (!user) {
+    console.debug("User not authenticated, redirecting to login");
+    return <Navigate to="/login" replace />;
+  }
+
+  console.debug("User authenticated, rendering protected route");
+  return <Outlet />;
 };
 
 export default PrivateRoute;
