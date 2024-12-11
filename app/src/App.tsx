@@ -1,25 +1,38 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/common/ScrollToTop";
-import ReportsIndexPage from "./pages/reports/ReportsIndexPage";
-import ReportShowPage from "./pages/reports/ReportShowPage";
+import { BrowserRouter as Router } from "react-router-dom";
 import { useGetCurrentUserQuery } from "./redux/features/auth/authApiSlice";
+import AppRouter from "./components/common/AppRouter";
+import { useAppDispatch } from "./redux/hooks";
+import { setUser, clearUser } from "./redux/features/auth/authSlice";
 
 const App: React.FC = () => {
-  // This will automatically fetch the current user when the app loads
-  const { isLoading } = useGetCurrentUserQuery();
+  const dispatch = useAppDispatch();
+  const { data, isLoading, isError, error } = useGetCurrentUserQuery(undefined, {
+    // Skip caching to ensure fresh data on every mount
+    skip: false,
+    refetchOnMountOrArgChange: true
+  });
+
+  useEffect(() => {
+    console.log("Auth state check:", { data, isError, error });
+
+    if (data?.user) {
+      console.log("Setting authenticated user:", data.user);
+      dispatch(setUser(data.user));
+    } else if (isError) {
+      console.log("Clearing user due to error:", error);
+      dispatch(clearUser());
+    }
+  }, [data, isError, error, dispatch]);
 
   if (isLoading) {
+    console.log("Loading auth state...");
     return <div>Loading...</div>;
   }
 
   return (
     <Router>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/reports" element={<ReportsIndexPage />} />
-        <Route path="/reports/:id" element={<ReportShowPage />} />
-      </Routes>
+      <AppRouter />
     </Router>
   );
 };

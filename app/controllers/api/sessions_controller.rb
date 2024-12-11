@@ -48,14 +48,47 @@ module Api
     def show
       Rails.logger.debug "============ Current User Check ============"
       Rails.logger.debug "Session data: #{session.to_h}"
-      Rails.logger.debug "Warden user: #{warden.user.inspect}"
-      Rails.logger.debug "Cookies: #{cookies.to_h}"
+      Rails.logger.debug "Remember token cookie: #{cookies.signed[:remember_user_token]}"
 
-      if warden.user
+      # Try to get user from session first
+      current_user = nil
+
+      # Check if we have user data in session
+      if session["warden.user..key"].is_a?(Hash) && session["warden.user..key"]["id"]
+        Rails.logger.debug "Found user data in session, loading user"
+        current_user = User.find_by(id: session["warden.user..key"]["id"])
+      end
+
+      # If no user in session, try warden
+      if !current_user
+        Rails.logger.debug "No user in session, checking warden"
+        current_user = warden.user
+      end
+
+      # If still no user, try remember token
+      if !current_user && cookies.signed[:remember_user_token].present?
+        Rails.logger.debug "No user in warden, checking remember token"
+        token = cookies.signed[:remember_user_token]
+        user_id = token[0][0] if token.is_a?(Array) && token[0].is_a?(Array)
+        Rails.logger.debug "User ID from remember token: #{user_id}"
+
+        if user_id
+          current_user = User.find_by(id: user_id)
+          if current_user
+            Rails.logger.debug "Found user from remember token: #{current_user.id}"
+            sign_in(current_user)
+            warden.set_user(current_user)
+          end
+        end
+      end
+
+      if current_user
+        Rails.logger.debug "Returning authenticated user: #{current_user.id}"
         render json: {
-          user: warden.user.as_json(only: [:id, :email])
+          user: current_user.as_json(only: [:id, :email])
         }, status: :ok
       else
+        Rails.logger.debug "No authenticated user found"
         render json: { error: 'Not authenticated' }, status: :unauthorized
       end
     rescue => e

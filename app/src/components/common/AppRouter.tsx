@@ -8,15 +8,20 @@ import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../../pages/auth/LoginPage";
 import ScrollToTop from "./ScrollToTop";
 import SignUpPage from "../../pages/auth/SignUpPage";
+import { useAppSelector } from "../../redux/hooks";
 
 const AppRouter = () => {
+  const user = useAppSelector(state => state.auth.user);
+  console.log("AppRouter: Current auth state:", { user });
+
   return (
     <div>
       <NavBar />
       <ScrollToTop />
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUpPage />} />
         <Route path="/" element={<ReportIndexPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
 
@@ -25,11 +30,8 @@ const AppRouter = () => {
           <Route path="/reports/new" element={<ReportNewPage />} />
         </Route>
 
-        {/* Sign Up Route */}
-        <Route path="/signup" element={<SignUpPage />} />
-
         {/* Fallback Route */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />
     </div>
