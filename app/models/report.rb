@@ -45,6 +45,11 @@ class Report < ApplicationRecord
       name: name&.downcase,
       gender: gender&.downcase,
       status: status,
+      city: city&.downcase,
+      state: state&.downcase,
+      country: country&.downcase,
+      latitude: latitude,
+      longitude: longitude,
       updated_at: updated_at,
       created_at: created_at
     }
