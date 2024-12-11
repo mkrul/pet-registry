@@ -13,19 +13,14 @@ const PrivateRoute: React.FC = () => {
     refetchOnMountOrArgChange: 3600 // Only refetch after 1 hour
   });
 
-  console.log("PrivateRoute check:", { user, isLoading, error });
-
   if (isLoading) {
-    console.log("PrivateRoute: Loading auth state...");
     return <div>Loading...</div>;
   }
 
   if (!user) {
-    console.log("PrivateRoute: No authenticated user, redirecting to login");
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  console.log("PrivateRoute: User authenticated, rendering protected content");
   return <Outlet />;
 };
 
