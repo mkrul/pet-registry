@@ -1,25 +1,33 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/common/ScrollToTop"; // Adjust the path if necessary
-import ReportsIndexPage from "./pages/reports/ReportsIndexPage";
-import ReportShowPage from "./pages/reports/ReportShowPage";
-/**
- * App Component
- *
- * This is the root component of the application. It sets up the router and
- * includes the ScrollToTop component to manage scroll behavior on route changes.
- */
+import React, { useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { useGetCurrentUserQuery } from "./redux/features/auth/authApiSlice";
+import AppRouter from "./components/common/AppRouter";
+import { useAppDispatch } from "./redux/hooks";
+import { setUser, clearUser } from "./redux/features/auth/authSlice";
+
 const App: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { data, isLoading, isError, error } = useGetCurrentUserQuery(undefined, {
+    // Only refetch on mount or if 1 hour has passed
+    pollingInterval: 3600000,
+    refetchOnMountOrArgChange: 3600
+  });
+
+  useEffect(() => {
+    if (data?.user) {
+      dispatch(setUser(data.user));
+    } else if (isError) {
+      dispatch(clearUser());
+    }
+  }, [data, isError, error, dispatch]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Router>
-      {/* ScrollToTop listens to route changes and scrolls to top */}
-      <ScrollToTop />
-
-      <Routes>
-        <Route path="/reports" element={<ReportsIndexPage />} />
-        <Route path="/reports/:id" element={<ReportShowPage />} />
-        {/* Define other routes here */}
-      </Routes>
+      <AppRouter />
     </Router>
   );
 };

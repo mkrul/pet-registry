@@ -19,4 +19,14 @@ Devise.setup do |config|
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
 
+  # Remember me configuration
+  config.remember_for = 2.weeks
+  config.extend_remember_period = true
+  config.rememberable_options = { secure: Rails.env.production? }
+
+  # Cookie configuration
+  config.navigational_formats = ['*/*', :html, :json]
+  config.http_authenticatable_on_xhr = true
+  config.http_authenticatable = true
+
 end

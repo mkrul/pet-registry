@@ -2,17 +2,12 @@
 
 Rails.application.routes.draw do
   namespace :api do
-    devise_for :users, controllers: {
-      sessions: 'api/sessions',
-      registrations: 'api/registrations'
-    }, path: 'auth', path_names: {
-      sign_in: 'login',
-      sign_out: 'logout',
-      registration: 'registration'
-    }
+    # Custom auth routes
+    post 'auth/registration', to: 'registrations#create'
+    post 'auth/login', to: 'sessions#create'
+    delete 'auth/logout', to: 'sessions#destroy'
+    get 'auth/current_user', to: 'sessions#show'
 
-    # Define other API routes here
-    delete 'auth/logout', to: 'auth#logout'
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
 
     resources :reports do
