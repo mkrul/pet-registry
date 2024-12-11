@@ -1,30 +1,108 @@
 module Api
-  class SessionsController < Devise::SessionsController
-    respond_to :json
+  class SessionsController < ApplicationController
     skip_before_action :verify_authenticity_token
-    skip_before_action :require_no_authentication
 
     def create
-      user = User.find_for_database_authentication(email: sign_in_params[:email])
+      Rails.logger.debug "============ Login Attempt Started ============"
+      Rails.logger.debug "Login params: #{sign_in_params.to_h}"
+
+      user = User.find_by(email: sign_in_params[:email])
+      Rails.logger.debug "Found user: #{user&.id}"
+
       if user&.valid_password?(sign_in_params[:password])
+        Rails.logger.debug "Password valid for user: #{user.id}"
+
+        # Sign in the user and set up session
+        warden.set_user(user)
         sign_in(user)
+        session[:user_id] = user.id
+
+        # Set remember me token
+        if user.respond_to?(:remember_me!) && Devise.respond_to?(:remember_for)
+          user.remember_me!
+          cookies.signed[:remember_user_token] = {
+            value: user.class.serialize_into_cookie(user),
+            expires: Devise.remember_for.from_now,
+            httponly: true
+          }
+        end
+
+        Rails.logger.debug "Warden user: #{warden.user.inspect}"
+        Rails.logger.debug "Session data: #{session.to_h}"
+        Rails.logger.debug "Cookies: #{cookies.to_h}"
+
         render json: {
           message: 'Logged in successfully.',
           user: user.as_json(only: [:id, :email])
         }, status: :ok
       else
-        render json: { message: 'Invalid email or password.' }, status: :unauthorized
+        Rails.logger.debug "Invalid credentials for user: #{user&.id}"
+        render json: { error: 'Invalid email or password.' }, status: :unauthorized
       end
+    rescue => e
+      Rails.logger.error "Login error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: 'Login failed' }, status: :internal_server_error
+    end
+
+    def show
+      Rails.logger.debug "============ Current User Check ============"
+      Rails.logger.debug "Session data: #{session.to_h}"
+      Rails.logger.debug "Warden user: #{warden.user.inspect}"
+      Rails.logger.debug "Cookies: #{cookies.to_h}"
+
+      if warden.user
+        render json: {
+          user: warden.user.as_json(only: [:id, :email])
+        }, status: :ok
+      else
+        render json: { error: 'Not authenticated' }, status: :unauthorized
+      end
+    rescue => e
+      Rails.logger.error "Current user check error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: 'Authentication check failed' }, status: :internal_server_error
+    end
+
+    def destroy
+      Rails.logger.debug "============ Logout Attempt ============"
+      Rails.logger.debug "Current user before logout: #{warden.user&.id}"
+      Rails.logger.debug "Session before logout: #{session.to_h}"
+      Rails.logger.debug "Cookies before logout: #{cookies.to_h}"
+
+      if warden.user
+        # Clear remember me token if it exists
+        if warden.user.respond_to?(:forget_me!)
+          warden.user.forget_me!
+        end
+
+        sign_out(warden.user)
+        reset_session
+      end
+
+      Rails.logger.debug "Session after logout: #{session.to_h}"
+      Rails.logger.debug "Cookies after logout: #{cookies.to_h}"
+      render json: { message: 'Logged out successfully.' }, status: :ok
+    rescue => e
+      Rails.logger.error "Logout error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      render json: { error: 'Logout failed' }, status: :internal_server_error
     end
 
     private
 
     def sign_in_params
-      params.require(:user).permit(:email, :password)
+      if params[:user]
+        params.require(:user).permit(:email, :password)
+      elsif params[:session] && params[:session][:user]
+        params[:session].require(:user).permit(:email, :password)
+      else
+        raise ActionController::ParameterMissing.new(:user)
+      end
     end
 
-    def respond_to_on_destroy
-      render json: { message: 'Logged out successfully.' }, status: :ok
+    def warden
+      request.env['warden']
     end
   end
 end

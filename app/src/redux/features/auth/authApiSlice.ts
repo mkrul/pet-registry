@@ -26,6 +26,7 @@ export const authApiSlice = createApi({
     baseUrl: "/api",
     credentials: "include",
     prepareHeaders: headers => {
+      headers.set("Accept", "application/json");
       return headers;
     }
   }),
@@ -42,35 +43,49 @@ export const authApiSlice = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
         } catch (err) {
-          // Handle error if needed
+          console.error("Login error:", err);
         }
       }
     }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
         url: "/auth/logout",
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include"
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(clearUser());
         } catch (err) {
-          // Handle error if needed
+          console.error("Logout error:", err);
         }
       }
     }),
     getCurrentUser: builder.query<{ user: IUser | null }, void>({
       query: () => ({
-        url: "auth/authenticated_user",
-        method: "GET"
-      })
+        url: "auth/current_user",
+        method: "GET",
+        credentials: "include"
+      }),
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.user) {
+            dispatch(setUser(data.user));
+          }
+        } catch (err) {
+          console.error("Get current user error:", err);
+          dispatch(clearUser());
+        }
+      }
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
       query: credentials => ({
         url: "/auth/registration",
         method: "POST",
-        body: credentials
+        body: credentials,
+        credentials: "include"
       })
     })
   })

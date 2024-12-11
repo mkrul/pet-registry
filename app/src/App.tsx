@@ -1,24 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/common/ScrollToTop"; // Adjust the path if necessary
+import ScrollToTop from "./components/common/ScrollToTop";
 import ReportsIndexPage from "./pages/reports/ReportsIndexPage";
 import ReportShowPage from "./pages/reports/ReportShowPage";
-/**
- * App Component
- *
- * This is the root component of the application. It sets up the router and
- * includes the ScrollToTop component to manage scroll behavior on route changes.
- */
+import { useGetCurrentUserQuery } from "./redux/features/auth/authApiSlice";
+
 const App: React.FC = () => {
+  // This will automatically fetch the current user when the app loads
+  const { isLoading } = useGetCurrentUserQuery();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Router>
-      {/* ScrollToTop listens to route changes and scrolls to top */}
       <ScrollToTop />
-
       <Routes>
         <Route path="/reports" element={<ReportsIndexPage />} />
         <Route path="/reports/:id" element={<ReportShowPage />} />
-        {/* Define other routes here */}
       </Routes>
     </Router>
   );
