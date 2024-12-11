@@ -8,9 +8,15 @@ import { setUser, clearUser } from "./redux/features/auth/authSlice";
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(undefined, {
-    // Skip caching to ensure fresh data on every mount
-    skip: false,
-    refetchOnMountOrArgChange: true
+    // Only refetch on mount or if 1 hour has passed
+    pollingInterval: 3600000,
+    refetchOnMountOrArgChange: 3600,
+    // Add retry logic for failed requests
+    retryOn: (err: any) => {
+      console.log("Retry check:", err);
+      // Only retry on network errors, not auth errors
+      return err.status !== 401 && err.status !== 403;
+    }
   });
 
   useEffect(() => {

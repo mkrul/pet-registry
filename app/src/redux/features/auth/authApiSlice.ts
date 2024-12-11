@@ -28,6 +28,7 @@ export const authApiSlice = createApi({
     }
   }),
   tagTypes: ["Auth"],
+  keepUnusedDataFor: 3600,
   endpoints: builder => ({
     login: builder.mutation<AuthResponse, { user: { email: string; password: string } }>({
       query: credentials => ({
@@ -69,6 +70,7 @@ export const authApiSlice = createApi({
         url: "auth/current_user",
         method: "GET"
       }),
+      keepUnusedDataFor: 3600,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           console.log("Checking current user");
