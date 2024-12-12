@@ -657,6 +657,57 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               )}
             </div>
 
+            {/* Location Information */}
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-800">Location:</h3>
+              {isEditing ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                  <div>
+                    <label className="block font-medium text-gray-700">City</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.city || ""}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      disabled={isSaving}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-medium text-gray-700">State</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={formData.state || ""}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      disabled={isSaving}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-medium text-gray-700">Country</label>
+                    <input
+                      type="text"
+                      name="country"
+                      value={formData.country || ""}
+                      onChange={handleInputChange}
+                      className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                      disabled={isSaving}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <p className="text-gray-700">
+                    {[formData.city, formData.state].filter(Boolean).join(", ")}
+                  </p>
+                  <div>{formData.country}</div>
+                </>
+              )}
+            </div>
+
             {/* Posted and Updated Dates */}
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800">Posted at:</h3>
