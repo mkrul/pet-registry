@@ -101,7 +101,12 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-        :image
+        :image,
+        :city,
+        :state,
+        :country,
+        :latitude,
+        :longitude
       ).merge(report: @report)
     end
 
@@ -120,7 +125,12 @@ module Api
         :color_3,
         :microchipped,
         :microchip_id,
-        :image
+        :image,
+        :city,
+        :state,
+        :country,
+        :latitude,
+        :longitude
       ).merge(report: @report)
     end
 
