@@ -53,16 +53,16 @@ module Api
       # Try to get user from session first
       current_user = nil
 
-      # Check if we have user data in session
-      if session["warden.user..key"].is_a?(Hash) && session["warden.user..key"]["id"]
-        Rails.logger.debug "Found user data in session, loading user"
-        current_user = User.find_by(id: session["warden.user..key"]["id"])
+      # Check if we have user ID in session
+      if session[:user_id]
+        Rails.logger.debug "Found user ID in session: #{session[:user_id]}"
+        current_user = User.find_by(id: session[:user_id])
       end
 
       # If no user in session, try warden
       if !current_user
         Rails.logger.debug "No user in session, checking warden"
-        current_user = warden.user
+        current_user = warden.user(:user)
       end
 
       # If still no user, try remember token
@@ -76,8 +76,8 @@ module Api
           current_user = User.find_by(id: user_id)
           if current_user
             Rails.logger.debug "Found user from remember token: #{current_user.id}"
-            sign_in(current_user)
-            warden.set_user(current_user)
+            sign_in(:user, current_user)
+            session[:user_id] = current_user.id
           end
         end
       end
@@ -102,10 +102,8 @@ module Api
       Rails.logger.debug "Session before logout: #{session.to_h}"
       Rails.logger.debug "Cookies before logout: #{cookies.to_h}"
 
-      # Get current user from session hash if it exists
-      user_data = session["warden.user..key"]
-      if user_data.is_a?(Hash) && user_data["id"]
-        current_user = User.find_by(id: user_data["id"])
+      if session[:user_id]
+        current_user = User.find_by(id: session[:user_id])
         if current_user&.respond_to?(:forget_me!)
           current_user.forget_me!
         end

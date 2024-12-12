@@ -12,12 +12,16 @@ module Api
       if user.save
         Rails.logger.debug "User saved successfully: #{user.id}"
 
+        # Set up Devise scope
+        request.env['devise.mapping'] = Devise.mappings[:user]
+        Rails.logger.debug "Devise mapping set: #{request.env['devise.mapping'].inspect}"
+
         # Sign in the user and set up session
-        warden.set_user(user)
-        sign_in(user)
+        sign_in(:user, user)
+        session[:user_id] = user.id
 
         # Set remember me token
-        if user.respond_to?(:remember_me!) && Devise.respond_to?(:remember_for)
+        if Devise.respond_to?(:remember_for)
           user.remember_me!
           cookies.signed[:remember_user_token] = {
             value: user.class.serialize_into_cookie(user),
@@ -26,7 +30,6 @@ module Api
           }
         end
 
-        Rails.logger.debug "Warden user: #{warden.user.inspect}"
         Rails.logger.debug "Session data: #{session.to_h}"
         Rails.logger.debug "Cookies: #{cookies.to_h}"
 
@@ -51,10 +54,6 @@ module Api
 
     def sign_up_params
       params.require(:user).permit(:email, :password, :password_confirmation)
-    end
-
-    def warden
-      request.env['warden']
     end
   end
 end
