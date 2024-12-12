@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -11,54 +11,14 @@ interface MapProps {
     state: string;
     country: string;
   }) => void;
+  initialLocation?: {
+    latitude: number | null;
+    longitude: number | null;
+  };
 }
 
-const MapEvents = ({ onLocationSelect }: MapProps) => {
+const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
   const markerRef = useRef<L.Marker | null>(null);
-
-  const findNearestCity = async (lat: number, lon: number): Promise<string> => {
-    try {
-      console.log("Finding nearest city for coordinates:", { lat, lon });
-      // Search for nearby places, using a simpler query
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?` +
-          `format=json&` +
-          `addressdetails=1&` +
-          `accept-language=en&` +
-          `zoom=10&` +
-          `lat=${lat}&` +
-          `lon=${lon}`
-      );
-
-      if (!response.ok) {
-        console.error("Failed to fetch nearest city:", response.status, response.statusText);
-        return "";
-      }
-
-      const data = await response.json();
-      console.log("Nearest city search result:", data);
-
-      if (data && data.address) {
-        const cityName =
-          data.address.city ||
-          data.address.town ||
-          data.address.village ||
-          data.address.municipality ||
-          data.address.county || // fallback to county if no city is found
-          "";
-
-        if (cityName) {
-          console.log("Found nearest city:", cityName);
-          return cityName;
-        }
-      }
-      return "";
-    } catch (error) {
-      console.error("Error finding nearest city:", error);
-      return "";
-    }
-  };
-
   const map = useMapEvents({
     click: async e => {
       const { lat, lng } = e.latlng;
@@ -105,17 +65,47 @@ const MapEvents = ({ onLocationSelect }: MapProps) => {
     }
   });
 
+  // Set initial marker and zoom if coordinates exist
+  useEffect(() => {
+    if (initialLocation?.latitude && initialLocation?.longitude) {
+      console.log("Setting initial marker at:", initialLocation);
+
+      // Remove existing marker if any
+      if (markerRef.current) {
+        markerRef.current.remove();
+      }
+
+      // Add marker at initial location
+      markerRef.current = L.marker([initialLocation.latitude, initialLocation.longitude], {
+        draggable: true
+      }).addTo(map);
+
+      // Center and zoom map to marker
+      map.setView([initialLocation.latitude, initialLocation.longitude], 13);
+    }
+  }, [initialLocation, map]);
+
   return null;
 };
 
-const Map: React.FC<MapProps> = ({ onLocationSelect }) => {
+const Map: React.FC<MapProps> = ({ onLocationSelect, initialLocation }) => {
+  // Set initial center based on location or default to US center
+  const center =
+    initialLocation?.latitude && initialLocation?.longitude
+      ? [initialLocation.latitude, initialLocation.longitude]
+      : [37.0902, -95.7129];
+
   return (
-    <MapContainer center={[37.0902, -95.7129]} zoom={4} style={{ width: "100%", height: "400px" }}>
+    <MapContainer
+      center={center as [number, number]}
+      zoom={initialLocation?.latitude ? 13 : 4}
+      style={{ width: "100%", height: "400px" }}
+    >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      <MapEvents onLocationSelect={onLocationSelect} />
+      <MapEvents onLocationSelect={onLocationSelect} initialLocation={initialLocation} />
     </MapContainer>
   );
 };
