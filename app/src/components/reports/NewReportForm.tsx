@@ -188,7 +188,7 @@ const NewReportForm: React.FC = () => {
     }
   };
 
-  if (isLoadingNewReport) return <div>Loading report form...</div>;
+  if (isLoadingNewReport) return <Spinner />;
   if (isNewReportError) return <div>Failed to load report form.</div>;
 
   return (
