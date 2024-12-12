@@ -457,6 +457,11 @@
   resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-7.2.200.tgz#7f56b3313762dbb85b64490aa33c5f431419aafd"
   integrity sha512-gVmi3MabEa+Bkatvw0/k1Y3WTidcIf3qNbb9L8qc+AmT2UmkVqUZhJpSLvKmH10twCYIGzn7yySW/lOpg81Duw==
 
+"@react-leaflet/core@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.1.0.tgz#383acd31259d7c9ae8fb1b02d5e18fe613c2a13d"
+  integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
+
 "@reduxjs/toolkit@^2.2.7":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-2.3.0.tgz#d00134634d6c1678e8563ac50026e429e3b64420"
@@ -589,6 +594,11 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.6.tgz#628effeeae2064a1b4e79f78e81d87b7e5fc7b50"
   integrity sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==
 
+"@types/geojson@*":
+  version "7946.0.15"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.15.tgz#f9d55fd5a0aa2de9dc80b1b04e437538b7298868"
+  integrity sha512-9oSxFzDCT2Rj6DfcHF8G++jxBKS7mBqXl5xrRW+Kbvjry6Uduya2iiwqHPhVXpasAVMBYKkEPGgKhd3+/HZ6xA==
+
 "@types/history@^4.7.11":
   version "4.7.11"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.11.tgz#56588b17ae8f50c53983a524fc3cc47437969d64"
@@ -615,6 +625,13 @@
   integrity sha512-b9Xbf4CkMqS02YH8zACqN1xzdxc3cO735Qe5AbSUFmyOiaWAbcpqh9Wna+Uk0vgACvoQHpWDg2rGdHkYPLmCiQ==
   dependencies:
     "@types/sizzle" "*"
+
+"@types/leaflet@^1.9.15":
+  version "1.9.15"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.9.15.tgz#5054d3cfe115da79bffb7a3a70acc6b310bd7c60"
+  integrity sha512-7UuggAuAs+mva66gtf2OTB1nEhzU/9JED93TIaOEgvFMvG/dIGQaukHE7izHo1Zd+Ko1L4ETUw7TBc8yUxevpg==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/lodash@^4.17.7":
   version "4.17.13"
@@ -644,6 +661,13 @@
   integrity sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==
   dependencies:
     "@types/react" "*"
+
+"@types/react-leaflet@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-leaflet/-/react-leaflet-3.0.0.tgz#b27a50abb6e3ae734d3c15399a26c77c161cab1c"
+  integrity sha512-p8R9mVKbCDDqOdW+M6GyJJuFn6q+IgDFYavFiOIvaWHuOe5kIHZEtCy1pfM43JIA6JiB3D/aDoby7C51eO+XSg==
+  dependencies:
+    react-leaflet "*"
 
 "@types/react-redux@^7.1.33":
   version "7.1.34"
@@ -1244,6 +1268,11 @@ json2mq@^0.2.0:
   dependencies:
     string-convert "^0.2.0"
 
+leaflet@^1.9.4:
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
+  integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
+
 lilconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.1.0.tgz#78e23ac89ebb7e1bfbf25b18043de756548e7f52"
@@ -1530,6 +1559,13 @@ react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-leaflet@*, react-leaflet@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-4.2.1.tgz#c300e9eccaf15cb40757552e181200aa10b94780"
+  integrity sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==
+  dependencies:
+    "@react-leaflet/core" "^2.1.0"
 
 react-redux@^9.1.2:
   version "9.1.2"
