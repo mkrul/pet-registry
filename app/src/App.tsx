@@ -4,6 +4,7 @@ import { useGetCurrentUserQuery } from "./redux/features/auth/authApiSlice";
 import AppRouter from "./components/common/AppRouter";
 import { useAppDispatch } from "./redux/hooks";
 import { setUser, clearUser } from "./redux/features/auth/authSlice";
+import Spinner from "./components/shared/Spinner";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const App: React.FC = () => {
   }, [data, isError, error, dispatch]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (

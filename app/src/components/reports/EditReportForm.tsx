@@ -11,6 +11,7 @@ import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
 import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
+import Map from "../shared/Map";
 
 interface EditReportFormProps {
   report: IReport;
@@ -92,45 +93,41 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
-    setNotification(null);
     e.preventDefault();
-    setImageIsLoading(true);
-    setIsSaving(true);
-
     const formDataToSend = new FormData();
 
-    formDataToSend.append("title", formData.title || "");
-    formDataToSend.append("description", formData.description || "");
+    // Add existing form data
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("description", formData.description);
     formDataToSend.append("name", formData.name || "");
-    formDataToSend.append("species", formData.species || "");
-    formDataToSend.append("breed_1", formData.breed1 || "");
+    formDataToSend.append("species", formData.species);
+    formDataToSend.append("breed_1", formData.breed1);
     formDataToSend.append("breed_2", formData.breed2 || "");
-    formDataToSend.append("color_1", formData.color1 || "");
+    formDataToSend.append("color_1", formData.color1);
     formDataToSend.append("color_2", formData.color2 || "");
     formDataToSend.append("color_3", formData.color3 || "");
-    formDataToSend.append("gender", formData.gender || "");
-    formDataToSend.append(
-      "microchipped",
-      formData.microchipped !== null ? formData.microchipped.toString() : ""
-    );
+    formDataToSend.append("gender", formData.gender);
+    formDataToSend.append("microchipped", formData.microchipped?.toString() || "");
     formDataToSend.append("microchip_id", formData.microchipId || "");
+
+    // Add location data
+    formDataToSend.append("city", formData.city || "");
+    formDataToSend.append("state", formData.state || "");
+    formDataToSend.append("country", formData.country || "");
+    formDataToSend.append("latitude", formData.latitude?.toString() || "");
+    formDataToSend.append("longitude", formData.longitude?.toString() || "");
+
     if (newImageFile) {
       formDataToSend.append("image", newImageFile);
     }
+
     try {
-      const updatedReport = await updateReport({ id: formData.id, data: formDataToSend }).unwrap();
-      setFormData(updatedReport);
+      await updateReport({ id: report.id, data: formDataToSend }).unwrap();
       setIsEditing(false);
-      setNotification({ type: "success", message: "Report updated successfully!" }); // Success notification
-    } catch (error: any) {
-      console.error("Failed to update report:", error);
-      if (error.data && error.data.errors) {
-        setErrors(error.data.errors);
-      }
-      setNotification({ type: "danger", message: "Failed to update report. Please try again." }); // Error notification
-    } finally {
-      setImageIsLoading(false);
-      setIsSaving(false);
+      setNotification({ type: "success", message: "Report updated successfully!" });
+    } catch (error) {
+      setNotification({ type: "danger", message: "Failed to update report." });
+      console.error("Error updating report:", error);
     }
   };
 
@@ -224,6 +221,23 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     } else {
       return "Unknown";
     }
+  };
+
+  const handleLocationSelect = (location: {
+    latitude: number;
+    longitude: number;
+    city: string;
+    state: string;
+    country: string;
+  }) => {
+    setFormData(prevData => ({
+      ...prevData,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      city: location.city,
+      state: location.state,
+      country: location.country
+    }));
   };
 
   return (
@@ -653,6 +667,68 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   <p className="text-gray-700">{formData.color1}</p>
                   {formData.color2 && <p className="text-gray-700">{formData.color2}</p>}
                   {formData.color3 && <p className="text-gray-700">{formData.color3}</p>}
+                </>
+              )}
+            </div>
+
+            {/* Location Information */}
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-800">Location:</h3>
+              {isEditing ? (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div>
+                      <label className="block font-medium text-gray-700">City</label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={formData.city || ""}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        disabled={isSaving}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-medium text-gray-700">State</label>
+                      <input
+                        type="text"
+                        name="state"
+                        value={formData.state || ""}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        disabled={isSaving}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-medium text-gray-700">Country</label>
+                      <input
+                        type="text"
+                        name="country"
+                        value={formData.country || ""}
+                        onChange={handleInputChange}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                        disabled={isSaving}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 h-[400px]">
+                    <Map
+                      onLocationSelect={handleLocationSelect}
+                      initialLocation={{
+                        latitude: formData.latitude,
+                        longitude: formData.longitude
+                      }}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="text-gray-700">
+                    {[formData.city, formData.state].filter(Boolean).join(", ")}
+                  </p>
+                  <div>{formData.country}</div>
                 </>
               )}
             </div>

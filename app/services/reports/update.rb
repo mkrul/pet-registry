@@ -17,6 +17,11 @@ class Reports::Update < ActiveInteraction::Base
   boolean :microchipped, default: nil
   string :microchip_id, default: nil
   file :image, default: nil
+  string :city, default: nil
+  string :state, default: nil
+  string :country, default: nil
+  float :latitude, default: nil
+  float :longitude, default: nil
 
   def execute
     ActiveRecord::Base.transaction do
@@ -47,7 +52,12 @@ class Reports::Update < ActiveInteraction::Base
       color_2: color_2&.downcase,
       color_3: color_3&.downcase,
       microchipped: microchipped,
-      microchip_id: microchip_id
+      microchip_id: microchip_id,
+      city: city,
+      state: state,
+      country: country,
+      latitude: latitude,
+      longitude: longitude
     )
   end
 

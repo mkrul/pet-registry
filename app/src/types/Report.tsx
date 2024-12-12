@@ -20,6 +20,11 @@ export interface IReport {
   microchipped: boolean | null;
   microchipId: string | null;
   updatedLastThreeDays: boolean;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 export interface IReportsState {
@@ -45,4 +50,9 @@ export interface IReportForm {
   microchipped: boolean | null;
   microchipId: string | null;
   image: IImage;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }

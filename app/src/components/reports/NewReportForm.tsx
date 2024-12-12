@@ -3,6 +3,7 @@ import {
   useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
+import Map from "../shared/Map";
 import { IReportForm } from "../../types/Report";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
@@ -40,7 +41,12 @@ const NewReportForm: React.FC = () => {
       publicId: ""
     },
     microchipped: null,
-    microchipId: ""
+    microchipId: "",
+    city: "",
+    state: "",
+    country: "",
+    latitude: null,
+    longitude: null
   });
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
@@ -79,6 +85,22 @@ const NewReportForm: React.FC = () => {
       setFormData(prev => ({
         ...prev,
         [name]: processedValue
+      }));
+    },
+    []
+  );
+
+  const handleLocationSelect = useCallback(
+    (location: {
+      latitude: number;
+      longitude: number;
+      city: string;
+      state: string;
+      country: string;
+    }) => {
+      setFormData(prev => ({
+        ...prev,
+        ...location
       }));
     },
     []
@@ -135,7 +157,12 @@ const NewReportForm: React.FC = () => {
       color_2: showColor2 && formData.color2 ? formData.color2.toLowerCase() : "",
       color_3: showColor3 && formData.color3 ? formData.color3.toLowerCase() : "",
       microchipped: formData.microchipped !== null ? formData.microchipped.toString() : "",
-      microchip_id: formData.microchipId || ""
+      microchip_id: formData.microchipId || "",
+      city: formData.city || "",
+      state: formData.state || "",
+      country: formData.country || "",
+      latitude: formData.latitude || null,
+      longitude: formData.longitude || null
     };
 
     formDataToSend.append("title", data.title);
@@ -150,6 +177,17 @@ const NewReportForm: React.FC = () => {
     formDataToSend.append("color_3", data.color_3);
     formDataToSend.append("microchipped", data.microchipped);
     formDataToSend.append("microchip_id", data.microchip_id);
+    formDataToSend.append("city", data.city);
+    formDataToSend.append("state", data.state);
+    formDataToSend.append("country", data.country);
+    formDataToSend.append("latitude", data.latitude?.toString() || "");
+    formDataToSend.append("longitude", data.longitude?.toString() || "");
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        formDataToSend.append(key, value.toString());
+      }
+    });
 
     if (selectedImage) {
       formDataToSend.append("image", selectedImage);
@@ -178,7 +216,12 @@ const NewReportForm: React.FC = () => {
           publicId: ""
         },
         microchipped: null,
-        microchipId: ""
+        microchipId: "",
+        city: "",
+        state: "",
+        country: "",
+        latitude: null,
+        longitude: null
       });
       setSelectedImage(null);
       setImagePreview("");
@@ -188,7 +231,7 @@ const NewReportForm: React.FC = () => {
     }
   };
 
-  if (isLoadingNewReport) return <div>Loading report form...</div>;
+  if (isLoadingNewReport) return <Spinner />;
   if (isNewReportError) return <div>Failed to load report form.</div>;
 
   return (
@@ -537,6 +580,61 @@ const NewReportForm: React.FC = () => {
             />
           </div>
         )}
+      </div>
+
+      {/* Location Section */}
+      <div className="mt-8">
+        <h2 className="text-lg font-medium text-gray-900 mb-4">Location Information</h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Click on the map to drop a pin where the pet was last seen. The address details will be
+          automatically filled in.
+        </p>
+
+        <Map onLocationSelect={handleLocationSelect} />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div>
+            <label className="block font-medium text-gray-700">
+              City <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city || ""}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium text-gray-700">
+              State <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="state"
+              value={formData.state || ""}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+
+          <div>
+            <label className="block font-medium text-gray-700">
+              Country <span className="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              name="country"
+              value={formData.country || ""}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Submit Button */}
