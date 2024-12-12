@@ -8,25 +8,20 @@ import { setUser, clearUser } from "./redux/features/auth/authSlice";
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(undefined, {
-    // Skip caching to ensure fresh data on every mount
-    skip: false,
-    refetchOnMountOrArgChange: true
+    // Only refetch on mount or if 1 hour has passed
+    pollingInterval: 3600000,
+    refetchOnMountOrArgChange: 3600
   });
 
   useEffect(() => {
-    console.log("Auth state check:", { data, isError, error });
-
     if (data?.user) {
-      console.log("Setting authenticated user:", data.user);
       dispatch(setUser(data.user));
     } else if (isError) {
-      console.log("Clearing user due to error:", error);
       dispatch(clearUser());
     }
   }, [data, isError, error, dispatch]);
 
   if (isLoading) {
-    console.log("Loading auth state...");
     return <div>Loading...</div>;
   }
 

@@ -99,19 +99,24 @@ module Api
 
     def destroy
       Rails.logger.debug "============ Logout Attempt ============"
-      Rails.logger.debug "Current user before logout: #{warden.user&.id}"
       Rails.logger.debug "Session before logout: #{session.to_h}"
       Rails.logger.debug "Cookies before logout: #{cookies.to_h}"
 
-      if warden.user
-        # Clear remember me token if it exists
-        if warden.user.respond_to?(:forget_me!)
-          warden.user.forget_me!
+      # Get current user from session hash if it exists
+      user_data = session["warden.user..key"]
+      if user_data.is_a?(Hash) && user_data["id"]
+        current_user = User.find_by(id: user_data["id"])
+        if current_user&.respond_to?(:forget_me!)
+          current_user.forget_me!
         end
-
-        sign_out(warden.user)
-        reset_session
       end
+
+      # Clear remember token cookie
+      cookies.delete(:remember_user_token, domain: :all)
+
+      # Clear session and sign out
+      sign_out(:user)
+      reset_session
 
       Rails.logger.debug "Session after logout: #{session.to_h}"
       Rails.logger.debug "Cookies after logout: #{cookies.to_h}"

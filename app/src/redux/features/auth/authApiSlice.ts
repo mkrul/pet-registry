@@ -28,6 +28,7 @@ export const authApiSlice = createApi({
     }
   }),
   tagTypes: ["Auth"],
+  keepUnusedDataFor: 3600,
   endpoints: builder => ({
     login: builder.mutation<AuthResponse, { user: { email: string; password: string } }>({
       query: credentials => ({
@@ -38,12 +39,10 @@ export const authApiSlice = createApi({
       invalidatesTags: ["Auth"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          console.log("Login attempt started");
           const { data } = await queryFulfilled;
-          console.log("Login successful:", data);
           dispatch(setUser(data.user));
         } catch (err) {
-          console.error("Login error:", err);
+          // Error handling
         }
       }
     }),
@@ -55,12 +54,10 @@ export const authApiSlice = createApi({
       invalidatesTags: ["Auth"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          console.log("Logout attempt started");
           await queryFulfilled;
-          console.log("Logout successful");
           dispatch(clearUser());
         } catch (err) {
-          console.error("Logout error:", err);
+          // Error handling
         }
       }
     }),
@@ -69,19 +66,16 @@ export const authApiSlice = createApi({
         url: "auth/current_user",
         method: "GET"
       }),
+      keepUnusedDataFor: 3600,
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          console.log("Checking current user");
           const { data } = await queryFulfilled;
-          console.log("Current user check successful:", data);
           if (data?.user) {
             dispatch(setUser(data.user));
           } else {
-            console.log("No user data in response");
             dispatch(clearUser());
           }
         } catch (err) {
-          console.error("Current user check failed:", err);
           dispatch(clearUser());
         }
       },
@@ -96,12 +90,10 @@ export const authApiSlice = createApi({
       invalidatesTags: ["Auth"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
-          console.log("Sign up attempt started");
           const { data } = await queryFulfilled;
-          console.log("Sign up successful:", data);
           dispatch(setUser(data.user));
         } catch (err) {
-          console.error("Sign up error:", err);
+          // Error handling
         }
       }
     })
