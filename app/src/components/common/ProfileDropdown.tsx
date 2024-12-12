@@ -21,7 +21,7 @@ const ProfileDropdown = () => {
       document.cookie = "remember_user_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
       console.log("Redirecting to login page...");
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.error("Logout failed:", err);
       // Even if the server request fails, we should still clear the local state
