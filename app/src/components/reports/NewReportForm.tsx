@@ -71,24 +71,62 @@ const NewReportForm: React.FC = () => {
     setShowColor3(!!formData.color2);
   }, [formData, dogBreeds, catBreeds]);
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-      const { name, value, type } = e.target;
+  const getFilteredBreedOptions = (selectedBreeds: (string | null)[]) => {
+    return breedOptions.filter(breed => !selectedBreeds.includes(breed));
+  };
 
-      let processedValue: any = value;
-      if (type === "radio" && name === "microchipped") {
-        if (value === "true") processedValue = true;
-        else if (value === "false") processedValue = false;
-        else processedValue = null;
-      }
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
 
+    if (name === "breed1" && value === formData.breed2) {
       setFormData(prev => ({
         ...prev,
-        [name]: processedValue
+        [name]: value,
+        breed2: null
       }));
-    },
-    []
-  );
+      setShowBreed2(false);
+      return;
+    }
+
+    if (name === "color1" && (value === formData.color2 || value === formData.color3)) {
+      if (value === formData.color2) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+          color2: null
+        }));
+        setShowColor2(false);
+      }
+      if (value === formData.color3) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+          color3: null
+        }));
+        setShowColor3(false);
+      }
+      return;
+    }
+
+    if (name === "color2") {
+      if (value === formData.color3) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+          color3: null
+        }));
+        setShowColor3(false);
+        return;
+      }
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleLocationSelect = useCallback(
     (location: {
@@ -229,6 +267,10 @@ const NewReportForm: React.FC = () => {
       console.error("Failed to submit report:", error);
       // Optionally, display error messages to the user
     }
+  };
+
+  const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
+    return colorOptionsList.filter(color => !selectedColors.includes(color));
   };
 
   if (isLoadingNewReport) return <Spinner />;
@@ -429,7 +471,7 @@ const NewReportForm: React.FC = () => {
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           >
             <option value="">Choose one</option>
-            {breedOptions.map((breed, index) => (
+            {getFilteredBreedOptions([formData.breed1]).map((breed, index) => (
               <option key={index} value={breed}>
                 {breed}
               </option>
@@ -468,11 +510,11 @@ const NewReportForm: React.FC = () => {
           name="color1"
           value={formData.color1}
           onChange={handleInputChange}
-          required
           className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          required
         >
           <option value="">Choose one</option>
-          {colorOptions.map((color, index) => (
+          {colorOptionsList.map((color, index) => (
             <option key={index} value={color}>
               {color}
             </option>
@@ -491,7 +533,7 @@ const NewReportForm: React.FC = () => {
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           >
             <option value="">Choose one</option>
-            {colorOptions.map((color, index) => (
+            {getFilteredColorOptions([formData.color1]).map((color, index) => (
               <option key={index} value={color}>
                 {color}
               </option>
@@ -520,7 +562,7 @@ const NewReportForm: React.FC = () => {
             className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           >
             <option value="">Choose one</option>
-            {colorOptions.map((color, index) => (
+            {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
               <option key={index} value={color}>
                 {color}
               </option>

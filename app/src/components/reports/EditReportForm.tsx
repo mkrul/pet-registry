@@ -45,33 +45,64 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
 
   const [updateReport] = useUpdateReportMutation();
 
+  const getFilteredBreedOptions = (selectedBreeds: (string | null)[]) => {
+    return breedOptions.filter(breed => !selectedBreeds.includes(breed));
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
 
-    // Handle 'microchipped' field separately
-    if (name === "microchipped") {
-      let parsedValue: boolean | null;
-
-      if (value === "true") {
-        parsedValue = true;
-      } else if (value === "false") {
-        parsedValue = false;
-      } else {
-        parsedValue = null; // Represents "I don't know"
-      }
-
-      setFormData(prevData => ({
-        ...prevData,
-        [name]: parsedValue
+    if (name === "breed1" && value === formData.breed2) {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+        breed2: null
       }));
-    } else {
-      setFormData(prevData => ({
-        ...prevData,
-        [name]: value
-      }));
+      setShowBreed2(false);
+      return;
     }
+
+    if (name === "color1" && (value === formData.color2 || value === formData.color3)) {
+      // If new color1 matches color2, remove color2
+      if (value === formData.color2) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+          color2: null
+        }));
+        setShowColor2(false);
+      }
+      // If new color1 matches color3, remove color3
+      if (value === formData.color3) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+          color3: null
+        }));
+        setShowColor3(false);
+      }
+      return;
+    }
+
+    if (name === "color2") {
+      // If new color2 matches color3, remove color3
+      if (value === formData.color3) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: value,
+          color3: null
+        }));
+        setShowColor3(false);
+        return;
+      }
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,6 +269,10 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       state: location.state,
       country: location.country
     }));
+  };
+
+  const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
+    return colorOptionsList.filter(color => !selectedColors.includes(color));
   };
 
   return (
@@ -524,9 +559,10 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         onChange={handleInputChange}
                         className="border-gray-300 rounded-md shadow-sm"
                         disabled={isSaving}
+                        required
                       >
                         <option value="">Select breed</option>
-                        {breedOptions.map((breed, index) => (
+                        {getFilteredBreedOptions([formData.breed1]).map((breed, index) => (
                           <option key={index} value={breed}>
                             {breed}
                           </option>
@@ -574,7 +610,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   <div className="flex items-center mb-2">
                     <select
                       name="color1"
-                      value={formData.color1 || ""}
+                      value={formData.color1}
                       onChange={handleInputChange}
                       className="border-gray-300 rounded-md shadow-sm"
                       disabled={isSaving}
@@ -602,7 +638,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         required
                       >
                         <option value="">Select color</option>
-                        {colorOptionsList.map((color, index) => (
+                        {getFilteredColorOptions([formData.color1]).map((color, index) => (
                           <option key={index} value={color}>
                             {color}
                           </option>
@@ -631,11 +667,13 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         required
                       >
                         <option value="">Select color</option>
-                        {colorOptionsList.map((color, index) => (
-                          <option key={index} value={color}>
-                            {color}
-                          </option>
-                        ))}
+                        {getFilteredColorOptions([formData.color1, formData.color2]).map(
+                          (color, index) => (
+                            <option key={index} value={color}>
+                              {color}
+                            </option>
+                          )
+                        )}
                       </select>
                       <button
                         type="button"
