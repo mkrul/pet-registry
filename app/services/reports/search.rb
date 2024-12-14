@@ -14,7 +14,8 @@ class Reports::Search < ActiveInteraction::Base
     'pit bull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
     'pitbull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
     'bulldog' => ['bulldog', 'pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully'],
-    'cat' => ['cat', 'kitten', 'feline', 'kitty', 'kitten'],
+    'cat' => ['kitten', 'kitty', 'kitties', 'cats'],
+    'dog' => ['puppy', 'puppies', 'dogs'],
   }
 
   def execute
