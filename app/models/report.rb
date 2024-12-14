@@ -4,7 +4,7 @@ class Report < ApplicationRecord
   searchkick word_middle: [:breed_1, :breed_2, :description, :title],
              text_middle: [:gender],
              searchable: [:breed_1, :breed_2, :description, :title],
-             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status],
+             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status, :country],
              suggest: [:breed_1, :breed_2],
              word_start: [:breed_1, :breed_2],
              settings: {
@@ -33,7 +33,7 @@ class Report < ApplicationRecord
              }
 
   def search_data
-    {
+    data = {
       title: title&.downcase,
       description: description&.downcase,
       species: species&.downcase,
@@ -45,9 +45,13 @@ class Report < ApplicationRecord
       name: name&.downcase,
       gender: gender&.downcase,
       status: status,
+      country: country,
       updated_at: updated_at,
       created_at: created_at
     }
+
+    Rails.logger.debug "Indexing report with data: #{data.inspect}"
+    data
   end
 
   after_commit :reindex_report

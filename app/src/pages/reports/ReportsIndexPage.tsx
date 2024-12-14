@@ -6,6 +6,7 @@ import Filters from "../../components/shared/Filters";
 
 const ReportIndexPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showFilters, setShowFilters] = useState(false);
 
   const queryParam = searchParams.get("query") || "";
   const pageParam = parseInt(searchParams.get("page") || "1", 10);
@@ -21,13 +22,17 @@ const ReportIndexPage = () => {
     species: speciesParam,
     color: colorParam,
     gender: genderParam,
-    sort: sortParam
+    city: "",
+    state: "",
+    country: ""
   });
   const [pendingFilters, setPendingFilters] = useState({
     species: speciesParam,
     color: colorParam,
     gender: genderParam,
-    sort: sortParam
+    city: "",
+    state: "",
+    country: ""
   });
 
   useEffect(() => {
@@ -37,17 +42,22 @@ const ReportIndexPage = () => {
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
-      sort: sortParam
+      city: "",
+      state: "",
+      country: ""
     });
     setActiveFilters({
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
-      sort: sortParam
+      city: "",
+      state: "",
+      country: ""
     });
   }, [queryParam, pageParam, speciesParam, colorParam, genderParam, sortParam]);
 
   const handleSearch = (query: string) => {
+    console.log("Search triggered with filters:", pendingFilters);
     setSearchQuery(query);
     setActiveSearch(query);
     setCurrentPage(1);
@@ -57,6 +67,7 @@ const ReportIndexPage = () => {
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
+    console.log(`Filter changed: ${name} = ${value}`);
     setPendingFilters(prev => ({
       ...prev,
       [name]: value
@@ -88,12 +99,14 @@ const ReportIndexPage = () => {
     page: number,
     currentFilters: typeof activeFilters
   ) => {
+    console.log("Updating search params with filters:", currentFilters);
     const params: Record<string, string> = { page: page.toString() };
     if (query) params.query = query;
     if (currentFilters.species) params.species = currentFilters.species;
     if (currentFilters.color) params.color = currentFilters.color;
     if (currentFilters.gender) params.gender = currentFilters.gender;
-    if (currentFilters.sort) params.sort = currentFilters.sort;
+    if (currentFilters.country) params.country = currentFilters.country;
+    console.log("Final search params:", params);
     setSearchParams(params);
   };
 
@@ -111,15 +124,25 @@ const ReportIndexPage = () => {
       >
         Reset
       </button>
+      <button
+        onClick={() => setShowFilters(!showFilters)}
+        className={`px-4 py-2 border border-blue-500 rounded-md transition-colors w-32 ${
+          showFilters
+            ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
+            : "bg-white text-blue-600 hover:bg-blue-100"
+        }`}
+      >
+        {showFilters ? "Hide filters" : "Show filters"}
+      </button>
     </div>
   );
 
   return (
     <div className="mx-auto p-4 mt-5">
       <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
-        <h1 className="text-3xl font-bold text-blue-600 text-center"></h1>
-        <div className="w-full lg:w-2/3 flex flex-col items-center lg:items-end order-last lg:order-none sm:mt-2">
-          <div className="w-full max-w-xl flex flex-col gap-2">
+        <h1 className="font-bold text-blue-600 text-center"></h1>
+        <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-end order-last lg:order-none">
+          <div className="w-full flex flex-col gap-2">
             <div className="w-full">
               <div className="relative w-full flex gap-2">
                 <div className="relative flex-1">
@@ -136,7 +159,7 @@ const ReportIndexPage = () => {
                       }
                     }}
                     className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
-                    placeholder="Enter breed and descriptive keywords..."
+                    placeholder="Enter descriptive keywords..."
                     autoComplete="off"
                   />
                   <div className="absolute left-0 inset-y-0 flex items-center">
@@ -185,8 +208,12 @@ const ReportIndexPage = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full">
-              <Filters filters={pendingFilters} handleFilterChange={handleFilterChange} />
+            <div className="w-full flex justify-between gap-2">
+              {showFilters && (
+                <div className="mb-2 flex-grow">
+                  <Filters filters={pendingFilters} handleFilterChange={handleFilterChange} />
+                </div>
+              )}
             </div>
             <div className="sm:hidden w-full">
               <ActionButtons />

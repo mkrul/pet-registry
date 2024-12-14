@@ -5,6 +5,7 @@ class Reports::Search < ActiveInteraction::Base
   string :species, default: nil
   string :color, default: nil
   string :gender, default: nil
+  string :country, default: nil
   string :sort, default: nil
   integer :page, default: 1
   integer :per_page, default: Report::REPORT_PAGE_LIMIT
@@ -23,6 +24,15 @@ class Reports::Search < ActiveInteraction::Base
       per_page: per_page,
       order: sort_order
     }
+
+    Rails.logger.debug "Search options: #{search_options.inspect}"
+
+    # Add debug logging to see what's in the index
+    Rails.logger.debug "Sample reports in index:"
+    sample_reports = Report.search("*", where: { status: 'active' }, limit: 5)
+    sample_reports.each do |report|
+      Rails.logger.debug "Report #{report.id}: #{report.search_data.inspect}"
+    end
 
     if query.present?
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2"]
@@ -60,6 +70,14 @@ class Reports::Search < ActiveInteraction::Base
 
   def where_conditions
     conditions = { status: 'active' }
+
+    # Use term query for country
+    if country.present?
+      conditions[:country] = country
+    end
+
+    Rails.logger.debug "Country param: #{country.inspect}"
+    Rails.logger.debug "Final conditions: #{conditions.inspect}"
 
     # Only set species from param if "cat" or "dog" is not in query
     if !query&.downcase&.include?('cat') && !query&.downcase&.include?('dog') && species.present?

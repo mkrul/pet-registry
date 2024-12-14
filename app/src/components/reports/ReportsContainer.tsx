@@ -15,6 +15,7 @@ interface ReportsContainerProps {
     color?: string;
     gender?: string;
     sort?: string;
+    country?: string;
   };
   onPageChange: (page: number) => void;
 }

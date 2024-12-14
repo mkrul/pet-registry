@@ -5,7 +5,7 @@ import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
 import { IPagination, IPaginationQuery } from "../../../types/shared/Pagination";
 
-const reportsApi = createApi({
+export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `http://${window.location.hostname}:3000/api`,
@@ -28,7 +28,7 @@ const reportsApi = createApi({
       },
       IPaginationQuery
     >({
-      query: ({ page, items, query, species, color, gender, sort }) => {
+      query: ({ page, items, query, species, color, gender, sort, country }) => {
         const params = new URLSearchParams({
           page: page.toString(),
           per_page: items.toString()
@@ -39,6 +39,7 @@ const reportsApi = createApi({
         if (color) params.append("color", color);
         if (gender) params.append("gender", gender);
         if (sort) params.append("sort", sort);
+        if (country) params.append("country", country);
 
         return `reports?${params.toString()}`;
       },

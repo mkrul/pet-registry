@@ -48,7 +48,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
-            placeholder="Enter breed and descriptive keywords..."
+            placeholder="Enter descriptive keywords..."
             autoComplete="off"
           />
           <div className="absolute left-0 inset-y-0 flex items-center">
