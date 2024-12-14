@@ -2,6 +2,7 @@ import React from "react";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import { sortOptionsList } from "../../lib/reports/sortOptionsList";
+import { useGetStatesQuery } from "../../redux/features/reports/reportsApi";
 
 interface FiltersProps {
   filters: {
@@ -16,6 +17,13 @@ interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
+  const { data: states = [], isLoading: isLoadingStates } = useGetStatesQuery(filters.country, {
+    skip: !filters.country
+  });
+
+  console.log("Available states:", states);
+  console.log("States type:", Array.isArray(states) ? "array" : typeof states);
+
   const selectClassName =
     "w-full min-w-[100px] rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 whitespace-nowrap";
 
@@ -86,10 +94,17 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             name="state"
             value={filters.state}
             onChange={handleFilterChange}
-            className={filters.country ? selectClassName : disabledSelectClassName}
-            disabled={!filters.country}
+            className={
+              filters.country && !isLoadingStates ? selectClassName : disabledSelectClassName
+            }
+            disabled={!filters.country || isLoadingStates}
           >
             <option value="">State</option>
+            {states.map(state => (
+              <option key={state} value={state}>
+                {state}
+              </option>
+            ))}
           </select>
         </div>
 

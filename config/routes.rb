@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'auth/current_user', to: 'sessions#show'
 
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
+    get 'filters/states', to: 'filters#states'
 
     resources :reports do
       get :index, on: :collection

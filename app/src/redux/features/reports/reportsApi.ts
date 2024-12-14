@@ -21,6 +21,13 @@ export const reportsApi = createApi({
       transformResponse: (response: IReport) => transformToCamelCase(response),
       providesTags: (result, error, id) => [{ type: "Reports", id: id }]
     }),
+    getStates: build.query<string[], string>({
+      query: (country: string) => ({
+        url: `filters/states`,
+        params: { country }
+      }),
+      transformResponse: (response: { states: string[] }) => response.states
+    }),
     getReports: build.query<
       {
         data: IReport[];
@@ -77,6 +84,7 @@ export const reportsApi = createApi({
 export const {
   useGetReportQuery,
   useGetReportsQuery,
+  useGetStatesQuery,
   useSubmitReportMutation,
   useGetNewReportQuery,
   useUpdateReportMutation
