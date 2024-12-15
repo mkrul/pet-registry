@@ -35,7 +35,7 @@ export const reportsApi = createApi({
       },
       IPaginationQuery
     >({
-      query: ({ page, items, query, species, color, gender, sort, country }) => {
+      query: ({ page, items, query, species, color, gender, sort, country, state }) => {
         const params = new URLSearchParams({
           page: page.toString(),
           per_page: items.toString()
@@ -47,6 +47,7 @@ export const reportsApi = createApi({
         if (gender) params.append("gender", gender);
         if (sort) params.append("sort", sort);
         if (country) params.append("country", country);
+        if (state) params.append("state", state);
 
         return `reports?${params.toString()}`;
       },

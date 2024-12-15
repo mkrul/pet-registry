@@ -8,7 +8,7 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
-      permitted_params = params.permit(:page, :per_page, :query, :species, :color, :gender, :country)
+      permitted_params = params.permit(:page, :per_page, :query, :species, :color, :gender, :country, :state)
 
       search_results = Reports::Search.run!(
         page: permitted_params[:page],
@@ -17,7 +17,8 @@ module Api
         species: permitted_params[:species],
         color: permitted_params[:color],
         gender: permitted_params[:gender],
-        country: permitted_params[:country]
+        country: permitted_params[:country],
+        state: permitted_params[:state]
       )
 
       reports = Report.includes(image_attachment: :blob)

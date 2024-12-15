@@ -68,10 +68,21 @@ const ReportIndexPage = () => {
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     console.log(`Filter changed: ${name} = ${value}`);
-    setPendingFilters(prev => ({
-      ...prev,
-      [name]: value
-    }));
+
+    if (name === "country") {
+      // Clear state and city when country changes
+      setPendingFilters(prev => ({
+        ...prev,
+        [name]: value,
+        state: "",
+        city: ""
+      }));
+    } else {
+      setPendingFilters(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleReset = () => {
@@ -79,6 +90,9 @@ const ReportIndexPage = () => {
       species: "",
       color: "",
       gender: "",
+      city: "",
+      state: "",
+      country: "",
       sort: "Newest"
     };
     setSearchQuery("");
@@ -100,12 +114,21 @@ const ReportIndexPage = () => {
     currentFilters: typeof activeFilters
   ) => {
     console.log("Updating search params with filters:", currentFilters);
-    const params: Record<string, string> = { page: page.toString() };
+    const params: Record<string, string> = {};
+
+    // Only add page parameter if it's not page 1
+    if (page > 1) {
+      params.page = page.toString();
+    }
+
     if (query) params.query = query;
     if (currentFilters.species) params.species = currentFilters.species;
     if (currentFilters.color) params.color = currentFilters.color;
     if (currentFilters.gender) params.gender = currentFilters.gender;
     if (currentFilters.country) params.country = currentFilters.country;
+    if (currentFilters.state) params.state = currentFilters.state;
+    if (currentFilters.sort && currentFilters.sort !== "Newest") params.sort = currentFilters.sort;
+
     console.log("Final search params:", params);
     setSearchParams(params);
   };

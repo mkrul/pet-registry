@@ -5,6 +5,7 @@ class Reports::Search < ActiveInteraction::Base
   string :species, default: nil
   string :color, default: nil
   string :gender, default: nil
+  string :state, default: nil
   string :country, default: nil
   string :sort, default: nil
   integer :page, default: 1
@@ -72,13 +73,24 @@ class Reports::Search < ActiveInteraction::Base
   def where_conditions
     conditions = { status: 'active' }
 
-    # Use term query for country
+    Rails.logger.debug "[Search] Building filters:"
+    Rails.logger.debug "  Species: #{species.inspect}"
+    Rails.logger.debug "  Color: #{color.inspect}"
+    Rails.logger.debug "  Gender: #{gender.inspect}"
+    Rails.logger.debug "  Country: #{country.inspect}"
+    Rails.logger.debug "  State: #{state.inspect}"
+
+    # Add country condition
     if country.present?
       conditions[:country] = country
+      Rails.logger.debug "  Added country filter: #{country}"
     end
 
-    Rails.logger.debug "Country param: #{country.inspect}"
-    Rails.logger.debug "Final conditions: #{conditions.inspect}"
+    # Add state condition
+    if state.present?
+      conditions[:state] = state
+      Rails.logger.debug "  Added state filter: #{state}"
+    end
 
     # Only set species from param if "cat" or "dog" is not in query
     if !query&.downcase&.include?('cat') && !query&.downcase&.include?('dog') && species.present?
@@ -111,6 +123,8 @@ class Reports::Search < ActiveInteraction::Base
     end
 
     conditions[:_and] = filters if filters.any?
+
+    Rails.logger.debug "[Search] Final conditions: #{conditions.inspect}"
     conditions
   end
 

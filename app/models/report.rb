@@ -4,7 +4,7 @@ class Report < ApplicationRecord
   searchkick word_middle: [:breed_1, :breed_2, :description, :title],
              text_middle: [:gender],
              searchable: [:breed_1, :breed_2, :description, :title],
-             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status, :country],
+             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status, :country, :state],
              suggest: [:breed_1, :breed_2],
              word_start: [:breed_1, :breed_2],
              settings: {
@@ -46,6 +46,7 @@ class Report < ApplicationRecord
       gender: gender&.downcase,
       status: status,
       country: country,
+      state: state,
       updated_at: updated_at,
       created_at: created_at
     }
