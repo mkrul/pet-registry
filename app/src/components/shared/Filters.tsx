@@ -2,7 +2,7 @@ import React from "react";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import { sortOptionsList } from "../../lib/reports/sortOptionsList";
-import { useGetStatesQuery } from "../../redux/features/reports/reportsApi";
+import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
 
 interface FiltersProps {
   filters: {
@@ -21,8 +21,19 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
     skip: !filters.country
   });
 
+  const { data: cities = [], isLoading: isLoadingCities } = useGetCitiesQuery(
+    {
+      country: filters.country,
+      state: filters.state
+    },
+    {
+      skip: !filters.country || !filters.state
+    }
+  );
+
   console.log("Available states:", states);
   console.log("States type:", Array.isArray(states) ? "array" : typeof states);
+  console.log("Available cities:", cities);
 
   const selectClassName =
     "w-full min-w-[100px] rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 whitespace-nowrap";
@@ -82,10 +93,19 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             name="city"
             value={filters.city}
             onChange={handleFilterChange}
-            className={filters.country ? selectClassName : disabledSelectClassName}
-            disabled={!filters.country}
+            className={
+              filters.country && filters.state && !isLoadingCities
+                ? selectClassName
+                : disabledSelectClassName
+            }
+            disabled={!filters.country || !filters.state || isLoadingCities}
           >
             <option value="">City</option>
+            {cities.map(city => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
           </select>
         </div>
 

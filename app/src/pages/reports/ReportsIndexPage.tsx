@@ -69,20 +69,16 @@ const ReportIndexPage = () => {
     const { name, value } = e.target;
     console.log(`Filter changed: ${name} = ${value}`);
 
-    if (name === "country") {
-      // Clear state and city when country changes
-      setPendingFilters(prev => ({
-        ...prev,
-        [name]: value,
-        state: "",
-        city: ""
-      }));
-    } else {
-      setPendingFilters(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+    // Create new filters based on the change
+    const newFilters =
+      name === "country"
+        ? { ...pendingFilters, [name]: value, state: "", city: "" }
+        : name === "state"
+          ? { ...pendingFilters, [name]: value, city: "" }
+          : { ...pendingFilters, [name]: value };
+
+    // Only update pending filters, don't trigger search
+    setPendingFilters(newFilters);
   };
 
   const handleReset = () => {
@@ -127,6 +123,7 @@ const ReportIndexPage = () => {
     if (currentFilters.gender) params.gender = currentFilters.gender;
     if (currentFilters.country) params.country = currentFilters.country;
     if (currentFilters.state) params.state = currentFilters.state;
+    if (currentFilters.city) params.city = currentFilters.city;
     if (currentFilters.sort && currentFilters.sort !== "Newest") params.sort = currentFilters.sort;
 
     console.log("Final search params:", params);

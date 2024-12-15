@@ -28,6 +28,13 @@ export const reportsApi = createApi({
       }),
       transformResponse: (response: { states: string[] }) => response.states
     }),
+    getCities: build.query<string[], { country: string; state: string }>({
+      query: ({ country, state }) => ({
+        url: `filters/cities`,
+        params: { country, state }
+      }),
+      transformResponse: (response: { cities: string[] }) => response.cities
+    }),
     getReports: build.query<
       {
         data: IReport[];
@@ -35,7 +42,7 @@ export const reportsApi = createApi({
       },
       IPaginationQuery
     >({
-      query: ({ page, items, query, species, color, gender, sort, country, state }) => {
+      query: ({ page, items, query, species, color, gender, sort, country, state, city }) => {
         const params = new URLSearchParams({
           page: page.toString(),
           per_page: items.toString()
@@ -48,6 +55,7 @@ export const reportsApi = createApi({
         if (sort) params.append("sort", sort);
         if (country) params.append("country", country);
         if (state) params.append("state", state);
+        if (city) params.append("city", city);
 
         return `reports?${params.toString()}`;
       },
@@ -86,6 +94,7 @@ export const {
   useGetReportQuery,
   useGetReportsQuery,
   useGetStatesQuery,
+  useGetCitiesQuery,
   useSubmitReportMutation,
   useGetNewReportQuery,
   useUpdateReportMutation

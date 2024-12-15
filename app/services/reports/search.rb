@@ -6,6 +6,7 @@ class Reports::Search < ActiveInteraction::Base
   string :color, default: nil
   string :gender, default: nil
   string :state, default: nil
+  string :city, default: nil
   string :country, default: nil
   string :sort, default: nil
   integer :page, default: 1
@@ -79,6 +80,7 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  Gender: #{gender.inspect}"
     Rails.logger.debug "  Country: #{country.inspect}"
     Rails.logger.debug "  State: #{state.inspect}"
+    Rails.logger.debug "  City: #{city.inspect}"
 
     # Add country condition
     if country.present?
@@ -90,6 +92,12 @@ class Reports::Search < ActiveInteraction::Base
     if state.present?
       conditions[:state] = state
       Rails.logger.debug "  Added state filter: #{state}"
+    end
+
+    # Add city condition
+    if city.present?
+      conditions[:city] = city
+      Rails.logger.debug "  Added city filter: #{city}"
     end
 
     # Only set species from param if "cat" or "dog" is not in query
