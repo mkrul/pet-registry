@@ -5,6 +5,19 @@ import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
 import { IPagination, IPaginationQuery } from "../../../types/shared/Pagination";
 
+export interface IPaginationQuery {
+  page: number;
+  items: number;
+  query?: string;
+  species?: string;
+  color?: string;
+  gender?: string;
+  sort?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+}
+
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
@@ -57,6 +70,7 @@ export const reportsApi = createApi({
         if (state) params.append("state", state);
         if (city) params.append("city", city);
 
+        console.log("API Request params:", Object.fromEntries(params));
         return `reports?${params.toString()}`;
       },
       transformResponse: (response: { data: IReport[]; pagination: IPagination }) => {

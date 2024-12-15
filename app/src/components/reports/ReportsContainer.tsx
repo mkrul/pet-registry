@@ -17,6 +17,7 @@ interface ReportsContainerProps {
     sort?: string;
     country?: string;
     state?: string;
+    city?: string;
   };
   onPageChange: (page: number) => void;
 }
@@ -40,7 +41,8 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
     gender: filters.gender || undefined,
     sort: filters.sort || undefined,
     country: filters.country || undefined,
-    state: filters.state || undefined
+    state: filters.state || undefined,
+    city: filters.city || undefined
   });
 
   useEffect(() => {

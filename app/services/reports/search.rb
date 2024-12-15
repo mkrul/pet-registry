@@ -21,6 +21,18 @@ class Reports::Search < ActiveInteraction::Base
   }
 
   def execute
+    Rails.logger.debug "[Search] Received parameters:"
+    Rails.logger.debug "  Query: #{query.inspect}"
+    Rails.logger.debug "  Species: #{species.inspect}"
+    Rails.logger.debug "  Color: #{color.inspect}"
+    Rails.logger.debug "  Gender: #{gender.inspect}"
+    Rails.logger.debug "  Country: #{country.inspect}"
+    Rails.logger.debug "  State: #{state.inspect}"
+    Rails.logger.debug "  City: #{city.inspect}"
+    Rails.logger.debug "  Sort: #{sort.inspect}"
+    Rails.logger.debug "  Page: #{page.inspect}"
+    Rails.logger.debug "  Per page: #{per_page.inspect}"
+
     search_options = {
       where: where_conditions,
       page: page,
@@ -28,7 +40,11 @@ class Reports::Search < ActiveInteraction::Base
       order: sort_order
     }
 
-    Rails.logger.debug "Search options: #{search_options.inspect}"
+    Rails.logger.debug "[Search] Executing search with options:"
+    Rails.logger.debug "  Where conditions: #{search_options[:where].inspect}"
+    Rails.logger.debug "  Page: #{search_options[:page]}"
+    Rails.logger.debug "  Per page: #{search_options[:per_page]}"
+    Rails.logger.debug "  Order: #{search_options[:order].inspect}"
 
     # Add debug logging to see what's in the index
     Rails.logger.debug "Sample reports in index:"
@@ -82,19 +98,17 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  State: #{state.inspect}"
     Rails.logger.debug "  City: #{city.inspect}"
 
-    # Add country condition
+    # Add location conditions directly to the conditions hash
     if country.present?
       conditions[:country] = country
       Rails.logger.debug "  Added country filter: #{country}"
     end
 
-    # Add state condition
     if state.present?
       conditions[:state] = state
       Rails.logger.debug "  Added state filter: #{state}"
     end
 
-    # Add city condition
     if city.present?
       conditions[:city] = city
       Rails.logger.debug "  Added city filter: #{city}"
@@ -105,6 +119,7 @@ class Reports::Search < ActiveInteraction::Base
       conditions[:species] = species.downcase
     end
 
+    # Add other filters
     filters = []
 
     if gender.present?
@@ -130,7 +145,11 @@ class Reports::Search < ActiveInteraction::Base
       }
     end
 
-    conditions[:_and] = filters if filters.any?
+    # Add other filters to conditions
+    if filters.any?
+      conditions[:_and] ||= []
+      conditions[:_and].concat(filters)
+    end
 
     Rails.logger.debug "[Search] Final conditions: #{conditions.inspect}"
     conditions

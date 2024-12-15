@@ -14,4 +14,5 @@ export interface IPaginationQuery {
   sort?: string;
   country?: string;
   state?: string;
+  city?: string;
 }
