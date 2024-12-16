@@ -7,6 +7,7 @@ import Filters from "../../components/shared/Filters";
 const ReportIndexPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<Record<string, string>>({});
 
   const queryParam = searchParams.get("query") || "";
   const pageParam = parseInt(searchParams.get("page") || "1", 10);
@@ -24,7 +25,8 @@ const ReportIndexPage = () => {
     gender: genderParam,
     city: "",
     state: "",
-    country: ""
+    country: "",
+    sort: sortParam
   });
   const [pendingFilters, setPendingFilters] = useState({
     species: speciesParam,
@@ -32,53 +34,72 @@ const ReportIndexPage = () => {
     gender: genderParam,
     city: "",
     state: "",
-    country: ""
+    country: "",
+    sort: sortParam
   });
+
+  useEffect(() => {
+    console.log("=== Component Mount/Update ===");
+    console.log("Current searchParams:", Object.fromEntries(searchParams));
+    console.log("Current filters:", filters);
+  }, [searchParams, filters]);
 
   useEffect(() => {
     setSearchQuery(queryParam);
     setCurrentPage(pageParam);
-    setPendingFilters({
+
+    // Keep existing location filters when updating from URL params
+    setPendingFilters(prev => ({
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
-      city: "",
-      state: "",
-      country: ""
-    });
-    setActiveFilters({
+      city: prev.city,
+      state: prev.state,
+      country: prev.country,
+      sort: sortParam
+    }));
+
+    setActiveFilters(prev => ({
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
-      city: "",
-      state: "",
-      country: ""
-    });
+      city: prev.city,
+      state: prev.state,
+      country: prev.country,
+      sort: sortParam
+    }));
   }, [queryParam, pageParam, speciesParam, colorParam, genderParam, sortParam]);
 
-  const handleSearch = (query: string) => {
-    console.log("Search triggered with filters:", pendingFilters);
-    setSearchQuery(query);
-    setActiveSearch(query);
-    setCurrentPage(1);
-    setActiveFilters(pendingFilters);
-    updateSearchParams(query, 1, pendingFilters);
+  const handleSearch = () => {
+    console.log("Current filters before search:", activeFilters);
+    console.log("Current pending filters:", pendingFilters);
+
+    const updatedFilters = {
+      ...activeFilters,
+      ...pendingFilters
+    };
+
+    setActiveFilters(updatedFilters);
+    updateSearchParams(searchQuery, currentPage, updatedFilters);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    console.log(`Filter changed: ${name} = ${value}`);
+    const { name: filterType, value } = e.target;
+    console.log("=== Filter Change Start ===");
+    console.log(`Changing filter ${filterType} to:`, value);
+    console.log("Previous pendingFilters:", pendingFilters);
 
-    // Create new filters based on the change
-    const newFilters =
-      name === "country"
-        ? { ...pendingFilters, [name]: value, state: "", city: "" }
-        : name === "state"
-          ? { ...pendingFilters, [name]: value, city: "" }
-          : { ...pendingFilters, [name]: value };
+    // Handle location filter dependencies
+    const updatedPendingFilters =
+      filterType === "country"
+        ? { ...pendingFilters, [filterType]: value, state: "", city: "" }
+        : filterType === "state"
+          ? { ...pendingFilters, [filterType]: value, city: "" }
+          : { ...pendingFilters, [filterType]: value };
 
-    // Only update pending filters, don't trigger search
-    setPendingFilters(newFilters);
+    console.log("Updated pendingFilters:", updatedPendingFilters);
+    setPendingFilters(updatedPendingFilters);
+    console.log("=== Filter Change End ===");
   };
 
   const handleReset = () => {
@@ -133,16 +154,10 @@ const ReportIndexPage = () => {
   const ActionButtons = () => (
     <div className="flex gap-2 justify-end">
       <button
-        onClick={() => handleSearch(searchQuery)}
+        onClick={handleSearch}
         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
       >
         Search
-      </button>
-      <button
-        onClick={handleReset}
-        className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
-      >
-        Reset
       </button>
       <button
         onClick={() => setShowFilters(!showFilters)}
@@ -153,6 +168,12 @@ const ReportIndexPage = () => {
         }`}
       >
         {showFilters ? "Hide filters" : "Show filters"}
+      </button>
+      <button
+        onClick={handleReset}
+        className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+      >
+        Reset
       </button>
     </div>
   );
@@ -175,7 +196,7 @@ const ReportIndexPage = () => {
                     onKeyDown={e => {
                       if (e.key === "Enter") {
                         e.preventDefault();
-                        handleSearch(searchQuery);
+                        handleSearch();
                       }
                     }}
                     className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"

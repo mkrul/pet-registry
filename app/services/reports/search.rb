@@ -54,12 +54,22 @@ class Reports::Search < ActiveInteraction::Base
     end
 
     if query.present?
+      # Detect species from query
+      query_downcase = query.downcase
+      if query_downcase.include?('cat') || query_downcase.include?('kitten')
+        search_options[:where][:species] = 'cat'
+        Rails.logger.debug "  Detected and filtering by species: cat"
+      elsif query_downcase.include?('dog') || query_downcase.include?('puppy')
+        search_options[:where][:species] = 'dog'
+        Rails.logger.debug "  Detected and filtering by species: dog"
+      end
+
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
       search_options[:operator] = "or"
 
-      # Use the query directly instead of wrapping it in a hash
+      Rails.logger.debug "  Final search options: #{search_options.inspect}"
       Report.search(query.downcase, **search_options)
     else
       Report.search("*", **search_options)

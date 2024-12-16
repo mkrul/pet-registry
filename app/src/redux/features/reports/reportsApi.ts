@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IReport } from "../../../types/Report";
 import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
-import { IPagination, IPaginationQuery } from "../../../types/shared/Pagination";
+import { IPagination } from "../../../types/shared/Pagination";
 
 export interface IPaginationQuery {
   page: number;
@@ -21,11 +21,8 @@ export interface IPaginationQuery {
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://${window.location.hostname}:3000/api`,
-    credentials: "include",
-    paramsSerializer: params => {
-      return new URLSearchParams(params as Record<string, string>).toString();
-    }
+    baseUrl: "/api/",
+    credentials: "same-origin"
   }),
   tagTypes: ["Reports"],
   endpoints: build => ({
@@ -55,29 +52,80 @@ export const reportsApi = createApi({
       },
       IPaginationQuery
     >({
-      query: ({ page, items, query, species, color, gender, sort, country, state, city }) => {
-        const params = new URLSearchParams({
-          page: page.toString(),
-          per_page: items.toString()
-        });
+      query: params => {
+        console.log("=== getReports Query Start ===");
+        console.log("Raw input params:", params);
+        const queryParams: Record<string, string> = {
+          page: params.page?.toString() || "1",
+          per_page: params.items?.toString() || "20"
+        };
+        console.log("Base query params:", queryParams);
 
-        if (query) params.append("query", query);
-        if (species) params.append("species", species);
-        if (color) params.append("color", color);
-        if (gender) params.append("gender", gender);
-        if (sort) params.append("sort", sort);
-        if (country) params.append("country", country);
-        if (state) params.append("state", state);
-        if (city) params.append("city", city);
+        // Log each filter as it's added
+        if (params.query) {
+          queryParams.query = params.query;
+          console.log("Added query filter:", params.query);
+        }
+        if (params.species) {
+          queryParams.species = params.species;
+          console.log("Added species filter:", params.species);
+        }
+        if (params.color) {
+          queryParams.color = params.color;
+          console.log("Added color filter:", params.color);
+        }
+        if (params.gender) {
+          queryParams.gender = params.gender;
+          console.log("Added gender filter:", params.gender);
+        }
+        if (params.country) {
+          queryParams.country = params.country;
+          console.log("Added country filter:", params.country);
+        }
+        if (params.state) {
+          queryParams.state = params.state;
+          console.log("Added state filter:", params.state);
+        }
+        if (params.city) {
+          queryParams.city = params.city;
+          console.log("Added city filter:", params.city);
+        }
+        if (params.sort) {
+          queryParams.sort = params.sort;
+          console.log("Added sort parameter:", params.sort);
+        }
 
-        console.log("API Request params:", Object.fromEntries(params));
-        return `reports?${params.toString()}`;
+        const queryString = new URLSearchParams(queryParams).toString();
+        console.log("Final query params object:", queryParams);
+        console.log("Final query string:", queryString);
+        console.log("=== getReports Query End ===");
+
+        return {
+          url: `reports?${queryString}`,
+          method: "GET",
+          meta: {
+            cacheKey: JSON.stringify(params)
+          }
+        };
+      },
+      serializeQueryArgs: ({ queryArgs }) => {
+        console.log("=== Serializing Query Args ===");
+        console.log("Input query args:", queryArgs);
+        const serialized = JSON.stringify(queryArgs);
+        console.log("Serialized query args:", serialized);
+        return serialized;
       },
       transformResponse: (response: { data: IReport[]; pagination: IPagination }) => {
+        console.log("=== Transform Response Start ===");
+        console.log("Raw API response:", response);
         const reports = response.data.map(report => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);
-        return { data: reports, pagination };
+        const transformed = { data: reports, pagination };
+        console.log("Transformed response:", transformed);
+        console.log("=== Transform Response End ===");
+        return transformed;
       },
+      keepUnusedDataFor: 30,
       providesTags: ["Reports"]
     }),
     updateReport: build.mutation<IReport, { id: number; data: FormData }>({
