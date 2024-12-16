@@ -74,7 +74,8 @@ module Api
         serialized_report = ReportSerializer.new(outcome.result).as_json
         render json: serialized_report, status: :ok
       else
-        render json: { errors: @report.errors.full_messages }, status: :unprocessable_entity
+        Rails.logger.debug "Update failed with errors: #{outcome.errors.full_messages}"
+        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
@@ -139,7 +140,8 @@ module Api
         :state,
         :country,
         :latitude,
-        :longitude
+        :longitude,
+        :status
       ).merge(report: @report)
     end
 

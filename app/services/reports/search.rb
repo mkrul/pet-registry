@@ -54,32 +54,13 @@ class Reports::Search < ActiveInteraction::Base
     end
 
     if query.present?
-      search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2"]
+      search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
       search_options[:operator] = "or"
 
-      # Create an array of search terms including the original query and its synonyms
-      search_terms = [query.downcase]
-      BREED_SYNONYMS.each do |breed, synonyms|
-        if query.downcase.include?(breed)
-          search_terms.concat(synonyms)
-        end
-      end
-
-      # Force species based on animal-related keywords in the query
-      cat_keywords = %w[cat cats kitty kittens kitties]
-      dog_keywords = %w[dog dogs puppy puppies]
-
-      query_downcase = query.downcase
-      if cat_keywords.any? { |keyword| query_downcase.include?(keyword) }
-        search_options[:where][:species] = 'cat'
-      elsif dog_keywords.any? { |keyword| query_downcase.include?(keyword) }
-        search_options[:where][:species] = 'dog'
-      end
-
       # Use the query directly instead of wrapping it in a hash
-      Report.search(query_downcase, **search_options)
+      Report.search(query.downcase, **search_options)
     else
       Report.search("*", **search_options)
     end
@@ -97,8 +78,15 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  Country: #{country.inspect}"
     Rails.logger.debug "  State: #{state.inspect}"
     Rails.logger.debug "  City: #{city.inspect}"
+    Rails.logger.debug "  Query: #{query.inspect}"
 
-    # Add location conditions directly to the conditions hash
+    # Set species condition
+    if species.present?
+      conditions[:species] = species.downcase
+      Rails.logger.debug "  Setting species to '#{species.downcase}' from filter"
+    end
+
+    # Add location conditions
     if country.present?
       conditions[:country] = country
       Rails.logger.debug "  Added country filter: #{country}"
@@ -112,11 +100,6 @@ class Reports::Search < ActiveInteraction::Base
     if city.present?
       conditions[:city] = city
       Rails.logger.debug "  Added city filter: #{city}"
-    end
-
-    # Only set species from param if "cat" or "dog" is not in query
-    if !query&.downcase&.include?('cat') && !query&.downcase&.include?('dog') && species.present?
-      conditions[:species] = species.downcase
     end
 
     # Add other filters
