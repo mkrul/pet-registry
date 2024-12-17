@@ -17,6 +17,36 @@ interface MapProps {
   };
 }
 
+const findNearestCity = async (lat: number, lng: number): Promise<string> => {
+  console.log("Finding nearest city for coordinates:", { lat, lng });
+  try {
+    // Search for nearby places with a larger radius
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?` +
+        `format=json&` +
+        `lat=${lat}&` +
+        `lon=${lng}&` +
+        `featuretype=city&` +
+        `limit=1`
+    );
+
+    const data = await response.json();
+    console.log("Nearest city search results:", data);
+
+    if (data && data.length > 0) {
+      // Extract city name from the display name
+      const displayName = data[0].display_name;
+      const parts = displayName.split(", ");
+      return parts[0] || "Unknown City";
+    }
+
+    return "Unknown City";
+  } catch (error) {
+    console.error("Error finding nearest city:", error);
+    return "Unknown City";
+  }
+};
+
 const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
   const markerRef = useRef<L.Marker | null>(null);
   const map = useMapEvents({
