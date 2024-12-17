@@ -15,6 +15,9 @@ interface ReportsContainerProps {
     color?: string;
     gender?: string;
     sort?: string;
+    country?: string;
+    state?: string;
+    city?: string;
   };
   onPageChange: (page: number) => void;
 }
@@ -29,16 +32,18 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   const reports = useSelector((state: RootState) => state.reports.data);
   const itemsPerPage = 20;
 
-  const { data, error, isLoading } = useGetReportsQuery(
-    query !== undefined
-      ? {
-          page,
-          items: itemsPerPage,
-          query,
-          ...filters
-        }
-      : skipToken
-  );
+  const { data, error, isLoading } = useGetReportsQuery({
+    page,
+    items: itemsPerPage,
+    query: query || undefined,
+    species: filters.species || undefined,
+    color: filters.color || undefined,
+    gender: filters.gender || undefined,
+    sort: filters.sort || undefined,
+    country: filters.country || undefined,
+    state: filters.state || undefined,
+    city: filters.city || undefined
+  });
 
   useEffect(() => {
     if (data && data.data) {

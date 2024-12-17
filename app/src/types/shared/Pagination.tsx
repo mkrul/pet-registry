@@ -5,7 +5,14 @@ export interface IPagination {
   page: number;
 }
 export interface IPaginationQuery {
-  page?: number;
-  items?: number;
+  page: number;
+  items: number;
   query?: string;
+  species?: string;
+  color?: string;
+  gender?: string;
+  sort?: string;
+  country?: string;
+  state?: string;
+  city?: string;
 }

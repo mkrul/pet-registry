@@ -7,33 +7,45 @@ interface SearchBarProps {
   onReset?: () => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
+export default function SearchBar({ onSearch }: SearchBarProps) {
   const dispatch = useDispatch();
-  const [query, setQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("=== SearchBar Submit ===");
+    console.log("Current search term:", searchTerm);
+    console.log("Dispatching search action");
+    onSearch(searchTerm);
+    console.log("=== SearchBar Submit End ===");
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("=== SearchBar Change ===");
+    console.log("Previous search term:", searchTerm);
+    console.log("New search term:", e.target.value);
+    setSearchTerm(e.target.value);
+    console.log("=== SearchBar Change End ===");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
+      console.log("=== SearchBar Enter Key Press ===");
+      console.log("Current search term:", searchTerm);
       e.preventDefault();
-      handleSearch();
+      handleSubmit(e);
+      console.log("=== SearchBar Enter Key Press End ===");
     }
-  };
-
-  const handleSearch = () => {
-    dispatch(setSearchQuery(query));
-    onSearch(query);
   };
 
   const handleReset = () => {
-    setQuery("");
+    console.log("=== SearchBar Reset ===");
+    console.log("Previous search term:", searchTerm);
+    setSearchTerm("");
+    console.log("Dispatching reset actions");
     dispatch(setSearchQuery(""));
     onSearch("");
-    if (onReset) {
-      onReset();
-    }
+    console.log("=== SearchBar Reset End ===");
   };
 
   return (
@@ -44,11 +56,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
             type="text"
             name="query"
             id="search_query"
-            value={query}
-            onChange={handleInputChange}
+            value={searchTerm}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
-            placeholder="Enter breed and descriptive keywords..."
+            placeholder="Enter descriptive keywords..."
             autoComplete="off"
           />
           <div className="absolute left-0 inset-y-0 flex items-center">
@@ -68,12 +80,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
             </svg>
           </div>
 
-          {query && (
+          {searchTerm && (
             <div className="absolute right-0 inset-y-0 flex items-center">
               <button
                 type="button"
                 className="-ml-1 mr-3 h-5 w-5 text-gray-400 hover:text-gray-500"
-                onClick={() => setQuery("")}
+                onClick={() => setSearchTerm("")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +105,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
           )}
         </div>
         <button
-          onClick={handleSearch}
+          onClick={handleSubmit}
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
         >
           Search
@@ -107,6 +119,4 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onReset }) => {
       </div>
     </div>
   );
-};
-
-export default SearchBar;
+}

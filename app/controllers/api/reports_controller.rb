@@ -8,28 +8,37 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
-      outcome = Reports::Fetch.run(index_params)
+      permitted_params = params.permit(:page, :per_page, :query, :species, :color, :gender, :country, :state, :city)
 
-      if outcome.valid?
-        search_results = outcome.result
-        reports = Report.includes(image_attachment: :blob)
-                       .where(id: search_results.hits.map { |hit| hit["_id"] })
-                       .index_by(&:id)
-                       .values_at(*search_results.hits.map { |hit| hit["_id"].to_i })
-                       .compact
+      search_results = Reports::Search.run!(
+        page: permitted_params[:page],
+        per_page: permitted_params[:per_page],
+        query: permitted_params[:query],
+        species: permitted_params[:species],
+        color: permitted_params[:color],
+        gender: permitted_params[:gender],
+        country: permitted_params[:country],
+        state: permitted_params[:state],
+        city: permitted_params[:city]
+      )
 
-        pagination = {
-          count: search_results.total_count,
-          items: search_results.per_page,
-          pages: (search_results.total_count.to_f / search_results.per_page).ceil,
-          page: search_results.current_page
-        }
+      reports = Report.includes(image_attachment: :blob)
+                     .where(id: search_results.hits.map { |hit| hit["_id"] })
+                     .index_by(&:id)
+                     .values_at(*search_results.hits.map { |hit| hit["_id"].to_i })
+                     .compact
 
-        serialized_reports = ActiveModelSerializers::SerializableResource.new(reports, each_serializer: ReportSerializer).as_json
-        render json: { data: serialized_reports, pagination: pagination }, status: :ok
-      else
-        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
-      end
+      pagination = {
+        count: search_results.total_count,
+        items: search_results.per_page,
+        pages: (search_results.total_count.to_f / search_results.per_page).ceil,
+        page: search_results.current_page
+      }
+
+      serialized_reports = ActiveModelSerializers::SerializableResource.new(reports, each_serializer: ReportSerializer).as_json
+      render json: { data: serialized_reports, pagination: pagination }, status: :ok
+    rescue StandardError => e
+      render json: { errors: [e.message] }, status: :unprocessable_entity
     end
 
     def new
@@ -65,7 +74,8 @@ module Api
         serialized_report = ReportSerializer.new(outcome.result).as_json
         render json: serialized_report, status: :ok
       else
-        render json: { errors: @report.errors.full_messages }, status: :unprocessable_entity
+        Rails.logger.debug "Update failed with errors: #{outcome.errors.full_messages}"
+        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
       end
     end
 
@@ -82,7 +92,18 @@ module Api
     end
 
     def index_params
-      params.permit(:query, :page, :per_page, :species, :color, :gender, :sort)
+      params.permit(
+        :page,
+        :per_page,
+        :query,
+        :species,
+        :color,
+        :gender,
+        :country,
+        :state,
+        :city,
+        :sort
+      )
     end
 
     private
@@ -130,7 +151,8 @@ module Api
         :state,
         :country,
         :latitude,
-        :longitude
+        :longitude,
+        :status
       ).merge(report: @report)
     end
 

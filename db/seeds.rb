@@ -35,7 +35,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: '7e66face07e025183b8a418cc96665',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report01.jpg'
+    image_url: '/app/assets/images/reports/report01.jpg',
+    city: 'Beverly Hills',
+    state: 'California',
+    country: 'United States',
+    latitude: 34.0736,
+    longitude: -118.4004
   )
   bar.increment!
 
@@ -54,7 +59,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: 'd1ad849b0c5bfe5fa0e4e669a7ce27',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report02.jpg'
+    image_url: '/app/assets/images/reports/report02.jpg',
+    city: 'Toronto',
+    state: 'Ontario',
+    country: 'Canada',
+    latitude: 43.6532,
+    longitude: -79.3832
   )
   bar.increment!
 
@@ -73,7 +83,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report03.jpg'
+    image_url: '/app/assets/images/reports/report03.jpg',
+    city: 'Seattle',
+    state: 'Washington',
+    country: 'United States',
+    latitude: 47.6062,
+    longitude: -122.3321
   )
   bar.increment!
 
@@ -92,7 +107,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report04.jpg'
+    image_url: '/app/assets/images/reports/report04.jpg',
+    city: 'Vancouver',
+    state: 'British Columbia',
+    country: 'Canada',
+    latitude: 49.2827,
+    longitude: -123.1207
   )
   bar.increment!
 
@@ -111,7 +131,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: 'a55da8e924ac8005553bebf8b9f1de',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report05.jpg'
+    image_url: '/app/assets/images/reports/report05.jpg',
+    city: 'Austin',
+    state: 'Texas',
+    country: 'United States',
+    latitude: 30.2672,
+    longitude: -97.7431
   )
   bar.increment!
 
@@ -131,7 +156,12 @@ unless Rails.env.production?
     microchip_id: nil,
     created_at: Time.now - 10.days,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report06.jpg'
+    image_url: '/app/assets/images/reports/report06.jpg',
+    city: 'Montreal',
+    state: 'Quebec',
+    country: 'Canada',
+    latitude: 45.5017,
+    longitude: -73.5673
   )
   bar.increment!
 
@@ -150,7 +180,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report07.jpg'
+    image_url: '/app/assets/images/reports/report07.jpg',
+    city: 'Portland',
+    state: 'Oregon',
+    country: 'United States',
+    latitude: 45.5155,
+    longitude: -122.6789
   )
   bar.increment!
 
@@ -169,7 +204,12 @@ unless Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report08.jpg'
+    image_url: '/app/assets/images/reports/report08.jpg',
+    city: 'Calgary',
+    state: 'Alberta',
+    country: 'Canada',
+    latitude: 51.0447,
+    longitude: -114.0719
   )
   bar.increment!
 
@@ -188,7 +228,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report09.jpg'
+    image_url: '/app/assets/images/reports/report09.jpg',
+    city: 'Denver',
+    state: 'Colorado',
+    country: 'United States',
+    latitude: 39.7392,
+    longitude: -104.9903
   )
   bar.increment!
 
@@ -207,7 +252,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: '8c96b0ac554ec1a5d16e095e169cbc',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report10.jpg'
+    image_url: '/app/assets/images/reports/report10.jpg',
+    city: 'Ottawa',
+    state: 'Ontario',
+    country: 'Canada',
+    latitude: 45.4215,
+    longitude: -75.6972
   )
   bar.increment!
 
@@ -226,7 +276,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report11.jpg'
+    image_url: '/app/assets/images/reports/report11.jpg',
+    city: 'Miami',
+    state: 'Florida',
+    country: 'United States',
+    latitude: 25.7617,
+    longitude: -80.1918
   )
   bar.increment!
 
@@ -245,7 +300,12 @@ unless Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report12.jpg'
+    image_url: '/app/assets/images/reports/report12.jpg',
+    city: 'Edmonton',
+    state: 'Alberta',
+    country: 'Canada',
+    latitude: 53.5461,
+    longitude: -113.4938
   )
   bar.increment!
 
@@ -264,7 +324,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: 'e45b898f0eb61bc51b2fa74d510b8f',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report13.jpg'
+    image_url: '/app/assets/images/reports/report13.jpg',
+    city: 'Chicago',
+    state: 'Illinois',
+    country: 'United States',
+    latitude: 41.8781,
+    longitude: -87.6298
   )
   bar.increment!
 
@@ -283,7 +348,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: 'a4c53afe5b34f498e7e33c48d164e1',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report14.jpg'
+    image_url: '/app/assets/images/reports/report14.jpg',
+    city: 'Winnipeg',
+    state: 'Manitoba',
+    country: 'Canada',
+    latitude: 49.8951,
+    longitude: -97.1384
   )
   bar.increment!
 
@@ -302,7 +372,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report15.jpg'
+    image_url: '/app/assets/images/reports/report15.jpg',
+    city: 'Boston',
+    state: 'Massachusetts',
+    country: 'United States',
+    latitude: 42.3601,
+    longitude: -71.0589
   )
   bar.increment!
 
@@ -321,7 +396,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: '642f63972f20ad419c8e2dea1f9bf3',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report16.jpg'
+    image_url: '/app/assets/images/reports/report16.jpg',
+    city: 'Halifax',
+    state: 'Nova Scotia',
+    country: 'Canada',
+    latitude: 44.6488,
+    longitude: -63.5752
   )
   bar.increment!
 
@@ -340,7 +420,12 @@ unless Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report17.jpg'
+    image_url: '/app/assets/images/reports/report17.jpg',
+    city: 'San Francisco',
+    state: 'California',
+    country: 'United States',
+    latitude: 37.7749,
+    longitude: -122.4194
   )
   bar.increment!
 
@@ -359,7 +444,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report18.jpg'
+    image_url: '/app/assets/images/reports/report18.jpg',
+    city: 'Quebec City',
+    state: 'Quebec',
+    country: 'Canada',
+    latitude: 46.8139,
+    longitude: -71.2080
   )
   bar.increment!
 
@@ -378,7 +468,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: 'c38fb7d9a0b5a987efbc685d3d0fd3',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report19.jpg'
+    image_url: '/app/assets/images/reports/report19.jpg',
+    city: 'Las Vegas',
+    state: 'Nevada',
+    country: 'United States',
+    latitude: 36.1699,
+    longitude: -115.1398
   )
   bar.increment!
 
@@ -397,7 +492,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report20.jpg'
+    image_url: '/app/assets/images/reports/report20.jpg',
+    city: 'Victoria',
+    state: 'British Columbia',
+    country: 'Canada',
+    latitude: 48.4284,
+    longitude: -123.3656
   )
   bar.increment!
 
@@ -416,7 +516,12 @@ unless Rails.env.production?
     microchipped: false,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report21.jpg'
+    image_url: '/app/assets/images/reports/report21.jpg',
+    city: 'Phoenix',
+    state: 'Arizona',
+    country: 'United States',
+    latitude: 33.4484,
+    longitude: -112.0740
   )
   bar.increment!
 
@@ -435,7 +540,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report22.jpg'
+    image_url: '/app/assets/images/reports/report22.jpg',
+    city: 'Regina',
+    state: 'Saskatchewan',
+    country: 'Canada',
+    latitude: 50.4452,
+    longitude: -104.6189
   )
   bar.increment!
 
@@ -454,7 +564,12 @@ unless Rails.env.production?
     microchipped: nil,
     microchip_id: nil,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report23.jpg'
+    image_url: '/app/assets/images/reports/report23.jpg',
+    city: 'Houston',
+    state: 'Texas',
+    country: 'United States',
+    latitude: 29.7604,
+    longitude: -95.3698
   )
   bar.increment!
 
@@ -474,7 +589,12 @@ unless Rails.env.production?
     microchip_id: '93f477556d705a1f5e0ffd69ecd925',
     created_at: Time.now - 75.days,
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report24.jpg'
+    image_url: '/app/assets/images/reports/report24.jpg',
+    city: 'St. John\'s',
+    state: 'Newfoundland and Labrador',
+    country: 'Canada',
+    latitude: 47.5615,
+    longitude: -52.7126
   )
   bar.increment!
 
@@ -493,7 +613,12 @@ unless Rails.env.production?
     microchipped: true,
     microchip_id: 'e9cb1d752a8fd4ce3d644c1efd287e',
     archived_at: nil,
-    image_url: '/app/assets/images/reports/report25.jpg'
+    image_url: '/app/assets/images/reports/report25.jpg',
+    city: 'New York',
+    state: 'New York',
+    country: 'United States',
+    latitude: 40.7128,
+    longitude: -74.0060
   )
   bar.increment!
 end

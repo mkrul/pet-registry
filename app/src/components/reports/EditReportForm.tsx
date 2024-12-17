@@ -131,7 +131,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("name", formData.name || "");
-    formDataToSend.append("species", formData.species);
+    formDataToSend.append("species", formData.species.toLowerCase());
     formDataToSend.append("breed_1", formData.breed1);
     formDataToSend.append("breed_2", formData.breed2 || "");
     formDataToSend.append("color_1", formData.color1);
@@ -156,8 +156,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
       await updateReport({ id: report.id, data: formDataToSend }).unwrap();
       setIsEditing(false);
       setNotification({ type: "success", message: "Report updated successfully!" });
-    } catch (error) {
-      setNotification({ type: "danger", message: "Failed to update report." });
+    } catch (error: any) {
+      const errorMessage = error.data?.errors?.[0] || "Failed to update report.";
+      setNotification({ type: "danger", message: errorMessage });
       console.error("Error updating report:", error);
     }
   };
@@ -521,9 +522,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                   disabled={isSaving}
                 >
                   <option value="">Select species</option>
-                  {["Dog", "Cat"].map((species, index) => (
+                  {["dog", "cat"].map((species, index) => (
                     <option key={index} value={species}>
-                      {species}
+                      {species.charAt(0).toUpperCase() + species.slice(1)}
                     </option>
                   ))}
                 </select>
@@ -722,8 +723,8 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         name="city"
                         value={formData.city || ""}
                         onChange={handleInputChange}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        disabled={isSaving}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
+                        disabled={true}
                       />
                     </div>
 
@@ -734,8 +735,8 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         name="state"
                         value={formData.state || ""}
                         onChange={handleInputChange}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        disabled={isSaving}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
+                        disabled={true}
                       />
                     </div>
 
@@ -746,8 +747,8 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         name="country"
                         value={formData.country || ""}
                         onChange={handleInputChange}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                        disabled={isSaving}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
+                        disabled={true}
                       />
                     </div>
                   </div>
