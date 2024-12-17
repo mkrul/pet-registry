@@ -43,19 +43,23 @@ const ReportIndexPage = () => {
     console.log("Current searchParams:", Object.fromEntries(searchParams));
     console.log("Current filters:", filters);
 
-    // Get all filter values from URL params
-    const countryParam = searchParams.get("country") || "";
-    const stateParam = searchParams.get("state") || "";
-    const cityParam = searchParams.get("city") || "";
+    const queryParam = searchParams.get("query") || "";
+    const pageParam = parseInt(searchParams.get("page") || "1", 10);
+    const speciesParam = searchParams.get("species") || "";
+    const colorParam = searchParams.get("color") || "";
+    const genderParam = searchParams.get("gender") || "";
+    const sortParam = searchParams.get("sort") || "Newest";
 
-    // Update both pending and active filters with all current URL params
+    setSearchQuery(queryParam);
+    setCurrentPage(pageParam);
+
     setPendingFilters({
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
-      country: countryParam,
-      state: stateParam,
-      city: cityParam,
+      country: searchParams.get("country") || "",
+      state: searchParams.get("state") || "",
+      city: searchParams.get("city") || "",
       sort: sortParam
     });
 
@@ -63,27 +67,34 @@ const ReportIndexPage = () => {
       species: speciesParam,
       color: colorParam,
       gender: genderParam,
-      country: countryParam,
-      state: stateParam,
-      city: cityParam,
+      country: searchParams.get("country") || "",
+      state: searchParams.get("state") || "",
+      city: searchParams.get("city") || "",
       sort: sortParam
     });
 
-    setSearchQuery(queryParam);
-    setCurrentPage(pageParam);
-  }, [searchParams, queryParam, pageParam, speciesParam, colorParam, genderParam, sortParam]);
+    if (queryParam) {
+      setActiveSearch(queryParam);
+    }
+  }, [searchParams]);
 
   const handleSearch = () => {
-    console.log("Current filters before search:", activeFilters);
+    console.log("Current filters before search:", filters);
     console.log("Current pending filters:", pendingFilters);
 
-    const updatedFilters = {
-      ...activeFilters,
-      ...pendingFilters
-    };
+    const newParams = new URLSearchParams();
+    if (searchQuery) {
+      newParams.set("query", searchQuery);
+    }
 
-    setActiveFilters(updatedFilters);
-    updateSearchParams(searchQuery, currentPage, updatedFilters);
+    Object.entries(pendingFilters).forEach(([key, value]) => {
+      if (value) {
+        newParams.set(key, value);
+      }
+    });
+
+    console.log("Final search params:", Object.fromEntries(newParams));
+    setSearchParams(newParams);
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
