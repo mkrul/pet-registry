@@ -1,6 +1,1 @@
-export const sortOptionsList: string[] = [
-  "Newest",
-  "Oldest",
-  "Nearest",
-  "Furthest",
-].sort();
+export const sortOptionsList = ["Newest", "Oldest"] as const;

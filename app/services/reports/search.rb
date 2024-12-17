@@ -151,15 +151,9 @@ class Reports::Search < ActiveInteraction::Base
   def sort_order
     case sort&.downcase
     when 'oldest'
-      { updated_at: :asc, created_at: :asc }
-    when 'newest'
-      { updated_at: :desc, created_at: :desc }
-    else
-      if query.present?
-        [{ _score: :desc }, { updated_at: :desc }]
-      else
-        { updated_at: :desc, created_at: :desc }
-      end
+      { created_at: :asc }
+    else # 'newest' or default
+      { created_at: :desc }
     end
   end
 end

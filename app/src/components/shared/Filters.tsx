@@ -12,6 +12,7 @@ interface FiltersProps {
     city: string;
     state: string;
     country: string;
+    sort: string;
   };
   handleFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -42,7 +43,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="grid grid-cols-3 3xl:flex 3xl:flex-row gap-2">
+      <div className="grid grid-cols-3 md:grid-cols-4 3xl:flex 3xl:flex-row gap-2">
         <div className="w-full">
           <select
             name="species"
@@ -87,23 +88,17 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             <option value="Female">Female</option>
           </select>
         </div>
-
         <div className="w-full">
           <select
-            name="city"
-            value={filters.city}
+            name="sort"
+            value={filters.sort}
             onChange={handleFilterChange}
-            className={
-              filters.country && filters.state && !isLoadingCities
-                ? selectClassName
-                : disabledSelectClassName
-            }
-            disabled={!filters.country || !filters.state || isLoadingCities}
+            className={selectClassName}
           >
-            <option value="">City</option>
-            {cities.map(city => (
-              <option key={city} value={city}>
-                {city}
+            <option value="">Sort by</option>
+            {sortOptionsList.map(option => (
+              <option key={option} value={option}>
+                {option}
               </option>
             ))}
           </select>
@@ -123,6 +118,27 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             {states.map(state => (
               <option key={state} value={state}>
                 {state}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="w-full">
+          <select
+            name="city"
+            value={filters.city}
+            onChange={handleFilterChange}
+            className={
+              filters.country && filters.state && !isLoadingCities
+                ? selectClassName
+                : disabledSelectClassName
+            }
+            disabled={!filters.country || !filters.state || isLoadingCities}
+          >
+            <option value="">City</option>
+            {cities.map(city => (
+              <option key={city} value={city}>
+                {city}
               </option>
             ))}
           </select>
