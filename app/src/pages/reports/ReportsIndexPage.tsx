@@ -42,33 +42,36 @@ const ReportIndexPage = () => {
     console.log("=== Component Mount/Update ===");
     console.log("Current searchParams:", Object.fromEntries(searchParams));
     console.log("Current filters:", filters);
-  }, [searchParams, filters]);
 
-  useEffect(() => {
+    // Get all filter values from URL params
+    const countryParam = searchParams.get("country") || "";
+    const stateParam = searchParams.get("state") || "";
+    const cityParam = searchParams.get("city") || "";
+
+    // Update both pending and active filters with all current URL params
+    setPendingFilters({
+      species: speciesParam,
+      color: colorParam,
+      gender: genderParam,
+      country: countryParam,
+      state: stateParam,
+      city: cityParam,
+      sort: sortParam
+    });
+
+    setActiveFilters({
+      species: speciesParam,
+      color: colorParam,
+      gender: genderParam,
+      country: countryParam,
+      state: stateParam,
+      city: cityParam,
+      sort: sortParam
+    });
+
     setSearchQuery(queryParam);
     setCurrentPage(pageParam);
-
-    // Keep existing location filters when updating from URL params
-    setPendingFilters(prev => ({
-      species: speciesParam,
-      color: colorParam,
-      gender: genderParam,
-      city: prev.city,
-      state: prev.state,
-      country: prev.country,
-      sort: sortParam
-    }));
-
-    setActiveFilters(prev => ({
-      species: speciesParam,
-      color: colorParam,
-      gender: genderParam,
-      city: prev.city,
-      state: prev.state,
-      country: prev.country,
-      sort: sortParam
-    }));
-  }, [queryParam, pageParam, speciesParam, colorParam, genderParam, sortParam]);
+  }, [searchParams, queryParam, pageParam, speciesParam, colorParam, genderParam, sortParam]);
 
   const handleSearch = () => {
     console.log("Current filters before search:", activeFilters);
