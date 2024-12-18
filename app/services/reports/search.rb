@@ -164,6 +164,8 @@ class Reports::Search < ActiveInteraction::Base
     case sort&.downcase
     when 'oldest'
       { created_at: :asc }
+    when 'recently updated'
+      { updated_at: :desc }
     else # 'newest' or default
       { created_at: :desc }
     end

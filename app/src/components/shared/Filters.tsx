@@ -177,7 +177,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             onChange={handleFilterChange}
             className={selectClassName}
           >
-            <option value="Newest">Sort by: Newest</option>
+            <option value="Newest">Newest</option>
             {sortOptionsList
               .filter(option => option !== "Newest")
               .map(option => (

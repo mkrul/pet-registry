@@ -73,7 +73,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
             <div className="flex items-center">
               {report.updatedLastThreeDays && (
                 <span
-                  className="relative h-[20px] mt-2 bg-green-100 text-green-900 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-700 dark:text-green-200 cursor-pointer"
+                  className="relative h-[20px] mt-2 bg-green-300 text-green-900 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-500 dark:text-green-100 cursor-pointer"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
                   onFocus={() => setShowTooltip(true)}

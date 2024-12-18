@@ -1,1 +1,1 @@
-export const sortOptionsList = ["Newest", "Oldest"] as const;
+export const sortOptionsList = ["Newest", "Recently Updated", "Oldest"] as const;
