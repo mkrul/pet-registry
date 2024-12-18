@@ -185,25 +185,6 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
 
         <div className="w-full">
           <select
-            name="state"
-            value={filters.state}
-            onChange={handleFilterChange}
-            className={
-              filters.country && !isLoadingStates ? selectClassName : disabledSelectClassName
-            }
-            disabled={!filters.country || isLoadingStates}
-          >
-            <option value="">State</option>
-            {states.map(state => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="w-full">
-          <select
             name="city"
             value={filters.city}
             onChange={handleFilterChange}
@@ -218,6 +199,25 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             {cities.map(city => (
               <option key={city} value={city}>
                 {city}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="w-full">
+          <select
+            name="state"
+            value={filters.state}
+            onChange={handleFilterChange}
+            className={
+              filters.country && !isLoadingStates ? selectClassName : disabledSelectClassName
+            }
+            disabled={!filters.country || isLoadingStates}
+          >
+            <option value="">State</option>
+            {states.map(state => (
+              <option key={state} value={state}>
+                {state}
               </option>
             ))}
           </select>
