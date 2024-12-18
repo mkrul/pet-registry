@@ -10,6 +10,7 @@ module Api
     def index
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_PAGE_LIMIT).to_i
+      Rails.logger.info("[ReportsController] Received parameters: #{params.inspect}")
 
       result = Reports::Search.run(
         query: params[:query],

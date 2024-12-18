@@ -12,6 +12,7 @@ interface ReportsContainerProps {
   page: number;
   filters: {
     species?: string;
+    breed?: string;
     color?: string;
     gender?: string;
     sort?: string;
@@ -37,6 +38,7 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
     items: itemsPerPage,
     query: query || undefined,
     species: filters.species || undefined,
+    breed: filters.breed || undefined,
     color: filters.color || undefined,
     gender: filters.gender || undefined,
     sort: filters.sort || undefined,

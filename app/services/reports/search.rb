@@ -33,6 +33,7 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  Sort: #{sort.inspect}"
     Rails.logger.debug "  Page: #{page.inspect}"
     Rails.logger.debug "  Per page: #{per_page.inspect}"
+    Rails.logger.debug "  Breed: #{breed.inspect}"
 
     search_options = {
       where: where_conditions,
@@ -40,26 +41,6 @@ class Reports::Search < ActiveInteraction::Base
       per_page: per_page,
       order: sort_order
     }
-
-    # Add breed condition to search if present
-    if breed.present?
-      search_options[:where][:_or] ||= []
-      search_options[:where][:_or] << [
-        { breed_1: breed.downcase },
-        { breed_2: breed.downcase }
-      ]
-      Rails.logger.debug "  Added breed filter: #{breed}"
-    end
-
-    # if there is a breed filter selected, search for the exact breed name in either the breed_1 or breed_2 field
-    if breed.present?
-      search_options[:where][:_or] ||= []
-      search_options[:where][:_or] << [
-        { breed_1: breed.downcase },
-        { breed_2: breed.downcase }
-      ]
-      Rails.logger.debug "  Added breed filter: #{breed}"
-    end
 
     # If there's a query but no breed filter, search as normal
     if query.present? && !breed.present?
@@ -89,17 +70,12 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  State: #{state.inspect}"
     Rails.logger.debug "  City: #{city.inspect}"
     Rails.logger.debug "  Query: #{query.inspect}"
+    Rails.logger.debug "  Breed: #{breed.inspect}"
 
     # Set species condition
     if species.present?
       conditions[:species] = species.downcase
       Rails.logger.debug "  Setting species to '#{species.downcase}' from filter"
-    end
-
-    if breed.present?
-      # If there's a breed filter, select only those reports whose breed_1 or breed_2 matches the breed filter
-      conditions[:_or] = [{ breed_1: breed.downcase }, { breed_2: breed.downcase }]
-      Rails.logger.debug "  Added breed filter: #{breed.downcase}"
     end
 
     # Add location conditions
@@ -120,6 +96,25 @@ class Reports::Search < ActiveInteraction::Base
 
     # Add other filters
     filters = []
+    if breed.present?
+      breed_value = breed.downcase
+      breed_synonyms = BREED_SYNONYMS[breed_value] || []
+      breed_terms = [breed_value] + breed_synonyms
+
+      breed_conditions = {
+        _or: breed_terms.map { |term|
+          {
+            _or: [
+              { breed_1: term },
+              { breed_2: term }
+            ]
+          }
+        }
+      }
+
+      filters << breed_conditions
+      Rails.logger.debug "  Added breed filter: #{breed_value} with synonyms: #{breed_synonyms}"
+    end
 
     if gender.present?
       gender_value = gender.downcase
@@ -140,17 +135,6 @@ class Reports::Search < ActiveInteraction::Base
           { color_1: color_value },
           { color_2: color_value },
           { color_3: color_value }
-        ]
-      }
-    end
-
-    # Add breed condition
-    if breed.present?
-      breed_value = breed.downcase
-      filters << {
-        _or: [
-          { breed_1: breed_value },
-          { breed_2: breed_value }
         ]
       }
     end
