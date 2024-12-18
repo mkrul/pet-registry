@@ -16,6 +16,7 @@ export interface IPaginationQuery {
   country?: string;
   state?: string;
   city?: string;
+  breed?: string;
 }
 
 export const reportsApi = createApi({
@@ -61,7 +62,11 @@ export const reportsApi = createApi({
         };
         console.log("Base query params:", queryParams);
 
-        // Log each filter as it's added
+        if (params.breed) {
+          queryParams.breed = params.breed;
+          console.log("Added breed filter:", params.breed);
+        }
+
         if (params.query) {
           queryParams.query = params.query;
           console.log("Added query filter:", params.query);

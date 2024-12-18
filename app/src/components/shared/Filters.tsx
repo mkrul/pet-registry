@@ -95,6 +95,11 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  // Add effect to sync breedInput with filters.breed
+  useEffect(() => {
+    setBreedInput(filters.breed);
+  }, [filters.breed]);
+
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-2">

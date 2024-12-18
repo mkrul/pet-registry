@@ -41,30 +41,28 @@ class Reports::Search < ActiveInteraction::Base
       order: sort_order
     }
 
-    Rails.logger.debug "[Search] Executing search with options:"
-    Rails.logger.debug "  Where conditions: #{search_options[:where].inspect}"
-    Rails.logger.debug "  Page: #{search_options[:page]}"
-    Rails.logger.debug "  Per page: #{search_options[:per_page]}"
-    Rails.logger.debug "  Order: #{search_options[:order].inspect}"
-
-    # Add debug logging to see what's in the index
-    Rails.logger.debug "Sample reports in index:"
-    sample_reports = Report.search("*", where: { status: 'active' }, limit: 5)
-    sample_reports.each do |report|
-      Rails.logger.debug "Report #{report.id}: #{report.search_data.inspect}"
+    # Add breed condition to search if present
+    if breed.present?
+      search_options[:where][:_or] ||= []
+      search_options[:where][:_or] << [
+        { breed_1: breed.downcase },
+        { breed_2: breed.downcase }
+      ]
+      Rails.logger.debug "  Added breed filter: #{breed}"
     end
 
-    if query.present?
-      # Detect species from query
-      query_downcase = query.downcase
-      if query_downcase.include?('cat') || query_downcase.include?('kitten')
-        search_options[:where][:species] = 'cat'
-        Rails.logger.debug "  Detected and filtering by species: cat"
-      elsif query_downcase.include?('dog') || query_downcase.include?('puppy')
-        search_options[:where][:species] = 'dog'
-        Rails.logger.debug "  Detected and filtering by species: dog"
-      end
+    # if there is a breed filter selected, search for the exact breed name in either the breed_1 or breed_2 field
+    if breed.present?
+      search_options[:where][:_or] ||= []
+      search_options[:where][:_or] << [
+        { breed_1: breed.downcase },
+        { breed_2: breed.downcase }
+      ]
+      Rails.logger.debug "  Added breed filter: #{breed}"
+    end
 
+    # If there's a query but no breed filter, search as normal
+    if query.present? && !breed.present?
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
@@ -73,6 +71,7 @@ class Reports::Search < ActiveInteraction::Base
       Rails.logger.debug "  Final search options: #{search_options.inspect}"
       Report.search(query.downcase, **search_options)
     else
+      # If there's a breed filter or no query, use match_all
       Report.search("*", **search_options)
     end
   end
@@ -95,6 +94,12 @@ class Reports::Search < ActiveInteraction::Base
     if species.present?
       conditions[:species] = species.downcase
       Rails.logger.debug "  Setting species to '#{species.downcase}' from filter"
+    end
+
+    if breed.present?
+      # If there's a breed filter, select only those reports whose breed_1 or breed_2 matches the breed filter
+      conditions[:_or] = [{ breed_1: breed.downcase }, { breed_2: breed.downcase }]
+      Rails.logger.debug "  Added breed filter: #{breed.downcase}"
     end
 
     # Add location conditions
