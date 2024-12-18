@@ -30,5 +30,20 @@ module Api
       Rails.logger.debug "Found cities: #{cities.inspect}"
       render json: { cities: cities }
     end
+
+    def breeds
+      species = params[:species]&.downcase
+      Rails.logger.debug "Fetching breeds for species: #{species}"
+
+      breeds = Report.where(species: species)
+                    .where.not(breed_1: [nil, ''])
+                    .distinct
+                    .pluck(:breed_1)
+                    .compact
+                    .sort
+
+      Rails.logger.debug "Found breeds: #{breeds.inspect}"
+      render json: { breeds: breeds }
+    end
   end
 end

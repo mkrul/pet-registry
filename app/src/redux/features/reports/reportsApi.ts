@@ -148,6 +148,13 @@ export const reportsApi = createApi({
     getNewReport: build.query<IReport, void>({
       query: () => "reports/new",
       providesTags: ["Reports"]
+    }),
+    getBreeds: build.query<string[], string>({
+      query: (species: string) => ({
+        url: `filters/breeds`,
+        params: { species }
+      }),
+      transformResponse: (response: { breeds: string[] }) => response.breeds
     })
   })
 });
@@ -157,6 +164,7 @@ export const {
   useGetReportsQuery,
   useGetStatesQuery,
   useGetCitiesQuery,
+  useGetBreedsQuery,
   useSubmitReportMutation,
   useGetNewReportQuery,
   useUpdateReportMutation

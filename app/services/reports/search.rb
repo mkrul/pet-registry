@@ -11,6 +11,7 @@ class Reports::Search < ActiveInteraction::Base
   string :sort, default: nil
   integer :page, default: 1
   integer :per_page, default: Report::REPORT_PAGE_LIMIT
+  string :breed, default: nil
 
   BREED_SYNONYMS = {
     'pit bull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
@@ -134,6 +135,17 @@ class Reports::Search < ActiveInteraction::Base
           { color_1: color_value },
           { color_2: color_value },
           { color_3: color_value }
+        ]
+      }
+    end
+
+    # Add breed condition
+    if breed.present?
+      breed_value = breed.downcase
+      filters << {
+        _or: [
+          { breed_1: breed_value },
+          { breed_2: breed_value }
         ]
       }
     end

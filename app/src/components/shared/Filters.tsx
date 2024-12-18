@@ -2,7 +2,11 @@ import React from "react";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import { sortOptionsList } from "../../lib/reports/sortOptionsList";
-import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
+import {
+  useGetStatesQuery,
+  useGetCitiesQuery,
+  useGetBreedsQuery
+} from "../../redux/features/reports/reportsApi";
 
 interface FiltersProps {
   filters: {
@@ -13,6 +17,7 @@ interface FiltersProps {
     state: string;
     country: string;
     sort: string;
+    breed: string;
   };
   handleFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -32,6 +37,10 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
     }
   );
 
+  const { data: breeds = [], isLoading: isLoadingBreeds } = useGetBreedsQuery(filters.species, {
+    skip: !filters.species
+  });
+
   console.log("Available states:", states);
   console.log("States type:", Array.isArray(states) ? "array" : typeof states);
   console.log("Available cities:", cities);
@@ -42,8 +51,8 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
   const disabledSelectClassName = `${selectClassName} bg-gray-100 text-gray-400 cursor-not-allowed`;
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <div className="grid grid-cols-3 md:grid-cols-4 3xl:flex 3xl:flex-row gap-2">
+    <div className="w-full flex flex-col gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-2">
         <div className="w-full">
           <select
             name="species"
@@ -55,6 +64,25 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             {speciesOptionsList.map(species => (
               <option key={species} value={species}>
                 {species}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="w-full">
+          <select
+            name="breed"
+            value={filters.breed}
+            onChange={handleFilterChange}
+            className={
+              filters.species && !isLoadingBreeds ? selectClassName : disabledSelectClassName
+            }
+            disabled={!filters.species || isLoadingBreeds}
+          >
+            <option value="">Breed</option>
+            {breeds.map(breed => (
+              <option key={breed} value={breed}>
+                {breed}
               </option>
             ))}
           </select>
@@ -86,21 +114,6 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             <option value="">Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-          </select>
-        </div>
-        <div className="w-full">
-          <select
-            name="sort"
-            value={filters.sort}
-            onChange={handleFilterChange}
-            className={selectClassName}
-          >
-            <option value="">Sort by</option>
-            {sortOptionsList.map(option => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
           </select>
         </div>
 
@@ -154,6 +167,24 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             <option value="">Country</option>
             <option value="United States">United States</option>
             <option value="Canada">Canada</option>
+          </select>
+        </div>
+
+        <div className="w-full">
+          <select
+            name="sort"
+            value={filters.sort}
+            onChange={handleFilterChange}
+            className={selectClassName}
+          >
+            <option value="Newest">Sort by: Newest</option>
+            {sortOptionsList
+              .filter(option => option !== "Newest")
+              .map(option => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
           </select>
         </div>
       </div>
