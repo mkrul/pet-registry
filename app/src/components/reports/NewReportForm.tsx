@@ -7,8 +7,7 @@ import Map from "../shared/Map";
 import { IReportForm } from "../../types/Report";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
-import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
-import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
+import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import Spinner from "../shared/Spinner";
 
@@ -55,21 +54,15 @@ const NewReportForm: React.FC = () => {
   const genderOptions = useMemo(() => genderOptionsList, []);
   const speciesOptions = useMemo(() => speciesOptionsList, []);
   const colorOptions = useMemo(() => colorOptionsList, []);
-  const dogBreeds = useMemo(() => dogBreedOptionsList, []);
-  const catBreeds = useMemo(() => catBreedOptionsList, []);
 
   useEffect(() => {
     setBreedOptions(
-      formData.species.toLowerCase() === "dog"
-        ? dogBreeds
-        : formData.species.toLowerCase() === "cat"
-          ? catBreeds
-          : []
+      formData.species ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat") : []
     );
     setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
-  }, [formData, dogBreeds, catBreeds]);
+  }, [formData]);
 
   const getFilteredBreedOptions = (selectedBreeds: (string | null)[]) => {
     return breedOptions.filter(breed => !selectedBreeds.includes(breed));
@@ -369,8 +362,8 @@ const NewReportForm: React.FC = () => {
           className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         >
           <option value="">Choose one</option>
-          {speciesOptions.map((species, index) => (
-            <option key={index} value={species}>
+          {speciesOptions.map((species: string, index: number) => (
+            <option key={`${species}-${index}`} value={species}>
               {species}
             </option>
           ))}
@@ -452,8 +445,8 @@ const NewReportForm: React.FC = () => {
           className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         >
           <option value="">Choose one</option>
-          {breedOptions.map((breed, index) => (
-            <option key={index} value={breed}>
+          {breedOptions.map((breed: string, index: number) => (
+            <option key={`${breed}-${index}`} value={breed}>
               {breed}
             </option>
           ))}

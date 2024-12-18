@@ -35,15 +35,13 @@ module Api
       species = params[:species]&.downcase
       Rails.logger.debug "Fetching breeds for species: #{species}"
 
-      breeds = Report.where(species: species)
-                    .where.not(breed_1: [nil, ''])
-                    .distinct
-                    .pluck(:breed_1)
-                    .compact
-                    .sort
-
-      Rails.logger.debug "Found breeds: #{breeds.inspect}"
-      render json: { breeds: breeds }
+      if species.present? && %w[dog cat].include?(species)
+        breeds = Report.valid_breeds_for(species)
+        Rails.logger.debug "Found breeds: #{breeds.inspect}"
+        render json: { breeds: breeds }
+      else
+        render json: { breeds: [] }
+      end
     end
   end
 end

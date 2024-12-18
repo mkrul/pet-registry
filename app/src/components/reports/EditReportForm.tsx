@@ -8,8 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IImage } from "../../types/shared/Image";
 import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
-import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
-import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
+import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import Map from "../shared/Map";
 
@@ -36,12 +35,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const [isSaving, setIsSaving] = useState(false);
 
   const canAddMoreColors = !showColor2 || !showColor3;
-  const breedOptions =
-    formData.species.toLowerCase() === "dog"
-      ? dogBreedOptionsList
-      : formData.species.toLowerCase() === "cat"
-        ? catBreedOptionsList
-        : [];
+  const breedOptions = formData.species
+    ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat")
+    : [];
 
   const [updateReport] = useUpdateReportMutation();
 
@@ -275,6 +271,12 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
     return colorOptionsList.filter(color => !selectedColors.includes(color));
   };
+
+  const renderBreedOptions = (breed: string, index: number) => (
+    <option key={`${breed}-${index}`} value={breed}>
+      {breed}
+    </option>
+  );
 
   return (
     <div className="container mx-auto">
@@ -545,11 +547,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                     disabled={isSaving}
                   >
                     <option value="">Select breed</option>
-                    {breedOptions.map((breed, index) => (
-                      <option key={index} value={breed}>
-                        {breed}
-                      </option>
-                    ))}
+                    {breedOptions.map(renderBreedOptions)}
                   </select>
 
                   {showBreed2 && (
@@ -563,11 +561,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         required
                       >
                         <option value="">Select breed</option>
-                        {getFilteredBreedOptions([formData.breed1]).map((breed, index) => (
-                          <option key={index} value={breed}>
-                            {breed}
-                          </option>
-                        ))}
+                        {getFilteredBreedOptions([formData.breed1]).map(renderBreedOptions)}
                       </select>
                       <button
                         type="button"

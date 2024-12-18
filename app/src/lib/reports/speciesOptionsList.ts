@@ -1,4 +1,2 @@
-export const speciesOptionsList: string[] = [
-  "Cat",
-  "Dog",
-].sort();
+export const speciesOptionsList = ["Dog", "Cat"] as const;
+export type Species = (typeof speciesOptionsList)[number];

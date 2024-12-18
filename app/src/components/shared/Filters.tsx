@@ -2,11 +2,8 @@ import React from "react";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import { sortOptionsList } from "../../lib/reports/sortOptionsList";
-import {
-  useGetStatesQuery,
-  useGetCitiesQuery,
-  useGetBreedsQuery
-} from "../../redux/features/reports/reportsApi";
+import { getBreedsBySpecies } from "../../lib/reports/breedLists";
+import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
 
 interface FiltersProps {
   filters: {
@@ -37,9 +34,9 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
     }
   );
 
-  const { data: breeds = [], isLoading: isLoadingBreeds } = useGetBreedsQuery(filters.species, {
-    skip: !filters.species
-  });
+  const breedOptions = filters.species
+    ? getBreedsBySpecies(filters.species.toLowerCase() as "dog" | "cat")
+    : [];
 
   console.log("Available states:", states);
   console.log("States type:", Array.isArray(states) ? "array" : typeof states);
@@ -74,13 +71,11 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             name="breed"
             value={filters.breed}
             onChange={handleFilterChange}
-            className={
-              filters.species && !isLoadingBreeds ? selectClassName : disabledSelectClassName
-            }
-            disabled={!filters.species || isLoadingBreeds}
+            className={filters.species ? selectClassName : disabledSelectClassName}
+            disabled={!filters.species}
           >
             <option value="">Breed</option>
-            {breeds.map(breed => (
+            {breedOptions.map(breed => (
               <option key={breed} value={breed}>
                 {breed}
               </option>

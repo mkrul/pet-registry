@@ -1,5 +1,6 @@
 class Report < ApplicationRecord
   include Normalizable
+  include BreedList
 
   searchkick word_middle: [:breed_1, :breed_2, :description, :title],
              text_middle: [:gender],
@@ -90,6 +91,7 @@ class Report < ApplicationRecord
   validate :image_size_within_limit?
   validate :unique_colors
   validate :unique_breeds
+  validate :validate_breeds
 
   has_one_attached :image, dependent: :destroy
 
@@ -117,5 +119,19 @@ class Report < ApplicationRecord
 
   def image_size_within_limit?
     errors.add(:image, 'size cannot exceed 5MB') if image.attached? && image.blob.byte_size > 5.megabytes
+  end
+
+  def validate_breeds
+    return unless species.present?
+
+    valid_breeds = self.class.valid_breeds_for(species)
+
+    if breed_1.present? && !valid_breeds.include?(breed_1)
+      errors.add(:breed_1, "is not a valid breed for #{species}")
+    end
+
+    if breed_2.present? && !valid_breeds.include?(breed_2)
+      errors.add(:breed_2, "is not a valid breed for #{species}")
+    end
   end
 end
