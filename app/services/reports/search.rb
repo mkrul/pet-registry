@@ -137,6 +137,7 @@ class Reports::Search < ActiveInteraction::Base
           { color_3: color_value }
         ]
       }
+      Rails.logger.debug "  Added color filter: #{color_value}"
     end
 
     # Add other filters to conditions

@@ -86,7 +86,7 @@ class Report < ApplicationRecord
              :gender,
              :microchipped,
              :microchip_id,
-             with: ->(value) { value.presence || nil }
+             with: ->(value) { value.presence&.downcase || nil }
 
   validate :image_size_within_limit?
   validate :unique_colors
