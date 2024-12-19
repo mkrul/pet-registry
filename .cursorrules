@@ -36,6 +36,7 @@ Rules that you need to follow:Don't be lazy, write all the code to implement fea
 32. Implement proper error handling in async operations
 33. Use Redux DevTools for debugging
 34. Follow Redux style guide for naming conventions
+35. Update project_milestones.md and documentation.md files with completed tasks and new learnings. New learnings is very important in order to prevent making repeating mistakes.
 
 Here are some best practices and rules to follow for creating a high-quality, mobile-first web app with excellent UI/UX using Tailwind and React:
 1) Mobile-First Design:Always design and implement for mobile screens first, then scale up to larger screens. Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:) to adjust layouts for different screen sizes.
