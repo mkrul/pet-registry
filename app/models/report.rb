@@ -1,6 +1,7 @@
 class Report < ApplicationRecord
   include Normalizable
   include BreedList
+  include GenderList
 
   searchkick word_middle: [:breed_1, :breed_2, :description, :title],
              text_middle: [:gender],
@@ -92,6 +93,7 @@ class Report < ApplicationRecord
   validate :unique_colors
   validate :unique_breeds
   validate :validate_breeds
+  validate :validate_gender
 
   has_one_attached :image, dependent: :destroy
 

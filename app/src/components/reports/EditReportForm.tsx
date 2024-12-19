@@ -9,7 +9,7 @@ import { IImage } from "../../types/shared/Image";
 import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
-import { genderOptionsList } from "../../lib/reports/genderOptionsList";
+import { getGenderOptions } from "../../lib/reports/genderLists";
 import Map from "../shared/Map";
 
 interface EditReportFormProps {
@@ -278,6 +278,8 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     </option>
   );
 
+  const genderOptions = getGenderOptions();
+
   return (
     <div className="container mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-lg">
@@ -432,7 +434,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 className="border-gray-300 rounded-md shadow-sm"
                 disabled={isSaving}
               >
-                {genderOptionsList.map((gender, index) => (
+                {genderOptions.map((gender, index) => (
                   <option key={index} value={gender}>
                     {gender}
                   </option>

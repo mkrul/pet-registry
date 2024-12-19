@@ -6,10 +6,10 @@ import {
 import Map from "../shared/Map";
 import { IReportForm } from "../../types/Report";
 import { colorOptionsList } from "../../lib/reports/colorOptionsList";
-import { genderOptionsList } from "../../lib/reports/genderOptionsList";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
 import Spinner from "../shared/Spinner";
+import { getGenderOptions } from "../../lib/reports/genderLists";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport, isError: isNewReportError } = useGetNewReportQuery();
@@ -51,7 +51,7 @@ const NewReportForm: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
 
-  const genderOptions = useMemo(() => genderOptionsList, []);
+  const genderOptions = getGenderOptions();
   const speciesOptions = useMemo(() => speciesOptionsList, []);
   const colorOptions = useMemo(() => colorOptionsList, []);
 

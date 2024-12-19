@@ -1,7 +1,9 @@
-import breedLists from "./breedLists.json";
+import { BreedLists } from "./types";
+import breedListsJson from "./breedLists.json" assert { type: "json" };
+
+const breedLists = breedListsJson as BreedLists;
 
 export type Species = "dog" | "cat";
-export type BreedLists = typeof breedLists;
 export type DogBreed = (typeof breedLists.dog)[number];
 export type CatBreed = (typeof breedLists.cat)[number];
 export type Breed = DogBreed | CatBreed;
