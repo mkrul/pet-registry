@@ -72,14 +72,10 @@ class Report < ApplicationRecord
   validates :species, presence: true, inclusion: { in: %w[dog cat] }
   validates :microchip_id, uniqueness: { allow_nil: true }, length: { maximum: 35 }
 
-  normalizes :title,
-             :description,
-             :status,
+  normalizes :status,
              :archived_at,
              :name,
              :species,
-             :breed_1,
-             :breed_2,
              :color_1,
              :color_2,
              :color_3,
@@ -87,7 +83,8 @@ class Report < ApplicationRecord
              :microchip_id,
              with: ->(value) { value.presence&.downcase || nil }
 
-  normalizes :description,
+  normalizes :title,
+             :description,
              with: ->(value) { value.presence }
 
   validate :image_size_within_limit?
@@ -128,13 +125,12 @@ class Report < ApplicationRecord
     return unless species.present?
 
     valid_breeds = self.class.valid_breeds_for(species)
-    valid_breeds_downcased = valid_breeds.map(&:downcase)
 
-    if breed_1.present? && !valid_breeds_downcased.include?(breed_1)
+    if breed_1.present? && !valid_breeds.any? { |breed| breed.casecmp?(breed_1) }
       errors.add(:breed_1, "is not a valid breed for #{species}")
     end
 
-    if breed_2.present? && !valid_breeds_downcased.include?(breed_2)
+    if breed_2.present? && !valid_breeds.any? { |breed| breed.casecmp?(breed_2) }
       errors.add(:breed_2, "is not a valid breed for #{species}")
     end
   end
