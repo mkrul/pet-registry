@@ -5,9 +5,9 @@ import {
 } from "../../redux/features/reports/reportsApi";
 import Map from "../shared/Map";
 import { IReportForm } from "../../types/Report";
-import { colorOptionsList } from "../../lib/reports/colorOptionsList";
+import colorListJson from "../../../../config/colors.json";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
-import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
+import speciesListJson from "../../../../config/species.json";
 import Spinner from "../shared/Spinner";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 
@@ -52,8 +52,8 @@ const NewReportForm: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string>("");
 
   const genderOptions = getGenderOptions();
-  const speciesOptions = useMemo(() => speciesOptionsList, []);
-  const colorOptions = useMemo(() => colorOptionsList, []);
+  const speciesOptions = useMemo(() => speciesListJson.options, []);
+  const colorOptions = useMemo(() => colorListJson.options, []);
 
   useEffect(() => {
     setBreedOptions(
@@ -263,7 +263,7 @@ const NewReportForm: React.FC = () => {
   };
 
   const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
-    return colorOptionsList.filter(color => !selectedColors.includes(color));
+    return colorListJson.options.filter(color => !selectedColors.includes(color));
   };
 
   if (isLoadingNewReport) return <Spinner />;
@@ -507,7 +507,7 @@ const NewReportForm: React.FC = () => {
           required
         >
           <option value="">Choose one</option>
-          {colorOptionsList.map((color, index) => (
+          {colorListJson.options.map((color, index) => (
             <option key={index} value={color}>
               {color}
             </option>

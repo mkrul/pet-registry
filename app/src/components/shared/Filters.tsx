@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { colorOptionsList } from "../../lib/reports/colorOptionsList";
-import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
-import { sortOptionsList } from "../../lib/reports/sortOptionsList";
+import colorListJson from "../../../../config/colors.json";
+import speciesListJson from "../../../../config/species.json";
+import sortOptionsJson from "../../../../config/sort_options.json";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
 
@@ -111,7 +111,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             className={selectClassName}
           >
             <option value="">Species</option>
-            {speciesOptionsList.map(species => (
+            {speciesListJson.options.map(species => (
               <option key={species} value={species}>
                 {species}
               </option>
@@ -162,7 +162,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             className={selectClassName}
           >
             <option value="">Color</option>
-            {colorOptionsList.map(color => (
+            {colorListJson.options.map(color => (
               <option key={color} value={color}>
                 {color}
               </option>
@@ -244,7 +244,7 @@ const Filters: React.FC<FiltersProps> = ({ filters, handleFilterChange }) => {
             className={selectClassName}
           >
             <option value="Newest">Newest</option>
-            {sortOptionsList
+            {sortOptionsJson.options
               .filter(option => option !== "Newest")
               .map(option => (
                 <option key={option} value={option}>

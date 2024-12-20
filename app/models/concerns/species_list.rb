@@ -2,7 +2,7 @@ module SpeciesList
   extend ActiveSupport::Concern
 
   included do
-    SPECIES = JSON.parse(File.read(Rails.root.join('app/src/lib/reports/speciesLists.json')))['options'].freeze
+    SPECIES = JSON.parse(File.read(Rails.root.join('config/species.json')))['options'].freeze
   end
 
   class_methods do

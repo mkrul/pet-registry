@@ -7,10 +7,11 @@ import { faPencil, faSave, faTimes, faCancel } from "@fortawesome/free-solid-svg
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IImage } from "../../types/shared/Image";
 import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
-import { colorOptionsList } from "../../lib/reports/colorOptionsList";
+import colorListJson from "../../../../config/colors.json";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Map from "../shared/Map";
+import speciesListJson from "../../../../config/species.json";
 
 interface EditReportFormProps {
   report: IReport;
@@ -269,7 +270,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
-    return colorOptionsList.filter(color => !selectedColors.includes(color));
+    return colorListJson.options.filter(color => !selectedColors.includes(color));
   };
 
   const renderBreedOptions = (breed: string, index: number) => (
@@ -614,7 +615,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                       required
                     >
                       <option value="">Select color</option>
-                      {colorOptionsList.map((color, index) => (
+                      {colorListJson.options.map((color, index) => (
                         <option key={index} value={color}>
                           {color}
                         </option>
