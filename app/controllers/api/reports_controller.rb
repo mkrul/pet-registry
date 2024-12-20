@@ -31,10 +31,10 @@ module Api
         render json: {
           data: ActiveModelSerializers::SerializableResource.new(reports),
           pagination: {
-            total_pages: reports.total_pages,
-            total_count: reports.total_count,
-            current_page: reports.current_page,
-            limit_value: reports.limit_value
+            pages: reports.total_pages,
+            count: reports.total_entries,
+            page: reports.current_page,
+            items: reports.per_page
           }
         }
       else

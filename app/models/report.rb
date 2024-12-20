@@ -1,5 +1,4 @@
 class Report < ApplicationRecord
-  include Normalizable
   include BreedList
   include GenderList
 
@@ -85,9 +84,11 @@ class Report < ApplicationRecord
              :color_2,
              :color_3,
              :gender,
-             :microchipped,
              :microchip_id,
              with: ->(value) { value.presence&.downcase || nil }
+
+  normalizes :description,
+             with: ->(value) { value.presence }
 
   validate :image_size_within_limit?
   validate :unique_colors
@@ -127,12 +128,13 @@ class Report < ApplicationRecord
     return unless species.present?
 
     valid_breeds = self.class.valid_breeds_for(species)
+    valid_breeds_downcased = valid_breeds.map(&:downcase)
 
-    if breed_1.present? && !valid_breeds.include?(breed_1)
+    if breed_1.present? && !valid_breeds_downcased.include?(breed_1)
       errors.add(:breed_1, "is not a valid breed for #{species}")
     end
 
-    if breed_2.present? && !valid_breeds.include?(breed_2)
+    if breed_2.present? && !valid_breeds_downcased.include?(breed_2)
       errors.add(:breed_2, "is not a valid breed for #{species}")
     end
   end

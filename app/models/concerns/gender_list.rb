@@ -14,7 +14,7 @@ module GenderList
   def validate_gender
     return unless gender.present?
 
-    unless self.class.valid_genders.include?(gender)
+    unless self.class.valid_genders.map(&:downcase).include?(gender.downcase)
       errors.add(:gender, "must be one of: #{self.class.valid_genders.join(', ')}")
     end
   end
