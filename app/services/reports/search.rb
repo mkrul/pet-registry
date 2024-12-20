@@ -42,17 +42,13 @@ class Reports::Search < ActiveInteraction::Base
       order: sort_order
     }
 
-    # If there's a query but no breed filter, search as normal
     if query.present? && !breed.present?
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
       search_options[:operator] = "or"
-
-      Rails.logger.debug "  Final search options: #{search_options.inspect}"
       Report.search(query.downcase, **search_options)
     else
-      # If there's a breed filter or no query, use match_all
       Report.search("*", **search_options)
     end
   end
@@ -72,26 +68,29 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  Query: #{query.inspect}"
     Rails.logger.debug "  Breed: #{breed.inspect}"
 
-    # Set species condition
+    # Set species condition, prioritizing explicit filter over query content
     if species.present?
       conditions[:species] = species.downcase
-      Rails.logger.debug "  Setting species to '#{species.downcase}' from filter"
+    elsif query.present? && !species.present?  # Only check query if no species filter
+      query_words = query.downcase.split
+      if query_words.include?('dog')
+        conditions[:species] = 'dog'
+      elsif query_words.include?('cat')
+        conditions[:species] = 'cat'
+      end
     end
 
     # Add location conditions
     if country.present?
       conditions[:country] = country
-      Rails.logger.debug "  Added country filter: #{country}"
     end
 
     if state.present?
       conditions[:state] = state
-      Rails.logger.debug "  Added state filter: #{state}"
     end
 
     if city.present?
       conditions[:city] = city
-      Rails.logger.debug "  Added city filter: #{city}"
     end
 
     # Add other filters
@@ -113,7 +112,6 @@ class Reports::Search < ActiveInteraction::Base
       }
 
       filters << breed_conditions
-      Rails.logger.debug "  Added breed filter: #{breed_value} with synonyms: #{breed_synonyms}"
     end
 
     if gender.present?
@@ -137,7 +135,6 @@ class Reports::Search < ActiveInteraction::Base
           { color_3: color_value }
         ]
       }
-      Rails.logger.debug "  Added color filter: #{color_value}"
     end
 
     # Add other filters to conditions
