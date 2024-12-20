@@ -16,6 +16,7 @@ export interface IPaginationQuery {
   country?: string;
   state?: string;
   city?: string;
+  breed?: string;
 }
 
 export const reportsApi = createApi({
@@ -61,7 +62,11 @@ export const reportsApi = createApi({
         };
         console.log("Base query params:", queryParams);
 
-        // Log each filter as it's added
+        if (params.breed) {
+          queryParams.breed = params.breed;
+          console.log("Added breed filter:", params.breed);
+        }
+
         if (params.query) {
           queryParams.query = params.query;
           console.log("Added query filter:", params.query);
@@ -148,6 +153,13 @@ export const reportsApi = createApi({
     getNewReport: build.query<IReport, void>({
       query: () => "reports/new",
       providesTags: ["Reports"]
+    }),
+    getBreeds: build.query<string[], string>({
+      query: (species: string) => ({
+        url: `filters/breeds`,
+        params: { species }
+      }),
+      transformResponse: (response: { breeds: string[] }) => response.breeds
     })
   })
 });
@@ -157,6 +169,7 @@ export const {
   useGetReportsQuery,
   useGetStatesQuery,
   useGetCitiesQuery,
+  useGetBreedsQuery,
   useSubmitReportMutation,
   useGetNewReportQuery,
   useUpdateReportMutation

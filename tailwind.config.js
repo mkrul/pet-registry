@@ -35,6 +35,7 @@ module.exports = {
       pink: colors.pink,
     },
     screens: {
+      'xs': '480px',
       'sm': '640px',
       'md': '750px',
       'lg': '1080px',

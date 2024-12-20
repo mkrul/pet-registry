@@ -10,6 +10,7 @@
     "forceConsistentCasingInFileNames": true, // Enforce case sensitivity in imports.
     "moduleResolution": "node", // Use Node.js module resolution strategy.
     "types": ["react-dom/experimental", "node"], // Include React types.
+    "resolveJsonModule": true,
   },
   "include": [
     "app/javascript/**/*", // Include your React/JavaScript files.

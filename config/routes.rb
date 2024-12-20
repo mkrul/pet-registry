@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
     get 'filters/states', to: 'filters#states'
     get 'filters/cities', to: 'filters#cities'
+    get 'filters/breeds', to: 'filters#breeds'
 
     resources :reports do
       get :index, on: :collection

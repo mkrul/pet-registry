@@ -30,5 +30,18 @@ module Api
       Rails.logger.debug "Found cities: #{cities.inspect}"
       render json: { cities: cities }
     end
+
+    def breeds
+      species = params[:species]&.downcase
+      Rails.logger.debug "Fetching breeds for species: #{species}"
+
+      if species.present? && %w[dog cat].include?(species)
+        breeds = Report.valid_breeds_for(species)
+        Rails.logger.debug "Found breeds: #{breeds.inspect}"
+        render json: { breeds: breeds }
+      else
+        render json: { breeds: [] }
+      end
+    end
   end
 end

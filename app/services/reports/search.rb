@@ -11,6 +11,7 @@ class Reports::Search < ActiveInteraction::Base
   string :sort, default: nil
   integer :page, default: 1
   integer :per_page, default: Report::REPORT_PAGE_LIMIT
+  string :breed, default: nil
 
   BREED_SYNONYMS = {
     'pit bull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
@@ -32,6 +33,7 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  Sort: #{sort.inspect}"
     Rails.logger.debug "  Page: #{page.inspect}"
     Rails.logger.debug "  Per page: #{per_page.inspect}"
+    Rails.logger.debug "  Breed: #{breed.inspect}"
 
     search_options = {
       where: where_conditions,
@@ -40,36 +42,11 @@ class Reports::Search < ActiveInteraction::Base
       order: sort_order
     }
 
-    Rails.logger.debug "[Search] Executing search with options:"
-    Rails.logger.debug "  Where conditions: #{search_options[:where].inspect}"
-    Rails.logger.debug "  Page: #{search_options[:page]}"
-    Rails.logger.debug "  Per page: #{search_options[:per_page]}"
-    Rails.logger.debug "  Order: #{search_options[:order].inspect}"
-
-    # Add debug logging to see what's in the index
-    Rails.logger.debug "Sample reports in index:"
-    sample_reports = Report.search("*", where: { status: 'active' }, limit: 5)
-    sample_reports.each do |report|
-      Rails.logger.debug "Report #{report.id}: #{report.search_data.inspect}"
-    end
-
-    if query.present?
-      # Detect species from query
-      query_downcase = query.downcase
-      if query_downcase.include?('cat') || query_downcase.include?('kitten')
-        search_options[:where][:species] = 'cat'
-        Rails.logger.debug "  Detected and filtering by species: cat"
-      elsif query_downcase.include?('dog') || query_downcase.include?('puppy')
-        search_options[:where][:species] = 'dog'
-        Rails.logger.debug "  Detected and filtering by species: dog"
-      end
-
+    if query.present? && !breed.present?
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
       search_options[:operator] = "or"
-
-      Rails.logger.debug "  Final search options: #{search_options.inspect}"
       Report.search(query.downcase, **search_options)
     else
       Report.search("*", **search_options)
@@ -89,31 +66,53 @@ class Reports::Search < ActiveInteraction::Base
     Rails.logger.debug "  State: #{state.inspect}"
     Rails.logger.debug "  City: #{city.inspect}"
     Rails.logger.debug "  Query: #{query.inspect}"
+    Rails.logger.debug "  Breed: #{breed.inspect}"
 
-    # Set species condition
+    # Set species condition, prioritizing explicit filter over query content
     if species.present?
       conditions[:species] = species.downcase
-      Rails.logger.debug "  Setting species to '#{species.downcase}' from filter"
+    elsif query.present? && !species.present?  # Only check query if no species filter
+      query_words = query.downcase.split
+      if query_words.include?('dog')
+        conditions[:species] = 'dog'
+      elsif query_words.include?('cat')
+        conditions[:species] = 'cat'
+      end
     end
 
     # Add location conditions
     if country.present?
       conditions[:country] = country
-      Rails.logger.debug "  Added country filter: #{country}"
     end
 
     if state.present?
       conditions[:state] = state
-      Rails.logger.debug "  Added state filter: #{state}"
     end
 
     if city.present?
       conditions[:city] = city
-      Rails.logger.debug "  Added city filter: #{city}"
     end
 
     # Add other filters
     filters = []
+    if breed.present?
+      breed_value = breed.downcase
+      breed_synonyms = BREED_SYNONYMS[breed_value] || []
+      breed_terms = [breed_value] + breed_synonyms
+
+      breed_conditions = {
+        _or: breed_terms.map { |term|
+          {
+            _or: [
+              { breed_1: term },
+              { breed_2: term }
+            ]
+          }
+        }
+      }
+
+      filters << breed_conditions
+    end
 
     if gender.present?
       gender_value = gender.downcase
@@ -151,15 +150,11 @@ class Reports::Search < ActiveInteraction::Base
   def sort_order
     case sort&.downcase
     when 'oldest'
-      { updated_at: :asc, created_at: :asc }
-    when 'newest'
-      { updated_at: :desc, created_at: :desc }
-    else
-      if query.present?
-        [{ _score: :desc }, { updated_at: :desc }]
-      else
-        { updated_at: :desc, created_at: :desc }
-      end
+      { created_at: :asc }
+    when 'recently updated'
+      { updated_at: :desc }
+    else # 'newest' or default
+      { created_at: :desc }
     end
   end
 end

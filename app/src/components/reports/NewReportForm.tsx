@@ -5,12 +5,11 @@ import {
 } from "../../redux/features/reports/reportsApi";
 import Map from "../shared/Map";
 import { IReportForm } from "../../types/Report";
-import { colorOptionsList } from "../../lib/reports/colorOptionsList";
-import { genderOptionsList } from "../../lib/reports/genderOptionsList";
-import { catBreedOptionsList } from "../../lib/reports/catBreedOptionsList";
-import { dogBreedOptionsList } from "../../lib/reports/dogBreedOptionsList";
-import { speciesOptionsList } from "../../lib/reports/speciesOptionsList";
+import colorListJson from "../../../../config/colors.json";
+import { getBreedsBySpecies } from "../../lib/reports/breedLists";
+import speciesListJson from "../../../../config/species.json";
 import Spinner from "../shared/Spinner";
+import { getGenderOptions } from "../../lib/reports/genderLists";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport, isError: isNewReportError } = useGetNewReportQuery();
@@ -52,24 +51,18 @@ const NewReportForm: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
 
-  const genderOptions = useMemo(() => genderOptionsList, []);
-  const speciesOptions = useMemo(() => speciesOptionsList, []);
-  const colorOptions = useMemo(() => colorOptionsList, []);
-  const dogBreeds = useMemo(() => dogBreedOptionsList, []);
-  const catBreeds = useMemo(() => catBreedOptionsList, []);
+  const genderOptions = getGenderOptions();
+  const speciesOptions = useMemo(() => speciesListJson.options, []);
+  const colorOptions = useMemo(() => colorListJson.options, []);
 
   useEffect(() => {
     setBreedOptions(
-      formData.species.toLowerCase() === "dog"
-        ? dogBreeds
-        : formData.species.toLowerCase() === "cat"
-          ? catBreeds
-          : []
+      formData.species ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat") : []
     );
     setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
-  }, [formData, dogBreeds, catBreeds]);
+  }, [formData]);
 
   const getFilteredBreedOptions = (selectedBreeds: (string | null)[]) => {
     return breedOptions.filter(breed => !selectedBreeds.includes(breed));
@@ -270,7 +263,7 @@ const NewReportForm: React.FC = () => {
   };
 
   const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
-    return colorOptionsList.filter(color => !selectedColors.includes(color));
+    return colorListJson.options.filter(color => !selectedColors.includes(color));
   };
 
   if (isLoadingNewReport) return <Spinner />;
@@ -369,8 +362,8 @@ const NewReportForm: React.FC = () => {
           className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         >
           <option value="">Choose one</option>
-          {speciesOptions.map((species, index) => (
-            <option key={index} value={species}>
+          {speciesOptions.map((species: string, index: number) => (
+            <option key={`${species}-${index}`} value={species}>
               {species}
             </option>
           ))}
@@ -452,8 +445,8 @@ const NewReportForm: React.FC = () => {
           className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         >
           <option value="">Choose one</option>
-          {breedOptions.map((breed, index) => (
-            <option key={index} value={breed}>
+          {breedOptions.map((breed: string, index: number) => (
+            <option key={`${breed}-${index}`} value={breed}>
               {breed}
             </option>
           ))}
@@ -514,7 +507,7 @@ const NewReportForm: React.FC = () => {
           required
         >
           <option value="">Choose one</option>
-          {colorOptionsList.map((color, index) => (
+          {colorListJson.options.map((color, index) => (
             <option key={index} value={color}>
               {color}
             </option>

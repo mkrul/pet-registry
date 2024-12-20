@@ -60,7 +60,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
-            placeholder="Enter descriptive keywords..."
+            placeholder="Enter keywords (e.g. 'merle', 'pit bull', etc.)"
             autoComplete="off"
           />
           <div className="absolute left-0 inset-y-0 flex items-center">
