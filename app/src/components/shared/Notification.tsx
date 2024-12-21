@@ -1,8 +1,9 @@
 // Notification.tsx
 import React from "react";
+import { NotificationType } from "../../types/Notification";
 
 interface NotificationProps {
-  type: "success" | "warning" | "error" | "info";
+  type: NotificationType;
   message: string;
   onClose: () => void;
 }

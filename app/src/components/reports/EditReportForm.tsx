@@ -12,6 +12,7 @@ import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Map from "../shared/Map";
 import speciesListJson from "../../../../config/species.json";
+import { NotificationState } from "../../types/Notification";
 
 interface EditReportFormProps {
   report: IReport;
@@ -25,10 +26,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const [formData, setFormData] = useState(report);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
-  const [notification, setNotification] = useState<{
-    type: "success" | "danger";
-    message: string;
-  } | null>(null);
+  const [notification, setNotification] = useState<NotificationState | null>(null);
   const [showBreed2, setShowBreed2] = useState(!!formData.breed2);
   const [showColor2, setShowColor2] = useState(!!formData.color2);
   const [showColor3, setShowColor3] = useState(!!formData.color3);
@@ -150,13 +148,21 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     }
 
     try {
-      await updateReport({ id: report.id, data: formDataToSend }).unwrap();
+      const response = await updateReport({ id: report.id, data: formDataToSend }).unwrap();
       setIsEditing(false);
-      setNotification({ type: "success", message: "Report updated successfully!" });
-    } catch (error: any) {
-      const errorMessage = error.data?.errors?.[0] || "Failed to update report.";
-      setNotification({ type: "danger", message: errorMessage });
-      console.error("Error updating report:", error);
+      if (response?.message) {
+        setNotification({
+          type: "success",
+          message: response.message
+        });
+      }
+    } catch (err) {
+      if ("data" in err) {
+        setNotification({
+          type: "error",
+          message: (err.data as any)?.message || "Failed to update report"
+        });
+      }
     }
   };
 

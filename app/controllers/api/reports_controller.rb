@@ -62,9 +62,14 @@ module Api
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
-        render json: serialized_report, status: :created
+        render json: serialized_report.merge(
+          message: "Report created successfully"
+        ), status: :created
       else
-        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
+        render json: {
+          errors: outcome.errors.full_messages,
+          message: outcome.errors.full_messages.join(", ")
+        }, status: :unprocessable_entity
       end
     end
 
@@ -73,10 +78,15 @@ module Api
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
-        render json: serialized_report, status: :ok
+        render json: serialized_report.merge(
+          message: "Report updated successfully"
+        ), status: :ok
       else
         Rails.logger.debug "Update failed with errors: #{outcome.errors.full_messages}"
-        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
+        render json: {
+          errors: outcome.errors.full_messages,
+          message: outcome.errors.full_messages.join(", ")
+        }, status: :unprocessable_entity
       end
     end
 
