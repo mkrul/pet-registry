@@ -11,7 +11,7 @@ import speciesListJson from "../../../../config/species.json";
 import Spinner from "../shared/Spinner";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Notification from "../shared/Notification";
-import { NotificationState } from "../../types/Notification";
+import { NotificationState, NotificationType } from "../../types/Notification";
 import SearchableBreedSelect from "./SearchableBreedSelect";
 import {
   FormControl,
@@ -22,8 +22,13 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  FormLabel
+  FormLabel,
+  SelectChangeEvent
 } from "@mui/material";
+
+interface SubmitResponse {
+  message?: string;
+}
 
 const NewReportForm: React.FC = () => {
   const {
@@ -89,7 +94,9 @@ const NewReportForm: React.FC = () => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+      | SelectChangeEvent
   ) => {
     const { name, value } = e.target;
 
@@ -254,10 +261,11 @@ const NewReportForm: React.FC = () => {
     }
 
     try {
-      const response = await submitReport(formDataToSend).unwrap();
+      const result = await submitReport(formDataToSend).unwrap();
+      const response = result as unknown as SubmitResponse;
       if (response?.message) {
         setNotification({
-          type: "success",
+          type: NotificationType.SUCCESS,
           message: response.message
         });
         // Reset form after successful submission
@@ -291,11 +299,17 @@ const NewReportForm: React.FC = () => {
         setSelectedImage(null);
         setImagePreview("");
       }
-    } catch (err) {
-      if ("data" in err) {
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      if (error?.data?.message) {
         setNotification({
-          type: "error",
-          message: (err.data as any)?.message || "Failed to submit report"
+          type: NotificationType.ERROR,
+          message: error.data.message
+        });
+      } else {
+        setNotification({
+          type: NotificationType.ERROR,
+          message: "Failed to submit report"
         });
       }
     }
@@ -321,9 +335,9 @@ const NewReportForm: React.FC = () => {
   if (isNewReportError && "data" in newReportError) {
     return (
       <Notification
-        type="error"
+        type={NotificationType.ERROR}
         message={(newReportError.data as any)?.message || "Failed to load report form"}
-        onClose={() => {}} // No close action needed for page-level error
+        onClose={() => {}}
       />
     );
   }
