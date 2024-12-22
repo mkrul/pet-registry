@@ -305,6 +305,18 @@ const NewReportForm: React.FC = () => {
     return colorListJson.options.filter(color => !selectedColors.includes(color));
   };
 
+  // Update the autoFillPrevent object to specifically target text inputs
+  const autoFillPrevent = {
+    autoComplete: "off",
+    InputProps: {
+      autoComplete: "off"
+    },
+    inputProps: {
+      type: "text",
+      autoComplete: "chrome-off" // Chrome-specific prevention
+    }
+  };
+
   if (isLoadingNewReport) return <Spinner />;
   if (isNewReportError && "data" in newReportError) {
     return (
@@ -350,6 +362,9 @@ const NewReportForm: React.FC = () => {
         required
         variant="outlined"
         fullWidth
+        multiline
+        rows={1}
+        {...autoFillPrevent}
       />
 
       {/* Description */}
@@ -363,6 +378,7 @@ const NewReportForm: React.FC = () => {
         rows={4}
         variant="outlined"
         fullWidth
+        {...autoFillPrevent}
       />
 
       {/* Name */}
@@ -373,6 +389,9 @@ const NewReportForm: React.FC = () => {
         onChange={handleInputChange}
         variant="outlined"
         fullWidth
+        multiline
+        rows={1}
+        {...autoFillPrevent}
       />
 
       {/* Gender */}
@@ -444,6 +463,7 @@ const NewReportForm: React.FC = () => {
           onChange={handleInputChange}
           variant="outlined"
           fullWidth
+          {...autoFillPrevent}
         />
       )}
 
@@ -624,47 +644,44 @@ const NewReportForm: React.FC = () => {
         <Map onLocationSelect={handleLocationSelect} />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          <div>
-            <label className="block font-medium text-gray-700">
-              City <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city || ""}
-              onChange={handleInputChange}
-              required
-              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
+          <TextField
+            label="City"
+            name="city"
+            value={formData.city || ""}
+            onChange={handleInputChange}
+            required
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={1}
+            {...autoFillPrevent}
+          />
 
-          <div>
-            <label className="block font-medium text-gray-700">
-              State <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="state"
-              value={formData.state || ""}
-              onChange={handleInputChange}
-              required
-              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
+          <TextField
+            label="State"
+            name="state"
+            value={formData.state || ""}
+            onChange={handleInputChange}
+            required
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={1}
+            {...autoFillPrevent}
+          />
 
-          <div>
-            <label className="block font-medium text-gray-700">
-              Country <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="country"
-              value={formData.country || ""}
-              onChange={handleInputChange}
-              required
-              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
+          <TextField
+            label="Country"
+            name="country"
+            value={formData.country || ""}
+            onChange={handleInputChange}
+            required
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={1}
+            {...autoFillPrevent}
+          />
         </div>
       </div>
 
