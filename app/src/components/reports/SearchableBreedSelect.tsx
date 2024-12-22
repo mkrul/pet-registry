@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-interface BreedSuggestion {
-  value: string;
-  label: string;
-}
+import { TextField, Popper, Paper, MenuItem, FormControl } from "@mui/material";
 
 interface SearchableBreedSelectProps {
   value: string;
@@ -13,6 +9,7 @@ interface SearchableBreedSelectProps {
   label: string;
   availableBreeds: string[];
   placeholder?: string;
+  sx?: any;
 }
 
 const SearchableBreedSelect: React.FC<SearchableBreedSelectProps> = ({
@@ -22,11 +19,13 @@ const SearchableBreedSelect: React.FC<SearchableBreedSelectProps> = ({
   required = false,
   label,
   availableBreeds,
-  placeholder = "Search breeds..."
+  placeholder = "Search breeds...",
+  sx = {}
 }) => {
   const [input, setInput] = useState(value);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [suggestions, setSuggestions] = useState<BreedSuggestion[]>([]);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     setInput(value);
@@ -35,6 +34,7 @@ const SearchableBreedSelect: React.FC<SearchableBreedSelectProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInput(newValue);
+    setAnchorEl(e.currentTarget);
 
     if (!newValue) {
       setSuggestions([]);
@@ -42,12 +42,9 @@ const SearchableBreedSelect: React.FC<SearchableBreedSelectProps> = ({
       return;
     }
 
-    const filteredSuggestions = availableBreeds
-      .filter(breed => breed.toLowerCase().includes(newValue.toLowerCase()))
-      .map(breed => ({
-        value: breed,
-        label: breed
-      }));
+    const filteredSuggestions = availableBreeds.filter(breed =>
+      breed.toLowerCase().includes(newValue.toLowerCase())
+    );
 
     setSuggestions(filteredSuggestions);
     setShowSuggestions(true);
@@ -60,39 +57,32 @@ const SearchableBreedSelect: React.FC<SearchableBreedSelectProps> = ({
   };
 
   return (
-    <div className="relative">
-      <label className="block font-medium text-gray-700">
-        {label} {required && <span className="text-red-400">*</span>}
-      </label>
-      <input
-        type="text"
+    <FormControl fullWidth>
+      <TextField
+        label={label}
         value={input}
         onChange={handleInputChange}
-        onClick={e => {
-          e.stopPropagation();
-          setShowSuggestions(true);
-        }}
-        placeholder={placeholder}
         required={required}
         disabled={disabled}
-        className={`mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md ${
-          disabled ? "bg-gray-100 cursor-not-allowed" : ""
-        }`}
+        placeholder={placeholder}
+        variant="outlined"
+        sx={sx}
       />
-      {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute z-10 w-full mt-1 bg-white shadow-lg max-h-60 rounded-md py-1 text-base overflow-auto focus:outline-none sm:text-sm">
+      <Popper
+        open={showSuggestions && suggestions.length > 0}
+        anchorEl={anchorEl}
+        placement="bottom-start"
+        style={{ width: anchorEl?.clientWidth, zIndex: 1300 }}
+      >
+        <Paper elevation={3}>
           {suggestions.map((suggestion, index) => (
-            <div
-              key={`${suggestion.value}-${index}`}
-              className="cursor-pointer hover:bg-gray-100 px-4 py-2"
-              onClick={() => handleSelect(suggestion.value)}
-            >
-              {suggestion.label}
-            </div>
+            <MenuItem key={`${suggestion}-${index}`} onClick={() => handleSelect(suggestion)}>
+              {suggestion}
+            </MenuItem>
           ))}
-        </div>
-      )}
-    </div>
+        </Paper>
+      </Popper>
+    </FormControl>
   );
 };
 

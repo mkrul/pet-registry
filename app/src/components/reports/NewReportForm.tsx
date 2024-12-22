@@ -23,12 +23,43 @@ import {
   FormControlLabel,
   Radio,
   FormLabel,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Button
 } from "@mui/material";
+import SearchableColorSelect from "./SearchableColorSelect";
+import { CloudUpload } from "@mui/icons-material";
 
 interface SubmitResponse {
   message?: string;
 }
+
+const commonInputStyles = {
+  backgroundColor: "white",
+  "& .MuiSelect-select": {
+    backgroundColor: "white"
+  },
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "white"
+  },
+  "& .MuiButton-outlined": {
+    backgroundColor: "white"
+  }
+};
+
+// Update the location fields with a more prominent disabled style
+const disabledInputStyles = {
+  ...commonInputStyles,
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#e5e7eb" // Tailwind gray-200, slightly darker
+  },
+  "& .MuiInputBase-input.Mui-disabled": {
+    backgroundColor: "#e5e7eb",
+    WebkitTextFillColor: "#6b7280" // Tailwind gray-500 for text
+  },
+  "& .MuiInputLabel-root.Mui-disabled": {
+    color: "#6b7280" // Matching text color
+  }
+};
 
 const NewReportForm: React.FC = () => {
   const {
@@ -37,7 +68,7 @@ const NewReportForm: React.FC = () => {
     error: newReportError
   } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
-
+  const [knowsName, setKnowsName] = useState<boolean | null>(null);
   const [breedOptions, setBreedOptions] = useState<string[]>([]);
   const [showBreed2, setShowBreed2] = useState(false);
   const [showColor2, setShowColor2] = useState(false);
@@ -379,6 +410,7 @@ const NewReportForm: React.FC = () => {
         multiline
         rows={1}
         {...autoFillPrevent}
+        sx={commonInputStyles}
       />
 
       {/* Description */}
@@ -393,20 +425,37 @@ const NewReportForm: React.FC = () => {
         variant="outlined"
         fullWidth
         {...autoFillPrevent}
+        sx={commonInputStyles}
       />
 
+      {/* Knows Name */}
+      <FormControl required>
+        <FormLabel id="knows-name-label">Do you know the animal's name?</FormLabel>
+        <RadioGroup
+          name="knowsName"
+          value={knowsName === null ? "" : knowsName.toString()}
+          onChange={e => setKnowsName(e.target.value === "" ? null : e.target.value === "true")}
+        >
+          <FormControlLabel value="true" control={<Radio />} label="Yes" />
+          <FormControlLabel value="false" control={<Radio />} label="No" />
+        </RadioGroup>
+      </FormControl>
+
       {/* Name */}
-      <TextField
-        label="Pet's name, if known"
-        name="name"
-        value={formData.name}
-        onChange={handleInputChange}
-        variant="outlined"
-        fullWidth
-        multiline
-        rows={1}
-        {...autoFillPrevent}
-      />
+      {knowsName && (
+        <TextField
+          label="Pet's name, if known"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={1}
+          {...autoFillPrevent}
+          sx={commonInputStyles}
+        />
+      )}
 
       {/* Gender */}
       <FormControl fullWidth>
@@ -421,6 +470,7 @@ const NewReportForm: React.FC = () => {
           onChange={handleInputChange}
           required
           label="Gender"
+          sx={commonInputStyles}
         >
           <MenuItem value="">Choose one</MenuItem>
           {genderOptions.map((gender, index) => (
@@ -444,6 +494,7 @@ const NewReportForm: React.FC = () => {
           onChange={handleInputChange}
           required
           label="Species"
+          sx={commonInputStyles}
         >
           <MenuItem value="">Choose one</MenuItem>
           {speciesOptions.map((species, index) => (
@@ -459,8 +510,14 @@ const NewReportForm: React.FC = () => {
         <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
         <RadioGroup
           name="microchipped"
-          value={formData.microchipped === null ? "unknown" : formData.microchipped.toString()}
-          onChange={handleInputChange}
+          value={formData.microchipped === null ? undefined : formData.microchipped.toString()}
+          onChange={e => {
+            const value = e.target.value;
+            setFormData(prev => ({
+              ...prev,
+              microchipped: value === undefined ? null : value === "true"
+            }));
+          }}
         >
           <FormControlLabel value="true" control={<Radio />} label="Yes" />
           <FormControlLabel value="false" control={<Radio />} label="No" />
@@ -478,6 +535,7 @@ const NewReportForm: React.FC = () => {
           variant="outlined"
           fullWidth
           {...autoFillPrevent}
+          sx={commonInputStyles}
         />
       )}
 
@@ -489,6 +547,7 @@ const NewReportForm: React.FC = () => {
         required
         label="Breed 1"
         availableBreeds={breedOptions}
+        sx={commonInputStyles}
       />
 
       {/* Breed 2 */}
@@ -500,6 +559,7 @@ const NewReportForm: React.FC = () => {
             disabled={!formData.species}
             label="Breed 2"
             availableBreeds={getFilteredBreedOptions([formData.breed1])}
+            sx={commonInputStyles}
           />
           <button
             type="button"
@@ -525,44 +585,51 @@ const NewReportForm: React.FC = () => {
       )}
 
       {/* Color 1 */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Color 1: <span className="text-red-400">*</span>
-        </label>
-        <select
+      <FormControl fullWidth>
+        <InputLabel id="color1-label" required>
+          Color 1
+        </InputLabel>
+        <Select
+          labelId="color1-label"
+          id="color1"
           name="color1"
           value={formData.color1}
           onChange={handleInputChange}
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           required
+          label="Color 1"
+          sx={commonInputStyles}
         >
-          <option value="">Choose one</option>
-          {colorListJson.options.map((color, index) => (
-            <option key={index} value={color}>
+          <MenuItem value="">Choose one</MenuItem>
+          {colorOptions.map((color, index) => (
+            <MenuItem key={`${color}-${index}`} value={color}>
               {color}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
 
       {/* Color 2 */}
       {showColor2 && (
         <div>
-          <label className="block font-medium text-gray-700">Color 2:</label>
-          <select
-            name="color2"
-            value={formData.color2 || ""}
-            onChange={handleInputChange}
-            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          >
-            <option value="">Choose one</option>
-            {getFilteredColorOptions([formData.color1]).map((color, index) => (
-              <option key={index} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          {/* Option to Remove Color 2 */}
+          <FormControl fullWidth>
+            <InputLabel id="color2-label">Color 2</InputLabel>
+            <Select
+              labelId="color2-label"
+              id="color2"
+              name="color2"
+              value={formData.color2 || ""}
+              onChange={handleInputChange}
+              label="Color 2"
+              sx={commonInputStyles}
+            >
+              <MenuItem value="">Choose one</MenuItem>
+              {getFilteredColorOptions([formData.color1]).map((color, index) => (
+                <MenuItem key={`${color}-${index}`} value={color}>
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <button
             type="button"
             onClick={() => setShowColor2(false)}
@@ -577,21 +644,25 @@ const NewReportForm: React.FC = () => {
       {/* Color 3 */}
       {showColor3 && (
         <div>
-          <label className="block font-medium text-gray-700">Color 3:</label>
-          <select
-            name="color3"
-            value={formData.color3 || ""}
-            onChange={handleInputChange}
-            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          >
-            <option value="">Choose one</option>
-            {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
-              <option key={index} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          {/* Option to Remove Color 3 */}
+          <FormControl fullWidth>
+            <InputLabel id="color3-label">Color 3</InputLabel>
+            <Select
+              labelId="color3-label"
+              id="color3"
+              name="color3"
+              value={formData.color3 || ""}
+              onChange={handleInputChange}
+              label="Color 3"
+              sx={commonInputStyles}
+            >
+              <MenuItem value="">Choose one</MenuItem>
+              {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
+                <MenuItem key={`${color}-${index}`} value={color}>
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <button
             type="button"
             onClick={() => setShowColor3(false)}
@@ -603,100 +674,48 @@ const NewReportForm: React.FC = () => {
         </div>
       )}
 
-      {/* Button to Add Color 2 or 3 */}
-      {formData.color1 && !showColor2 && (
-        <button
-          type="button"
-          onClick={() => setShowColor2(true)}
-          className="mt-2 text-blue-600 font-medium"
-          disabled={isLoading}
-        >
-          Add another color
-        </button>
-      )}
-      {showColor2 && !showColor3 && (
-        <button
-          type="button"
-          onClick={() => setShowColor3(true)}
-          className="mt-2 text-blue-600 font-medium"
-          disabled={isLoading}
-        >
-          Add third color
-        </button>
-      )}
-
       {/* Image Upload */}
-      <div>
-        <label className="block font-medium text-gray-700">Upload Image:</label>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="mt-1 block w-full"
-          disabled={isLoading}
-        />
-        {imagePreview && (
-          <div className="relative w-32 h-32 mt-3">
-            <img
-              src={imagePreview}
-              alt="Selected"
-              className="object-cover w-full h-full rounded-md"
+      <div className="mt-8">
+        <h2 className="text-lg font-medium text-gray-900 mb-4">Upload Image</h2>
+        <p className="text-sm text-gray-500 mb-4">Please upload your best photo of the animal.</p>
+        <FormControl fullWidth>
+          <Button
+            component="label"
+            variant="outlined"
+            startIcon={<CloudUpload />}
+            sx={{ mt: 1 }}
+            disabled={isLoading}
+          >
+            Choose File
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+              disabled={isLoading}
             />
-          </div>
-        )}
+          </Button>
+          {imagePreview && (
+            <div className="relative w-32 h-32 mt-3">
+              <img
+                src={imagePreview}
+                alt="Selected"
+                className="object-cover w-full h-full rounded-md"
+              />
+            </div>
+          )}
+        </FormControl>
       </div>
 
       {/* Location Section */}
       <div className="mt-8">
         <h2 className="text-lg font-medium text-gray-900 mb-4">Location Information</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Click on the map to drop a pin where the pet was last seen. The address details will be
-          automatically filled in.
+          Click on the map to drop a pin where the pet was last seen.
         </p>
 
         <Map onLocationSelect={handleLocationSelect} />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          <TextField
-            label="City"
-            name="city"
-            value={formData.city || ""}
-            onChange={handleInputChange}
-            required
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={1}
-            {...autoFillPrevent}
-          />
-
-          <TextField
-            label="State"
-            name="state"
-            value={formData.state || ""}
-            onChange={handleInputChange}
-            required
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={1}
-            {...autoFillPrevent}
-          />
-
-          <TextField
-            label="Country"
-            name="country"
-            value={formData.country || ""}
-            onChange={handleInputChange}
-            required
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={1}
-            {...autoFillPrevent}
-          />
-        </div>
       </div>
 
       {/* Submit Button */}
