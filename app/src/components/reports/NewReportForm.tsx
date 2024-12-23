@@ -324,6 +324,16 @@ const NewReportForm: React.FC = () => {
     }
   };
 
+  // Update the microchipped radio group handler
+  const handleMicrochippedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      microchipped: value === "true" ? true : value === "false" ? false : null,
+      microchipId: value === "false" ? "" : prev.microchipId // Clear microchipId if "No" is selected
+    }));
+  };
+
   if (isLoadingNewReport) return <Spinner />;
   if (isNewReportError && "data" in newReportError) {
     return (
@@ -472,18 +482,12 @@ const NewReportForm: React.FC = () => {
         <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
         <RadioGroup
           name="microchipped"
-          value={formData.microchipped === null ? undefined : formData.microchipped.toString()}
-          onChange={e => {
-            const value = e.target.value;
-            setFormData(prev => ({
-              ...prev,
-              microchipped: value === undefined ? null : value === "true"
-            }));
-          }}
+          value={formData.microchipped === null ? "" : formData.microchipped.toString()}
+          onChange={handleMicrochippedChange}
         >
           <FormControlLabel value="true" control={<Radio />} label="Yes" />
           <FormControlLabel value="false" control={<Radio />} label="No" />
-          <FormControlLabel value="unknown" control={<Radio />} label="I don't know" />
+          <FormControlLabel value="" control={<Radio />} label="I don't know" />
         </RadioGroup>
       </FormControl>
 
