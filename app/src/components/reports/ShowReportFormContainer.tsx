@@ -1,6 +1,6 @@
 import React from "react";
 import { IReport } from "../../types/Report";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import EditReportForm from "./EditReportForm";
 
 interface ShowReportFormContainerProps {
@@ -9,13 +9,15 @@ interface ShowReportFormContainerProps {
 }
 
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const handleBack = () => {
-    if (window.history.length > 1) {
-      navigate(-1);
+  const handleBackClick = () => {
+    if (location.state?.isNewReport) {
+      navigate("/reports"); // Go to reports index without params
     } else {
-      navigate("/");
+      // Existing back navigation logic
+      navigate(-1);
     }
   };
 
@@ -35,7 +37,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
       )}
       <div className="flex justify-end">
         <button
-          onClick={handleBack}
+          onClick={handleBackClick}
           className="ml-4 mb-4 px-4 py-2 bg-gray-500 text-white font-semibold rounded hover:bg-gray-600"
         >
           Back to Reports

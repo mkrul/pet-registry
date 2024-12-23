@@ -1,4 +1,7 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
+import Notification from "../shared/Notification";
+import { NotificationType } from "../../types/Notification";
+import { Errors } from "../../types/ErrorMessages";
 
 interface Props {
   children: ReactNode;
@@ -26,9 +29,11 @@ class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError && this.state.error) {
       return (
-        <div className="flex justify-center items-center h-screen">
-          <p className="text-red-500">Something went wrong: {this.state.error.message}</p>
-        </div>
+        <Notification
+          type={NotificationType.ERROR}
+          message={this.state.error.message || Errors.GENERIC_ERROR}
+          onClose={() => this.setState({ hasError: false, error: null })}
+        />
       );
     }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { setReports } from "../../redux/features/reports/reportsSlice";
@@ -6,6 +6,8 @@ import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import ReportCard from "./ReportCard";
 import Spinner from "../shared/Spinner";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { NotificationState, NotificationType } from "../../types/Notification";
+import Notification from "../shared/Notification";
 
 interface ReportsContainerProps {
   query: string;
@@ -32,6 +34,7 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   const dispatch = useDispatch();
   const reports = useSelector((state: RootState) => state.reports.data);
   const itemsPerPage = 20;
+  const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const { data, error, isLoading } = useGetReportsQuery({
     page,
@@ -52,6 +55,16 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
       dispatch(setReports(data.data));
     }
   }, [data, dispatch]);
+
+  useEffect(() => {
+    if (error && "data" in error) {
+      const apiError = error as { data: { message: string } };
+      setNotification({
+        type: NotificationType.ERROR,
+        message: apiError.data?.message || "Failed to load reports"
+      });
+    }
+  }, [error]);
 
   const handleNextPage = () => {
     if (data?.pagination.pages && page < data.pagination.pages) {
@@ -81,6 +94,13 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
 
   return (
     <div>
+      {notification && (
+        <Notification
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <div className="grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-3 gap-4">
         {reports.map(report => (
           <ReportCard key={report.id} report={report} currentPage={page} currentQuery={query} />

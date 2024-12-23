@@ -4,6 +4,12 @@ import { IReport } from "../../../types/Report";
 import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
 import { IPagination } from "../../../types/shared/Pagination";
+import { Errors } from "../../../types/ErrorMessages";
+
+interface UpdateReportResponse {
+  message: string;
+  report: IReport;
+}
 
 export interface IPaginationQuery {
   page: number;
@@ -19,6 +25,19 @@ export interface IPaginationQuery {
   breed?: string;
 }
 
+interface ErrorResponse {
+  data: {
+    message: string;
+  };
+  status: number;
+}
+
+interface SubmitResponse {
+  message: string;
+  report: IReport;
+  id: number;
+}
+
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
@@ -30,21 +49,39 @@ export const reportsApi = createApi({
     getReport: build.query<IReport, number>({
       query: id => `reports/${id}`,
       transformResponse: (response: IReport) => transformToCamelCase(response),
-      providesTags: (result, error, id) => [{ type: "Reports", id: id }]
+      providesTags: (result, error, id) => [{ type: "Reports", id: id }],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.REPORT_LOAD_FAILED
+        }
+      })
     }),
     getStates: build.query<string[], string>({
       query: (country: string) => ({
         url: `filters/states`,
         params: { country }
       }),
-      transformResponse: (response: { states: string[] }) => response.states
+      transformResponse: (response: { states: string[] }) => response.states,
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.STATES_FETCH_FAILED
+        }
+      })
     }),
     getCities: build.query<string[], { country: string; state: string }>({
       query: ({ country, state }) => ({
         url: `filters/cities`,
         params: { country, state }
       }),
-      transformResponse: (response: { cities: string[] }) => response.cities
+      transformResponse: (response: { cities: string[] }) => response.cities,
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.CITIES_FETCH_FAILED
+        }
+      })
     }),
     getReports: build.query<
       {
@@ -131,35 +168,73 @@ export const reportsApi = createApi({
         return transformed;
       },
       keepUnusedDataFor: 30,
-      providesTags: ["Reports"]
+      providesTags: ["Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.REPORTS_FETCH_FAILED
+        }
+      })
     }),
-    updateReport: build.mutation<IReport, { id: number; data: FormData }>({
+    updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
       query: ({ id, data }) => ({
         url: `reports/${id}`,
         method: "PUT",
         body: data
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"]
+      transformResponse: (response: { message: string; report: IReport }) => ({
+        message: response.message,
+        report: transformToCamelCase(response.report)
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.REPORT_UPDATE_FAILED
+        }
+      })
     }),
-    submitReport: build.mutation<void, FormData>({
+    submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
         url: "reports",
         method: "POST",
         body: formData
-        // Do not set 'Content-Type'; let the browser handle it
       }),
-      invalidatesTags: ["Reports"]
+      transformResponse: (response: { message: string; id: number } & IReport) => ({
+        message: response.message,
+        report: transformToCamelCase(response),
+        id: response.id
+      }),
+      invalidatesTags: ["Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.REPORT_SUBMISSION_FAILED
+        }
+      })
     }),
     getNewReport: build.query<IReport, void>({
       query: () => "reports/new",
-      providesTags: ["Reports"]
+      providesTags: ["Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.NEW_REPORT_LOAD_FAILED
+        }
+      })
     }),
     getBreeds: build.query<string[], string>({
       query: (species: string) => ({
         url: `filters/breeds`,
         params: { species }
       }),
-      transformResponse: (response: { breeds: string[] }) => response.breeds
+      transformResponse: (response: { breeds: string[] }) => response.breeds,
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.BREEDS_FETCH_FAILED
+        }
+      })
     })
   })
 });

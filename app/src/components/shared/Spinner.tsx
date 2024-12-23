@@ -5,21 +5,23 @@ interface SpinnerProps {
   color?: string;
   size?: number;
   bgFaded?: boolean;
+  className?: string;
+  inline?: boolean;
 }
 
 const Spinner: React.FC<SpinnerProps> = ({
   color = "text-gray-200",
   size = 40,
-  bgFaded = true
-}) => (
-  <div
-    className={`absolute inset-0 flex justify-center items-center ${bgFaded ? "bg-white bg-opacity-75" : ""} h-full`}
-  >
+  bgFaded = true,
+  className = "",
+  inline = false
+}) => {
+  const spinnerContent = (
     <div role="status">
       <svg
         aria-hidden="true"
         style={{ width: `${size}px`, height: `${size}px` }}
-        className={`animate-spin ${color} fill-blue-600`}
+        className={`animate-spin ${color} fill-blue-600 ${className}`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,12 +37,29 @@ const Spinner: React.FC<SpinnerProps> = ({
       </svg>
       <span className="sr-only">Loading...</span>
     </div>
-  </div>
-);
+  );
+
+  if (inline) {
+    return spinnerContent;
+  }
+
+  return (
+    <div
+      className={`absolute inset-0 flex justify-center items-center ${
+        bgFaded ? "bg-white bg-opacity-75" : ""
+      } h-full`}
+    >
+      {spinnerContent}
+    </div>
+  );
+};
 
 Spinner.propTypes = {
   color: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
+  bgFaded: PropTypes.bool,
+  className: PropTypes.string,
+  inline: PropTypes.bool
 };
 
 export default Spinner;

@@ -4,17 +4,73 @@ import {
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
 import Map from "../shared/Map";
-import { IReportForm } from "../../types/Report";
+import { IReport, IReportForm } from "../../types/Report";
 import colorListJson from "../../../../config/colors.json";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import speciesListJson from "../../../../config/species.json";
 import Spinner from "../shared/Spinner";
 import { getGenderOptions } from "../../lib/reports/genderLists";
+import Notification from "../shared/Notification";
+import { NotificationState, NotificationType } from "../../types/Notification";
+import SearchableBreedSelect from "./SearchableBreedSelect";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+  SelectChangeEvent,
+  Button
+} from "@mui/material";
+import { CloudUpload } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { Errors } from "../../types/ErrorMessages";
+
+interface SubmitResponse {
+  message?: string;
+  report?: IReport;
+}
+
+const commonInputStyles = {
+  backgroundColor: "white",
+  "& .MuiSelect-select": {
+    backgroundColor: "white"
+  },
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "white"
+  },
+  "& .MuiButton-outlined": {
+    backgroundColor: "white"
+  }
+};
+
+// Update the location fields with a more prominent disabled style
+const disabledInputStyles = {
+  ...commonInputStyles,
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "#e5e7eb" // Tailwind gray-200, slightly darker
+  },
+  "& .MuiInputBase-input.Mui-disabled": {
+    backgroundColor: "#e5e7eb",
+    WebkitTextFillColor: "#6b7280" // Tailwind gray-500 for text
+  },
+  "& .MuiInputLabel-root.Mui-disabled": {
+    color: "#6b7280" // Matching text color
+  }
+};
 
 const NewReportForm: React.FC = () => {
-  const { isLoading: isLoadingNewReport, isError: isNewReportError } = useGetNewReportQuery();
-  const [submitReport, { isLoading, isError, isSuccess }] = useSubmitReportMutation();
-
+  const {
+    isLoading: isLoadingNewReport,
+    isError: isNewReportError,
+    error: newReportError
+  } = useGetNewReportQuery();
+  const [submitReport, { isLoading }] = useSubmitReportMutation();
+  const [knowsName, setKnowsName] = useState<boolean | null>(null);
   const [breedOptions, setBreedOptions] = useState<string[]>([]);
   const [showBreed2, setShowBreed2] = useState(false);
   const [showColor2, setShowColor2] = useState(false);
@@ -55,6 +111,9 @@ const NewReportForm: React.FC = () => {
   const speciesOptions = useMemo(() => speciesListJson.options, []);
   const colorOptions = useMemo(() => colorListJson.options, []);
 
+  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     setBreedOptions(
       formData.species ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat") : []
@@ -69,9 +128,19 @@ const NewReportForm: React.FC = () => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+      | SelectChangeEvent
   ) => {
     const { name, value } = e.target;
+
+    if (name === "microchipped") {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value === "true" ? true : value === "false" ? false : null
+      }));
+      return;
+    }
 
     if (name === "breed1" && value === formData.breed2) {
       setFormData(prev => ({
@@ -174,6 +243,7 @@ const NewReportForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setNotification(null);
 
     const formDataToSend = new FormData();
     const data = {
@@ -225,40 +295,16 @@ const NewReportForm: React.FC = () => {
     }
 
     try {
-      await submitReport(formDataToSend).unwrap();
-      // Optionally, reset the form
-      setFormData({
-        title: "",
-        description: "",
-        name: "",
-        gender: "",
-        species: "",
-        breed1: "",
-        breed2: "",
-        color1: "",
-        color2: "",
-        color3: "",
-        image: {
-          id: "",
-          url: "",
-          thumbnailUrl: "",
-          variantUrl: "",
-          filename: "",
-          publicId: ""
-        },
-        microchipped: null,
-        microchipId: "",
-        city: "",
-        state: "",
-        country: "",
-        latitude: null,
-        longitude: null
+      const response = await submitReport(formDataToSend).unwrap();
+      navigate(`/reports/${response.id}`, {
+        state: { message: response.message, isNewReport: true }
       });
-      setSelectedImage(null);
-      setImagePreview("");
-    } catch (error) {
-      console.error("Failed to submit report:", error);
-      // Optionally, display error messages to the user
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message || Errors.REPORT_SUBMISSION_FAILED
+      });
     }
   };
 
@@ -266,8 +312,28 @@ const NewReportForm: React.FC = () => {
     return colorListJson.options.filter(color => !selectedColors.includes(color));
   };
 
+  // Update the autoFillPrevent object to specifically target text inputs
+  const autoFillPrevent = {
+    autoComplete: "off",
+    InputProps: {
+      autoComplete: "off"
+    },
+    inputProps: {
+      type: "text",
+      autoComplete: "chrome-off" // Chrome-specific prevention
+    }
+  };
+
   if (isLoadingNewReport) return <Spinner />;
-  if (isNewReportError) return <div>Failed to load report form.</div>;
+  if (isNewReportError && "data" in newReportError) {
+    return (
+      <Notification
+        type={NotificationType.ERROR}
+        message={(newReportError.data as any)?.message || Errors.REPORT_LOAD_FAILED}
+        onClose={() => {}}
+      />
+    );
+  }
 
   return (
     <form
@@ -276,6 +342,13 @@ const NewReportForm: React.FC = () => {
       onSubmit={handleSubmit}
       encType="multipart/form-data"
     >
+      {notification && (
+        <Notification
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <div className="mt-[0.5rem]">
         <span className="text-red-400 font-bold">IMPORTANT: </span>
         Please include as many details as possible and upload your best photo of the animal. If the
@@ -288,189 +361,168 @@ const NewReportForm: React.FC = () => {
       </div>
 
       {/* Title */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Title <span className="text-red-400">*</span>
-        </label>
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-          required
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-        />
-      </div>
+      <TextField
+        label="Title"
+        name="title"
+        value={formData.title}
+        onChange={handleInputChange}
+        required
+        variant="outlined"
+        fullWidth
+        multiline
+        rows={1}
+        {...autoFillPrevent}
+        sx={commonInputStyles}
+      />
 
       {/* Description */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Description <span className="text-red-400">*</span>
-        </label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleInputChange}
-          required
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-        />
-      </div>
+      <TextField
+        label="Description"
+        name="description"
+        value={formData.description}
+        onChange={handleInputChange}
+        required
+        multiline
+        rows={4}
+        variant="outlined"
+        fullWidth
+        {...autoFillPrevent}
+        sx={commonInputStyles}
+      />
+
+      {/* Knows Name */}
+      <FormControl required>
+        <FormLabel id="knows-name-label">Do you know the animal's name?</FormLabel>
+        <RadioGroup
+          name="knowsName"
+          value={knowsName === null ? "" : knowsName.toString()}
+          onChange={e => setKnowsName(e.target.value === "" ? null : e.target.value === "true")}
+        >
+          <FormControlLabel value="true" control={<Radio />} label="Yes" />
+          <FormControlLabel value="false" control={<Radio />} label="No" />
+        </RadioGroup>
+      </FormControl>
 
       {/* Name */}
-      <div>
-        <label className="block font-medium text-gray-700">Pet's name, if known:</label>
-        <input
-          type="text"
+      {knowsName && (
+        <TextField
+          label="Pet's name, if known"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={1}
+          {...autoFillPrevent}
+          sx={commonInputStyles}
         />
-      </div>
+      )}
 
       {/* Gender */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Gender: <span className="ml-1 text-red-400">*</span>
-        </label>
-        <select
+      <FormControl fullWidth>
+        <InputLabel id="gender-label" required>
+          Gender
+        </InputLabel>
+        <Select
+          labelId="gender-label"
+          id="gender"
           name="gender"
           value={formData.gender}
           onChange={handleInputChange}
           required
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          label="Gender"
+          sx={commonInputStyles}
         >
-          <option value="">Choose one</option>
+          <MenuItem value="">Choose one</MenuItem>
           {genderOptions.map((gender, index) => (
-            <option key={index} value={gender}>
+            <MenuItem key={index} value={gender}>
               {gender}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
 
       {/* Species */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Species: <span className="ml-1 text-red-400">*</span>
-        </label>
-        <select
+      <FormControl fullWidth>
+        <InputLabel id="species-label" required>
+          Species
+        </InputLabel>
+        <Select
+          labelId="species-label"
+          id="species"
           name="species"
           value={formData.species}
           onChange={handleInputChange}
           required
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+          label="Species"
+          sx={commonInputStyles}
         >
-          <option value="">Choose one</option>
-          {speciesOptions.map((species: string, index: number) => (
-            <option key={`${species}-${index}`} value={species}>
+          <MenuItem value="">Choose one</MenuItem>
+          {speciesOptions.map((species, index) => (
+            <MenuItem key={`${species}-${index}`} value={species}>
               {species}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
 
       {/* Microchipped */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Is the animal microchipped?: <span className="ml-1 text-red-400">*</span>
-        </label>
-        <div className="mt-1">
-          <div>
-            <input
-              type="radio"
-              id="microchipped-yes"
-              name="microchipped"
-              value="true"
-              onChange={handleInputChange}
-              required
-            />
-            <label htmlFor="microchipped-yes" className="ml-2">
-              Yes
-            </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="microchipped-no"
-              name="microchipped"
-              value="false"
-              onChange={handleInputChange}
-              required
-            />
-            <label htmlFor="microchipped-no" className="ml-2">
-              No
-            </label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="microchipped-unknown"
-              name="microchipped"
-              value="unknown"
-              onChange={handleInputChange}
-              required
-            />
-            <label htmlFor="microchipped-unknown" className="ml-2">
-              I don't know
-            </label>
-          </div>
-        </div>
-      </div>
+      <FormControl required>
+        <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
+        <RadioGroup
+          name="microchipped"
+          value={formData.microchipped === null ? undefined : formData.microchipped.toString()}
+          onChange={e => {
+            const value = e.target.value;
+            setFormData(prev => ({
+              ...prev,
+              microchipped: value === undefined ? null : value === "true"
+            }));
+          }}
+        >
+          <FormControlLabel value="true" control={<Radio />} label="Yes" />
+          <FormControlLabel value="false" control={<Radio />} label="No" />
+          <FormControlLabel value="unknown" control={<Radio />} label="I don't know" />
+        </RadioGroup>
+      </FormControl>
 
       {/* Microchip ID */}
       {formData.microchipped === true && (
-        <div className="mt-4">
-          <label className="block font-medium text-gray-700">Microchip ID:</label>
-          <input
-            type="text"
-            name="microchipId"
-            value={formData.microchipId || ""}
-            onChange={handleInputChange}
-            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          />
-        </div>
+        <TextField
+          label="Microchip ID"
+          name="microchipId"
+          value={formData.microchipId || ""}
+          onChange={handleInputChange}
+          variant="outlined"
+          fullWidth
+          {...autoFillPrevent}
+          sx={commonInputStyles}
+        />
       )}
 
       {/* Breed 1 */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Breed 1: <span className="text-red-400">*</span>
-        </label>
-        <select
-          name="breed1"
-          value={formData.breed1}
-          onChange={handleInputChange}
-          required
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-        >
-          <option value="">Choose one</option>
-          {breedOptions.map((breed: string, index: number) => (
-            <option key={`${breed}-${index}`} value={breed}>
-              {breed}
-            </option>
-          ))}
-        </select>
-      </div>
+      <SearchableBreedSelect
+        value={formData.breed1}
+        onChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
+        disabled={!formData.species}
+        required
+        label="Breed 1"
+        availableBreeds={breedOptions}
+        sx={commonInputStyles}
+      />
 
       {/* Breed 2 */}
       {showBreed2 && (
         <div>
-          <label className="block font-medium text-gray-700">Breed 2:</label>
-          <select
-            name="breed2"
+          <SearchableBreedSelect
             value={formData.breed2 || ""}
-            onChange={handleInputChange}
-            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          >
-            <option value="">Choose one</option>
-            {getFilteredBreedOptions([formData.breed1]).map((breed, index) => (
-              <option key={index} value={breed}>
-                {breed}
-              </option>
-            ))}
-          </select>
-          {/* Option to Remove Breed 2 */}
+            onChange={breed => setFormData(prev => ({ ...prev, breed2: breed }))}
+            disabled={!formData.species}
+            label="Breed 2"
+            availableBreeds={getFilteredBreedOptions([formData.breed1])}
+            sx={commonInputStyles}
+          />
           <button
             type="button"
             onClick={() => setShowBreed2(false)}
@@ -495,44 +547,51 @@ const NewReportForm: React.FC = () => {
       )}
 
       {/* Color 1 */}
-      <div>
-        <label className="block font-medium text-gray-700">
-          Color 1: <span className="text-red-400">*</span>
-        </label>
-        <select
+      <FormControl fullWidth>
+        <InputLabel id="color1-label" required>
+          Color 1
+        </InputLabel>
+        <Select
+          labelId="color1-label"
+          id="color1"
           name="color1"
           value={formData.color1}
           onChange={handleInputChange}
-          className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
           required
+          label="Color 1"
+          sx={commonInputStyles}
         >
-          <option value="">Choose one</option>
-          {colorListJson.options.map((color, index) => (
-            <option key={index} value={color}>
+          <MenuItem value="">Choose one</MenuItem>
+          {colorOptions.map((color, index) => (
+            <MenuItem key={`${color}-${index}`} value={color}>
               {color}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
 
       {/* Color 2 */}
       {showColor2 && (
         <div>
-          <label className="block font-medium text-gray-700">Color 2:</label>
-          <select
-            name="color2"
-            value={formData.color2 || ""}
-            onChange={handleInputChange}
-            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          >
-            <option value="">Choose one</option>
-            {getFilteredColorOptions([formData.color1]).map((color, index) => (
-              <option key={index} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          {/* Option to Remove Color 2 */}
+          <FormControl fullWidth>
+            <InputLabel id="color2-label">Color 2</InputLabel>
+            <Select
+              labelId="color2-label"
+              id="color2"
+              name="color2"
+              value={formData.color2 || ""}
+              onChange={handleInputChange}
+              label="Color 2"
+              sx={commonInputStyles}
+            >
+              <MenuItem value="">Choose one</MenuItem>
+              {getFilteredColorOptions([formData.color1]).map((color, index) => (
+                <MenuItem key={`${color}-${index}`} value={color}>
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <button
             type="button"
             onClick={() => setShowColor2(false)}
@@ -547,21 +606,25 @@ const NewReportForm: React.FC = () => {
       {/* Color 3 */}
       {showColor3 && (
         <div>
-          <label className="block font-medium text-gray-700">Color 3:</label>
-          <select
-            name="color3"
-            value={formData.color3 || ""}
-            onChange={handleInputChange}
-            className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          >
-            <option value="">Choose one</option>
-            {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
-              <option key={index} value={color}>
-                {color}
-              </option>
-            ))}
-          </select>
-          {/* Option to Remove Color 3 */}
+          <FormControl fullWidth>
+            <InputLabel id="color3-label">Color 3</InputLabel>
+            <Select
+              labelId="color3-label"
+              id="color3"
+              name="color3"
+              value={formData.color3 || ""}
+              onChange={handleInputChange}
+              label="Color 3"
+              sx={commonInputStyles}
+            >
+              <MenuItem value="">Choose one</MenuItem>
+              {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
+                <MenuItem key={`${color}-${index}`} value={color}>
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <button
             type="button"
             onClick={() => setShowColor3(false)}
@@ -573,117 +636,67 @@ const NewReportForm: React.FC = () => {
         </div>
       )}
 
-      {/* Button to Add Color 2 or 3 */}
-      {formData.color1 && !showColor2 && (
-        <button
-          type="button"
-          onClick={() => setShowColor2(true)}
-          className="mt-2 text-blue-600 font-medium"
-          disabled={isLoading}
-        >
-          Add another color
-        </button>
-      )}
-      {showColor2 && !showColor3 && (
-        <button
-          type="button"
-          onClick={() => setShowColor3(true)}
-          className="mt-2 text-blue-600 font-medium"
-          disabled={isLoading}
-        >
-          Add third color
-        </button>
-      )}
-
       {/* Image Upload */}
-      <div>
-        <label className="block font-medium text-gray-700">Upload Image:</label>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="mt-1 block w-full"
-          disabled={isLoading}
-        />
-        {imagePreview && (
-          <div className="relative w-32 h-32 mt-3">
-            <img
-              src={imagePreview}
-              alt="Selected"
-              className="object-cover w-full h-full rounded-md"
+      <div className="mt-8">
+        <h2 className="text-lg font-medium text-gray-900 mb-4">Upload Image</h2>
+        <p className="text-sm text-gray-500 mb-4">Please upload your best photo of the animal.</p>
+        <FormControl fullWidth>
+          <Button
+            component="label"
+            variant="outlined"
+            startIcon={<CloudUpload />}
+            sx={{ mt: 1 }}
+            disabled={isLoading}
+          >
+            Choose File
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+              disabled={isLoading}
             />
-          </div>
-        )}
+          </Button>
+          {imagePreview && (
+            <div className="relative w-32 h-32 mt-3">
+              <img
+                src={imagePreview}
+                alt="Selected"
+                className="object-cover w-full h-full rounded-md"
+              />
+            </div>
+          )}
+        </FormControl>
       </div>
 
       {/* Location Section */}
       <div className="mt-8">
         <h2 className="text-lg font-medium text-gray-900 mb-4">Location Information</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Click on the map to drop a pin where the pet was last seen. The address details will be
-          automatically filled in.
+          Click on the map to drop a pin where the pet was last seen.
         </p>
 
         <Map onLocationSelect={handleLocationSelect} />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-          <div>
-            <label className="block font-medium text-gray-700">
-              City <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city || ""}
-              onChange={handleInputChange}
-              required
-              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium text-gray-700">
-              State <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="state"
-              value={formData.state || ""}
-              onChange={handleInputChange}
-              required
-              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium text-gray-700">
-              Country <span className="text-red-400">*</span>
-            </label>
-            <input
-              type="text"
-              name="country"
-              value={formData.country || ""}
-              onChange={handleInputChange}
-              required
-              className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-        </div>
       </div>
 
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-fit inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+        className={`w-fit inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white ${
+          isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+        }`}
         disabled={isLoading}
       >
-        {isLoading ? "Submitting..." : "Submit"}
+        {isLoading ? (
+          <>
+            Submitting...
+            <Spinner inline size={16} className="ml-2" color="text-white" />
+          </>
+        ) : (
+          "Submit"
+        )}
       </button>
-
-      {/* Success and Error Messages */}
-      {isError && <p className="text-red-500">Failed to submit the report.</p>}
-      {isSuccess && <p className="text-green-500">Report submitted successfully.</p>}
     </form>
   );
 };
