@@ -417,7 +417,7 @@ const NewReportForm: React.FC = () => {
       {/* Name */}
       {knowsName && (
         <TextField
-          label="Pet's name, if known"
+          label="Name"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
