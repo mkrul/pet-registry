@@ -12,11 +12,16 @@ import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Map from "../shared/Map";
 import speciesListJson from "../../../../config/species.json";
-import { NotificationState } from "../../types/Notification";
+import { NotificationState, NotificationType } from "../../types/Notification";
 
 interface EditReportFormProps {
   report: IReport;
   errors?: string[];
+}
+
+interface UpdateReportResponse {
+  message: string;
+  report: IReport;
 }
 
 const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
@@ -148,21 +153,23 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     }
 
     try {
-      const response = await updateReport({ id: report.id, data: formDataToSend }).unwrap();
+      const response = (await updateReport({
+        id: report.id,
+        data: formDataToSend
+      }).unwrap()) as UpdateReportResponse;
       setIsEditing(false);
       if (response?.message) {
         setNotification({
-          type: "success",
+          type: NotificationType.SUCCESS,
           message: response.message
         });
       }
-    } catch (err) {
-      if ("data" in err) {
-        setNotification({
-          type: "error",
-          message: (err.data as any)?.message || "Failed to update report"
-        });
-      }
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message || "Failed to update report"
+      });
     }
   };
 

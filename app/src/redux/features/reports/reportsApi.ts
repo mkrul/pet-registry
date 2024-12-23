@@ -5,6 +5,11 @@ import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
 import { IPagination } from "../../../types/shared/Pagination";
 
+interface UpdateReportResponse {
+  message: string;
+  report: IReport;
+}
+
 export interface IPaginationQuery {
   page: number;
   items: number;
@@ -19,6 +24,19 @@ export interface IPaginationQuery {
   breed?: string;
 }
 
+interface ErrorResponse {
+  data: {
+    message: string;
+  };
+  status: number;
+}
+
+interface SubmitResponse {
+  message: string;
+  report: IReport;
+  id: number;
+}
+
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
@@ -30,7 +48,11 @@ export const reportsApi = createApi({
     getReport: build.query<IReport, number>({
       query: id => `reports/${id}`,
       transformResponse: (response: IReport) => transformToCamelCase(response),
-      providesTags: (result, error, id) => [{ type: "Reports", id: id }]
+      providesTags: (result, error, id) => [{ type: "Reports", id: id }],
+      transformErrorResponse: (response: ErrorResponse) => ({
+        status: response.status,
+        message: response.data?.message || "Failed to fetch report"
+      })
     }),
     getStates: build.query<string[], string>({
       query: (country: string) => ({
@@ -131,22 +153,34 @@ export const reportsApi = createApi({
         return transformed;
       },
       keepUnusedDataFor: 30,
-      providesTags: ["Reports"]
+      providesTags: ["Reports"],
+      transformErrorResponse: (response: ErrorResponse) => ({
+        status: response.status,
+        message: response.data?.message || "Failed to fetch reports"
+      })
     }),
-    updateReport: build.mutation<IReport, { id: number; data: FormData }>({
+    updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
       query: ({ id, data }) => ({
         url: `reports/${id}`,
         method: "PUT",
         body: data
       }),
+      transformResponse: (response: { message: string; report: IReport }) => ({
+        message: response.message,
+        report: transformToCamelCase(response.report)
+      }),
       invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"]
     }),
-    submitReport: build.mutation<void, FormData>({
+    submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
         url: "reports",
         method: "POST",
         body: formData
-        // Do not set 'Content-Type'; let the browser handle it
+      }),
+      transformResponse: (response: { message: string; id: number } & IReport) => ({
+        message: response.message,
+        report: transformToCamelCase(response),
+        id: response.id
       }),
       invalidatesTags: ["Reports"]
     }),

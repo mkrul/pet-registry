@@ -6,11 +6,7 @@ import { useAppDispatch } from "./redux/hooks";
 import { setUser, clearUser } from "./redux/features/auth/authSlice";
 import Spinner from "./components/shared/Spinner";
 import Notification from "./components/shared/Notification";
-
-interface NotificationState {
-  type: "success" | "warning" | "error" | "info";
-  message: string;
-}
+import { NotificationState, NotificationType } from "./types/Notification";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -28,7 +24,7 @@ const App: React.FC = () => {
       dispatch(clearUser());
       if ("data" in error) {
         setNotification({
-          type: "error",
+          type: NotificationType.ERROR,
           message: (error.data as any)?.message || "Authentication error occurred"
         });
       }

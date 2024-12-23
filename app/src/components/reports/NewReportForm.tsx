@@ -26,11 +26,12 @@ import {
   SelectChangeEvent,
   Button
 } from "@mui/material";
-import SearchableColorSelect from "./SearchableColorSelect";
 import { CloudUpload } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 interface SubmitResponse {
   message?: string;
+  report?: IReport;
 }
 
 const commonInputStyles = {
@@ -110,6 +111,7 @@ const NewReportForm: React.FC = () => {
   const colorOptions = useMemo(() => colorListJson.options, []);
 
   const [notification, setNotification] = useState<NotificationState | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setBreedOptions(
@@ -292,44 +294,12 @@ const NewReportForm: React.FC = () => {
     }
 
     try {
-      const result = await submitReport(formDataToSend).unwrap();
-      const response = result as unknown as SubmitResponse;
-      if (response?.message) {
-        setNotification({
-          type: NotificationType.SUCCESS,
-          message: response.message
-        });
-        // Reset form after successful submission
-        setFormData({
-          title: "",
-          description: "",
-          name: "",
-          gender: "",
-          species: "",
-          breed1: "",
-          breed2: "",
-          color1: "",
-          color2: "",
-          color3: "",
-          image: {
-            id: "",
-            url: "",
-            thumbnailUrl: "",
-            variantUrl: "",
-            filename: "",
-            publicId: ""
-          },
-          microchipped: null,
-          microchipId: "",
-          city: "",
-          state: "",
-          country: "",
-          latitude: null,
-          longitude: null
-        });
-        setSelectedImage(null);
-        setImagePreview("");
-      }
+      const response = await submitReport(formDataToSend).unwrap();
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: response.message
+      });
+      navigate(`/reports/${response.id}`);
     } catch (err: unknown) {
       const error = err as { data?: { message?: string } };
       if (error?.data?.message) {
