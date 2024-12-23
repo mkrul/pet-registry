@@ -24,7 +24,8 @@ import {
   Radio,
   FormLabel,
   SelectChangeEvent,
-  Button
+  Button,
+  Tooltip
 } from "@mui/material";
 import { CloudUpload, Close as CloseIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -113,6 +114,9 @@ const NewReportForm: React.FC = () => {
 
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const navigate = useNavigate();
+
+  // Add state for tracking tooltip visibility
+  const [showBreedTooltip, setShowBreedTooltip] = useState(false);
 
   useEffect(() => {
     setBreedOptions(
@@ -505,15 +509,36 @@ const NewReportForm: React.FC = () => {
       </FormControl>
 
       {/* Breed 1 */}
-      <SearchableBreedSelect
-        value={formData.breed1}
-        onChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
-        disabled={!formData.species}
-        required
-        label="Breed 1"
-        availableBreeds={breedOptions}
-        sx={commonInputStyles}
-      />
+      <Tooltip
+        title="Please select a species first"
+        open={showBreedTooltip && !formData.species}
+        placement="top"
+        onClose={() => setShowBreedTooltip(false)}
+        componentsProps={{
+          tooltip: {
+            sx: {
+              fontSize: "1rem",
+              padding: "8px 12px"
+            }
+          }
+        }}
+      >
+        <div
+          onClick={() => !formData.species && setShowBreedTooltip(true)}
+          onMouseEnter={() => !formData.species && setShowBreedTooltip(true)}
+          onMouseLeave={() => setShowBreedTooltip(false)}
+        >
+          <SearchableBreedSelect
+            value={formData.breed1}
+            onChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
+            disabled={!formData.species}
+            required
+            label="Breed 1"
+            availableBreeds={breedOptions}
+            sx={commonInputStyles}
+          />
+        </div>
+      </Tooltip>
 
       {/* Button to Add Breed 2 */}
       {!showBreed2 && formData.breed1 && (

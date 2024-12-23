@@ -87,7 +87,9 @@ class Report < ApplicationRecord
 
   validates :gender, presence: { message: "Please select a gender" }
   validates :city, presence: { message: "Please provide a city" }, if: -> { latitude.present? || longitude.present? }
-  validates :state, presence: { message: "Please provide a state" }, if: -> { latitude.present? || longitude.present? }
+  validates :state, presence: { message: "Please provide a state" },
+          if: -> { (latitude.present? || longitude.present?) && country.downcase != "united states" || city.downcase != "washington" },
+          allow_blank: true
   validates :country, presence: { message: "Please provide a country" }, if: -> { latitude.present? || longitude.present? }
   validates :latitude, presence: { message: "Please select a location on the map" }, if: -> { city.present? || state.present? || country.present? }
   validates :longitude, presence: { message: "Please select a location on the map" }, if: -> { city.present? || state.present? || country.present? }
