@@ -295,24 +295,15 @@ const NewReportForm: React.FC = () => {
 
     try {
       const response = await submitReport(formDataToSend).unwrap();
-      setNotification({
-        type: NotificationType.SUCCESS,
-        message: response.message
+      navigate(`/reports/${response.id}`, {
+        state: { message: response.message, isNewReport: true }
       });
-      navigate(`/reports/${response.id}`);
     } catch (err: unknown) {
       const error = err as { data?: { message?: string } };
-      if (error?.data?.message) {
-        setNotification({
-          type: NotificationType.ERROR,
-          message: error.data.message
-        });
-      } else {
-        setNotification({
-          type: NotificationType.ERROR,
-          message: "Failed to submit report"
-        });
-      }
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message || "Failed to submit report"
+      });
     }
   };
 

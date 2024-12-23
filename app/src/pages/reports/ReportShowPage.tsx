@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../redux/features/reports/reportsApi";
 import ShowReportFormContainer from "../../components/reports/ShowReportFormContainer";
 import Spinner from "../../components/shared/Spinner";
@@ -11,6 +11,7 @@ const ReportShowPage: React.FC = () => {
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const { data: report, error, isLoading } = useGetReportQuery(Number(id));
   const [searchParams] = useSearchParams();
+  const location = useLocation();
 
   const currentQuery = searchParams.get("query") || "";
   const currentPageParam = searchParams.get("page");
@@ -25,6 +26,15 @@ const ReportShowPage: React.FC = () => {
       });
     }
   }, [error]);
+
+  useEffect(() => {
+    if (location.state?.isNewReport) {
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: location.state.message
+      });
+    }
+  }, [location]);
 
   const errors = error ? [error.toString()] : [];
 
@@ -43,11 +53,13 @@ const ReportShowPage: React.FC = () => {
   return (
     <div>
       {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
+        <div className="container mx-auto p-4 w-full lg:w-[40rem]">
+          <Notification
+            type={notification.type}
+            message={notification.message}
+            onClose={() => setNotification(null)}
+          />
+        </div>
       )}
       <ShowReportFormContainer report={report} errors={errors} />
     </div>
