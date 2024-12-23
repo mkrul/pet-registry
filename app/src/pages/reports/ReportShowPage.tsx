@@ -53,15 +53,6 @@ const ReportShowPage: React.FC = () => {
 
   return (
     <div>
-      {notification && (
-        <div className="container mx-auto p-4 w-full lg:w-[40rem]">
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={() => setNotification(null)}
-          />
-        </div>
-      )}
       <ShowReportFormContainer report={report} errors={errors} />
     </div>
   );

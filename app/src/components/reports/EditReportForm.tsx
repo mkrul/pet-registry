@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import formatDate from "../../lib/formatDate";
 import Spinner from "../shared/Spinner";
 import Notification from "../shared/Notification";
@@ -12,7 +12,23 @@ import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Map from "../shared/Map";
 import speciesListJson from "../../../../config/species.json";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NotificationState, NotificationType } from "../../types/Notification";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+  SelectChangeEvent,
+  Button
+} from "@mui/material";
+import { CloudUpload } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface EditReportFormProps {
   report: IReport;
@@ -23,6 +39,21 @@ interface UpdateReportResponse {
   message: string;
   report: IReport;
 }
+
+const commonInputStyles = {
+  backgroundColor: "white",
+  "& .MuiSelect-select": {
+    backgroundColor: "white"
+  },
+  "& .MuiOutlinedInput-root": {
+    backgroundColor: "white"
+  },
+  "& .MuiButton-outlined": {
+    backgroundColor: "white"
+  }
+};
+
+const speciesOptions = speciesListJson.options;
 
 const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const placeholderPath = "/images/placeholder.png"; // Define placeholder path
@@ -50,7 +81,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
 
@@ -170,6 +201,18 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
         type: NotificationType.ERROR,
         message: error.data?.message || "Failed to update report"
       });
+    }
+  };
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    if (location.state?.isNewReport) {
+      navigate("/reports"); // Go to reports index without params
+    } else {
+      // Existing back navigation logic
+      navigate(-1);
     }
   };
 
@@ -294,6 +337,19 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
 
   const genderOptions = getGenderOptions();
 
+  useEffect(() => {
+    if (location.state?.isNewReport) {
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: location.state.message
+      });
+    }
+  }, [location]);
+
+  // First, add a constant for the zoom levels
+  const VIEW_ZOOM_LEVEL = 15; // More zoomed in for viewing
+  const EDIT_ZOOM_LEVEL = 13; // Less zoomed in for editing
+
   return (
     <div className="container mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-lg">
@@ -301,98 +357,117 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
           <Notification
             type={notification.type}
             message={notification.message}
-            onClose={handleCloseNotification}
+            onClose={() => setNotification(null)}
           />
         )}
-        {errors && errors.length > 0 && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-3">
-            <strong className="font-bold">
-              {errors.length} error(s) prohibited this report from being saved:
-            </strong>
-            <ul className="mt-2 list-disc list-inside">
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <form onSubmit={handleSaveChanges}>
-          <div className="flex justify-between">
-            {isEditing ? (
-              <div className="flex flex-col">
-                <h3 className="text-lg font-semibold text-gray-800">Title:</h3>
-                <input
-                  name="title"
-                  value={formData.title || ""}
-                  onChange={handleInputChange}
-                  className="border-gray-300 rounded-md shadow-sm mb-4"
-                  disabled={isSaving}
-                />
-              </div>
-            ) : (
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600 max-w-[60%]">
-                {formData.title}
-              </h2>
-            )}
-            {isEditing ? (
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:w-[9rem]">
-                <button
-                  type="submit"
-                  className="text-green-600 flex items-center h-6 mb-3 sm:mb-1"
-                  disabled={isSaving}
-                >
-                  <FontAwesomeIcon icon={faSave} className="mr-1" /> Save
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCancelChanges}
-                  className="text-gray-600 flex items-center h-6"
-                  disabled={isSaving}
-                >
-                  <FontAwesomeIcon icon={faCancel} className="mr-1" /> Cancel
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={displayEditForm}
-                className="text-blue-600 flex items-center h-6"
+
+        {/* Move Action Buttons to top */}
+        <div className="flex justify-end mb-2 gap-4">
+          {isEditing ? (
+            <>
+              <Button
+                type="submit"
+                form="edit-report-form"
+                variant="contained"
+                color="success"
+                disabled={isSaving}
+                startIcon={<FontAwesomeIcon icon={faSave} />}
               >
-                <FontAwesomeIcon icon={faPencil} className="mr-2" /> Edit Report
-              </button>
-            )}
+                Save
+              </Button>
+              <Button
+                type="button"
+                variant="outlined"
+                color="inherit"
+                onClick={handleCancelChanges}
+                disabled={isSaving}
+                startIcon={<FontAwesomeIcon icon={faCancel} />}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              onClick={displayEditForm}
+              startIcon={<FontAwesomeIcon icon={faPencil} />}
+            >
+              Edit Report
+            </Button>
+          )}
+          <Button type="button" variant="outlined" color="inherit" onClick={handleBackClick}>
+            Back to Reports
+          </Button>
+        </div>
+
+        {/* Add id to the form for the Save button to work */}
+        <form id="edit-report-form" onSubmit={handleSaveChanges}>
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Title:</h3>
+            <div className="flex justify-between">
+              {isEditing ? (
+                <div className="flex flex-col flex-grow mr-4">
+                  <TextField
+                    name="title"
+                    value={formData.title || ""}
+                    onChange={handleInputChange}
+                    required
+                    variant="outlined"
+                    fullWidth
+                    multiline
+                    rows={1}
+                    disabled={isSaving}
+                    sx={commonInputStyles}
+                  />
+                </div>
+              ) : (
+                <h2 className="text-2xl font-semibold mb-4 text-blue-600 max-w-[60%]">
+                  {formData.title}
+                </h2>
+              )}
+            </div>
           </div>
           <div className="mb-4">
+            {/* Image Upload */}
+            <h3 className="text-lg font-semibold text-gray-800">Photo:</h3>
             {isEditing ? (
-              <>
-                {/* Image Upload Section */}
-                <h3 className="text-lg font-semibold text-gray-800">Photo:</h3>
-                <div className="mt-1 relative overflow-clip">
+              <FormControl fullWidth>
+                <Button
+                  component="label"
+                  variant="outlined"
+                  startIcon={<CloudUpload />}
+                  sx={{ mt: 1 }}
+                  disabled={isSaving}
+                >
+                  Choose File
                   <input
                     type="file"
                     name="image"
                     accept="image/*"
                     onChange={handleFileChange}
+                    style={{ display: "none" }}
                     disabled={isSaving}
                   />
-                  {formData.image && formData.image.filename && (
-                    <div className="relative w-32 h-32 mt-3">
-                      <img
-                        src={imageSrc}
-                        alt={formData.title}
-                        className={`object-cover w-full h-full ${imageIsLoading ? "hidden" : "block"} rounded-md`}
-                        onLoad={handleImageLoad}
-                        onError={handleImageError}
-                      />
-                      {imageIsLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-md">
-                          <Spinner />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </>
+                </Button>
+                {formData.image && formData.image.filename && (
+                  <div className="relative w-32 h-32 mt-3">
+                    <img
+                      src={imageSrc}
+                      alt={formData.title}
+                      className={`object-cover w-full h-full ${imageIsLoading ? "hidden" : "block"} rounded-md`}
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                    />
+                    {imageIsLoading && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-md">
+                        <Spinner />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </FormControl>
             ) : (
               <div className="mb-8 w-full relative">
                 {imageIsLoading && (
@@ -413,12 +488,14 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Name:</h3>
             {isEditing ? (
-              <input
+              <TextField
                 name="name"
                 value={formData.name || ""}
                 onChange={handleInputChange}
-                className="border-gray-300 rounded-md shadow-sm w-full w-[85%] max-w-[20rem]"
+                variant="outlined"
+                fullWidth
                 disabled={isSaving}
+                sx={commonInputStyles}
               />
             ) : (
               <p className="text-gray-700">{formData.name ? formData.name : "Unknown"}</p>
@@ -427,102 +504,97 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Description:</h3>
             {isEditing ? (
-              <textarea
+              <TextField
                 name="description"
                 value={formData.description || ""}
                 onChange={handleInputChange}
-                className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md h-32"
+                required
+                multiline
+                rows={4}
+                variant="outlined"
+                fullWidth
                 disabled={isSaving}
+                sx={commonInputStyles}
               />
             ) : (
-              <p className="text-gray-700">{formData.description}</p>
+              <p className="text-gray-700 whitespace-pre-wrap mb-4">{formData.description}</p>
             )}
           </div>
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-800">Gender:</h3>
             {isEditing ? (
-              <select
-                name="gender"
-                value={formData.gender || ""}
-                onChange={handleInputChange}
-                className="border-gray-300 rounded-md shadow-sm"
-                disabled={isSaving}
-              >
-                {genderOptions.map((gender, index) => (
-                  <option key={index} value={gender}>
-                    {gender}
-                  </option>
-                ))}
-              </select>
+              <FormControl fullWidth>
+                <Select
+                  id="gender"
+                  name="gender"
+                  value={formData.gender || ""}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSaving}
+                  sx={commonInputStyles}
+                >
+                  <MenuItem value="">Choose one</MenuItem>
+                  {genderOptions.map((gender, index) => (
+                    <MenuItem key={index} value={gender}>
+                      {gender}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             ) : (
               <p className="text-gray-700">{formData.gender}</p>
             )}
           </div>
           <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Microchipped:</h3>
+            <h3 className="text-lg font-semibold text-gray-800">
+              {isEditing ? "Is the animal microchipped?" : "Microchipped:"}
+            </h3>
             {isEditing ? (
-              <div className="mt-1 mb-4">
-                <div>
-                  <input
-                    type="radio"
-                    id="microchipped-yes"
-                    name="microchipped"
-                    value={"true"}
-                    checked={formData.microchipped === true}
-                    onChange={handleInputChange}
-                    required
+              <FormControl required>
+                <RadioGroup
+                  name="microchipped"
+                  value={formData.microchipped === null ? "" : formData.microchipped.toString()}
+                  onChange={handleInputChange}
+                >
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label="Yes"
                     disabled={isSaving}
                   />
-                  <label htmlFor="microchipped-yes" className="ml-2">
-                    Yes
-                  </label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="microchipped-no"
-                    name="microchipped"
-                    value={"false"}
-                    checked={formData.microchipped === false}
-                    onChange={handleInputChange}
-                    required
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="No"
                     disabled={isSaving}
                   />
-                  <label htmlFor="microchipped-no" className="ml-2">
-                    No
-                  </label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="microchipped-unknown"
-                    name="microchipped"
-                    value={""}
-                    checked={formData.microchipped === null}
-                    onChange={handleInputChange}
-                    required
+                  <FormControlLabel
+                    value=""
+                    control={<Radio />}
+                    label="I don't know"
                     disabled={isSaving}
                   />
-                  <label htmlFor="microchipped-unknown" className="ml-2">
-                    I don't know
-                  </label>
-                </div>
-              </div>
+                </RadioGroup>
+              </FormControl>
             ) : (
-              <p className="text-gray-700 mb-4">{formatMicrochipped(formData.microchipped)}</p>
+              <p className="text-gray-700">{formatMicrochipped(formData.microchipped)}</p>
             )}
 
             {formData.microchipped === true && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 mt-4">Microchip ID:</h3>
                 {isEditing ? (
-                  <input
-                    name="microchipId"
-                    value={formData.microchipId || ""}
-                    onChange={handleInputChange}
-                    className="border-gray-300 rounded-md shadow-sm mb-4 w-[85%] max-w-[20rem]"
-                    disabled={isSaving}
-                  />
+                  <div className="mb-4">
+                    <TextField
+                      name="microchipId"
+                      value={formData.microchipId || ""}
+                      onChange={handleInputChange}
+                      variant="outlined"
+                      fullWidth
+                      disabled={isSaving}
+                      sx={commonInputStyles}
+                    />
+                  </div>
                 ) : (
                   <p className="text-gray-700 mb-4">{formData.microchipId}</p>
                 )}
@@ -532,20 +604,24 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800">Species:</h3>
               {isEditing ? (
-                <select
-                  name="species"
-                  value={formData.species || ""}
-                  onChange={handleInputChange}
-                  className="border-gray-300 rounded-md shadow-sm mb-2"
-                  disabled={isSaving}
-                >
-                  <option value="">Select species</option>
-                  {["dog", "cat"].map((species, index) => (
-                    <option key={index} value={species}>
-                      {species.charAt(0).toUpperCase() + species.slice(1)}
-                    </option>
-                  ))}
-                </select>
+                <FormControl fullWidth>
+                  <Select
+                    id="species"
+                    name="species"
+                    value={formData.species || ""}
+                    onChange={handleInputChange}
+                    required
+                    disabled={isSaving}
+                    sx={commonInputStyles}
+                  >
+                    <MenuItem value="">Choose one</MenuItem>
+                    {speciesOptions.map((species, index) => (
+                      <MenuItem key={`${species}-${index}`} value={species}>
+                        {species}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               ) : (
                 <p className="text-gray-700">{formData.species}</p>
               )}
@@ -555,30 +631,44 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               <h3 className="text-lg font-semibold text-gray-800 mt-4">Breeds:</h3>
               {isEditing ? (
                 <>
-                  <select
-                    name="breed1"
-                    value={formData.breed1 || ""}
-                    onChange={handleInputChange}
-                    className="border-gray-300 rounded-md shadow-sm mb-2"
-                    disabled={isSaving}
-                  >
-                    <option value="">Select breed</option>
-                    {breedOptions.map(renderBreedOptions)}
-                  </select>
+                  <FormControl fullWidth>
+                    <Select
+                      id="breed1"
+                      name="breed1"
+                      value={formData.breed1 || ""}
+                      onChange={handleInputChange}
+                      required
+                      disabled={isSaving}
+                      sx={commonInputStyles}
+                    >
+                      <MenuItem value="">Select breed</MenuItem>
+                      {breedOptions.map((breed, index) => (
+                        <MenuItem key={`${breed}-${index}`} value={breed}>
+                          {breed}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
 
                   {showBreed2 && (
-                    <div className="flex items-center mb-2">
-                      <select
-                        name="breed2"
-                        value={formData.breed2 || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-300 rounded-md shadow-sm"
-                        disabled={isSaving}
-                        required
-                      >
-                        <option value="">Select breed</option>
-                        {getFilteredBreedOptions([formData.breed1]).map(renderBreedOptions)}
-                      </select>
+                    <div className="flex items-center gap-2 mt-2">
+                      <FormControl fullWidth>
+                        <Select
+                          id="breed2"
+                          name="breed2"
+                          value={formData.breed2 || ""}
+                          onChange={handleInputChange}
+                          disabled={isSaving}
+                          sx={commonInputStyles}
+                        >
+                          <MenuItem value="">Select breed</MenuItem>
+                          {getFilteredBreedOptions([formData.breed1]).map((breed, index) => (
+                            <MenuItem key={`${breed}-${index}`} value={breed}>
+                              {breed}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                       <button
                         type="button"
                         onClick={removeBreed}
@@ -590,19 +680,15 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                     </div>
                   )}
 
-                  {!showBreed2 ? (
-                    <div>
-                      <button
-                        type="button"
-                        onClick={addBreed}
-                        className="mt-2 text-blue-600 font-medium"
-                        disabled={isSaving}
-                      >
-                        + Add another breed
-                      </button>
-                    </div>
-                  ) : (
-                    <div>{/* Optionally, you can add a button to remove breed2 if needed */}</div>
+                  {!showBreed2 && formData.breed1 && (
+                    <button
+                      type="button"
+                      onClick={addBreed}
+                      className="mt-2 text-blue-600 font-medium"
+                      disabled={isSaving}
+                    >
+                      + Add another breed
+                    </button>
                   )}
                 </>
               ) : (
@@ -617,98 +703,98 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               <h3 className="text-lg font-semibold text-gray-800">Colors:</h3>
               {isEditing ? (
                 <>
-                  {/* Color1 */}
-                  <div className="flex items-center mb-2">
-                    <select
+                  <FormControl fullWidth>
+                    <Select
+                      id="color1"
                       name="color1"
                       value={formData.color1}
                       onChange={handleInputChange}
-                      className="border-gray-300 rounded-md shadow-sm"
-                      disabled={isSaving}
                       required
+                      disabled={isSaving}
+                      sx={commonInputStyles}
                     >
-                      <option value="">Select color</option>
+                      <MenuItem value="">Choose one</MenuItem>
                       {colorListJson.options.map((color, index) => (
-                        <option key={index} value={color}>
+                        <MenuItem key={`${color}-${index}`} value={color}>
                           {color}
-                        </option>
+                        </MenuItem>
                       ))}
-                    </select>
-                    {/* No remove button for color1 as it's mandatory */}
-                  </div>
+                    </Select>
+                  </FormControl>
 
-                  {/* Color2 */}
                   {showColor2 && (
-                    <div className="flex items-center mb-2">
-                      <select
-                        name="color2"
-                        value={formData.color2 || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-300 rounded-md shadow-sm"
-                        disabled={isSaving}
-                        required
-                      >
-                        <option value="">Select color</option>
-                        {getFilteredColorOptions([formData.color1]).map((color, index) => (
-                          <option key={index} value={color}>
-                            {color}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        type="button"
-                        onClick={() => removeColor(1)} // colorIndex 1 corresponds to color2
-                        className="text-red-600 flex items-center ml-2 font-medium"
-                        disabled={isSaving}
-                      >
-                        <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
-                      </button>
-                    </div>
-                  )}
-
-                  {/* Color3 */}
-                  {showColor3 && (
-                    <div className="flex items-center mb-2">
-                      <select
-                        name="color3"
-                        value={formData.color3 || ""}
-                        onChange={handleInputChange}
-                        className="border-gray-300 rounded-md shadow-sm"
-                        disabled={isSaving}
-                        required
-                      >
-                        <option value="">Select color</option>
-                        {getFilteredColorOptions([formData.color1, formData.color2]).map(
-                          (color, index) => (
-                            <option key={index} value={color}>
+                    <div className="flex items-center gap-2 mt-2">
+                      <FormControl fullWidth>
+                        <Select
+                          id="color2"
+                          name="color2"
+                          value={formData.color2 || ""}
+                          onChange={handleInputChange}
+                          disabled={isSaving}
+                          sx={commonInputStyles}
+                        >
+                          <MenuItem value="">Choose one</MenuItem>
+                          {getFilteredColorOptions([formData.color1]).map((color, index) => (
+                            <MenuItem key={`${color}-${index}`} value={color}>
                               {color}
-                            </option>
-                          )
-                        )}
-                      </select>
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                       <button
                         type="button"
-                        onClick={() => removeColor(2)} // colorIndex 2 corresponds to color3
-                        className="text-red-600 flex items-center ml-2 font-medium"
+                        onClick={() => removeColor(1)}
+                        className="text-red-600 hover:text-red-700 p-1 ml-1"
                         disabled={isSaving}
+                        aria-label="Remove Color 2"
                       >
-                        <FontAwesomeIcon icon={faTimes} className="mr-1" /> Remove
+                        <CloseIcon fontSize="medium" />
                       </button>
                     </div>
                   )}
 
-                  {/* "Add another color" Button */}
-                  {canAddMoreColors && (
-                    <div>
+                  {showColor3 && (
+                    <div className="flex items-center gap-2 mt-2">
+                      <FormControl fullWidth>
+                        <Select
+                          id="color3"
+                          name="color3"
+                          value={formData.color3 || ""}
+                          onChange={handleInputChange}
+                          disabled={isSaving}
+                          sx={commonInputStyles}
+                        >
+                          <MenuItem value="">Choose one</MenuItem>
+                          {getFilteredColorOptions([formData.color1, formData.color2]).map(
+                            (color, index) => (
+                              <MenuItem key={`${color}-${index}`} value={color}>
+                                {color}
+                              </MenuItem>
+                            )
+                          )}
+                        </Select>
+                      </FormControl>
                       <button
                         type="button"
-                        onClick={addColor}
-                        className="mt-2 text-blue-600 font-medium"
+                        onClick={() => removeColor(2)}
+                        className="text-red-600 hover:text-red-700 p-1 ml-1"
                         disabled={isSaving}
+                        aria-label="Remove Color 3"
                       >
-                        + Add another color
+                        <CloseIcon fontSize="medium" />
                       </button>
                     </div>
+                  )}
+
+                  {canAddMoreColors && (
+                    <button
+                      type="button"
+                      onClick={addColor}
+                      className="mt-2 text-blue-600 font-medium"
+                      disabled={isSaving}
+                    >
+                      Add another color
+                    </button>
                   )}
                 </>
               ) : (
@@ -726,41 +812,38 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
               {isEditing ? (
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    <div>
-                      <label className="block font-medium text-gray-700">City</label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={formData.city || ""}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
-                        disabled={true}
-                      />
-                    </div>
+                    <TextField
+                      label="City"
+                      name="city"
+                      value={formData.city || ""}
+                      onChange={handleInputChange}
+                      variant="outlined"
+                      fullWidth
+                      disabled={true}
+                      sx={commonInputStyles}
+                    />
 
-                    <div>
-                      <label className="block font-medium text-gray-700">State</label>
-                      <input
-                        type="text"
-                        name="state"
-                        value={formData.state || ""}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
-                        disabled={true}
-                      />
-                    </div>
+                    <TextField
+                      label="State"
+                      name="state"
+                      value={formData.state || ""}
+                      onChange={handleInputChange}
+                      variant="outlined"
+                      fullWidth
+                      disabled={true}
+                      sx={commonInputStyles}
+                    />
 
-                    <div>
-                      <label className="block font-medium text-gray-700">Country</label>
-                      <input
-                        type="text"
-                        name="country"
-                        value={formData.country || ""}
-                        onChange={handleInputChange}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100"
-                        disabled={true}
-                      />
-                    </div>
+                    <TextField
+                      label="Country"
+                      name="country"
+                      value={formData.country || ""}
+                      onChange={handleInputChange}
+                      variant="outlined"
+                      fullWidth
+                      disabled={true}
+                      sx={commonInputStyles}
+                    />
                   </div>
                   <div className="mt-4 h-[400px]">
                     <Map
@@ -769,6 +852,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                         latitude: formData.latitude,
                         longitude: formData.longitude
                       }}
+                      initialZoom={EDIT_ZOOM_LEVEL}
                     />
                   </div>
                 </>
@@ -778,6 +862,16 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                     {[formData.city, formData.state].filter(Boolean).join(", ")}
                   </p>
                   <div>{formData.country}</div>
+                  <div className="mt-4 h-[400px]">
+                    <Map
+                      initialLocation={{
+                        latitude: formData.latitude,
+                        longitude: formData.longitude
+                      }}
+                      initialZoom={VIEW_ZOOM_LEVEL}
+                      readOnly
+                    />
+                  </div>
                 </>
               )}
             </div>

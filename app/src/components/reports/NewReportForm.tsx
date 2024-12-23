@@ -24,9 +24,10 @@ import {
   Radio,
   FormLabel,
   SelectChangeEvent,
-  Button
+  Button,
+  Tooltip
 } from "@mui/material";
-import { CloudUpload } from "@mui/icons-material";
+import { CloudUpload, Close as CloseIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Errors } from "../../types/ErrorMessages";
 
@@ -114,13 +115,13 @@ const NewReportForm: React.FC = () => {
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const navigate = useNavigate();
 
+  // Add state for tracking tooltip visibility
+  const [showBreedTooltip, setShowBreedTooltip] = useState(false);
+
   useEffect(() => {
     setBreedOptions(
       formData.species ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat") : []
     );
-    setShowBreed2(!!formData.breed1);
-    setShowColor2(!!formData.color1);
-    setShowColor3(!!formData.color2);
   }, [formData]);
 
   const getFilteredBreedOptions = (selectedBreeds: (string | null)[]) => {
@@ -324,6 +325,16 @@ const NewReportForm: React.FC = () => {
     }
   };
 
+  // Update the microchipped radio group handler
+  const handleMicrochippedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData(prev => ({
+      ...prev,
+      microchipped: value === "true" ? true : value === "false" ? false : null,
+      microchipId: value === "false" ? "" : prev.microchipId // Clear microchipId if "No" is selected
+    }));
+  };
+
   if (isLoadingNewReport) return <Spinner />;
   if (isNewReportError && "data" in newReportError) {
     return (
@@ -406,7 +417,7 @@ const NewReportForm: React.FC = () => {
       {/* Name */}
       {knowsName && (
         <TextField
-          label="Pet's name, if known"
+          label="Name"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
@@ -414,6 +425,36 @@ const NewReportForm: React.FC = () => {
           fullWidth
           multiline
           rows={1}
+          {...autoFillPrevent}
+          sx={commonInputStyles}
+        />
+      )}
+
+      <br />
+
+      {/* Microchipped */}
+      <FormControl required>
+        <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
+        <RadioGroup
+          name="microchipped"
+          value={formData.microchipped === null ? "" : formData.microchipped.toString()}
+          onChange={handleMicrochippedChange}
+        >
+          <FormControlLabel value="true" control={<Radio />} label="Yes" />
+          <FormControlLabel value="false" control={<Radio />} label="No" />
+          <FormControlLabel value="" control={<Radio />} label="I don't know" />
+        </RadioGroup>
+      </FormControl>
+
+      {/* Microchip ID */}
+      {formData.microchipped === true && (
+        <TextField
+          label="Microchip ID"
+          name="microchipId"
+          value={formData.microchipId || ""}
+          onChange={handleInputChange}
+          variant="outlined"
+          fullWidth
           {...autoFillPrevent}
           sx={commonInputStyles}
         />
@@ -467,72 +508,37 @@ const NewReportForm: React.FC = () => {
         </Select>
       </FormControl>
 
-      {/* Microchipped */}
-      <FormControl required>
-        <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
-        <RadioGroup
-          name="microchipped"
-          value={formData.microchipped === null ? undefined : formData.microchipped.toString()}
-          onChange={e => {
-            const value = e.target.value;
-            setFormData(prev => ({
-              ...prev,
-              microchipped: value === undefined ? null : value === "true"
-            }));
-          }}
-        >
-          <FormControlLabel value="true" control={<Radio />} label="Yes" />
-          <FormControlLabel value="false" control={<Radio />} label="No" />
-          <FormControlLabel value="unknown" control={<Radio />} label="I don't know" />
-        </RadioGroup>
-      </FormControl>
-
-      {/* Microchip ID */}
-      {formData.microchipped === true && (
-        <TextField
-          label="Microchip ID"
-          name="microchipId"
-          value={formData.microchipId || ""}
-          onChange={handleInputChange}
-          variant="outlined"
-          fullWidth
-          {...autoFillPrevent}
-          sx={commonInputStyles}
-        />
-      )}
-
       {/* Breed 1 */}
-      <SearchableBreedSelect
-        value={formData.breed1}
-        onChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
-        disabled={!formData.species}
-        required
-        label="Breed 1"
-        availableBreeds={breedOptions}
-        sx={commonInputStyles}
-      />
-
-      {/* Breed 2 */}
-      {showBreed2 && (
-        <div>
+      <Tooltip
+        title="Please select a species first"
+        open={showBreedTooltip && !formData.species}
+        placement="top"
+        onClose={() => setShowBreedTooltip(false)}
+        componentsProps={{
+          tooltip: {
+            sx: {
+              fontSize: "1rem",
+              padding: "8px 12px"
+            }
+          }
+        }}
+      >
+        <div
+          onClick={() => !formData.species && setShowBreedTooltip(true)}
+          onMouseEnter={() => !formData.species && setShowBreedTooltip(true)}
+          onMouseLeave={() => setShowBreedTooltip(false)}
+        >
           <SearchableBreedSelect
-            value={formData.breed2 || ""}
-            onChange={breed => setFormData(prev => ({ ...prev, breed2: breed }))}
+            value={formData.breed1}
+            onChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
             disabled={!formData.species}
-            label="Breed 2"
-            availableBreeds={getFilteredBreedOptions([formData.breed1])}
+            required
+            label="Breed 1"
+            availableBreeds={breedOptions}
             sx={commonInputStyles}
           />
-          <button
-            type="button"
-            onClick={() => setShowBreed2(false)}
-            className="mt-2 text-red-600 font-medium"
-            disabled={isLoading}
-          >
-            Remove Breed 2
-          </button>
         </div>
-      )}
+      </Tooltip>
 
       {/* Button to Add Breed 2 */}
       {!showBreed2 && formData.breed1 && (
@@ -544,6 +550,32 @@ const NewReportForm: React.FC = () => {
         >
           Add another breed
         </button>
+      )}
+
+      {/* Breed 2 */}
+      {showBreed2 && (
+        <div className="flex items-center gap-2">
+          <SearchableBreedSelect
+            value={formData.breed2 || ""}
+            onChange={breed => setFormData(prev => ({ ...prev, breed2: breed }))}
+            disabled={!formData.species}
+            label="Breed 2"
+            availableBreeds={getFilteredBreedOptions([formData.breed1])}
+            sx={commonInputStyles}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setShowBreed2(false);
+              setFormData(prev => ({ ...prev, breed2: "" }));
+            }}
+            className="text-red-600 hover:text-red-700 p-1 ml-1"
+            disabled={isLoading}
+            aria-label="Remove Breed 2"
+          >
+            <CloseIcon fontSize="medium" />
+          </button>
+        </div>
       )}
 
       {/* Color 1 */}
@@ -570,9 +602,21 @@ const NewReportForm: React.FC = () => {
         </Select>
       </FormControl>
 
+      {/* Button to Add Color 2 */}
+      {!showColor2 && formData.color1 && (
+        <button
+          type="button"
+          onClick={() => setShowColor2(true)}
+          className="mt-2 text-blue-600 font-medium"
+          disabled={isLoading}
+        >
+          Add another color
+        </button>
+      )}
+
       {/* Color 2 */}
       {showColor2 && (
-        <div>
+        <div className="flex items-center gap-2">
           <FormControl fullWidth>
             <InputLabel id="color2-label">Color 2</InputLabel>
             <Select
@@ -594,18 +638,34 @@ const NewReportForm: React.FC = () => {
           </FormControl>
           <button
             type="button"
-            onClick={() => setShowColor2(false)}
-            className="mt-2 text-red-600 font-medium"
+            onClick={() => {
+              setShowColor2(false);
+              setFormData(prev => ({ ...prev, color2: "" }));
+            }}
+            className="text-red-600 hover:text-red-700 p-1 ml-1"
             disabled={isLoading}
+            aria-label="Remove Color 2"
           >
-            Remove Color 2
+            <CloseIcon fontSize="medium" />
           </button>
         </div>
       )}
 
+      {/* Button to Add Color 3 */}
+      {!showColor3 && showColor2 && formData.color2 && (
+        <button
+          type="button"
+          onClick={() => setShowColor3(true)}
+          className="mt-2 text-blue-600 font-medium"
+          disabled={isLoading}
+        >
+          Add another color
+        </button>
+      )}
+
       {/* Color 3 */}
       {showColor3 && (
-        <div>
+        <div className="flex items-center gap-2">
           <FormControl fullWidth>
             <InputLabel id="color3-label">Color 3</InputLabel>
             <Select
@@ -627,11 +687,15 @@ const NewReportForm: React.FC = () => {
           </FormControl>
           <button
             type="button"
-            onClick={() => setShowColor3(false)}
-            className="mt-2 text-red-600 font-medium"
+            onClick={() => {
+              setShowColor3(false);
+              setFormData(prev => ({ ...prev, color3: "" }));
+            }}
+            className="text-red-600 hover:text-red-700 p-1 ml-1"
             disabled={isLoading}
+            aria-label="Remove Color 3"
           >
-            Remove Color 3
+            <CloseIcon fontSize="medium" />
           </button>
         </div>
       )}

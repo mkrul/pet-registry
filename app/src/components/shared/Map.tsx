@@ -4,7 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 interface MapProps {
-  onLocationSelect: (location: {
+  onLocationSelect?: (location: {
     latitude: number;
     longitude: number;
     city: string;
@@ -15,6 +15,8 @@ interface MapProps {
     latitude: number | null;
     longitude: number | null;
   };
+  initialZoom?: number;
+  readOnly?: boolean;
 }
 
 const findNearestCity = async (lat: number, lng: number): Promise<string> => {
