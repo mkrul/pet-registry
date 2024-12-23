@@ -118,7 +118,6 @@ const NewReportForm: React.FC = () => {
     setBreedOptions(
       formData.species ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat") : []
     );
-    setShowBreed2(!!formData.breed1);
     setShowColor2(!!formData.color1);
     setShowColor3(!!formData.color2);
   }, [formData]);
@@ -429,6 +428,36 @@ const NewReportForm: React.FC = () => {
         />
       )}
 
+      <br />
+
+      {/* Microchipped */}
+      <FormControl required>
+        <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
+        <RadioGroup
+          name="microchipped"
+          value={formData.microchipped === null ? "" : formData.microchipped.toString()}
+          onChange={handleMicrochippedChange}
+        >
+          <FormControlLabel value="true" control={<Radio />} label="Yes" />
+          <FormControlLabel value="false" control={<Radio />} label="No" />
+          <FormControlLabel value="" control={<Radio />} label="I don't know" />
+        </RadioGroup>
+      </FormControl>
+
+      {/* Microchip ID */}
+      {formData.microchipped === true && (
+        <TextField
+          label="Microchip ID"
+          name="microchipId"
+          value={formData.microchipId || ""}
+          onChange={handleInputChange}
+          variant="outlined"
+          fullWidth
+          {...autoFillPrevent}
+          sx={commonInputStyles}
+        />
+      )}
+
       {/* Gender */}
       <FormControl fullWidth>
         <InputLabel id="gender-label" required>
@@ -477,34 +506,6 @@ const NewReportForm: React.FC = () => {
         </Select>
       </FormControl>
 
-      {/* Microchipped */}
-      <FormControl required>
-        <FormLabel id="microchipped-label">Is the animal microchipped?</FormLabel>
-        <RadioGroup
-          name="microchipped"
-          value={formData.microchipped === null ? "" : formData.microchipped.toString()}
-          onChange={handleMicrochippedChange}
-        >
-          <FormControlLabel value="true" control={<Radio />} label="Yes" />
-          <FormControlLabel value="false" control={<Radio />} label="No" />
-          <FormControlLabel value="" control={<Radio />} label="I don't know" />
-        </RadioGroup>
-      </FormControl>
-
-      {/* Microchip ID */}
-      {formData.microchipped === true && (
-        <TextField
-          label="Microchip ID"
-          name="microchipId"
-          value={formData.microchipId || ""}
-          onChange={handleInputChange}
-          variant="outlined"
-          fullWidth
-          {...autoFillPrevent}
-          sx={commonInputStyles}
-        />
-      )}
-
       {/* Breed 1 */}
       <SearchableBreedSelect
         value={formData.breed1}
@@ -515,6 +516,18 @@ const NewReportForm: React.FC = () => {
         availableBreeds={breedOptions}
         sx={commonInputStyles}
       />
+
+      {/* Button to Add Breed 2 */}
+      {!showBreed2 && formData.breed1 && (
+        <button
+          type="button"
+          onClick={() => setShowBreed2(true)}
+          className="mt-2 text-blue-600 font-medium"
+          disabled={isLoading}
+        >
+          Add another breed
+        </button>
+      )}
 
       {/* Breed 2 */}
       {showBreed2 && (
@@ -529,25 +542,16 @@ const NewReportForm: React.FC = () => {
           />
           <button
             type="button"
-            onClick={() => setShowBreed2(false)}
+            onClick={() => {
+              setShowBreed2(false);
+              setFormData(prev => ({ ...prev, breed2: "" }));
+            }}
             className="mt-2 text-red-600 font-medium"
             disabled={isLoading}
           >
             Remove Breed 2
           </button>
         </div>
-      )}
-
-      {/* Button to Add Breed 2 */}
-      {!showBreed2 && formData.breed1 && (
-        <button
-          type="button"
-          onClick={() => setShowBreed2(true)}
-          className="mt-2 text-blue-600 font-medium"
-          disabled={isLoading}
-        >
-          Add another breed
-        </button>
       )}
 
       {/* Color 1 */}
