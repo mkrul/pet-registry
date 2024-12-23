@@ -4,6 +4,7 @@ import { IReport } from "../../../types/Report";
 import { IImage } from "../../../types/shared/Image";
 import { IReportForm } from "../../../types/Report";
 import { IPagination } from "../../../types/shared/Pagination";
+import { Errors } from "../../../types/ErrorMessages";
 
 interface UpdateReportResponse {
   message: string;
@@ -49,9 +50,11 @@ export const reportsApi = createApi({
       query: id => `reports/${id}`,
       transformResponse: (response: IReport) => transformToCamelCase(response),
       providesTags: (result, error, id) => [{ type: "Reports", id: id }],
-      transformErrorResponse: (response: ErrorResponse) => ({
+      transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
-        message: response.data?.message || "Failed to fetch report"
+        data: {
+          message: response.data?.message || Errors.REPORT_LOAD_FAILED
+        }
       })
     }),
     getStates: build.query<string[], string>({
@@ -59,14 +62,26 @@ export const reportsApi = createApi({
         url: `filters/states`,
         params: { country }
       }),
-      transformResponse: (response: { states: string[] }) => response.states
+      transformResponse: (response: { states: string[] }) => response.states,
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.STATES_FETCH_FAILED
+        }
+      })
     }),
     getCities: build.query<string[], { country: string; state: string }>({
       query: ({ country, state }) => ({
         url: `filters/cities`,
         params: { country, state }
       }),
-      transformResponse: (response: { cities: string[] }) => response.cities
+      transformResponse: (response: { cities: string[] }) => response.cities,
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.CITIES_FETCH_FAILED
+        }
+      })
     }),
     getReports: build.query<
       {
@@ -154,9 +169,11 @@ export const reportsApi = createApi({
       },
       keepUnusedDataFor: 30,
       providesTags: ["Reports"],
-      transformErrorResponse: (response: ErrorResponse) => ({
+      transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
-        message: response.data?.message || "Failed to fetch reports"
+        data: {
+          message: response.data?.message || Errors.REPORTS_FETCH_FAILED
+        }
       })
     }),
     updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
@@ -169,7 +186,13 @@ export const reportsApi = createApi({
         message: response.message,
         report: transformToCamelCase(response.report)
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"]
+      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.REPORT_UPDATE_FAILED
+        }
+      })
     }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
@@ -182,18 +205,36 @@ export const reportsApi = createApi({
         report: transformToCamelCase(response),
         id: response.id
       }),
-      invalidatesTags: ["Reports"]
+      invalidatesTags: ["Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.REPORT_SUBMISSION_FAILED
+        }
+      })
     }),
     getNewReport: build.query<IReport, void>({
       query: () => "reports/new",
-      providesTags: ["Reports"]
+      providesTags: ["Reports"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.NEW_REPORT_LOAD_FAILED
+        }
+      })
     }),
     getBreeds: build.query<string[], string>({
       query: (species: string) => ({
         url: `filters/breeds`,
         params: { species }
       }),
-      transformResponse: (response: { breeds: string[] }) => response.breeds
+      transformResponse: (response: { breeds: string[] }) => response.breeds,
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.BREEDS_FETCH_FAILED
+        }
+      })
     })
   })
 });

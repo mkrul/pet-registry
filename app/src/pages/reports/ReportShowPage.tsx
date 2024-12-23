@@ -5,6 +5,7 @@ import ShowReportFormContainer from "../../components/reports/ShowReportFormCont
 import Spinner from "../../components/shared/Spinner";
 import { NotificationState, NotificationType } from "../../types/Notification";
 import Notification from "../../components/shared/Notification";
+import { Errors } from "../../types/ErrorMessages";
 
 const ReportShowPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,7 @@ const ReportShowPage: React.FC = () => {
       const apiError = error as { data: { message: string } };
       setNotification({
         type: NotificationType.ERROR,
-        message: apiError.data?.message || "Failed to load report"
+        message: apiError.data.message || Errors.REPORT_LOAD_FAILED
       });
     }
   }, [error]);

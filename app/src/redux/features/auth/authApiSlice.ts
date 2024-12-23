@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store";
 import { IUser } from "../../../types/User";
 import { setUser, clearUser } from "./authSlice";
+import { Errors } from "../../../types/ErrorMessages";
 
 interface AuthResponse {
   message: string;
@@ -42,9 +43,15 @@ export const authApiSlice = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
         } catch (err) {
-          // Error handling
+          dispatch(clearUser());
         }
-      }
+      },
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.LOGIN_FAILED
+        }
+      })
     }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
@@ -57,9 +64,15 @@ export const authApiSlice = createApi({
           await queryFulfilled;
           dispatch(clearUser());
         } catch (err) {
-          // Error handling
+          dispatch(clearUser());
         }
-      }
+      },
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.LOGOUT_FAILED
+        }
+      })
     }),
     getCurrentUser: builder.query<AuthResponse, void>({
       query: () => ({
@@ -79,7 +92,13 @@ export const authApiSlice = createApi({
           dispatch(clearUser());
         }
       },
-      providesTags: ["Auth"]
+      providesTags: ["Auth"],
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.CURRENT_USER_FETCH_FAILED
+        }
+      })
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
       query: credentials => ({
@@ -93,9 +112,15 @@ export const authApiSlice = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
         } catch (err) {
-          // Error handling
+          dispatch(clearUser());
         }
-      }
+      },
+      transformErrorResponse: (response: { status: number; data: any }) => ({
+        status: response.status,
+        data: {
+          message: response.data?.message || Errors.SIGNUP_FAILED
+        }
+      })
     })
   })
 });

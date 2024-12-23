@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../../redux/features/auth/authApiSlice";
+import Notification from "../../components/shared/Notification";
+import { NotificationState, NotificationType } from "../../types/Notification";
+import { Errors } from "../../types/ErrorMessages";
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,7 +13,7 @@ const SignUpPage: React.FC = () => {
     password: "",
     passwordConfirmation: ""
   });
-  const [error, setError] = useState<string | null>(null);
+  const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -21,10 +24,13 @@ const SignUpPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setNotification(null);
 
     if (formData.password !== formData.passwordConfirmation) {
-      setError("Passwords don't match");
+      setNotification({
+        type: NotificationType.ERROR,
+        message: Errors.PASSWORDS_DONT_MATCH
+      });
       return;
     }
 
@@ -37,8 +43,12 @@ const SignUpPage: React.FC = () => {
         }
       }).unwrap();
       navigate("/");
-    } catch (err) {
-      setError("Sign up failed. Please try again.");
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message || Errors.SIGNUP_FAILED
+      });
     }
   };
 
@@ -51,7 +61,13 @@ const SignUpPage: React.FC = () => {
           required to activate your new account.
         </p>
 
-        {error && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">{error}</div>}
+        {notification && (
+          <Notification
+            type={notification.type}
+            message={notification.message}
+            onClose={() => setNotification(null)}
+          />
+        )}
 
         <form onSubmit={handleSubmit} className="mt-4">
           <input

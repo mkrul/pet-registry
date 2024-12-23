@@ -4,7 +4,7 @@ import {
   useSubmitReportMutation
 } from "../../redux/features/reports/reportsApi";
 import Map from "../shared/Map";
-import { IReportForm } from "../../types/Report";
+import { IReport, IReportForm } from "../../types/Report";
 import colorListJson from "../../../../config/colors.json";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import speciesListJson from "../../../../config/species.json";
@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { Errors } from "../../types/ErrorMessages";
 
 interface SubmitResponse {
   message?: string;
@@ -302,7 +303,7 @@ const NewReportForm: React.FC = () => {
       const error = err as { data?: { message?: string } };
       setNotification({
         type: NotificationType.ERROR,
-        message: error.data?.message || "Failed to submit report"
+        message: error.data?.message || Errors.REPORT_SUBMISSION_FAILED
       });
     }
   };
@@ -328,7 +329,7 @@ const NewReportForm: React.FC = () => {
     return (
       <Notification
         type={NotificationType.ERROR}
-        message={(newReportError.data as any)?.message || "Failed to load report form"}
+        message={(newReportError.data as any)?.message || Errors.REPORT_LOAD_FAILED}
         onClose={() => {}}
       />
     );
