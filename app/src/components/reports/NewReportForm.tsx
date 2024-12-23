@@ -26,7 +26,7 @@ import {
   SelectChangeEvent,
   Button
 } from "@mui/material";
-import { CloudUpload } from "@mui/icons-material";
+import { CloudUpload, Close as CloseIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Errors } from "../../types/ErrorMessages";
 
@@ -118,8 +118,6 @@ const NewReportForm: React.FC = () => {
     setBreedOptions(
       formData.species ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat") : []
     );
-    setShowColor2(!!formData.color1);
-    setShowColor3(!!formData.color2);
   }, [formData]);
 
   const getFilteredBreedOptions = (selectedBreeds: (string | null)[]) => {
@@ -531,7 +529,7 @@ const NewReportForm: React.FC = () => {
 
       {/* Breed 2 */}
       {showBreed2 && (
-        <div>
+        <div className="flex items-center gap-2">
           <SearchableBreedSelect
             value={formData.breed2 || ""}
             onChange={breed => setFormData(prev => ({ ...prev, breed2: breed }))}
@@ -546,10 +544,11 @@ const NewReportForm: React.FC = () => {
               setShowBreed2(false);
               setFormData(prev => ({ ...prev, breed2: "" }));
             }}
-            className="mt-2 text-red-600 font-medium"
+            className="text-red-600 hover:text-red-700 p-1 ml-1"
             disabled={isLoading}
+            aria-label="Remove Breed 2"
           >
-            Remove Breed 2
+            <CloseIcon fontSize="medium" />
           </button>
         </div>
       )}
@@ -578,9 +577,21 @@ const NewReportForm: React.FC = () => {
         </Select>
       </FormControl>
 
+      {/* Button to Add Color 2 */}
+      {!showColor2 && formData.color1 && (
+        <button
+          type="button"
+          onClick={() => setShowColor2(true)}
+          className="mt-2 text-blue-600 font-medium"
+          disabled={isLoading}
+        >
+          Add another color
+        </button>
+      )}
+
       {/* Color 2 */}
       {showColor2 && (
-        <div>
+        <div className="flex items-center gap-2">
           <FormControl fullWidth>
             <InputLabel id="color2-label">Color 2</InputLabel>
             <Select
@@ -602,18 +613,34 @@ const NewReportForm: React.FC = () => {
           </FormControl>
           <button
             type="button"
-            onClick={() => setShowColor2(false)}
-            className="mt-2 text-red-600 font-medium"
+            onClick={() => {
+              setShowColor2(false);
+              setFormData(prev => ({ ...prev, color2: "" }));
+            }}
+            className="text-red-600 hover:text-red-700 p-1 ml-1"
             disabled={isLoading}
+            aria-label="Remove Color 2"
           >
-            Remove Color 2
+            <CloseIcon fontSize="medium" />
           </button>
         </div>
       )}
 
+      {/* Button to Add Color 3 */}
+      {!showColor3 && showColor2 && formData.color2 && (
+        <button
+          type="button"
+          onClick={() => setShowColor3(true)}
+          className="mt-2 text-blue-600 font-medium"
+          disabled={isLoading}
+        >
+          Add another color
+        </button>
+      )}
+
       {/* Color 3 */}
       {showColor3 && (
-        <div>
+        <div className="flex items-center gap-2">
           <FormControl fullWidth>
             <InputLabel id="color3-label">Color 3</InputLabel>
             <Select
@@ -635,11 +662,15 @@ const NewReportForm: React.FC = () => {
           </FormControl>
           <button
             type="button"
-            onClick={() => setShowColor3(false)}
-            className="mt-2 text-red-600 font-medium"
+            onClick={() => {
+              setShowColor3(false);
+              setFormData(prev => ({ ...prev, color3: "" }));
+            }}
+            className="text-red-600 hover:text-red-700 p-1 ml-1"
             disabled={isLoading}
+            aria-label="Remove Color 3"
           >
-            Remove Color 3
+            <CloseIcon fontSize="medium" />
           </button>
         </div>
       )}
