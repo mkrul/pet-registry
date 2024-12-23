@@ -35,14 +35,6 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
           </ul>
         </div>
       )}
-      <div className="flex justify-end">
-        <button
-          onClick={handleBackClick}
-          className="ml-4 mb-4 px-4 py-2 bg-gray-500 text-white font-semibold rounded hover:bg-gray-600"
-        >
-          Back to Reports
-        </button>
-      </div>
       <EditReportForm report={report} errors={errors} />
     </div>
   );

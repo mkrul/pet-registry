@@ -360,24 +360,55 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             onClose={() => setNotification(null)}
           />
         )}
-        {errors && errors.length > 0 && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-3">
-            <strong className="font-bold">
-              {errors.length} error(s) prohibited this report from being saved:
-            </strong>
-            <ul className="mt-2 list-disc list-inside">
-              {errors.map((error, index) => (
-                <li key={index}>{error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <form onSubmit={handleSaveChanges}>
+
+        {/* Move Action Buttons to top */}
+        <div className="flex justify-end mb-2 gap-4">
+          {isEditing ? (
+            <>
+              <Button
+                type="submit"
+                form="edit-report-form"
+                variant="contained"
+                color="success"
+                disabled={isSaving}
+                startIcon={<FontAwesomeIcon icon={faSave} />}
+              >
+                Save
+              </Button>
+              <Button
+                type="button"
+                variant="outlined"
+                color="inherit"
+                onClick={handleCancelChanges}
+                disabled={isSaving}
+                startIcon={<FontAwesomeIcon icon={faCancel} />}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              onClick={displayEditForm}
+              startIcon={<FontAwesomeIcon icon={faPencil} />}
+            >
+              Edit Report
+            </Button>
+          )}
+          <Button type="button" variant="outlined" color="inherit" onClick={handleBackClick}>
+            Back to Reports
+          </Button>
+        </div>
+
+        {/* Add id to the form for the Save button to work */}
+        <form id="edit-report-form" onSubmit={handleSaveChanges}>
           <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-800">Title:</h3>
             <div className="flex justify-between">
               {isEditing ? (
                 <div className="flex flex-col flex-grow mr-4">
-                  <h3 className="text-lg font-semibold text-gray-800">Title:</h3>
                   <TextField
                     name="title"
                     value={formData.title || ""}
@@ -395,33 +426,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 <h2 className="text-2xl font-semibold mb-4 text-blue-600 max-w-[60%]">
                   {formData.title}
                 </h2>
-              )}
-              {isEditing ? (
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:w-[9rem] ml-4">
-                  <button
-                    type="submit"
-                    className="text-green-600 flex items-center h-6 mb-3 sm:mb-1"
-                    disabled={isSaving}
-                  >
-                    <FontAwesomeIcon icon={faSave} className="mr-1" /> Save
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCancelChanges}
-                    className="text-gray-600 flex items-center h-6"
-                    disabled={isSaving}
-                  >
-                    <FontAwesomeIcon icon={faCancel} className="mr-1" /> Cancel
-                  </button>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={displayEditForm}
-                  className="text-blue-600 flex items-center h-6"
-                >
-                  <FontAwesomeIcon icon={faPencil} className="mr-2" /> Edit Report
-                </button>
               )}
             </div>
           </div>
@@ -880,45 +884,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
             <div className="mb-4">
               <h3 className="text-lg font-semibold text-gray-800">Updated at:</h3>
               <p className="text-gray-700">{formatDate(formData.updatedAt)}</p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex justify-end mt-6">
-              {isEditing ? (
-                <div className="flex gap-4">
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="success"
-                    disabled={isSaving}
-                    startIcon={<FontAwesomeIcon icon={faSave} />}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outlined"
-                    color="inherit"
-                    onClick={handleCancelChanges}
-                    disabled={isSaving}
-                    startIcon={<FontAwesomeIcon icon={faCancel} />}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              ) : (
-                <div className="flex gap-4">
-                  <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    onClick={displayEditForm}
-                    startIcon={<FontAwesomeIcon icon={faPencil} />}
-                  >
-                    Edit Report
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
         </form>
