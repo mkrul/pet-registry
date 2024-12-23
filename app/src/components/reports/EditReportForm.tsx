@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import formatDate from "../../lib/formatDate";
 import Spinner from "../shared/Spinner";
 import Notification from "../shared/Notification";
@@ -12,6 +12,7 @@ import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Map from "../shared/Map";
 import speciesListJson from "../../../../config/species.json";
+import { useLocation, useNavigate } from "react-router-dom";
 import { NotificationState, NotificationType } from "../../types/Notification";
 
 interface EditReportFormProps {
@@ -173,6 +174,18 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
     }
   };
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleBackClick = () => {
+    if (location.state?.isNewReport) {
+      navigate("/reports"); // Go to reports index without params
+    } else {
+      // Existing back navigation logic
+      navigate(-1);
+    }
+  };
+
   const handleCloseNotification = () => {
     setNotification(null);
   };
@@ -294,6 +307,15 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
 
   const genderOptions = getGenderOptions();
 
+  useEffect(() => {
+    if (location.state?.isNewReport) {
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: location.state.message
+      });
+    }
+  }, [location]);
+
   return (
     <div className="container mx-auto">
       <div className="p-6 bg-white rounded-lg shadow-lg">
@@ -301,7 +323,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
           <Notification
             type={notification.type}
             message={notification.message}
-            onClose={handleCloseNotification}
+            onClose={() => setNotification(null)}
           />
         )}
         {errors && errors.length > 0 && (
