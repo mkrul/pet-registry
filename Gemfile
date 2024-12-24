@@ -78,6 +78,8 @@ group :development do
   gem 'web-console'
   # Highlight the fine-grained location where an error occurred [https://github.com/ruby/error_highlight]
   gem 'error_highlight', '>= 0.4.0', platforms: [:ruby]
+  gem 'factory_bot_rails'
+  gem 'database_cleaner-active_record'
 end
 
 group :test do
