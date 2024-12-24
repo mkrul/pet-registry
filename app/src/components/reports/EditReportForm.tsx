@@ -56,7 +56,7 @@ const commonInputStyles = {
 const speciesOptions = speciesListJson.options;
 
 const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
-  const placeholderPath = "/images/placeholder.png"; // Define placeholder path
+  const placeholderPath = "/images/placeholder.png";
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || placeholderPath);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(report);
@@ -66,7 +66,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const [showBreed2, setShowBreed2] = useState(!!formData.breed2);
   const [showColor2, setShowColor2] = useState(!!formData.color2);
   const [showColor3, setShowColor3] = useState(!!formData.color3);
-  const [imageIsLoading, setImageIsLoading] = useState(true);
+  const [imageIsLoading, setImageIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   const canAddMoreColors = !showColor2 || !showColor3;
@@ -137,25 +137,34 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNotification(null);
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
+      const localUrl = URL.createObjectURL(file);
+
+      // Update image source immediately
+      setImageSrc(localUrl);
+      setImageIsLoading(false);
+
       const imageObject: IImage = {
         id: "",
-        url: URL.createObjectURL(file),
-        thumbnailUrl: URL.createObjectURL(file),
-        variantUrl: URL.createObjectURL(file),
+        url: localUrl,
+        thumbnailUrl: localUrl,
+        variantUrl: localUrl,
         filename: file.name,
         publicId: ""
       };
+
       setFormData(prev => ({ ...prev, image: imageObject }));
       setNewImageFile(file);
-      setImageIsLoading(true); // Show spinner while the image loads
+
+      // Cleanup URL when component unmounts
+      return () => URL.revokeObjectURL(localUrl);
     }
   };
 
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSaving(true); // Set saving state when starting save
     const formDataToSend = new FormData();
 
     // Add existing form data
@@ -201,6 +210,8 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
         type: NotificationType.ERROR,
         message: error.data?.message || "Failed to update report"
       });
+    } finally {
+      setIsSaving(false); // Reset saving state regardless of outcome
     }
   };
 
@@ -240,9 +251,8 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
   const handleImageError = () => {
     if (imageSrc !== placeholderPath) {
       setImageSrc(placeholderPath);
-    } else {
-      setImageIsLoading(false);
     }
+    setImageIsLoading(false);
   };
 
   const addBreed = () => {
@@ -363,43 +373,64 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
 
         {/* Move Action Buttons to top */}
         <div className="flex justify-end mb-2 gap-4">
-          {isEditing ? (
-            <>
-              <Button
-                type="submit"
-                form="edit-report-form"
-                variant="contained"
-                color="success"
-                disabled={isSaving}
-                startIcon={<FontAwesomeIcon icon={faSave} />}
-              >
-                Save
-              </Button>
+          <div className="flex gap-2 mt-4">
+            {isEditing ? (
+              <>
+                <Button
+                  type="submit"
+                  form="edit-report-form"
+                  variant="contained"
+                  color="success"
+                  disabled={isSaving}
+                  onClick={handleSaveChanges}
+                  className={`inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                    isSaving ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                  }`}
+                >
+                  {isSaving ? (
+                    <>
+                      <Spinner inline size={16} className="mr-2" color="text-white" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <FontAwesomeIcon icon={faSave} className="mr-2" />
+                      Save Changes
+                    </>
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outlined"
+                  color="inherit"
+                  onClick={handleCancelChanges}
+                  disabled={isSaving}
+                  startIcon={<FontAwesomeIcon icon={faCancel} />}
+                >
+                  Cancel
+                </Button>
+              </>
+            ) : (
               <Button
                 type="button"
-                variant="outlined"
-                color="inherit"
-                onClick={handleCancelChanges}
-                disabled={isSaving}
-                startIcon={<FontAwesomeIcon icon={faCancel} />}
+                variant="contained"
+                color="primary"
+                onClick={displayEditForm}
+                startIcon={<FontAwesomeIcon icon={faPencil} />}
               >
-                Cancel
+                Edit Report
               </Button>
-            </>
-          ) : (
+            )}
             <Button
               type="button"
-              variant="contained"
-              color="primary"
-              onClick={displayEditForm}
-              startIcon={<FontAwesomeIcon icon={faPencil} />}
+              variant="outlined"
+              color="inherit"
+              onClick={handleBackClick}
+              disabled={isSaving}
             >
-              Edit Report
+              Back to Reports
             </Button>
-          )}
-          <Button type="button" variant="outlined" color="inherit" onClick={handleBackClick}>
-            Back to Reports
-          </Button>
+          </div>
         </div>
 
         {/* Add id to the form for the Save button to work */}
@@ -453,18 +484,18 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
                 </Button>
                 {formData.image && formData.image.filename && (
                   <div className="relative w-32 h-32 mt-3">
-                    <img
-                      src={imageSrc}
-                      alt={formData.title}
-                      className={`object-cover w-full h-full ${imageIsLoading ? "hidden" : "block"} rounded-md`}
-                      onLoad={handleImageLoad}
-                      onError={handleImageError}
-                    />
                     {imageIsLoading && (
                       <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-md">
                         <Spinner />
                       </div>
                     )}
+                    <img
+                      src={imageSrc}
+                      alt={formData.title}
+                      className={`object-cover w-full h-full rounded-md ${imageIsLoading ? "hidden" : "block"}`}
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                    />
                   </div>
                 )}
               </FormControl>
