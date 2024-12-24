@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import Spinner from "./Spinner";
 
 interface MapProps {
   onLocationSelect?: (location: {
@@ -64,7 +65,6 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
       // Create new marker
       markerRef.current = L.marker([lat, lng], { draggable: true }).addTo(map);
 
-      // Get address details from coordinates using Nominatim
       try {
         console.log("Fetching location details for", { lat, lng });
         const response = await fetch(
@@ -76,7 +76,6 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
         const address = data.address;
         let city = address.city || address.town || address.village || "";
 
-        // If no city was found, search for the nearest city
         if (!city) {
           console.log("No city found in reverse geocoding, searching for nearest city");
           city = await findNearestCity(lat, lng);
@@ -90,7 +89,9 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
           country: address.country || ""
         };
         console.log("Sending location data to form:", locationData);
-        onLocationSelect(locationData);
+        if (onLocationSelect) {
+          onLocationSelect(locationData);
+        }
       } catch (error) {
         console.error("Error fetching location details:", error);
       }
@@ -121,24 +122,32 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
 };
 
 const Map: React.FC<MapProps> = ({ onLocationSelect, initialLocation }) => {
-  // Set initial center based on location or default to US center
+  const [isLoading, setIsLoading] = useState(true);
   const center =
     initialLocation?.latitude && initialLocation?.longitude
       ? [initialLocation.latitude, initialLocation.longitude]
       : [37.0902, -95.7129];
 
   return (
-    <MapContainer
-      center={center as [number, number]}
-      zoom={initialLocation?.latitude ? 13 : 4}
-      style={{ width: "100%", height: "400px" }}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-      <MapEvents onLocationSelect={onLocationSelect} initialLocation={initialLocation} />
-    </MapContainer>
+    <div className="relative" style={{ width: "100%", height: "400px" }}>
+      {isLoading && (
+        <div className="absolute inset-0 z-10">
+          <Spinner />
+        </div>
+      )}
+      <MapContainer
+        center={center as [number, number]}
+        zoom={initialLocation?.latitude ? 13 : 4}
+        style={{ width: "100%", height: "100%" }}
+        whenReady={() => setIsLoading(false)}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <MapEvents onLocationSelect={onLocationSelect} initialLocation={initialLocation} />
+      </MapContainer>
+    </div>
   );
 };
 
