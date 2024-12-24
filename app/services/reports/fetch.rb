@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'active_interaction'
-require 'pagy'
 
 class Reports::Fetch < ActiveInteraction::Base
   string :query, default: nil

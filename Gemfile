@@ -33,8 +33,6 @@ gem 'opensearch-ruby', '~> 3.4'
 gem 'active_interaction', '~> 5.3'
 # use vite_rails for development
 gem 'vite_rails', '~> 3.0', '>= 3.0.17'
-# use pagy for pagination
-gem 'pagy', '~> 9.0', '>= 9.0.7'
 
 # rack-cors is used to enable Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', '~> 2.0', '>= 2.0.2'
