@@ -50,4 +50,8 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  def json_response
+    JSON.parse(response.body)
+  end
 end
