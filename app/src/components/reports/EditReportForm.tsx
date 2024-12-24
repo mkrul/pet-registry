@@ -373,7 +373,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({ report }) => {
 
         {/* Move Action Buttons to top */}
         <div className="flex justify-end mb-2 gap-4">
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2">
             {isEditing ? (
               <>
                 <Button
