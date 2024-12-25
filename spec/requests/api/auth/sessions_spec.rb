@@ -27,7 +27,7 @@ RSpec.describe 'API Authentication Sessions' do
       }
 
       expect(response).to have_http_status(:unauthorized)
-      expect(json_response['error']).to eq('Invalid email or password.')
+      expect(json_response['message']).to eq('Invalid email or password.')
     end
 
     it 'returns unauthorized for non-existent user' do
@@ -39,7 +39,7 @@ RSpec.describe 'API Authentication Sessions' do
       }
 
       expect(response).to have_http_status(:unauthorized)
-      expect(json_response['error']).to eq('Invalid email or password.')
+      expect(json_response['message']).to eq('Invalid email or password.')
     end
 
     it 'handles server errors gracefully' do
@@ -54,7 +54,7 @@ RSpec.describe 'API Authentication Sessions' do
       }
 
       expect(response).to have_http_status(:internal_server_error)
-      expect(json_response['error']).to eq('Login failed')
+      expect(json_response['message']).to eq('Login failed')
     end
   end
 
@@ -83,23 +83,19 @@ RSpec.describe 'API Authentication Sessions' do
       get '/api/auth/current_user'
 
       expect(response).to have_http_status(:unauthorized)
-      expect(json_response['error']).to eq('Not authenticated')
+      expect(json_response['message']).to eq('Not authenticated')
     end
 
     it 'handles server errors gracefully' do
       user = create(:user)
       sign_in user
-      warden_double = double(
-        user: -> { raise StandardError.new('Database error') },
-        authenticate: -> { raise StandardError.new('Database error') }
-      )
-      allow_any_instance_of(Api::SessionsController).to receive(:warden)
-        .and_return(warden_double)
+      allow_any_instance_of(User).to receive(:as_json)
+        .and_raise(StandardError.new('Database error'))
 
       get '/api/auth/current_user'
 
       expect(response).to have_http_status(:internal_server_error)
-      expect(json_response['error']).to eq('Authentication check failed')
+      expect(json_response['message']).to eq('Authentication check failed')
     end
   end
 
@@ -134,7 +130,7 @@ RSpec.describe 'API Authentication Sessions' do
       delete '/api/auth/logout'
 
       expect(response).to have_http_status(:internal_server_error)
-      expect(json_response['error']).to eq('Logout failed')
+      expect(json_response['message']).to eq('Logout failed')
     end
   end
 end

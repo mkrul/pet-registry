@@ -69,7 +69,7 @@ module Api
       else
         render json: { message: 'Not authenticated' }, status: :unauthorized
       end
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Current user check error: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Authentication check failed' }, status: :internal_server_error
