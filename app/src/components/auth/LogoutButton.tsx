@@ -2,6 +2,7 @@ import React from "react";
 import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { clearUser } from "../../redux/features/auth/authSlice";
+import NavLink from "../shared/NavLink";
 
 interface LogoutButtonProps {
   onCompleted: () => void;
@@ -17,13 +18,12 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted }) => {
       dispatch(clearUser());
       onCompleted();
     } catch (err: unknown) {
-      // Still dispatch clearUser on error to ensure user is logged out locally
       dispatch(clearUser());
       onCompleted();
     }
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return <NavLink handler={handleLogout}>Logout</NavLink>;
 };
 
 export default LogoutButton;
