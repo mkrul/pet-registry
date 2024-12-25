@@ -1,22 +1,20 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { act } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import LoginPage from "../LoginPage";
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../../../redux/features/auth/authSlice";
 import { authApiSlice as authApi } from "../../../redux/features/auth/authApiSlice";
-import { useLoginMutation } from "../../../redux/features/auth/authApiSlice";
+import * as navigationUtils from "../../../utils/navigation";
 
 // Mock navigate function
 const mockNavigate = vi.fn();
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
-  return {
-    ...(actual as any),
-    useNavigate: () => mockNavigate
-  };
-});
+vi.mock("react-router-dom", async () => ({
+  ...(await vi.importActual("react-router-dom")),
+  useNavigate: () => mockNavigate
+}));
 
 // Setup store for testing
 const setupStore = () => {
@@ -92,17 +90,13 @@ describe("LoginPage", () => {
       </Provider>
     );
 
-    const submitButton = screen.getByRole("button", { name: "Login" });
+    const submitButton = screen.getByRole("button", { name: "Logging in..." });
     expect(submitButton.textContent).toBe("Logging in...");
   });
 
-  it("navigates to home page on successful login", async () => {
-    mockLoginMutation.mockResolvedValueOnce({
-      data: {
-        user: { id: 1, email: "test@example.com" },
-        message: "Login successful"
-      }
-    });
+  it("displays error notification on login failure", async () => {
+    const mockError = { data: { message: "Invalid credentials" } };
+    mockLoginMutation.mockImplementationOnce(() => Promise.reject(mockError));
 
     render(
       <Provider store={setupStore()}>
@@ -116,44 +110,14 @@ describe("LoginPage", () => {
     const passwordInput = screen.getByPlaceholderText("Password");
     const submitButton = screen.getByRole("button", { name: "Login" });
 
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-    fireEvent.change(passwordInput, { target: { value: "password123" } });
+    fireEvent.change(emailInput, { target: { value: "invalid@example.com" } });
+    fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
     fireEvent.submit(submitButton);
 
-    await waitFor(
-      () => {
-        expect(mockNavigate).toHaveBeenCalledWith("/", { replace: true });
-      },
-      { timeout: 3000 }
-    );
-  });
+    // Wait for error state to be set
+    await Promise.resolve();
 
-  it("displays error notification on login failure", async () => {
-    mockLoginMutation.mockRejectedValueOnce({
-      data: { message: "Invalid credentials" }
-    });
-
-    render(
-      <Provider store={setupStore()}>
-        <BrowserRouter>
-          <LoginPage />
-        </BrowserRouter>
-      </Provider>
-    );
-
-    const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
-    const submitButton = screen.getByRole("button", { name: "Login" });
-
-    await act(async () => {
-      fireEvent.change(emailInput, { target: { value: "invalid@example.com" } });
-      fireEvent.change(passwordInput, { target: { value: "wrongpassword" } });
-      fireEvent.submit(submitButton);
-    });
-
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toBeDefined();
-    });
+    expect(screen.getByRole("alert")).toBeDefined();
   });
 
   it("requires email and password fields", () => {
@@ -199,5 +163,54 @@ describe("LoginPage", () => {
 
     expect(termsLink.href).toContain("/terms");
     expect(privacyLink.href).toContain("/privacy");
+  });
+
+  it("navigates to home page after successful login", async () => {
+    const mockResponse = {
+      user: { id: 1, email: "test@example.com" },
+      message: "Login successful"
+    };
+
+    // Mock the login mutation correctly
+    mockLoginMutation.mockImplementation(() => ({
+      unwrap: () => Promise.resolve(mockResponse)
+    }));
+
+    const navigateToHomeSpy = vi.spyOn(navigationUtils, "navigateToHome");
+    const store = setupStore();
+
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <LoginPage />
+        </BrowserRouter>
+      </Provider>
+    );
+
+    const emailInput = screen.getByPlaceholderText("Email");
+    const passwordInput = screen.getByPlaceholderText("Password");
+    const submitButton = screen.getByRole("button", { name: "Login" });
+
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123" } });
+
+    await act(async () => {
+      fireEvent.submit(submitButton);
+      // Wait for promises to resolve
+      await Promise.resolve();
+    });
+
+    // Wait for success notification to appear
+    await waitFor(
+      () => {
+        const notification = screen.getByRole("alert");
+        expect(notification).toBeDefined();
+        expect(notification.textContent).toContain(mockResponse.message);
+      },
+      { timeout: 3000 }
+    );
+
+    // Now check if navigation occurred
+    expect(navigateToHomeSpy).toHaveBeenCalledWith(mockNavigate);
   });
 });

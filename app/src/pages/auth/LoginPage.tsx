@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/authSlice";
 import { NotificationType, NotificationState } from "../../types/shared/Notification";
 import Notification from "../../components/shared/Notification";
+import { navigateToHome } from "../../utils/navigation";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,15 +17,26 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("🚀 Login attempt started", { email });
+
     try {
+      console.log("📡 Calling login mutation...");
       const response = await login({ user: { email, password } }).unwrap();
+      console.log("✅ Login successful", response);
+
+      console.log("📝 Dispatching user to Redux store");
       dispatch(setUser(response.user));
+
+      console.log("🔔 Setting success notification");
       setNotification({
         type: NotificationType.SUCCESS,
         message: response.message
       });
-      setTimeout(() => navigate("/", { replace: true }), 1500);
+
+      console.log("🏃‍♂️ Calling handleSuccessfulLogin");
+      handleSuccessfulLogin();
     } catch (err: unknown) {
+      console.error("❌ Login error:", err);
       const error = err as { data?: { message?: string } };
       setNotification({
         type: NotificationType.ERROR,
@@ -32,6 +44,14 @@ const LoginPage: React.FC = () => {
       });
     }
   };
+
+  const handleSuccessfulLogin = () => {
+    console.log("🎯 handleSuccessfulLogin called with navigate:", navigate);
+    navigateToHome(navigate);
+    console.log("🏁 Navigation completed");
+  };
+
+  console.log("🔄 Rendering LoginPage, notification state:", notification);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
