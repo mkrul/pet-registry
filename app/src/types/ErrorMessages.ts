@@ -3,8 +3,6 @@ export enum Errors {
   REPORT_LOAD_FAILED = "Failed to load report",
   REPORTS_FETCH_FAILED = "Failed to fetch reports",
   REPORT_UPDATE_FAILED = "Failed to update report",
-  LOGIN_FAILED = "Login failed. Please try again",
-  LOGOUT_FAILED = "Logout failed. Please try again",
   SIGNUP_FAILED = "Sign up failed. Please try again",
   PASSWORDS_DONT_MATCH = "Passwords don't match",
   GENERIC_ERROR = "An error occurred. Please try again",

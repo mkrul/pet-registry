@@ -49,7 +49,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.LOGIN_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -70,7 +70,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.LOGOUT_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -96,7 +96,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.CURRENT_USER_FETCH_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -118,7 +118,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.SIGNUP_FAILED
+          message: response.data?.message
         }
       })
     })

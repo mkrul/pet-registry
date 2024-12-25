@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../../redux/features/auth/authApiSlice";
 import Notification from "../../components/shared/Notification";
-import { NotificationState, NotificationType } from "../../types/Notification";
-import { Errors } from "../../types/ErrorMessages";
+import { NotificationState, NotificationType } from "../../types/shared/Notification";
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const SignUpPage: React.FC = () => {
     if (formData.password !== formData.passwordConfirmation) {
       setNotification({
         type: NotificationType.ERROR,
-        message: Errors.PASSWORDS_DONT_MATCH
+        message: "Passwords do not match"
       });
       return;
     }
@@ -47,7 +46,7 @@ const SignUpPage: React.FC = () => {
       const error = err as { data?: { message?: string } };
       setNotification({
         type: NotificationType.ERROR,
-        message: error.data?.message || Errors.SIGNUP_FAILED
+        message: error.data?.message
       });
     }
   };
