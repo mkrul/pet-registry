@@ -25,13 +25,17 @@ class ErrorBoundary extends Component<Props, State> {
     console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
+  handleClose = () => {
+    this.setState({ hasError: false, error: null });
+  };
+
   render() {
     if (this.state.hasError && this.state.error) {
       return (
         <Notification
           type={NotificationType.ERROR}
           message={this.state.error.message}
-          onClose={() => this.setState({ hasError: false, error: null })}
+          onClose={this.handleClose}
         />
       );
     }

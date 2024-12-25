@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store";
 import { IUser } from "../../../types/User";
 import { setUser, clearUser } from "./authSlice";
-import { Errors } from "../../../types/ErrorMessages";
 
 interface AuthResponse {
   message: string;
