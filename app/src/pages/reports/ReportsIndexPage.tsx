@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import SearchBar from "../../components/shared/SearchBar";
+import SearchBar from "../../components/search/SearchBar";
 import ReportsContainer from "../../components/reports/ReportsContainer";
-import Filters from "../../components/shared/Filters";
+import Filters from "../../components/search/Filters";
 
 const ReportIndexPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
