@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Filters from "./Filters";
 import { IFilters } from "../../types/search/Search";
+import { useFilterDependencies } from "../../hooks/useFilterDependencies";
 
 interface FilterContainerProps {
   initialFilters: IFilters;
@@ -13,26 +14,15 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
   onFiltersChange,
   showFilters
 }) => {
-  const [pendingFilters, setPendingFilters] = useState(initialFilters);
+  const { filters, handleFilterChange } = useFilterDependencies(initialFilters, onFiltersChange);
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name: filterType, value } = e.target;
-    const updatedFilters =
-      filterType === "country"
-        ? { ...pendingFilters, [filterType]: value, state: "", city: "" }
-        : filterType === "state"
-          ? { ...pendingFilters, [filterType]: value, city: "" }
-          : { ...pendingFilters, [filterType]: value };
+  if (!showFilters) return null;
 
-    setPendingFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
-  };
-
-  return showFilters ? (
+  return (
     <div className="w-full">
-      <Filters filters={pendingFilters} handleFilterChange={handleFilterChange} />
+      <Filters filters={filters} handleFilterChange={handleFilterChange} />
     </div>
-  ) : null;
+  );
 };
 
 export default FilterContainer;
