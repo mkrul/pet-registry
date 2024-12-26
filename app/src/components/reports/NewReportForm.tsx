@@ -12,7 +12,7 @@ import Spinner from "../shared/Spinner";
 import { getGenderOptions } from "../../lib/reports/genderLists";
 import Notification from "../shared/Notification";
 import { NotificationState, NotificationType } from "../../types/Notification";
-import SearchableBreedSelect from "./SearchableBreedSelect";
+import BreedSelect from "./BreedSelect";
 import {
   FormControl,
   InputLabel,
@@ -528,7 +528,7 @@ const NewReportForm: React.FC = () => {
           onMouseEnter={() => !formData.species && setShowBreedTooltip(true)}
           onMouseLeave={() => setShowBreedTooltip(false)}
         >
-          <SearchableBreedSelect
+          <BreedSelect
             value={formData.breed1}
             onChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
             disabled={!formData.species}
@@ -555,7 +555,7 @@ const NewReportForm: React.FC = () => {
       {/* Breed 2 */}
       {showBreed2 && (
         <div className="flex items-center gap-2">
-          <SearchableBreedSelect
+          <BreedSelect
             value={formData.breed2 || ""}
             onChange={breed => setFormData(prev => ({ ...prev, breed2: breed }))}
             disabled={!formData.species}
