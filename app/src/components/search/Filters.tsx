@@ -4,7 +4,7 @@ import speciesListJson from "../../../../config/species.json";
 import sortOptionsJson from "../../../../config/sort_options.json";
 import { getBreedsBySpecies } from "../../lib/reports/breedLists";
 import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
-import { IFilters } from "../../types/search/Search";
+import { IFiltersProps } from "../../types/search/Search";
 
 // Add a new interface for breed suggestions
 interface BreedSuggestion {
@@ -12,7 +12,7 @@ interface BreedSuggestion {
   label: string;
 }
 
-const Filters: React.FC<IFilters> = ({ filters, handleFilterChange }) => {
+const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange }) => {
   const [breedInput, setBreedInput] = useState(filters.breed);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [breedSuggestions, setBreedSuggestions] = useState<BreedSuggestion[]>([]);
