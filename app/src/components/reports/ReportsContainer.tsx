@@ -11,33 +11,19 @@ import Notification from "../shared/Notification";
 
 interface ReportsContainerProps {
   query: string;
-  page: number;
-  filters: {
-    species?: string;
-    breed?: string;
-    color?: string;
-    gender?: string;
-    sort?: string;
-    country?: string;
-    state?: string;
-    city?: string;
-  };
-  onPageChange: (page: number) => void;
+  filters: IFilters;
+  onPageChange?: (page: number) => void;
 }
 
-const ReportsContainer: React.FC<ReportsContainerProps> = ({
-  query,
-  page,
-  filters,
-  onPageChange
-}) => {
+const ReportsContainer: React.FC<ReportsContainerProps> = ({ query, filters, onPageChange }) => {
   const dispatch = useDispatch();
   const reports = useSelector((state: RootState) => state.reports.data);
   const itemsPerPage = 20;
   const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data, error, isLoading } = useGetReportsQuery({
-    page,
+    page: currentPage,
     items: itemsPerPage,
     query: query || undefined,
     species: filters.species || undefined,
@@ -66,16 +52,9 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
     }
   }, [error]);
 
-  const handleNextPage = () => {
-    if (data?.pagination.pages && page < data.pagination.pages) {
-      onPageChange(page + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (page > 1) {
-      onPageChange(page - 1);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    onPageChange?.(page);
   };
 
   if (isLoading) {
@@ -103,16 +82,21 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
       )}
       <div className="grid grid-cols-1 lg:grid-cols-2 3xl:grid-cols-3 gap-4">
         {reports.map(report => (
-          <ReportCard key={report.id} report={report} currentPage={page} currentQuery={query} />
+          <ReportCard
+            key={report.id}
+            report={report}
+            currentPage={currentPage}
+            currentQuery={query}
+          />
         ))}
       </div>
       {data && data.pagination && (
         <div className="flex justify-between mt-4">
           <button
-            onClick={handlePreviousPage}
-            disabled={page === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
             className={`px-4 py-2 rounded ${
-              page === 1
+              currentPage === 1
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
             }`}
@@ -123,10 +107,10 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
             Page {data.pagination.page} of {data.pagination.pages}
           </span>
           <button
-            onClick={handleNextPage}
-            disabled={page === data.pagination.pages}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === data.pagination.pages}
             className={`px-4 py-2 rounded ${
-              page === data.pagination.pages
+              currentPage === data.pagination.pages
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
             }`}

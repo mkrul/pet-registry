@@ -5,7 +5,6 @@ import { IFilters } from "../../types/search/Search";
 
 const ReportIndexPage = () => {
   const [activeSearch, setActiveSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<IFilters>({
     species: "",
     color: "",
@@ -17,14 +16,9 @@ const ReportIndexPage = () => {
     breed: ""
   });
 
-  const handleSearchComplete = (query: string, page: number, filters: IFilters) => {
+  const handleSearchComplete = (query: string, _page: number, filters: IFilters) => {
     setActiveSearch(query);
-    setCurrentPage(page);
     setActiveFilters(filters);
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
   };
 
   return (
@@ -33,12 +27,7 @@ const ReportIndexPage = () => {
         <SearchContainer onSearchComplete={handleSearchComplete} />
 
         <div className="mt-4">
-          <ReportsContainer
-            query={activeSearch}
-            page={currentPage}
-            onPageChange={handlePageChange}
-            filters={activeFilters}
-          />
+          <ReportsContainer query={activeSearch} filters={activeFilters} />
         </div>
       </div>
     </div>
