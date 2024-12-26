@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IFilters } from "../types/search/Search";
+import { SelectChangeEvent } from "@mui/material";
 
 const defaultFilters: IFilters = {
   species: "",
@@ -18,15 +19,11 @@ export const useFilterDependencies = (
 ) => {
   const [filters, setFilters] = useState(initialFilters);
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name: filterType, value } = e.target;
-    const updatedFilters =
-      filterType === "country"
-        ? { ...filters, [filterType]: value, state: "", city: "" }
-        : filterType === "state"
-          ? { ...filters, [filterType]: value, city: "" }
-          : { ...filters, [filterType]: value };
-
+  const handleFilterChange = (
+    e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    const updatedFilters = { ...filters, [name]: value };
     setFilters(updatedFilters);
     onChange(updatedFilters);
   };

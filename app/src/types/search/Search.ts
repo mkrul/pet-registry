@@ -1,3 +1,5 @@
+import { SelectChangeEvent } from "@mui/material";
+
 export interface ISearchButtons {
   onSearch: () => void;
   onReset: () => void;
@@ -34,5 +36,5 @@ export interface ISearchContainer {
 
 export interface IFiltersProps {
   filters: IFilters;
-  handleFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleFilterChange: (e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>) => void;
 }

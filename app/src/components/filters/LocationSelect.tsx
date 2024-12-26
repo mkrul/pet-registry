@@ -1,12 +1,13 @@
 import React from "react";
 import { FormControl, Select, MenuItem } from "@mui/material";
 import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
+import { SelectChangeEvent } from "@mui/material";
 
 interface LocationSelectProps {
   country: string;
   state: string;
   city: string;
-  onFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onFilterChange: (event: SelectChangeEvent<string>, child: React.ReactNode) => void;
   selectClassName: any;
   disabledSelectClassName: any;
 }
