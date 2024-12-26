@@ -45,6 +45,7 @@ const Spinner: React.FC<SpinnerProps> = ({
 
   return (
     <div
+      data-testid="spinner"
       className={`absolute inset-0 flex justify-center items-center ${
         bgFaded ? "bg-white bg-opacity-75" : ""
       } h-full`}
