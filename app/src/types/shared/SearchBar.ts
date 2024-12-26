@@ -1,4 +1,6 @@
 export interface ISearchBar {
-  onSearch: (query: string) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  onSearch: () => void;
   onReset?: () => void;
 }
