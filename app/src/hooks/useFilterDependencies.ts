@@ -1,6 +1,17 @@
 import { useState } from "react";
 import { IFilters } from "../types/search/Search";
 
+const defaultFilters: IFilters = {
+  species: "",
+  breed: "",
+  color: "",
+  gender: "",
+  country: "",
+  state: "",
+  city: "",
+  sort: "Newest"
+};
+
 export const useFilterDependencies = (
   initialFilters: IFilters,
   onChange: (filters: IFilters) => void
@@ -20,8 +31,14 @@ export const useFilterDependencies = (
     onChange(updatedFilters);
   };
 
+  const resetFilters = () => {
+    setFilters(defaultFilters);
+    onChange(defaultFilters);
+  };
+
   return {
     filters,
-    handleFilterChange
+    handleFilterChange,
+    resetFilters
   };
 };

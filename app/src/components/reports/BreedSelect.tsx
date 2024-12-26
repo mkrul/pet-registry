@@ -1,4 +1,5 @@
 import React from "react";
+import { TextField, Autocomplete } from "@mui/material";
 import { getBreedsBySpecies, Species } from "../../lib/reports/breedLists";
 
 interface IBreedSelect {
@@ -12,22 +13,24 @@ const BreedSelect: React.FC<IBreedSelect> = ({ species, value, onChange }) => {
 
   return (
     <div className="w-full">
-      <select
-        name="breed"
+      <Autocomplete
         value={value}
-        onChange={e => onChange(e.target.value)}
-        className={`w-full min-w-[100px] rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 whitespace-nowrap ${
-          !species ? "bg-gray-100 text-gray-400 cursor-not-allowed" : ""
-        }`}
+        onChange={(_, newValue) => onChange(newValue || "")}
+        options={breeds}
         disabled={!species}
-      >
-        <option value="">Breed</option>
-        {breeds.map(breed => (
-          <option key={breed} value={breed}>
-            {breed}
-          </option>
-        ))}
-      </select>
+        renderInput={params => (
+          <TextField
+            {...params}
+            placeholder="Breed"
+            size="small"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: "white !important"
+              }
+            }}
+          />
+        )}
+      />
     </div>
   );
 };

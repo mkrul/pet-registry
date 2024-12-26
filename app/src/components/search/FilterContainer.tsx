@@ -7,20 +7,30 @@ interface FilterContainerProps {
   initialFilters: IFilters;
   onFiltersChange: (filters: IFilters) => void;
   showFilters: boolean;
+  onReset?: () => void;
 }
 
 const FilterContainer: React.FC<FilterContainerProps> = ({
   initialFilters,
   onFiltersChange,
-  showFilters
+  showFilters,
+  onReset
 }) => {
-  const { filters, handleFilterChange } = useFilterDependencies(initialFilters, onFiltersChange);
+  const { filters, handleFilterChange, resetFilters } = useFilterDependencies(
+    initialFilters,
+    onFiltersChange
+  );
+
+  const handleReset = () => {
+    resetFilters();
+    onReset?.();
+  };
 
   if (!showFilters) return null;
 
   return (
     <div className="w-full">
-      <Filters filters={filters} handleFilterChange={handleFilterChange} />
+      <Filters filters={filters} handleFilterChange={handleFilterChange} onReset={handleReset} />
     </div>
   );
 };

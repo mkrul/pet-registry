@@ -1,4 +1,5 @@
 import React from "react";
+import { FormControl, Select, MenuItem } from "@mui/material";
 import { useGetStatesQuery, useGetCitiesQuery } from "../../redux/features/reports/reportsApi";
 
 interface LocationSelectProps {
@@ -6,8 +7,8 @@ interface LocationSelectProps {
   state: string;
   city: string;
   onFilterChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  selectClassName: string;
-  disabledSelectClassName: string;
+  selectClassName: any;
+  disabledSelectClassName: any;
 }
 
 const LocationSelect: React.FC<LocationSelectProps> = ({
@@ -15,8 +16,7 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
   state,
   city,
   onFilterChange,
-  selectClassName,
-  disabledSelectClassName
+  selectClassName
 }) => {
   const { data: states = [], isLoading: isLoadingStates } = useGetStatesQuery(country, {
     skip: !country
@@ -29,54 +29,61 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
 
   return (
     <>
-      <div className="w-full">
-        <select
+      <FormControl fullWidth size="small">
+        <Select
           name="city"
           value={city}
           onChange={onFilterChange}
-          className={
-            country && state && !isLoadingCities ? selectClassName : disabledSelectClassName
-          }
           disabled={!country || !state || isLoadingCities}
+          displayEmpty
+          sx={{
+            ...selectClassName,
+            backgroundColor: "white !important",
+            "& .MuiSelect-select": {
+              backgroundColor: "white !important"
+            }
+          }}
         >
-          <option value="">City</option>
+          <MenuItem value="">City</MenuItem>
           {cities.map(city => (
-            <option key={city} value={city}>
+            <MenuItem key={city} value={city}>
               {city}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
 
-      <div className="w-full">
-        <select
+      <FormControl fullWidth size="small">
+        <Select
           name="state"
           value={state}
           onChange={onFilterChange}
-          className={country && !isLoadingStates ? selectClassName : disabledSelectClassName}
           disabled={!country || isLoadingStates}
+          displayEmpty
+          sx={selectClassName}
         >
-          <option value="">State</option>
+          <MenuItem value="">State</MenuItem>
           {states.map(state => (
-            <option key={state} value={state}>
+            <MenuItem key={state} value={state}>
               {state}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
 
-      <div className="w-full">
-        <select
+      <FormControl fullWidth size="small">
+        <Select
           name="country"
           value={country}
           onChange={onFilterChange}
-          className={selectClassName}
+          displayEmpty
+          sx={selectClassName}
         >
-          <option value="">Country</option>
-          <option value="United States">United States</option>
-          <option value="Canada">Canada</option>
-        </select>
-      </div>
+          <MenuItem value="">Country</MenuItem>
+          <MenuItem value="United States">United States</MenuItem>
+          <MenuItem value="Canada">Canada</MenuItem>
+        </Select>
+      </FormControl>
     </>
   );
 };

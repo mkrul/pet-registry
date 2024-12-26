@@ -1,4 +1,5 @@
 import React from "react";
+import { TextField, MenuItem, Select, FormControl } from "@mui/material";
 import { IFiltersProps } from "../../types/search/Search";
 import BreedSelect from "../reports/BreedSelect";
 import LocationSelect from "../filters/LocationSelect";
@@ -6,29 +7,38 @@ import speciesListJson from "../../../../config/species.json";
 import colorListJson from "../../../../config/colors.json";
 import sortOptionsJson from "../../../../config/sort_options.json";
 import { Species } from "../../lib/reports/breedLists";
+
 const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange }) => {
-  const selectClassName =
-    "w-full min-w-[100px] rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 whitespace-nowrap";
-  const disabledSelectClassName = `${selectClassName} bg-gray-100 text-gray-400 cursor-not-allowed`;
+  const selectStyles = {
+    height: "40px",
+    backgroundColor: "white !important",
+    "& .MuiOutlinedInput-root": {
+      backgroundColor: "white !important"
+    },
+    "& .MuiSelect-select": {
+      backgroundColor: "white !important"
+    }
+  };
 
   return (
-    <div className="p-4 bg-white rounded-md shadow-sm">
+    <div className="p-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="w-full">
-          <select
+        <FormControl fullWidth size="small">
+          <Select
             name="species"
             value={filters.species}
             onChange={handleFilterChange}
-            className={selectClassName}
+            displayEmpty
+            sx={selectStyles}
           >
-            <option value="">Species</option>
+            <MenuItem value="">Species</MenuItem>
             {speciesListJson.options.map(option => (
-              <option key={option} value={option}>
+              <MenuItem key={option} value={option}>
                 {option}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
+          </Select>
+        </FormControl>
 
         <BreedSelect
           species={filters.species as Species | ""}
@@ -40,61 +50,58 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange }) => {
           }
         />
 
-        <div className="w-full">
-          <select
+        <FormControl fullWidth size="small">
+          <Select
             name="color"
             value={filters.color}
             onChange={handleFilterChange}
-            className={selectClassName}
+            displayEmpty
+            sx={selectStyles}
           >
-            <option value="">Color</option>
+            <MenuItem value="">Color</MenuItem>
             {colorListJson.options.map(option => (
-              <option key={option} value={option}>
+              <MenuItem key={option} value={option}>
                 {option}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-        </div>
+          </Select>
+        </FormControl>
 
-        <div className="w-full">
-          <select
+        <FormControl fullWidth size="small">
+          <Select
             name="gender"
             value={filters.gender}
             onChange={handleFilterChange}
-            className={selectClassName}
+            displayEmpty
+            sx={selectStyles}
           >
-            <option value="">Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
+            <MenuItem value="">Gender</MenuItem>
+            <MenuItem value="Male">Male</MenuItem>
+            <MenuItem value="Female">Female</MenuItem>
+          </Select>
+        </FormControl>
 
         <LocationSelect
           country={filters.country}
           state={filters.state}
           city={filters.city}
           onFilterChange={handleFilterChange}
-          selectClassName={selectClassName}
-          disabledSelectClassName={disabledSelectClassName}
+          selectClassName={selectStyles}
+          disabledSelectClassName={selectStyles}
         />
 
-        <div className="w-full">
-          <select
-            name="sort"
-            value={filters.sort}
-            onChange={handleFilterChange}
-            className={selectClassName}
-          >
-            <option value="Newest">Newest</option>
+        <FormControl fullWidth size="small">
+          <Select name="sort" value={filters.sort} onChange={handleFilterChange} sx={selectStyles}>
+            <MenuItem value="Newest">Newest</MenuItem>
             {sortOptionsJson.options
               .filter(option => option !== "Newest")
               .map(option => (
-                <option key={option} value={option}>
+                <MenuItem key={option} value={option}>
                   {option}
-                </option>
+                </MenuItem>
               ))}
-          </select>
-        </div>
+          </Select>
+        </FormControl>
       </div>
     </div>
   );
