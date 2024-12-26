@@ -12,7 +12,6 @@ import { useAppSelector } from "../../redux/hooks";
 
 const AppRouter = () => {
   const user = useAppSelector(state => state.auth.user);
-  console.log("AppRouter: Current auth state:", { user });
 
   return (
     <div>
