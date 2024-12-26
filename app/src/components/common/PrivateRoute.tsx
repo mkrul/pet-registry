@@ -17,7 +17,7 @@ const PrivateRoute: React.FC = () => {
     return <Spinner />;
   }
 
-  if (!user) {
+  if (!user || error) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
