@@ -6,9 +6,10 @@ import NavLink from "../shared/NavLink";
 
 interface LogoutButtonProps {
   onCompleted: () => void;
+  className?: string;
 }
 
-const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted }) => {
+const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted, className = "" }) => {
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
 
@@ -23,7 +24,11 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted }) => {
     }
   };
 
-  return <NavLink handler={handleLogout}>Logout</NavLink>;
+  return (
+    <NavLink handler={handleLogout} className={className}>
+      Logout
+    </NavLink>
+  );
 };
 
 export default LogoutButton;
