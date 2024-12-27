@@ -1,6 +1,7 @@
 import React from "react";
 import { TextField, MenuItem, Select, FormControl } from "@mui/material";
-import { IFiltersProps } from "../../types/search/Search";
+import { SelectChangeEvent } from "@mui/material";
+import { IFilters } from "../../types/search/Search";
 import BreedSelect from "../reports/BreedSelect";
 import LocationSelect from "../filters/LocationSelect";
 import speciesListJson from "../../../../config/species.json";
