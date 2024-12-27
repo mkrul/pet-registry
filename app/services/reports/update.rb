@@ -14,10 +14,9 @@ class Reports::Update < ActiveInteraction::Base
   string :color_1, default: nil
   string :color_2, default: nil
   string :color_3, default: nil
-  boolean :microchipped, default: nil
   string :microchip_id, default: nil
   file :image, default: nil
-  string :city, default: nil
+  string :area, default: nil
   string :state, default: nil
   string :country, default: nil
   float :latitude, default: nil
@@ -51,9 +50,8 @@ class Reports::Update < ActiveInteraction::Base
       color_1: color_1&.downcase,
       color_2: color_2&.downcase,
       color_3: color_3&.downcase,
-      microchipped: microchipped,
       microchip_id: microchip_id,
-      city: city,
+      area: area,
       state: state,
       country: country,
       latitude: latitude,

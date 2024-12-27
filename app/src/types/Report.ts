@@ -4,7 +4,7 @@ export interface IReport {
   id: number;
   title: string;
   description: string;
-  name: string;
+  name: string | null;
   status: string;
   species: string;
   breed1: string;
@@ -12,19 +12,18 @@ export interface IReport {
   color1: string;
   color2: string | null;
   color3: string | null;
-  gender: string;
+  gender: string | null;
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
   image: IImage;
-  microchipped: boolean | null;
   microchipId: string | null;
   updatedLastThreeDays: boolean;
-  city: string | null;
-  state: string | null;
-  country: string | null;
-  latitude: number | null;
-  longitude: number | null;
+  area: string;
+  state: string;
+  country: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface IReportsState {
@@ -39,18 +38,17 @@ export interface GetReportsResponse {
 export interface IReportForm {
   title: string;
   description: string;
-  name: string;
+  name: string | null;
   species: string;
   breed1: string;
   breed2: string | null;
   color1: string;
   color2: string | null;
   color3: string | null;
-  gender: string;
-  microchipped: boolean | null;
+  gender: string | null;
   microchipId: string | null;
   image: IImage;
-  city: string | null;
+  area: string | null;
   state: string | null;
   country: string | null;
   latitude: number | null;

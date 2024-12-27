@@ -1,0 +1,122 @@
+## Completed Tasks
+- Refactored NewReportForm into smaller, focused components:
+  - BasicInfoFields for title, description, and name
+  - IdentificationFields for microchip, gender, species, and breeds
+  - ColorFields for color selection
+  - ImageUpload for image handling
+  - SubmitButton for form submission
+- Created custom hooks:
+  - useReportForm for form state management
+  - useReportSubmit for form submission logic
+- Extracted validation logic into standalone module
+- Improved component reusability and maintainability through proper separation of concerns
+- Created dedicated ReportLocationSelect component for report form location selection
+- Added consistent white background styling to all text input fields in BasicInfoFields
+- Added white background styling to all select dropdowns in IdentificationFields and ColorFields components
+- Fixed microchip ID input field visibility when "Yes" is selected
+- Added consistent white background styling to microchip ID input
+- Improved microchipped radio group state handling
+- Adjusted ImageUpload "Choose File" button width to fit content
+- Added breed filtering to prevent same breed from being selected in both breed dropdowns
+- Fixed breed selection to properly handle separate breed1 and breed2 fields
+- Fixed coordinate formatting in Map component to prevent scientific notation issues
+- Added coordinate formatting in Report model to ensure proper decimal storage
+- Fixed coordinate storage and serialization to handle decimals properly
+- Updated coordinate column definitions to enforce proper decimal formatting
+- Added explicit type casting for coordinate fields in Report model
+- Fixed coordinate handling using Rails' attribute API
+- Added custom attribute readers for coordinates to prevent scientific notation display
+- Fixed coordinate display format to show plain decimal numbers without scientific notation
+- Fixed coordinate formatting in serializer and model to ensure consistent decimal display
+- Changed coordinate columns from decimal to float for better display formatting
+- Cleaned up Report model by removing unnecessary coordinate formatting methods
+- Aligned EditReportForm styling with NewReportForm for consistent user experience
+- Updated form field layouts and spacing in EditReportForm
+- Improved visual hierarchy of form sections with consistent heading styles
+- Added consistent white background styling to all form inputs
+- Added missing species and breeds sections to EditReportForm
+- Implemented breed filtering in EditReportForm to match NewReportForm functionality
+- Added consistent button styling for breed management actions
+- Added color selection functionality to EditReportForm matching NewReportForm
+- Implemented color filtering to prevent duplicate color selections
+- Added consistent styling for color management actions
+- Reordered form sections in EditReportForm to match NewReportForm order
+- Ensured consistent section ordering across forms for better user experience
+- Added important notice to EditReportForm to match NewReportForm
+- Ensured consistent messaging across report forms
+- Removed unnecessary disclaimer from EditReportForm to maintain appropriate context
+- Updated form labels in EditReportForm to match NewReportForm styling
+- Standardized label text color and font weight across forms
+- Updated date section labels to match form-wide label styling
+- Adjusted label font size in EditReportForm to match NewReportForm (text-base)
+- Ensured visual consistency of form labels across both forms
+- Updated location display in EditReportForm to show selected location details while editing
+- Maintained consistent location information display between edit and view modes
+- Added consistent location display to ReportLocationSelect component
+- Unified location information display across NewReportForm and EditReportForm
+- Updated Name field label to include "(if known)" for consistency
+- Adjusted image upload button width to match NewReportForm
+- Standardized image preview size between forms
+- Removed placeholder text from select inputs to match NewReportForm
+- Standardized select input behavior across forms
+- Removed placeholder text from color selection dropdowns to match NewReportForm
+- Ensured consistent dropdown behavior across all form inputs
+- Updated remove buttons to use icon-only style matching NewReportForm
+- Standardized remove button appearance across all form sections
+- Adjusted remove button styling to remove red borders and match NewReportForm
+- Updated remove button hover states to use gray scale instead of error colors
+- Refined remove button size and appearance to exactly match NewReportForm
+- Adjusted remove button icon size and colors for more subtle appearance
+- Updated remove buttons in EditReportForm to match ColorFields component styling
+- Standardized remove button appearance using MUI CloseIcon component
+- Updated "ADD ANOTHER COLOR" buttons in ColorFields to match EditReportForm styling
+- Standardized button appearance using MUI Button component
+- Updated "ADD ANOTHER BREED" button in IdentificationFields to match EditReportForm styling
+- Standardized action button appearance across breed and color sections
+- Removed microchipped column from reports table
+- Updated frontend components to remove microchipped field
+- Updated backend services to remove microchipped field
+- Maintained microchip_id functionality
+- Removed remaining microchipped-related formatting functions from EditReportForm
+- Cleaned up validation logic in ReportFormValidation
+- Ensured all microchipped references are removed while preserving microchip_id functionality
+- Simplified name input field by removing "Do you know the name" question
+- Updated name field placeholder to clearly indicate optionality
+- Improved form UX by reducing unnecessary user interactions
+- Simplified microchip ID input by removing "Do you know the microchip number" question
+- Updated microchip ID field placeholder to match name field pattern
+- Maintained consistent optional field UX pattern across the form
+- Removed microchipped field from all seed data while preserving microchip_id values
+- Ensured seed data consistency with updated schema
+- Made report images responsive on xs screens in EditReportForm
+- Improved mobile image display with flexible width constraints
+- Limited breed selection dropdown height to 200px for better usability
+- Added consistent height constraint to breed2 dropdown to match breed1
+- Added consistent height constraint to all color dropdowns to match breed selects
+- Added consistent height constraint to gender dropdown to match other selects
+- Updated EditReportForm button styles to match SearchButtons component
+- Standardized button appearance across the application
+- Added consistent icons to Edit/Save buttons in EditReportForm
+- Added visual disabled state to Cancel and Back buttons during form submission
+- Added disabled state styling to save button during form submission
+- Added frontend validation to EditReportForm using validateReportForm
+- Standardized form validation approach across NewReportForm and EditReportForm
+- Improved user experience by showing validation errors before API calls
+- Updated form validation to handle existing images in EditReportForm
+- Fixed "Image is required" validation error when editing reports with existing images
+- Fixed type compatibility between IReport and IReportForm interfaces
+- Updated name field in IReportForm to match IReport definition
+- Updated gender field in IReportForm to match IReport's nullable type definition
+- Fixed gender field type compatibility in IdentificationFields component
+- Created separate ViewMode and EditMode components for report forms
+- Extracted form action logic into useReportEdit hook
+- Improved code organization by following Single Responsibility Principle
+- Fixed prop type definitions in ReportEditMode component
+- Added proper type safety to form event handlers
+- Ensured all required props are properly passed to child components
+- Simplified navigation by handling home link directly in NavBar
+- Removed redundant Header component
+
+## Technical Debt
+- Consider adding validation for microchip_id format
+- Update tests to reflect removal of microchipped field

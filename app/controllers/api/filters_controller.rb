@@ -21,9 +21,9 @@ module Api
       Rails.logger.debug "Fetching cities for country: #{country}, state: #{state}"
 
       cities = Report.where(country: country, state: state)
-                    .where.not(city: [nil, ''])
+                    .where.not(area: [nil, ''])
                     .distinct
-                    .pluck(:city)
+                    .pluck(:area)
                     .compact
                     .sort
 

@@ -9,7 +9,7 @@ const defaultFilters: IFilters = {
   gender: "",
   country: "",
   state: "",
-  city: "",
+  area: "",
   sort: "Newest"
 };
 

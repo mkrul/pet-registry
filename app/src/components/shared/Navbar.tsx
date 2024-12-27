@@ -3,12 +3,21 @@ import ProfileDropdown from "../common/ProfileDropdown";
 import NavLink from "./NavLink";
 
 const NavBar = () => {
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.location.replace(window.location.origin); // Force complete page reload and reset URL
+  };
+
   return (
     <div>
       {/* Main Navbar */}
       <div className="navbar bg-base-100">
         <div className="flex-1">
-          <Link to="/" className="btn btn-ghost text-xl hover:bg-transparent">
+          <Link
+            to="/"
+            onClick={handleHomeClick}
+            className="btn btn-ghost text-xl hover:bg-transparent"
+          >
             Lost Pet Registry
           </Link>
         </div>

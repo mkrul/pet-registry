@@ -20,7 +20,7 @@ export interface IFilters {
   species: string;
   color: string;
   gender: string;
-  city: string;
+  area: string;
   state: string;
   country: string;
   sort: string;

@@ -6,7 +6,7 @@ import { SelectChangeEvent } from "@mui/material";
 interface LocationSelectProps {
   country: string;
   state: string;
-  city: string;
+  area: string;
   onFilterChange: (event: SelectChangeEvent<string>, child: React.ReactNode) => void;
   selectClassName: any;
   disabledSelectClassName: any;
@@ -15,7 +15,7 @@ interface LocationSelectProps {
 const LocationSelect: React.FC<LocationSelectProps> = ({
   country,
   state,
-  city,
+  area,
   onFilterChange,
   selectClassName
 }) => {
@@ -28,18 +28,10 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
     { skip: !country || !state }
   );
 
-  const handleCountryChange = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
-    // First reset dependent fields
-    onFilterChange({ target: { name: "state", value: "" } } as SelectChangeEvent<string>, null);
-    onFilterChange({ target: { name: "city", value: "" } } as SelectChangeEvent<string>, null);
-    // Then update country
-    onFilterChange(event, child);
-  };
-
   const handleStateChange = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
     onFilterChange(event, child);
-    if (city) {
-      onFilterChange({ target: { name: "city", value: "" } } as SelectChangeEvent<string>, null);
+    if (area) {
+      onFilterChange({ target: { name: "area", value: "" } } as SelectChangeEvent<string>, null);
     }
   };
 
@@ -47,8 +39,8 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
     <>
       <FormControl fullWidth size="small">
         <Select
-          name="city"
-          value={city}
+          name="area"
+          value={area}
           onChange={onFilterChange}
           disabled={!country || !state || isLoadingCities}
           displayEmpty
@@ -57,14 +49,23 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
             backgroundColor: "white !important",
             "& .MuiSelect-select": {
               backgroundColor: "white !important"
+            },
+            "& .MuiPaper-root": {
+              maxHeight: "200px"
             }
           }}
-          renderValue={value => value || "City"}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 200
+              }
+            }
+          }}
+          renderValue={value => value || "Area"}
         >
-          <MenuItem value="">City</MenuItem>
-          {cities.map(city => (
-            <MenuItem key={city} value={city}>
-              {city}
+          {cities.map(area => (
+            <MenuItem key={area} value={area}>
+              {area}
             </MenuItem>
           ))}
         </Select>
@@ -77,10 +78,21 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
           onChange={handleStateChange}
           disabled={!country || isLoadingStates}
           displayEmpty
-          sx={selectClassName}
+          sx={{
+            ...selectClassName,
+            "& .MuiPaper-root": {
+              maxHeight: "200px"
+            }
+          }}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 200
+              }
+            }
+          }}
           renderValue={value => value || "State"}
         >
-          <MenuItem value="">State</MenuItem>
           {states.map(state => (
             <MenuItem key={state} value={state}>
               {state}
@@ -93,12 +105,23 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
         <Select
           name="country"
           value={country}
-          onChange={handleCountryChange}
+          onChange={onFilterChange}
           displayEmpty
-          sx={selectClassName}
-          renderValue={value => value || "Country"}
+          sx={{
+            ...selectClassName,
+            "& .MuiPaper-root": {
+              maxHeight: "200px"
+            }
+          }}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 200
+              }
+            }
+          }}
+          renderValue={selected => selected || "Country"}
         >
-          <MenuItem value="">Country</MenuItem>
           <MenuItem value="United States">United States</MenuItem>
           <MenuItem value="Canada">Canada</MenuItem>
         </Select>

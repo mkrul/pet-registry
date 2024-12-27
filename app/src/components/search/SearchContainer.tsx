@@ -27,10 +27,15 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   };
 
   const handleReset = () => {
+    // Clear all URL params including sort
+    const currentPath = window.location.pathname;
+    window.history.replaceState({}, "", currentPath);
+    setSearchParams({});
+
     const defaultFilters = getDefaultFilters();
     setSearchQuery("");
     setFilters(defaultFilters);
-    setSearchParams({});
+
     onSearchComplete("", 1, defaultFilters);
   };
 

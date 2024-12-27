@@ -21,7 +21,7 @@ export interface IPaginationQuery {
   sort?: string;
   country?: string;
   state?: string;
-  city?: string;
+  area?: string;
   breed?: string;
 }
 
@@ -128,9 +128,9 @@ export const reportsApi = createApi({
           queryParams.state = params.state;
           console.log("Added state filter:", params.state);
         }
-        if (params.city) {
-          queryParams.city = params.city;
-          console.log("Added city filter:", params.city);
+        if (params.area) {
+          queryParams.area = params.area;
+          console.log("Added area filter:", params.area);
         }
         if (params.sort) {
           queryParams.sort = params.sort;

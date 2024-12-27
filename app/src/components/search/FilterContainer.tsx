@@ -22,14 +22,14 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
     const { name, value } = e.target;
     const updatedFilters = { ...initialFilters, [name]: value };
 
-    // If country changes, reset state and city
+    // If country changes, reset state and area
     if (name === "country") {
       updatedFilters.state = "";
-      updatedFilters.city = "";
+      updatedFilters.area = "";
     }
-    // If state changes, reset city
+    // If state changes, reset area
     if (name === "state") {
-      updatedFilters.city = "";
+      updatedFilters.area = "";
     }
 
     onFiltersChange(updatedFilters);

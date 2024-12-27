@@ -12,8 +12,7 @@ export const useReportsData = (query: string, filters: IFilters, page: number) =
   const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const { data, error, isLoading } = useGetReportsQuery({
-    page,
-    items: 20,
+    page: page || 1,
     query: query || undefined,
     ...filters
   });

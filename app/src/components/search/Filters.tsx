@@ -37,11 +37,12 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
             onChange={handleFilterChange}
             displayEmpty
             sx={selectStyles}
+            displayEmpty
+            renderValue={selected => selected || "Species"}
           >
-            <MenuItem value="">Species</MenuItem>
-            {speciesListJson.options.map(option => (
-              <MenuItem key={option} value={option}>
-                {option}
+            {speciesListJson.options.map((species, index) => (
+              <MenuItem key={`${species}-${index}`} value={species}>
+                {species}
               </MenuItem>
             ))}
           </Select>
@@ -63,12 +64,24 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
             value={filters.color}
             onChange={handleFilterChange}
             displayEmpty
-            sx={selectStyles}
+            sx={{
+              ...selectStyles,
+              "& .MuiPaper-root": {
+                maxHeight: "200px"
+              }
+            }}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 200
+                }
+              }
+            }}
+            renderValue={selected => selected || "Color"}
           >
-            <MenuItem value="">Color</MenuItem>
-            {colorListJson.options.map(option => (
-              <MenuItem key={option} value={option}>
-                {option}
+            {colorListJson.options.map((color, index) => (
+              <MenuItem key={`${color}-${index}`} value={color}>
+                {color}
               </MenuItem>
             ))}
           </Select>
@@ -81,8 +94,8 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
             onChange={handleFilterChange}
             displayEmpty
             sx={selectStyles}
+            renderValue={selected => selected || "Gender"}
           >
-            <MenuItem value="">Gender</MenuItem>
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
           </Select>
@@ -91,7 +104,7 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
         <LocationSelect
           country={filters.country}
           state={filters.state}
-          city={filters.city}
+          area={filters.area}
           onFilterChange={handleFilterChange}
           selectClassName={selectStyles}
           disabledSelectClassName={selectStyles}
