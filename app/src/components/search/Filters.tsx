@@ -8,7 +8,13 @@ import colorListJson from "../../../../config/colors.json";
 import sortOptionsJson from "../../../../config/sort_options.json";
 import { Species } from "../../lib/reports/breedLists";
 
-const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange }) => {
+interface IFiltersProps {
+  filters: IFilters;
+  handleFilterChange: (e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>) => void;
+  onReset: () => void;
+}
+
+const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset }) => {
   const selectStyles = {
     height: "40px",
     backgroundColor: "white !important",
@@ -102,6 +108,15 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange }) => {
               ))}
           </Select>
         </FormControl>
+      </div>
+      <div className="mt-4 flex justify-end">
+        <button
+          type="button"
+          onClick={onReset}
+          className="px-4 py-2 text-gray-600 hover:text-gray-800"
+        >
+          Reset Filters
+        </button>
       </div>
     </div>
   );

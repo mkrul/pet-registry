@@ -49,6 +49,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         initialFilters={filters}
         onFiltersChange={setFilters}
         showFilters={showFilters}
+        onReset={handleReset}
       />
     </>
   );

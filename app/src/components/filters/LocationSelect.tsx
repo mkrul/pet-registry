@@ -28,6 +28,21 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
     { skip: !country || !state }
   );
 
+  const handleCountryChange = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
+    // First reset dependent fields
+    onFilterChange({ target: { name: "state", value: "" } } as SelectChangeEvent<string>, null);
+    onFilterChange({ target: { name: "city", value: "" } } as SelectChangeEvent<string>, null);
+    // Then update country
+    onFilterChange(event, child);
+  };
+
+  const handleStateChange = (event: SelectChangeEvent<string>, child: React.ReactNode) => {
+    onFilterChange(event, child);
+    if (city) {
+      onFilterChange({ target: { name: "city", value: "" } } as SelectChangeEvent<string>, null);
+    }
+  };
+
   return (
     <>
       <FormControl fullWidth size="small">
@@ -44,6 +59,7 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
               backgroundColor: "white !important"
             }
           }}
+          renderValue={value => value || "City"}
         >
           <MenuItem value="">City</MenuItem>
           {cities.map(city => (
@@ -58,10 +74,11 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
         <Select
           name="state"
           value={state}
-          onChange={onFilterChange}
+          onChange={handleStateChange}
           disabled={!country || isLoadingStates}
           displayEmpty
           sx={selectClassName}
+          renderValue={value => value || "State"}
         >
           <MenuItem value="">State</MenuItem>
           {states.map(state => (
@@ -76,9 +93,10 @@ const LocationSelect: React.FC<LocationSelectProps> = ({
         <Select
           name="country"
           value={country}
-          onChange={onFilterChange}
+          onChange={handleCountryChange}
           displayEmpty
           sx={selectClassName}
+          renderValue={value => value || "Country"}
         >
           <MenuItem value="">Country</MenuItem>
           <MenuItem value="United States">United States</MenuItem>
