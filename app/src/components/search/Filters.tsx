@@ -109,15 +109,6 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
           </Select>
         </FormControl>
       </div>
-      <div className="mt-4 flex justify-end">
-        <button
-          type="button"
-          onClick={onReset}
-          className="px-4 py-2 text-gray-600 hover:text-gray-800"
-        >
-          Reset Filters
-        </button>
-      </div>
     </div>
   );
 };
