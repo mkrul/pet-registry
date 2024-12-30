@@ -1,30 +1,17 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/authSlice";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-
-interface LocationState {
-  from: {
-    pathname: string;
-  };
-}
-
-interface ErrorResponse {
-  data: {
-    message: string;
-  };
-}
-
-const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError & ErrorResponse => {
-  return typeof error === "object" && error !== null && "data" in error;
-};
+import { NotificationType, NotificationState } from "../../types/shared/Notification";
+import Notification from "../../components/shared/Notification";
+import { navigateToHome } from "../../utils/navigation";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { isLoading, error }] = useLoginMutation();
+  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -33,15 +20,34 @@ const LoginPage: React.FC = () => {
     try {
       const response = await login({ user: { email, password } }).unwrap();
       dispatch(setUser(response.user));
-      navigate("/", { replace: true });
-    } catch (err) {
-      console.error("Login failed:", err);
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: response.message
+      });
+      handleSuccessfulLogin();
+    } catch (err: unknown) {
+      const error = err as { data?: { message?: string } };
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message
+      });
     }
+  };
+
+  const handleSuccessfulLogin = () => {
+    navigateToHome(navigate);
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        {notification && (
+          <Notification
+            type={notification.type}
+            message={notification.message}
+            onClose={() => setNotification(null)}
+          />
+        )}
         <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">
           Welcome to the
           <br />
@@ -76,14 +82,6 @@ const LoginPage: React.FC = () => {
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        {error && (
-          <div className="mt-4 text-center text-red-500">
-            {isFetchBaseQueryError(error) && error.data?.message
-              ? error.data.message
-              : "Login failed. Please try again."}
-          </div>
-        )}
 
         <div className="mt-4 text-center">
           <p className="text-gray-600">

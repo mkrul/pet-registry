@@ -1,9 +1,9 @@
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
              :color_1, :color_2, :color_3, :name, :gender, :image,
-             :microchipped, :microchip_id, :created_at, :updated_at, :archived_at,
+             :microchip_id, :created_at, :updated_at, :archived_at,
              :updated_last_three_days,
-             :city, :state, :country, :latitude, :longitude
+             :area, :state, :country, :latitude, :longitude
 
   def attributes(*args)
     data = super
@@ -62,5 +62,13 @@ class ReportSerializer < ActiveModel::Serializer
 
     image_data.transform_keys! { |key| key.to_s.camelize(:lower) }
     image_data
+  end
+
+  def latitude
+    object.latitude.to_f if object.latitude
+  end
+
+  def longitude
+    object.longitude.to_f if object.longitude
   end
 end

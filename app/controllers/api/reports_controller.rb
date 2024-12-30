@@ -2,7 +2,6 @@
 
 module Api
   class ReportsController < ApplicationController
-    include Pagy::Backend
 
     before_action :set_report, only: %i[show edit update destroy]
     skip_before_action :verify_authenticity_token
@@ -19,7 +18,7 @@ module Api
         gender: params[:gender],
         country: params[:country],
         state: params[:state],
-        city: params[:city],
+        area: params[:area],
         breed: params[:breed],
         sort: params[:sort],
         page: page,
@@ -112,7 +111,7 @@ module Api
         :gender,
         :country,
         :state,
-        :city,
+        :area,
         :sort
       )
     end
@@ -131,10 +130,9 @@ module Api
         :color_1,
         :color_2,
         :color_3,
-        :microchipped,
         :microchip_id,
         :image,
-        :city,
+        :area,
         :state,
         :country,
         :latitude,
@@ -155,10 +153,9 @@ module Api
         :color_1,
         :color_2,
         :color_3,
-        :microchipped,
         :microchip_id,
         :image,
-        :city,
+        :area,
         :state,
         :country,
         :latitude,

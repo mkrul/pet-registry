@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store";
 import { IUser } from "../../../types/User";
 import { setUser, clearUser } from "./authSlice";
-import { Errors } from "../../../types/ErrorMessages";
 
 interface AuthResponse {
   message: string;
@@ -49,7 +48,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.LOGIN_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -70,7 +69,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.LOGOUT_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -96,7 +95,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.CURRENT_USER_FETCH_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -118,7 +117,7 @@ export const authApiSlice = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.SIGNUP_FAILED
+          message: response.data?.message
         }
       })
     })

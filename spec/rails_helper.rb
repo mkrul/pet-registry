@@ -3,6 +3,8 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'factory_bot_rails'
+require 'database_cleaner-active_record'
 require 'devise'
 
 begin
@@ -13,6 +15,8 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+  config.include DatabaseCleaner::ActiveRecord
   config.fixture_paths = ["#{::Rails.root}/spec/fixtures"]
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
@@ -23,6 +27,8 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers
 
   config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :transaction
     Warden.test_mode!
   end
 
@@ -38,4 +44,14 @@ RSpec.configure do |config|
 
   # Clean up the database between tests
   config.use_transactional_fixtures = true
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  def json_response
+    JSON.parse(response.body)
+  end
 end

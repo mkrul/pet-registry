@@ -6,7 +6,7 @@ class Reports::Search < ActiveInteraction::Base
   string :color, default: nil
   string :gender, default: nil
   string :state, default: nil
-  string :city, default: nil
+  string :area, default: nil
   string :country, default: nil
   string :sort, default: nil
   integer :page, default: 1
@@ -17,24 +17,9 @@ class Reports::Search < ActiveInteraction::Base
     'pit bull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
     'pitbull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
     'bulldog' => ['bulldog', 'pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully'],
-    'cat' => ['kitten', 'kitty', 'kitties', 'cats'],
-    'dog' => ['puppy', 'puppies', 'dogs'],
   }
 
   def execute
-    Rails.logger.debug "[Search] Received parameters:"
-    Rails.logger.debug "  Query: #{query.inspect}"
-    Rails.logger.debug "  Species: #{species.inspect}"
-    Rails.logger.debug "  Color: #{color.inspect}"
-    Rails.logger.debug "  Gender: #{gender.inspect}"
-    Rails.logger.debug "  Country: #{country.inspect}"
-    Rails.logger.debug "  State: #{state.inspect}"
-    Rails.logger.debug "  City: #{city.inspect}"
-    Rails.logger.debug "  Sort: #{sort.inspect}"
-    Rails.logger.debug "  Page: #{page.inspect}"
-    Rails.logger.debug "  Per page: #{per_page.inspect}"
-    Rails.logger.debug "  Breed: #{breed.inspect}"
-
     search_options = {
       where: where_conditions,
       page: page,
@@ -58,16 +43,6 @@ class Reports::Search < ActiveInteraction::Base
   def where_conditions
     conditions = { status: 'active' }
 
-    Rails.logger.debug "[Search] Building filters:"
-    Rails.logger.debug "  Species: #{species.inspect}"
-    Rails.logger.debug "  Color: #{color.inspect}"
-    Rails.logger.debug "  Gender: #{gender.inspect}"
-    Rails.logger.debug "  Country: #{country.inspect}"
-    Rails.logger.debug "  State: #{state.inspect}"
-    Rails.logger.debug "  City: #{city.inspect}"
-    Rails.logger.debug "  Query: #{query.inspect}"
-    Rails.logger.debug "  Breed: #{breed.inspect}"
-
     # Set species condition, prioritizing explicit filter over query content
     if species.present?
       conditions[:species] = species.downcase
@@ -89,8 +64,8 @@ class Reports::Search < ActiveInteraction::Base
       conditions[:state] = state
     end
 
-    if city.present?
-      conditions[:city] = city
+    if area.present?
+      conditions[:area] = area
     end
 
     # Add other filters
@@ -143,7 +118,6 @@ class Reports::Search < ActiveInteraction::Base
       conditions[:_and].concat(filters)
     end
 
-    Rails.logger.debug "[Search] Final conditions: #{conditions.inspect}"
     conditions
   end
 

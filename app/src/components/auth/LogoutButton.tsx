@@ -1,33 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { clearUser } from "../../redux/features/auth/authSlice";
-import { NotificationState, NotificationType } from "../../types/Notification";
-import { Errors } from "../../types/ErrorMessages";
+import NavLink from "../shared/NavLink";
 
-const LogoutButton: React.FC = () => {
+interface LogoutButtonProps {
+  onCompleted: () => void;
+  className?: string;
+}
+
+const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted, className = "" }) => {
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
-  const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const handleLogout = async () => {
     try {
-      const response = await logout().unwrap();
-      setNotification({
-        type: NotificationType.SUCCESS,
-        message: response.message
-      });
+      await logout().unwrap();
       dispatch(clearUser());
+      onCompleted();
     } catch (err: unknown) {
-      const error = err as { data?: { message?: string } };
-      setNotification({
-        type: NotificationType.ERROR,
-        message: error.data?.message || Errors.LOGOUT_FAILED
-      });
+      dispatch(clearUser());
+      onCompleted();
     }
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return (
+    <NavLink handler={handleLogout} className={className}>
+      Logout
+    </NavLink>
+  );
 };
 
 export default LogoutButton;

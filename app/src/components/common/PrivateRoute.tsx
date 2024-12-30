@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
@@ -17,7 +17,7 @@ const PrivateRoute: React.FC = () => {
     return <Spinner />;
   }
 
-  if (!user) {
+  if (!user || error) {
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

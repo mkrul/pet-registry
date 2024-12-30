@@ -5,7 +5,7 @@ class Report < ApplicationRecord
   searchkick word_middle: [:breed_1, :breed_2, :description, :title],
              text_middle: [:gender],
              searchable: [:breed_1, :breed_2, :description, :title],
-             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status, :country, :state, :city, :breed_1, :breed_2],
+             filterable: [:species, :gender, :color_1, :color_2, :color_3, :status, :country, :state, :area, :breed_1, :breed_2],
              suggest: [:breed_1, :breed_2],
              word_start: [:breed_1, :breed_2],
              settings: {
@@ -48,7 +48,7 @@ class Report < ApplicationRecord
       status: status,
       country: country,
       state: state,
-      city: city,
+      area: area,
       updated_at: updated_at,
       created_at: created_at
     }
@@ -63,36 +63,30 @@ class Report < ApplicationRecord
     reindex
   end
 
-  validates :title, presence: { message: "Please provide a title" },
-                    length: { maximum: 30, message: "Title must be 30 characters or less" },
-                    format: { with: /\A[a-zA-Z0-9\s\-.,!?()]+\z/, message: "Title can only contain letters, numbers, spaces, and basic punctuation" }
+  validates :title, presence: { message: "cannot be blank" }, length: { maximum: 30, message: "must be 30 characters or less" }
 
-  validates :name, length: { maximum: 20, message: "Name must be 20 characters or less" },
+  validates :name, length: { maximum: 20, message: "must be 20 characters or less" },
                   format: { with: /\A[a-zA-Z0-9\s\-]+\z/, message: "Name can only contain letters, numbers, spaces, and hyphens" },
                   allow_blank: true
 
-  validates :description, presence: { message: "Please provide a description" },
-                         length: { maximum: 500, message: "Description must be 500 characters or less" },
-                         format: { with: /\A[a-zA-Z0-9\s\-.,!?()]+\z/, message: "Description can only contain letters, numbers, spaces, and basic punctuation" }
+  validates :description, presence: { message: "cannot be blank" }, length: { maximum: 500, message: "must be 500 characters or less" }
 
-  validates :status, presence: true, inclusion: { in: %w[active archived], message: "Status must be either active or archived" }
-  validates :breed_1, presence: { message: "Please select a primary breed" }
-  validates :color_1, presence: { message: "Please select a primary color" }
-  validates :species, presence: { message: "Please select a species" },
-                     inclusion: { in: %w[dog cat], message: "Species must be either dog or cat" }
-  validates :microchip_id, uniqueness: { allow_nil: true, message: "This microchip ID is already registered" },
-                          length: { maximum: 35, message: "Microchip ID must be 35 characters or less" },
-                          format: { with: /\A[A-Za-z0-9\-]+\z/, message: "Microchip ID can only contain letters, numbers, and hyphens" },
+  validates :status, presence: true, inclusion: { in: %w[active archived], message: "must be either active or archived" }
+  validates :breed_1, presence: { message: "cannot be blank" }
+  validates :color_1, presence: { message: "cannot be blank" }
+  validates :species, presence: { message: "cannot be blank" },
+                     inclusion: { in: %w[dog cat], message: "must be either dog or cat" }
+  validates :microchip_id, uniqueness: { allow_nil: true, message: "ID is already registered" },
+                          length: { maximum: 35, message: "ID must be 35 characters or less" },
+                          format: { with: /\A[A-Za-z0-9\-]+\z/, message: "ID can only contain letters, numbers, and hyphens" },
                           allow_blank: true
-
-  validates :gender, presence: { message: "Please select a gender" }
-  validates :city, presence: { message: "Please provide a city" }, if: -> { latitude.present? || longitude.present? }
-  validates :state, presence: { message: "Please provide a state" },
-          if: -> { (latitude.present? || longitude.present?) && country.downcase != "united states" || city.downcase != "washington" },
+  validates :area, presence: { message: "cannot be blank" }, if: -> { latitude.present? || longitude.present? }
+  validates :state, presence: { message: "cannot be blank" },
+          if: -> { (latitude.present? || longitude.present?) && country.downcase != "united states" || area.downcase != "washington" },
           allow_blank: true
-  validates :country, presence: { message: "Please provide a country" }, if: -> { latitude.present? || longitude.present? }
-  validates :latitude, presence: { message: "Please select a location on the map" }, if: -> { city.present? || state.present? || country.present? }
-  validates :longitude, presence: { message: "Please select a location on the map" }, if: -> { city.present? || state.present? || country.present? }
+  validates :country, presence: { message: "cannot be blank" }, if: -> { latitude.present? || longitude.present? }
+  validates :latitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
+  validates :longitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
 
   normalizes :status,
              :archived_at,
@@ -121,6 +115,15 @@ class Report < ApplicationRecord
   REPORT_PAGE_LIMIT = 20
   VALID_IMAGE_TYPES = %w[image/jpeg image/png image/gif].freeze
   MAX_IMAGE_SIZE = 5.megabytes
+
+  before_save :format_coordinates
+
+  def format_coordinates
+    if latitude_changed? || longitude_changed?
+      self[:latitude] = self[:latitude].to_f if self[:latitude]
+      self[:longitude] = self[:longitude].to_f if self[:longitude]
+    end
+  end
 
   private
 
@@ -163,7 +166,7 @@ class Report < ApplicationRecord
   end
 
   def validate_gender
-    return unless gender.present?
+    return if gender.blank?
 
     valid_genders = self.class.valid_genders
     unless valid_genders.any? { |valid_gender| valid_gender.casecmp?(gender) }

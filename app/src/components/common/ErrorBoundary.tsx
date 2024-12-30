@@ -1,7 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import Notification from "../shared/Notification";
-import { NotificationType } from "../../types/Notification";
-import { Errors } from "../../types/ErrorMessages";
+import { NotificationType } from "../../types/shared/Notification";
 
 interface Props {
   children: ReactNode;
@@ -26,13 +25,17 @@ class ErrorBoundary extends Component<Props, State> {
     console.error("ErrorBoundary caught an error:", error, errorInfo);
   }
 
+  handleClose = () => {
+    this.setState({ hasError: false, error: null });
+  };
+
   render() {
     if (this.state.hasError && this.state.error) {
       return (
         <Notification
           type={NotificationType.ERROR}
-          message={this.state.error.message || Errors.GENERIC_ERROR}
-          onClose={() => this.setState({ hasError: false, error: null })}
+          message={this.state.error.message}
+          onClose={this.handleClose}
         />
       );
     }
