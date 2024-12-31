@@ -56,7 +56,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         <button
           type="submit"
           disabled={isSaving}
-          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSaving ? (
             <div className="flex items-center">
@@ -74,7 +74,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
           type="button"
           onClick={handleCancelChanges}
           disabled={isSaving}
-          className="px-4 py-2 border border-blue-500 bg-white text-blue-600 hover:bg-blue-100 rounded-md transition-colors"
+          className="px-4 py-2 border border-blue-500 bg-white text-blue-600 hover:bg-blue-100 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>

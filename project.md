@@ -26,6 +26,9 @@
 - Updated ReportViewMode component to display title as h2 heading
 - Fixed BreedSearch size in IdentificationFields to match edit mode sizing
 - Added colons to field labels in ReportEditMode
+- Added image loading state and spinner to ReportViewMode
+- Fixed image loading state handling in ReportViewMode
+- Added disabled state styling to form action buttons during submission
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -59,3 +62,9 @@
 - When using size props, ensure consistent values are used across all instances of a component to maintain UI consistency
 - Consistent punctuation in labels helps improve readability and visual hierarchy
 - Maintain consistent label styling between view and edit modes for better user experience
+- Use loading indicators for asynchronous content like images to improve user experience
+- Handle both loading and error states for image components
+- When receiving handler functions as props, avoid redefining them locally to prevent naming conflicts
+- When combining local state with prop callbacks, ensure both are properly handled in event handlers
+- Use consistent disabled state styling (opacity and cursor) across all interactive elements
+- Apply disabled state styling to all action buttons during form submission to prevent multiple submissions

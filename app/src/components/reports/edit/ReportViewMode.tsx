@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import formatDate from "../../../lib/formatDate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Map from "../../common/Map";
 import { ReportViewModeProps } from "../../../types/Report";
+import Spinner from "../../common/Spinner";
 
 const ReportViewMode: React.FC<ReportViewModeProps> = ({
   report,
@@ -14,6 +15,12 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
   handleImageError
 }) => {
   const VIEW_ZOOM_LEVEL = 15;
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
+  const onImageLoad = () => {
+    setIsImageLoading(false);
+    handleImageLoad();
+  };
 
   return (
     <div className="space-y-6">
@@ -41,12 +48,17 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
 
       {/* Image */}
       <div className="space-y-2">
-        <div className="mt-1">
+        <div className="mt-1 relative">
+          {isImageLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-50 mb-4 mt-4">
+              <Spinner size={32} />
+            </div>
+          )}
           <img
             src={imageSrc}
             alt={report.title}
             className="w-full rounded-lg shadow-sm"
-            onLoad={handleImageLoad}
+            onLoad={onImageLoad}
             onError={handleImageError}
           />
         </div>

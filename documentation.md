@@ -98,6 +98,8 @@
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default
 - Ensure no microchipped options are checked by default for better UX
+- Fixed duplicate function declarations in ReportViewMode component
+- Fixed infinite loading spinner in ReportViewMode by properly handling image load state
 
 ## Learnings
 - When working with tri-state checkboxes (true/false/null), ensure the initial state is properly handled
@@ -162,3 +164,5 @@
 - Report view mode now displays the title as a heading (h2) without a label for better visual hierarchy
 - Added colons to field labels in ReportViewMode for improved readability and consistency
 - Added colons to field labels in ReportEditMode to match ReportViewMode styling
+- Added loading spinner while image loads in ReportViewMode for better user feedback
+- Added proper disabled state styling to Save and Cancel buttons during form submission
