@@ -14,12 +14,20 @@ import AppRouter from "../main/AppRouter";
 window.scrollTo = vi.fn();
 
 // Mock all the components that AppRouter renders
-vi.mock("../shared/Navbar", () => ({
-  default: () => <div data-testid="navbar">Navbar</div>
+vi.mock("../common/Navbar", () => ({
+  default: () => (
+    <div data-testid="navbar" className="navbar bg-base-100">
+      Navbar
+    </div>
+  )
 }));
 
-vi.mock("../shared/Footer", () => ({
-  default: () => <div data-testid="footer">Footer</div>
+vi.mock("../common/Footer", () => ({
+  default: () => (
+    <div data-testid="footer" className="bg-base-200 py-6">
+      Footer
+    </div>
+  )
 }));
 
 vi.mock("../../pages/reports/ReportsIndexPage", () => ({
@@ -59,7 +67,8 @@ vi.mock("../../redux/features/auth/authApiSlice", () => ({
     data: null,
     isLoading: false,
     isError: false
-  })
+  }),
+  useLogoutMutation: () => [() => Promise.resolve({ data: null }), { isLoading: false }]
 }));
 
 // Also mock the reports API and reducers since they're used in the store
