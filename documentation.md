@@ -167,6 +167,7 @@
 - Added loading spinner while image loads in ReportViewMode for better user feedback
 - Added proper disabled state styling to Save and Cancel buttons during form submission
 - Added location display to report cards for better geographical context
+- Moved "Updated" badge to overlay report card images for better visual hierarchy
 
 ## Map Component Updates
 - Fixed map initialization to properly use provided coordinates

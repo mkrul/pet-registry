@@ -79,3 +79,5 @@
 - When components have default prop values, ensure they match the expected defaults across all usage contexts
 - Consider different default states for components based on their usage context
 - Reuse location display components consistently across different views of the same data
+- Use absolute positioning with z-index for overlaying UI elements on images
+- Avoid duplicate status indicators to maintain clear visual hierarchy
