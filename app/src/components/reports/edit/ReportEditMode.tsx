@@ -9,6 +9,7 @@ import Spinner from "../../common/Spinner";
 import { ReportEditModeProps } from "../../../types/Report";
 import formatDate from "../../../lib/formatDate";
 import BreedSearch from "../../common/BreedSearch";
+import LocationDisplay from "../../common/LocationDisplay";
 
 const commonInputStyles = {
   backgroundColor: "white",
@@ -406,9 +407,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
       {/* Location */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-4">Location:</label>
-        <p className="text-gray-500 mt-2">
-          {[formData.area, formData.state, formData.country].filter(Boolean).join(", ")}
-        </p>
+        <LocationDisplay area={formData.area} state={formData.state} country={formData.country} />
         <div className="mt-1">
           <Map
             onLocationSelect={handleLocationSelect}

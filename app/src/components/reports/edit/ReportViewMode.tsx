@@ -5,6 +5,7 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Map from "../../common/Map";
 import { ReportViewModeProps } from "../../../types/Report";
 import Spinner from "../../common/Spinner";
+import LocationDisplay from "../../common/LocationDisplay";
 
 const ReportViewMode: React.FC<ReportViewModeProps> = ({
   report,
@@ -116,9 +117,7 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
       {/* Location */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-4">Location:</label>
-        <p className="text-gray-500 mt-2">
-          {[report.area, report.state, report.country].filter(Boolean).join(", ")}
-        </p>
+        <LocationDisplay area={report.area} state={report.state} country={report.country} />
         <div className="mt-1">
           <Map
             initialLocation={{
