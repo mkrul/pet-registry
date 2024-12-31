@@ -108,6 +108,9 @@
 + Clear dependent field values in the same state update to maintain consistency
 + Make secondary form fields nullable in TypeScript interfaces to match business requirements
 + Keep primary fields required while allowing null for optional fields
+- Make date fields optional in form interfaces when they're not required for creation
+- Use proper middleware types in test files to maintain type safety
+- Handle nullable user types in test files
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default

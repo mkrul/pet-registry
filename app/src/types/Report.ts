@@ -58,8 +58,8 @@ export interface ReportPropsForm {
   country: string | null;
   latitude: number | null;
   longitude: number | null;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ReportsContainerProps {

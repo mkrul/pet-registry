@@ -130,3 +130,8 @@ describe("PrivateRoute", () => {
     });
   });
 });
+
+const mockUser = {
+  id: number;
+  email: string;
+} | null;

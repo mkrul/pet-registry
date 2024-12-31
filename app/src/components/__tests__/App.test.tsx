@@ -9,6 +9,7 @@ import App from "../../App";
 import { NotificationType } from "../../types/common/Notification";
 import { setUser, clearUser } from "../../redux/features/auth/authSlice";
 import { act } from "react-dom/test-utils";
+import { AnyAction, Middleware } from "redux";
 
 // Mock the auth API slice
 vi.mock("../../redux/features/auth/authApiSlice", () => ({
