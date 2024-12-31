@@ -44,22 +44,20 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       {/* Pass `query` and `page` as query parameters */}
       <Link to={reportUrl} className="block">
-        <div className="p-4 bg-white rounded-lg xs:flex flex-col xs:flex-row w-full">
-          <div className="flex-shrink-0 relative xs:w-48 w-full mb-4 xs:mb-0">
+        <div className="p-4 bg-white rounded-lg sm:flex w-full">
+          <div className="flex-shrink-0 relative w-full sm:w-48 h-72 sm:h-48 mb-4 sm:mb-0">
             {imageIsLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
                 <Spinner />
               </div>
             )}
             <div
-              className={`relative w-full h-full ${
-                report.updatedLastThreeDays ? "ring-4 ring-green-500 rounded-lg" : ""
-              }`}
+              className={`relative w-full h-72 sm:h-48 ${report.updatedLastThreeDays ? "ring-4 ring-green-500 rounded-lg" : ""}`}
             >
               <img
                 src={imageSrc}
                 alt={report.title}
-                className={`w-full h-full object-cover rounded-lg ${imageIsLoading ? "hidden" : "block"}`}
+                className={`w-full h-72 sm:h-48 object-cover rounded-lg ${imageIsLoading ? "hidden" : "block"}`}
                 onLoad={handleImageLoad}
                 onError={handleImageError}
               />
@@ -88,7 +86,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               )}
             </div>
           </div>
-          <div className="flex flex-col xs:ml-4 flex-grow">
+          <div className="flex flex-col sm:ml-4 flex-grow">
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
@@ -96,7 +94,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
             <div className="border-t border-gray-200 mt-3 pt-3">
               <div className="text-gray-500 text-md">
                 {report.description.length > 100
-                  ? `${report.description.substring(0, 100)}...`
+                  ? `${report.description.substring(0, 160)}...`
                   : report.description}
               </div>
             </div>

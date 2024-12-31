@@ -178,6 +178,9 @@
 - Enhanced report card divider visibility for clearer content separation
 - Added responsive layout for report cards on mobile screens (<480px)
 - Optimized image display for mobile viewing with adjusted height and full width
+- Fixed report card image dimensions to maintain consistent sizing across viewport changes
+- Enhanced report card responsive layout for small screens (<640px)
+- Adjusted report card image height to 18rem for small screens while maintaining desktop layout
 
 ## Map Component Updates
 - Fixed map initialization to properly use provided coordinates

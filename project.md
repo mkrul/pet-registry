@@ -91,3 +91,6 @@
 - Use appropriate border colors (gray-200 vs gray-100) to achieve desired visual separation
 - Use mobile-first design principles with breakpoint-based modifications for larger screens
 - Maintain consistent visual hierarchy across different screen sizes while adapting layouts
+- Use fixed height values instead of responsive heights when consistent image sizing is required
+- Use appropriate breakpoint prefixes (sm: vs xs:) based on specific layout requirements
+- Use specific height values for different breakpoints to maintain intended design across screen sizes
