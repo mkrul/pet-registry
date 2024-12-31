@@ -25,6 +25,7 @@
 - Fixed field name convention mismatch in form submissions
 - Updated ReportViewMode component to display title as h2 heading
 - Fixed BreedSearch size in IdentificationFields to match edit mode sizing
+- Added colons to field labels in ReportEditMode
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -56,3 +57,5 @@
 - Using semantic HTML elements like h2 for titles improves accessibility and visual hierarchy
 - Removing redundant labels can make the UI cleaner and more intuitive
 - When using size props, ensure consistent values are used across all instances of a component to maintain UI consistency
+- Consistent punctuation in labels helps improve readability and visual hierarchy
+- Maintain consistent label styling between view and edit modes for better user experience

@@ -160,3 +160,5 @@
 
 ## UI Updates
 - Report view mode now displays the title as a heading (h2) without a label for better visual hierarchy
+- Added colons to field labels in ReportViewMode for improved readability and consistency
+- Added colons to field labels in ReportEditMode to match ReportViewMode styling

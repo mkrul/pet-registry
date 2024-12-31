@@ -54,25 +54,25 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
 
       {/* Description */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Description</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
         <p className="text-gray-500 whitespace-pre-wrap">{report.description}</p>
       </div>
 
       {/* Name */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Name</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Name:</label>
         <p className="text-md text-gray-500 mb-4">{report.name || "Unknown"}</p>
       </div>
 
       {/* Species */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Species</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Species:</label>
         <p className="text-md text-gray-500 mb-4">{report.species}</p>
       </div>
 
       {/* Breeds */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Breed(s)</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Breed(s):</label>
         <div className="space-y-1">
           <p className="text-md text-gray-500">{report.breed1}</p>
           {report.breed2 && <p className="text-md text-gray-500">{report.breed2}</p>}
@@ -81,19 +81,19 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
 
       {/* Gender */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Gender</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>
         <p className="text-md text-gray-500 mb-4">{report.gender || "Unknown"}</p>
       </div>
 
       {/* Microchip ID */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID:</label>
         <p className="text-md text-gray-500 mb-4">{report.microchipId || "Unknown"}</p>
       </div>
 
       {/* Colors */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Colors</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>
         <div className="space-y-1">
           <p className="text-md text-gray-500">{report.color1}</p>
           {report.color2 && <p className="text-md text-gray-500">{report.color2}</p>}
@@ -103,7 +103,7 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
 
       {/* Location */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-4">Location</label>
+        <label className="text-lg font-medium text-gray-900 mb-4">Location:</label>
         <p className="text-gray-500 mt-2">
           {[report.area, report.state, report.country].filter(Boolean).join(", ")}
         </p>
@@ -123,11 +123,11 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
       <div className="space-y-2">
         <div className="flex gap-8">
           <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Posted at</label>
+            <label className="text-lg font-medium text-gray-900 mb-2">Posted at:</label>
             <p className="text-md text-gray-500 mb-4">{formatDate(report.createdAt)}</p>
           </div>
           <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Updated at</label>
+            <label className="text-lg font-medium text-gray-900 mb-2">Updated at:</label>
             <p className="text-md text-gray-500 mb-4">{formatDate(report.updatedAt)}</p>
           </div>
         </div>

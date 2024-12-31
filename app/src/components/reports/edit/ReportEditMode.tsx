@@ -82,7 +82,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Title */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Title</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Title:</label>
         <TextField
           name="title"
           value={formData.title || ""}
@@ -97,7 +97,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Image */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Photo</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
         <div className="mt-1">
           <Button
             component="label"
@@ -132,7 +132,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Description */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Description</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
         <TextField
           name="description"
           value={formData.description || ""}
@@ -149,7 +149,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Name */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Name</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Name:</label>
         <TextField
           name="name"
           value={formData.name || ""}
@@ -164,7 +164,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Species */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Species</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Species:</label>
         <FormControl fullWidth>
           <Select
             name="species"
@@ -185,7 +185,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Breeds */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Breed(s)</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Breed(s):</label>
         <div className="space-y-3">
           <BreedSearch
             species={formData.species.toLowerCase() as "dog" | "cat"}
@@ -246,7 +246,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Gender */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Gender</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>
         <FormControl fullWidth>
           <Select
             name="gender"
@@ -273,7 +273,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Microchip ID */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID:</label>
         <TextField
           name="microchipId"
           value={formData.microchipId || ""}
@@ -288,7 +288,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Colors */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Colors</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>
         <div className="space-y-3">
           <FormControl fullWidth>
             <Select
@@ -405,7 +405,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Location */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-4">Location</label>
+        <label className="text-lg font-medium text-gray-900 mb-4">Location:</label>
         <p className="text-gray-500 mt-2">
           {[formData.area, formData.state, formData.country].filter(Boolean).join(", ")}
         </p>
@@ -426,11 +426,11 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
       <div className="space-y-2">
         <div className="flex gap-8">
           <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Posted at</label>
+            <label className="text-lg font-medium text-gray-900 mb-2">Posted at:</label>
             <p className="text-md text-gray-500 mb-4">{formatDate(formData.createdAt)}</p>
           </div>
           <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Updated at</label>
+            <label className="text-lg font-medium text-gray-900 mb-2">Updated at:</label>
             <p className="text-md text-gray-500 mb-4">{formatDate(formData.updatedAt)}</p>
           </div>
         </div>
