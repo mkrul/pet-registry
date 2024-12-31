@@ -170,6 +170,10 @@
 - Moved "Updated" badge to overlay report card images for better visual hierarchy
 - Enhanced "Updated" status with green border around image and bottom-right indicator
 - Enhanced "Updated" status visual treatment with thicker border and rounded corners
+- Adjusted "Updated" indicator size and positioning for better visibility and alignment
+- Enhanced "Updated" indicator text weight and size for better readability
+- Refined "Updated" indicator corner radius and font weight for better visual balance
+- Fine-tuned "Updated" indicator padding for better visual alignment with image
 
 ## Map Component Updates
 - Fixed map initialization to properly use provided coordinates

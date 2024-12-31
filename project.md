@@ -83,3 +83,7 @@
 - Avoid duplicate status indicators to maintain clear visual hierarchy
 - Use subtle visual indicators (like borders) combined with text for better status visibility
 - Use appropriate border thickness and rounded corners for better visual emphasis
+- Position status indicators flush with container edges for cleaner visual alignment
+- Use appropriate font weight and size for important status indicators
+- Fine-tune border radius and font weight to achieve optimal visual hierarchy
+- Adjust padding asymmetrically when needed to achieve better visual balance

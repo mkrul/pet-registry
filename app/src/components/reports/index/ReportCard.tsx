@@ -65,7 +65,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               />
               {report.updatedLastThreeDays && (
                 <span
-                  className="absolute bottom-2 right-2 z-10 bg-green-500 text-green-100 text-xs font-medium px-2.5 py-0.5 rounded-sm cursor-pointer dark:bg-green-500 dark:text-green-100"
+                  className="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
                   onMouseEnter={() => setShowTooltip(true)}
                   onMouseLeave={() => setShowTooltip(false)}
                   onFocus={() => setShowTooltip(true)}
