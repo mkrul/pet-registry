@@ -3,11 +3,7 @@ import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { clearUser } from "../../redux/features/auth/authSlice";
 import NavLink from "../common/NavLink";
-
-interface LogoutButtonProps {
-  onCompleted: () => void;
-  className?: string;
-}
+import { LogoutButtonProps } from "../../types/auth/LogoutButton";
 
 const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted, className = "" }) => {
   const dispatch = useAppDispatch();

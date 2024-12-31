@@ -1,18 +1,7 @@
 import React, { useMemo } from "react";
 import { TextField, Autocomplete, FormControl } from "@mui/material";
 import { getBreedsBySpecies } from "../../lib/reports/breedList";
-
-interface BreedSearchProps {
-  species: "dog" | "cat";
-  value: string;
-  onChange: (breed: string) => void;
-  excludeBreeds?: string[];
-  required?: boolean;
-  disabled?: boolean;
-  hideLabel?: boolean;
-  size?: "small" | "medium";
-  disableClearable?: boolean;
-}
+import { BreedSearchProps } from "../../types/common/BreedSearch";
 
 export const BreedSearch: React.FC<BreedSearchProps> = ({
   species,

@@ -1,20 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../../store";
-import { UserProps } from "../../../types/User";
 import { setUser, clearUser } from "./authSlice";
-
-interface AuthResponse {
-  message: string;
-  user: UserProps;
-}
-
-interface SignUpRequest {
-  user: {
-    email: string;
-    password: string;
-    password_confirmation: string;
-  };
-}
+import { AuthResponse, SignUpRequest } from "../../../types/auth/AuthApiSlice";
 
 export const authApiSlice = createApi({
   reducerPath: "authApi",

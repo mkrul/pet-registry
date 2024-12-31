@@ -1,10 +1,5 @@
 import React from "react";
-
-interface LocationDisplayProps {
-  area?: string | null;
-  state?: string | null;
-  country?: string | null;
-}
+import { LocationDisplayProps } from "../../types/common/LocationDisplay";
 
 const LocationDisplay: React.FC<LocationDisplayProps> = ({ area, state, country }) => {
   const locationParts = [area, state, country].filter(Boolean);
