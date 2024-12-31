@@ -176,6 +176,8 @@
 - Fine-tuned "Updated" indicator padding for better visual alignment with image
 - Added subtle visual separation between report card metadata and description
 - Enhanced report card divider visibility for clearer content separation
+- Added responsive layout for report cards on mobile screens (<480px)
+- Optimized image display for mobile viewing with adjusted height and full width
 
 ## Map Component Updates
 - Fixed map initialization to properly use provided coordinates

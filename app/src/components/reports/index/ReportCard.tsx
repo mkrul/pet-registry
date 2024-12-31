@@ -44,8 +44,8 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       {/* Pass `query` and `page` as query parameters */}
       <Link to={reportUrl} className="block">
-        <div className="p-4 bg-white rounded-lg flex w-full">
-          <div className="flex-shrink-0 relative w-48 h-48">
+        <div className="p-4 bg-white rounded-lg xs:flex flex-col xs:flex-row w-full">
+          <div className="flex-shrink-0 relative xs:w-48 w-full mb-4 xs:mb-0">
             {imageIsLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
                 <Spinner />
@@ -88,7 +88,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               )}
             </div>
           </div>
-          <div className="flex flex-col justify-between h-full ml-4 flex-grow">
+          <div className="flex flex-col xs:ml-4 flex-grow">
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>

@@ -89,3 +89,5 @@
 - Adjust padding asymmetrically when needed to achieve better visual balance
 - Use light borders and spacing to create visual hierarchy without adding visual weight
 - Use appropriate border colors (gray-200 vs gray-100) to achieve desired visual separation
+- Use mobile-first design principles with breakpoint-based modifications for larger screens
+- Maintain consistent visual hierarchy across different screen sizes while adapting layouts
