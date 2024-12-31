@@ -156,3 +156,6 @@
 - Maintain backwards compatibility when adding new display options
 - Ensure consistent form control heights across all input types including Autocomplete
 - Use MUI's size="small" prop consistently for form inputs
+
+## UI Updates
+- Report view mode now displays the title as a heading (h2) without a label for better visual hierarchy

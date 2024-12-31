@@ -23,6 +23,7 @@
 - Fixed image handling in report updates
 - Fixed breed and color field handling in form submissions
 - Fixed field name convention mismatch in form submissions
+- Updated ReportViewMode component to display title as h2 heading
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -49,3 +50,7 @@
 - Document and centralize case conversion utilities
 - Add tests for case conversion edge cases
 - Add value type guards for form data processing
+
+## New Learnings
+- Using semantic HTML elements like h2 for titles improves accessibility and visual hierarchy
+- Removing redundant labels can make the UI cleaner and more intuitive

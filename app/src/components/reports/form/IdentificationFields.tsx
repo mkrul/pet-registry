@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  FormControl,
-  TextField,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  Button
-} from "@mui/material";
+import { FormControl, TextField, InputLabel, Select, MenuItem, Button } from "@mui/material";
 import { Species } from "../../../lib/reports/breedList";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";

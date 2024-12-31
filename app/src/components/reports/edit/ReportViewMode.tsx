@@ -37,14 +37,10 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
       </div>
 
       {/* Title */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Title</label>
-        <p className="text-gray-500 whitespace-pre-wrap">{report.title}</p>
-      </div>
+      <h2 className="text-2xl font-semibold text-gray-900">{report.title}</h2>
 
       {/* Image */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Photo</label>
         <div className="mt-1">
           <img
             src={imageSrc}
