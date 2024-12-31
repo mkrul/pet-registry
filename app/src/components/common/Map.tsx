@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Spinner from "./Spinner";
@@ -149,15 +149,21 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
 const Map: React.FC<MapProps> = ({
   onLocationSelect,
   initialLocation,
-  initialZoom = 4,
+  initialZoom = 15,
   readOnly = false
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const defaultCenter: [number, number] = [39.8283, -98.5795]; // Center of US
+
+  const center: [number, number] =
+    initialLocation?.latitude && initialLocation?.longitude
+      ? [initialLocation.latitude, initialLocation.longitude]
+      : defaultCenter;
 
   return (
     <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
       <MapContainer
-        center={[39.8283, -98.5795]}
+        center={center}
         zoom={initialZoom}
         className="h-full w-full"
         whenReady={() => setIsLoading(false)}
@@ -168,6 +174,9 @@ const Map: React.FC<MapProps> = ({
         />
         {!readOnly && (
           <MapEvents onLocationSelect={onLocationSelect} initialLocation={initialLocation} />
+        )}
+        {initialLocation?.latitude && initialLocation?.longitude && (
+          <Marker position={[initialLocation.latitude, initialLocation.longitude]} />
         )}
       </MapContainer>
       {isLoading && (

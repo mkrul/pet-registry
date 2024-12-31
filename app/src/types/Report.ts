@@ -117,7 +117,7 @@ export interface ReportEditModeProps {
   colorOptions: string[];
   getFilteredColorOptions: (excludeColors: string[]) => string[];
   genderOptions: string[];
-  EDIT_ZOOM_LEVEL: number;
+  VIEW_ZOOM_LEVEL: number;
 }
 
 export interface ReportViewModeProps {

@@ -29,6 +29,8 @@
 - Added image loading state and spinner to ReportViewMode
 - Fixed image loading state handling in ReportViewMode
 - Added disabled state styling to form action buttons during submission
+- [x] Fixed map component to properly display report locations
+- [x] Fixed map zoom level consistency between view and edit modes
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -68,3 +70,10 @@
 - When combining local state with prop callbacks, ensure both are properly handled in event handlers
 - Use consistent disabled state styling (opacity and cursor) across all interactive elements
 - Apply disabled state styling to all action buttons during form submission to prevent multiple submissions
+- Always verify map component properly uses provided coordinates
+- Include visual markers for locations on maps
+- Maintain consistent map zoom levels across different view states of the same data
+- When renaming props/variables, ensure to update all usage locations to maintain consistent behavior
+- When renaming props, ensure to update both component usage and type definitions
+- When components have default prop values, ensure they match the expected defaults across all usage contexts
+- Consider different default states for components based on their usage context

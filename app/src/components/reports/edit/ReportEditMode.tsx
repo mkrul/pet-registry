@@ -48,7 +48,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   colorOptions,
   getFilteredColorOptions,
   genderOptions,
-  EDIT_ZOOM_LEVEL
+  VIEW_ZOOM_LEVEL
 }) => {
   return (
     <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
@@ -415,7 +415,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
               latitude: formData.latitude || 0,
               longitude: formData.longitude || 0
             }}
-            initialZoom={EDIT_ZOOM_LEVEL}
+            initialZoom={VIEW_ZOOM_LEVEL}
             readOnly={false}
           />
         </div>

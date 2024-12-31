@@ -166,3 +166,13 @@
 - Added colons to field labels in ReportEditMode to match ReportViewMode styling
 - Added loading spinner while image loads in ReportViewMode for better user feedback
 - Added proper disabled state styling to Save and Cancel buttons during form submission
+
+## Map Component Updates
+- Fixed map initialization to properly use provided coordinates
+- Added marker to show location on map
+- Default center remains at US center coordinates when no location provided
+- Standardized zoom level (15) across view and edit modes for consistent user experience
+- Fixed map zoom level prop name in edit mode to match view mode (VIEW_ZOOM_LEVEL)
+- Fixed zoom level prop type definition in ReportEditModeProps interface
+- Fixed default zoom level in Map component to match view mode (15)
+- Set different default zoom levels for new reports (4) vs existing reports (15)

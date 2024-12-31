@@ -27,7 +27,7 @@ export const useReportEdit = (report: ReportProps) => {
     ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat")
     : [];
   const genderOptions = getGenderOptions();
-  const EDIT_ZOOM_LEVEL = 13;
+  const VIEW_ZOOM_LEVEL = 15;
 
   const handleInputChange = (
     e:
@@ -156,7 +156,7 @@ export const useReportEdit = (report: ReportProps) => {
     breedOptions,
     colorOptions,
     genderOptions,
-    EDIT_ZOOM_LEVEL,
+    VIEW_ZOOM_LEVEL,
     handleInputChange,
     handleFileChange,
     handleImageLoad,

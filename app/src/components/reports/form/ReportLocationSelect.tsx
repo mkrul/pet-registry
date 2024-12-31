@@ -10,6 +10,8 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
     country: string;
   } | null>(null);
 
+  const NEW_REPORT_ZOOM_LEVEL = 4;
+
   const handleLocationSelect = (location: {
     latitude: number;
     longitude: number;
@@ -36,7 +38,11 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
         />
       )}
       <div className="mt-1">
-        <Map onLocationSelect={handleLocationSelect} initialLocation={undefined} initialZoom={13} />
+        <Map
+          onLocationSelect={handleLocationSelect}
+          initialLocation={undefined}
+          initialZoom={NEW_REPORT_ZOOM_LEVEL}
+        />
       </div>
     </div>
   );

@@ -1,11 +1,5 @@
 export interface MapProps {
-  onLocationSelect?: (location: {
-    latitude: number;
-    longitude: number;
-    area: string;
-    state: string;
-    country: string;
-  }) => void;
+  onLocationSelect?: (location: MapLocation) => void;
   initialLocation?: {
     latitude: number | null;
     longitude: number | null;
