@@ -80,6 +80,12 @@
 + Follow MUI's Autocomplete API patterns for consistent behavior
 + Verify field requirements match business rules before marking as required
 + Double-check form field requirements across all form contexts
+- Don't send image data in update requests when image hasn't changed
+- Filter out read-only fields (createdAt, updatedAt) before sending to API
+- Check field types before including in API requests to prevent serialization issues
++ Handle image uploads separately from other form fields
++ Skip serialization of existing image objects in form data
++ Only send image data when a new file is selected
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default

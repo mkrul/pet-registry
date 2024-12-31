@@ -120,7 +120,7 @@ export const useReportEdit = (report: ReportProps) => {
 
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      if (value !== null) {
+      if (value !== null && key !== "image") {
         formDataToSend.append(key, value.toString());
       }
     });

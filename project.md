@@ -17,6 +17,10 @@
 - Fixed size consistency in ReportEditMode breed inputs
 - Added disableClearable prop to BreedSearch for form contexts
 - Fixed Gender field requirement in edit mode to match business rules
+- Fixed report update by excluding unchanged image data
+- Add field filtering utility for API requests
+- Document which fields should be excluded from update requests
+- Fixed image handling in report updates
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -35,3 +39,6 @@
 - Consider creating a shared config for form field props by context
 - Consider creating form context presets for common component configurations
 - Create form field requirement documentation for all contexts
+- Add field filtering utility for API requests
+- Document which fields should be excluded from update requests
+- Add type guards for form field serialization
