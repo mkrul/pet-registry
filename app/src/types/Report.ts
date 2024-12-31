@@ -57,6 +57,8 @@ export interface ReportPropsForm {
   country: string | null;
   latitude: number | null;
   longitude: number | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ReportsContainerProps {
@@ -90,32 +92,29 @@ export interface UpdateReportResponse {
 
 export interface ReportEditModeProps {
   formData: ReportPropsForm;
-  onInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-      | { target: { name: string; value: boolean | null } }
+  handleInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
   ) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSaveChanges: (e: React.FormEvent) => Promise<void>;
+  handleSaveChanges: (e: React.FormEvent) => void;
   handleCancelChanges: () => void;
   isSaving: boolean;
-  imageSrc: string;
-  onImageLoad: () => void;
-  onImageError: () => void;
+  imageSrc: string | null;
+  handleImageLoad: () => void;
+  handleImageError: () => void;
   showBreed2: boolean;
   showColor2: boolean;
   showColor3: boolean;
-  onAddBreed: () => void;
-  onRemoveBreed: () => void;
-  onAddColor: () => void;
-  onRemoveColor: (index: number) => void;
-  onLocationSelect: (location: any) => void;
+  addBreed: () => void;
+  removeBreed: () => void;
+  addColor: () => void;
+  removeColor: (index: number) => void;
+  handleLocationSelect: (location: MapLocation) => void;
   speciesOptions: string[];
   breedOptions: string[];
-  getFilteredBreedOptions: (selectedBreeds: (string | null)[]) => string[];
+  getFilteredBreedOptions: (excludeBreeds: string[]) => string[];
   colorOptions: string[];
-  getFilteredColorOptions: (selectedColors: (string | null)[]) => string[];
+  getFilteredColorOptions: (excludeColors: string[]) => string[];
   genderOptions: string[];
   EDIT_ZOOM_LEVEL: number;
 }

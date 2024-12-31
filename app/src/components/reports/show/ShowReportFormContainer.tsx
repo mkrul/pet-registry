@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ShowReportFormContainerProps } from "../../../types/Report";
-import ReportViewMode from "../form/ReportViewMode";
-import ReportEditMode from "../form/ReportEditMode";
+import ReportViewMode from "../edit/ReportViewMode";
+import ReportEditMode from "../edit/ReportEditMode";
 import Notification from "../../common/Notification";
 import { NotificationState, NotificationType } from "../../../types/common/Notification";
 import { useLocation } from "react-router-dom";

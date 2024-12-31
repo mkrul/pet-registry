@@ -190,11 +190,12 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
           <BreedSearch
             species={formData.species.toLowerCase() as "dog" | "cat"}
             value={formData.breed1}
-            onChange={breed =>
-              handleInputChange({
+            onChange={breed => {
+              const event = {
                 target: { name: "breed1", value: breed }
-              })
-            }
+              } as React.ChangeEvent<HTMLInputElement>;
+              handleInputChange(event);
+            }}
             disabled={isSaving}
             excludeBreeds={formData.breed2 ? [formData.breed2] : []}
             required
@@ -361,13 +362,14 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
                     }
                   }}
                 >
-                  {getFilteredColorOptions([formData.color1, formData.color2]).map(
-                    (color, index) => (
-                      <MenuItem key={`${color}-${index}`} value={color}>
-                        {color}
-                      </MenuItem>
-                    )
-                  )}
+                  {getFilteredColorOptions([
+                    formData.color1,
+                    ...(formData.color2 ? [formData.color2] : [])
+                  ]).map((color, index) => (
+                    <MenuItem key={`${color}-${index}`} value={color}>
+                      {color}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <button
