@@ -21,6 +21,8 @@
 - Add field filtering utility for API requests
 - Document which fields should be excluded from update requests
 - Fixed image handling in report updates
+- Fixed breed and color field handling in form submissions
+- Fixed field name convention mismatch in form submissions
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -42,3 +44,7 @@
 - Add field filtering utility for API requests
 - Document which fields should be excluded from update requests
 - Add type guards for form field serialization
+- Add value normalization utilities for form submissions
+- Add field name normalization utility for API submissions
+- Document and centralize case conversion utilities
+- Add tests for case conversion edge cases

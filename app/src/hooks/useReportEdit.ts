@@ -8,6 +8,7 @@ import { getSpeciesOptions } from "../lib/reports/speciesList";
 import { validateReportForm } from "../components/reports/form/ReportFormValidation";
 import { ReportProps } from "../types/Report";
 import { SelectChangeEvent } from "@mui/material";
+import { transformToSnakeCase } from "../lib/apiHelpers";
 
 export const useReportEdit = (report: ReportProps) => {
   const [formData, setFormData] = useState(report);
@@ -119,7 +120,9 @@ export const useReportEdit = (report: ReportProps) => {
     }
 
     const formDataToSend = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
+    const snakeCaseData = transformToSnakeCase(formData);
+
+    Object.entries(snakeCaseData).forEach(([key, value]) => {
       if (value !== null && key !== "image") {
         formDataToSend.append(key, value.toString());
       }

@@ -86,6 +86,12 @@
 + Handle image uploads separately from other form fields
 + Skip serialization of existing image objects in form data
 + Only send image data when a new file is selected
++ Handle case sensitivity for breed and color fields when submitting form data
++ Ensure form field values are properly normalized before submission
++ Ensure field names match between frontend and Rails API (camelCase vs snake_case)
++ Pay special attention to field name conventions when submitting form data
++ Use existing case conversion utilities consistently across the application
++ Check for existing helper functions before implementing new conversion logic
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default
