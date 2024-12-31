@@ -1,14 +1,7 @@
 import React from "react";
 import Filters from "./Filters";
-import { IFilters } from "../../types/search/Search";
 import { SelectChangeEvent } from "@mui/material";
-
-interface FilterContainerProps {
-  initialFilters: IFilters;
-  onFiltersChange: (filters: IFilters) => void;
-  showFilters: boolean;
-  onReset: () => void;
-}
+import { FilterContainerProps } from "../../types/common/Search";
 
 const FilterContainer: React.FC<FilterContainerProps> = ({
   initialFilters,

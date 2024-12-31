@@ -1,8 +1,8 @@
 import React from "react";
-import { ISearchBar } from "../../types/search/Search";
+import { SearchBarProps } from "../../types/common/Search";
 import SearchButtons from "./SearchButtons";
 
-const SearchBar: React.FC<ISearchBar> = ({
+const SearchBar: React.FC<SearchBarProps> = ({
   searchQuery,
   setSearchQuery,
   onSearch,

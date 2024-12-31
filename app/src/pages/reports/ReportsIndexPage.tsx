@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import SearchContainer from "../../components/search/SearchContainer";
-import ReportsContainer from "../../components/reports/ReportsContainer";
-import { IFilters } from "../../types/search/Search";
+import ReportsContainer from "../../components/reports/index/ReportsContainer";
+import { FiltersProps } from "../../types/common/Search";
 
 const ReportIndexPage = () => {
   const location = useLocation();
@@ -10,7 +10,7 @@ const ReportIndexPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeSearch, setActiveSearch] = useState(searchParams.get("query") || "");
   const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1"));
-  const [activeFilters, setActiveFilters] = useState<IFilters>({
+  const [activeFilters, setActiveFilters] = useState<FiltersProps>({
     species: searchParams.get("species") || "",
     color: searchParams.get("color") || "",
     gender: searchParams.get("gender") || "",
@@ -38,7 +38,7 @@ const ReportIndexPage = () => {
     }
   }, [location.pathname]);
 
-  const handleSearchComplete = (query: string, page: number, filters: IFilters) => {
+  const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
     setActiveSearch(query);
     setActiveFilters(filters);
     setCurrentPage(page);

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { setReports } from "../redux/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../redux/features/reports/reportsApi";
-import { NotificationState, NotificationType } from "../types/Notification";
-import { IFilters } from "../types/search/Search";
+import { NotificationState, NotificationType } from "../types/common/Notification";
+import { FiltersProps } from "../types/common/Search";
 
-export const useReportsData = (query: string, filters: IFilters, page: number) => {
+export const useReportsData = (query: string, filters: FiltersProps, page: number) => {
   const dispatch = useDispatch();
   const reports = useSelector((state: RootState) => state.reports.data);
   const [notification, setNotification] = useState<NotificationState | null>(null);
@@ -14,6 +14,7 @@ export const useReportsData = (query: string, filters: IFilters, page: number) =
   const { data, error, isLoading } = useGetReportsQuery({
     page: page || 1,
     query: query || undefined,
+    items: 10,
     ...filters
   });
 

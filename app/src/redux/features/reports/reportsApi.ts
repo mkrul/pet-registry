@@ -1,42 +1,12 @@
-import { transformToSnakeCase, transformToCamelCase } from "../../../lib/apiHelpers";
+import { transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IReport } from "../../../types/Report";
-import { IImage } from "../../../types/shared/Image";
-import { IReportForm } from "../../../types/Report";
-import { IPagination } from "../../../types/shared/Pagination";
-import { Errors } from "../../../types/ErrorMessages";
-
-interface UpdateReportResponse {
-  message: string;
-  report: IReport;
-}
-
-export interface IPaginationQuery {
-  page: number;
-  items: number;
-  query?: string;
-  species?: string;
-  color?: string;
-  gender?: string;
-  sort?: string;
-  country?: string;
-  state?: string;
-  area?: string;
-  breed?: string;
-}
-
-interface ErrorResponse {
-  data: {
-    message: string;
-  };
-  status: number;
-}
-
-interface SubmitResponse {
-  message: string;
-  report: IReport;
-  id: number;
-}
+import { ReportProps } from "../../../types/Report";
+import { PaginationProps } from "../../../types/common/Pagination";
+import {
+  UpdateReportResponse,
+  PaginationPropsQuery,
+  SubmitResponse
+} from "../../../types/redux/features/reports/ReportsApi";
 
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
@@ -46,14 +16,14 @@ export const reportsApi = createApi({
   }),
   tagTypes: ["Reports"],
   endpoints: build => ({
-    getReport: build.query<IReport, number>({
+    getReport: build.query<ReportProps, number>({
       query: id => `reports/${id}`,
-      transformResponse: (response: IReport) => transformToCamelCase(response),
+      transformResponse: (response: ReportProps) => transformToCamelCase(response),
       providesTags: (result, error, id) => [{ type: "Reports", id: id }],
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.REPORT_LOAD_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -66,7 +36,7 @@ export const reportsApi = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.STATES_FETCH_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -79,16 +49,13 @@ export const reportsApi = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.CITIES_FETCH_FAILED
+          message: response.data?.message
         }
       })
     }),
     getReports: build.query<
-      {
-        data: IReport[];
-        pagination: IPagination;
-      },
-      IPaginationQuery
+      { data: ReportProps[]; pagination: PaginationProps },
+      PaginationPropsQuery
     >({
       query: params => {
         console.log("=== getReports Query Start ===");
@@ -157,7 +124,7 @@ export const reportsApi = createApi({
         console.log("Serialized query args:", serialized);
         return serialized;
       },
-      transformResponse: (response: { data: IReport[]; pagination: IPagination }) => {
+      transformResponse: (response: { data: ReportProps[]; pagination: PaginationProps }) => {
         console.log("=== Transform Response Start ===");
         console.log("Raw API response:", response);
         const reports = response.data.map(report => transformToCamelCase(report));
@@ -172,7 +139,7 @@ export const reportsApi = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.REPORTS_FETCH_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -182,7 +149,7 @@ export const reportsApi = createApi({
         method: "PUT",
         body: data
       }),
-      transformResponse: (response: { message: string; report: IReport }) => ({
+      transformResponse: (response: { message: string; report: ReportProps }) => ({
         message: response.message,
         report: transformToCamelCase(response.report)
       }),
@@ -190,7 +157,7 @@ export const reportsApi = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.REPORT_UPDATE_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -200,7 +167,7 @@ export const reportsApi = createApi({
         method: "POST",
         body: formData
       }),
-      transformResponse: (response: { message: string; id: number } & IReport) => ({
+      transformResponse: (response: { message: string; id: number } & ReportProps) => ({
         message: response.message,
         report: transformToCamelCase(response),
         id: response.id
@@ -209,17 +176,17 @@ export const reportsApi = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.REPORT_SUBMISSION_FAILED
+          message: response.data?.message
         }
       })
     }),
-    getNewReport: build.query<IReport, void>({
+    getNewReport: build.query<ReportProps, void>({
       query: () => "reports/new",
       providesTags: ["Reports"],
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.NEW_REPORT_LOAD_FAILED
+          message: response.data?.message
         }
       })
     }),
@@ -232,7 +199,7 @@ export const reportsApi = createApi({
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
-          message: response.data?.message || Errors.BREEDS_FETCH_FAILED
+          message: response.data?.message
         }
       })
     })

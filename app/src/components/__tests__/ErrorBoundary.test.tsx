@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from "vitest";
 import { render, screen, fireEvent, act } from "@testing-library/react";
-import ErrorBoundary from "../common/ErrorBoundary";
+import ErrorBoundary from "../main/ErrorBoundary";
 
 // Mock Notification component
 vi.mock("../shared/Notification", () => ({

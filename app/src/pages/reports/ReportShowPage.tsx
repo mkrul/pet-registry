@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../redux/features/reports/reportsApi";
-import ShowReportFormContainer from "../../components/reports/ShowReportFormContainer";
-import Spinner from "../../components/shared/Spinner";
-import { NotificationState, NotificationType } from "../../types/Notification";
-import Notification from "../../components/shared/Notification";
-import { Errors } from "../../types/ErrorMessages";
+import ShowReportFormContainer from "../../components/reports/show/ShowReportFormContainer";
+import Spinner from "../../components/common/Spinner";
+import { NotificationState, NotificationType } from "../../types/common/Notification";
 
 const ReportShowPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +21,7 @@ const ReportShowPage: React.FC = () => {
       const apiError = error as { data: { message: string } };
       setNotification({
         type: NotificationType.ERROR,
-        message: apiError.data.message || Errors.REPORT_LOAD_FAILED
+        message: apiError.data.message
       });
     }
   }, [error]);

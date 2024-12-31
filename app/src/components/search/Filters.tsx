@@ -1,21 +1,14 @@
 import React from "react";
-import { TextField, MenuItem, Select, FormControl } from "@mui/material";
-import { SelectChangeEvent } from "@mui/material";
-import { IFilters } from "../../types/search/Search";
-import BreedSelect from "../reports/BreedSelect";
-import LocationSelect from "../filters/LocationSelect";
+import { MenuItem, Select, FormControl } from "@mui/material";
+import BreedSearch from "../common/BreedSearch";
+import LocationFilter from "../search/LocationFilter";
 import speciesListJson from "../../../../config/species.json";
 import colorListJson from "../../../../config/colors.json";
 import sortOptionsJson from "../../../../config/sort_options.json";
-import { Species } from "../../lib/reports/breedLists";
+import { Species } from "../../lib/reports/breedList";
+import { FiltersHandlerProps } from "../../types/common/Search";
 
-interface IFiltersProps {
-  filters: IFilters;
-  handleFilterChange: (e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>) => void;
-  onReset: () => void;
-}
-
-const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset }) => {
+const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, onReset }) => {
   const selectStyles = {
     height: "40px",
     backgroundColor: "white !important",
@@ -37,7 +30,6 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
             onChange={handleFilterChange}
             displayEmpty
             sx={selectStyles}
-            displayEmpty
             renderValue={selected => selected || "Species"}
           >
             {speciesListJson.options.map((species, index) => (
@@ -48,7 +40,7 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
           </Select>
         </FormControl>
 
-        <BreedSelect
+        <BreedSearch
           species={filters.species as Species | ""}
           value={filters.breed}
           onChange={(value: string) =>
@@ -101,7 +93,7 @@ const Filters: React.FC<IFiltersProps> = ({ filters, handleFilterChange, onReset
           </Select>
         </FormControl>
 
-        <LocationSelect
+        <LocationFilter
           country={filters.country}
           state={filters.state}
           area={filters.area}

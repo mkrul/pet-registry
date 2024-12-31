@@ -104,9 +104,9 @@
 - Improved user experience by showing validation errors before API calls
 - Updated form validation to handle existing images in EditReportForm
 - Fixed "Image is required" validation error when editing reports with existing images
-- Fixed type compatibility between IReport and IReportForm interfaces
-- Updated name field in IReportForm to match IReport definition
-- Updated gender field in IReportForm to match IReport's nullable type definition
+- Fixed type compatibility between ReportProps and ReportPropsForm interfaces
+- Updated name field in ReportPropsForm to match ReportProps definition
+- Updated gender field in ReportPropsForm to match ReportProps's nullable type definition
 - Fixed gender field type compatibility in IdentificationFields component
 - Created separate ViewMode and EditMode components for report forms
 - Extracted form action logic into useReportEdit hook

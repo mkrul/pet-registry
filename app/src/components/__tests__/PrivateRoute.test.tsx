@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import PrivateRoute from "../common/PrivateRoute";
+import PrivateRoute from "../main/PrivateRoute";
 import { authApiSlice, useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
 import authReducer from "../../redux/features/auth/authSlice";
 import { QueryStatus } from "@reduxjs/toolkit/query";

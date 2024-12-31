@@ -8,7 +8,7 @@ import { authApiSlice } from "../../redux/features/auth/authApiSlice";
 import authReducer from "../../redux/features/auth/authSlice";
 import reportsApi from "../../redux/features/reports/reportsApi";
 import reportsReducer from "../../redux/features/reports/reportsSlice";
-import AppRouter from "../common/AppRouter";
+import AppRouter from "../main/AppRouter";
 
 // Mock window.scrollTo
 window.scrollTo = vi.fn();

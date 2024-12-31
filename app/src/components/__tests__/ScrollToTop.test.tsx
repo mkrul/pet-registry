@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import React from "react";
 import { render } from "@testing-library/react";
-import ScrollToTop from "../common/ScrollToTop";
+import ScrollToTop from "../main/ScrollToTop";
 import { useLocation } from "react-router-dom";
 
 // Mock window.scrollTo

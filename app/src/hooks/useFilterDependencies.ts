@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { IFilters } from "../types/search/Search";
+import { FiltersProps } from "../types/common/Search";
 import { SelectChangeEvent } from "@mui/material";
 
-const defaultFilters: IFilters = {
+const defaultFilters: FiltersProps = {
   species: "",
   breed: "",
   color: "",
@@ -14,8 +14,8 @@ const defaultFilters: IFilters = {
 };
 
 export const useFilterDependencies = (
-  initialFilters: IFilters,
-  onChange: (filters: IFilters) => void
+  initialFilters: FiltersProps,
+  onChange: (filters: FiltersProps) => void
 ) => {
   const [filters, setFilters] = useState(initialFilters);
 

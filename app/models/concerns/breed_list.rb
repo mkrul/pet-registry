@@ -8,7 +8,7 @@ module BreedList
         file_content = File.read(json_path)
         BREEDS = JSON.parse(file_content).freeze
       else
-        possible_paths = Dir.glob(Rails.root.join('**/*breedLists.json'))
+        possible_paths = Dir.glob(Rails.root.join('**/*breedList.json'))
         Rails.logger.error "Could not find breeds.json at #{json_path}"
         Rails.logger.error "Found possible breed list files at: #{possible_paths}"
         BREEDS = {'dog' => [], 'cat' => []}.freeze

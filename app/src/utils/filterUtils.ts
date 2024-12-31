@@ -1,6 +1,6 @@
-import { IFilters } from "../types/search/Search";
+import { FiltersProps } from "../types/common/Search";
 
-export const getInitialFilters = (searchParams: URLSearchParams): IFilters => ({
+export const getInitialFilters = (searchParams: URLSearchParams): FiltersProps => ({
   species: searchParams.get("species") || "",
   color: searchParams.get("color") || "",
   gender: searchParams.get("gender") || "",
@@ -11,7 +11,7 @@ export const getInitialFilters = (searchParams: URLSearchParams): IFilters => ({
   breed: searchParams.get("breed") || ""
 });
 
-export const getDefaultFilters = (): IFilters => ({
+export const getDefaultFilters = (): FiltersProps => ({
   species: "",
   color: "",
   gender: "",
@@ -22,7 +22,7 @@ export const getDefaultFilters = (): IFilters => ({
   breed: ""
 });
 
-export const updateSearchParams = (query: string, filters: IFilters) => {
+export const updateSearchParams = (query: string, filters: FiltersProps) => {
   const newParams = new URLSearchParams();
   if (query) newParams.set("query", query);
   Object.entries(filters).forEach(([key, value]) => {

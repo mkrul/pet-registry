@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IReport } from "../../../types/Report";
-import { IReportsState } from "../../../types/Report";
+import { ReportProps } from "../../../types/Report";
+import { ReportPropsState } from "../../../types/Report";
 
-const initialState: IReportsState = {
+const initialState: ReportPropsState = {
   data: [],
   query: ""
 };
@@ -14,7 +14,7 @@ const reportsSlice = createSlice({
     setSearchQuery(state, action: PayloadAction<string>) {
       state.query = action.payload;
     },
-    setReports(state, action: PayloadAction<IReport[]>) {
+    setReports(state, action: PayloadAction<ReportProps[]>) {
       state.data = action.payload;
     }
   }

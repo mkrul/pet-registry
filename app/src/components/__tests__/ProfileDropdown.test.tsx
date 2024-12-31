@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import { MemoryRouter, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import ProfileDropdown from "../common/ProfileDropdown";
+import ProfileDropdown from "../main/ProfileDropdown";
 import { authApiSlice } from "../../redux/features/auth/authApiSlice";
 import authReducer from "../../redux/features/auth/authSlice";
 

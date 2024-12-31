@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { SelectChangeEvent } from "@mui/material";
-import { IReportForm } from "../types/Report";
-import { Species } from "../lib/reports/breedLists";
+import { ReportPropsForm } from "../types/Report";
+import { Species } from "../lib/reports/breedList";
 
-export const useReportForm = (initialData?: Partial<IReportForm>) => {
-  const [formData, setFormData] = useState<IReportForm>({
+export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
+  const [formData, setFormData] = useState<ReportPropsForm>({
     title: "",
     description: "",
     name: "",

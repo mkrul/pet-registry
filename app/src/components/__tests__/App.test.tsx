@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "../../redux/store";
 import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
 import App from "../../App";
-import { NotificationType } from "../../types/Notification";
+import { NotificationType } from "../../types/common/Notification";
 import { setUser, clearUser } from "../../redux/features/auth/authSlice";
 import { act } from "react-dom/test-utils";
 

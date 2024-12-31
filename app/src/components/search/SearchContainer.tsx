@@ -2,18 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import FilterContainer from "./FilterContainer";
-import { IFilters } from "../../types/search/Search";
+import { FiltersProps, SearchContainerProps } from "../../types/common/Search";
 import { getInitialFilters, getDefaultFilters, updateSearchParams } from "../../utils/filterUtils";
-
-interface SearchContainerProps {
-  onSearchComplete: (query: string, page: number, filters: IFilters) => void;
-}
 
 const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState<IFilters>(getInitialFilters(searchParams));
+  const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
 
   useEffect(() => {
     const queryParam = searchParams.get("query") || "";

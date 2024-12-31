@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../../redux/features/auth/authApiSlice";
-import Notification from "../../components/shared/Notification";
-import { NotificationState, NotificationType } from "../../types/shared/Notification";
+import Notification from "../../components/common/Notification";
+import { NotificationState, NotificationType } from "../../types/common/Notification";
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/authSlice";
-import { NotificationType, NotificationState } from "../../types/shared/Notification";
-import Notification from "../../components/shared/Notification";
+import { NotificationType, NotificationState } from "../../types/common/Notification";
+import Notification from "../../components/common/Notification";
 import { navigateToHome } from "../../utils/navigation";
 
 const LoginPage: React.FC = () => {

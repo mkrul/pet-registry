@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useGetCurrentUserQuery } from "./redux/features/auth/authApiSlice";
-import AppRouter from "./components/common/AppRouter";
+import AppRouter from "./components/main/AppRouter";
 import { useAppDispatch } from "./redux/hooks";
 import { setUser, clearUser } from "./redux/features/auth/authSlice";
-import Spinner from "./components/shared/Spinner";
-import Notification from "./components/shared/Notification";
-import { NotificationState, NotificationType } from "./types/Notification";
+import Spinner from "./components/common/Spinner";
+import Notification from "./components/common/Notification";
+import { NotificationState, NotificationType } from "./types/common/Notification";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();

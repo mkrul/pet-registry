@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../../store";
-import { IUser } from "../../../types/User";
+import { UserProps } from "../../../types/User";
 import { setUser, clearUser } from "./authSlice";
 
 interface AuthResponse {
   message: string;
-  user: IUser;
+  user: UserProps;
 }
 
 interface SignUpRequest {

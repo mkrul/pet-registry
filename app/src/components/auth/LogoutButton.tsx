@@ -2,7 +2,7 @@ import React from "react";
 import { useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { clearUser } from "../../redux/features/auth/authSlice";
-import NavLink from "../shared/NavLink";
+import NavLink from "../common/NavLink";
 
 interface LogoutButtonProps {
   onCompleted: () => void;

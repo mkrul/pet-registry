@@ -1,7 +1,7 @@
 import React from "react";
-import { ISearchButtons } from "../../types/search/Search";
+import { SearchButtonProps } from "../../types/common/Search";
 
-const SearchButtons: React.FC<ISearchButtons> = ({
+const SearchButtons: React.FC<SearchButtonProps> = ({
   onSearch,
   onReset,
   showFilters,

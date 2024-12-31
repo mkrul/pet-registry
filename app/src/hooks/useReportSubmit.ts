@@ -1,14 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { NotificationType } from "../types/Notification";
-import { IReportForm } from "../types/Report";
-
-interface UseReportSubmitProps {
-  submitReport: (data: FormData) => Promise<{ report?: any; message?: string }>;
-  showBreed2: boolean;
-  showColor2: boolean;
-  showColor3: boolean;
-}
+import { NotificationType } from "../types/common/Notification";
+import { ReportPropsForm } from "../types/Report";
+import { UseReportSubmitProps } from "../types/hooks/Report";
 
 export const useReportSubmit = ({
   submitReport,
@@ -22,7 +16,7 @@ export const useReportSubmit = ({
     message: string;
   } | null>(null);
 
-  const prepareFormData = (formData: IReportForm, selectedImage: File | null) => {
+  const prepareFormData = (formData: ReportPropsForm, selectedImage: File | null) => {
     const formDataToSend = new FormData();
     const data = {
       title: formData.title,
@@ -56,7 +50,7 @@ export const useReportSubmit = ({
     return formDataToSend;
   };
 
-  const handleSubmit = async (formData: IReportForm, selectedImage: File | null) => {
+  const handleSubmit = async (formData: ReportPropsForm, selectedImage: File | null) => {
     setNotification(null);
     const formDataToSend = prepareFormData(formData, selectedImage);
 
