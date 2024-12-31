@@ -1,4 +1,4 @@
-import { ReportPropsForm } from "../../../types/Report";
+import { ReportPropsForm } from "../../types/Report";
 
 export const validateReportForm = (formData: ReportPropsForm, selectedImage: File | null) => {
   if (!formData.title?.trim()) {

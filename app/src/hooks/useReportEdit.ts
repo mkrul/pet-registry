@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useUpdateReportMutation } from "../redux/features/reports/reportsApi";
-import { NotificationType } from "../types/common/Notification";
 import { getColorOptions } from "../lib/reports/colorList";
 import { getBreedsBySpecies } from "../lib/reports/breedList";
 import { getGenderOptions } from "../lib/reports/genderList";
 import { getSpeciesOptions } from "../lib/reports/speciesList";
-import { validateReportForm } from "../components/reports/form/ReportFormValidation";
+import { validateReportForm } from "../services/validation/ReportFormValidation";
 import { ReportProps } from "../types/Report";
-import { SelectChangeEvent } from "@mui/material";
 import { transformToSnakeCase } from "../lib/apiHelpers";
 
 export const useReportEdit = (report: ReportProps) => {
