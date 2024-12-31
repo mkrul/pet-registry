@@ -87,3 +87,5 @@
 - Use appropriate font weight and size for important status indicators
 - Fine-tune border radius and font weight to achieve optimal visual hierarchy
 - Adjust padding asymmetrically when needed to achieve better visual balance
+- Use light borders and spacing to create visual hierarchy without adding visual weight
+- Use appropriate border colors (gray-200 vs gray-100) to achieve desired visual separation

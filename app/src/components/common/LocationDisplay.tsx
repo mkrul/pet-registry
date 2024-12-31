@@ -13,7 +13,7 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({ area, state, country 
     return null;
   }
 
-  return <p className="text-gray-500 mt-2 mb-4">{locationParts.join(", ")}</p>;
+  return <p className="text-gray-500 mt-2">{locationParts.join(", ")}</p>;
 };
 
 export default LocationDisplay;

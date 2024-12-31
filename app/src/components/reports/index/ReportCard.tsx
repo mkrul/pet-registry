@@ -73,7 +73,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                   tabIndex={0}
                   aria-describedby={`tooltip-${report.id}`}
                 >
-                  Updated
+                  UPDATED
                   {showTooltip && (
                     <div
                       id={`tooltip-${report.id}`}
@@ -92,12 +92,14 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
-            <div className="text-gray-500 text-md mt-2">
-              {report.description.length > 100
-                ? `${report.description.substring(0, 100)}...`
-                : report.description}
-            </div>
             <LocationDisplay area={report.area} state={report.state} country={report.country} />
+            <div className="border-t border-gray-200 mt-3 pt-3">
+              <div className="text-gray-500 text-md">
+                {report.description.length > 100
+                  ? `${report.description.substring(0, 100)}...`
+                  : report.description}
+              </div>
+            </div>
           </div>
         </div>
       </Link>
