@@ -36,6 +36,37 @@ export const useReportEdit = (report: ReportProps) => {
       | { target: { name: string; value: boolean | null | string } }
   ) => {
     const { name, value } = e.target;
+
+    // Special handling for color fields to ensure state is properly updated
+    if (name.startsWith("color")) {
+      setFormData(prev => {
+        const newFormData = { ...prev };
+
+        // If changing to a value that exists in another color field, clear that field
+        if (value) {
+          if (name === "color1") {
+            if (value === prev.color2) {
+              newFormData.color2 = null;
+              setShowColor2(false);
+            }
+            if (value === prev.color3) {
+              newFormData.color3 = null;
+              setShowColor3(false);
+            }
+          } else if (name === "color2") {
+            if (value === prev.color3) {
+              newFormData.color3 = null;
+              setShowColor3(false);
+            }
+          }
+        }
+
+        newFormData[name] = value;
+        return newFormData;
+      });
+      return;
+    }
+
     setFormData(prev => ({
       ...prev,
       [name]: value

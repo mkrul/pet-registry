@@ -32,6 +32,8 @@
 - [x] Fixed map component to properly display report locations
 - [x] Fixed map zoom level consistency between view and edit modes
 - [x] Added LocationDisplay component to report cards
+- [x] Fixed color field handling to prevent duplicate values across all color inputs
+- [x] Implemented hierarchical color field validation (color1 > color2 > color3)
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -58,6 +60,14 @@
 - Document and centralize case conversion utilities
 - Add tests for case conversion edge cases
 - Add value type guards for form data processing
+
+## Technical Debt Addressed
+- Improved color field validation to handle all possible duplicate scenarios
+- Enhanced form field dependency handling to maintain data integrity
+- Fixed color field state management to properly clear duplicate values
+- Improved form field visibility handling when clearing values
+- Fixed form state management to properly handle color field dependencies
+- Improved state update logic to prevent duplicate color values
 
 ## New Learnings
 - Using semantic HTML elements like h2 for titles improves accessibility and visual hierarchy
@@ -94,3 +104,11 @@
 - Use fixed height values instead of responsive heights when consistent image sizing is required
 - Use appropriate breakpoint prefixes (sm: vs xs:) based on specific layout requirements
 - Use specific height values for different breakpoints to maintain intended design across screen sizes
+- Handle form field dependencies based on field hierarchy
+- Clear conflicting values based on field priority
+- Implement clear field hierarchies when handling form field dependencies
+- Handle all possible duplicate scenarios to maintain data consistency
+- Manage both value and visibility state when handling form field dependencies
+- Clear all related states when removing form field values
+- Use functional state updates when new state depends on previous state
+- Handle dependent field updates atomically to maintain data consistency

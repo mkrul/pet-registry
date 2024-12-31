@@ -39,6 +39,42 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
     }
   };
 
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+
+    if (value) {
+      if (name === "color1") {
+        // First clear any duplicates
+        if (value === formData.color2) {
+          onInputChange({ target: { name: "color2", value: null } });
+          onShowColor2Change(false); // Also hide the field
+        }
+        if (value === formData.color3) {
+          onInputChange({ target: { name: "color3", value: null } });
+          onShowColor3Change(false); // Also hide the field
+        }
+        // Then update color1
+        onInputChange(e);
+      } else if (name === "color2") {
+        if (value === formData.color1) {
+          return; // Don't allow color2 to match color1
+        }
+        if (value === formData.color3) {
+          onInputChange({ target: { name: "color3", value: null } });
+          onShowColor3Change(false); // Also hide the field
+        }
+        onInputChange(e);
+      } else if (name === "color3") {
+        if (value === formData.color1 || value === formData.color2) {
+          return; // Don't allow color3 to match color1 or color2
+        }
+        onInputChange(e);
+      }
+    } else {
+      onInputChange(e);
+    }
+  };
+
   return (
     <>
       <FormControl fullWidth>
@@ -48,7 +84,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           id="color1"
           name="color1"
           value={formData.color1}
-          onChange={onInputChange}
+          onChange={handleInputChange}
           label="Color 1"
           sx={commonSelectStyles}
           MenuProps={menuProps}
@@ -82,7 +118,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
               id="color2"
               name="color2"
               value={formData.color2 || ""}
-              onChange={onInputChange}
+              onChange={handleInputChange}
               label="Color 2"
               sx={commonSelectStyles}
               MenuProps={menuProps}
@@ -127,7 +163,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
               id="color3"
               name="color3"
               value={formData.color3 || ""}
-              onChange={onInputChange}
+              onChange={handleInputChange}
               label="Color 3"
               sx={commonSelectStyles}
               MenuProps={menuProps}

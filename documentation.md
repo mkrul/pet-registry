@@ -94,6 +94,18 @@
 + Check for existing helper functions before implementing new conversion logic
 + Check for both null and undefined when handling form data values
 + Use strict null checks when converting form values to strings
++ When handling dependent form fields, check all possible conflicts before updating values
++ Clear conflicting values immediately to maintain data integrity
++ Consider the hierarchy of form fields when handling conflicts (primary fields take precedence)
++ When handling form field dependencies, maintain a clear hierarchy (color1 > color2 > color3)
++ Handle all possible duplicate scenarios by checking against all other fields
++ Clear dependent fields immediately when a duplicate value is detected
++ When clearing form fields, ensure both the value and visibility states are updated
++ Handle state updates in the correct order: clear conflicting fields before setting new values
++ Consider visibility state when handling form field dependencies
++ Handle form state updates atomically to prevent inconsistent states
++ Use functional state updates to ensure state changes are based on latest values
++ Clear dependent field values in the same state update to maintain consistency
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default
