@@ -123,7 +123,7 @@ export const useReportEdit = (report: ReportProps) => {
     const snakeCaseData = transformToSnakeCase(formData);
 
     Object.entries(snakeCaseData).forEach(([key, value]) => {
-      if (value !== null && key !== "image") {
+      if (value !== null && value !== undefined && key !== "image") {
         formDataToSend.append(key, value.toString());
       }
     });

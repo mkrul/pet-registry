@@ -92,6 +92,8 @@
 + Pay special attention to field name conventions when submitting form data
 + Use existing case conversion utilities consistently across the application
 + Check for existing helper functions before implementing new conversion logic
++ Check for both null and undefined when handling form data values
++ Use strict null checks when converting form values to strings
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default

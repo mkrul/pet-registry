@@ -48,3 +48,4 @@
 - Add field name normalization utility for API submissions
 - Document and centralize case conversion utilities
 - Add tests for case conversion edge cases
+- Add value type guards for form data processing
