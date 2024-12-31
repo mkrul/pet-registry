@@ -6,11 +6,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import PrivateRoute from "../main/PrivateRoute";
 import { authApiSlice, useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
 import authReducer from "../../redux/features/auth/authSlice";
-import { QueryStatus } from "@reduxjs/toolkit/query";
 
 const ProtectedComponent = () => <div data-testid="protected">Protected Content</div>;
 const LoginPage = () => <div data-testid="login">Login Page</div>;
-const Spinner = () => <div data-testid="spinner">Loading...</div>;
+
+type MockUser = {
+  id: number;
+  email: string;
+} | null;
 
 vi.mock("../shared/Spinner", () => ({
   default: () => <div data-testid="spinner">Loading...</div>
@@ -28,7 +31,7 @@ vi.mock("../../redux/features/auth/authApiSlice", () => {
   };
 });
 
-const getStore = (initialState = { auth: { user: null } }) =>
+const getStore = (initialState: { auth: { user: MockUser } } = { auth: { user: null } }) =>
   configureStore({
     reducer: {
       auth: authReducer,
@@ -130,8 +133,3 @@ describe("PrivateRoute", () => {
     });
   });
 });
-
-const mockUser = {
-  id: number;
-  email: string;
-} | null;
