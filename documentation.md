@@ -168,6 +168,8 @@
 - Added proper disabled state styling to Save and Cancel buttons during form submission
 - Added location display to report cards for better geographical context
 - Moved "Updated" badge to overlay report card images for better visual hierarchy
+- Enhanced "Updated" status with green border around image and bottom-right indicator
+- Enhanced "Updated" status visual treatment with thicker border and rounded corners
 
 ## Map Component Updates
 - Fixed map initialization to properly use provided coordinates

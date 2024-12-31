@@ -51,36 +51,42 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                 <Spinner />
               </div>
             )}
-            {report.updatedLastThreeDays && (
-              <span
-                className="absolute top-2 right-2 z-10 bg-green-300 text-green-900 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-500 dark:text-green-100 cursor-pointer"
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
-                onFocus={() => setShowTooltip(true)}
-                onBlur={() => setShowTooltip(false)}
-                tabIndex={0}
-                aria-describedby={`tooltip-${report.id}`}
-              >
-                Updated
-                {showTooltip && (
-                  <div
-                    id={`tooltip-${report.id}`}
-                    role="tooltip"
-                    className="absolute top-full right-0 mt-2 px-2 py-1 text-xs text-green-800 bg-green-100 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400 shadow-lg z-20"
-                  >
-                    <div>{formattedDate},</div>
-                    <div className="whitespace-nowrap">{formattedTime}</div>
-                  </div>
-                )}
-              </span>
-            )}
-            <img
-              src={imageSrc}
-              alt={report.title}
-              className={`w-full h-full object-cover rounded-lg ${imageIsLoading ? "hidden" : "block"}`}
-              onLoad={handleImageLoad}
-              onError={handleImageError}
-            />
+            <div
+              className={`relative w-full h-full ${
+                report.updatedLastThreeDays ? "ring-4 ring-green-500 rounded-lg" : ""
+              }`}
+            >
+              <img
+                src={imageSrc}
+                alt={report.title}
+                className={`w-full h-full object-cover rounded-lg ${imageIsLoading ? "hidden" : "block"}`}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+              />
+              {report.updatedLastThreeDays && (
+                <span
+                  className="absolute bottom-2 right-2 z-10 bg-green-500 text-green-100 text-xs font-medium px-2.5 py-0.5 rounded-sm cursor-pointer dark:bg-green-500 dark:text-green-100"
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                  onFocus={() => setShowTooltip(true)}
+                  onBlur={() => setShowTooltip(false)}
+                  tabIndex={0}
+                  aria-describedby={`tooltip-${report.id}`}
+                >
+                  Updated
+                  {showTooltip && (
+                    <div
+                      id={`tooltip-${report.id}`}
+                      role="tooltip"
+                      className="absolute bottom-full right-0 mb-2 px-2 py-1 text-xs text-green-800 bg-green-100 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400 shadow-lg z-20"
+                    >
+                      <div>{formattedDate},</div>
+                      <div className="whitespace-nowrap">{formattedTime}</div>
+                    </div>
+                  )}
+                </span>
+              )}
+            </div>
           </div>
           <div className="flex flex-col justify-between h-full ml-4 flex-grow">
             <h2 className="text-xl font-bold">

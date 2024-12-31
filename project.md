@@ -81,3 +81,5 @@
 - Reuse location display components consistently across different views of the same data
 - Use absolute positioning with z-index for overlaying UI elements on images
 - Avoid duplicate status indicators to maintain clear visual hierarchy
+- Use subtle visual indicators (like borders) combined with text for better status visibility
+- Use appropriate border thickness and rounded corners for better visual emphasis
