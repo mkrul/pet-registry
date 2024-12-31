@@ -52,6 +52,16 @@
 + Handle nullable location fields by providing empty string fallbacks in view components
 + Keep navigation logic in the component closest to where it's needed
 + Remove unnecessary component layers when functionality can be handled directly
+- When refactoring complex forms, maintain state in the container component
+- Keep form mode toggle state at container level for better control flow
+- Handle notifications at container level to maintain consistent UX across modes
+- Preserve existing notification patterns when splitting components
+- Maintain consistent error display patterns across form modes
+- Extract complex form state management into custom hooks for better reusability
+- Handle form submission results at the container level for consistent UX
+- Use proper type safety for form submission results
+- Maintain form state in custom hooks to reduce container complexity
+- Keep view/edit mode toggle separate from form state management
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default

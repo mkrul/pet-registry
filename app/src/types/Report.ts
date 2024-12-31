@@ -96,23 +96,37 @@ export interface ReportEditModeProps {
       | SelectChangeEvent
       | { target: { name: string; value: boolean | null } }
   ) => void;
-  onBreedChange: (breed: string) => void;
-  onBreed2Change: (breed: string) => void;
-  onSpeciesChange: (species: Species) => void;
-  onShowBreed2Change: (show: boolean) => void;
-  onShowColor2Change: (show: boolean) => void;
-  onShowColor3Change: (show: boolean) => void;
-  onLocationSelect: (location: any) => void;
-  onImageSelect: (file: File) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSaveChanges: (e: React.FormEvent) => Promise<void>;
+  handleCancelChanges: () => void;
+  isSaving: boolean;
+  imageSrc: string;
+  onImageLoad: () => void;
+  onImageError: () => void;
   showBreed2: boolean;
   showColor2: boolean;
   showColor3: boolean;
-  imagePreview?: string;
-  isLoading: boolean;
+  onAddBreed: () => void;
+  onRemoveBreed: () => void;
+  onAddColor: () => void;
+  onRemoveColor: (index: number) => void;
+  onLocationSelect: (location: any) => void;
+  speciesOptions: string[];
+  breedOptions: string[];
+  getFilteredBreedOptions: (selectedBreeds: (string | null)[]) => string[];
+  colorOptions: string[];
+  getFilteredColorOptions: (selectedColors: (string | null)[]) => string[];
+  genderOptions: string[];
+  EDIT_ZOOM_LEVEL: number;
 }
 
 export interface ReportViewModeProps {
-  formData: ReportPropsForm;
+  report: ReportProps;
+  onEditClick: () => void;
+  onBackClick: () => void;
+  imageSrc: string;
+  handleImageLoad: () => void;
+  handleImageError: () => void;
 }
 
 export interface ShowReportFormContainerProps {
