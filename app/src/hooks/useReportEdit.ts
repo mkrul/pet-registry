@@ -29,20 +29,13 @@ export const useReportEdit = (report: ReportProps) => {
   const genderOptions = getGenderOptions();
   const VIEW_ZOOM_LEVEL = 15;
 
-  const handleInputChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-      | { target: { name: string; value: boolean | null | string } }
-  ) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
 
-    // Special handling for color fields to ensure state is properly updated
     if (name.startsWith("color")) {
       setFormData(prev => {
         const newFormData = { ...prev };
 
-        // If changing to a value that exists in another color field, clear that field
         if (value) {
           if (name === "color1") {
             if (value === prev.color2) {
@@ -61,16 +54,11 @@ export const useReportEdit = (report: ReportProps) => {
           }
         }
 
-        newFormData[name] = value;
+        (newFormData as any)[name] = value;
         return newFormData;
       });
       return;
     }
-
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

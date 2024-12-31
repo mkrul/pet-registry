@@ -111,6 +111,14 @@
 - Make date fields optional in form interfaces when they're not required for creation
 - Use proper middleware types in test files to maintain type safety
 - Handle nullable user types in test files
++ Add null/undefined checks when formatting optional date fields
++ Provide fallback values when handling potentially undefined dates
++ Apply consistent null checks for all optional date fields in form data
++ Use empty string as fallback for undefined date values
++ Use precise type casting to handle custom event types alongside standard events
++ Ensure event handler type definitions match all possible event shapes
++ Use type assertions when working with dynamic object properties in TypeScript
++ Consider using Record type for objects with dynamic string keys
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default

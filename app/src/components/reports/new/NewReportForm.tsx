@@ -104,7 +104,11 @@ const NewReportForm: React.FC = () => {
         formData={formData}
         showColor2={showColor2}
         showColor3={showColor3}
-        onInputChange={handleInputChange as (e: SelectChangeEvent) => void}
+        onInputChange={
+          handleInputChange as (
+            e: SelectChangeEvent | { target: { name: string; value: string | null } }
+          ) => void
+        }
         onShowColor2Change={setShowColor2}
         onShowColor3Change={setShowColor3}
         isLoading={isLoading}

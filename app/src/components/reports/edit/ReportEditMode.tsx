@@ -426,11 +426,15 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         <div className="flex gap-8">
           <div>
             <label className="text-lg font-medium text-gray-900 mb-2">Posted at:</label>
-            <p className="text-md text-gray-500 mb-4">{formatDate(formData.createdAt)}</p>
+            <p className="text-md text-gray-500 mb-4">
+              {formData.createdAt ? formatDate(formData.createdAt) : ""}
+            </p>
           </div>
           <div>
             <label className="text-lg font-medium text-gray-900 mb-2">Updated at:</label>
-            <p className="text-md text-gray-500 mb-4">{formatDate(formData.updatedAt)}</p>
+            <p className="text-md text-gray-500 mb-4">
+              {formData.updatedAt ? formatDate(formData.updatedAt) : ""}
+            </p>
           </div>
         </div>
       </div>
