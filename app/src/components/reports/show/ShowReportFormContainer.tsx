@@ -10,7 +10,6 @@ import { useReportEdit } from "../../../hooks/useReportEdit";
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
-  const location = useLocation();
 
   const {
     formData,

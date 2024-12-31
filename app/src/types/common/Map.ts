@@ -17,7 +17,7 @@ export interface MapProps {
 export interface MapLocation {
   latitude: number;
   longitude: number;
-  area?: string;
-  state?: string;
-  country?: string;
+  area: string;
+  state: string;
+  country: string;
 }
