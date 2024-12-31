@@ -148,6 +148,7 @@
 - Fixed type safety issues with breed selection handling
 - Added hideLabel prop to BreedSearch component for flexible label display
 - Standardized BreedSearch input height to match other form controls
+- Updated BreedSearch size to 'medium' in IdentificationFields to maintain consistent sizing across new and edit forms
 
 ## New Learnings
 - Always ensure component props are properly typed and defaulted

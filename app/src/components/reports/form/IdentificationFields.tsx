@@ -87,7 +87,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         disabled={isLoading}
         excludeBreeds={formData.breed2 ? [formData.breed2] : []}
         required
-        size="small"
+        size="medium"
       />
 
       {!showBreed2 && formData.breed1 && (
@@ -110,7 +110,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             onChange={breed => onBreed2Change(breed)}
             disabled={isLoading}
             excludeBreeds={[formData.breed1]}
-            size="small"
+            size="medium"
           />
           <button
             type="button"
