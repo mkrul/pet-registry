@@ -94,7 +94,10 @@ export interface UpdateReportResponse {
 export interface ReportEditModeProps {
   formData: ReportPropsForm;
   handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent
+      | { target: { name: string; value: string | null } }
   ) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSaveChanges: (e: React.FormEvent) => void;
@@ -146,7 +149,9 @@ export interface ColorFieldsProps {
   formData: ReportPropsForm;
   showColor2: boolean;
   showColor3: boolean;
-  onInputChange: (e: SelectChangeEvent) => void;
+  onInputChange: (
+    e: SelectChangeEvent | { target: { name: string; value: string | null } }
+  ) => void;
   onShowColor2Change: (show: boolean) => void;
   onShowColor3Change: (show: boolean) => void;
   isLoading?: boolean;

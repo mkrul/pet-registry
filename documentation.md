@@ -106,6 +106,8 @@
 + Handle form state updates atomically to prevent inconsistent states
 + Use functional state updates to ensure state changes are based on latest values
 + Clear dependent field values in the same state update to maintain consistency
++ Make secondary form fields nullable in TypeScript interfaces to match business requirements
++ Keep primary fields required while allowing null for optional fields
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default
