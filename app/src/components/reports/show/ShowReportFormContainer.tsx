@@ -22,7 +22,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     breedOptions,
     colorOptions,
     genderOptions,
-    EDIT_ZOOM_LEVEL,
+    VIEW_ZOOM_LEVEL,
     handleInputChange,
     handleFileChange,
     handleImageLoad,
@@ -114,7 +114,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
             colorOptions={colorOptions}
             getFilteredColorOptions={getFilteredColorOptions}
             genderOptions={genderOptions}
-            EDIT_ZOOM_LEVEL={EDIT_ZOOM_LEVEL}
+            VIEW_ZOOM_LEVEL={VIEW_ZOOM_LEVEL}
           />
         ) : (
           <ReportViewMode
