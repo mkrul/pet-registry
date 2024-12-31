@@ -199,6 +199,9 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
             disabled={isSaving}
             excludeBreeds={formData.breed2 ? [formData.breed2] : []}
             required
+            hideLabel
+            size="medium"
+            disableClearable
           />
 
           {showBreed2 ? (
@@ -213,6 +216,9 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
                 }
                 disabled={isSaving}
                 excludeBreeds={[formData.breed1]}
+                size="medium"
+                hideLabel
+                disableClearable
               />
               <button
                 type="button"
@@ -246,7 +252,6 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
             name="gender"
             value={formData.gender || ""}
             onChange={handleInputChange}
-            required
             disabled={isSaving}
             sx={commonInputStyles}
             MenuProps={{

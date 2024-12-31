@@ -13,6 +13,8 @@ import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
 import { IdentificationFieldsProps } from "../../../types/Report";
+import CloseIcon from "@mui/icons-material/Close";
+
 const commonInputStyles = {
   backgroundColor: "white",
   "& .MuiOutlinedInput-root": {
@@ -87,11 +89,13 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       </FormControl>
 
       <BreedSearch
-        species={formData.species as Species | ""}
+        species={formData.species.toLowerCase() as "dog" | "cat"}
         value={formData.breed1}
-        onChange={onBreedChange}
-        variant="form"
-        label="Breed 1"
+        onChange={breed => onBreedChange(breed)}
+        disabled={isLoading}
+        excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+        required
+        size="small"
       />
 
       {!showBreed2 && formData.breed1 && (
@@ -109,21 +113,21 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       {showBreed2 && (
         <div className="flex items-center gap-2">
           <BreedSearch
-            species={formData.species as Species | ""}
+            species={formData.species.toLowerCase() as "dog" | "cat"}
             value={formData.breed2 || ""}
-            onChange={onBreed2Change}
-            variant="form"
-            label="Breed 2"
+            onChange={breed => onBreed2Change(breed)}
+            disabled={isLoading}
             excludeBreeds={[formData.breed1]}
+            size="small"
           />
           <button
             type="button"
             onClick={() => onShowBreed2Change(false)}
             className="text-red-600 hover:text-red-700 p-1 ml-1"
             disabled={isLoading}
-            aria-label="Remove Breed 2"
+            aria-label="Remove Breed"
           >
-            ✕
+            <CloseIcon fontSize="medium" />
           </button>
         </div>
       )}

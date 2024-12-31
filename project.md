@@ -6,6 +6,17 @@
 - Preserved all existing form functionality
 - Fixed type safety issues in BreedSearch component
 - Improved component prop handling for better reliability
+- Added configurable label display to BreedSearch component
+- Fixed BreedSearch height inconsistency on index page
+- Added variant prop to BreedSearch for flexible height handling
+- Improved BreedSearch prop naming for better clarity
+- Aligned BreedSearch size prop with MUI conventions
+- Updated BreedSearch size prop usage in IdentificationFields
+- Fixed BreedSearch height styling consistency
+- Fixed size consistency between primary and secondary breed inputs
+- Fixed size consistency in ReportEditMode breed inputs
+- Added disableClearable prop to BreedSearch for form contexts
+- Fixed Gender field requirement in edit mode to match business rules
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -13,3 +24,14 @@
 - Add unit tests for useReportEdit hook
 - Removed unused variant and sx props from BreedSearch
 - Standardized form control styling
+- Consider extracting common form field styling into shared constants
+- Create shared constants for form input heights
+- Consider creating a shared form field height configuration
+- Consider standardizing size prop names across all form components
+- Consider standardizing size values across all form components
+- Add prop usage audit to component API changes
+- Consider creating shared style constants for MUI compound components
+- Consider extracting size constants for form field groups
+- Consider creating a shared config for form field props by context
+- Consider creating form context presets for common component configurations
+- Create form field requirement documentation for all contexts

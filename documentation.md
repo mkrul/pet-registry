@@ -62,6 +62,24 @@
 - Use proper type safety for form submission results
 - Maintain form state in custom hooks to reduce container complexity
 - Keep view/edit mode toggle separate from form state management
+- Use variant props to handle component size variations while maintaining consistent styling
+- Match form control heights exactly when components are used in the same context
+- Use descriptive prop names that directly reflect their purpose (e.g., 'height' instead of 'variant')
+- Keep component APIs intuitive and self-documenting
+- Follow MUI conventions for prop naming (e.g., using 'size' instead of 'height')
+- Align component props with established design system patterns
+- Ensure consistent prop naming across all component instances
+- When updating component APIs, check all usage locations including form field components
+- Apply consistent height styling to both Autocomplete and TextField components
+- When using MUI compound components, ensure styles are applied at the correct level
+- Maintain consistent size props across multiple instances of the same component
+- Pay special attention to component variations in compound form fields
++ Ensure all instances of a component within the same form context use consistent size props
++ When adding a new component instance, copy all relevant props from existing instances
++ Disable clear option in form contexts where fields are required
++ Follow MUI's Autocomplete API patterns for consistent behavior
++ Verify field requirements match business rules before marking as required
++ Double-check form field requirements across all form contexts
 
 ## Bug Fixes
 - Fixed microchipped checkbox in NewReportForm where "I don't know" was checked by default
@@ -114,7 +132,13 @@
 ## Component Updates
 - BreedSearch component updated to properly handle required and disabled states
 - Fixed type safety issues with breed selection handling
+- Added hideLabel prop to BreedSearch component for flexible label display
+- Standardized BreedSearch input height to match other form controls
 
 ## New Learnings
 - Always ensure component props are properly typed and defaulted
 - Use proper type assertions for synthetic events when working with Material-UI components
+- Use optional props with sensible defaults for component customization
+- Maintain backwards compatibility when adding new display options
+- Ensure consistent form control heights across all input types including Autocomplete
+- Use MUI's size="small" prop consistently for form inputs
