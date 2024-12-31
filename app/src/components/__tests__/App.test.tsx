@@ -6,20 +6,26 @@ import { Provider } from "react-redux";
 import { store } from "../../redux/store";
 import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
 import App from "../../App";
-import { NotificationType } from "../../types/common/Notification";
 import { setUser, clearUser } from "../../redux/features/auth/authSlice";
 import { act } from "react-dom/test-utils";
-import { AnyAction, Middleware } from "redux";
+import { Dispatch, UnknownAction } from "redux";
+
+// Add window.scrollTo mock at the top of the file
+window.scrollTo = vi.fn();
 
 // Mock the auth API slice
 vi.mock("../../redux/features/auth/authApiSlice", () => ({
   authApiSlice: {
     reducerPath: "api",
     reducer: (state = {}) => state,
-    middleware: () => next => action => next(action),
+    middleware: () => (next: Dispatch) => (action: UnknownAction) => next(action),
     useGetCurrentUserQuery: vi.fn()
   },
-  useGetCurrentUserQuery: vi.fn()
+  useGetCurrentUserQuery: vi.fn(),
+  useLogoutMutation: () => [
+    vi.fn().mockResolvedValue({ data: { message: "Logged out successfully" } }),
+    { isLoading: false }
+  ]
 }));
 
 // Mock reports API
@@ -27,7 +33,7 @@ vi.mock("../../redux/features/reports/reportsApi", () => ({
   default: {
     reducerPath: "reportsApi",
     reducer: (state = {}) => state,
-    middleware: () => next => action => next(action)
+    middleware: () => (next: Dispatch) => (action: UnknownAction) => next(action)
   }
 }));
 
@@ -46,20 +52,41 @@ vi.mock("../../redux/features/auth/authSlice", () => ({
 // Mock router components
 vi.mock("react-router-dom", () => ({
   ...vi.importActual("react-router-dom"),
-  BrowserRouter: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+  BrowserRouter: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Routes: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Route: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Navigate: ({ to }: { to: string }) => (
+    <div data-testid="navigate" data-to={to}>
+      Navigate to {to}
+    </div>
+  ),
+  Link: ({ to, children, ...props }: { to: string; children: React.ReactNode }) => (
+    <a href={to} {...props}>
+      {children}
+    </a>
+  ),
+  useLocation: () => ({
+    pathname: "/",
+    search: "",
+    hash: "",
+    state: null
+  }),
+  useNavigate: () => vi.fn()
 }));
 
-// Mock AppRouter component
-vi.mock("../../components/common/AppRouter", () => ({
+// Update the AppRouter mock path
+vi.mock("../../components/main/AppRouter", () => ({
   default: () => <div data-testid="app-router">App Router</div>
 }));
 
 describe("App", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset the mocked action creators
     vi.mocked(setUser).mockImplementation(user => ({ type: "auth/setUser", payload: user }));
-    vi.mocked(clearUser).mockImplementation(() => ({ type: "auth/clearUser" }));
+    vi.mocked(clearUser).mockImplementation(() => ({
+      type: "auth/clearUser",
+      payload: undefined
+    }));
   });
 
   const renderApp = () => {

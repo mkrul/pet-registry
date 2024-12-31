@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import React from "react";
-import { render, screen, waitFor, waitForElementToBeRemoved } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
@@ -58,7 +57,7 @@ vi.mock("../../redux/features/auth/authApiSlice", () => ({
   authApiSlice: {
     reducerPath: "api",
     reducer: (state = { queries: {}, mutations: {} }) => state,
-    middleware: () => next => action => next(action),
+    middleware: () => (next: any) => (action: any) => next(action),
     endpoints: {
       getCurrentUser: {}
     }
@@ -76,7 +75,7 @@ vi.mock("../../redux/features/reports/reportsApi", () => ({
   default: {
     reducerPath: "reportsApi",
     reducer: (state = { queries: {}, mutations: {} }) => state,
-    middleware: () => next => action => next(action)
+    middleware: () => (next: any) => (action: any) => next(action)
   }
 }));
 
@@ -85,7 +84,7 @@ vi.mock("../../redux/features/reports/reportsSlice", () => ({
 }));
 
 vi.mock("../../redux/features/auth/authSlice", () => ({
-  default: (state = { user: null }, action) => {
+  default: (state = { user: null }, action: { type: string; payload?: any }) => {
     switch (action.type) {
       case "auth/setUser":
         return { ...state, user: action.payload };
