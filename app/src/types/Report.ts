@@ -3,6 +3,7 @@ import { ImageProps } from "./common/Image";
 import { PaginationProps } from "./common/Pagination";
 import { FiltersProps } from "./common/Search";
 import { SelectChangeEvent } from "@mui/material";
+import { MapLocation } from "../types/common/Map";
 
 export interface ReportProps {
   id: number;

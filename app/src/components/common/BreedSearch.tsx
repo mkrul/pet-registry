@@ -15,11 +15,9 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   species,
   value,
   onChange,
-  variant = "filter",
+  excludeBreeds = [],
   required = false,
-  label = "Breed",
-  sx,
-  excludeBreeds = []
+  disabled = false
 }) => {
   const breedOptions = useMemo(() => {
     const breeds = species ? getBreedsBySpecies(species) : [];
@@ -27,28 +25,21 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   }, [species, excludeBreeds]);
 
   return (
-    <FormControl fullWidth size={variant === "filter" ? "small" : "medium"}>
+    <FormControl fullWidth>
       <Autocomplete
         value={value}
         onChange={(_, newValue) => onChange(newValue || "")}
         options={breedOptions}
-        disabled={!species}
+        disabled={disabled || !species}
         renderInput={params => (
           <TextField
             {...params}
-            label={variant === "form" ? label : undefined}
-            placeholder={variant === "filter" ? label : undefined}
-            size={variant === "filter" ? "small" : "medium"}
+            required={required}
+            label="Breed"
             variant="outlined"
             sx={{
-              ...sx,
               "& .MuiOutlinedInput-root": {
-                backgroundColor: "white !important",
-                ...((sx as any)?.["& .MuiOutlinedInput-root"] || {})
-              },
-              "& .MuiInputBase-input.Mui-disabled": {
-                opacity: 1,
-                WebkitTextFillColor: "rgb(0, 0, 0)"
+                backgroundColor: "white !important"
               }
             }}
           />
