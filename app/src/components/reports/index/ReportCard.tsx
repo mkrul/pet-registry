@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
 import { ReportCardProps } from "../../../types/Report";
+import LocationDisplay from "../../common/LocationDisplay";
 
 const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQuery }) => {
   const placeholderPath = "/images/placeholder.png";
@@ -95,6 +96,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                 ? `${report.description.substring(0, 100)}...`
                 : report.description}
             </div>
+            <LocationDisplay area={report.area} state={report.state} country={report.country} />
           </div>
         </div>
       </Link>

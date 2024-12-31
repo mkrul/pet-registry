@@ -166,6 +166,7 @@
 - Added colons to field labels in ReportEditMode to match ReportViewMode styling
 - Added loading spinner while image loads in ReportViewMode for better user feedback
 - Added proper disabled state styling to Save and Cancel buttons during form submission
+- Added location display to report cards for better geographical context
 
 ## Map Component Updates
 - Fixed map initialization to properly use provided coordinates

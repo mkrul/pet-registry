@@ -31,6 +31,7 @@
 - Added disabled state styling to form action buttons during submission
 - [x] Fixed map component to properly display report locations
 - [x] Fixed map zoom level consistency between view and edit modes
+- [x] Added LocationDisplay component to report cards
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -77,3 +78,4 @@
 - When renaming props, ensure to update both component usage and type definitions
 - When components have default prop values, ensure they match the expected defaults across all usage contexts
 - Consider different default states for components based on their usage context
+- Reuse location display components consistently across different views of the same data
