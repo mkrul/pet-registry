@@ -1,0 +1,78 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProfileDropdown > Rendering > renders the profile avatar button 1`] = `
+<div>
+  <div
+    class="flex-none gap-2"
+  >
+    <div
+      class="dropdown dropdown-end"
+    >
+      <div
+        class="btn btn-ghost btn-circle avatar"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="w-10 rounded-full"
+        >
+          <img
+            alt="Tailwind CSS Navbar component"
+            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+          />
+        </div>
+      </div>
+      <ul
+        class="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow hidden"
+        tabindex="0"
+      >
+        <li
+          class="hover:bg-base-100 rounded-lg transition-colors duration-200"
+        >
+          <a
+            data-testid="nav-link"
+          >
+            My Reports
+          </a>
+        </li>
+        <li
+          class="hover:bg-base-100 rounded-lg transition-colors duration-200"
+        >
+          <a
+            data-testid="nav-link"
+          >
+            My Pets
+          </a>
+        </li>
+        <li
+          class="hover:bg-base-100 rounded-lg transition-colors duration-200"
+        >
+          <a
+            data-testid="nav-link"
+          >
+            Profile
+          </a>
+        </li>
+        <li
+          class="hover:bg-base-100 rounded-lg transition-colors duration-200"
+        >
+          <a
+            data-testid="nav-link"
+          >
+            Settings
+          </a>
+        </li>
+        <li
+          class="hover:bg-base-100 rounded-lg transition-colors duration-200"
+        >
+          <button
+            data-testid="logout-button"
+          >
+            Logout
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

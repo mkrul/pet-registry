@@ -8,7 +8,9 @@ import AppRouter from "../AppRouter";
 import authReducer from "../../../redux/features/auth/authSlice";
 import { User } from "../../../types/auth/User";
 import { RootState } from "../../../redux/store";
-import { Report } from "../../../types/Report";
+import { ReportProps as Report } from "../../../types/Report";
+import { authApiSlice } from "../../../redux/features/auth/authApiSlice";
+import reportsApi from "../../../redux/features/reports/reportsApi";
 
 const mockReport: Report = {
   id: 123,
@@ -19,15 +21,28 @@ const mockReport: Report = {
   breed1: "Labrador",
   color1: "black",
   gender: "male",
-  size: "medium",
-  age: "adult",
-  location: "Test Location",
+  breed2: null,
+  color2: null,
+  color3: null,
+  name: null,
+  microchipId: null,
+  area: "Test Area",
+  state: "Test State",
+  country: "Test Country",
+  archivedAt: null,
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  image: {
+    id: "1",
+    url: "",
+    thumbnailUrl: "",
+    variantUrl: "",
+    filename: "",
+    publicId: ""
+  },
+  updatedLastThreeDays: false,
   latitude: 0,
-  longitude: 0,
-  date_lost: new Date().toISOString(),
-  user_id: 1,
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString()
+  longitude: 0
 };
 
 // Mock all components that use hooks
@@ -120,10 +135,11 @@ const renderWithRouter = (
   const store = configureStore({
     reducer: {
       auth: authReducer,
-      authApi: (state = {}) => state,
-      reportsApi: (state = {}) => state
-    },
-    middleware: getDefaultMiddleware => getDefaultMiddleware(),
+      [authApiSlice.reducerPath]: authApiSlice.reducer,
+      [reportsApi.reducerPath]: reportsApi.reducer
+    } as any,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(authApiSlice.middleware, reportsApi.middleware),
     preloadedState: initialState
   });
 

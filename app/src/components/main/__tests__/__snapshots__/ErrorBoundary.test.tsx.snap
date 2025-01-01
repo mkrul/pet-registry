@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ErrorBoundary > Snapshot testing > matches snapshot for error state 1`] = `
+<div>
+  <div
+    data-testid="fallback"
+  >
+    Error occurred
+  </div>
+</div>
+`;
+
+exports[`ErrorBoundary > Snapshot testing > matches snapshot for normal rendering 1`] = `
+<div>
+  <div
+    data-testid="test-child"
+  >
+    Test Content
+  </div>
+</div>
+`;
