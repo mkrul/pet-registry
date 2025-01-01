@@ -7,7 +7,6 @@ import LocationDisplay from "../../common/LocationDisplay";
 const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQuery }) => {
   const placeholderPath = "/images/placeholder.png";
   const [imageIsLoading, setImageIsLoading] = useState(true);
-  const [showTooltip, setShowTooltip] = useState(false);
   const [imageSrc, setImageSrc] = useState(report.image?.thumbnailUrl || placeholderPath);
 
   // Format the date
@@ -64,24 +63,10 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               {report.updatedLastThreeDays && (
                 <span
                   className="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
-                  onFocus={() => setShowTooltip(true)}
-                  onBlur={() => setShowTooltip(false)}
                   tabIndex={0}
                   aria-describedby={`tooltip-${report.id}`}
                 >
                   UPDATED
-                  {showTooltip && (
-                    <div
-                      id={`tooltip-${report.id}`}
-                      role="tooltip"
-                      className="absolute bottom-full right-0 mb-2 px-2 py-1 text-xs text-green-800 bg-green-100 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400 shadow-lg z-20"
-                    >
-                      <div>{formattedDate},</div>
-                      <div className="whitespace-nowrap">{formattedTime}</div>
-                    </div>
-                  )}
                 </span>
               )}
             </div>
