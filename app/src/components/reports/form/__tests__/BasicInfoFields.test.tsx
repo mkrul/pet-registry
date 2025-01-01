@@ -35,7 +35,7 @@ const mockFormData = {
 describe("BasicInfoFields", () => {
   const mockOnInputChange = vi.fn();
 
-  const mockProps: BasicInfoFieldsProps = {
+  const mockProps: Required<BasicInfoFieldsProps> = {
     formData: mockFormData,
     onInputChange: mockOnInputChange,
     readOnly: false
@@ -100,7 +100,9 @@ describe("BasicInfoFields", () => {
             value: newValue
           }
         };
-        mockProps.onInputChange(changeEvent as React.ChangeEvent<HTMLInputElement>);
+        if (mockProps.onInputChange) {
+          mockProps.onInputChange(changeEvent as React.ChangeEvent<HTMLInputElement>);
+        }
       });
 
       expect(mockOnInputChange).toHaveBeenCalledWith(
@@ -127,7 +129,9 @@ describe("BasicInfoFields", () => {
             value: newValue
           }
         };
-        mockProps.onInputChange(changeEvent as React.ChangeEvent<HTMLInputElement>);
+        if (mockProps.onInputChange) {
+          mockProps.onInputChange(changeEvent as React.ChangeEvent<HTMLInputElement>);
+        }
       });
 
       expect(mockOnInputChange).toHaveBeenLastCalledWith(
