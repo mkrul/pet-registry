@@ -44,6 +44,9 @@
 - Fixed LogoutButton test file by adding complete test implementation
 - Added proper type safety for mock store and mock functions
 - Implemented both success and error test cases for logout functionality
+- Added tests for ScrollToTop component
+- Implemented proper mocking for window.scrollTo and useLocation
+- Added test coverage for location change behavior
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -132,3 +135,6 @@
 - Test files must contain actual test implementations to be recognized by Vitest
 - Use proper typing for mock store to ensure type safety in tests
 - Implement both success and error paths in async operation tests
+- Mock browser APIs like window.scrollTo in tests
+- Test React Router hooks by mocking them
+- Test components that don't render DOM elements

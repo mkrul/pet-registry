@@ -58,3 +58,6 @@
 - Empty test files will cause Vitest to report no test suites found
 - Always implement complete test cases with proper assertions
 - Use proper typing for test utilities to maintain type safety
+- Mock window methods properly in test environment
+- Test React Router hook behavior in isolation
+- Verify side effects in components without DOM output
