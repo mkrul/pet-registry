@@ -1,14 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
-import { store } from "../../redux/store";
-import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
-import App from "../../App";
-import { setUser, clearUser } from "../../redux/features/auth/authSlice";
+import { store } from "../redux/store";
+import { useGetCurrentUserQuery } from "../redux/features/auth/authApiSlice";
+import App from "../App";
+import { setUser, clearUser } from "../redux/features/auth/authSlice";
 import { act } from "react-dom/test-utils";
-import { Dispatch, UnknownAction } from "redux";
+import { Dispatch } from "redux";
+import { UnknownAction } from "@reduxjs/toolkit";
 
 // Add window.scrollTo mock at the top of the file
 window.scrollTo = vi.fn();
