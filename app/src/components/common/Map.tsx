@@ -6,7 +6,6 @@ import Spinner from "./Spinner";
 import { MapProps } from "../../types/common/Map";
 
 const findNearestArea = async (lat: number, lng: number): Promise<string> => {
-  console.log("Finding nearest area for coordinates:", { lat, lng });
   try {
     // Use reverse geocoding with a larger zoom level to find nearby places
     const response = await fetch(
@@ -19,7 +18,6 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
     );
 
     const data = await response.json();
-    console.log("Reverse geocoding results:", data);
 
     if (data && data.address) {
       // Check various address fields in priority order
@@ -33,7 +31,6 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
         data.address.county;
 
       if (areaName && areaName.toLowerCase().includes("unknown")) {
-        console.log("Found valid area name:", areaName);
         return areaName;
       }
 
@@ -48,7 +45,6 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
       );
 
       const widerData = await widerResponse.json();
-      console.log("Wider area search results:", widerData);
 
       if (widerData && widerData.address) {
         const widerAreaName =
@@ -65,7 +61,6 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
       }
     }
 
-    console.log("No valid area found in any search");
     return "Unknown Area";
   } catch (error) {
     console.error("Error finding nearest area:", error);
@@ -82,7 +77,6 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
       if (isProcessing) return;
       setIsProcessing(true);
       const { lat, lng } = e.latlng;
-      console.log("Map clicked at:", { lat, lng });
 
       try {
         // Remove existing marker if any
@@ -97,12 +91,10 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
         // Create new marker
         markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
 
-        console.log("Fetching location details for", { lat: formattedLat, lng: formattedLng });
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
         );
         const data = await response.json();
-        console.log("Received location data:", data);
 
         const address = data.address;
         let area =
@@ -114,9 +106,6 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
           address.neighbourhood;
 
         if (!area || area === "Unknown") {
-          console.log(
-            "No valid area found in reverse geocoding, searching for nearest populated place"
-          );
           area = await findNearestArea(formattedLat, formattedLng);
         }
 
@@ -127,7 +116,6 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
           state: address.state || "",
           country: address.country || ""
         };
-        console.log("Sending location data to form:", locationData);
         if (onLocationSelect) {
           onLocationSelect(locationData);
         }
