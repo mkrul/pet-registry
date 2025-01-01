@@ -1,21 +1,35 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ErrorBoundary > Snapshot testing > matches snapshot for error state 1`] = `
+exports[`ErrorBoundary > Error Handling > displays error notification when error occurs 1`] = `
 <div>
   <div
-    data-testid="fallback"
+    class="bg-red-100 border-red-400 text-red-700 border px-4 py-3 rounded relative mb-4 flex justify-between items-center"
+    role="alert"
   >
-    Error occurred
+    <span
+      class="block sm:inline"
+    >
+      Test error
+    </span>
+    <button
+      aria-label="Close"
+      class="ml-4"
+    >
+      <span
+        aria-hidden="true"
+        class="text-xl"
+      >
+        ×
+      </span>
+    </button>
   </div>
 </div>
 `;
 
-exports[`ErrorBoundary > Snapshot testing > matches snapshot for normal rendering 1`] = `
+exports[`ErrorBoundary > Normal Rendering > renders children when no error occurs 1`] = `
 <div>
-  <div
-    data-testid="test-child"
-  >
-    Test Content
+  <div>
+    Normal Component
   </div>
 </div>
 `;

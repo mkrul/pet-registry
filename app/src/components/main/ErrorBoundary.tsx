@@ -1,34 +1,38 @@
-import { Component, ErrorInfo } from "react";
-import Notification from "../common/Notification";
-import { NotificationType } from "../../types/common/Notification";
+import { Component, ErrorInfo, ReactNode } from "react";
 import { ErrorBoundaryProps, ErrorBoundaryState } from "../../types/main/ErrorBoundary";
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { error: null };
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
+    return { error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    console.error("Error caught by ErrorBoundary:", error, errorInfo);
   }
 
   handleClose = () => {
-    this.setState({ hasError: false, error: null });
+    this.setState({ error: null });
   };
 
-  render() {
-    if (this.state.hasError && this.state.error) {
+  render(): ReactNode {
+    if (this.state.error) {
       return (
-        <Notification
-          type={NotificationType.ERROR}
-          message={this.state.error.message}
-          onClose={this.handleClose}
-        />
+        <div
+          className="bg-red-100 border-red-400 text-red-700 border px-4 py-3 rounded relative mb-4 flex justify-between items-center"
+          role="alert"
+        >
+          <span className="block sm:inline">{this.state.error.message}</span>
+          <button onClick={this.handleClose} className="ml-4" aria-label="Close">
+            <span aria-hidden="true" className="text-xl">
+              ×
+            </span>
+          </button>
+        </div>
       );
     }
 

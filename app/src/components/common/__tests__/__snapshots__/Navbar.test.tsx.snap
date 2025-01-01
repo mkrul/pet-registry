@@ -2,7 +2,9 @@
 
 exports[`Navbar > Snapshots > matches component snapshot 1`] = `
 <div>
-  <div>
+  <div
+    data-testid="navbar"
+  >
     <div
       class="navbar bg-base-100"
     >

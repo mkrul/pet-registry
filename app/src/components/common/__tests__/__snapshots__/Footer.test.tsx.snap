@@ -4,6 +4,7 @@ exports[`Footer > matches snapshot 1`] = `
 <div>
   <div
     class="bg-base-200 py-6"
+    data-testid="footer"
     role="contentinfo"
   >
     <div
