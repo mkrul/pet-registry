@@ -50,7 +50,7 @@ const ReportShowPage: React.FC = () => {
   }
 
   return (
-    <div>
+    <div data-testid="report-show">
       <ShowReportFormContainer report={report} errors={errors} />
     </div>
   );

@@ -54,7 +54,7 @@ const ReportIndexPage = () => {
   };
 
   return (
-    <div className="mx-auto p-4 mt-5">
+    <div className="mx-auto p-4 mt-5" data-testid="reports-index">
       <div className="flex flex-col gap-4">
         <SearchContainer onSearchComplete={handleSearchComplete} />
         <div className="mt-4">

@@ -22,7 +22,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   const inputHeight = size === "medium" ? "56px" : "40px";
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth data-testid="breed-search-form-control">
       <Autocomplete
         value={value}
         onChange={(_, newValue) => onChange(newValue || "")}
@@ -30,11 +30,6 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         disabled={disabled || !species}
         size={size}
         disableClearable={disableClearable}
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            height: inputHeight
-          }
-        }}
         renderInput={params => (
           <TextField
             {...params}
@@ -42,10 +37,14 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
             label={hideLabel ? undefined : "Breed"}
             variant="outlined"
             size={size}
+            inputProps={{
+              ...params.inputProps,
+              required: required
+            }}
             sx={{
-              "& .MuiOutlinedInput-root": {
-                backgroundColor: "white !important",
-                height: inputHeight
+              "& .MuiInputBase-root": {
+                height: inputHeight,
+                backgroundColor: "white !important"
               }
             }}
           />

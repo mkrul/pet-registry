@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`LocationDisplay > matches snapshot with full location 1`] = `
+<div>
+  <p
+    class="text-gray-500 mt-2"
+  >
+    Manhattan, New York, USA
+  </p>
+</div>
+`;
+
+exports[`LocationDisplay > matches snapshot with partial location 1`] = `
+<div>
+  <p
+    class="text-gray-500 mt-2"
+  >
+    Ontario, Canada
+  </p>
+</div>
+`;

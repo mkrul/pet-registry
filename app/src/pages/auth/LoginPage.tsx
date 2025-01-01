@@ -39,7 +39,10 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div
+      className="flex items-center justify-center min-h-screen bg-gray-100"
+      data-testid="login-page"
+    >
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         {notification && (
           <Notification
