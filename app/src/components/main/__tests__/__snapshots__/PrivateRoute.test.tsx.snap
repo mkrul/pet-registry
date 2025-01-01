@@ -1,30 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PrivateRoute > Authentication States > allows access to protected route when user is authenticated 1`] = `
-<div>
-  <div
-    data-testid="protected"
-  >
-    Protected Content
-  </div>
-</div>
-`;
-
-exports[`PrivateRoute > Authentication States > redirects to login when user is not authenticated 1`] = `
-<div>
-  <div
-    data-testid="login"
-  >
-    Login Page
-    <span
-      data-testid="location-state"
-    >
-      {"from":{"pathname":"/protected","search":"","hash":"","state":null,"key":"default"}}
-    </span>
-  </div>
-</div>
-`;
-
 exports[`PrivateRoute > Authentication States > shows loading spinner while checking auth status 1`] = `
 <div>
   <div

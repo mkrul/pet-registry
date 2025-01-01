@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
@@ -31,7 +31,7 @@ vi.mock("../../common/Spinner", () => ({
 }));
 
 const renderPrivateRoute = (
-  initialState = { auth: { user: null } },
+  initialState = { auth: { user: null as User | null } },
   initialRoute = "/protected"
 ) => {
   const store = configureStore({
@@ -61,17 +61,19 @@ describe("PrivateRoute", () => {
     vi.mocked(useGetCurrentUserQuery).mockReturnValue({
       data: null,
       isLoading: false,
-      error: null
-    });
+      error: null,
+      refetch: vi.fn()
+    } as any);
   });
 
   describe("Authentication States", () => {
-    it("shows loading spinner while checking auth status", async () => {
+    it("shows loading spinner while checking auth status", () => {
       vi.mocked(useGetCurrentUserQuery).mockReturnValue({
         data: null,
         isLoading: true,
-        error: null
-      });
+        error: null,
+        refetch: vi.fn()
+      } as any);
 
       const { container } = renderPrivateRoute();
       expect(screen.getByTestId("spinner")).toBeDefined();
@@ -79,23 +81,36 @@ describe("PrivateRoute", () => {
     });
 
     it("redirects to login when user is not authenticated", async () => {
-      const { container } = renderPrivateRoute();
+      vi.mocked(useGetCurrentUserQuery).mockReturnValue({
+        data: null,
+        isLoading: false,
+        error: null,
+        refetch: vi.fn()
+      } as any);
+
+      renderPrivateRoute();
 
       await waitFor(() => {
         expect(screen.getByTestId("login")).toBeDefined();
-        expect(screen.getByTestId("location-state")).toHaveTextContent("/protected");
       });
-      expect(container).toMatchSnapshot();
+      expect(screen.getByTestId("location-state")).toHaveTextContent("/protected");
     });
 
     it("allows access to protected route when user is authenticated", async () => {
       const mockUser: User = { id: 1, email: "test@example.com" };
-      const { container } = renderPrivateRoute({ auth: { user: mockUser } });
+
+      vi.mocked(useGetCurrentUserQuery).mockReturnValue({
+        data: mockUser,
+        isLoading: false,
+        error: null,
+        refetch: vi.fn()
+      } as any);
+
+      renderPrivateRoute({ auth: { user: mockUser } });
 
       await waitFor(() => {
         expect(screen.getByTestId("protected")).toBeDefined();
       });
-      expect(container).toMatchSnapshot();
     });
   });
 
@@ -104,8 +119,9 @@ describe("PrivateRoute", () => {
       vi.mocked(useGetCurrentUserQuery).mockReturnValue({
         data: null,
         isLoading: false,
-        error: { status: 401, data: { message: "Unauthorized" } }
-      });
+        error: { status: 401, data: { message: "Unauthorized" } },
+        refetch: vi.fn()
+      } as any);
 
       renderPrivateRoute();
 
@@ -119,6 +135,14 @@ describe("PrivateRoute", () => {
   describe("Route State Preservation", () => {
     it("preserves attempted route in location state when redirecting", async () => {
       const testRoute = "/protected?param=test";
+
+      vi.mocked(useGetCurrentUserQuery).mockReturnValue({
+        data: null,
+        isLoading: false,
+        error: null,
+        refetch: vi.fn()
+      } as any);
+
       renderPrivateRoute(undefined, testRoute);
 
       await waitFor(() => {

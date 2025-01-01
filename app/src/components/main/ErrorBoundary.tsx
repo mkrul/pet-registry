@@ -4,11 +4,11 @@ import { ErrorBoundaryProps, ErrorBoundaryState } from "../../types/main/ErrorBo
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { error: null };
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { error };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -16,7 +16,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   handleClose = () => {
-    this.setState({ error: null });
+    this.setState({ hasError: false, error: null });
   };
 
   render(): ReactNode {
