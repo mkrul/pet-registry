@@ -83,6 +83,9 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                   : report.description}
               </div>
             </div>
+            <div data-testid="report-datetime">
+              {formattedDate} {formattedTime}
+            </div>
           </div>
         </div>
       </Link>

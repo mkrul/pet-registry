@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ReportCard > renders correctly 1`] = `
+<div>
+  <div
+    class="flex flex-col justify-between h-full bg-white rounded-lg shadow"
+  >
+    <a
+      class="block"
+      href="/reports/1?query=test&page=1"
+    >
+      <div
+        class="p-4 bg-white rounded-lg sm:flex w-full"
+      >
+        <div
+          class="flex-shrink-0 relative w-full sm:w-48 h-72 sm:h-48 mb-4 sm:mb-0"
+        >
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg"
+          >
+            <div
+              data-testid="spinner"
+              role="status"
+            />
+          </div>
+          <div
+            class="relative w-full h-72 sm:h-48 ring-4 ring-green-500 rounded-lg"
+          >
+            <img
+              alt="Test Report"
+              class="w-full h-72 sm:h-48 object-cover rounded-lg hidden"
+              src="https://example.com/image.jpg"
+            />
+            <span
+              aria-describedby="tooltip-1"
+              class="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
+              tabindex="0"
+            >
+              UPDATED
+            </span>
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:ml-4 flex-grow"
+        >
+          <h2
+            class="text-xl font-bold"
+          >
+            Test Report
+          </h2>
+          <div
+            data-testid="mock-location-display"
+          >
+            Sydney, NSW, Australia
+          </div>
+          <div
+            class="border-t border-gray-200 mt-3 pt-3"
+          >
+            <div
+              class="text-gray-500 text-md"
+            >
+              Test description for the report
+            </div>
+          </div>
+          <div
+            data-testid="report-datetime"
+          >
+            01/01/2024
+             
+            7:00 AM EST
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+`;
