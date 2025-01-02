@@ -154,18 +154,6 @@ const NewReportForm: React.FC = () => {
       <button data-testid="add-color-button" onClick={() => setShowColor2(true)}>
         Add Color
       </button>
-
-      <div data-testid="breed2-field" style={{ display: showBreed2 ? "block" : "none" }}>
-        {/* Breed2 field content */}
-      </div>
-
-      <div data-testid="color2-field" style={{ display: showColor2 ? "block" : "none" }}>
-        {/* Color2 field content */}
-      </div>
-
-      <div data-testid="color3-field" style={{ display: showColor3 ? "block" : "none" }}>
-        {/* Color3 field content */}
-      </div>
     </form>
   );
 };
