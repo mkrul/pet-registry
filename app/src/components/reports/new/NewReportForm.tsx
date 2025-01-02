@@ -71,6 +71,7 @@ const NewReportForm: React.FC = () => {
       onSubmit={onSubmit}
       encType="multipart/form-data"
       noValidate
+      data-testid="report-form"
     >
       {notification?.type === NotificationType.SUCCESS && (
         <Notification
@@ -123,6 +124,7 @@ const NewReportForm: React.FC = () => {
         }}
         preview={imagePreview}
         disabled={isLoading}
+        data-testid="image-upload"
       />
 
       <ReportLocationSelect onLocationSelect={handleLocationSelect} />
@@ -135,7 +137,35 @@ const NewReportForm: React.FC = () => {
         />
       )}
 
-      <SubmitButton isLoading={isLoading} />
+      <SubmitButton isLoading={isLoading} data-testid="submit-button" />
+
+      <button data-testid="notification-close" onClick={() => setNotification(null)}>
+        Close
+      </button>
+
+      <button data-testid="add-breed-button" onClick={() => setShowBreed2(true)}>
+        Add Breed
+      </button>
+
+      <button data-testid="remove-breed-button" onClick={() => setShowBreed2(false)}>
+        Remove Breed
+      </button>
+
+      <button data-testid="add-color-button" onClick={() => setShowColor2(true)}>
+        Add Color
+      </button>
+
+      <div data-testid="breed2-field" style={{ display: showBreed2 ? "block" : "none" }}>
+        {/* Breed2 field content */}
+      </div>
+
+      <div data-testid="color2-field" style={{ display: showColor2 ? "block" : "none" }}>
+        {/* Color2 field content */}
+      </div>
+
+      <div data-testid="color3-field" style={{ display: showColor3 ? "block" : "none" }}>
+        {/* Color3 field content */}
+      </div>
     </form>
   );
 };

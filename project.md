@@ -47,6 +47,9 @@
 - Added tests for ScrollToTop component
 - Implemented proper mocking for window.scrollTo and useLocation
 - Added test coverage for location change behavior
+- Fixed Redux store mocking pattern in NewReportForm tests
+- Improved type safety in test mocks using vi.mocked
+- Fixed module import consistency in NewReportForm tests
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -138,3 +141,20 @@
 - Mock browser APIs like window.scrollTo in tests
 - Test React Router hooks by mocking them
 - Test components that don't render DOM elements
+- Mock objects must be defined inside vi.mock callbacks to avoid hoisting issues
+- Use vi.mocked helper for proper TypeScript support when accessing mocks
+- Export internal mock objects through the mock module for reuse in test configuration
+- Use consistent module system (ES modules) throughout test files
+- Maintain consistent access to mock objects across test setup and assertions
+- Maintain consistent Redux store mocking patterns across all test files
+- Create mock factories to maintain consistent mock objects throughout test files
+- Define mock objects inline when working with hoisted vi.mock calls
+- Prefer role-based queries over testid-based queries for better test reliability
+- Combine role-based queries with test IDs when dealing with duplicate elements
+- Handle multiple elements with same test ID by using getAllBy queries with array indexing
+- Query form buttons by role and type instead of test IDs
+- Configure longer timeouts for tests with multiple async operations
+- Combine role and name matchers to uniquely identify form controls in tests
+- Maintain consistent element query methods across all test cases to avoid flaky tests
+- Query Material-UI file inputs using their accessible labels rather than test IDs
+- Use waitFor when testing conditionally rendered elements after file uploads

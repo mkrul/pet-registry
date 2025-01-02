@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NewReportForm > renders correctly 1`] = `
+<div>
+  <form
+    class="space-y-6"
+    data-testid="new-report-form"
+  >
+    <div
+      data-testid="mock-image-upload"
+    >
+      <button>
+        Upload Image
+      </button>
+    </div>
+    <div
+      data-testid="mock-identification-fields"
+    >
+      <input
+        data-testid="pet-name-input"
+        name="name"
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      data-testid="mock-location-select"
+    >
+      <button>
+        Select Location
+      </button>
+    </div>
+    <button
+      class="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+      type="submit"
+    >
+      Submit Report
+    </button>
+  </form>
+</div>
+`;

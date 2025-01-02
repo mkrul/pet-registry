@@ -149,7 +149,10 @@ const Map: React.FC<MapProps> = ({
       : defaultCenter;
 
   return (
-    <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
+    <div
+      data-testid="map-container"
+      className="relative w-full h-[400px] rounded-lg overflow-hidden"
+    >
       <MapContainer
         center={center}
         zoom={initialZoom}

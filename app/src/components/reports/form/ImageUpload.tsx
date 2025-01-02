@@ -48,7 +48,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
           />
         </Button>
         {preview && (
-          <div className="relative w-32 h-32 mt-3">
+          <div className="relative w-32 h-32 mt-3" data-testid="image-preview">
             <img src={preview} alt="Selected" className="object-cover w-full h-full rounded-md" />
           </div>
         )}

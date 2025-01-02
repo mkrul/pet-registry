@@ -61,3 +61,21 @@
 - Mock window methods properly in test environment
 - Test React Router hook behavior in isolation
 - Verify side effects in components without DOM output
+- Define mock objects inside vi.mock callbacks to avoid hoisting issues
+- Use vi.mocked when accessing mock exports for better type safety
+- Export internal mock objects through the mock module for configuration
+- Avoid mixing require with ES modules in tests - use consistent module system
+- Keep mock references at module level when needed across multiple test contexts
+- Follow consistent API mocking patterns across test files, especially for Redux store setup
+- Use factory functions to create consistent mock objects across test setup and assertions
+- Avoid using factory functions that could be affected by hoisting in test files
+- Use getByRole with name matchers for better element querying specificity in tests
+- Use data-testid for unique element identification when role and name are not specific enough
+- Use getAllByTestId when multiple elements share the same test ID and select by index
+- Properly type mock reducers when configuring test store to match Redux expectations
+- Use role-based queries with type selectors for form controls
+- Adjust test timeouts for complex async operations
+- Use role with name matchers for more precise button identification in tests
+- Use consistent element querying strategy across all test cases for the same component
+- Use getByLabelText for file inputs in Material-UI components instead of test IDs
+- Wait for conditional elements to appear after async actions in tests
