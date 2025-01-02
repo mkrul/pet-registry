@@ -13,12 +13,6 @@ class Reports::Search < ActiveInteraction::Base
   integer :per_page, default: Report::REPORT_PAGE_LIMIT
   string :breed, default: nil
 
-  BREED_SYNONYMS = {
-    'pit bull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
-    'pitbull' => ['pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully', 'bulldog'],
-    'bulldog' => ['bulldog', 'pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully'],
-  }
-
   def execute
     search_options = {
       where: where_conditions,
@@ -70,24 +64,6 @@ class Reports::Search < ActiveInteraction::Base
 
     # Add other filters
     filters = []
-    if breed.present?
-      breed_value = breed.downcase
-      breed_synonyms = BREED_SYNONYMS[breed_value] || []
-      breed_terms = [breed_value] + breed_synonyms
-
-      breed_conditions = {
-        _or: breed_terms.map { |term|
-          {
-            _or: [
-              { breed_1: term },
-              { breed_2: term }
-            ]
-          }
-        }
-      }
-
-      filters << breed_conditions
-    end
 
     if gender.present?
       gender_value = gender.downcase
