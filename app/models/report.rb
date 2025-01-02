@@ -16,18 +16,24 @@ class Report < ApplicationRecord
                      synonyms: [
                        "pitbull, pit bull, bully",
                      ]
+                   },
+                   color_synonym: {
+                     type: "synonym",
+                     synonyms: [
+                       "gray, grey",
+                     ]
                    }
                  },
                  analyzer: {
                    searchkick_word_search: {
                      type: "custom",
                      tokenizer: "standard",
-                     filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
+                     filter: ["lowercase", "breed_synonym", "color_synonym", "word_delimiter", "asciifolding"]
                    },
                    searchkick_word_middle_search: {
                      type: "custom",
                      tokenizer: "standard",
-                     filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
+                     filter: ["lowercase", "breed_synonym", "color_synonym", "word_delimiter", "asciifolding"]
                    }
                  }
                }

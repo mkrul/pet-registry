@@ -19,6 +19,11 @@ class Reports::Search < ActiveInteraction::Base
     'bulldog' => ['bulldog', 'pitbull', 'staffordshire', 'staffy', 'amstaff', 'bully'],
   }
 
+  COLOR_SYNONYMS = {
+    'gray' => ['gray', 'grey'],
+    'grey' => ['gray', 'grey'],
+  }
+
   def execute
     search_options = {
       where: where_conditions,
@@ -103,13 +108,22 @@ class Reports::Search < ActiveInteraction::Base
 
     if color.present?
       color_value = color.downcase
-      filters << {
-        _or: [
-          { color_1: color_value },
-          { color_2: color_value },
-          { color_3: color_value }
-        ]
+      color_synonyms = COLOR_SYNONYMS[color_value] || []
+      color_terms = color_synonyms + [color_value]
+
+      color_conditions = {
+        _or: color_terms.map { |term|
+          {
+            _or: [
+              { color_1: term },
+              { color_2: term },
+              { color_3: term }
+            ]
+          }
+        }
       }
+
+      filters << color_conditions
     end
 
     # Add other filters to conditions
