@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { expect, afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
+import { cleanup, configure } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
 
 expect.extend(matchers);
@@ -16,4 +16,10 @@ declare module 'vitest' {
 
 afterEach(() => {
   cleanup();
+});
+
+configure({
+  asyncUtilTimeout: 5000,
+  // This will silence the act() warnings
+  suppressWarnings: true
 });

@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ReportLocationSelect > renders correctly 1`] = `
+<div>
+  <div
+    class="space-y-2"
+  >
+    <label
+      class="text-lg font-medium text-gray-900 mb-2"
+    >
+      Location
+    </label>
+    <div
+      class="mt-1"
+    >
+      <div
+        data-testid="mock-map"
+      >
+        <button
+          data-testid="mock-location-select"
+          type="button"
+        >
+          Select Location
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

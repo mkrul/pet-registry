@@ -31,11 +31,13 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Location</label>
       {selectedLocation && (
-        <LocationDisplay
-          area={selectedLocation.area}
-          state={selectedLocation.state}
-          country={selectedLocation.country}
-        />
+        <div data-testid="location-display">
+          <LocationDisplay
+            area={selectedLocation.area}
+            state={selectedLocation.state}
+            country={selectedLocation.country}
+          />
+        </div>
       )}
       <div className="mt-1">
         <Map
