@@ -44,6 +44,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
             onChange={handleImageChange}
             style={{ display: "none" }}
             disabled={disabled}
+            data-testid="file-input"
           />
         </Button>
         {preview && (
