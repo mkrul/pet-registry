@@ -388,3 +388,17 @@ Testing Best Practices:
   - Pass the same provider structure to rerender as initial render
   - Remember that mock state updates don't automatically trigger rerenders
   - Ensure validation state is synchronized with component state
+
+- When testing form validation sequences with multiple required fields:
+  - Test validations in the same order as the form implementation
+  - Fill in all previous required fields before testing each validation
+  - Mock complete objects for complex fields like images
+  - Handle nested validation requirements (e.g., location requiring multiple fields)
+  - Use consistent test patterns for all validation cases
+
+- When mocking form state with optional fields:
+  - Use empty strings instead of null for optional string fields
+  - Keep null only for explicitly nullable numeric fields
+  - Match the component's expected types exactly
+  - Avoid type coercion in mock state
+  - Remember that form fields usually expect string values

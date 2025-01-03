@@ -39,16 +39,16 @@ const mockFormState = {
     description: "",
     species: "Dog",
     breed1: "",
-    breed2: null,
+    breed2: "",
     color1: "",
-    color2: null,
-    color3: null,
+    color2: "",
+    color3: "",
     name: "",
     gender: "",
     microchipId: "",
-    area: null,
-    state: null,
-    country: null,
+    area: "",
+    state: "",
+    country: "",
     latitude: null,
     longitude: null,
     image: {
@@ -88,7 +88,7 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Update useReportSubmit mock to handle validation order
+// Update useReportSubmit mock to handle all validations
 vi.mock("../../../../hooks/useReportSubmit", () => ({
   useReportSubmit: () => ({
     handleSubmit: vi.fn(),
@@ -100,7 +100,17 @@ vi.mock("../../../../hooks/useReportSubmit", () => ({
           ? "Description is required"
           : !mockFormState.formData.species
             ? "Species is required"
-            : ""
+            : !mockFormState.formData.breed1
+              ? "Primary breed is required"
+              : !mockFormState.formData.color1
+                ? "Primary color is required"
+                : !mockFormState.formData.image?.url
+                  ? "Image is required"
+                  : !mockFormState.formData.area ||
+                      !mockFormState.formData.state ||
+                      !mockFormState.formData.country
+                    ? "Location is required"
+                    : ""
     },
     setNotification: vi.fn()
   })
@@ -286,6 +296,147 @@ describe("NewReportForm", () => {
       const submitButton = screen.getByRole("button", { name: /submit/i });
       expect(submitButton).toBeDefined();
       expect(submitButton).toBeDisabled();
+    });
+  });
+
+  it("shows validation error when breed1 is empty", async () => {
+    const { rerender } = renderNewReportForm();
+
+    // Fill in previous required fields
+    await act(async () => {
+      fireEvent.change(screen.getByTestId("report-form-title").querySelector("input")!, {
+        target: { name: "title", value: "Test Title" }
+      });
+      fireEvent.change(screen.getByTestId("report-form-description").querySelector("textarea")!, {
+        target: { name: "description", value: "Test Description" }
+      });
+    });
+
+    // Update mock state
+    mockFormState.formData = {
+      ...mockFormState.formData,
+      title: "Test Title",
+      description: "Test Description",
+      species: "Dog",
+      breed1: ""
+    };
+
+    rerender(
+      <Provider store={store}>
+        <MemoryRouter future={routerConfig.future}>
+          <NewReportForm />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await act(async () => {
+      await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("notification")).toHaveTextContent("Primary breed is required");
+    });
+  });
+
+  it("shows validation error when color1 is empty", async () => {
+    const { rerender } = renderNewReportForm();
+
+    // Fill in previous required fields
+    mockFormState.formData = {
+      ...mockFormState.formData,
+      title: "Test Title",
+      description: "Test Description",
+      species: "Dog",
+      breed1: "Labrador",
+      color1: ""
+    };
+
+    rerender(
+      <Provider store={store}>
+        <MemoryRouter future={routerConfig.future}>
+          <NewReportForm />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await act(async () => {
+      await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("notification")).toHaveTextContent("Primary color is required");
+    });
+  });
+
+  it("shows validation error when image is missing", async () => {
+    const { rerender } = renderNewReportForm();
+
+    // Fill in previous required fields
+    mockFormState.formData = {
+      ...mockFormState.formData,
+      title: "Test Title",
+      description: "Test Description",
+      species: "Dog",
+      breed1: "Labrador",
+      color1: "Black",
+      image: { id: "", url: "", thumbnailUrl: "", variantUrl: "", filename: "", publicId: "" }
+    };
+
+    rerender(
+      <Provider store={store}>
+        <MemoryRouter future={routerConfig.future}>
+          <NewReportForm />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await act(async () => {
+      await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("notification")).toHaveTextContent("Image is required");
+    });
+  });
+
+  it("shows validation error when location is missing", async () => {
+    const { rerender } = renderNewReportForm();
+
+    // Fill in previous required fields
+    mockFormState.formData = {
+      ...mockFormState.formData,
+      title: "Test Title",
+      description: "Test Description",
+      species: "Dog",
+      breed1: "Labrador",
+      color1: "Black",
+      image: {
+        id: "test-id",
+        url: "test-url",
+        thumbnailUrl: "test-thumb",
+        variantUrl: "test-variant",
+        filename: "test.jpg",
+        publicId: "test-public-id"
+      },
+      area: "",
+      state: "",
+      country: ""
+    };
+
+    rerender(
+      <Provider store={store}>
+        <MemoryRouter future={routerConfig.future}>
+          <NewReportForm />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    await act(async () => {
+      await userEvent.click(screen.getByRole("button", { name: /submit/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId("notification")).toHaveTextContent("Location is required");
     });
   });
 });
