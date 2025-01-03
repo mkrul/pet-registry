@@ -32,6 +32,10 @@
 - [x] Simplified event object structure in tests
 - [x] Improved test reliability by avoiding synthetic events
 - [x] Maintained backwards compatibility with existing tests
+- [x] Added LocationFilter component test suite
+- [x] Added tests for select dependencies
+- [x] Added tests for disabled states
+- [x] Added tests for location selection handlers
 
 ## New Learnings
 - MUI Select testing is more reliable when targeting native inputs
@@ -42,3 +46,7 @@
 - Direct handler calls are more reliable than DOM events
 - Event object structure must match component expectations
 - Simpler event objects make tests more maintainable
+- Test disabled states using native input elements
+- Test select dependencies in both enabled and disabled states
+- Mock location data consistently across tests
+- Verify select dependencies work correctly

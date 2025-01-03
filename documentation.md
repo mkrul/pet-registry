@@ -436,6 +436,10 @@ Testing Best Practices:
 - Use simple event objects with just target.name and target.value
 - Call the handler directly instead of triggering DOM events
 - Match the component's expected event structure in assertions
+- Test disabled states by checking the native input element's disabled attribute
+- Test select dependencies (country->state->area) by verifying disabled states
+- Mock API hooks that provide select options with consistent test data
+- Test both enabled and disabled states for dependent selects
 
 ### Key Testing Patterns
 - Find MUI Select's native input by name attribute
