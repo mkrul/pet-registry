@@ -482,3 +482,15 @@ Testing Best Practices:
   - Verify filter changes trigger correct handler calls
   - Use configuration files as source of truth for options
   - Test option presence before testing interactions
+
+### Key Testing Patterns
+- Test input components for both controlled and uncontrolled behavior
+- Test event handlers with appropriate event objects
+- Test keyboard interactions with proper key events
+- Verify placeholder text and accessibility attributes
+
+### Key Testing Patterns
+- Match component prop names exactly in tests
+- Test conditional rendering based on prop values
+- Test clearing functionality for search inputs
+- Verify input placeholder text matches design requirements

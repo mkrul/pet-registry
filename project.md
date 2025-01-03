@@ -36,6 +36,14 @@
 - [x] Added tests for select dependencies
 - [x] Added tests for disabled states
 - [x] Added tests for location selection handlers
+- [x] Added SearchBar component test suite
+- [x] Added tests for input value changes
+- [x] Added tests for button clicks
+- [x] Added tests for keyboard interactions
+- [x] Added tests for controlled input behavior
+- [x] Added tests for search query changes
+- [x] Added tests for clear functionality
+- [x] Added tests for conditional rendering
 
 ## New Learnings
 - MUI Select testing is more reliable when targeting native inputs
@@ -50,3 +58,11 @@
 - Test select dependencies in both enabled and disabled states
 - Mock location data consistently across tests
 - Verify select dependencies work correctly
+- Test input components with both controlled and uncontrolled states
+- Test keyboard event handlers with proper key events
+- Verify input attributes for accessibility
+- Test component with various prop combinations
+- Match component's actual prop names in tests
+- Test conditional UI elements like clear buttons
+- Verify exact placeholder text content
+- Test component with all required props

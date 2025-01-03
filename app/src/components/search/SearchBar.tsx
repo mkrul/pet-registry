@@ -11,7 +11,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setShowFilters
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4" data-testid="search-bar-container">
       <div className="w-full xl:w-2/5 flex content-end xl:ml-auto">
         <div className="relative w-full">
           <input
@@ -29,6 +29,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
             placeholder="Enter keywords (e.g. 'black', 'female','cat', etc.)"
             autoComplete="off"
+            data-testid="search-input"
           />
           <div className="absolute left-0 inset-y-0 flex items-center">
             <svg
@@ -53,6 +54,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 type="button"
                 className="-ml-1 mr-3 h-5 w-5 text-gray-400 hover:text-gray-500"
                 onClick={() => setSearchQuery("")}
+                data-testid="search-clear-button"
               ></button>
             </div>
           )}
