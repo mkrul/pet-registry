@@ -26,8 +26,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r2r:"
-        id=":r2r:-label"
+        for=":r2f:"
+        id=":r2f:-label"
       >
         Title
       </label>
@@ -37,7 +37,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r2r:"
+          id=":r2f:"
           name="title"
           type="text"
           value=""
@@ -63,8 +63,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r2s:"
-        id=":r2s:-label"
+        for=":r2g:"
+        id=":r2g:-label"
       >
         Description
       </label>
@@ -74,7 +74,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         <textarea
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r2s:"
+          id=":r2g:"
           name="description"
           rows="4"
           style="height: 0px; overflow: hidden;"
@@ -107,8 +107,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r2t:"
-        id=":r2t:-label"
+        for=":r2h:"
+        id=":r2h:-label"
       >
         Pet's Name (leave blank if not known)
       </label>
@@ -118,7 +118,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r2t:"
+          id=":r2h:"
           name="name"
           type="text"
           value=""
@@ -144,8 +144,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r2u:"
-        id=":r2u:-label"
+        for=":r2i:"
+        id=":r2i:-label"
       >
         Microchip ID (leave blank if not known)
       </label>
@@ -156,7 +156,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
           disabled=""
-          id=":r2u:"
+          id=":r2i:"
           name="microchipId"
           type="text"
           value=""
@@ -190,7 +190,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         data-testid="gender-select"
       >
         <div
-          aria-controls=":r2v:"
+          aria-controls=":r2j:"
           aria-disabled="true"
           aria-expanded="false"
           aria-haspopup="listbox"
@@ -255,7 +255,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         data-testid="species-select"
       >
         <div
-          aria-controls=":r30:"
+          aria-controls=":r2k:"
           aria-disabled="true"
           aria-expanded="false"
           aria-haspopup="listbox"
@@ -314,8 +314,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="true"
-            for=":r31:"
-            id=":r31:-label"
+            for=":r2l:"
+            id=":r2l:-label"
           >
             Breed
           </label>
@@ -330,7 +330,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
               autocomplete="off"
               class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
               disabled=""
-              id=":r31:"
+              id=":r2l:"
               role="combobox"
               spellcheck="false"
               type="text"
@@ -393,8 +393,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
-              for=":r33:"
-              id=":r33:-label"
+              for=":r2n:"
+              id=":r2n:-label"
             >
               Breed
             </label>
@@ -409,7 +409,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
                 autocomplete="off"
                 class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
                 disabled=""
-                id=":r33:"
+                id=":r2n:"
                 role="combobox"
                 spellcheck="false"
                 type="text"
@@ -490,7 +490,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-fevcd3-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
       >
         <div
-          aria-controls=":r35:"
+          aria-controls=":r2p:"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-labelledby="color1-label color1"
@@ -553,7 +553,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
           data-testid="color-2-select"
         >
           <div
-            aria-controls=":r36:"
+            aria-controls=":r2q:"
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-labelledby="color2-label color2"

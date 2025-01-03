@@ -266,3 +266,16 @@ Testing Best Practices:
   - Remove duplicate mock implementations in individual test cases
   - Rely on the module-level mock state and handlers
   - Test-level mocks cannot override module-level mocks in vi.mock
+
+- When testing Material-UI form components with conditional buttons:
+  - Use findByTestId instead of getByText for buttons that depend on state
+  - Wait for initial state to be set up before interacting with elements
+  - Verify that data-testid attributes match exactly with component implementation
+  - Use findBy queries for elements that may not be immediately available
+
+- When testing Material-UI form components with conditional rendering:
+  - First "Add Another Color" button is a MUI Button - use getByRole with exact text
+  - Second button appears after first color is selected - use findByTestId
+  - Use findBy queries for elements that appear after state changes
+  - Wait for elements to be available after state updates with findBy
+  - Match button text exactly including capitalization

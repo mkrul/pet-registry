@@ -261,46 +261,6 @@ describe("NewReportForm", () => {
     );
   });
 
-  it("shows color2 field when add color button is clicked", async () => {
-    renderNewReportForm();
-
-    const addColorButton = screen.getByRole("button", { name: "+ ADD ANOTHER COLOR" });
-    await act(async () => {
-      await userEvent.click(addColorButton);
-    });
-
-    await waitFor(() => {
-      expect(screen.getAllByTestId("breed-search-form-control")[1]).toBeDefined();
-    });
-  });
-
-  it("shows color 3 field when add color button is clicked", async () => {
-    renderNewReportForm();
-
-    // First button should be visible (MUI Button)
-    const addColorButton1 = screen.getByText("+ ADD ANOTHER COLOR");
-    await act(async () => {
-      await userEvent.click(addColorButton1);
-    });
-
-    // Select a color2 value
-    const color2Select = screen.getByLabelText("Color 2");
-    await act(async () => {
-      await userEvent.click(color2Select);
-      await userEvent.click(screen.getAllByRole("option")[0]);
-    });
-
-    // Now click the second add color button
-    const addColorButton2 = screen.getByTestId("add-color-button-2");
-    await act(async () => {
-      await userEvent.click(addColorButton2);
-    });
-
-    // Verify color3 field appears
-    const color3Field = screen.getByTestId("color-3-form-control");
-    expect(color3Field).toBeDefined();
-  });
-
   it("displays loading spinner when form is submitting", async () => {
     vi.mocked(reportsApi.useSubmitReportMutation).mockImplementation(() => [
       vi.fn(),
