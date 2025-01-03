@@ -77,7 +77,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
 
   return (
     <>
-      <FormControl fullWidth>
+      <FormControl fullWidth data-testid="color-1-form-control">
         <InputLabel id="color1-label">Color 1</InputLabel>
         <Select
           labelId="color1-label"
@@ -90,7 +90,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           MenuProps={menuProps}
         >
           {getColorOptions().map((color, index) => (
-            <MenuItem key={`${color}-${index}`} value={color}>
+            <MenuItem key={`${color}-${index}`} value={color} data-testid="color-1-menu-item">
               {color}
             </MenuItem>
           ))}
@@ -99,6 +99,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
 
       {!showColor2 && formData.color1 && (
         <Button
+          data-testid="add-color-button-1"
           onClick={() => onShowColor2Change(true)}
           disabled={isLoading}
           color="primary"
@@ -111,9 +112,10 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
 
       {showColor2 && (
         <div className="flex items-center gap-2">
-          <FormControl fullWidth>
+          <FormControl fullWidth data-testid="color-2-form-control">
             <InputLabel id="color2-label">Color 2</InputLabel>
             <Select
+              data-testid="color-2-select"
               labelId="color2-label"
               id="color2"
               name="color2"
@@ -124,13 +126,14 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
               MenuProps={menuProps}
             >
               {getFilteredColorOptions([formData.color1]).map((color, index) => (
-                <MenuItem key={`${color}-${index}`} value={color}>
+                <MenuItem key={`${color}-${index}`} value={color} data-testid="color-2-menu-item">
                   {color}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
           <button
+            data-testid="remove-color-button-1"
             type="button"
             onClick={() => onShowColor2Change(false)}
             className="text-red-600 hover:text-red-700 p-1 ml-1"
@@ -144,6 +147,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
 
       {showColor2 && !showColor3 && formData.color2 && (
         <Button
+          data-testid="add-color-button-2"
           onClick={() => onShowColor3Change(true)}
           disabled={isLoading}
           color="primary"
@@ -156,9 +160,10 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
 
       {showColor3 && (
         <div className="flex items-center gap-2">
-          <FormControl fullWidth>
+          <FormControl fullWidth data-testid="color-3-form-control">
             <InputLabel id="color3-label">Color 3</InputLabel>
             <Select
+              data-testid="color-3-select"
               labelId="color3-label"
               id="color3"
               name="color3"
@@ -169,13 +174,14 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
               MenuProps={menuProps}
             >
               {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
-                <MenuItem key={`${color}-${index}`} value={color}>
+                <MenuItem key={`${color}-${index}`} value={color} data-testid="color-3-menu-item">
                   {color}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
           <button
+            data-testid="remove-color-button-2"
             type="button"
             onClick={() => onShowColor3Change(false)}
             className="text-red-600 hover:text-red-700 p-1 ml-1"

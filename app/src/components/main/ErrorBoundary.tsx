@@ -25,6 +25,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         <div
           className="bg-red-100 border-red-400 text-red-700 border px-4 py-3 rounded relative mb-4 flex justify-between items-center"
           role="alert"
+          data-testid="error-boundary"
         >
           <span className="block sm:inline">{this.state.error.message}</span>
           <button onClick={this.handleClose} className="ml-4" aria-label="Close">

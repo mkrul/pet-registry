@@ -19,6 +19,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
 
   return (
     <div
+      data-testid="notification"
       className={`${typeStyles[type]} border px-4 py-3 rounded relative mb-4 flex justify-between items-center`}
       role="alert"
     >

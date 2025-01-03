@@ -26,10 +26,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
   };
 
   return (
-    <div className="mt-8">
+    <div className="mt-8" data-testid="image-upload-container">
       <h2 className="text-lg font-medium text-gray-900 mb-2">Upload Image</h2>
       <FormControl fullWidth>
         <Button
+          data-testid="image-upload-button"
           component="label"
           variant="outlined"
           startIcon={<CloudUpload />}
@@ -49,7 +50,12 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
         </Button>
         {preview && (
           <div className="relative w-32 h-32 mt-3" data-testid="image-preview">
-            <img src={preview} alt="Selected" className="object-cover w-full h-full rounded-md" />
+            <img
+              src={preview}
+              alt="Selected"
+              className="object-cover w-full h-full rounded-md"
+              data-testid="image-preview-image"
+            />
           </div>
         )}
       </FormControl>

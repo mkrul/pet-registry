@@ -8,7 +8,6 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   value,
   onChange,
   excludeBreeds = [],
-  required = false,
   disabled = false,
   hideLabel = false,
   size = "small",
@@ -33,14 +32,10 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         renderInput={params => (
           <TextField
             {...params}
-            required={required}
             label={hideLabel ? undefined : "Breed"}
             variant="outlined"
             size={size}
-            inputProps={{
-              ...params.inputProps,
-              required: required
-            }}
+            aria-label="breed search"
             sx={{
               "& .MuiInputBase-root": {
                 height: inputHeight,

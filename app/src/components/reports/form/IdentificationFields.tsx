@@ -92,7 +92,6 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         onChange={breed => onBreedChange(breed)}
         disabled={isLoading}
         excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-        required
         size="medium"
       />
 
@@ -112,6 +111,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       {showBreed2 && (
         <div className="flex items-center gap-2">
           <BreedSearch
+            data-testid="breed-search-2"
             species={formData.species.toLowerCase() as "dog" | "cat"}
             value={formData.breed2 || ""}
             onChange={breed => onBreed2Change(breed)}

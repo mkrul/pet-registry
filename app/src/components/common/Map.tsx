@@ -149,11 +149,9 @@ const Map: React.FC<MapProps> = ({
       : defaultCenter;
 
   return (
-    <div
-      data-testid="map-container"
-      className="relative w-full h-[400px] rounded-lg overflow-hidden"
-    >
+    <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
       <MapContainer
+        data-testid="map-container"
         center={center}
         zoom={initialZoom}
         className="h-full w-full"
@@ -164,14 +162,24 @@ const Map: React.FC<MapProps> = ({
           attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         {!readOnly && (
-          <MapEvents onLocationSelect={onLocationSelect} initialLocation={initialLocation} />
+          <MapEvents
+            data-testid="map-events"
+            onLocationSelect={onLocationSelect}
+            initialLocation={initialLocation}
+          />
         )}
         {initialLocation?.latitude && initialLocation?.longitude && (
-          <Marker position={[initialLocation.latitude, initialLocation.longitude]} />
+          <Marker
+            data-testid="map-marker"
+            position={[initialLocation.latitude, initialLocation.longitude]}
+          />
         )}
       </MapContainer>
       {isLoading && (
-        <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
+        <div
+          className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center"
+          data-testid="map-loading-spinner"
+        >
           <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
         </div>
       )}

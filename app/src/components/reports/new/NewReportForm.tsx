@@ -82,7 +82,7 @@ const NewReportForm: React.FC = () => {
       )}
 
       <div className="mt-[0.5rem]">
-        <p className="text-md text-gray-500">
+        <p className="text-md text-gray-500" data-testid="report-form-text">
           Please include as many details as possible in the description, and upload your best photo
           of the animal.
         </p>
@@ -138,22 +138,6 @@ const NewReportForm: React.FC = () => {
       )}
 
       <SubmitButton isLoading={isLoading} data-testid="submit-button" />
-
-      <button data-testid="notification-close" onClick={() => setNotification(null)}>
-        Close
-      </button>
-
-      <button data-testid="add-breed-button" onClick={() => setShowBreed2(true)}>
-        Add Breed
-      </button>
-
-      <button data-testid="remove-breed-button" onClick={() => setShowBreed2(false)}>
-        Remove Breed
-      </button>
-
-      <button data-testid="add-color-button" onClick={() => setShowColor2(true)}>
-        Add Color
-      </button>
     </form>
   );
 };

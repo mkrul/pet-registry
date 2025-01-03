@@ -79,3 +79,190 @@
 - Use consistent element querying strategy across all test cases for the same component
 - Use getByLabelText for file inputs in Material-UI components instead of test IDs
 - Wait for conditional elements to appear after async actions in tests
+
+Testing Best Practices:
+- Use renderWithProviders helper for consistent test setup with Redux and Router
+- Mock API hooks at module level to ensure consistent behavior across test cases
+- Use proper typing for mock implementations to catch type errors early
+- Organize form tests by functional sections (rendering, validation, interaction)
+- Test form validation before testing submission logic
+- Mock file uploads with proper File constructor parameters
+- Test dynamic form field visibility based on user interactions
+- Verify loading states and disabled states during form submission
+- Use waitFor for asynchronous UI updates after user interactions
+- Test error notifications with proper error message assertions
+- Mock location-based functionality consistently across tests
+- Test form field dependencies and validation rules together
+- Use proper cleanup between tests to prevent state leakage
+- Mock complex hooks like useReportForm at module level
+- Test loading states for initial data fetching
+- Test proper error handling for failed submissions
+- Verify proper form state management during async operations
+- Test proper cleanup of notification messages
+- Test proper handling of file upload validations
+- Include all required properties when mocking RTK Query mutation states
+- Ensure mutation state mocks include reset function and originalArgs
+- Mock Redux middleware functions with proper function chain (middleware => store => next => action)
+- Ensure RTK Query API mocks include middleware and reducer implementations
+- Type middleware mock parameters explicitly to avoid TypeScript implicit any errors
+- Type all middleware chain parameters (next, action) to maintain strict TypeScript checks
+- Export both individual hooks and API object when mocking RTK Query APIs
+- Define hook mocks outside the returned object for reuse within the mock
+- Use getByRole with name matcher for button elements in MUI components
+- Mock all required hooks when testing components with multiple hook dependencies
+- Set up proper initial state in hook mocks to test conditional UI elements
+- Use role-based queries with name matchers for MUI buttons instead of test IDs
+- Use consistent query methods across all similar elements (e.g., all buttons use getByRole)
+- Match button text exactly as it appears in the component, including case sensitivity
+- Match button text exactly including case and special characters when using getByRole
+- Set up proper initial form state to test conditional button visibility
+- Wrap Material-UI button interactions in act() to handle async state updates
+- Use longer timeouts for tests with multiple async operations
+- Use name matcher instead of type for finding submit buttons with getByRole
+- Match button text case-insensitively when exact text is not critical
+- Handle Material-UI ripple effect updates in tests
+- Use unique and specific test IDs to avoid duplicate selector issues
+- Differentiate between form fields and descriptive text with specific test IDs
+- Use getAllByTestId when expecting multiple elements with same test ID
+- Match test IDs exactly as they appear in the component code
+- When updating test IDs, update both component and test files together
+- Consider using constants for test IDs to maintain consistency
+- Use suffixes like '-field', '-help-text' to differentiate between similar elements
+- Avoid reusing the same test ID for different elements in the same component
+- Use getAllByTestId when intentionally querying multiple elements with same test ID
+- Use React.act instead of ReactDOMTestUtils.act for handling state updates in tests
+- Import act directly from 'react' package to avoid deprecation warnings
+- Handle React Router future flag warnings by considering v7 migration flags
+- Create snapshot tests for complex form components
+- Match test IDs exactly with component implementation
+- Configure React Router future flags to prevent warnings
+- Keep test IDs in sync between tests and components
+- Create __snapshots__ directory for snapshot files
+- Apply React Router future flags in test setup
+- Use consistent snapshot format across test files
+- Use consistent element querying strategy within the same test file
+- Prefer getByRole for interactive elements like buttons
+- Use data-testid for non-interactive or structural elements
+- Use exact button text for Material-UI file upload buttons
+- Check component implementation for correct button text/labels
+- Avoid regex matchers when exact text is known
+- Mock form validation state in useReportSubmit hook
+- Provide mock image preview data in useReportForm hook
+- Mock hook state to match expected component behavior
+- Use role="alert" to find notification messages in tests
+- Test notification content along with presence
+- Match notification test queries to Material-UI Alert component implementation
+- Check actual component implementation for correct test selectors
+- Use data-testid for components that don't use ARIA roles consistently
+- Consider component hierarchy when testing notifications and alerts
+- Use Material-UI's built-in ARIA roles for testing alerts and notifications
+- Remember that MUI Alert component uses role="alert" by default
+- Check Material-UI component documentation for correct test selectors
+- When component uses data-testid, prefer it over role-based queries
+- Don't assume MUI components are being used when custom components exist
+- Match test queries to actual component implementation without modifying components
+- Ensure notification state is properly mocked in useReportSubmit hook
+- Use longer timeouts when testing notification appearance
+- Mock complete notification state object including visibility flags
+- Use proper enum values when mocking notification types
+- Import type definitions used in mocks to maintain type safety
+- Match notification state structure exactly as used in component
+- Mock form visibility state to match expected UI state after user interactions
+- Include all form fields in mock data even if initially empty
+- Set visibility flags in hook mocks to test conditional rendering
+- Use getAllByTestId when testing components with duplicate test IDs
+- Match button text exactly as it appears in the component, including capitalization
+- Use array indexing to test specific instances of duplicate elements
+- Set initial visibility states in hook mocks to match component's default state
+- Use separate test cases for initial state and state after user interactions
+- Ensure mock state matches component's expected initial render state
+- Match button text exactly including uppercase/lowercase and special characters
+- Use error messages to identify exact button text in component
+- Verify button text in component DOM output before updating tests
+- Mock state setter functions to actually update mock state values
+- Use closure scope in vi.mock to maintain state between renders
+- Handle state updates in mock implementations for UI interaction tests
+- Use setTimeout in mock implementations to ensure state updates trigger re-renders
+- Handle async state updates in mock implementations properly
+- Consider component re-render timing when testing state changes
+- Use rerender from render result to force component update after state changes
+- Check element count instead of specific index when testing dynamic elements
+- Use length assertions for testing multiple elements with same test ID
+- Match test IDs exactly with component implementation for color fields
+- Use consistent test ID patterns across similar form controls
+- Verify test IDs in component code before writing tests
+- Mock all form field visibility states in hook mocks
+- Implement state setters for all visibility flags
+- Include all possible form fields in mock data structure
+- Use data-testid for buttons when role-based queries are unreliable
+- Prefer data-testid over text content for button identification
+- Use consistent button identification strategy within test suite
+- Fall back to role-based queries when data-testid is not available
+- Use exact button text when data-testid is not implemented
+- Maintain consistent query strategy within test suite
+- Use exact test ID from component implementation
+- Verify test ID in component code before writing tests
+- Maintain consistent test ID naming across components
+- Verify test IDs directly from component implementation files
+- Use consistent test ID naming between component and test files
+- Keep test ID references in sync with component implementation
+
+## Testing Learnings
+
+- When testing form components that show/hide elements based on form state, ensure that mocks provide the correct initial state that matches the component's expectations
+- For ColorFields component, the first "Add Another Color" button (data-testid="add-color-button-1") only appears when color1 has a value and showColor2 is false
+- When mocking state setter functions (like setShowColor2), ensure they actually update the mock state values for proper testing of conditional rendering
+- When testing Material-UI Button components, use getByRole("button", { name: "button text" }) instead of getByTestId
+- Material-UI Button components don't automatically include data-testid attributes, while custom button elements might have them
+- For ColorFields component:
+  - First "Add Another Color" button is a Material-UI Button component - use getByRole to find it
+  - Second "Add Another Color" button is a custom button element with data-testid - use getByTestId
+- When testing conditional rendering that depends on initial state, use waitFor to ensure the component has rendered with the expected state
+- For ColorFields component:
+  - The first "Add Another Color" button (data-testid="add-color-button-1") needs time to render after initial state is set
+  - Use waitFor to ensure the button is in the DOM before attempting to interact with it
+- When testing form components with dependent fields:
+  - Pay attention to the complete sequence of state changes needed
+  - For ColorFields component:
+    - First button appears when color1 has value and showColor2 is false
+    - After clicking first button, must select a color2 value
+    - Second button only appears after color2 has a value
+  - Mock state should reflect the complete state needed at each step
+- When testing Material-UI components with conditional rendering:
+  - Check if the component uses data-testid or relies on MUI's default accessibility roles
+  - For MUI Button without data-testid, use getByText instead of getByRole or getByTestId
+  - Ensure mock state handlers (like handleInputChange) actually update the state
+  - Pay attention to the initial state values that control conditional rendering
+- When mocking React hooks:
+  - Module-level mocks (vi.mock) take precedence over test-case level mocks
+  - All hook functions used in components must be defined in the module mock
+  - Event handlers in mocks should update mock state to simulate real behavior
+  - Keep state management consistent between all mock functions
+  - Define mock event handlers at module level to ensure they're available to all tests
+- When defining mock handlers that reference mock state:
+  - Declare all state variables before defining handlers that use them
+  - Keep state declarations at the top of the mock scope
+  - Ensure variables are in scope for all functions that reference them
+- When using vi.mock for React hooks:
+  - Module-level mocks must include ALL functions and properties used by the component
+  - Test-specific mocks cannot override module-level mocks
+  - Event handlers defined in module-level mocks should be accessible to all tests
+  - Missing handlers in module-level mocks will cause all tests to fail
+  - Keep mock implementations consistent between module-level and test-specific mocks
+- When mocking React hooks with complex state:
+  - Mock must match the exact interface of the original hook
+  - Include all form fields in the mock state, even optional ones
+  - Event handlers must be defined at module level, not in test cases
+  - State updates in mock handlers must match the original hook behavior
+  - Use vi.fn() for event handlers that need to be spied on in tests
+  - Mock state structure must match the type definitions exactly
+- When mocking React hooks with component callbacks:
+  - Event handler functions must be properly mocked with vi.fn()
+  - Setter functions must be mocked as functions, not just values
+  - Component callbacks (like onShowBreed2Change) must be included in the mock
+  - State updates in mock functions should maintain internal state consistency
+  - All component-required props must be included in the mock
+- When using module-level mocks:
+  - Remove duplicate mock implementations in individual test cases
+  - Rely on the module-level mock state and handlers
+  - Test-level mocks cannot override module-level mocks in vi.mock

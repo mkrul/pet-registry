@@ -25,6 +25,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
         fullWidth
         disabled={readOnly}
         sx={commonInputStyles}
+        data-testid="report-form-title"
       />
 
       <TextField
@@ -38,6 +39,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
         fullWidth
         disabled={readOnly}
         sx={commonInputStyles}
+        data-testid="report-form-description"
       />
 
       <TextField
@@ -49,6 +51,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
         fullWidth
         disabled={readOnly}
         sx={commonInputStyles}
+        data-testid="report-form-name"
       />
     </>
   );

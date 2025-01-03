@@ -28,10 +28,10 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" data-testid="report-location-select">
       <label className="text-lg font-medium text-gray-900 mb-2">Location</label>
       {selectedLocation && (
-        <div data-testid="location-display">
+        <div>
           <LocationDisplay
             area={selectedLocation.area}
             state={selectedLocation.state}
