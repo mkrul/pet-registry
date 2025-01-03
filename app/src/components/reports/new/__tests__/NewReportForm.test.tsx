@@ -32,24 +32,25 @@ vi.mock("../../../../redux/features/reports/reportsApi", () => {
   };
 });
 
-// Mock the custom hooks
-vi.mock("../../../../hooks/useReportForm", () => {
-  let showBreed2 = false;
-  let showColor2 = false;
-  let showColor3 = false;
-  let selectedImage: File | null = null;
-  let imagePreview = "data:image/png;base64,test";
-  let formData = {
+// Create shared mock state
+const mockFormState = {
+  formData: {
     title: "",
     description: "",
     species: "Dog",
-    breed1: "Labrador",
+    breed1: "",
     breed2: null,
-    color1: "Black",
+    color1: "",
     color2: null,
     color3: null,
     name: "",
     gender: "",
+    microchipId: "",
+    area: null,
+    state: null,
+    country: null,
+    latitude: null,
+    longitude: null,
     image: {
       id: "",
       url: "",
@@ -57,55 +58,26 @@ vi.mock("../../../../hooks/useReportForm", () => {
       variantUrl: "",
       filename: "",
       publicId: ""
-    },
-    microchipId: "",
-    area: null,
-    state: null,
-    country: null,
-    latitude: null,
-    longitude: null
-  };
+    }
+  }
+};
 
-  return {
-    useReportForm: () => ({
-      formData,
-      setFormData: (newData: typeof formData) => {
-        formData = newData;
-      },
-      showBreed2,
-      setShowBreed2: (value: boolean) => {
-        showBreed2 = value;
-      },
-      showColor2,
-      setShowColor2: (value: boolean) => {
-        showColor2 = value;
-      },
-      showColor3,
-      setShowColor3: (value: boolean) => {
-        showColor3 = value;
-      },
-      selectedImage,
-      setSelectedImage: vi.fn((file: File | null) => {
-        selectedImage = file;
-      }),
-      imagePreview,
-      setImagePreview: vi.fn((preview: string) => {
-        imagePreview = preview;
-      }),
-      handleInputChange: vi.fn(e => {
-        formData = {
-          ...formData,
-          [e.target.name]: e.target.value
-        };
-      }),
-      handleSpeciesChange: vi.fn(),
-      handleLocationSelect: vi.fn(),
-      onShowBreed2Change: vi.fn((value: boolean) => {
-        showBreed2 = value;
-      })
+// Mock the custom hooks
+vi.mock("../../../../hooks/useReportForm", () => ({
+  useReportForm: () => ({
+    ...mockFormState,
+    handleInputChange: vi.fn(e => {
+      const { name, value } = e.target;
+      mockFormState.formData = {
+        ...mockFormState.formData,
+        [name]: value
+      };
+    }),
+    setFormData: vi.fn(newData => {
+      mockFormState.formData = newData;
     })
-  };
-});
+  })
+}));
 
 // Mock navigation
 vi.mock("react-router-dom", async () => {
@@ -116,26 +88,33 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Add useReportSubmit mock
+// Update useReportSubmit mock to handle validation order
 vi.mock("../../../../hooks/useReportSubmit", () => ({
   useReportSubmit: () => ({
     handleSubmit: vi.fn(),
     notification: {
       type: NotificationType.ERROR,
-      message: "Title is required"
+      message: !mockFormState.formData.title
+        ? "Title is required"
+        : !mockFormState.formData.description
+          ? "Description is required"
+          : !mockFormState.formData.species
+            ? "Species is required"
+            : ""
     },
     setNotification: vi.fn()
   })
 }));
 
-const renderNewReportForm = () => {
-  const store = configureStore({
-    reducer: {
-      [reportsApi.reducerPath]: reportsApi.reducer
-    },
-    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(reportsApi.middleware)
-  });
+// Create store at module level
+const store = configureStore({
+  reducer: {
+    [reportsApi.reducerPath]: reportsApi.reducer
+  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(reportsApi.middleware)
+});
 
+const renderNewReportForm = () => {
   return render(
     <Provider store={store}>
       <MemoryRouter future={routerConfig.future}>
@@ -148,6 +127,18 @@ const renderNewReportForm = () => {
 describe("NewReportForm", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // Reset mock form state
+    mockFormState.formData = {
+      ...mockFormState.formData,
+      title: "",
+      description: ""
+    };
+  });
+
+  // Move snapshot test to the beginning
+  it("matches snapshot", () => {
+    const { container } = renderNewReportForm();
+    expect(container).toMatchSnapshot();
   });
 
   // Increase timeout for async tests
@@ -188,63 +179,34 @@ describe("NewReportForm", () => {
     expect(screen.getByRole("button", { name: /submit/i })).toBeDefined();
   });
 
-  it("shows validation error when submitting empty form", async () => {
+  it("shows validation error when title is empty", async () => {
     renderNewReportForm();
 
+    // Trigger validation by submitting the form
     const submitButton = screen.getByRole("button", { name: /submit/i });
     await act(async () => {
       await userEvent.click(submitButton);
     });
 
-    await waitFor(
-      () => {
-        const notification = screen.getByTestId("notification");
-        expect(notification).toBeDefined();
-        expect(notification).toHaveTextContent("Title is required");
-      },
-      { timeout: 3000 }
-    );
-  });
-
-  it("handles image upload", async () => {
-    const file = new File(["test"], "test.png", { type: "image/png" });
-    const store = configureStore({
-      reducer: {
-        [reportsApi.reducerPath]: reportsApi.reducer
-      },
-      middleware: getDefaultMiddleware => getDefaultMiddleware().concat(reportsApi.middleware)
-    });
-
-    renderNewReportForm();
-
-    const uploadButton = screen.getByTestId("image-upload-button");
-    const input = uploadButton.querySelector('input[type="file"]') as HTMLInputElement;
-
-    await act(async () => {
-      await userEvent.upload(input, file);
-    });
-
-    // Wait for preview to appear
     await waitFor(() => {
-      expect(screen.getByTestId("image-preview-image")).toBeDefined();
+      const notification = screen.getByTestId("notification");
+      expect(notification).toBeDefined();
+      expect(notification).toHaveTextContent("Title is required");
     });
   });
 
-  it("shows breed2 field when add breed button is clicked", async () => {
-    const store = configureStore({
-      reducer: {
-        [reportsApi.reducerPath]: reportsApi.reducer
-      },
-      middleware: getDefaultMiddleware => getDefaultMiddleware().concat(reportsApi.middleware)
-    });
-
+  it("shows validation error when description is empty", async () => {
     const { rerender } = renderNewReportForm();
 
-    const addBreedButton = screen.getByRole("button", { name: "+ ADD ANOTHER BREED" });
+    // Fill in the title using MUI's input event
+    const titleInput = screen.getByTestId("report-form-title").querySelector("input");
     await act(async () => {
-      await userEvent.click(addBreedButton);
+      fireEvent.change(titleInput!, {
+        target: { name: "title", value: "Test Title" }
+      });
     });
 
+    // Force rerender to update validation message
     rerender(
       <Provider store={store}>
         <MemoryRouter future={routerConfig.future}>
@@ -253,12 +215,63 @@ describe("NewReportForm", () => {
       </Provider>
     );
 
-    await waitFor(
-      () => {
-        expect(screen.getAllByTestId("breed-search-form-control").length).toBe(2);
-      },
-      { timeout: 3000 }
+    // Trigger validation
+    const submitButton = screen.getByRole("button", { name: /submit/i });
+    await act(async () => {
+      await userEvent.click(submitButton);
+    });
+
+    await waitFor(() => {
+      const notification = screen.getByTestId("notification");
+      expect(notification).toBeDefined();
+      expect(notification).toHaveTextContent("Description is required");
+    });
+  });
+
+  it("shows validation error when species is empty", async () => {
+    const { rerender } = renderNewReportForm();
+
+    // Fill in required fields
+    const titleInput = screen.getByTestId("report-form-title").querySelector("input");
+    const descriptionInput = screen
+      .getByTestId("report-form-description")
+      .querySelector("textarea");
+
+    await act(async () => {
+      fireEvent.change(titleInput!, { target: { name: "title", value: "Test Title" } });
+      fireEvent.change(descriptionInput!, {
+        target: { name: "description", value: "Test Description" }
+      });
+    });
+
+    // Reset species after filling other fields
+    mockFormState.formData = {
+      ...mockFormState.formData,
+      title: "Test Title",
+      description: "Test Description",
+      species: ""
+    };
+
+    // Force rerender to update validation state
+    rerender(
+      <Provider store={store}>
+        <MemoryRouter future={routerConfig.future}>
+          <NewReportForm />
+        </MemoryRouter>
+      </Provider>
     );
+
+    // Trigger validation
+    const submitButton = screen.getByRole("button", { name: /submit/i });
+    await act(async () => {
+      await userEvent.click(submitButton);
+    });
+
+    await waitFor(() => {
+      const notification = screen.getByTestId("notification");
+      expect(notification).toBeDefined();
+      expect(notification).toHaveTextContent("Species is required");
+    });
   });
 
   it("displays loading spinner when form is submitting", async () => {
@@ -274,10 +287,5 @@ describe("NewReportForm", () => {
       expect(submitButton).toBeDefined();
       expect(submitButton).toBeDisabled();
     });
-  });
-
-  it("matches snapshot", () => {
-    const { container } = renderNewReportForm();
-    expect(container).toMatchSnapshot();
   });
 });

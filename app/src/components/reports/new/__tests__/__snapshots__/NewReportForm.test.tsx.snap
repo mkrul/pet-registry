@@ -26,8 +26,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r23:"
-        id=":r23:-label"
+        for=":r0:"
+        id=":r0:-label"
       >
         Title
       </label>
@@ -37,7 +37,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r23:"
+          id=":r0:"
           name="title"
           type="text"
           value=""
@@ -63,8 +63,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r24:"
-        id=":r24:-label"
+        for=":r1:"
+        id=":r1:-label"
       >
         Description
       </label>
@@ -74,7 +74,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         <textarea
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline css-w4nesw-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r24:"
+          id=":r1:"
           name="description"
           rows="4"
           style="height: 0px; overflow: hidden;"
@@ -107,8 +107,8 @@ exports[`NewReportForm > matches snapshot 1`] = `
       <label
         class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r25:"
-        id=":r25:-label"
+        for=":r2:"
+        id=":r2:-label"
       >
         Pet's Name (leave blank if not known)
       </label>
@@ -118,7 +118,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-          id=":r25:"
+          id=":r2:"
           name="name"
           type="text"
           value=""
@@ -142,21 +142,20 @@ exports[`NewReportForm > matches snapshot 1`] = `
       data-testid="microchip-id-input"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
         data-shrink="false"
-        for=":r26:"
-        id=":r26:-label"
+        for=":r3:"
+        id=":r3:-label"
       >
         Microchip ID (leave blank if not known)
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl css-1blp12k-MuiInputBase-root-MuiOutlinedInput-root"
       >
         <input
           aria-invalid="false"
-          class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
-          disabled=""
-          id=":r26:"
+          class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r3:"
           name="microchipId"
           type="text"
           value=""
@@ -186,18 +185,18 @@ exports[`NewReportForm > matches snapshot 1`] = `
         Gender (leave blank if not known)
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-10mr75f-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-10mr75f-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
         data-testid="gender-select"
       >
         <div
-          aria-controls=":r27:"
-          aria-disabled="true"
+          aria-controls=":r4:"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-labelledby="gender-label gender"
-          class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+          class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
           id="gender"
           role="combobox"
+          tabindex="0"
         >
           <span
             aria-hidden="true"
@@ -210,14 +209,13 @@ exports[`NewReportForm > matches snapshot 1`] = `
           aria-hidden="true"
           aria-invalid="false"
           class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-          disabled=""
           name="gender"
           tabindex="-1"
           value=""
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined Mui-disabled css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
           data-testid="ArrowDropDownIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -251,18 +249,18 @@ exports[`NewReportForm > matches snapshot 1`] = `
         Species
       </label>
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-formControl css-10mr75f-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-10mr75f-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
         data-testid="species-select"
       >
         <div
-          aria-controls=":r28:"
-          aria-disabled="true"
+          aria-controls=":r5:"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-labelledby="species-label species"
-          class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+          class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-w76bbz-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
           id="species"
           role="combobox"
+          tabindex="0"
         >
           Dog
         </div>
@@ -270,14 +268,13 @@ exports[`NewReportForm > matches snapshot 1`] = `
           aria-hidden="true"
           aria-invalid="false"
           class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
-          disabled=""
           name="species"
           tabindex="-1"
           value="Dog"
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined Mui-disabled css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-lohd6h-MuiSvgIcon-root-MuiSelect-icon"
           data-testid="ArrowDropDownIcon"
           focusable="false"
           viewBox="0 0 24 24"
@@ -305,22 +302,22 @@ exports[`NewReportForm > matches snapshot 1`] = `
       data-testid="breed-search-form-control"
     >
       <div
-        class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1tlcqt-MuiAutocomplete-root"
+        class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon MuiAutocomplete-hasPopupIcon css-1tlcqt-MuiAutocomplete-root"
       >
         <div
           aria-label="breed search"
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-r7py7u-MuiFormControl-root-MuiTextField-root"
         >
           <label
-            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink="true"
-            for=":r29:"
-            id=":r29:-label"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for=":r6:"
+            id=":r6:-label"
           >
             Breed
           </label>
           <div
-            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
           >
             <input
               aria-autocomplete="list"
@@ -328,21 +325,38 @@ exports[`NewReportForm > matches snapshot 1`] = `
               aria-invalid="false"
               autocapitalize="none"
               autocomplete="off"
-              class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-              disabled=""
-              id=":r29:"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
+              id=":r6:"
               role="combobox"
               spellcheck="false"
               type="text"
-              value="Labrador"
+              value=""
             />
             <div
               class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
             >
               <button
+                aria-label="Clear"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-nykp2v-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
+                tabindex="-1"
+                title="Clear"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-120dh41-MuiSvgIcon-root"
+                  data-testid="CloseIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                  />
+                </svg>
+              </button>
+              <button
                 aria-label="Open"
-                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-1puztro-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
-                disabled=""
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-1puztro-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
                 tabindex="-1"
                 title="Open"
                 type="button"
@@ -365,7 +379,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
               class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-w1u3ce"
+                class="css-81qg8w"
               >
                 <span>
                   Breed
@@ -377,111 +391,12 @@ exports[`NewReportForm > matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="flex items-center gap-2"
-    >
-      <div
-        class="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
-        data-testid="breed-search-form-control"
-      >
-        <div
-          class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1tlcqt-MuiAutocomplete-root"
-        >
-          <div
-            aria-label="breed search"
-            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-r7py7u-MuiFormControl-root-MuiTextField-root"
-          >
-            <label
-              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary Mui-disabled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
-              data-shrink="false"
-              for=":r2b:"
-              id=":r2b:-label"
-            >
-              Breed
-            </label>
-            <div
-              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1n04w30-MuiInputBase-root-MuiOutlinedInput-root"
-            >
-              <input
-                aria-autocomplete="list"
-                aria-expanded="false"
-                aria-invalid="false"
-                autocapitalize="none"
-                autocomplete="off"
-                class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1dune0f-MuiInputBase-input-MuiOutlinedInput-input"
-                disabled=""
-                id=":r2b:"
-                role="combobox"
-                spellcheck="false"
-                type="text"
-                value=""
-              />
-              <div
-                class="MuiAutocomplete-endAdornment css-1uhhrmm-MuiAutocomplete-endAdornment"
-              >
-                <button
-                  aria-label="Open"
-                  class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-1puztro-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
-                  disabled=""
-                  tabindex="-1"
-                  title="Open"
-                  type="button"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-                    data-testid="ArrowDropDownIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M7 10l5 5 5-5z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="css-81qg8w"
-                >
-                  <span>
-                    Breed
-                  </span>
-                </legend>
-              </fieldset>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button
-        aria-label="Remove Breed"
-        class="text-red-600 hover:text-red-700 p-1 ml-1"
-        data-testid="remove-breed-button"
-        disabled=""
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1umw9bq-MuiSvgIcon-root"
-          data-testid="CloseIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-          />
-        </svg>
-      </button>
-    </div>
-    <div
       class="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
       data-testid="color-1-form-control"
     >
       <label
-        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
-        data-shrink="true"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="false"
         id="color1-label"
       >
         Color 1
@@ -490,7 +405,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
         class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-fevcd3-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
       >
         <div
-          aria-controls=":r2d:"
+          aria-controls=":r8:"
           aria-expanded="false"
           aria-haspopup="listbox"
           aria-labelledby="color1-label color1"
@@ -499,7 +414,12 @@ exports[`NewReportForm > matches snapshot 1`] = `
           role="combobox"
           tabindex="0"
         >
-          Black
+          <span
+            aria-hidden="true"
+            class="notranslate"
+          >
+            ​
+          </span>
         </div>
         <input
           aria-hidden="true"
@@ -507,7 +427,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
           class="MuiSelect-nativeInput css-j0riat-MuiSelect-nativeInput"
           name="color1"
           tabindex="-1"
-          value="Black"
+          value=""
         />
         <svg
           aria-hidden="true"
@@ -525,7 +445,7 @@ exports[`NewReportForm > matches snapshot 1`] = `
           class="MuiOutlinedInput-notchedOutline css-1ll44ll-MuiOutlinedInput-notchedOutline"
         >
           <legend
-            class="css-w1u3ce"
+            class="css-81qg8w"
           >
             <span>
               Color 1
@@ -534,15 +454,6 @@ exports[`NewReportForm > matches snapshot 1`] = `
         </fieldset>
       </div>
     </div>
-    <button
-      class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary mt-2 css-1588512-MuiButtonBase-root-MuiButton-root"
-      data-testid="add-color-button-1"
-      disabled=""
-      tabindex="-1"
-      type="button"
-    >
-      + ADD ANOTHER COLOR
-    </button>
     <div
       class="mt-8"
       data-testid="image-upload-container"
@@ -556,11 +467,10 @@ exports[`NewReportForm > matches snapshot 1`] = `
         class="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
       >
         <label
-          aria-disabled="true"
-          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-3545tq-MuiButtonBase-root-MuiButton-root"
+          class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-3545tq-MuiButtonBase-root-MuiButton-root"
           data-testid="image-upload-button"
           role="button"
-          tabindex="-1"
+          tabindex="0"
         >
           <span
             class="MuiButton-icon MuiButton-startIcon MuiButton-iconSizeMedium css-1jsm74t-MuiButton-startIcon"
@@ -581,23 +491,11 @@ exports[`NewReportForm > matches snapshot 1`] = `
           <input
             accept="image/*"
             data-testid="file-input"
-            disabled=""
             name="image"
             style="display: none;"
             type="file"
           />
         </label>
-        <div
-          class="relative w-32 h-32 mt-3"
-          data-testid="image-preview"
-        >
-          <img
-            alt="Selected"
-            class="object-cover w-full h-full rounded-md"
-            data-testid="image-preview-image"
-            src="data:image/png;base64,dGVzdA=="
-          />
-        </div>
       </div>
     </div>
     <div
@@ -760,37 +658,10 @@ exports[`NewReportForm > matches snapshot 1`] = `
       </button>
     </div>
     <button
-      class="w-fit inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-400 cursor-not-allowed"
-      disabled=""
+      class="w-fit inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
       type="submit"
     >
-      Submitting...
-      <div
-        role="status"
-      >
-        <svg
-          aria-hidden="true"
-          class="animate-spin text-white fill-blue-600 ml-2"
-          fill="none"
-          style="width: 16px; height: 16px;"
-          viewBox="0 0 100 101"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-            fill="currentColor"
-          />
-          <path
-            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-            fill="currentFill"
-          />
-        </svg>
-        <span
-          class="sr-only"
-        >
-          Loading...
-        </span>
-      </div>
+      Submit
     </button>
   </form>
 </div>

@@ -279,3 +279,112 @@ Testing Best Practices:
   - Use findBy queries for elements that appear after state changes
   - Wait for elements to be available after state updates with findBy
   - Match button text exactly including capitalization
+
+- When testing form input clearing:
+  - Use userEvent.clear() instead of userEvent.type("") to clear input values
+  - userEvent.type() requires actual characters to type, cannot type empty string
+  - For validation testing, clearing the input is more appropriate than typing empty string
+  - Remember that userEvent simulates real user keyboard interactions
+
+- When testing form validation:
+  - Prefer testing validation through form submission rather than direct input manipulation
+  - Form submission triggers all validation rules consistently
+  - Some inputs may not be directly editable in test environment
+  - Use form-level events to test validation behavior
+  - Remember that MUI components may have different editability in test environment
+
+- When testing form validation sequences:
+  - Mock validation messages need to reflect the current form state
+  - Update mock responses based on form field values
+  - Consider the validation order in the actual validation logic
+  - Mock hooks need to be aware of form state changes
+  - Remember that validation messages should match the first failing validation rule
+
+- When mocking hooks that need to access form state:
+  - Define state variables in the mock closure scope
+  - Share state between mock implementations using closure scope
+  - Ensure state is accessible to all mock functions
+  - Remember that mock scope is isolated from test scope
+
+- When mocking multiple hooks that share state:
+  - Create a shared mock state object outside mock definitions
+  - Use the same state reference in all related mocks
+  - Update shared state in mock handlers
+  - Ensure state updates are reflected across all mocks
+
+- When mocking form state for components with required fields:
+  - Include all required fields in mock state, even if empty
+  - Match the exact type structure from the component interface
+  - Provide default values that won't cause type coercion errors
+  - Remember that undefined values can cause runtime errors with string methods
+  - Initialize optional fields as null rather than undefined
+
+- When mocking form state updates in tests:
+  - Use spread operator to maintain all existing fields when updating
+  - Update the entire form state object to trigger reactive updates
+  - Ensure mock state updates are reflected in all dependent mocks
+  - Remember that mock state updates need to be immutable
+  - Keep state management consistent between related mocks
+
+- When testing MUI input changes:
+  - Use fireEvent.change instead of userEvent.type for MUI inputs
+  - Include both name and value in the change event target
+  - Query for the actual input element within the MUI wrapper
+  - Remember that MUI inputs are wrapped in multiple divs
+  - Use querySelector to find the actual input element
+
+- When testing with snapshots and shared state:
+  - Reset mock state before each test to ensure consistent snapshots
+  - Place snapshot tests before other tests that modify state
+  - Clear all mocks in beforeEach to prevent state leakage
+  - Remember that snapshots capture the initial state
+  - Keep snapshot tests independent of other test state changes
+
+- When testing form validation with shared mock state:
+  - Rerender component after state changes to trigger validation updates
+  - Use RTL's rerender function to force component update
+  - Remember that mock state changes don't automatically trigger rerenders
+  - Ensure validation state is consistent before assertions
+  - Consider component lifecycle when testing validation messages
+
+- When testing components that need store rerendering:
+  - Define Redux store at module level for consistent access
+  - Use same store instance for initial render and rerenders
+  - Avoid creating new store instances during tests
+  - Remember that store needs to be accessible for rerender calls
+  - Keep store configuration consistent across test cases
+
+- When testing MUI form validation with complex inputs:
+  - Query for nested input elements using querySelector
+  - Use textarea selector for multiline text fields
+  - Remember that MUI wraps inputs in multiple container divs
+  - Target the actual input element for change events
+  - Validate error messages on the container element
+
+- When testing form validation with default values:
+  - Reset mock state fields to empty before validation tests
+  - Clear default values that might prevent validation errors
+  - Remember that mock state initialization can affect validation
+  - Test validation messages against notification component
+  - Ensure mock state reflects the intended test scenario
+
+- When mocking form validation with multiple fields:
+  - Mock validation in the same order as the actual form
+  - Chain validation checks using ternary operators
+  - Return appropriate error message for first failing validation
+  - Ensure mock validation logic matches component behavior
+  - Remember that validation order affects error messages
+
+- When testing form validation order with mock state:
+  - Update mock state after input changes to maintain field values
+  - Set all required fields before testing specific validation
+  - Remember that resetting one field shouldn't clear others
+  - Ensure mock state updates preserve existing valid data
+  - Consider the full form state when testing individual validations
+
+- When testing form validation with mock state updates:
+  - Rerender component after updating mock state
+  - Use RTL's rerender function to ensure state changes are reflected
+  - Pass the same provider structure to rerender as initial render
+  - Remember that mock state updates don't automatically trigger rerenders
+  - Ensure validation state is synchronized with component state
