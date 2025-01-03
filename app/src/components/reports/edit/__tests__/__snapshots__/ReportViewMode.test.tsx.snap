@@ -4,6 +4,7 @@ exports[`ReportViewMode > Content Display > renders basic report information 1`]
 <div>
   <div
     class="space-y-6"
+    data-testid="view-report-mode-form"
   >
     <div
       class="flex justify-end mb-4 gap-2"
@@ -194,6 +195,7 @@ exports[`ReportViewMode > Content Display > renders basic report information 1`]
       </label>
       <p
         class="text-gray-500 mt-2"
+        data-testid="location-display"
       >
         Test Area, Test State, Test Country
       </p>

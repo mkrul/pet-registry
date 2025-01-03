@@ -8,7 +8,7 @@ import LocationDisplay from "../../../common/LocationDisplay";
 // Mock both components before tests
 vi.mock("../../../common/LocationDisplay", () => ({
   default: vi.fn(({ area, state, country }) => (
-    <div data-testid="mock-location-display">{`${area}, ${state}, ${country}`}</div>
+    <div data-testid="location-display">{`${area}, ${state}, ${country}`}</div>
   ))
 }));
 
@@ -93,14 +93,13 @@ describe("ReportLocationSelect", () => {
     const locationDisplay = screen.getByTestId("location-display");
     expect(locationDisplay).toBeDefined();
 
-    const mockLocationDisplay = screen.getByTestId("mock-location-display");
-    expect(mockLocationDisplay).toHaveTextContent("Sydney, NSW, Australia");
+    expect(locationDisplay).toHaveTextContent("Sydney, NSW, Australia");
   });
 
   it("maintains location display state between rerenders", () => {
-    const { rerender } = render(<ReportLocationSelect {...defaultProps} />);
+    const { rerender } = render(<ReportLocationSelect onLocationSelect={mockOnLocationSelect} />);
 
-    // Initial selection
+    // Select location first to make LocationDisplay appear
     const selectButton = screen.getByTestId("mock-location-select");
     fireEvent.click(selectButton);
 
@@ -108,7 +107,7 @@ describe("ReportLocationSelect", () => {
     expect(screen.getByTestId("location-display")).toBeDefined();
 
     // Rerender and verify persistence
-    rerender(<ReportLocationSelect {...defaultProps} />);
+    rerender(<ReportLocationSelect onLocationSelect={mockOnLocationSelect} />);
     expect(screen.getByTestId("location-display")).toBeDefined();
   });
 });

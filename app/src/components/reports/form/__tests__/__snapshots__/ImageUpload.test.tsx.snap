@@ -4,6 +4,7 @@ exports[`ImageUpload > renders correctly 1`] = `
 <div>
   <div
     class="mt-8"
+    data-testid="image-upload-container"
   >
     <h2
       class="text-lg font-medium text-gray-900 mb-2"
@@ -15,6 +16,7 @@ exports[`ImageUpload > renders correctly 1`] = `
     >
       <label
         class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-colorPrimary css-3545tq-MuiButtonBase-root-MuiButton-root"
+        data-testid="image-upload-button"
         role="button"
         tabindex="0"
       >

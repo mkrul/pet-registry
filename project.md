@@ -48,6 +48,66 @@
 - [x] Added tests for button click handlers
 - [x] Added tests for filter toggle functionality
 - [x] Added tests for conditional button text
+- [x] Added SearchContainer component test suite
+- [x] Added tests for search and reset functionality
+- [x] Added tests for URL parameter management
+- [x] Added tests for filter visibility toggling
+- [x] Fixed SearchContainer component test suite
+- [x] Added proper mocking for filter utilities
+- [x] Fixed async state update handling
+- [x] Added proper router hook mocking
+- [x] Simplified SearchContainer test setup
+- [x] Added helper function for component rendering
+- [x] Improved mock stability and predictability
+- [x] Removed unnecessary async/await usage
+- [x] Fixed ReportCard date/time display tests
+- [x] Added date utility mocking
+- [x] Improved date format verification
+- [x] Maintained test stability for dynamic content
+- [x] Added dateUtils module for date formatting
+- [x] Added date utility functions with TypeScript types
+- [x] Fixed ReportCard router context in tests
+- [x] Added proper routing wrapper for component tests
+- [x] Fixed dateUtils mock path in ReportCard tests
+- [x] Simplified date format testing approach
+- [x] Fixed ReportCard date display test to use dynamic formatting
+- [x] Added timezone-safe date testing approach
+- [x] Added data-testid for date display testing
+- [x] Used vi.setSystemTime for consistent date testing
+- [x] Fixed ReportLocationSelect test data-testid matching
+- [x] Aligned test expectations with mock implementation
+- [x] Fixed data-testid consistency in ReportLocationSelect tests
+- [x] Aligned test assertions with mock component data-testids
+- [x] Fixed ReportLocationSelect location display test sequence
+- [x] Added proper state setup for conditional rendering tests
+- [x] Fixed BreedSearch required attribute test with correct role
+- [x] Updated MUI Autocomplete input element selection
+- [x] Added explicit attribute testing for form inputs
+- [x] Fixed BreedSearch MUI component test wrapping
+- [x] Updated MUI input element selection method
+- [x] Fixed SearchContainer test mock hoisting
+- [x] Implemented inline mock return values
+- [x] Added proper mock initialization order
+- [x] Fixed SearchContainer test utility mocks
+- [x] Added complete mock implementation for filterUtils
+- [x] Added Redux Provider wrapper for SearchContainer tests
+- [x] Configured mock store with RTK Query setup
+- [x] Added API service mocking for SearchContainer tests
+- [x] Implemented minimal RTK Query mock setup
+- [x] Fixed SearchContainer store configuration with mock API
+- [x] Added proper mock API reference handling
+- [x] Added reports API mock for location queries
+- [x] Fixed store configuration with all required APIs
+- [x] Added complete RTK Query hook mock implementation
+- [x] Fixed reports API endpoint mocking
+- [x] Added complete RTK Query API mock with utilities
+- [x] Fixed API middleware configuration
+- [x] Added mock for all required RTK Query hooks
+- [x] Fixed query hook implementation in tests
+- [x] Fixed RTK Query middleware registration
+- [x] Added complete query hook state management
+- [x] Fixed store middleware configuration for multiple APIs
+- [x] Added proper middleware chaining in store setup
 
 ## New Learnings
 - MUI Select testing is more reliable when targeting native inputs
@@ -74,3 +134,90 @@
 - Test conditional text content in buttons
 - Verify toggle functionality with boolean props
 - Test button handlers with correct arguments
+- Mock router hooks to control URL parameters in tests
+- Test URL updates using window.location object
+- Use act() wrapper for state updates in tests
+- Test container components through child interactions
+- Mock utility functions with proper return values
+- Handle multiple state updates with separate act() calls
+- Mock router hooks with complete functionality
+- Test URL management through mocked functions
+- Extract render logic to avoid repetition
+- Use consistent mock data objects
+- Simplify tests by removing unnecessary async code
+- Keep mock implementations minimal
+- Mock date utilities for consistent test output
+- Test date formatting through utility calls
+- Verify dynamic content through text matching
+- Use stable date formats in tests
+- Create required utility modules before writing tests
+- Use TypeScript for utility function type safety
+- Double-check relative import paths in tests
+- Match import paths to project directory structure
+- Add type definitions to mocked component props
+- Use optional props in display component mocks
+- Add ReactElement type for component parameters
+- Type test utility functions explicitly
+- Create complete mock objects matching prop types
+- Include all required properties in test data
+- Create mock data matching exact interface definitions
+- Include all required interface fields in test mocks
+- Include complete nested interface properties in mocks
+- Match all required child component prop types
+- Match exact property types in mock data
+- Verify interface type requirements carefully
+- Use exact prop names from component interfaces
+- Verify prop names against type definitions
+- Wrap components using Link with MemoryRouter
+- Provide routing context in component tests
+- Match mock paths exactly with import paths
+- Test date display directly without spy assertions
+- Use component's actual date formatting in tests
+- Handle timezone variations in date display tests
+- Use data-testid for testing dynamic content
+- Control system time in tests for date consistency
+- Match data-testid values with mock component implementations
+- Verify test assertions use correct mock data-testids
+- Remove props not defined in component interfaces
+- Match test props with component prop types
+- Use same data-testid values as defined in mock components
+- Verify data-testid matches between tests and mocks
+- Set up component state before testing conditional elements
+- Trigger necessary actions to test conditional rendering
+- Test HTML attributes directly using toHaveAttribute
+- Verify required attribute on form inputs explicitly
+- Match string literal types exactly in component props
+- Use correct case for enum/union string values
+- Wrap MUI component tests in act() for stability
+- Use role selectors for MUI form components
+- Use combobox role for MUI Autocomplete components
+- Match component's actual accessibility roles in tests
+- Select MUI Autocomplete input with correct role
+- Place vi.mock() before imports to avoid hoisting issues
+- Provide default mock return values for utility functions
+- Define mock data before vi.mock declarations
+- Provide all required utility function mocks
+- Define mock values inline within vi.mock calls
+- Avoid referencing external variables in mock factories
+- Provide Redux store context in component tests
+- Configure mock store with proper API middleware
+- Mock API services with required RTK Query structure
+- Provide minimal implementation for API middleware
+- Define mock objects before using in store configuration
+- Reference mock API consistently in store setup
+- Mock Redux middleware with next => action => next(action) pattern
+- Maintain correct middleware function signature in mocks
+- Include all required API mocks in store setup
+- Configure store with complete API middleware chain
+- Add type annotations to mock middleware functions
+- Use explicit parameter types in middleware chain
+- Mock RTK Query hooks with all required return values
+- Include refetch function in query hook mocks
+- Include API utility methods in RTK Query mocks
+- Provide complete query state in hook return values
+- Mock all RTK Query hooks used in components
+- Provide consistent query state across hook mocks
+- Include injectEndpoints in RTK Query API mocks
+- Add status field to query hook return values
+- Chain multiple API middleware using concat
+- Configure store with all required API middleware

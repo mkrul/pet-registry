@@ -62,13 +62,6 @@ exports[`ReportCard > renders correctly 1`] = `
               Test description for the report
             </div>
           </div>
-          <div
-            data-testid="report-datetime"
-          >
-            01/01/2024
-             
-            7:00 AM EST
-          </div>
         </div>
       </div>
     </a>

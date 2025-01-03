@@ -4,6 +4,7 @@ exports[`ColorFields > Rendering > should match snapshot 1`] = `
 <div>
   <div
     class="MuiFormControl-root MuiFormControl-fullWidth css-ytlejw-MuiFormControl-root"
+    data-testid="color-1-form-control"
   >
     <label
       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
@@ -62,6 +63,7 @@ exports[`ColorFields > Rendering > should match snapshot 1`] = `
   </div>
   <button
     class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorPrimary mt-2 css-1588512-MuiButtonBase-root-MuiButton-root"
+    data-testid="add-color-button-1"
     tabindex="0"
     type="button"
   >

@@ -4,6 +4,7 @@ exports[`BasicInfoFields > Rendering > should match snapshot 1`] = `
 <div>
   <div
     class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-tuk39d-MuiFormControl-root-MuiTextField-root"
+    data-testid="report-form-title"
   >
     <label
       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
@@ -40,6 +41,7 @@ exports[`BasicInfoFields > Rendering > should match snapshot 1`] = `
   </div>
   <div
     class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-tuk39d-MuiFormControl-root-MuiTextField-root"
+    data-testid="report-form-description"
   >
     <label
       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"
@@ -85,6 +87,7 @@ exports[`BasicInfoFields > Rendering > should match snapshot 1`] = `
   </div>
   <div
     class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-tuk39d-MuiFormControl-root-MuiTextField-root"
+    data-testid="report-form-name"
   >
     <label
       class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-113d811-MuiFormLabel-root-MuiInputLabel-root"

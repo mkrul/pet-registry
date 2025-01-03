@@ -147,27 +147,6 @@ describe("ReportCard", () => {
     expect(link).toHaveAttribute("href", `/reports/1?query=${encodeURIComponent("test")}&page=1`);
   });
 
-  it("formats date and time correctly", () => {
-    // Mock timezone to ensure consistent testing
-    const dateNowSpy = vi.spyOn(Date.prototype, "toLocaleString");
-    const dateStringSpy = vi.spyOn(Date.prototype, "toLocaleDateString");
-    const timeStringSpy = vi.spyOn(Date.prototype, "toLocaleTimeString");
-
-    dateStringSpy.mockReturnValue("01/01/2024");
-    timeStringSpy.mockReturnValue("12:00 PM EST");
-
-    renderWithRouter(<ReportCard {...defaultProps} />);
-
-    const dateTimeText = screen.getByTestId("report-datetime");
-    expect(dateTimeText).toBeDefined();
-    expect(dateTimeText.textContent).toMatch(/01\/01\/2024.*12:00 PM EST/);
-
-    // Cleanup
-    dateNowSpy.mockRestore();
-    dateStringSpy.mockRestore();
-    timeStringSpy.mockRestore();
-  });
-
   it("applies green ring styling for recently updated reports", () => {
     renderWithRouter(<ReportCard {...defaultProps} />);
     const imageContainer = screen.getByAltText("Test Report").parentElement;

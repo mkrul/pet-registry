@@ -490,8 +490,10 @@ Testing Best Practices:
 - Verify placeholder text and accessibility attributes
 
 ### Key Testing Patterns
-- Match component prop names exactly in tests
-- Test conditional rendering based on prop values
+- Match component prop names exactly as defined in interfaces
+- Verify prop names against component interface definitions
+
+### Key Testing Patterns
 - Test clearing functionality for search inputs
 - Verify input placeholder text matches design requirements
 
@@ -500,3 +502,206 @@ Testing Best Practices:
 - Use rerender to test component with different prop values
 - Test toggle functionality with boolean state
 - Verify button click handlers are called with correct arguments
+
+### Key Testing Patterns
+- Mock router hooks for components using URL params
+- Test URL parameter updates with window.location
+- Use act() for asynchronous state updates
+- Test container components with their child interactions
+
+### Key Testing Patterns
+- Mock utility functions used by container components
+- Separate act() calls for different state updates
+- Mock router hooks with proper return values
+- Test URL parameter management through mocked functions
+
+### Key Testing Patterns
+- Extract common render logic into helper functions
+- Use consistent mock data across all tests
+- Avoid async/await when not needed for state updates
+- Keep mocks simple and predictable
+
+### Key Testing Patterns
+- Mock date/time utilities for consistent test output
+- Test date formatting through utility function calls
+- Verify date display through text content rather than specific elements
+- Use consistent date formats in test mocks
+
+### Key Testing Patterns
+- Create utility modules before writing tests that depend on them
+- Keep utility functions simple and focused
+
+### Key Testing Patterns
+- Use correct relative paths when importing utility modules
+- Verify import paths match project structure
+
+### Key Testing Patterns
+- Add TypeScript types to mock component props
+- Make props optional when mocking display components
+
+### Key Testing Patterns
+- Type test helper functions with ReactElement
+- Use explicit types for test utility parameters
+
+### Key Testing Patterns
+- Match mock data types exactly with component prop types
+- Include all required props in test mock objects
+
+### Key Testing Patterns
+- Match interface definitions exactly in test mocks
+- Include all required interface properties in mock data
+
+### Key Testing Patterns
+- Include all required nested interface properties in mocks
+- Match child component prop types exactly in test data
+
+### Key Testing Patterns
+- Match exact property types from interfaces
+- Pay attention to string vs number type requirements
+
+### Key Testing Patterns
+- Wrap components using router features with MemoryRouter
+- Test components with proper routing context
+
+### Key Testing Patterns
+- Match mock module paths exactly with import paths
+- Test date display without relying on spy assertions
+
+### Key Testing Patterns
+- Use dynamic date formatting in tests to match component behavior
+- Test date displays with regex to handle timezone variations
+
+### Key Testing Patterns
+- Use data-testid for dynamic content like dates
+- Set system time in tests for consistent date testing
+
+### Key Testing Patterns
+- Use consistent data-testid values between mocks and tests
+- Verify data-testid matches mock component implementation
+
+### Key Testing Patterns
+- Match component props exactly with interface definitions
+- Remove props not defined in component interfaces
+
+### Key Testing Patterns
+- Use consistent data-testids between mocks and component tests
+- Verify data-testid values match the mocked component implementation
+
+### Key Testing Patterns
+- Ensure component state prerequisites before testing elements
+- Test conditional rendering in correct sequence
+
+### Key Testing Patterns
+- Test required attribute on form inputs explicitly
+- Use toHaveAttribute for HTML attribute testing
+
+### Key Testing Patterns
+- Match string literal types exactly in test props
+- Use correct enum/union type values in tests
+
+### Key Testing Patterns
+- Wrap MUI component tests in act() for state updates
+- Use role selectors for MUI form elements
+
+### Key Testing Patterns
+- Use correct role selectors for MUI Autocomplete inputs
+- Test MUI Autocomplete with combobox role for accessibility
+- Match component's actual ARIA roles in tests
+
+### Key Testing Patterns
+- Place vi.mock() calls before any imports
+- Mock utility functions with default return values
+
+### Key Testing Patterns
+- Mock all required utility functions with default values
+- Define mock data constants before vi.mock calls
+
+### Key Testing Patterns
+- Define mock return values inline within vi.mock
+- Avoid external variables in vi.mock factory functions
+
+### Key Testing Patterns
+- Wrap components using Redux with Provider and store
+- Mock RTK Query API with proper reducer and middleware
+
+### Key Testing Patterns
+- Mock API services with minimal implementation
+- Provide mock reducerPath and middleware for RTK Query
+
+### Key Testing Patterns
+- Define mock API objects before vi.mock for store usage
+- Reference mock API in store configuration
+
+### Key Testing Patterns
+- Mock Redux middleware with proper function signature
+- Return correct middleware chain function structure
+
+### Key Testing Patterns
+- Mock all required API endpoints in store setup
+- Include all necessary API reducers and middleware
+
+### Key Testing Patterns
+- Add type annotations to middleware mock functions
+- Use explicit types for middleware chain parameters
+
+### Key Testing Patterns
+- Mock RTK Query endpoints with complete hook return values
+- Include refetch function in RTK Query hook mocks
+
+### Key Testing Patterns
+- Include complete RTK Query API mock implementation
+- Add required API utility methods and state management
+
+### Key Testing Patterns
+- Mock all required RTK Query hooks in component tests
+- Include complete query state for each hook mock
+
+### Key Testing Patterns
+- Include injectEndpoints method in RTK Query mocks
+- Add query status to hook return values
+
+### Key Testing Patterns
+- Configure store with all required API middleware
+- Chain multiple middleware using concat correctly
+
+### RTK Query Store Configuration in Tests
+- When mocking RTK Query store, ensure middleware configuration matches the actual store setup
+- Example:
+  ```typescript
+  const store = configureStore({
+    reducer: {
+      [mockApi.reducerPath]: mockApi.reducer
+    },
+    middleware: getDefaultMiddleware => {
+      const middleware = getDefaultMiddleware();
+      return middleware.concat([mockApi.middleware]);
+    }
+  });
+  ```
+
+### RTK Query Testing Best Practices
+- When mocking RTK Query middleware, ensure proper function chain:
+  ```typescript
+  middleware: () => (next: any) => (action: any) => next(action)
+  ```
+- Always pass middleware as array to concat:
+  ```typescript
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat([mockApi.middleware])
+  ```
+
+### RTK Query Testing Best Practices
+- When mocking RTK Query hooks, export both API and individual hooks:
+  ```typescript
+  vi.mock("../services/api", () => ({
+    api: mockApi,
+    useMyQuery: vi.fn().mockImplementation(mockApi.endpoints.myQuery.useQuery)
+  }));
+  ```
+
+### RTK Query Testing Best Practices
+- Order of operations is critical when setting up RTK Query tests:
+  1. Define mock API
+  2. Configure store with middleware
+  3. Mock API module
+  4. Render components

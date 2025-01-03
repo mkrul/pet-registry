@@ -303,10 +303,12 @@ exports[`NewReportForm > matches snapshot 1`] = `
     >
       <div
         class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon MuiAutocomplete-hasPopupIcon css-1tlcqt-MuiAutocomplete-root"
+        data-testid="breed-search-autocomplete"
       >
         <div
           aria-label="breed search"
           class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-r7py7u-MuiFormControl-root-MuiTextField-root"
+          data-testid="breed-search-input"
         >
           <label
             class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeMedium MuiInputLabel-outlined css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root"

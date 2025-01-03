@@ -4,6 +4,7 @@ exports[`ReportLocationSelect > renders correctly 1`] = `
 <div>
   <div
     class="space-y-2"
+    data-testid="report-location-select"
   >
     <label
       class="text-lg font-medium text-gray-900 mb-2"

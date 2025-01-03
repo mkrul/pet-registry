@@ -4,6 +4,7 @@ exports[`LocationDisplay > matches snapshot with full location 1`] = `
 <div>
   <p
     class="text-gray-500 mt-2"
+    data-testid="location-display"
   >
     Manhattan, New York, USA
   </p>
@@ -14,6 +15,7 @@ exports[`LocationDisplay > matches snapshot with partial location 1`] = `
 <div>
   <p
     class="text-gray-500 mt-2"
+    data-testid="location-display"
   >
     Ontario, Canada
   </p>

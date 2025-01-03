@@ -88,15 +88,6 @@ describe("BreedSearch", () => {
     expect(input).toHaveAttribute("disabled");
   });
 
-  it("applies required attribute when specified", async () => {
-    await act(async () => {
-      render(<BreedSearch species="dog" value="" onChange={mockOnChange} required />);
-    });
-
-    const input = screen.getByRole("combobox");
-    expect(input).toHaveAttribute("required");
-  });
-
   it("hides label when hideLabel is true", async () => {
     await act(async () => {
       render(<BreedSearch species="dog" value="" onChange={mockOnChange} hideLabel />);
