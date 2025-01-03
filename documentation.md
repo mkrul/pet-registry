@@ -476,254 +476,31 @@ Testing Best Practices:
 - Maintain consistent approach for all MUI Select tests
 
 ## New Learnings
-- When testing MUI Select components:
-  - Use querySelector to find the native input element
-  - Trigger change events directly on the native input
-  - Use data-testid attributes for reliable element selection
-  - Match exact option values from configuration files
-- For snapshot testing:
-  - Create snapshots at the container level to capture full component state
-  - Include provider wrappers in snapshot renders
-- When testing filter components:
-  - Test both the presence of filter options and their interactions
-  - Verify filter changes trigger correct handler calls
-  - Use configuration files as source of truth for options
-  - Test option presence before testing interactions
-
-### Key Testing Patterns
-- Test input components for both controlled and uncontrolled behavior
-- Test event handlers with appropriate event objects
-- Test keyboard interactions with proper key events
-- Verify placeholder text and accessibility attributes
-
-### Key Testing Patterns
-- Match component prop names exactly as defined in interfaces
-- Verify prop names against component interface definitions
-
-### Key Testing Patterns
-- Test clearing functionality for search inputs
-- Verify input placeholder text matches design requirements
-
-### Key Testing Patterns
-- Test button text content changes based on props
-- Use rerender to test component with different prop values
-- Test toggle functionality with boolean state
-- Verify button click handlers are called with correct arguments
-
-### Key Testing Patterns
-- Mock router hooks for components using URL params
-- Test URL parameter updates with window.location
-- Use act() for asynchronous state updates
-- Test container components with their child interactions
-
-### Key Testing Patterns
-- Mock utility functions used by container components
-- Separate act() calls for different state updates
-- Mock router hooks with proper return values
-- Test URL parameter management through mocked functions
-
-### Key Testing Patterns
-- Extract common render logic into helper functions
-- Use consistent mock data across all tests
-- Avoid async/await when not needed for state updates
-- Keep mocks simple and predictable
-
-### Key Testing Patterns
-- Mock date/time utilities for consistent test output
-- Test date formatting through utility function calls
-- Verify date display through text content rather than specific elements
-- Use consistent date formats in test mocks
-
-### Key Testing Patterns
-- Create utility modules before writing tests that depend on them
-- Keep utility functions simple and focused
-
-### Key Testing Patterns
-- Use correct relative paths when importing utility modules
-- Verify import paths match project structure
-
-### Key Testing Patterns
-- Add TypeScript types to mock component props
-- Make props optional when mocking display components
-
-### Key Testing Patterns
-- Type test helper functions with ReactElement
-- Use explicit types for test utility parameters
-
-### Key Testing Patterns
-- Match mock data types exactly with component prop types
-- Include all required props in test mock objects
-
-### Key Testing Patterns
-- Match interface definitions exactly in test mocks
-- Include all required interface properties in mock data
-
-### Key Testing Patterns
-- Include all required nested interface properties in mocks
-- Match child component prop types exactly in test data
-
-### Key Testing Patterns
-- Match exact property types from interfaces
-- Pay attention to string vs number type requirements
-
-### Key Testing Patterns
-- Wrap components using router features with MemoryRouter
-- Test components with proper routing context
-
-### Key Testing Patterns
-- Match mock module paths exactly with import paths
-- Test date display without relying on spy assertions
-
-### Key Testing Patterns
-- Use dynamic date formatting in tests to match component behavior
-- Test date displays with regex to handle timezone variations
-
-### Key Testing Patterns
-- Use data-testid for dynamic content like dates
-- Set system time in tests for consistent date testing
-
-### Key Testing Patterns
-- Use consistent data-testid values between mocks and tests
-- Verify data-testid matches mock component implementation
-
-### Key Testing Patterns
-- Match component props exactly with interface definitions
-- Remove props not defined in component interfaces
-
-### Key Testing Patterns
-- Use consistent data-testids between mocks and component tests
-- Verify data-testid values match the mocked component implementation
-
-### Key Testing Patterns
-- Ensure component state prerequisites before testing elements
-- Test conditional rendering in correct sequence
-
-### Key Testing Patterns
-- Test required attribute on form inputs explicitly
-- Use toHaveAttribute for HTML attribute testing
-
-### Key Testing Patterns
-- Match string literal types exactly in test props
-- Use correct enum/union type values in tests
-
-### Key Testing Patterns
-- Wrap MUI component tests in act() for state updates
-- Use role selectors for MUI form elements
-
-### Key Testing Patterns
-- Use correct role selectors for MUI Autocomplete inputs
-- Test MUI Autocomplete with combobox role for accessibility
-- Match component's actual ARIA roles in tests
-
-### Key Testing Patterns
-- Place vi.mock() calls before any imports
-- Mock utility functions with default return values
-
-### Key Testing Patterns
-- Mock all required utility functions with default values
-- Define mock data constants before vi.mock calls
-
-### Key Testing Patterns
-- Define mock return values inline within vi.mock
-- Avoid external variables in vi.mock factory functions
-
-### Key Testing Patterns
-- Wrap components using Redux with Provider and store
-- Mock RTK Query API with proper reducer and middleware
-
-### Key Testing Patterns
-- Mock API services with minimal implementation
-- Provide mock reducerPath and middleware for RTK Query
-
-### Key Testing Patterns
-- Define mock API objects before vi.mock for store usage
-- Reference mock API in store configuration
-
-### Key Testing Patterns
-- Mock Redux middleware with proper function signature
-- Return correct middleware chain function structure
-
-### Key Testing Patterns
-- Mock all required API endpoints in store setup
-- Include all necessary API reducers and middleware
-
-### Key Testing Patterns
-- Add type annotations to middleware mock functions
-- Use explicit types for middleware chain parameters
-
-### Key Testing Patterns
-- Mock RTK Query endpoints with complete hook return values
-- Include refetch function in RTK Query hook mocks
-
-### Key Testing Patterns
-- Include complete RTK Query API mock implementation
-- Add required API utility methods and state management
-
-### Key Testing Patterns
-- Mock all required RTK Query hooks in component tests
-- Include complete query state for each hook mock
-
-### Key Testing Patterns
-- Include injectEndpoints method in RTK Query mocks
-- Add query status to hook return values
-
-### Key Testing Patterns
-- Configure store with all required API middleware
-- Chain multiple middleware using concat correctly
-
-### RTK Query Store Configuration in Tests
-- When mocking RTK Query store, ensure middleware configuration matches the actual store setup
-- Example:
-  ```typescript
-  const store = configureStore({
-    reducer: {
-      [mockApi.reducerPath]: mockApi.reducer
-    },
-    middleware: getDefaultMiddleware => {
-      const middleware = getDefaultMiddleware();
-      return middleware.concat([mockApi.middleware]);
-    }
-  });
-  ```
-
-### RTK Query Testing Best Practices
-- When mocking RTK Query middleware, ensure proper function chain:
-  ```typescript
-  middleware: () => (next: any) => (action: any) => next(action)
-  ```
-- Always pass middleware as array to concat:
-  ```typescript
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat([mockApi.middleware])
-  ```
-
-### RTK Query Testing Best Practices
-- When mocking RTK Query hooks, export both API and individual hooks:
-  ```typescript
-  vi.mock("../services/api", () => ({
-    api: mockApi,
-    useMyQuery: vi.fn().mockImplementation(mockApi.endpoints.myQuery.useQuery)
-  }));
-  ```
-
-### RTK Query Testing Best Practices
-- Order of operations is critical when setting up RTK Query tests:
-  1. Define mock API
-  2. Configure store with middleware
-  3. Mock API module
-  4. Render components
-
-## New Learnings
-- When including custom RSpec helpers, ensure module names match exactly
-- Use explicit headers in request specs when auth_headers helper isn't available
-- Keep authentication headers consistent across all authenticated requests
-- Prefer direct sign_in over custom helpers when debugging auth issues
-- Maintain consistent JSON headers across all API requests
-- Use context blocks to group related authentication scenarios
-- Keep authentication-related test setup simple and explicit
-
-- Pay attention to exact message punctuation in API responses
-- Match response messages exactly including periods and spaces
-- Use consistent message formatting across all API endpoints
-- Verify exact response format in controller before writing tests
-- Keep response message assertions strict to catch format changes
+- Test location filters with realistic hierarchical data
+- Verify sorted arrays in filter responses
+- Test empty/nil handling in location filters
+- Test case-insensitive species matching
+- Test breed lists for all valid species
+- Ensure filter responses maintain data hierarchy
+- Test filter endpoint response formats consistently
+- Use match_array for order-independent array comparisons
+- Remove unnecessary attributes from factories
+- Verify model attributes before creating factories
+- Format multiline parameters for better readability
+- Keep factory attributes minimal and focused
+- Include all required model validations in factories
+- Test only relevant attributes for specific endpoints
+- Keep factory data realistic with valid coordinates
+- Use valid enum values for status fields
+- Ensure factory data meets all model constraints
+- Keep test data focused on tested functionality
+- Match factory attribute names exactly with model schema
+- Pay attention to underscore vs number in attribute names
+- Verify model schema before creating factory attributes
+- Use consistent naming conventions across models and factories
+- Double-check attribute names in model validations
+- Use exact breed names from model's valid breeds list
+- Verify breed validation requirements in factory data
+- Keep default factory data valid for all model validations
+- Override only necessary attributes in specific tests
+- Use model's validation list for enum-like fields
