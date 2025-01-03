@@ -1,7 +1,7 @@
 ## New Learnings
-- Test authorization without role column
-- Use report status for access control
-- Test restore action for forbidden status
-- Set default locale explicitly in tests
-- Use Bearer token format for auth tests
-- Keep auth tests aligned with Devise setup
+- Stub constants in each example
+- Avoid before(:all) with stubs/mocks
+- Keep test data consistent across examples
+- Use stub_const for constant replacement
+- Maintain constant immutability with freeze
+- Follow RSpec lifecycle constraints

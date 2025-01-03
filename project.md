@@ -5,6 +5,13 @@
 - Fixed locale configuration
 - Fixed CORS testing
 - Maintained test isolation
+- Added breed list concern tests
+- Added breed validation tests
+- Added species handling tests
+- Added case sensitivity tests
+- Added error message tests
+- Added breed data stubbing
+- Added array matching tests
 
 ## Testing Implementation
 - [x] Added Filters component test suite
@@ -265,3 +272,15 @@
 - Test error responses with proper XHR headers
 - Match exact locale string format in tests
 - Use proper route namespacing in tests
+- Test model concerns with TestModel class
+- Validate breed lists case-insensitively
+- Handle missing species gracefully
+- Test breed validation error messages
+- Use consistent breed name formatting
+- Test both success and failure cases
+- Stub breed constants for testing
+- Use match_array for unordered comparisons
+- Test case-insensitive breed validation
+- Mock breed data in test environment
+- Use before(:all) for constant stubbing
+- Keep test data minimal and focused
