@@ -44,6 +44,10 @@
 - [x] Added tests for search query changes
 - [x] Added tests for clear functionality
 - [x] Added tests for conditional rendering
+- [x] Added SearchButtons component test suite
+- [x] Added tests for button click handlers
+- [x] Added tests for filter toggle functionality
+- [x] Added tests for conditional button text
 
 ## New Learnings
 - MUI Select testing is more reliable when targeting native inputs
@@ -66,3 +70,7 @@
 - Test conditional UI elements like clear buttons
 - Verify exact placeholder text content
 - Test component with all required props
+- Use rerender to test same component with different props
+- Test conditional text content in buttons
+- Verify toggle functionality with boolean props
+- Test button handlers with correct arguments

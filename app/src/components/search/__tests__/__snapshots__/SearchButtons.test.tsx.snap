@@ -1,0 +1,29 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchButtons > renders search buttons container 1`] = `
+<div>
+  <div
+    class="flex gap-2 justify-end"
+    data-testid="search-buttons-container"
+  >
+    <button
+      class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+      data-testid="search-button"
+    >
+      Search
+    </button>
+    <button
+      class="px-4 py-2 border border-blue-500 rounded-md transition-colors w-32 bg-white text-blue-600 hover:bg-blue-100"
+      data-testid="show-filters-button"
+    >
+      Show filters
+    </button>
+    <button
+      class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+      data-testid="reset-button"
+    >
+      Reset
+    </button>
+  </div>
+</div>
+`;

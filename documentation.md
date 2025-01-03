@@ -494,3 +494,9 @@ Testing Best Practices:
 - Test conditional rendering based on prop values
 - Test clearing functionality for search inputs
 - Verify input placeholder text matches design requirements
+
+### Key Testing Patterns
+- Test button text content changes based on props
+- Use rerender to test component with different prop values
+- Test toggle functionality with boolean state
+- Verify button click handlers are called with correct arguments

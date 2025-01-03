@@ -36,7 +36,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   };
 
   return (
-    <>
+    <div data-testid="search-container">
       <SearchBar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -52,7 +52,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         showFilters={showFilters}
         onReset={handleReset}
       />
-    </>
+    </div>
   );
 };
 
