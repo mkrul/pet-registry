@@ -426,10 +426,16 @@ Testing Best Practices:
 - Remember that MUI Select options are rendered in a portal when dropdown is open
 
 ### Material-UI Select Testing Best Practices
-- Use native input with name attribute for MUI Select changes
-- Trigger change events directly on native input element
-- Skip complex UI interactions for better performance
-- Focus on testing state changes directly
+- When testing MUI Select components, target the native input element directly
+- Use querySelector to find the native input by name attribute
+- Trigger change events on the native input instead of trying to interact with the portal
+- Focus on testing the onChange handler behavior rather than the UI interactions
+- Keep tests simple by avoiding complex portal interactions
+- Use data-testid to find select containers reliably
+- When testing MUI Select changes, mock the event object structure exactly
+- Use simple event objects with just target.name and target.value
+- Call the handler directly instead of triggering DOM events
+- Match the component's expected event structure in assertions
 
 ### Key Testing Patterns
 - Find MUI Select's native input by name attribute
@@ -457,3 +463,18 @@ Testing Best Practices:
 - Use consistent test patterns across all similar interactions
 - Apply same select testing strategy throughout test suite
 - Maintain consistent approach for all MUI Select tests
+
+## New Learnings
+- When testing MUI Select components:
+  - Use querySelector to find the native input element
+  - Trigger change events directly on the native input
+  - Use data-testid attributes for reliable element selection
+  - Match exact option values from configuration files
+- For snapshot testing:
+  - Create snapshots at the container level to capture full component state
+  - Include provider wrappers in snapshot renders
+- When testing filter components:
+  - Test both the presence of filter options and their interactions
+  - Verify filter changes trigger correct handler calls
+  - Use configuration files as source of truth for options
+  - Test option presence before testing interactions

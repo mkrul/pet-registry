@@ -1,220 +1,44 @@
 ## Completed Tasks
-- Created useReportEdit hook for form state management
-- Implemented proper error handling for form submissions
-- Added type safety for form submission results
-- Maintained consistent notification handling
-- Preserved all existing form functionality
-- Fixed type safety issues in BreedSearch component
-- Improved component prop handling for better reliability
-- Added configurable label display to BreedSearch component
-- Fixed BreedSearch height inconsistency on index page
-- Added variant prop to BreedSearch for flexible height handling
-- Improved BreedSearch prop naming for better clarity
-- Aligned BreedSearch size prop with MUI conventions
-- Updated BreedSearch size prop usage in IdentificationFields
-- Fixed BreedSearch height styling consistency
-- Fixed size consistency between primary and secondary breed inputs
-- Fixed size consistency in ReportEditMode breed inputs
-- Added disableClearable prop to BreedSearch for form contexts
-- Fixed Gender field requirement in edit mode to match business rules
-- Fixed report update by excluding unchanged image data
-- Add field filtering utility for API requests
-- Document which fields should be excluded from update requests
-- Fixed image handling in report updates
-- Fixed breed and color field handling in form submissions
-- Fixed field name convention mismatch in form submissions
-- Updated ReportViewMode component to display title as h2 heading
-- Fixed BreedSearch size in IdentificationFields to match edit mode sizing
-- Added colons to field labels in ReportEditMode
-- Added image loading state and spinner to ReportViewMode
-- Fixed image loading state handling in ReportViewMode
-- Added disabled state styling to form action buttons during submission
-- [x] Fixed map component to properly display report locations
-- [x] Fixed map zoom level consistency between view and edit modes
-- [x] Added LocationDisplay component to report cards
-- [x] Fixed color field handling to prevent duplicate values across all color inputs
-- [x] Implemented hierarchical color field validation (color1 > color2 > color3)
-- Added tests for LogoutButton component
-- Added Vitest tests for LogoutButton component
-- Implemented proper error handling test cases for logout functionality
-- Added test coverage for successful and failed logout scenarios
-- Fixed type safety in LogoutButton tests
-- Updated test mocking to use Vitest types properly
-- Added proper type definitions for mock store
-- Fixed LogoutButton test file by adding complete test implementation
-- Added proper type safety for mock store and mock functions
-- Implemented both success and error test cases for logout functionality
-- Added tests for ScrollToTop component
-- Implemented proper mocking for window.scrollTo and useLocation
-- Added test coverage for location change behavior
-- Fixed Redux store mocking pattern in NewReportForm tests
-- Improved type safety in test mocks using vi.mocked
-- Fixed module import consistency in NewReportForm tests
+- Added comprehensive test suite for Filters component
+- Implemented snapshot testing for filter UI consistency
+- Added tests for all filter select components
+- Added tests for filter change handlers
+- Maintained backwards compatibility with existing tests
+- Used consistent testing patterns across all filter tests
+- Fixed Filters component test suite
+- Implemented proper MUI Select testing patterns
+- Added helper functions for select testing
+- Fixed event handling assertions for select changes
 
-Testing Implementation:
-- [x] Implemented comprehensive test suite for NewReportForm component
-- [x] Added tests for form rendering and field presence
-- [x] Added tests for form validation logic
-- [x] Added tests for image upload functionality
-- [x] Added tests for dynamic field additions
-- [x] Added tests for loading states
-- [x] Added tests for form submission
-- [x] Added tests for error handling
-- [x] Added tests for notification display
-- [x] Added proper Redux store mocking
-- [x] Added proper router mocking
-- [x] Added proper hook mocking
-- [x] Added proper cleanup between tests
-
-## Technical Debt
-- Add loading states for mode transitions
-- Add proper error boundaries for form modes
-- Add unit tests for useReportEdit hook
-- Removed unused variant and sx props from BreedSearch
-- Standardized form control styling
-- Consider extracting common form field styling into shared constants
-- Create shared constants for form input heights
-- Consider creating a shared form field height configuration
-- Consider standardizing size prop names across all form components
-- Consider standardizing size values across all form components
-- Add prop usage audit to component API changes
-- Consider creating shared style constants for MUI compound components
-- Consider extracting size constants for form field groups
-- Consider creating a shared config for form field props by context
-- Consider creating form context presets for common component configurations
-- Create form field requirement documentation for all contexts
-- Add field filtering utility for API requests
-- Document which fields should be excluded from update requests
-- Add type guards for form field serialization
-- Add value normalization utilities for form submissions
-- Add field name normalization utility for API submissions
-- Document and centralize case conversion utilities
-- Add tests for case conversion edge cases
-- Add value type guards for form data processing
-- Create reusable mock factory for RTK Query API objects in tests
-- Consider extracting common Redux test store setup into a helper
-
-Testing Improvements:
-- [x] Optimized FilterContainer test performance
-- [x] Removed unnecessary async operations
-- [x] Simplified test setup and queries
-- [x] Improved test reliability
-- [x] Optimized MUI Select testing
-- [x] Used direct native input changes
-- [x] Removed unnecessary UI interactions
-- [x] Improved test performance
-
-### Learnings
-- MUI Select menu is available immediately after click
-- Unnecessary async/await increases test duration
-- Synchronous queries are faster and more reliable
-- Keep test setup minimal for better performance
-- MUI Select changes can be simulated directly
-- Complex UI interactions slow down tests
-- Focus on behavior rather than implementation
-- Keep tests simple and fast
-- querySelector requires type assertion in TypeScript
-- Handle null cases from DOM queries explicitly
-- Keep select testing patterns consistent across all tests
-- Use same interaction method for all similar components
-- Avoid mixing different testing approaches in same suite
-
-## Technical Debt Addressed
-- Improved color field validation to handle all possible duplicate scenarios
-- Enhanced form field dependency handling to maintain data integrity
-- Fixed color field state management to properly clear duplicate values
-- Improved form field visibility handling when clearing values
-- Fixed form state management to properly handle color field dependencies
-- Improved state update logic to prevent duplicate color values
+## Testing Implementation
+- [x] Added Filters component test suite
+- [x] Implemented snapshot testing
+- [x] Added tests for species filter
+- [x] Added tests for color filter
+- [x] Added tests for gender filter
+- [x] Added tests for sort options
+- [x] Added tests for filter change handlers
+- [x] Used proper MUI Select testing patterns
+- [x] Fixed MUI Select option rendering tests
+- [x] Fixed MUI Select event handling tests
+- [x] Added select testing utility functions
+- [x] Maintained backwards compatibility
+- [x] Fixed MUI Select testing approach to avoid portal interactions
+- [x] Simplified select change testing by using native inputs
+- [x] Added reliable select component identification using data-testids
+- [x] Maintained backwards compatibility with existing tests
+- [x] Improved test reliability by avoiding role-based queries
+- [x] Fixed MUI Select event handling tests
+- [x] Simplified event object structure in tests
+- [x] Improved test reliability by avoiding synthetic events
+- [x] Maintained backwards compatibility with existing tests
 
 ## New Learnings
-- Using semantic HTML elements like h2 for titles improves accessibility and visual hierarchy
-- Removing redundant labels can make the UI cleaner and more intuitive
-- When using size props, ensure consistent values are used across all instances of a component to maintain UI consistency
-- Consistent punctuation in labels helps improve readability and visual hierarchy
-- Maintain consistent label styling between view and edit modes for better user experience
-- Use loading indicators for asynchronous content like images to improve user experience
-- Handle both loading and error states for image components
-- When receiving handler functions as props, avoid redefining them locally to prevent naming conflicts
-- When combining local state with prop callbacks, ensure both are properly handled in event handlers
-- Use consistent disabled state styling (opacity and cursor) across all interactive elements
-- Apply disabled state styling to all action buttons during form submission to prevent multiple submissions
-- Always verify map component properly uses provided coordinates
-- Include visual markers for locations on maps
-- Maintain consistent map zoom levels across different view states of the same data
-- When renaming props/variables, ensure to update all usage locations to maintain consistent behavior
-- When renaming props, ensure to update both component usage and type definitions
-- When components have default prop values, ensure they match the expected defaults across all usage contexts
-- Consider different default states for components based on their usage context
-- Reuse location display components consistently across different views of the same data
-- Use absolute positioning with z-index for overlaying UI elements on images
-- Avoid duplicate status indicators to maintain clear visual hierarchy
-- Use subtle visual indicators (like borders) combined with text for better status visibility
-- Use appropriate border thickness and rounded corners for better visual emphasis
-- Position status indicators flush with container edges for cleaner visual alignment
-- Use appropriate font weight and size for important status indicators
-- Fine-tune border radius and font weight to achieve optimal visual hierarchy
-- Adjust padding asymmetrically when needed to achieve better visual balance
-- Use light borders and spacing to create visual hierarchy without adding visual weight
-- Use appropriate border colors (gray-200 vs gray-100) to achieve desired visual separation
-- Use mobile-first design principles with breakpoint-based modifications for larger screens
-- Maintain consistent visual hierarchy across different screen sizes while adapting layouts
-- Use fixed height values instead of responsive heights when consistent image sizing is required
-- Use appropriate breakpoint prefixes (sm: vs xs:) based on specific layout requirements
-- Use specific height values for different breakpoints to maintain intended design across screen sizes
-- Handle form field dependencies based on field hierarchy
-- Clear conflicting values based on field priority
-- Implement clear field hierarchies when handling form field dependencies
-- Handle all possible duplicate scenarios to maintain data consistency
-- Manage both value and visibility state when handling form field dependencies
-- Clear all related states when removing form field values
-- Use functional state updates when new state depends on previous state
-- Handle dependent field updates atomically to maintain data consistency
-- Use vi.fn() from Vitest instead of jest.fn() for mocking
-- Mock Redux hooks consistently across test files
-- Test both success and error paths in async operations
-- Use waitFor to handle async state updates in tests
-- Use proper Vitest Mock type for better type safety in tests
-- Type mock store properly to avoid using 'any'
-- Import type definitions separately for better code organization
-- Test files must contain actual test implementations to be recognized by Vitest
-- Use proper typing for mock store to ensure type safety in tests
-- Implement both success and error paths in async operation tests
-- Mock browser APIs like window.scrollTo in tests
-- Test React Router hooks by mocking them
-- Test components that don't render DOM elements
-- Mock objects must be defined inside vi.mock callbacks to avoid hoisting issues
-- Use vi.mocked helper for proper TypeScript support when accessing mocks
-- Export internal mock objects through the mock module for reuse in test configuration
-- Use consistent module system (ES modules) throughout test files
-- Maintain consistent access to mock objects across test setup and assertions
-- Maintain consistent Redux store mocking patterns across all test files
-- Create mock factories to maintain consistent mock objects throughout test files
-- Define mock objects inline when working with hoisted vi.mock calls
-- Prefer role-based queries over testid-based queries for better test reliability
-- Combine role-based queries with test IDs when dealing with duplicate elements
-- Handle multiple elements with same test ID by using getAllBy queries with array indexing
-- Query form buttons by role and type instead of test IDs
-- Configure longer timeouts for tests with multiple async operations
-- Combine role and name matchers to uniquely identify form controls in tests
-- Maintain consistent element query methods across all test cases to avoid flaky tests
-- Query Material-UI file inputs using their accessible labels rather than test IDs
-- Use waitFor when testing conditionally rendered elements after file uploads
-- Redux middleware mocks must maintain the complete middleware function signature
-- RTK Query API mocks require both middleware and reducer implementations
-- Always make test functions async when using findByText or other async queries
-- Await the result of findByText before using it with fireEvent
-
-# Project Updates
-
-## Testing Improvements
-- [x] Fixed FilterContainer test suite
-- [x] Used correct component data-testids
-- [x] Implemented consistent testid pattern
-- [x] Maintained test stability
-
-### Learnings
-- Check component implementation for correct data-testids
-- Use consistent testid naming patterns
-- Match testids exactly as implemented in component
-- Scope queries to specific menu containers
+- MUI Select testing is more reliable when targeting native inputs
+- Portal interactions can be avoided by simulating input changes directly
+- Data-testid attributes provide more reliable component selection than roles
+- Simpler tests are more maintainable and less prone to breakage
+- MUI Select event handling expects simple event objects
+- Direct handler calls are more reliable than DOM events
+- Event object structure must match component expectations
+- Simpler event objects make tests more maintainable
