@@ -27,6 +27,11 @@
 - Added empty options handling
 - Added custom sort fields
 - Added sort direction tests
+- Added species list concern tests
+- Added species validation tests
+- Added presence validation tests
+- Added case sensitivity tests
+- Added valid species tests
 
 ## Testing Implementation
 - [x] Added Filters component test suite
@@ -317,3 +322,8 @@
 - Use array matching for sort options
 - Keep sort option format consistent
 - Test sort direction variations
+- Added species list concern tests
+- Added species validation tests
+- Added presence validation tests
+- Added case sensitivity tests
+- Added valid species tests

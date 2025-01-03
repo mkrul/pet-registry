@@ -1,7 +1,7 @@
 ## New Learnings
-- Test sort option configurations
-- Verify empty sort options handling
-- Test custom sort field support
-- Use array matching for sort options
-- Keep sort option format consistent
-- Test sort direction variations
+- Test species validation separately
+- Allow nil species in validation
+- Test case-sensitive species matching
+- Use exact species list in errors
+- Keep species validation focused
+- Separate presence from inclusion
