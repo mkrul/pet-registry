@@ -22,6 +22,11 @@
 - Added case sensitivity tests
 - Added optional field tests
 - Added valid gender tests
+- Added sort list concern tests
+- Added sort options validation
+- Added empty options handling
+- Added custom sort fields
+- Added sort direction tests
 
 ## Testing Implementation
 - [x] Added Filters component test suite
@@ -306,3 +311,9 @@
 - Test exact gender string matches
 - Use consistent gender options
 - Keep gender validation case-sensitive
+- Test sort option configurations
+- Verify empty sort options handling
+- Test custom sort field support
+- Use array matching for sort options
+- Keep sort option format consistent
+- Test sort direction variations
