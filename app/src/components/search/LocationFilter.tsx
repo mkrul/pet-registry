@@ -29,7 +29,7 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
 
   return (
     <>
-      <FormControl fullWidth size="small">
+      <FormControl fullWidth size="small" data-testid="area-select">
         <Select
           name="area"
           value={area}
@@ -63,7 +63,7 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
         </Select>
       </FormControl>
 
-      <FormControl fullWidth size="small">
+      <FormControl fullWidth size="small" data-testid="state-select">
         <Select
           name="state"
           value={state}
@@ -93,7 +93,7 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
         </Select>
       </FormControl>
 
-      <FormControl fullWidth size="small">
+      <FormControl fullWidth size="small" data-testid="country-select">
         <Select
           name="country"
           value={country}

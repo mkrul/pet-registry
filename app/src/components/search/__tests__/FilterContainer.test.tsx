@@ -1,37 +1,49 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import FilterContainer from "../FilterContainer";
-import { FilterValues } from "../../../types/common/Search";
+import { FilterContainerProps } from "../../../types/common/Search";
 
-// Mock both APIs
-vi.mock("../../../redux/features/filters/filtersApi", () => ({
-  filtersApi: {
-    reducerPath: "filtersApi",
-    reducer: () => ({}),
-    middleware: () => next => action => next(action),
-    useGetStatesQuery: () => ({
-      data: ["California", "Nevada"],
-      isLoading: false
-    }),
-    useGetAreasQuery: () => ({
-      data: ["Los Angeles", "San Francisco"],
-      isLoading: false
-    })
-  }
+// Move mocks before imports to ensure they're registered first
+vi.mock("../../../redux/features/reports/reportsApi", () => ({
+  useGetStatesQuery: () => ({
+    data: ["California", "Nevada"],
+    isLoading: false,
+    refetch: vi.fn()
+  }),
+  useGetAreasQuery: () => ({
+    data: ["Los Angeles", "San Francisco"],
+    isLoading: false,
+    refetch: vi.fn()
+  }),
+  useGetCitiesQuery: () => ({
+    data: ["Los Angeles", "San Francisco"],
+    isLoading: false,
+    refetch: vi.fn()
+  })
 }));
 
-vi.mock("../../../redux/features/reports/reportsApi", () => ({
-  reportsApi: {
-    reducerPath: "reportsApi",
-    reducer: () => ({}),
-    middleware: () => next => action => next(action)
-  }
+vi.mock("../../../redux/features/filters/filtersApi", () => ({
+  useGetStatesQuery: () => ({
+    data: ["California", "Nevada"],
+    isLoading: false,
+    refetch: vi.fn()
+  }),
+  useGetAreasQuery: () => ({
+    data: ["Los Angeles", "San Francisco"],
+    isLoading: false,
+    refetch: vi.fn()
+  }),
+  useGetCitiesQuery: () => ({
+    data: ["Los Angeles", "San Francisco"],
+    isLoading: false,
+    refetch: vi.fn()
+  })
 }));
 
 describe("FilterContainer", () => {
-  const mockInitialFilters: FilterValues = {
+  const mockInitialFilters: FilterContainerProps["initialFilters"] = {
     species: "",
     breed: "",
     color: "",
@@ -82,9 +94,9 @@ describe("FilterContainer", () => {
 
   it("renders filters when showFilters is true", () => {
     renderComponent();
-    const speciesSelect = screen.getByRole("button", { name: /species/i });
-    const colorSelect = screen.getByRole("button", { name: /color/i });
-    const genderSelect = screen.getByRole("button", { name: /gender/i });
+    const speciesSelect = screen.getByTestId("species-select");
+    const colorSelect = screen.getByTestId("color-select");
+    const genderSelect = screen.getByTestId("gender-select");
 
     expect(speciesSelect).toBeDefined();
     expect(colorSelect).toBeDefined();
@@ -93,11 +105,12 @@ describe("FilterContainer", () => {
 
   it("calls onFiltersChange when a filter value changes", async () => {
     renderComponent();
-    const speciesSelect = screen.getByRole("button", { name: /species/i });
+    const speciesSelect = screen.getByTestId("species-select");
     fireEvent.mouseDown(speciesSelect);
 
-    const dogOption = screen.getByRole("option", { name: /dog/i });
-    fireEvent.click(dogOption);
+    // Wait for the menu to appear and select option
+    const speciesOption = await screen.findByText("Dog");
+    fireEvent.click(speciesOption);
 
     expect(mockOnFiltersChange).toHaveBeenCalledWith({
       ...mockInitialFilters,
@@ -108,7 +121,7 @@ describe("FilterContainer", () => {
   it("resets state and area when country changes", () => {
     const filtersWithValues = {
       ...mockInitialFilters,
-      country: "USA",
+      country: "United States",
       state: "California",
       area: "Los Angeles"
     };
@@ -124,10 +137,10 @@ describe("FilterContainer", () => {
       </Provider>
     );
 
-    const countrySelect = screen.getByRole("button", { name: /usa/i });
+    const countrySelect = screen.getByTestId("country-select");
     fireEvent.mouseDown(countrySelect);
 
-    const canadaOption = screen.getByRole("option", { name: /canada/i });
+    const canadaOption = screen.findByText("Canada");
     fireEvent.click(canadaOption);
 
     expect(mockOnFiltersChange).toHaveBeenCalledWith({
@@ -141,7 +154,7 @@ describe("FilterContainer", () => {
   it("resets area when state changes", () => {
     const filtersWithValues = {
       ...mockInitialFilters,
-      country: "USA",
+      country: "United States",
       state: "California",
       area: "Los Angeles"
     };
@@ -157,10 +170,10 @@ describe("FilterContainer", () => {
       </Provider>
     );
 
-    const stateSelect = screen.getByRole("button", { name: /california/i });
+    const stateSelect = screen.getByTestId("state-select");
     fireEvent.mouseDown(stateSelect);
 
-    const nevadaOption = screen.getByRole("option", { name: /nevada/i });
+    const nevadaOption = screen.findByText("Nevada");
     fireEvent.click(nevadaOption);
 
     expect(mockOnFiltersChange).toHaveBeenCalledWith({

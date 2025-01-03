@@ -31,6 +31,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             displayEmpty
             sx={selectStyles}
             renderValue={selected => selected || "Species"}
+            data-testid="species-select"
           >
             {speciesListJson.options.map((species, index) => (
               <MenuItem key={`${species}-${index}`} value={species}>
@@ -70,6 +71,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
               }
             }}
             renderValue={selected => selected || "Color"}
+            data-testid="color-select"
           >
             {colorListJson.options.map((color, index) => (
               <MenuItem key={`${color}-${index}`} value={color}>
@@ -87,6 +89,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             displayEmpty
             sx={selectStyles}
             renderValue={selected => selected || "Gender"}
+            data-testid="gender-select"
           >
             <MenuItem value="Male">Male</MenuItem>
             <MenuItem value="Female">Female</MenuItem>
@@ -103,7 +106,13 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
         />
 
         <FormControl fullWidth size="small">
-          <Select name="sort" value={filters.sort} onChange={handleFilterChange} sx={selectStyles}>
+          <Select
+            name="sort"
+            value={filters.sort}
+            onChange={handleFilterChange}
+            sx={selectStyles}
+            data-testid="sort-select"
+          >
             <MenuItem value="Newest">Newest</MenuItem>
             {sortOptionsJson.options
               .filter(option => option !== "Newest")
