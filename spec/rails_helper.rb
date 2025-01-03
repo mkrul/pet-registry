@@ -7,6 +7,9 @@ require 'factory_bot_rails'
 require 'database_cleaner-active_record'
 require 'devise'
 
+# Add this near the top of the file, after the other requires
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -54,4 +57,10 @@ RSpec.configure do |config|
   def json_response
     JSON.parse(response.body)
   end
+
+  # Include request spec helper for JSON parsing
+  config.include Auth::RequestHelper, type: :request
+
+  # Include Devise test helpers
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end

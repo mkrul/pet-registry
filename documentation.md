@@ -79,6 +79,13 @@
 - Use consistent element querying strategy across all test cases for the same component
 - Use getByLabelText for file inputs in Material-UI components instead of test IDs
 - Wait for conditional elements to appear after async actions in tests
+- Support directories must be explicitly loaded in rails_helper.rb
+- Helper modules should be namespaced to avoid conflicts
+- Auth specs should use dedicated helper methods for headers
+- Request specs need proper Content-Type headers
+- Keep auth helper methods focused and reusable
+- Use contexts to group related test scenarios
+- Maintain consistent header handling across specs
 
 Testing Best Practices:
 - Use renderWithProviders helper for consistent test setup with Redux and Router
@@ -705,3 +712,18 @@ Testing Best Practices:
   2. Configure store with middleware
   3. Mock API module
   4. Render components
+
+## New Learnings
+- When including custom RSpec helpers, ensure module names match exactly
+- Use explicit headers in request specs when auth_headers helper isn't available
+- Keep authentication headers consistent across all authenticated requests
+- Prefer direct sign_in over custom helpers when debugging auth issues
+- Maintain consistent JSON headers across all API requests
+- Use context blocks to group related authentication scenarios
+- Keep authentication-related test setup simple and explicit
+
+- Pay attention to exact message punctuation in API responses
+- Match response messages exactly including periods and spaces
+- Use consistent message formatting across all API endpoints
+- Verify exact response format in controller before writing tests
+- Keep response message assertions strict to catch format changes

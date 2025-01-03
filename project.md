@@ -9,6 +9,16 @@
 - Implemented proper MUI Select testing patterns
 - Added helper functions for select testing
 - Fixed event handling assertions for select changes
+- Fixed auth controller request specs
+- Simplified authentication header handling
+- Improved test organization with contexts
+- Maintained backwards compatibility
+- Fixed module loading issues
+- Improved test reliability
+- Fixed response message assertions
+- Maintained consistent message format testing
+- Improved test reliability
+- Added strict message format checking
 
 ## Testing Implementation
 - [x] Added Filters component test suite
@@ -221,3 +231,15 @@
 - Add status field to query hook return values
 - Chain multiple API middleware using concat
 - Configure store with all required API middleware
+- Support directories must be explicitly loaded in rails_helper.rb
+- Helper modules should be namespaced to avoid conflicts
+- Auth specs should use dedicated helper methods for headers
+- Request specs need proper Content-Type headers
+- Keep auth helper methods focused and reusable
+- Use contexts to group related test scenarios
+- Maintain consistent header handling across specs
+- Pay attention to exact message punctuation in API responses
+- Match response messages exactly including periods and spaces
+- Use consistent message formatting across all API endpoints
+- Verify exact response format in controller before writing tests
+- Keep response message assertions strict to catch format changes
