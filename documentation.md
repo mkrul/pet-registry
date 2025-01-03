@@ -1,7 +1,7 @@
 ## New Learnings
-- Test multiple color validations together
-- Validate optional color fields
-- Handle nil color values correctly
-- Test base error messages for colors
-- Use array freeze for color constants
-- Keep color validation messages consistent
+- Test case-insensitive gender validation
+- Match actual validation behavior
+- Update test descriptions to match code
+- Keep test expectations aligned with code
+- Test both original and lowercase input
+- Document validation behavior correctly

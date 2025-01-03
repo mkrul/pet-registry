@@ -8,11 +8,9 @@ module BreedList
         file_content = File.read(json_path)
         BREEDS = JSON.parse(file_content).freeze
       else
-        Rails.logger.error "Could not find breeds.json at #{json_path}"
         BREEDS = {'dog' => [], 'cat' => []}.freeze
       end
     rescue => e
-      Rails.logger.error "Error loading breeds: #{e.message}"
       BREEDS = {'dog' => [], 'cat' => []}.freeze
     end
   end
