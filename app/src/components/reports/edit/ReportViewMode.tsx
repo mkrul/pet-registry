@@ -24,7 +24,7 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="view-report-mode-form">
       {/* Action Buttons */}
       <div className="flex justify-end mb-4 gap-2">
         <button

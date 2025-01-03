@@ -51,7 +51,12 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   VIEW_ZOOM_LEVEL
 }) => {
   return (
-    <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
+    <form
+      id="edit-report-form"
+      onSubmit={handleSaveChanges}
+      className="space-y-6"
+      data-testid="edit-report-mode-form"
+    >
       {/* Action Buttons */}
       <div className="flex justify-end mb-4 gap-2">
         <button

@@ -4,7 +4,6 @@ import ReportViewMode from "../edit/ReportViewMode";
 import ReportEditMode from "../edit/ReportEditMode";
 import Notification from "../../common/Notification";
 import { NotificationState, NotificationType } from "../../../types/common/Notification";
-import { useLocation } from "react-router-dom";
 import { useReportEdit } from "../../../hooks/useReportEdit";
 
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
