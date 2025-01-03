@@ -402,3 +402,58 @@ Testing Best Practices:
   - Match the component's expected types exactly
   - Avoid type coercion in mock state
   - Remember that form fields usually expect string values
+
+# Test Coverage Updates
+
+## FilterContainer Component Tests
+- Added comprehensive test suite for FilterContainer component
+- Tests cover all major filter interactions including species, color, gender, and location filters
+- Includes tests for filter reset logic when changing country/state
+- Snapshot testing implemented for UI consistency
+- All tests utilize data-testid attributes for reliable element selection
+
+### Key Learnings
+- Use data-testid attributes for reliable component testing
+- Test filter dependencies (country->state->area) thoroughly
+- Mock store provider for components using Redux
+- Snapshot testing helps catch unintended UI changes
+
+### Material-UI Select Component Testing
+- Use `within(listbox).getByText()` to find options within MUI Select dropdowns
+- Query for listbox using `screen.getByRole("listbox")` after triggering dropdown
+- Trigger dropdown with `fireEvent.mouseDown()` on select element
+- Use data-testid for select components but role/text for options
+- Remember that MUI Select options are rendered in a portal when dropdown is open
+
+### Material-UI Select Testing Best Practices
+- Use native input with name attribute for MUI Select changes
+- Trigger change events directly on native input element
+- Skip complex UI interactions for better performance
+- Focus on testing state changes directly
+
+### Key Testing Patterns
+- Find MUI Select's native input by name attribute
+- Trigger change events directly for better performance
+- Skip unnecessary UI interactions in tests
+- Keep test implementation simple
+
+### RTK Query Testing Best Practices
+- Mock both API hooks and the default export for RTK Query APIs
+- Include reducerPath and middleware in API mocks
+- Provide mock data for dependent queries
+- Mock API module at top level before component renders
+
+### Key Testing Patterns
+- Mock complete modules when using RTK Query
+- Use proper module structure in mocks
+- Test filter dependency chains thoroughly
+- Verify component markup before writing tests
+
+### Key Testing Patterns
+- Use type assertions when working with querySelector in tests
+- Handle potential null values from DOM queries
+
+### Key Testing Patterns
+- Use consistent test patterns across all similar interactions
+- Apply same select testing strategy throughout test suite
+- Maintain consistent approach for all MUI Select tests

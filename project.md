@@ -95,14 +95,29 @@ Testing Implementation:
 - Consider extracting common Redux test store setup into a helper
 
 Testing Improvements:
-- Add snapshot tests for NewReportForm component
-- Add parametrized tests for validation scenarios
-- Add tests for edge cases in file upload handling
-- Add tests for network error scenarios
-- Add tests for form field dependencies
-- Add tests for location selection validation
-- Consider extracting common test utilities
-- Consider adding E2E tests for critical form flows
+- [x] Optimized FilterContainer test performance
+- [x] Removed unnecessary async operations
+- [x] Simplified test setup and queries
+- [x] Improved test reliability
+- [x] Optimized MUI Select testing
+- [x] Used direct native input changes
+- [x] Removed unnecessary UI interactions
+- [x] Improved test performance
+
+### Learnings
+- MUI Select menu is available immediately after click
+- Unnecessary async/await increases test duration
+- Synchronous queries are faster and more reliable
+- Keep test setup minimal for better performance
+- MUI Select changes can be simulated directly
+- Complex UI interactions slow down tests
+- Focus on behavior rather than implementation
+- Keep tests simple and fast
+- querySelector requires type assertion in TypeScript
+- Handle null cases from DOM queries explicitly
+- Keep select testing patterns consistent across all tests
+- Use same interaction method for all similar components
+- Avoid mixing different testing approaches in same suite
 
 ## Technical Debt Addressed
 - Improved color field validation to handle all possible duplicate scenarios
@@ -187,3 +202,19 @@ Testing Improvements:
 - Use waitFor when testing conditionally rendered elements after file uploads
 - Redux middleware mocks must maintain the complete middleware function signature
 - RTK Query API mocks require both middleware and reducer implementations
+- Always make test functions async when using findByText or other async queries
+- Await the result of findByText before using it with fireEvent
+
+# Project Updates
+
+## Testing Improvements
+- [x] Fixed FilterContainer test suite
+- [x] Used correct component data-testids
+- [x] Implemented consistent testid pattern
+- [x] Maintained test stability
+
+### Learnings
+- Check component implementation for correct data-testids
+- Use consistent testid naming patterns
+- Match testids exactly as implemented in component
+- Scope queries to specific menu containers

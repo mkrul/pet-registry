@@ -23,6 +23,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   return (
     <FormControl fullWidth data-testid="breed-search-form-control">
       <Autocomplete
+        data-testid="breed-search-autocomplete"
         value={value}
         onChange={(_, newValue) => onChange(newValue || "")}
         options={breedOptions}
@@ -36,6 +37,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
             variant="outlined"
             size={size}
             aria-label="breed search"
+            data-testid="breed-search-input"
             sx={{
               "& .MuiInputBase-root": {
                 height: inputHeight,

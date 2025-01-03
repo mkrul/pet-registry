@@ -4,6 +4,7 @@ import BreedSearch from "../common/BreedSearch";
 import LocationFilter from "../search/LocationFilter";
 import speciesListJson from "../../../../config/species.json";
 import colorListJson from "../../../../config/colors.json";
+import genderListJson from "../../../../config/genders.json";
 import sortOptionsJson from "../../../../config/sort_options.json";
 import { Species } from "../../lib/reports/breedList";
 import { FiltersHandlerProps } from "../../types/common/Search";
@@ -21,9 +22,9 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4" data-testid="filters-container">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth size="small" data-testid="species-select-container">
           <Select
             name="species"
             value={filters.species}
@@ -34,7 +35,11 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             data-testid="species-select"
           >
             {speciesListJson.options.map((species, index) => (
-              <MenuItem key={`${species}-${index}`} value={species}>
+              <MenuItem
+                key={`${species}-${index}`}
+                value={species}
+                data-testid={`species-select-option-${species}`}
+              >
                 {species}
               </MenuItem>
             ))}
@@ -42,6 +47,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
         </FormControl>
 
         <BreedSearch
+          data-testid="breed-search"
           species={filters.species as Species | ""}
           value={filters.breed}
           onChange={(value: string) =>
@@ -51,7 +57,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
           }
         />
 
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth size="small" data-testid="color-select-container">
           <Select
             name="color"
             value={filters.color}
@@ -74,14 +80,18 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             data-testid="color-select"
           >
             {colorListJson.options.map((color, index) => (
-              <MenuItem key={`${color}-${index}`} value={color}>
+              <MenuItem
+                key={`${color}-${index}`}
+                value={color}
+                data-testid={`color-select-option-${color}`}
+              >
                 {color}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
 
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth size="small" data-testid="gender-select-container">
           <Select
             name="gender"
             value={filters.gender}
@@ -91,8 +101,15 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             renderValue={selected => selected || "Gender"}
             data-testid="gender-select"
           >
-            <MenuItem value="Male">Male</MenuItem>
-            <MenuItem value="Female">Female</MenuItem>
+            {genderListJson.options.map((gender, index) => (
+              <MenuItem
+                key={`${gender}-${index}`}
+                value={gender}
+                data-testid={`gender-select-option-${gender}`}
+              >
+                {gender}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
@@ -105,7 +122,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
           disabledSelectClassName={selectStyles}
         />
 
-        <FormControl fullWidth size="small">
+        <FormControl fullWidth size="small" data-testid="sort-select-container">
           <Select
             name="sort"
             value={filters.sort}
@@ -117,7 +134,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             {sortOptionsJson.options
               .filter(option => option !== "Newest")
               .map(option => (
-                <MenuItem key={option} value={option}>
+                <MenuItem key={option} value={option} data-testid={`sort-select-option-${option}`}>
                   {option}
                 </MenuItem>
               ))}
