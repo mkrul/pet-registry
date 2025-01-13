@@ -73,6 +73,8 @@
 - Use role-based queries in tests for better accessibility and reliability
 - Implement proper text content matching in notification tests
 - Handle notification state changes in tests with proper async patterns
+- Maintain consistent file paths for utility functions
+- Ensure import paths match file system structure
 - Implement user feedback for invalid location selections with notifications
 - Clear notifications automatically when valid selections are made
 - Display location validation notifications above map component
