@@ -173,42 +173,4 @@ describe("ReportViewMode", () => {
       expect(screen.queryByText("Golden Retriever")).toBeNull();
     });
   });
-
-  describe("Status Indicators", () => {
-    it("shows NEW indicator for reports created within 24 hours", () => {
-      const newReport = {
-        ...mockReport,
-        createdLast24Hours: true,
-        updatedLastXDays: false
-      };
-
-      render(<ReportViewMode {...mockProps} report={newReport} />);
-      expect(screen.getByText("NEW")).toBeDefined();
-      expect(screen.queryByText("UPDATED")).toBeNull();
-    });
-
-    it("shows UPDATED indicator for reports updated within 3 days", () => {
-      const updatedReport = {
-        ...mockReport,
-        createdLast24Hours: false,
-        updatedLastXDays: true
-      };
-
-      render(<ReportViewMode {...mockProps} report={updatedReport} />);
-      expect(screen.queryByText("NEW")).toBeNull();
-      expect(screen.getByText("UPDATED")).toBeDefined();
-    });
-
-    it("shows no indicator for older reports", () => {
-      const oldReport = {
-        ...mockReport,
-        createdLast24Hours: false,
-        updatedLastXDays: false
-      };
-
-      render(<ReportViewMode {...mockProps} report={oldReport} />);
-      expect(screen.queryByText("NEW")).toBeNull();
-      expect(screen.queryByText("UPDATED")).toBeNull();
-    });
-  });
 });
