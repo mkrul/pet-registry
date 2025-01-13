@@ -31,17 +31,12 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
     <>
       <FormControl fullWidth size="small">
         <Select
-          name="area"
-          value={area}
+          name="country"
+          value={country}
           onChange={onFilterChange}
-          disabled={!country || !state || isLoadingCities}
           displayEmpty
           sx={{
             ...selectClassName,
-            backgroundColor: "white !important",
-            "& .MuiSelect-select": {
-              backgroundColor: "white !important"
-            },
             "& .MuiPaper-root": {
               maxHeight: "200px"
             }
@@ -53,13 +48,9 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
               }
             }
           }}
-          renderValue={value => value || "Area"}
+          renderValue={selected => selected || "Country"}
         >
-          {cities.map(area => (
-            <MenuItem key={area} value={area}>
-              {area}
-            </MenuItem>
-          ))}
+          <MenuItem value="United States">United States</MenuItem>
         </Select>
       </FormControl>
 
@@ -95,12 +86,17 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
 
       <FormControl fullWidth size="small">
         <Select
-          name="country"
-          value={country}
+          name="area"
+          value={area}
           onChange={onFilterChange}
+          disabled={!country || !state || isLoadingCities}
           displayEmpty
           sx={{
             ...selectClassName,
+            backgroundColor: "white !important",
+            "& .MuiSelect-select": {
+              backgroundColor: "white !important"
+            },
             "& .MuiPaper-root": {
               maxHeight: "200px"
             }
@@ -112,10 +108,13 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
               }
             }
           }}
-          renderValue={selected => selected || "Country"}
+          renderValue={value => value || "Area"}
         >
-          <MenuItem value="United States">United States</MenuItem>
-          <MenuItem value="United States">United States</MenuItem>
+          {cities.map(area => (
+            <MenuItem key={area} value={area}>
+              {area}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </>
