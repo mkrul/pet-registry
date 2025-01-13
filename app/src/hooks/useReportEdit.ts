@@ -7,6 +7,7 @@ import { getSpeciesOptions } from "../lib/reports/speciesList";
 import { validateReportForm } from "../services/validation/ReportFormValidation";
 import { ReportProps } from "../types/Report";
 import { transformToSnakeCase } from "../lib/apiHelpers";
+import { SelectChangeEvent } from "@mui/material";
 
 export const useReportEdit = (report: ReportProps) => {
   const [formData, setFormData] = useState(report);
@@ -27,13 +28,16 @@ export const useReportEdit = (report: ReportProps) => {
   const genderOptions = getGenderOptions();
   const VIEW_ZOOM_LEVEL = 15;
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
+  ) => {
     const { name, value } = e.target;
 
-    if (name.startsWith("color")) {
-      setFormData(prev => {
-        const newFormData = { ...prev };
+    setFormData(prev => {
+      const newFormData = { ...prev };
 
+      // Handle color-specific logic
+      if (name.startsWith("color")) {
         if (value) {
           if (name === "color1") {
             if (value === prev.color2) {
@@ -51,12 +55,19 @@ export const useReportEdit = (report: ReportProps) => {
             }
           }
         }
+      }
 
-        (newFormData as any)[name] = value;
-        return newFormData;
-      });
-      return;
-    }
+      // Handle species change - reset breeds if species changes
+      if (name === "species") {
+        newFormData.breed1 = "";
+        newFormData.breed2 = null;
+        setShowBreed2(false);
+      }
+
+      // Update the field value
+      (newFormData as any)[name] = value;
+      return newFormData;
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
