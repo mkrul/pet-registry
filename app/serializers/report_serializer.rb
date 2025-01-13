@@ -2,7 +2,7 @@ class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
              :color_1, :color_2, :color_3, :name, :gender, :image,
              :microchip_id, :created_at, :updated_at, :archived_at,
-             :updated_last_three_days,
+             :updated_last_x_days, :created_last_24_hours,
              :area, :state, :country, :latitude, :longitude
 
   def attributes(*args)
@@ -31,7 +31,7 @@ class ReportSerializer < ActiveModel::Serializer
     object.gender&.capitalize
   end
 
-  def updated_last_three_days
+  def updated_last_x_days
     return nil unless object.updated_at
 
     object.updated_at > 3.days.ago
@@ -70,5 +70,11 @@ class ReportSerializer < ActiveModel::Serializer
 
   def longitude
     object.longitude.to_f if object.longitude
+  end
+
+  def created_last_24_hours
+    return nil unless object.created_at
+
+    object.created_at > 24.hours.ago
   end
 end

@@ -45,6 +45,11 @@ exports[`Footer > matches snapshot 1`] = `
           © YEAR Lost Pet Registry. All rights reserved.
         </p>
       </div>
+      <div
+        class="mt-4 text-sm text-gray-500"
+      >
+        🇵🇸 Free Palestine.
+      </div>
     </div>
   </div>
 </div>

@@ -15,6 +15,8 @@ const Footer = () => {
         <div className="mt-4 text-sm text-gray-500">
           <p>&copy; {currentYear} Lost Pet Registry. All rights reserved.</p>
         </div>
+
+        <div className="mt-4 text-sm text-gray-500">🇵🇸 Free Palestine.</div>
       </div>
     </div>
   );

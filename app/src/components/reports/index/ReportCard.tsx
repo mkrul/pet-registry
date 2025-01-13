@@ -51,7 +51,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               </div>
             )}
             <div
-              className={`relative w-full h-72 sm:h-48 ${report.updatedLastThreeDays ? "ring-4 ring-green-500 rounded-lg" : ""}`}
+              className={`relative w-full h-72 sm:h-48 ${
+                report.createdLast24Hours
+                  ? "ring-4 ring-blue-500 rounded-lg"
+                  : report.updatedLastXDays
+                    ? "ring-4 ring-green-500 rounded-lg"
+                    : ""
+              }`}
             >
               <img
                 src={imageSrc}
@@ -60,7 +66,16 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                 onLoad={handleImageLoad}
                 onError={handleImageError}
               />
-              {report.updatedLastThreeDays && (
+              {report.createdLast24Hours && (
+                <span
+                  className="absolute bottom-0 right-0 z-10 bg-blue-500 text-blue-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-blue-500 dark:text-blue-100"
+                  tabIndex={0}
+                  aria-describedby={`tooltip-${report.id}`}
+                >
+                  NEW
+                </span>
+              )}
+              {!report.createdLast24Hours && report.updatedLastXDays && (
                 <span
                   className="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
                   tabIndex={0}
