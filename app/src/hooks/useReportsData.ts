@@ -5,6 +5,10 @@ import { setReports } from "../redux/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../redux/features/reports/reportsApi";
 import { NotificationState, NotificationType } from "../types/common/Notification";
 import { FiltersProps } from "../types/common/Search";
+import environment from "../config/environment";
+
+// Add logging for debugging
+console.log("API URL:", environment.apiUrl);
 
 export const useReportsData = (query: string, filters: FiltersProps, page: number) => {
   const dispatch = useDispatch();
@@ -21,12 +25,14 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
   useEffect(() => {
     if (data?.data) {
       dispatch(setReports(data.data));
+      console.log("Reports data loaded successfully");
     }
   }, [data, dispatch]);
 
   useEffect(() => {
     if (error && "data" in error) {
       const apiError = error as { data: { message: string } };
+      console.error("API Error:", apiError);
       setNotification({
         type: NotificationType.ERROR,
         message: apiError.data?.message
