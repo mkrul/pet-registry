@@ -29,7 +29,7 @@
     "redux-mock-store": "^1.5.4"
   },
   "scripts": {
-    "build": "esbuild app/javascript/entrypoints/App.tsx --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build": "vite build",
     "build:css": "tailwindcss -i ./app/javascript/entrypoints/application.css -o ./app/assets/builds/application.css --minify",
     "ts-check": "tsc --project tsconfig.json --noEmit --watch --preserveWatchOutput",
     "dev": "bin/vite dev",
