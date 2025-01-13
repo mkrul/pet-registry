@@ -61,3 +61,27 @@
 - Mock window methods properly in test environment
 - Test React Router hook behavior in isolation
 - Verify side effects in components without DOM output
+- Implement strict location validation against exact "United States" string from OpenStreetMap API
+- Handle location validation consistently across map interactions
+- Implement early returns for non-US location selections to prevent unnecessary processing
+- Add test coverage for US-only location validation in Map component
+- Handle async state updates properly in Map component tests
+- Mock location API responses consistently in tests
+- Use React Testing Library's act for handling async state updates in tests
+- Properly mock external libraries like Leaflet in React component tests
+- Handle complex component interactions in tests with proper async patterns
+- Use role-based queries in tests for better accessibility and reliability
+- Implement proper text content matching in notification tests
+- Handle notification state changes in tests with proper async patterns
+- Implement user feedback for invalid location selections with notifications
+- Clear notifications automatically when valid selections are made
+- Display location validation notifications above map component
+- Use space-y utility for consistent vertical spacing
+- Lift notification state to parent component for better positioning
+- Maintain consistent text sizes across all notification types
+- Use responsive text styling for notifications
+- Ensure notification styling consistency across different contexts
+- Use consistent font weights for notification messages
+- Standardize text styling across all notification types
+- Ensure consistent font weight in notification containers
+- Maintain consistent punctuation in notification messages

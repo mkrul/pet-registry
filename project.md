@@ -47,6 +47,10 @@
 - Added tests for ScrollToTop component
 - Implemented proper mocking for window.scrollTo and useLocation
 - Added test coverage for location change behavior
+- Implemented US-only location selection in Map component
+- Added location validation utility function
+- Added preservation of existing markers when selecting invalid locations
+- Improved map interaction handling for invalid locations
 
 ## Technical Debt
 - Add loading states for mode transitions
@@ -73,6 +77,9 @@
 - Document and centralize case conversion utilities
 - Add tests for case conversion edge cases
 - Add value type guards for form data processing
+- Consider adding visual feedback when attempting to select non-US locations
+- Consider adding a visible boundary or overlay to highlight US territory
+- Add unit tests for location validation utility
 
 ## Technical Debt Addressed
 - Improved color field validation to handle all possible duplicate scenarios

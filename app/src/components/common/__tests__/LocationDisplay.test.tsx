@@ -7,8 +7,8 @@ describe("LocationDisplay", () => {
   const testCases = [
     {
       name: "renders full location with all props",
-      props: { area: "Brooklyn", state: "New York", country: "USA" },
-      expected: "Brooklyn, New York, USA"
+      props: { area: "Brooklyn", state: "New York", country: "United States" },
+      expected: "Brooklyn, New York, United States"
     },
     {
       name: "renders location with area and country only",
@@ -17,13 +17,13 @@ describe("LocationDisplay", () => {
     },
     {
       name: "renders location with state and country only",
-      props: { state: "Victoria", country: "Australia" },
-      expected: "Victoria, Australia"
+      props: { state: "Ohio", country: "United States" },
+      expected: "Ohio, United States"
     },
     {
       name: "renders single location part",
-      props: { country: "Japan" },
-      expected: "Japan"
+      props: { country: "United States" },
+      expected: "United States"
     }
   ];
 
@@ -48,13 +48,13 @@ describe("LocationDisplay", () => {
 
   it("matches snapshot with full location", () => {
     const { container } = render(
-      <LocationDisplay area="Manhattan" state="New York" country="USA" />
+      <LocationDisplay area="Manhattan" state="New York" country="United States" />
     );
     expect(container).toMatchSnapshot();
   });
 
   it("matches snapshot with partial location", () => {
-    const { container } = render(<LocationDisplay state="Ontario" country="Canada" />);
+    const { container } = render(<LocationDisplay state="Ohio" country="United States" />);
     expect(container).toMatchSnapshot();
   });
 });

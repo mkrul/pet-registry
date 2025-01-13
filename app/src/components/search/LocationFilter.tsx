@@ -115,7 +115,7 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
           renderValue={selected => selected || "Country"}
         >
           <MenuItem value="United States">United States</MenuItem>
-          <MenuItem value="Canada">Canada</MenuItem>
+          <MenuItem value="United States">United States</MenuItem>
         </Select>
       </FormControl>
     </>
