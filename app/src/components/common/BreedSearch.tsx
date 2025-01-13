@@ -30,8 +30,10 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         disabled={disabled || !species}
         size={size}
         disableClearable={disableClearable}
-        ListboxProps={{
-          style: { maxHeight: 200 }
+        slotProps={{
+          listbox: {
+            style: { maxHeight: 200 }
+          }
         }}
         renderInput={params => (
           <TextField
@@ -39,14 +41,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
             label={hideLabel ? undefined : "Breed"}
             variant="outlined"
             size={size}
-            InputProps={{
-              ...params.InputProps,
-              required: false
-            }}
-            inputProps={{
-              ...params.inputProps,
-              required: required
-            }}
+            required={required}
             sx={{
               "& .MuiInputBase-root": {
                 height: inputHeight,

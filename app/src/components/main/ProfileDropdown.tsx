@@ -2,15 +2,40 @@ import { useRef, useState } from "react";
 import NavLink from "../common/NavLink";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
 
 const ProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
+
+  // Check current user on mount
+  useGetCurrentUserQuery();
 
   const handleToggle = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     setIsOpen(!isOpen);
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex-none">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <NavLink linkTo="/login" data-testid="nav-link-login">
+              Log In
+            </NavLink>
+          </li>
+        </ul>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-none gap-2">
@@ -20,12 +45,10 @@ const ProfileDropdown: React.FC = () => {
           role="button"
           className="btn btn-ghost btn-circle avatar"
           onClick={handleToggle}
+          data-testid="profile-button"
         >
           <div className="w-10 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            />
+            <img alt="User avatar" src="/images/placeholder-white.jpg" className="object-cover" />
           </div>
         </div>
         <ul

@@ -2,7 +2,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import ProfileDropdown from "../ProfileDropdown";
+import { authApiSlice } from "../../../redux/features/auth/authApiSlice";
 
 const mockNavigate = vi.fn();
 
@@ -26,14 +29,46 @@ vi.mock("../../auth/LogoutButton", () => ({
 
 // Mock NavLink component
 vi.mock("../../common/NavLink", () => ({
-  default: ({ children }: { children: React.ReactNode }) => <a data-testid="nav-link">{children}</a>
+  default: ({
+    children,
+    "data-testid": dataTestId,
+    linkTo
+  }: {
+    children: React.ReactNode;
+    "data-testid"?: string;
+    linkTo?: string;
+  }) => (
+    <a data-testid={dataTestId || "nav-link"} onClick={() => linkTo && mockNavigate(linkTo)}>
+      {children}
+    </a>
+  )
 }));
 
-const renderProfileDropdown = () => {
+const mockUser = {
+  email: "test@example.com",
+  id: 1
+};
+
+const createMockStore = (isAuthenticated: boolean) => {
+  return configureStore({
+    reducer: {
+      auth: () => ({
+        user: isAuthenticated ? mockUser : null
+      }),
+      [authApiSlice.reducerPath]: authApiSlice.reducer
+    },
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(authApiSlice.middleware)
+  });
+};
+
+const renderProfileDropdown = (isAuthenticated: boolean = true) => {
+  const store = createMockStore(isAuthenticated);
   return render(
-    <BrowserRouter>
-      <ProfileDropdown />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ProfileDropdown />
+      </BrowserRouter>
+    </Provider>
   );
 };
 
@@ -42,42 +77,16 @@ describe("ProfileDropdown", () => {
     mockNavigate.mockClear();
   });
 
-  describe("Rendering", () => {
-    it("renders the profile avatar button", () => {
-      const { container } = renderProfileDropdown();
-      const avatarButton = screen.getByRole("button", { name: /tailwind css navbar component/i });
-      expect(avatarButton).toBeDefined();
-      expect(container).toMatchSnapshot();
+  describe("Authenticated State", () => {
+    it("renders the profile avatar button when authenticated", () => {
+      renderProfileDropdown(true);
+      const avatarButton = screen.getByTestId("profile-button");
+      expect(avatarButton).toBeInTheDocument();
     });
-
-    it("renders the avatar image with correct attributes", () => {
-      renderProfileDropdown();
-      const avatarImg = screen.getByAltText("Tailwind CSS Navbar component");
-      expect(avatarImg).toBeDefined();
-      expect(avatarImg.getAttribute("src")).toBe(
-        "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-      );
-    });
-  });
-
-  describe("Dropdown Functionality", () => {
-    it.each([["My Reports"], ["My Pets"], ["Profile"], ["Settings"]])(
-      "displays %s link in dropdown",
-      async linkText => {
-        renderProfileDropdown();
-        const avatarButton = screen.getByRole("button", { name: /tailwind css navbar component/i });
-        fireEvent.click(avatarButton);
-
-        await waitFor(() => {
-          const links = screen.getAllByTestId("nav-link");
-          expect(links.some(link => link.textContent === linkText)).toBe(true);
-        });
-      }
-    );
 
     it("toggles dropdown visibility when clicked", async () => {
-      renderProfileDropdown();
-      const avatarButton = screen.getByRole("button", { name: /tailwind css navbar component/i });
+      renderProfileDropdown(true);
+      const avatarButton = screen.getByTestId("profile-button");
       const dropdown = screen.getByRole("list");
       expect(dropdown).toHaveClass("hidden");
 
@@ -87,12 +96,42 @@ describe("ProfileDropdown", () => {
       fireEvent.click(avatarButton);
       expect(dropdown).toHaveClass("hidden");
     });
+
+    it.each([["My Reports"], ["My Pets"], ["Profile"], ["Settings"]])(
+      "displays %s link in dropdown when authenticated",
+      async linkText => {
+        renderProfileDropdown(true);
+        const avatarButton = screen.getByTestId("profile-button");
+        fireEvent.click(avatarButton);
+
+        await waitFor(() => {
+          const links = screen.getAllByTestId("nav-link");
+          expect(links.some(link => link.textContent === linkText)).toBe(true);
+        });
+      }
+    );
+  });
+
+  describe("Unauthenticated State", () => {
+    it("renders login button when not authenticated", () => {
+      renderProfileDropdown(false);
+      const loginButton = screen.getByTestId("nav-link-login");
+      expect(loginButton).toBeInTheDocument();
+      expect(loginButton).toHaveTextContent("Log In");
+    });
+
+    it("navigates to login page when login button is clicked", () => {
+      renderProfileDropdown(false);
+      const loginButton = screen.getByTestId("nav-link-login");
+      fireEvent.click(loginButton);
+      expect(mockNavigate).toHaveBeenCalledWith("/login");
+    });
   });
 
   describe("Logout Functionality", () => {
     it("navigates to login page after logout", async () => {
-      renderProfileDropdown();
-      const avatarButton = screen.getByRole("button", { name: /tailwind css navbar component/i });
+      renderProfileDropdown(true);
+      const avatarButton = screen.getByTestId("profile-button");
       fireEvent.click(avatarButton);
       fireEvent.click(screen.getByTestId("logout-button"));
 
