@@ -30,6 +30,9 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         disabled={disabled || !species}
         size={size}
         disableClearable={disableClearable}
+        ListboxProps={{
+          style: { maxHeight: 200 }
+        }}
         renderInput={params => (
           <TextField
             {...params}
