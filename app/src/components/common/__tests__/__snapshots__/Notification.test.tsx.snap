@@ -7,7 +7,7 @@ exports[`Notification > Snapshots > matches snapshot for ERROR notification 1`] 
     role="alert"
   >
     <span
-      class="block sm:inline"
+      class="block text-base font-normal sm:inline"
     >
       Test message
     </span>
@@ -33,7 +33,7 @@ exports[`Notification > Snapshots > matches snapshot for INFO notification 1`] =
     role="alert"
   >
     <span
-      class="block sm:inline"
+      class="block text-base font-normal sm:inline"
     >
       Test message
     </span>
@@ -59,7 +59,7 @@ exports[`Notification > Snapshots > matches snapshot for SUCCESS notification 1`
     role="alert"
   >
     <span
-      class="block sm:inline"
+      class="block text-base font-normal sm:inline"
     >
       Test message
     </span>
@@ -85,7 +85,7 @@ exports[`Notification > Snapshots > matches snapshot for WARNING notification 1`
     role="alert"
   >
     <span
-      class="block sm:inline"
+      class="block text-base font-normal sm:inline"
     >
       Test message
     </span>
@@ -111,7 +111,7 @@ exports[`Notification > Snapshots > matches snapshot with custom message 1`] = `
     role="alert"
   >
     <span
-      class="block sm:inline"
+      class="block text-base font-normal sm:inline"
     >
       Custom test message
     </span>

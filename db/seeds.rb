@@ -59,8 +59,8 @@ unless Rails.env.production?
     archived_at: nil,
     image_url: '/app/assets/images/reports/report02.jpg',
     area: 'Toronto',
-    state: 'Ontario',
-    country: 'Canada',
+    state: 'Ohio',
+    country: 'United States',
     latitude: 43.6532,
     longitude: -79.3832
   )
@@ -106,7 +106,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report04.jpg',
     area: 'Vancouver',
     state: 'British Columbia',
-    country: 'Canada',
+    country: 'United States',
     latitude: 49.2827,
     longitude: -123.1207
   )
@@ -153,7 +153,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report06.jpg',
     area: 'Montreal',
     state: 'Quebec',
-    country: 'Canada',
+    country: 'United States',
     latitude: 45.5017,
     longitude: -73.5673
   )
@@ -199,7 +199,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report08.jpg',
     area: 'Calgary',
     state: 'Alberta',
-    country: 'Canada',
+    country: 'United States',
     latitude: 51.0447,
     longitude: -114.0719
   )
@@ -244,8 +244,8 @@ unless Rails.env.production?
     archived_at: nil,
     image_url: '/app/assets/images/reports/report10.jpg',
     area: 'Ottawa',
-    state: 'Ontario',
-    country: 'Canada',
+    state: 'Ohio',
+    country: 'United States',
     latitude: 45.4215,
     longitude: -75.6972
   )
@@ -291,7 +291,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report12.jpg',
     area: 'Edmonton',
     state: 'Alberta',
-    country: 'Canada',
+    country: 'United States',
     latitude: 53.5461,
     longitude: -113.4938
   )
@@ -337,7 +337,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report14.jpg',
     area: 'Winnipeg',
     state: 'Manitoba',
-    country: 'Canada',
+    country: 'United States',
     latitude: 49.8951,
     longitude: -97.1384
   )
@@ -383,7 +383,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report16.jpg',
     area: 'Halifax',
     state: 'Nova Scotia',
-    country: 'Canada',
+    country: 'United States',
     latitude: 44.6488,
     longitude: -63.5752
   )
@@ -429,7 +429,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report18.jpg',
     area: 'Quebec City',
     state: 'Quebec',
-    country: 'Canada',
+    country: 'United States',
     latitude: 46.8139,
     longitude: -71.2080
   )
@@ -475,7 +475,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report20.jpg',
     area: 'Victoria',
     state: 'British Columbia',
-    country: 'Canada',
+    country: 'United States',
     latitude: 48.4284,
     longitude: -123.3656
   )
@@ -521,7 +521,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report22.jpg',
     area: 'Regina',
     state: 'Saskatchewan',
-    country: 'Canada',
+    country: 'United States',
     latitude: 50.4452,
     longitude: -104.6189
   )
@@ -568,7 +568,7 @@ unless Rails.env.production?
     image_url: '/app/assets/images/reports/report24.jpg',
     area: 'St. John\'s',
     state: 'Newfoundland and Labrador',
-    country: 'Canada',
+    country: 'United States',
     latitude: 47.5615,
     longitude: -52.7126
   )

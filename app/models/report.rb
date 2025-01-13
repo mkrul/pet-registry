@@ -85,6 +85,7 @@ class Report < ApplicationRecord
           if: -> { (latitude.present? || longitude.present?) && country.downcase != "united states" || area.downcase != "washington" },
           allow_blank: true
   validates :country, presence: { message: "cannot be blank" }, if: -> { latitude.present? || longitude.present? }
+  validates :country, inclusion: { in: %w[united states], message: "must be united states" }, if: -> { latitude.present? || longitude.present? }
   validates :latitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
   validates :longitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
 

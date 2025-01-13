@@ -3,7 +3,10 @@ import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Spinner from "./Spinner";
+import Notification from "./Notification";
 import { MapProps } from "../../types/common/Map";
+import { isUSLocation } from "../../utils/locationUtils";
+import { NotificationType } from "../../types/common/Notification";
 
 const findNearestArea = async (lat: number, lng: number): Promise<string> => {
   try {
@@ -68,7 +71,13 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
   }
 };
 
-const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
+const MapEvents = ({
+  onLocationSelect,
+  initialLocation,
+  onNotification
+}: MapProps & {
+  onNotification: (notification: { type: NotificationType; message: string } | null) => void;
+}) => {
   const markerRef = useRef<L.Marker | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -79,24 +88,36 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
       const { lat, lng } = e.latlng;
 
       try {
-        // Remove existing marker if any
-        if (markerRef.current) {
-          markerRef.current.remove();
-        }
-
-        // Format coordinates to 6 decimal places
         const formattedLat = Number(lat.toFixed(6));
         const formattedLng = Number(lng.toFixed(6));
-
-        // Create new marker
-        markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
 
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
         );
         const data = await response.json();
-
         const address = data.address;
+
+        // Check if location is in the US
+        if (!isUSLocation(address.country || "")) {
+          onNotification({
+            type: NotificationType.ERROR,
+            message: "Sorry, we are only able to support US locations at this time."
+          });
+          setIsProcessing(false);
+          return;
+        }
+
+        // Clear notification when selecting US location
+        onNotification(null);
+
+        // Remove existing marker if any
+        if (markerRef.current) {
+          markerRef.current.remove();
+        }
+
+        // Create new marker
+        markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
+
         let area =
           address.area ||
           address.town ||
@@ -116,6 +137,7 @@ const MapEvents = ({ onLocationSelect, initialLocation }: MapProps) => {
           state: address.state || "",
           country: address.country || ""
         };
+
         if (onLocationSelect) {
           onLocationSelect(locationData);
         }
@@ -141,6 +163,10 @@ const Map: React.FC<MapProps> = ({
   readOnly = false
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [notification, setNotification] = useState<{
+    type: NotificationType;
+    message: string;
+  } | null>(null);
   const defaultCenter: [number, number] = [39.8283, -98.5795]; // Center of US
 
   const center: [number, number] =
@@ -149,29 +175,42 @@ const Map: React.FC<MapProps> = ({
       : defaultCenter;
 
   return (
-    <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
-      <MapContainer
-        center={center}
-        zoom={initialZoom}
-        className="h-full w-full"
-        whenReady={() => setIsLoading(false)}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    <div className="space-y-2">
+      {notification && (
+        <Notification
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
         />
-        {!readOnly && (
-          <MapEvents onLocationSelect={onLocationSelect} initialLocation={initialLocation} />
-        )}
-        {initialLocation?.latitude && initialLocation?.longitude && (
-          <Marker position={[initialLocation.latitude, initialLocation.longitude]} />
-        )}
-      </MapContainer>
-      {isLoading && (
-        <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
-          <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
-        </div>
       )}
+      <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
+        <MapContainer
+          center={center}
+          zoom={initialZoom}
+          className="h-full w-full"
+          whenReady={() => setIsLoading(false)}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {!readOnly && (
+            <MapEvents
+              onLocationSelect={onLocationSelect}
+              initialLocation={initialLocation}
+              onNotification={setNotification}
+            />
+          )}
+          {initialLocation?.latitude && initialLocation?.longitude && (
+            <Marker position={[initialLocation.latitude, initialLocation.longitude]} />
+          )}
+        </MapContainer>
+        {isLoading && (
+          <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
+            <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

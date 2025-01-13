@@ -10,19 +10,14 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
     [NotificationType.INFO]: "bg-blue-100 border-blue-400 text-blue-700"
   };
 
-  const defaultMessages = {
-    [NotificationType.SUCCESS]: "The operation has completed successfully.",
-    [NotificationType.ERROR]: "An unexpected error has occurred.",
-    [NotificationType.WARNING]: "",
-    [NotificationType.INFO]: ""
-  };
-
   return (
     <div
       className={`${typeStyles[type]} border px-4 py-3 rounded relative mb-4 flex justify-between items-center`}
       role="alert"
     >
-      <span className="block sm:inline">{message || defaultMessages[type]}</span>
+      <span className="block text-base font-normal sm:inline">
+        {message || defaultMessages[type]}
+      </span>
       <button onClick={onClose} className="ml-4" aria-label="Close">
         <span className="text-xl" aria-hidden="true">
           &times;
@@ -30,6 +25,13 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
       </button>
     </div>
   );
+};
+
+const defaultMessages = {
+  [NotificationType.SUCCESS]: "The operation has completed successfully.",
+  [NotificationType.ERROR]: "An unexpected error has occurred.",
+  [NotificationType.WARNING]: "",
+  [NotificationType.INFO]: ""
 };
 
 export default Notification;
