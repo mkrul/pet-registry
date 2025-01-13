@@ -2,63 +2,35 @@
 
 require 'active_interaction'
 
-class Reports::Create < ActiveInteraction::Base
-  string :title
-  string :description
-  string :name, default: nil
-  string :gender
-  string :species
-  string :breed_1
-  string :breed_2, default: nil
-  string :color_1
-  string :color_2, default: nil
-  string :color_3, default: nil
-  string :microchip_id, default: nil
-  file :image, default: nil
-  string :area, default: nil
-  string :state, default: nil
-  string :country, default: nil
-  float :latitude, default: nil
-  float :longitude, default: nil
+module Reports
+  class Create < ActiveInteraction::Base
+    string :title
+    string :description
+    string :species
+    string :breed_1
+    string :color_1
+    string :area
+    string :state
+    string :country
+    string :latitude
+    string :longitude
+    string :name, default: nil
+    string :gender, default: nil
+    string :breed_2, default: nil
+    string :color_2, default: nil
+    string :color_3, default: nil
+    string :microchip_id, default: nil
+    file :image, default: nil
 
-  def execute
-    report = Report.new(
-      title: title,
-      description: description,
-      name: name,
-      species: species&.downcase,
-      gender: gender,
-      breed_1: breed_1,
-      breed_2: breed_2,
-      color_1: color_1&.downcase,
-      color_2: color_2&.downcase,
-      color_3: color_3&.downcase,
-      microchip_id: microchip_id,
-      area: area,
-      state: state,
-      country: country,
-      latitude: latitude,
-      longitude: longitude,
-      status: 'active'
-    )
+    def execute
+      report = Report.new(inputs.merge(status: 'active'))
 
-    ActiveRecord::Base.transaction do
-      if report.save
-        attach_image(report) if image.present?
-        report
-      else
+      unless report.save
         errors.merge!(report.errors)
-        nil
+        return nil
       end
+
+      report
     end
-  end
-
-  private
-
-  def attach_image(report)
-    report.image.attach(image)
-  rescue => e
-    debugger
-    errors.add(:image, "Failed to attach image: #{e.message}")
   end
 end
