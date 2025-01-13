@@ -116,7 +116,7 @@ class Report < ApplicationRecord
 
   has_one_attached :image, dependent: :destroy
 
-  REPORT_PAGE_LIMIT = 20
+  REPORT_PAGE_LIMIT = 21
   VALID_IMAGE_TYPES = %w[image/jpeg image/png image/gif].freeze
   MAX_IMAGE_SIZE = 5.megabytes
 
