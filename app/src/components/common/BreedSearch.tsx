@@ -33,10 +33,13 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         renderInput={params => (
           <TextField
             {...params}
-            required={required}
             label={hideLabel ? undefined : "Breed"}
             variant="outlined"
             size={size}
+            InputProps={{
+              ...params.InputProps,
+              required: false
+            }}
             inputProps={{
               ...params.inputProps,
               required: required
@@ -45,6 +48,9 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
               "& .MuiInputBase-root": {
                 height: inputHeight,
                 backgroundColor: "white !important"
+              },
+              "& .MuiInputLabel-asterisk": {
+                display: "none"
               }
             }}
           />
