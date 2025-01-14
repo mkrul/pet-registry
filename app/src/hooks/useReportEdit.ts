@@ -29,7 +29,12 @@ export const useReportEdit = (report: ReportProps) => {
   const VIEW_ZOOM_LEVEL = 15;
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent
+      | {
+          target: { name: string; value: string | null };
+        }
   ) => {
     const { name, value } = e.target;
 
