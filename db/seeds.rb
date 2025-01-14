@@ -6,7 +6,7 @@ require 'open-uri'
 require 'progress_bar'
 require_relative 'create_report'
 
-unless Rails.env.production?
+if Rails.env.production?
   print('Purging old seed data...')
 
   reports = Report.all
