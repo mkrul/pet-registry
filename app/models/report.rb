@@ -116,11 +116,12 @@ class Report < ApplicationRecord
 
   has_one_attached :image, dependent: :destroy
 
+  before_save :format_coordinates
+
   REPORT_PAGE_LIMIT = 21
   VALID_IMAGE_TYPES = %w[image/jpeg image/png image/gif].freeze
   MAX_IMAGE_SIZE = 5.megabytes
 
-  before_save :format_coordinates
 
   def format_coordinates
     if latitude_changed? || longitude_changed?
