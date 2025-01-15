@@ -7,6 +7,7 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
+      Rails.logger.info("[ReportsController] Received parameters: #{params.inspect}")
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_PAGE_LIMIT).to_i
       Rails.logger.info("[ReportsController] Received parameters: #{params.inspect}")

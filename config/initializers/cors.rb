@@ -1,6 +1,11 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:3000', 'http://127.0.0.1:3000'
+    protocol = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :protocol)
+    second_level = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :second_level)
+    top_level = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :top_level)
+    production_url = "#{protocol}://#{second_level}.#{top_level}"
+
+    origins "#{production_url},http://localhost:3000,http://127.0.0.1:3000"
 
     resource "*",
       headers: :any,

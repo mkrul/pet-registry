@@ -4,7 +4,7 @@ interface Environment {
 }
 
 const development: Environment = {
-  apiUrl: import.meta.env.VITE_API_URL || "http://localhost:3000",
+  apiUrl: "http://localhost:3000",
   env: "development"
 };
 

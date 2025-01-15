@@ -32,7 +32,7 @@ gem 'opensearch-ruby', '~> 3.4'
 # use active_interaction for service objects
 gem 'active_interaction', '~> 5.3'
 # use vite_rails for development
-
+gem "vite_rails", "~> 3.0"
 # rack-cors is used to enable Cross-Origin Resource Sharing (CORS)
 gem 'rack-cors', '~> 2.0', '>= 2.0.2'
 
@@ -85,4 +85,6 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem "vite_rails", "~> 3.0"
+group :production do
+  gem 'bonsai-elasticsearch-rails', '~> 7.0', '>= 7.0.1'
+end

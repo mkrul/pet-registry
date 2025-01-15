@@ -12,8 +12,8 @@ Rails.application.configure do
     ActiveStorage::Blob
   end
 
-  host = ENV.fetch('HOST', 'localhost')
-  port = ENV.fetch('PORT', 3000)
+  host = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :second_level)
+  port = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :port)
 
   Rails.application.routes.default_url_options = { host: host, port: port }
   config.action_controller.default_url_options = { host: host, port: port }
