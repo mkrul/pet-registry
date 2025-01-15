@@ -4,6 +4,7 @@ import "@testing-library/jest-dom/vitest";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import Navbar from "../Navbar";
+import { apiConfig } from "../../../lib/apiConfig";
 
 // Mock the ProfileDropdown component
 vi.mock("../../main/ProfileDropdown", () => ({
@@ -26,7 +27,12 @@ describe("Navbar", () => {
   beforeAll(() => {
     Object.defineProperty(window, "location", {
       configurable: true,
-      value: { replace: mockReplace, origin: "http://localhost" }
+      value: {
+        replace: mockReplace,
+        origin: apiConfig.baseUrl.replace("/api", ""),
+        protocol: "http:",
+        hostname: "localhost"
+      }
     });
   });
 
@@ -97,13 +103,16 @@ describe("Navbar", () => {
       { text: "Contact", path: "#" }
     ];
 
-    it.each(expectedLinks)("renders $text link with correct href", ({ text, path }) => {
-      renderNavbar();
-      const links = screen.getAllByText(text);
-      links.forEach(link => {
-        expect(link.closest("a")).toHaveAttribute("href", path);
-      });
-    });
+    it.each(expectedLinks)(
+      "renders $text link with correct href",
+      ({ text, path }: { text: string; path: string }) => {
+        renderNavbar();
+        const links = screen.getAllByText(text);
+        links.forEach(link => {
+          expect(link.closest("a")).toHaveAttribute("href", path);
+        });
+      }
+    );
   });
 
   describe("Interactions", () => {
@@ -111,7 +120,7 @@ describe("Navbar", () => {
       renderNavbar();
       const homeLink = screen.getByText("Lost Pet Registry");
       await userEvent.click(homeLink);
-      expect(mockReplace).toHaveBeenCalledWith("http://localhost");
+      expect(mockReplace).toHaveBeenCalledWith(apiConfig.baseUrl);
     });
 
     it("prevents default behavior on home link click", async () => {

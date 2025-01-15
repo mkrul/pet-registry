@@ -9,6 +9,14 @@ Bundler.require(*Rails.groups)
 
 module PetRegistry
   class Application < Rails::Application
+    protocol = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :protocol)
+    second_level = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :second_level)
+    top_level = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :top_level)
+    port = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :port)
+
+    production_url = "#{protocol}://#{second_level}.#{top_level}"
+    development_url = "#{protocol}://#{second_level}:#{port}"
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
@@ -16,12 +24,7 @@ module PetRegistry
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        protocol = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :protocol)
-        second_level = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :second_level)
-        top_level = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :top_level)
-
-        production_url = "#{protocol}://#{second_level}.#{top_level}"
-        origins ENV.fetch('ALLOWED_ORIGINS', "#{production_url},http://localhost:3000,http://127.0.0.1:3000").split(',')
+        origins ENV.fetch('ALLOWED_ORIGINS', "#{production_url},#{development_url},http://127.0.0.1:3000").split(',')
 
         resource "*",
           headers: :any,
