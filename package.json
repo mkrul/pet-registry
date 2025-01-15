@@ -16,17 +16,13 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/testing-library__dom": "^7.5.0",
     "@types/testing-library__react": "^10.2.0",
-    "@vitejs/plugin-react-swc": "3.3.2",
     "esbuild": "^0.23.1",
     "jsdom": "22.1.0",
+    "redux-mock-store": "^1.5.4",
     "sass": "^1.79.4",
     "typescript": "^5.5.4",
-    "vite": "^5.4.3",
-    "vite-plugin-full-reload": "^1.2.0",
-    "vite-plugin-ruby": "^5.1.0",
-    "vite-plugin-stimulus-hmr": "^3.0.0",
-    "vitest": "^2.1.8",
-    "redux-mock-store": "^1.5.4"
+    "vite": "^5.0.0",
+    "vite-plugin-ruby": "^5.1.0"
   },
   "scripts": {
     "build": "vite build",
@@ -54,6 +50,7 @@
     "@types/leaflet": "^1.9.15",
     "@types/react-leaflet": "^3.0.0",
     "@types/redux-mock-store": "^1.5.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.10",
     "http-link-header": "^1.1.3",
