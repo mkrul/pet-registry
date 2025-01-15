@@ -24,7 +24,7 @@ export interface ReportProps {
   image: ImageProps;
   microchipId: string | null;
   updatedLastXDays: boolean;
-  createdLast24Hours: boolean;
+  createdLastXHours: boolean;
   area: string;
   state: string;
   country: string;

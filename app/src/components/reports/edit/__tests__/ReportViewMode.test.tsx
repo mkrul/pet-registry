@@ -43,7 +43,7 @@ const mockReport = {
   status: "active",
   archivedAt: null,
   updatedLastXDays: false,
-  createdLast24Hours: false
+  createdLastXHours: false
 };
 
 const mockProps: ReportViewModeProps = {

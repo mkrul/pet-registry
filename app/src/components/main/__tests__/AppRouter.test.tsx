@@ -41,7 +41,7 @@ const mockReport: Report = {
     publicId: ""
   },
   updatedLastXDays: false,
-  createdLast24Hours: false,
+  createdLastXHours: false,
   latitude: 0,
   longitude: 0
 };
