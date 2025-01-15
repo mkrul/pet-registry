@@ -6,9 +6,11 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
-  Rails.application.routes.default_url_options = { host: 'lostpetregistry.com' }
-  config.action_controller.default_url_options = { host: 'lostpetregistry.com' }
-  config.action_mailer.default_url_options = { host: 'lostpetregistry.com' }
+  host = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :host)
+
+  Rails.application.routes.default_url_options = { host: host }
+  config.action_controller.default_url_options = { host: host }
+  config.action_mailer.default_url_options = { host: host }
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers

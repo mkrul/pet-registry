@@ -22,7 +22,10 @@ Devise.setup do |config|
   # Remember me configuration
   config.remember_for = 2.weeks
   config.extend_remember_period = true
-  config.rememberable_options = { secure: Rails.env.production? }
+  config.rememberable_options = {
+    secure: Rails.env.production?,
+    domain: Rails.env.production? ? '.herokuapp.com' : :all
+  }
 
   # Cookie configuration
   config.navigational_formats = ['*/*', :html, :json]

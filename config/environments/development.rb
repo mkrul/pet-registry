@@ -12,12 +12,11 @@ Rails.application.configure do
     ActiveStorage::Blob
   end
 
-  host = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :second_level)
-  port = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :port)
+  host = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :host)
 
-  Rails.application.routes.default_url_options = { host: host, port: port }
-  config.action_controller.default_url_options = { host: host, port: port }
-  config.action_mailer.default_url_options = { host: host, port: port }
+  Rails.application.routes.default_url_options = { host: host, port: 3000 }
+  config.action_controller.default_url_options = { host: host, port: 3000 }
+  config.action_mailer.default_url_options = { host: host, port: 3000 }
 
   config.enable_reloading = true
 
