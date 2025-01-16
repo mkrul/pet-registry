@@ -84,3 +84,7 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
 end
+
+group :production do
+  gem 'elasticsearch-rails', '~> 7.2.0'
+end

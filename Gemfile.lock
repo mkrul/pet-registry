@@ -130,6 +130,7 @@ GEM
     diff-lcs (1.5.1)
     drb (2.2.1)
     dry-cli (1.2.0)
+    elasticsearch-rails (7.2.1)
     error_highlight (0.7.0)
     erubi (1.13.1)
     factory_bot (6.5.0)
@@ -400,6 +401,7 @@ DEPENDENCIES
   cssbundling-rails (~> 1.4, >= 1.4.1)
   database_cleaner-active_record
   devise (~> 4.9.2)
+  elasticsearch-rails (~> 7.2.0)
   error_highlight (>= 0.4.0)
   factory_bot_rails
   image_processing (~> 1.12)
