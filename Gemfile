@@ -51,7 +51,7 @@ gem 'bootsnap', require: false
 gem 'active_model_serializers', '~> 0.10.14'
 
 # image storage and processing
-gem 'cloudinary', '~> 2.1', '>= 2.1.1'
+gem 'cloudinary', '~> 1.29.0'
 gem 'activestorage-cloudinary-service', '~> 0.2.3'
 gem 'image_processing', '~> 1.12'
 gem 'mini_magick', '~> 4.11'
@@ -86,6 +86,7 @@ group :test do
 end
 
 group :production do
-  gem 'elasticsearch', '~> 7.17.10'
-  gem 'elasticsearch-transport', '~> 7.17.0'
+  # DO NOT UPGRADE - these versions are required in order to support Cloudinary
+  gem 'elasticsearch', '~> 7.10.1'
+  gem 'elasticsearch-transport', '~> 7.10.1'
 end
