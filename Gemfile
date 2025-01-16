@@ -84,7 +84,3 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
 end
-
-group :production do
-  gem 'bonsai-elasticsearch-rails', '~> 7.0', '>= 7.0.1'
-end
