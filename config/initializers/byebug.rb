@@ -10,6 +10,7 @@ if Rails.env.development?
 
       Byebug.start_server url, ENV.fetch('BYEBUG_SERVER_PORT', 8989).to_i
     end
+
   rescue Errno::EADDRINUSE
     Rails.logger.debug 'Byebug server already running'
   end
