@@ -18,7 +18,7 @@ class CreateReports < ActiveRecord::Migration[7.2]
       t.string :name, null: false
       t.string :gender, null: false
       t.string :microchip_id
-      t.string :area
+      t.string :city
       t.string :state
       t.string :country
       t.float :latitude
