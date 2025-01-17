@@ -56,6 +56,8 @@ gem 'activestorage-cloudinary-service', '~> 0.2.3'
 gem 'image_processing', '~> 1.12'
 gem 'mini_magick', '~> 4.11'
 
+gem 'progress_bar'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 group :development, :test do
@@ -67,7 +69,6 @@ group :development, :test do
   gem 'pry-nav'
   gem 'pry-remote'
   gem 'rspec-rails', '~> 6.1.3'
-  gem 'progress_bar'
 end
 
 group :development do
