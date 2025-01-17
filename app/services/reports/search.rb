@@ -36,7 +36,6 @@ class Reports::Search < ActiveInteraction::Base
 
   def where_conditions
     conditions = { status: 'active' }
-
     # Set species condition, prioritizing explicit filter over query content
     if species.present?
       conditions[:species] = species.downcase
