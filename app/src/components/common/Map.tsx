@@ -9,7 +9,11 @@ import { isUSLocation } from "../../utils/locationUtils";
 import { NotificationType } from "../../types/common/Notification";
 import "../../utils/leafletSetup";
 
-const findNearestArea = async (lat: number, lng: number): Promise<string> => {
+const findNearestArea = async (
+  lat: number,
+  lng: number,
+  onNotification: (notification: { type: NotificationType; message: string }) => void
+): Promise<string> => {
   try {
     // Use reverse geocoding with a larger zoom level to find nearby places
     const response = await fetch(
@@ -72,10 +76,13 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
         }
       }
     }
-
     return "Unknown Location";
   } catch (error) {
-    console.error("Error finding nearest area:", error);
+    onNotification({
+      type: NotificationType.ERROR,
+      message:
+        "The map does not recognize the location you selected. Please choose a different location."
+    });
     return "Unknown Location";
   }
 };
@@ -196,7 +203,7 @@ const MapEvents = ({
           address.neighbourhood;
 
         if (!area || area === "Unknown") {
-          area = await findNearestArea(formattedLat, formattedLng);
+          area = await findNearestArea(formattedLat, formattedLng, onNotification);
         }
 
         if (area === "Unknown Location") {
