@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import SearchContainer from "../../components/search/SearchContainer";
+import MobileSearchTab from "../../components/search/MobileSearchTab";
 import ReportsContainer from "../../components/reports/index/ReportsContainer";
 import { FiltersProps } from "../../types/common/Search";
 
@@ -20,6 +21,7 @@ const ReportIndexPage = () => {
     sort: searchParams.get("sort") || "Newest",
     breed: searchParams.get("breed") || ""
   });
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   // Effect to restore search state when returning from report detail
   useEffect(() => {
@@ -56,8 +58,22 @@ const ReportIndexPage = () => {
   return (
     <div className="mx-auto p-4 mt-5" data-testid="reports-index">
       <div className="flex flex-col gap-4">
-        <SearchContainer onSearchComplete={handleSearchComplete} />
-        <div className="mt-4">
+        {/* Desktop Search */}
+        <div className="hidden md:block">
+          <SearchContainer onSearchComplete={handleSearchComplete} />
+        </div>
+
+        {/* Mobile Search Tab */}
+        <MobileSearchTab
+          isOpen={isMobileSearchOpen}
+          setIsOpen={setIsMobileSearchOpen}
+          onSearchComplete={(query, page, filters) => {
+            handleSearchComplete(query, page, filters);
+            setIsMobileSearchOpen(false); // Close the search tab after search
+          }}
+        />
+
+        <div>
           <ReportsContainer
             query={activeSearch}
             filters={activeFilters}

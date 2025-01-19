@@ -25,15 +25,19 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
     if (data && data.address) {
       // Check various address fields in priority order
       const areaName =
+        data.address.city ||
         data.address.area ||
         data.address.town ||
         data.address.village ||
         data.address.suburb ||
-        data.address.municipality ||
         data.address.neighbourhood ||
+        data.address.municipality ||
+        data.address.hamlet ||
+        data.address.isolated_dwelling ||
         data.address.county;
 
-      if (areaName && areaName.toLowerCase().includes("unknown")) {
+      // If we found a valid area name, return it
+      if (areaName && !areaName.toLowerCase().includes("unknown")) {
         return areaName;
       }
 
@@ -56,21 +60,22 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
           widerData.address.town ||
           widerData.address.village ||
           widerData.address.suburb ||
+          widerData.address.neighbourhood ||
           widerData.address.municipality ||
-          widerData.address.county ||
           widerData.address.hamlet ||
-          widerData.address.isolated_dwelling;
+          widerData.address.isolated_dwelling ||
+          widerData.address.county;
 
-        if (widerAreaName && widerAreaName !== "Unknown") {
+        if (widerAreaName && !widerAreaName.toLowerCase().includes("unknown")) {
           return widerAreaName;
         }
       }
     }
 
-    return "Unknown Area";
+    return "Unknown Location";
   } catch (error) {
     console.error("Error finding nearest area:", error);
-    return "Unknown Area";
+    return "Unknown Location";
   }
 };
 
@@ -118,9 +123,6 @@ const MapEvents = ({
           markerRef.current.remove();
         }
 
-        // Create new marker
-        markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
-
         let area =
           address.area ||
           address.town ||
@@ -132,6 +134,28 @@ const MapEvents = ({
         if (!area || area === "Unknown") {
           area = await findNearestArea(formattedLat, formattedLng);
         }
+
+        if (area === "Unknown Location") {
+          onNotification({
+            type: NotificationType.ERROR,
+            message:
+              "The map does not recognize the location you selected. Please choose a different location."
+          });
+          if (onLocationSelect) {
+            onLocationSelect({
+              latitude: 0,
+              longitude: 0,
+              area: "",
+              state: "",
+              country: ""
+            });
+          }
+          setIsProcessing(false);
+          return;
+        }
+
+        // Create new marker only after confirming valid location
+        markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
 
         const locationData = {
           latitude: formattedLat,
