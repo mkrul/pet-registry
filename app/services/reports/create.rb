@@ -20,6 +20,7 @@ module Reports
     string :color_2, default: nil
     string :color_3, default: nil
     string :microchip_id, default: nil
+    string :intersection, default: nil
     file :image, default: nil
 
     def execute

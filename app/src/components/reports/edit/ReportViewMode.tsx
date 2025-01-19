@@ -117,7 +117,12 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
       {/* Location */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-4">Location:</label>
-        <LocationDisplay area={report.area} state={report.state} country={report.country} />
+        <LocationDisplay
+          area={report.area}
+          state={report.state}
+          country={report.country}
+          intersection={report.intersection}
+        />
         <div className="mt-1">
           <Map
             initialLocation={{

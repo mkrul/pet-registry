@@ -7,10 +7,8 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
-      Rails.logger.info("[ReportsController] Received parameters: #{params.inspect}")
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_PAGE_LIMIT).to_i
-      Rails.logger.info("[ReportsController] Received parameters: #{params.inspect}")
 
       result = Reports::Search.run(
         query: params[:query],
@@ -20,6 +18,7 @@ module Api
         country: params[:country],
         state: params[:state],
         area: params[:area],
+        intersection: params[:intersection],
         breed: params[:breed],
         sort: params[:sort],
         page: page,
@@ -137,7 +136,8 @@ module Api
         :state,
         :country,
         :latitude,
-        :longitude
+        :longitude,
+        :intersection
       ).merge(report: @report)
     end
 
@@ -161,7 +161,8 @@ module Api
         :country,
         :latitude,
         :longitude,
-        :status
+        :status,
+        :intersection
       ).merge(report: @report)
     end
 

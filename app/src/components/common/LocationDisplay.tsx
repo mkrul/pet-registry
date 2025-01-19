@@ -15,8 +15,8 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
 
   return (
     <div className="text-gray-500 mt-2">
-      {intersection && <p className="mb-1">Nearest intersection: {intersection}</p>}
       <p>{locationParts.join(", ")}</p>
+      {intersection && <p className="mb-1">{intersection}</p>}
     </div>
   );
 };

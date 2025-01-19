@@ -63,9 +63,9 @@ class Report < ApplicationRecord
     reindex
   end
 
-  validates :title, presence: { message: "cannot be blank" }, length: { maximum: 30, message: "must be 30 characters or less" }
+  validates :title, presence: { message: "cannot be blank" }, length: { maximum: 40, message: "must be 40 characters or less" }
 
-  validates :name, length: { maximum: 20, message: "must be 20 characters or less" },
+  validates :name, length: { maximum: 30, message: "must be 30 characters or less" },
                   format: { with: /\A[a-zA-Z0-9\s\-]+\z/, message: "Name can only contain letters, numbers, spaces, and hyphens" },
                   allow_blank: true
 
@@ -91,6 +91,7 @@ class Report < ApplicationRecord
   }, if: -> { latitude.present? || longitude.present? }
   validates :latitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
   validates :longitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
+  validates :intersection, length: { maximum: 100, message: "must be 100 characters or less" }, allow_blank: true
 
   normalizes :status,
              :archived_at,

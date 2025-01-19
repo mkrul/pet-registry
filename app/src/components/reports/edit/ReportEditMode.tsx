@@ -407,7 +407,12 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
       {/* Location */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-4">Location:</label>
-        <LocationDisplay area={formData.area} state={formData.state} country={formData.country} />
+        <LocationDisplay
+          area={formData.area}
+          state={formData.state}
+          country={formData.country}
+          intersection={formData.intersection}
+        />
         <div className="mt-1">
           <Map
             onLocationSelect={handleLocationSelect}

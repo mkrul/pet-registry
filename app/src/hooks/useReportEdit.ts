@@ -127,6 +127,7 @@ export const useReportEdit = (report: ReportProps) => {
     area: string;
     state: string;
     country: string;
+    intersection: string | null;
   }) => {
     setFormData(prev => ({
       ...prev,

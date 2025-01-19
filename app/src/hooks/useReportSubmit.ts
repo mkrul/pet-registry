@@ -34,7 +34,8 @@ export const useReportSubmit = ({
       state: formData.state,
       country: formData.country,
       latitude: formData.latitude,
-      longitude: formData.longitude
+      longitude: formData.longitude,
+      intersection: formData.intersection
     };
 
     Object.entries(data).forEach(([key, value]) => {

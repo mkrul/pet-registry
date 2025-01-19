@@ -3,7 +3,7 @@ class ReportSerializer < ActiveModel::Serializer
              :color_1, :color_2, :color_3, :name, :gender, :image,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :updated_last_x_days, :created_last_x_hours,
-             :area, :state, :country, :latitude, :longitude
+             :area, :state, :country, :latitude, :longitude, :intersection
 
   def attributes(*args)
     data = super
@@ -76,5 +76,9 @@ class ReportSerializer < ActiveModel::Serializer
     return nil unless object.created_at
 
     object.created_at > 24.hours.ago
+  end
+
+  def intersection
+    object&.intersection
   end
 end

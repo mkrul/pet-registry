@@ -29,6 +29,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     country: null,
     latitude: null,
     longitude: null,
+    intersection: null,
     ...initialData
   });
 
@@ -95,6 +96,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     area: string;
     state: string;
     country: string;
+    intersection: string | null;
   }) => {
     setFormData(prev => ({
       ...prev,

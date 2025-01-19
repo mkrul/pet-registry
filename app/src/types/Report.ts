@@ -30,6 +30,7 @@ export interface ReportProps {
   country: string;
   latitude: number;
   longitude: number;
+  intersection: string | null;
 }
 
 export interface ReportPropsState {
@@ -59,6 +60,7 @@ export interface ReportPropsForm {
   country: string | null;
   latitude: number | null;
   longitude: number | null;
+  intersection: string | null;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -187,5 +189,6 @@ export interface ReportLocationFilterProps {
     area: string;
     state: string;
     country: string;
+    intersection: string | null;
   }) => void;
 }

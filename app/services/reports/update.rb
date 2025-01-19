@@ -21,6 +21,7 @@ class Reports::Update < ActiveInteraction::Base
   string :country, default: nil
   float :latitude, default: nil
   float :longitude, default: nil
+  string :intersection, default: nil
 
   def execute
     ActiveRecord::Base.transaction do
@@ -55,7 +56,8 @@ class Reports::Update < ActiveInteraction::Base
       state: state,
       country: country,
       latitude: latitude,
-      longitude: longitude
+      longitude: longitude,
+      intersection: intersection
     )
   end
 

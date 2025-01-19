@@ -90,7 +90,11 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
             <h2 className="text-xl font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
-            <LocationDisplay area={report.area} state={report.state} country={report.country} />
+            <LocationDisplay
+              area={report.area}
+              state={report.state}
+              intersection={report.intersection}
+            />
             <div className="border-t border-gray-200 mt-3 pt-3">
               <div className="text-gray-500 text-md">
                 {report.description.length > 100
