@@ -79,6 +79,69 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
   }
 };
 
+const findNearbyStreets = async (lat: number, lng: number): Promise<string | null> => {
+  try {
+    // First get the main street
+    const mainResponse = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?` +
+        `format=json&` +
+        `lat=${lat}&` +
+        `lon=${lng}&` +
+        `zoom=18&` +
+        `addressdetails=1`
+    );
+
+    const mainData = await mainResponse.json();
+    const mainRoad = mainData?.address?.road;
+
+    // If no road found, try a wider search for the main road
+    if (!mainRoad) {
+      const widerResponse = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?` +
+          `format=json&` +
+          `lat=${lat}&` +
+          `lon=${lng}&` +
+          `zoom=16&` + // Wider zoom to find nearest road
+          `addressdetails=1`
+      );
+      const widerData = await widerResponse.json();
+      if (!widerData?.address?.road) return null;
+    }
+
+    // Use a larger radius in all cases to find intersecting roads
+    const radius = 1000; // 1km radius
+    const query = `
+      [out:json][timeout:25];
+      way(around:${radius},${lat},${lng})[highway][name];
+      out tags;
+    `;
+
+    const overpassResponse = await fetch(
+      `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
+    );
+
+    const overpassData = await overpassResponse.json();
+    console.log("Overpass API elements:", overpassData.elements);
+
+    // Find a different street from the main road
+    const nearbyRoad = overpassData.elements.find(
+      (element: { tags?: { name?: string; highway?: string } }) =>
+        element.tags?.name &&
+        element.tags.highway &&
+        element.tags.name.toLowerCase() !== mainRoad.toLowerCase()
+    )?.tags?.name;
+
+    if (mainRoad && nearbyRoad && mainRoad !== nearbyRoad) {
+      return `${mainRoad} at ${nearbyRoad}`;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error finding nearby streets:", error);
+    return null;
+  }
+};
+
 const MapEvents = ({
   onLocationSelect,
   initialLocation,
@@ -157,14 +220,45 @@ const MapEvents = ({
         // Create new marker only after confirming valid location
         markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
 
+        // Debug logging for OpenStreetMap response
+        console.log("OpenStreetMap raw address data:", address);
+        console.log("Road value:", address.road);
+        console.log("Available paths:", {
+          footway: address.footway,
+          path: address.path,
+          cycleway: address.cycleway,
+          pedestrian: address.pedestrian,
+          service: address.service,
+          residential: address.residential
+        });
+
+        // Try to find nearby intersecting streets
+        const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
+
         const locationData = {
           latitude: formattedLat,
           longitude: formattedLng,
           area: area,
           state: address.state || "",
-          country: address.country || ""
+          country: address.country || "",
+          intersection: intersectionStr
         };
 
+        // Debug logging for intersection calculation
+        console.log("Intersection calculation:", {
+          hasRoad: !!address.road,
+          intersectingPaths: [
+            address.footway,
+            address.path,
+            address.cycleway,
+            address.pedestrian,
+            address.service,
+            address.residential
+          ].filter(Boolean),
+          finalIntersection: locationData.intersection
+        });
+
+        console.log("Final Location Data:", locationData);
         if (onLocationSelect) {
           onLocationSelect(locationData);
         }

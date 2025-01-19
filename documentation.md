@@ -6,3 +6,13 @@
 - For mobile-responsive search functionality, using a fixed position tab with smooth animations provides better UX
 - Framer Motion can be used to create smooth slide-in/out animations for mobile interfaces
 - Using Tailwind's md breakpoint (768px) effectively covers requirements for mobile-specific features targeting screens under 749px
+- OpenStreetMap API returns various road/path types (road, footway, path, cycleway, etc.) that need to be handled for accurate intersection data
+- When working with OpenStreetMap data, it's important to handle multiple possible field names for similar features
+- When debugging complex data transformations, it's helpful to log intermediate steps to understand where the logic might be failing
+- OpenStreetMap API requires different zoom levels to find different types of location data - wider zoom helps find nearby streets
+- OpenStreetMap's search API with viewbox parameter can be used to find nearby streets within a specific radius
+- Overpass API is more reliable than OpenStreetMap's search API for finding nearby streets within a specific radius
+- When working with street data, it's important to filter by highway types to get relevant results
+- Overpass API queries need to include the 'name' tag to filter for named streets only
+- OpenStreetMap address data can be used to determine urban vs rural areas for adjusting search parameters
+- In rural areas, OpenStreetMap data might require wider zoom levels and search radii to find roads
