@@ -16,3 +16,5 @@
 - Overpass API queries need to include the 'name' tag to filter for named streets only
 - OpenStreetMap address data can be used to determine urban vs rural areas for adjusting search parameters
 - In rural areas, OpenStreetMap data might require wider zoom levels and search radii to find roads
+- Leaflet marker icons need explicit configuration in React applications to work correctly in production builds
+- Default marker icons must be imported and configured using L.Icon.Default.mergeOptions for proper bundling

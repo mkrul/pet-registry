@@ -7,3 +7,4 @@
 - Added responsive design for search functionality on mobile devices
 - Fixed intersection detection in Map component to properly identify street intersections
 - Improved intersection detection in Map component by adding nearby street lookup
+- Fixed Leaflet marker icons not displaying in production environment

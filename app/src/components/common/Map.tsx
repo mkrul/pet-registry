@@ -7,6 +7,7 @@ import Notification from "./Notification";
 import { MapProps } from "../../types/common/Map";
 import { isUSLocation } from "../../utils/locationUtils";
 import { NotificationType } from "../../types/common/Notification";
+import "../../utils/leafletSetup";
 
 const findNearestArea = async (lat: number, lng: number): Promise<string> => {
   try {
