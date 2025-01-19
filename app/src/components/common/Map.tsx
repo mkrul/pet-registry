@@ -218,7 +218,8 @@ const MapEvents = ({
               longitude: 0,
               area: "",
               state: "",
-              country: ""
+              country: "",
+              intersection: null
             });
           }
           setIsProcessing(false);

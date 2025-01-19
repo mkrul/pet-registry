@@ -42,8 +42,8 @@ const mockReport = {
   updatedAt: "2023-01-01",
   status: "active",
   archivedAt: null,
-  updatedLastXDays: false,
-  createdLastXHours: false
+  updatedWithinLastXDays: false,
+  createdWithinLastXHours: false
 };
 
 const mockProps: ReportViewModeProps = {

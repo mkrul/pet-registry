@@ -40,8 +40,8 @@ const mockReport: Report = {
     filename: "",
     publicId: ""
   },
-  updatedLastXDays: false,
-  createdLastXHours: false,
+  updatedWithinLastXDays: false,
+  createdWithinLastXHours: false,
   latitude: 0,
   longitude: 0
 };

@@ -14,4 +14,5 @@ export interface MapLocation {
   area: string;
   state: string;
   country: string;
+  intersection: string | null;
 }

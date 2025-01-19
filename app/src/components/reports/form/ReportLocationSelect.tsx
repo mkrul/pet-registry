@@ -8,6 +8,7 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
     area: string;
     state: string;
     country: string;
+    intersection: string | null;
   } | null>(null);
 
   const NEW_REPORT_ZOOM_LEVEL = 4;
@@ -18,11 +19,13 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
     area: string;
     state: string;
     country: string;
+    intersection: string | null;
   }) => {
     setSelectedLocation({
       area: location.area,
       state: location.state,
-      country: location.country
+      country: location.country,
+      intersection: location.intersection
     });
     onLocationSelect(location);
   };
@@ -35,6 +38,7 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
           area={selectedLocation.area}
           state={selectedLocation.state}
           country={selectedLocation.country}
+          intersection={selectedLocation.intersection}
         />
       )}
       <div className="mt-1">
