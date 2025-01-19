@@ -15,7 +15,6 @@ reports.each do |report|
   Reports::Destroy.run!(report: report)
   bar.increment! # Increment progress for each report destroyed
 end
-
 print('Seeding database with sample data...')
 bar = ProgressBar.new(25)
 
@@ -34,12 +33,12 @@ report01 = CreateReport.new.call(
   microchip_id: '7e66face07e025183b8a418cc96665',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report01.jpg',
-  area: 'Beverly Hills',
-  state: 'California',
+  area: 'Texarkana',
+  state: 'Arkansas',
   country: 'United States',
-  latitude: 34.0736,
-  longitude: -118.4004,
-  intersection: nil
+  latitude: 33.428863,
+  longitude: -94.030952,
+  intersection: 'East 5th Street at Hazel Street'
 )
 bar.increment!
 
@@ -58,12 +57,12 @@ report02 = CreateReport.new.call(
   microchip_id: 'd1ad849b0c5bfe5fa0e4e669a7ce27',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report02.jpg',
-  area: 'Grove City',
-  state: 'Ohio',
+  area: 'Hurley',
+  state: 'New York',
   country: 'United States',
-  latitude: 39.8822,
-  longitude: 83.0935,
-  intersection: nil
+  latitude: 41.910517,
+  longitude: -74.06064,
+  intersection: 'Joys Lane at Hook Street'
 )
 bar.increment!
 
@@ -82,12 +81,12 @@ report03 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report03.jpg',
-  area: 'Seattle',
-  state: 'Washington',
+  area: 'Louisville',
+  state: 'Kentucky',
   country: 'United States',
-  latitude: 47.6062,
-  longitude: -122.3321,
-  intersection: nil
+  latitude: 38.239798,
+  longitude: -85.720139,
+  intersection: 'Cherokee Road at Longest Avenue'
 )
 bar.increment!
 
@@ -106,12 +105,12 @@ report04 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report04.jpg',
-  area: 'Mount Vernon',
-  state: 'Washington',
+  area: 'Manassas',
+  state: 'Virginia',
   country: 'United States',
-  latitude: 48.4201,
-  longitude: 122.3375,
-  intersection: nil
+  latitude: 38.746318,
+  longitude: -77.477989,
+  intersection: 'Beech Place at Aspen Place'
 )
 bar.increment!
 
@@ -130,12 +129,12 @@ report05 = CreateReport.new.call(
   microchip_id: 'a55da8e924ac8005553bebf8b9f1de',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report05.jpg',
-  area: 'Austin',
-  state: 'Texas',
+  area: 'Somerset',
+  state: 'Kentucky',
   country: 'United States',
-  latitude: 30.2672,
-  longitude: -97.7431,
-  intersection: nil
+  latitude: 37.089692,
+  longitude: -84.591293,
+  intersection: 'Jarvis Avenue / KY 769 at Vermillion Avenue'
 )
 bar.increment!
 
@@ -154,12 +153,12 @@ report06 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report06.jpg',
-  area: 'Montreal',
-  state: 'Quebec',
+  area: 'Oberlin',
+  state: 'Pennsylvania',
   country: 'United States',
-  latitude: 45.5017,
-  longitude: -73.5673,
-  intersection: nil
+  latitude: 40.25228,
+  longitude: -76.79718,
+  intersection: 'US 322 at Perry Street'
 )
 bar.increment!
 
@@ -178,12 +177,12 @@ report07 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report07.jpg',
-  area: 'Portland',
-  state: 'Oregon',
+  area: 'Fairfield',
+  state: 'Maine',
   country: 'United States',
-  latitude: 45.5155,
-  longitude: -122.6789,
-  intersection: nil
+  latitude: 44.592545,
+  longitude: -69.625683,
+  intersection: 'Ridge Road at Sites Stinson Drive'
 )
 bar.increment!
 
@@ -202,12 +201,12 @@ report08 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report08.jpg',
-  area: 'Calgary',
-  state: 'Alberta',
+  area: 'Riverside',
+  state: 'Florida',
   country: 'United States',
-  latitude: 51.0447,
-  longitude: -114.0719,
-  intersection: nil
+  latitude: 30.318359,
+  longitude: -81.691589,
+  intersection: 'Gilmore Street at Cherokee Circle East'
 )
 bar.increment!
 
@@ -226,12 +225,12 @@ report09 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report09.jpg',
-  area: 'Denver',
-  state: 'Colorado',
+  area: 'Bartow',
+  state: 'Florida',
   country: 'United States',
-  latitude: 39.7392,
-  longitude: -104.9903,
-  intersection: nil
+  latitude: 27.885212,
+  longitude: -81.845398,
+  intersection: 'South Floral Avenue at South Wilson Avenue'
 )
 bar.increment!
 
@@ -250,12 +249,12 @@ report10 = CreateReport.new.call(
   microchip_id: '8c96b0ac554ec1a5d16e095e169cbc',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report10.jpg',
-  area: 'Potter County',
-  state: 'Texas',
+  area: 'Rochester',
+  state: 'New Hampshire',
   country: 'United States',
-  latitude: 35.2220,
-  longitude: 101.8313,
-  intersection: nil
+  latitude: 43.303195,
+  longitude: -70.94696,
+  intersection: 'Chamberlain Street at Heritage Drive'
 )
 bar.increment!
 
@@ -274,12 +273,12 @@ report11 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report11.jpg',
-  area: 'Miami',
-  state: 'Florida',
+  area: 'Prescott',
+  state: 'Arizona',
   country: 'United States',
-  latitude: 25.7617,
-  longitude: -80.1918,
-  intersection: nil
+  latitude: 34.537672,
+  longitude: -112.477341,
+  intersection: 'Glenwood Avenue at Congress Avenue'
 )
 bar.increment!
 
@@ -298,12 +297,12 @@ report12 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report12.jpg',
-  area: 'Santa Fe County',
-  state: 'New Mexico',
+  area: 'Hardin',
+  state: 'Montana',
   country: 'United States',
-  latitude: 35.3654,
-  longitude: 105.9700,
-  intersection: nil
+  latitude: 45.728592,
+  longitude: -107.618809,
+  intersection: 'West Division Street at West Railway Street'
 )
 bar.increment!
 
@@ -322,12 +321,12 @@ report13 = CreateReport.new.call(
   microchip_id: 'e45b898f0eb61bc51b2fa74d510b8f',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report13.jpg',
-  area: 'Chicago',
-  state: 'Illinois',
+  area: 'Fallon',
+  state: 'Nevada',
   country: 'United States',
-  latitude: 41.8781,
-  longitude: -87.6298,
-  intersection: nil
+  latitude: 39.475956,
+  longitude: -118.778,
+  intersection: 'North Carson Street at Douglas Street'
 )
 bar.increment!
 
@@ -346,12 +345,12 @@ report14 = CreateReport.new.call(
   microchip_id: 'a4c53afe5b34f498e7e33c48d164e1',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report14.jpg',
-  area: 'Burleigh County',
-  state: 'North Dakota',
+  area: 'Concord',
+  state: 'California',
   country: 'United States',
-  latitude: 44.3535,
-  longitude: 99.8125,
-  intersection: nil
+  latitude: 37.978033,
+  longitude: -122.038536,
+  intersection: 'Harrison Street at Mount Diablo Street'
 )
 bar.increment!
 
@@ -370,12 +369,12 @@ report15 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report15.jpg',
-  area: 'Boston',
-  state: 'Massachusetts',
+  area: 'Santa Clara',
+  state: 'Oregon',
   country: 'United States',
-  latitude: 42.3601,
-  longitude: -71.0589,
-  intersection: nil
+  latitude: 44.099421,
+  longitude: -123.129272,
+  intersection: 'River Road at Taito Street'
 )
 bar.increment!
 
@@ -394,12 +393,12 @@ report16 = CreateReport.new.call(
   microchip_id: '642f63972f20ad419c8e2dea1f9bf3',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report16.jpg',
-  area: 'Halifax',
-  state: 'Nova Scotia',
+  area: 'Fairmont City',
+  state: 'Illinois',
   country: 'United States',
-  latitude: 44.6488,
-  longitude: -63.5752,
-  intersection: nil
+  latitude: 38.6458,
+  longitude: -90.110028,
+  intersection: 'North 39th Street at North 42nd Street'
 )
 bar.increment!
 
@@ -418,12 +417,12 @@ report17 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report17.jpg',
-  area: 'San Francisco',
-  state: 'California',
+  area: 'Walker',
+  state: 'Michigan',
   country: 'United States',
-  latitude: 37.7749,
-  longitude: -122.4194,
-  intersection: nil
+  latitude: 42.958433,
+  longitude: -85.718079,
+  intersection: 'Covell Avenue Northwest at Lynn Lane Northwest'
 )
 bar.increment!
 
@@ -442,12 +441,12 @@ report18 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report18.jpg',
-  area: 'Decatur County',
-  state: 'Tennessee',
+  area: 'Olivet',
+  state: 'Michigan',
   country: 'United States',
-  latitude: 35.5951,
-  longitude: 88.1291,
-  intersection: nil
+  latitude: 42.442841,
+  longitude: -84.922771,
+  intersection: 'East Street at Drury Lane'
 )
 bar.increment!
 
@@ -466,12 +465,12 @@ report19 = CreateReport.new.call(
   microchip_id: 'c38fb7d9a0b5a987efbc685d3d0fd3',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report19.jpg',
-  area: 'Las Vegas',
-  state: 'Nevada',
+  area: 'Federal Hill',
+  state: 'Maryland',
   country: 'United States',
-  latitude: 36.1699,
-  longitude: -115.1398,
-  intersection: nil
+  latitude: 39.277979,
+  longitude: -76.609039,
+  intersection: 'Grindall Street at Henry Street'
 )
 bar.increment!
 
@@ -490,12 +489,12 @@ report20 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report20.jpg',
-  area: 'Thurston County',
-  state: 'Washington',
+  area: 'Churchville',
+  state: 'Maryland',
   country: 'United States',
-  latitude: 46.8646,
-  longitude: 122.7696,
-  intersection: nil
+  latitude: 39.559515,
+  longitude: -76.249065,
+  intersection: 'Churchville Road at Pond Road'
 )
 bar.increment!
 
@@ -514,12 +513,12 @@ report21 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report21.jpg',
-  area: 'Phoenix',
-  state: 'Arizona',
+  area: 'Big Island Township',
+  state: 'Ohio',
   country: 'United States',
-  latitude: 33.4484,
-  longitude: -112.0740,
-  intersection: nil
+  latitude: 40.591014,
+  longitude: -83.251648,
+  intersection: 'Espyville Road North at Espyville Road South'
 )
 bar.increment!
 
@@ -538,12 +537,12 @@ report22 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report22.jpg',
-  area: 'Regina',
-  state: 'Saskatchewan',
+  area: 'Yazoo City',
+  state: 'Mississippi',
   country: 'United States',
-  latitude: 50.4452,
-  longitude: -104.6189,
-  intersection: nil
+  latitude: 32.84152,
+  longitude: -90.4216,
+  intersection: 'Russell Avenue at Fairview Street'
 )
 bar.increment!
 
@@ -562,12 +561,12 @@ report23 = CreateReport.new.call(
   microchip_id: nil,
   archived_at: nil,
   image_url: '/app/assets/images/reports/report23.jpg',
-  area: 'Houston',
-  state: 'Texas',
+  area: 'Oklahoma City',
+  state: 'Oklahoma',
   country: 'United States',
-  latitude: 29.7604,
-  longitude: -95.3698,
-  intersection: nil
+  latitude: 35.44256,
+  longitude: -97.487447,
+  intersection: 'Southeast 22nd Street at South I-35 Service Road'
 )
 bar.increment!
 
@@ -586,12 +585,12 @@ report24 = CreateReport.new.call(
   microchip_id: '93f477556d705a1f5e0ffd69ecd925',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report24.jpg',
-  area: 'Lafayette Parish',
-  state: 'Louisiana',
+  area: 'North Platte',
+  state: 'Nebraska',
   country: 'United States',
-  latitude: 30.1895,
-  longitude: 92.0273,
-  intersection: nil
+  latitude: 41.123332,
+  longitude: -100.757675,
+  intersection: 'South Cottonwood Street at East Leota Street'
 )
 bar.increment!
 
@@ -610,12 +609,12 @@ report25 = CreateReport.new.call(
   microchip_id: 'e9cb1d752a8fd4ce3d644c1efd287e',
   archived_at: nil,
   image_url: '/app/assets/images/reports/report25.jpg',
-  area: 'New York',
-  state: 'New York',
+  area: 'Vernal',
+  state: 'Utah',
   country: 'United States',
-  latitude: 40.7128,
-  longitude: -74.0060,
-  intersection: nil
+  latitude: 40.451748,
+  longitude: -109.538198,
+  intersection: 'South 500 West at South 100 East'
 )
 bar.increment!
 
