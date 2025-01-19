@@ -1,5 +1,5 @@
 ## New Learnings
-- Installing the "vite" package is required to run the "vite" command in bin/dev
-- bin/dev relies on the Procfile.dev to invoke "vite dev", which needs Vite installed
-- "vite-plugin-ruby" is required when using RubyPlugin() in vite.config.mts
-- Yarn should install both "vite" and "vite-plugin-ruby" in devDependencies
+
+- RTK Query cache invalidation requires careful configuration of provideTags and invalidatesTags to ensure proper cache updates
+- When dealing with image updates, it's important to properly invalidate both individual item caches and list caches
+- Using refetchOnMountOrArgChange can help ensure data freshness when navigating between pages

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Spinner from "../../common/Spinner";
 import { NotificationType } from "../../../types/common/Notification";
 import Notification from "../../common/Notification";
@@ -13,11 +13,13 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   page,
   onPageChange
 }) => {
-  const { reports, data, isLoading, error, notification, setNotification } = useReportsData(
-    query,
-    filters,
-    page
-  );
+  const { reports, data, isLoading, error, notification, setNotification, refetch } =
+    useReportsData(query, filters, page);
+
+  // Force refetch when component mounts
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   if (isLoading) return <Spinner />;
   if (error)

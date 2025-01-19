@@ -58,11 +58,11 @@ if Rails.env.production?
     microchip_id: 'd1ad849b0c5bfe5fa0e4e669a7ce27',
     archived_at: nil,
     image_url: '/app/assets/images/reports/report02.jpg',
-    area: 'Toronto',
+    area: 'Grove City',
     state: 'Ohio',
     country: 'United States',
-    latitude: 43.6532,
-    longitude: -79.3832
+    latitude: 39.8822,
+    longitude: 83.0935
   )
   bar.increment!
 
@@ -104,11 +104,11 @@ if Rails.env.production?
     microchip_id: nil,
     archived_at: nil,
     image_url: '/app/assets/images/reports/report04.jpg',
-    area: 'Vancouver',
-    state: 'British Columbia',
+    area: 'Mount Vernon',
+    state: 'Washington',
     country: 'United States',
-    latitude: 49.2827,
-    longitude: -123.1207
+    latitude: 48.4201,
+    longitude: 122.3375
   )
   bar.increment!
 
@@ -148,7 +148,6 @@ if Rails.env.production?
     color_2: 'black',
     color_3: nil,
     microchip_id: nil,
-    created_at: Time.now - 10.days,
     archived_at: nil,
     image_url: '/app/assets/images/reports/report06.jpg',
     area: 'Montreal',
@@ -243,11 +242,11 @@ if Rails.env.production?
     microchip_id: '8c96b0ac554ec1a5d16e095e169cbc',
     archived_at: nil,
     image_url: '/app/assets/images/reports/report10.jpg',
-    area: 'Ottawa',
-    state: 'Ohio',
+    area: 'Potter County',
+    state: 'Texas',
     country: 'United States',
-    latitude: 45.4215,
-    longitude: -75.6972
+    latitude: 35.2220,
+    longitude: 101.8313
   )
   bar.increment!
 
@@ -289,11 +288,11 @@ if Rails.env.production?
     microchip_id: nil,
     archived_at: nil,
     image_url: '/app/assets/images/reports/report12.jpg',
-    area: 'Edmonton',
-    state: 'Alberta',
+    area: 'Santa Fe County',
+    state: 'New Mexico',
     country: 'United States',
-    latitude: 53.5461,
-    longitude: -113.4938
+    latitude: 35.3654,
+    longitude: 105.9700
   )
   bar.increment!
 
@@ -335,11 +334,11 @@ if Rails.env.production?
     microchip_id: 'a4c53afe5b34f498e7e33c48d164e1',
     archived_at: nil,
     image_url: '/app/assets/images/reports/report14.jpg',
-    area: 'Winnipeg',
-    state: 'Manitoba',
+    area: 'Burleigh County',
+    state: 'North Dakota',
     country: 'United States',
-    latitude: 49.8951,
-    longitude: -97.1384
+    latitude: 44.3535,
+    longitude: 99.8125
   )
   bar.increment!
 
@@ -427,11 +426,11 @@ if Rails.env.production?
     microchip_id: nil,
     archived_at: nil,
     image_url: '/app/assets/images/reports/report18.jpg',
-    area: 'Quebec City',
-    state: 'Quebec',
+    area: 'Decatur County',
+    state: 'Tennessee',
     country: 'United States',
-    latitude: 46.8139,
-    longitude: -71.2080
+    latitude: 35.5951,
+    longitude: 88.1291
   )
   bar.increment!
 
@@ -473,11 +472,11 @@ if Rails.env.production?
     microchip_id: nil,
     archived_at: nil,
     image_url: '/app/assets/images/reports/report20.jpg',
-    area: 'Victoria',
-    state: 'British Columbia',
+    area: 'Thurston County',
+    state: 'Washington',
     country: 'United States',
-    latitude: 48.4284,
-    longitude: -123.3656
+    latitude: 46.8646,
+    longitude: 122.7696
   )
   bar.increment!
 
@@ -563,14 +562,13 @@ if Rails.env.production?
     color_2: nil,
     color_3: nil,
     microchip_id: '93f477556d705a1f5e0ffd69ecd925',
-    created_at: Time.now - 75.days,
     archived_at: nil,
     image_url: '/app/assets/images/reports/report24.jpg',
-    area: 'St. John\'s',
-    state: 'Newfoundland and Labrador',
+    area: 'Lafayette Parish',
+    state: 'Louisiana',
     country: 'United States',
-    latitude: 47.5615,
-    longitude: -52.7126
+    latitude: 30.1895,
+    longitude: 92.0273
   )
   bar.increment!
 

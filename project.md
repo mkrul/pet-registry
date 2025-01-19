@@ -1,4 +1,5 @@
 ## Completed Tasks
-- Installed Vite as a dev dependency to fix "error Command 'vite' not found"
-- Ensured bin/dev can now start the Vite server
-- Installed vite-plugin-ruby to fix "Cannot find package 'vite-plugin-ruby' error"
+
+- Fixed image caching issue in reports list after editing
+- Improved RTK Query cache invalidation configuration
+- Added automatic refetch on component mount to ensure fresh data

@@ -51,12 +51,15 @@ const findNearestArea = async (lat: number, lng: number): Promise<string> => {
 
       if (widerData && widerData.address) {
         const widerAreaName =
+          widerData.address.city ||
           widerData.address.area ||
           widerData.address.town ||
           widerData.address.village ||
           widerData.address.suburb ||
           widerData.address.municipality ||
-          widerData.address.county;
+          widerData.address.county ||
+          widerData.address.hamlet ||
+          widerData.address.isolated_dwelling;
 
         if (widerAreaName && widerAreaName !== "Unknown") {
           return widerAreaName;

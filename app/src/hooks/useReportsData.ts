@@ -15,12 +15,17 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
   const reports = useSelector((state: RootState) => state.reports.data);
   const [notification, setNotification] = useState<NotificationState | null>(null);
 
-  const { data, error, isLoading } = useGetReportsQuery({
-    page: page || 1,
-    query: query || undefined,
-    items: 21,
-    ...filters
-  });
+  const { data, error, isLoading, refetch } = useGetReportsQuery(
+    {
+      page,
+      items: 20,
+      query,
+      ...filters
+    },
+    {
+      refetchOnMountOrArgChange: true
+    }
+  );
 
   useEffect(() => {
     if (data?.data) {
@@ -40,5 +45,13 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
     }
   }, [error]);
 
-  return { reports, data, error, isLoading, notification, setNotification };
+  return {
+    reports: data?.data || [],
+    data,
+    isLoading,
+    error,
+    notification,
+    setNotification,
+    refetch
+  };
 };

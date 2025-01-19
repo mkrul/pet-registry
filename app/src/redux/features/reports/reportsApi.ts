@@ -113,7 +113,13 @@ export const reportsApi = createApi({
         return transformed;
       },
       keepUnusedDataFor: 30,
-      providesTags: ["Reports"],
+      providesTags: result =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
+              { type: "Reports", id: "LIST" }
+            ]
+          : [{ type: "Reports", id: "LIST" }],
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
@@ -131,7 +137,11 @@ export const reportsApi = createApi({
         message: response.message,
         report: transformToCamelCase(response.report)
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: "Reports", id }, "Reports"],
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Reports", id },
+        "Reports",
+        { type: "Reports", id: "LIST" }
+      ],
       transformErrorResponse: (response: { status: number; data: any }) => ({
         status: response.status,
         data: {
