@@ -11,7 +11,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
   const dispatch = useAppDispatch();
   const placeholderPath = "/images/placeholder.png";
   const [imageIsLoading, setImageIsLoading] = useState(true);
-  const [imageSrc, setImageSrc] = useState(report.image?.thumbnailUrl || placeholderPath);
+  const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || placeholderPath);
 
   const getReportStatusDisplay = (report: ReportCardProps["report"]) => {
     // Handle ring styling
