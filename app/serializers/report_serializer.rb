@@ -2,7 +2,7 @@ class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
              :color_1, :color_2, :color_3, :name, :gender, :image,
              :microchip_id, :created_at, :updated_at, :archived_at,
-             :updated_within_last_x_days, :created_within_last_x_hours,
+             :recently_updated, :recently_created,
              :area, :state, :country, :latitude, :longitude, :intersection
 
   def attributes(*args)
@@ -66,18 +66,28 @@ class ReportSerializer < ActiveModel::Serializer
     object.longitude.to_f if object.longitude
   end
 
-  def created_within_last_x_hours
-    return true if object.created_at > 1.hour.ago
+  def recently_created
+    return false unless object.created_at >= 1.hour.ago
 
-    false
+    time_difference = (object.updated_at.to_i - object.created_at.to_i).abs
+    return false if time_difference > 5
+
+    true
   end
 
-  def updated_within_last_x_days
-    return false if object.created_at > 1.hour.ago
+  def recently_updated
+    time_since_creation = Time.current - object.created_at
+    time_between_update_and_creation = (object.updated_at.to_i - object.created_at.to_i).abs
 
-    return true if object.updated_at > 2.days.ago
+    if time_since_creation <= 24.hours && time_between_update_and_creation <= 5
+      return false
+    end
 
-    false
+    if time_since_creation <= 48.hours && time_between_update_and_creation > 5
+      return true
+    end
+
+    object.updated_at >= 48.hours.ago
   end
 
   def intersection

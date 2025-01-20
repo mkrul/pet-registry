@@ -9,6 +9,38 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
   const [imageIsLoading, setImageIsLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(report.image?.thumbnailUrl || placeholderPath);
 
+  const getReportStatusDisplay = (report: ReportCardProps["report"]) => {
+    // Handle ring styling
+    const ringStyle = report.recentlyCreated
+      ? "ring-4 ring-blue-500 rounded-lg"
+      : report.recentlyUpdated
+        ? "ring-4 ring-green-500 rounded-lg"
+        : "";
+
+    // Handle badge component
+    const badge = report.recentlyCreated ? (
+      <span
+        className="absolute bottom-0 right-0 z-10 bg-blue-500 text-blue-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-blue-500 dark:text-blue-100"
+        tabIndex={0}
+        aria-label="Report created within the last hour"
+        aria-describedby={`tooltip-${report.id}`}
+      >
+        NEW
+      </span>
+    ) : report.recentlyUpdated ? (
+      <span
+        className="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
+        tabIndex={0}
+        aria-label="Report updated within the last two days"
+        aria-describedby={`tooltip-${report.id}`}
+      >
+        UPDATED
+      </span>
+    ) : null;
+
+    return { ringStyle, badge };
+  };
+
   // Format the date
   const formattedDate = new Date(report.updatedAt).toLocaleDateString(undefined, {
     month: "2-digit",
@@ -39,6 +71,8 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
   // Construct the URL with query parameters
   const reportUrl = `/reports/${report.id}?query=${encodeURIComponent(currentQuery)}&page=${currentPage}`;
 
+  const { ringStyle, badge } = getReportStatusDisplay(report);
+
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       {/* Pass `query` and `page` as query parameters */}
@@ -50,15 +84,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                 <Spinner />
               </div>
             )}
-            <div
-              className={`relative w-full h-72 sm:h-48 ${
-                report.createdWithinLastXHours
-                  ? "ring-4 ring-blue-500 rounded-lg"
-                  : report.updatedWithinLastXDays
-                    ? "ring-4 ring-green-500 rounded-lg"
-                    : ""
-              }`}
-            >
+            <div className={`relative w-full h-72 sm:h-48 ${ringStyle}`}>
               <img
                 src={imageSrc}
                 alt={report.title}
@@ -66,24 +92,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
                 onLoad={handleImageLoad}
                 onError={handleImageError}
               />
-              {report.createdWithinLastXHours && (
-                <span
-                  className="absolute bottom-0 right-0 z-10 bg-blue-500 text-blue-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-blue-500 dark:text-blue-100"
-                  tabIndex={0}
-                  aria-describedby={`tooltip-${report.id}`}
-                >
-                  NEW
-                </span>
-              )}
-              {report.updatedWithinLastXDays && (
-                <span
-                  className="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
-                  tabIndex={0}
-                  aria-describedby={`tooltip-${report.id}`}
-                >
-                  UPDATED
-                </span>
-              )}
+              {badge}
             </div>
           </div>
           <div className="flex flex-col sm:ml-4 flex-grow">

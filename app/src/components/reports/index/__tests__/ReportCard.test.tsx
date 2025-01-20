@@ -35,8 +35,8 @@ const mockReport: ReportProps = {
     filename: "test.jpg",
     publicId: "test"
   },
-  updatedWithinLastXDays: false,
-  createdWithinLastXHours: false
+  recentlyUpdated: false,
+  recentlyCreated: false
 };
 
 const renderReportCard = (report = mockReport) => {
@@ -52,8 +52,8 @@ describe("ReportCard", () => {
     it("shows NEW indicator for reports created within 24 hours", () => {
       const newReport = {
         ...mockReport,
-        createdWithinLastXHours: true,
-        updatedWithinLastXDays: false
+        recentlyCreated: true,
+        recentlyUpdated: false
       };
 
       renderReportCard(newReport);
@@ -64,8 +64,8 @@ describe("ReportCard", () => {
     it("shows UPDATED indicator for reports updated within 3 days", () => {
       const updatedReport = {
         ...mockReport,
-        createdWithinLastXHours: false,
-        updatedWithinLastXDays: true
+        recentlyCreated: false,
+        recentlyUpdated: true
       };
 
       renderReportCard(updatedReport);
@@ -76,8 +76,8 @@ describe("ReportCard", () => {
     it("shows no indicator for older reports", () => {
       const oldReport = {
         ...mockReport,
-        createdWithinLastXHours: false,
-        updatedWithinLastXDays: false
+        recentlyCreated: false,
+        recentlyUpdated: false
       };
 
       renderReportCard(oldReport);
