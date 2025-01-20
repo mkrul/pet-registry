@@ -29,6 +29,7 @@ const mockReport: Report = {
   area: "Test Area",
   state: "Test State",
   country: "Test Country",
+  intersection: null,
   archivedAt: null,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
@@ -74,10 +75,6 @@ vi.mock("../common/Navbar", () => ({
 
 vi.mock("../common/Footer", () => ({
   default: () => <div data-testid="footer">Footer</div>
-}));
-
-vi.mock("../ScrollToTop", () => ({
-  default: () => <div data-testid="scroll-to-top">ScrollToTop</div>
 }));
 
 // Mock hooks and API slices

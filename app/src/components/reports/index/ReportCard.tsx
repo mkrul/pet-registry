@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
 import { ReportCardProps } from "../../../types/Report";
 import LocationDisplay from "../../common/LocationDisplay";
+import { useAppDispatch } from "../../../redux/hooks";
+import { setScrollPosition } from "../../../redux/features/search/searchSlice";
 
 const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQuery }) => {
+  const dispatch = useAppDispatch();
   const placeholderPath = "/images/placeholder.png";
   const [imageIsLoading, setImageIsLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(report.image?.thumbnailUrl || placeholderPath);
@@ -73,15 +76,16 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
 
   const { ringStyle, badge } = getReportStatusDisplay(report);
 
+  const handleReportClick = () => {
+    // Save current scroll position before navigating
+    dispatch(setScrollPosition(window.scrollY));
+    // Scroll to top
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
-      <Link
-        to={reportUrl}
-        className="block"
-        onClick={() => {
-          // The scroll position is now handled by ScrollToTop component
-        }}
-      >
+      <Link to={reportUrl} className="block" onClick={handleReportClick}>
         <div className="p-4 bg-white rounded-lg sm:flex w-full">
           <div className="flex-shrink-0 relative w-full sm:w-48 h-72 sm:h-48 mb-4 sm:mb-0">
             {imageIsLoading && (

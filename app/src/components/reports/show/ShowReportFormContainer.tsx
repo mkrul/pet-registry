@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShowReportFormContainerProps } from "../../../types/Report";
 import ReportViewMode from "../edit/ReportViewMode";
 import ReportEditMode from "../edit/ReportEditMode";
@@ -11,6 +11,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
   const [isEditing, setIsEditing] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const {
     formData,
@@ -47,7 +48,9 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
   };
 
   const handleBackClick = () => {
-    navigate("/reports");
+    const query = searchParams.get("query") || "";
+    const page = searchParams.get("page") || "1";
+    navigate(`/?query=${encodeURIComponent(query)}&page=${page}`);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

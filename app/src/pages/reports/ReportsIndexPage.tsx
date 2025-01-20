@@ -6,6 +6,7 @@ import SearchContainer from "../../components/search/SearchContainer";
 import MobileSearchTab from "../../components/search/MobileSearchTab";
 import ReportsContainer from "../../components/reports/index/ReportsContainer";
 import { FiltersProps } from "../../types/common/Search";
+import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 
 const ReportIndexPage = () => {
   const location = useLocation();
@@ -36,6 +37,8 @@ const ReportIndexPage = () => {
   );
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
+  useScrollRestoration();
+
   const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
     setActiveSearch(query);
     setActiveFilters(filters);
@@ -46,7 +49,8 @@ const ReportIndexPage = () => {
       setSearchState({
         query,
         page,
-        filters
+        filters,
+        scrollPosition: window.scrollY
       })
     );
 

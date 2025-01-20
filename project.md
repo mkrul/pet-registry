@@ -8,3 +8,5 @@
 - Fixed intersection detection in Map component to properly identify street intersections
 - Improved intersection detection in Map component by adding nearby street lookup
 - Fixed Leaflet marker icons not displaying in production environment
+- Improved back navigation to maintain scroll position when returning to reports list
+- Refactored scroll position restoration to use a dedicated custom hook

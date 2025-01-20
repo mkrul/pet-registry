@@ -6,7 +6,6 @@ import ReportShowPage from "../../pages/reports/ReportShowPage";
 import Footer from "../common/Footer";
 import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../../pages/auth/LoginPage";
-import ScrollToTop from "./ScrollToTop";
 import SignUpPage from "../../pages/auth/SignUpPage";
 import { useAppSelector } from "../../redux/hooks";
 
@@ -16,7 +15,6 @@ const AppRouter = () => {
   return (
     <div>
       <NavBar />
-      <ScrollToTop />
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />

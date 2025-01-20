@@ -18,4 +18,7 @@
 - In rural areas, OpenStreetMap data might require wider zoom levels and search radii to find roads
 - Leaflet marker icons need explicit configuration in React applications to work correctly in production builds
 - Default marker icons must be imported and configured using L.Icon.Default.mergeOptions for proper bundling
-- Using navigate() for back button provides consistent navigation behavior
+- Using window.history.back() provides better UX by maintaining scroll position when returning to previous page
+- Browser's native history management helps preserve page state between navigations
+- Managing scroll position in Redux state provides reliable scroll restoration between page navigations
+- Custom hooks can provide cleaner solutions for managing UI behaviors like scroll position restoration
