@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ShowReportFormContainerProps } from "../../../types/Report";
 import ReportViewMode from "../edit/ReportViewMode";
 import ReportEditMode from "../edit/ReportEditMode";
@@ -9,6 +10,7 @@ import { useReportEdit } from "../../../hooks/useReportEdit";
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
+  const navigate = useNavigate();
 
   const {
     formData,
@@ -45,7 +47,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
   };
 
   const handleBackClick = () => {
-    window.history.back();
+    navigate("/reports");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

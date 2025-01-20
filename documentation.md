@@ -18,3 +18,4 @@
 - In rural areas, OpenStreetMap data might require wider zoom levels and search radii to find roads
 - Leaflet marker icons need explicit configuration in React applications to work correctly in production builds
 - Default marker icons must be imported and configured using L.Icon.Default.mergeOptions for proper bundling
+- Using navigate() for back button provides consistent navigation behavior
