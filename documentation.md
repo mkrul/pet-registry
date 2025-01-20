@@ -22,3 +22,4 @@
 - Browser's native history management helps preserve page state between navigations
 - Managing scroll position in Redux state provides reliable scroll restoration between page navigations
 - Custom hooks can provide cleaner solutions for managing UI behaviors like scroll position restoration
+- Scroll position management should be handled at specific user interaction points (navigation, reset, etc.)

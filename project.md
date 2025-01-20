@@ -10,3 +10,4 @@
 - Fixed Leaflet marker icons not displaying in production environment
 - Improved back navigation to maintain scroll position when returning to reports list
 - Refactored scroll position restoration to use a dedicated custom hook
+- Added scroll-to-top behavior when resetting search filters

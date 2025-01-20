@@ -31,6 +31,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     const defaultFilters = getDefaultFilters();
     setSearchQuery("");
     setFilters(defaultFilters);
+    window.scrollTo(0, 0);
 
     onSearchComplete("", 1, defaultFilters);
   };
