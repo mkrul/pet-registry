@@ -17,11 +17,9 @@ Rails.application.routes.draw do
     get 'filters/breeds', to: 'filters#breeds'
 
     resources :reports do
-      get :index, on: :collection
-      get :search, on: :collection
-      get :new
-      get :edit
-      get :show
+      collection do
+        get :search
+      end
     end
   end
 

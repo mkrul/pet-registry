@@ -43,9 +43,30 @@ module Api
 
     def new
       @report = Report.new
-      serialized_report = ReportSerializer.new(@report).as_json
-
-      render json: serialized_report, status: :ok
+      render json: {
+        report: {
+          title: "",
+          description: "",
+          name: "",
+          gender: "",
+          species: "",
+          breed_1: "",
+          breed_2: "",
+          color_1: "",
+          color_2: "",
+          color_3: "",
+          microchip_id: "",
+          area: "",
+          state: "",
+          country: "",
+          latitude: nil,
+          longitude: nil,
+          intersection: nil
+        }
+      }, status: :ok
+    rescue StandardError => e
+      Rails.logger.error "Error in new report: #{e.message}\n#{e.backtrace.join("\n")}"
+      render json: { error: "Failed to initialize new report", details: e.message }, status: :internal_server_error
     end
 
     def show
