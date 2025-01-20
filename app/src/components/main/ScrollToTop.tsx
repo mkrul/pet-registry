@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { setScrollPosition } from "../../redux/features/search/searchSlice";
 
 /**
  * ScrollToTop Component
@@ -9,11 +11,22 @@ import { useLocation } from "react-router-dom";
  */
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+  const savedScrollPosition = useAppSelector(state => state.search.scrollPosition);
 
   useEffect(() => {
-    // Scroll to the top-left corner of the window
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    // Save scroll position when navigating away from reports index
+    if (pathname !== "/") {
+      dispatch(setScrollPosition(window.scrollY));
+    }
+
+    // Restore scroll position when returning to reports index
+    if (pathname === "/") {
+      window.scrollTo(0, savedScrollPosition);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, dispatch, savedScrollPosition]);
 
   return null;
 };

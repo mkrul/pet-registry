@@ -75,8 +75,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
 
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
-      {/* Pass `query` and `page` as query parameters */}
-      <Link to={reportUrl} className="block">
+      <Link
+        to={reportUrl}
+        className="block"
+        onClick={() => {
+          // The scroll position is now handled by ScrollToTop component
+        }}
+      >
         <div className="p-4 bg-white rounded-lg sm:flex w-full">
           <div className="flex-shrink-0 relative w-full sm:w-48 h-72 sm:h-48 mb-4 sm:mb-0">
             {imageIsLoading && (

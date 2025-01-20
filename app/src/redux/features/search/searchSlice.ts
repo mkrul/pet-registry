@@ -5,6 +5,7 @@ interface SearchState {
   query: string;
   page: number;
   filters: FiltersProps;
+  scrollPosition: number;
 }
 
 const initialState: SearchState = {
@@ -19,7 +20,8 @@ const initialState: SearchState = {
     country: "",
     sort: "Newest",
     breed: ""
-  }
+  },
+  scrollPosition: 0
 };
 
 const searchSlice = createSlice({
@@ -30,14 +32,19 @@ const searchSlice = createSlice({
       state.query = action.payload.query;
       state.page = action.payload.page;
       state.filters = action.payload.filters;
+      state.scrollPosition = action.payload.scrollPosition;
+    },
+    setScrollPosition: (state, action: PayloadAction<number>) => {
+      state.scrollPosition = action.payload;
     },
     clearSearchState: state => {
       state.query = initialState.query;
       state.page = initialState.page;
       state.filters = initialState.filters;
+      state.scrollPosition = initialState.scrollPosition;
     }
   }
 });
 
-export const { setSearchState, clearSearchState } = searchSlice.actions;
+export const { setSearchState, clearSearchState, setScrollPosition } = searchSlice.actions;
 export default searchSlice.reducer;
