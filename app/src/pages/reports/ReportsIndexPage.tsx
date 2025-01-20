@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { setSearchState } from "../../redux/features/search/searchSlice";
 import SearchContainer from "../../components/search/SearchContainer";
 import MobileSearchTab from "../../components/search/MobileSearchTab";
 import ReportsContainer from "../../components/reports/index/ReportsContainer";
@@ -8,42 +10,45 @@ import { FiltersProps } from "../../types/common/Search";
 const ReportIndexPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeSearch, setActiveSearch] = useState(searchParams.get("query") || "");
-  const [currentPage, setCurrentPage] = useState(parseInt(searchParams.get("page") || "1"));
-  const [activeFilters, setActiveFilters] = useState<FiltersProps>({
-    species: searchParams.get("species") || "",
-    color: searchParams.get("color") || "",
-    gender: searchParams.get("gender") || "",
-    area: searchParams.get("area") || "",
-    state: searchParams.get("state") || "",
-    country: searchParams.get("country") || "",
-    sort: searchParams.get("sort") || "Newest",
-    breed: searchParams.get("breed") || ""
-  });
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
-  // Effect to restore search state when returning from report detail
-  useEffect(() => {
-    const savedState = sessionStorage.getItem("reportSearchState");
-    if (savedState) {
-      const { query, filters, page, path } = JSON.parse(savedState);
+  // Get search state from Redux
+  const searchState = useAppSelector(state => state.search);
 
-      // Update state
-      setActiveSearch(query || "");
-      setActiveFilters(filters);
-      setCurrentPage(page);
-
-      // Update URL and clear saved state
-      navigate(path, { replace: true });
-      sessionStorage.removeItem("reportSearchState");
+  const [activeSearch, setActiveSearch] = useState(
+    searchState.query || searchParams.get("query") || ""
+  );
+  const [currentPage, setCurrentPage] = useState(
+    searchState.page || parseInt(searchParams.get("page") || "1")
+  );
+  const [activeFilters, setActiveFilters] = useState<FiltersProps>(
+    searchState.filters || {
+      species: searchParams.get("species") || "",
+      color: searchParams.get("color") || "",
+      gender: searchParams.get("gender") || "",
+      area: searchParams.get("area") || "",
+      state: searchParams.get("state") || "",
+      country: searchParams.get("country") || "",
+      sort: searchParams.get("sort") || "Newest",
+      breed: searchParams.get("breed") || ""
     }
-  }, [location.pathname]);
+  );
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
     setActiveSearch(query);
     setActiveFilters(filters);
     setCurrentPage(page);
+
+    // Save search state to Redux
+    dispatch(
+      setSearchState({
+        query,
+        page,
+        filters
+      })
+    );
 
     // Update URL params
     const params = new URLSearchParams();
@@ -69,7 +74,7 @@ const ReportIndexPage = () => {
           setIsOpen={setIsMobileSearchOpen}
           onSearchComplete={(query, page, filters) => {
             handleSearchComplete(query, page, filters);
-            setIsMobileSearchOpen(false); // Close the search tab after search
+            setIsMobileSearchOpen(false);
           }}
         />
 
