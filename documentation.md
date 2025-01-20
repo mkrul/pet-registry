@@ -26,3 +26,6 @@
 - When restoring scroll position, it's important to wait for the page to render using requestAnimationFrame
 - Pagination actions should reset scroll position to improve user experience
 - Using key prop to force component remount can prevent unwanted content flashes during updates
+- When detecting street intersections, using a smaller initial search radius (100m) with a fallback to a larger radius (200m) provides more accurate results
+- Filtering OpenStreetMap highway types to include only proper roads (primary, secondary, tertiary, residential, unclassified) improves intersection detection accuracy
+- Overpass API queries should be structured to return roads in order of proximity to the target point

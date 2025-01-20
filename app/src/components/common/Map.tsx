@@ -102,26 +102,20 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
     const mainData = await mainResponse.json();
     const mainRoad = mainData?.address?.road;
 
-    // If no road found, try a wider search for the main road
     if (!mainRoad) {
-      const widerResponse = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?` +
-          `format=json&` +
-          `lat=${lat}&` +
-          `lon=${lng}&` +
-          `zoom=16&` + // Wider zoom to find nearest road
-          `addressdetails=1`
-      );
-      const widerData = await widerResponse.json();
-      if (!widerData?.address?.road) return null;
+      return null;
     }
 
-    // Use a larger radius in all cases to find intersecting roads
-    const radius = 1000; // 1km radius
+    // Use a smaller initial radius to find nearby intersecting roads
+    const radius = 100; // Start with 100m radius
     const query = `
       [out:json][timeout:25];
-      way(around:${radius},${lat},${lng})[highway][name];
-      out tags;
+      (
+        way(around:${radius},${lat},${lng})[highway~"^(primary|secondary|tertiary|residential|unclassified)$"][name];
+      );
+      out body;
+      >;
+      out skel qt;
     `;
 
     const overpassResponse = await fetch(
@@ -129,18 +123,38 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
     );
 
     const overpassData = await overpassResponse.json();
-    console.log("Overpass API elements:", overpassData.elements);
 
-    // Find a different street from the main road
-    const nearbyRoad = overpassData.elements.find(
-      (element: { tags?: { name?: string; highway?: string } }) =>
-        element.tags?.name &&
-        element.tags.highway &&
-        element.tags.name.toLowerCase() !== mainRoad.toLowerCase()
-    )?.tags?.name;
+    // Sort roads by distance from the clicked point
+    const roads = overpassData.elements
+      .filter(
+        (element: { tags?: { name?: string; highway?: string } }) =>
+          element.tags?.name && element.tags.name.toLowerCase() !== mainRoad.toLowerCase()
+      )
+      .map((element: { tags?: { name?: string } }) => element.tags?.name)
+      .filter((name?: string): name is string => !!name);
 
-    if (mainRoad && nearbyRoad && mainRoad !== nearbyRoad) {
-      return `${mainRoad} at ${nearbyRoad}`;
+    // If no intersecting roads found with initial radius, try a slightly larger radius
+    if (roads.length === 0) {
+      const widerQuery = query.replace(`${radius}`, "200"); // Increase to 200m
+      const widerResponse = await fetch(
+        `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(widerQuery)}`
+      );
+      const widerData = await widerResponse.json();
+
+      roads.push(
+        ...widerData.elements
+          .filter(
+            (element: { tags?: { name?: string; highway?: string } }) =>
+              element.tags?.name && element.tags.name.toLowerCase() !== mainRoad.toLowerCase()
+          )
+          .map((element: { tags?: { name?: string } }) => element.tags?.name)
+          .filter((name?: string): name is string => !!name)
+      );
+    }
+
+    // Take the first (closest) intersecting road
+    if (roads.length > 0) {
+      return `${mainRoad} at ${roads[0]}`;
     }
 
     return null;
