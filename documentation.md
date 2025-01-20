@@ -23,3 +23,6 @@
 - Managing scroll position in Redux state provides reliable scroll restoration between page navigations
 - Custom hooks can provide cleaner solutions for managing UI behaviors like scroll position restoration
 - Scroll position management should be handled at specific user interaction points (navigation, reset, etc.)
+- When restoring scroll position, it's important to wait for the page to render using requestAnimationFrame
+- Pagination actions should reset scroll position to improve user experience
+- Using key prop to force component remount can prevent unwanted content flashes during updates

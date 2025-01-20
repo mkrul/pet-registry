@@ -6,12 +6,14 @@ import ReportEditMode from "../edit/ReportEditMode";
 import Notification from "../../common/Notification";
 import { NotificationState, NotificationType } from "../../../types/common/Notification";
 import { useReportEdit } from "../../../hooks/useReportEdit";
+import { useStore } from "react-redux";
 
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const store = useStore();
 
   const {
     formData,
@@ -48,9 +50,27 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
   };
 
   const handleBackClick = () => {
+    console.log("ShowReportFormContainer handleBackClick - Before", {
+      currentScrollY: window.scrollY,
+      searchParams: Object.fromEntries(searchParams.entries()),
+      reduxState: store.getState().search
+    });
+
     const query = searchParams.get("query") || "";
     const page = searchParams.get("page") || "1";
+
+    console.log("ShowReportFormContainer handleBackClick - Before navigate", {
+      query,
+      page,
+      targetURL: `/?query=${encodeURIComponent(query)}&page=${page}`
+    });
+
     navigate(`/?query=${encodeURIComponent(query)}&page=${page}`);
+
+    console.log("ShowReportFormContainer handleBackClick - After navigate", {
+      newURL: window.location.href,
+      finalScrollY: window.scrollY
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

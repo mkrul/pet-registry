@@ -11,3 +11,6 @@
 - Improved back navigation to maintain scroll position when returning to reports list
 - Refactored scroll position restoration to use a dedicated custom hook
 - Added scroll-to-top behavior when resetting search filters
+- Fixed scroll position restoration when using browser back button by using requestAnimationFrame
+- Added automatic scroll to top when changing pages in reports list
+- Fixed content flash when changing pages by using key prop for component remounting
