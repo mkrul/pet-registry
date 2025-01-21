@@ -41,3 +41,11 @@
 - When switching between view/edit modes, avoid unnecessary API calls by reusing existing location data
 - Use flags to control data fetching behavior when data is already available
 - Optimize map marker handling to prevent flickering during mode switches
+- Development-only features can be conditionally rendered using process.env.NODE_ENV check
+- When testing forms, having a way to quickly populate all fields improves development efficiency
+- Development-only components can be isolated in a separate directory for easy removal in production
+- Using component composition helps maintain clean separation between development and production code
+- When generating test data, using realistic formats (like standard microchip ID prefixes) helps catch edge cases
+- When using development-only features, store test assets in the public directory for reliable access
+- When populating form data, ensure primary fields (like color1) contain the most relevant or prominent values
+- Form field visibility state should be synchronized with form data through useEffect to maintain consistency

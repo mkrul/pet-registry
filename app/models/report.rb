@@ -63,7 +63,7 @@ class Report < ApplicationRecord
     reindex
   end
 
-  validates :title, presence: { message: "cannot be blank" }, length: { maximum: 40, message: "must be 40 characters or less" }
+  validates :title, presence: { message: "cannot be blank" }, length: { maximum: 50, message: "must be 50 characters or less" }
 
   validates :name, length: { maximum: 30, message: "must be 30 characters or less" },
                   format: { with: /\A[a-zA-Z0-9\s\-]+\z/, message: "Name can only contain letters, numbers, spaces, and hyphens" },

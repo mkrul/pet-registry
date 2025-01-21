@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
@@ -16,6 +16,8 @@ import { SubmitButton } from "../../common/SubmitButton";
 import Notification from "../../common/Notification";
 import Spinner from "../../common/Spinner";
 import { NotificationType } from "../../../types/common/Notification";
+import { Button } from "@mui/material";
+import { FormPopulateButton } from "../../development/FormPopulateButton";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
@@ -38,6 +40,15 @@ const NewReportForm: React.FC = () => {
     handleSpeciesChange,
     handleLocationSelect
   } = useReportForm();
+
+  useEffect(() => {
+    if (formData.color2) {
+      setShowColor2(true);
+    }
+    if (formData.color3) {
+      setShowColor3(true);
+    }
+  }, [formData.color2, formData.color3]);
 
   const { handleSubmit, notification, setNotification } = useReportSubmit({
     submitReport: data => submitReport(data).unwrap(),
@@ -72,6 +83,15 @@ const NewReportForm: React.FC = () => {
       encType="multipart/form-data"
       noValidate
     >
+      <FormPopulateButton
+        setFormData={setFormData}
+        setSelectedImage={setSelectedImage}
+        setImagePreview={setImagePreview}
+        setShowBreed2={setShowBreed2}
+        setShowColor2={setShowColor2}
+        setShowColor3={setShowColor3}
+      />
+
       {notification?.type === NotificationType.SUCCESS && (
         <Notification
           type={notification.type}
