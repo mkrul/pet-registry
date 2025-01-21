@@ -183,7 +183,7 @@ const MapEvents = ({
   });
 
   // Extract location selection logic into reusable function
-  const handleLocationSelect = async (lat: number, lng: number) => {
+  const handleLocationSelect = async (lat: number, lng: number, skipLocationFetch = false) => {
     if (isProcessing) return;
     setIsProcessing(true);
 
@@ -191,61 +191,69 @@ const MapEvents = ({
       const formattedLat = Number(lat.toFixed(6));
       const formattedLng = Number(lng.toFixed(6));
 
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
-      );
-      const data = await response.json();
-      const address = data.address;
-
-      // Check if location is in the US
-      if (!isUSLocation(address.country || "")) {
-        onNotification({
-          type: NotificationType.ERROR,
-          message: "Sorry, we are only able to support US locations at this time."
-        });
-        return;
-      }
-
-      // Clear notification when selecting US location
-      onNotification(null);
-
       // Remove existing marker if any
       if (markerRef.current) {
         markerRef.current.remove();
       }
 
-      let area =
-        address.area ||
-        address.town ||
-        address.village ||
-        address.suburb ||
-        address.municipality ||
-        address.neighbourhood;
-
-      if (!area || area === "Unknown") {
-        area = await findNearestArea(formattedLat, formattedLng, onNotification);
-      }
-
       // Create new marker
       markerRef.current = L.marker([formattedLat, formattedLng]).addTo(map);
 
-      // Try to find nearby intersecting streets
-      const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
+      if (skipLocationFetch) {
+        // If we already have the location data, just use it
+        if (initialLocation) {
+          onLocationSelect?.(initialLocation);
+        }
+      } else {
+        // Existing location fetch logic
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
+        );
+        const data = await response.json();
+        const address = data.address;
 
-      const locationData = {
-        latitude: formattedLat,
-        longitude: formattedLng,
-        area: area,
-        state: address.state || "",
-        country: address.country || "",
-        intersection: intersectionStr
-      };
+        // Check if location is in the US
+        if (!isUSLocation(address.country || "")) {
+          onNotification({
+            type: NotificationType.ERROR,
+            message: "Sorry, we are only able to support US locations at this time."
+          });
+          return;
+        }
 
-      if (onLocationSelect) {
-        onLocationSelect(locationData);
+        // Clear notification when selecting US location
+        onNotification(null);
+
+        let area =
+          address.area ||
+          address.town ||
+          address.village ||
+          address.suburb ||
+          address.municipality ||
+          address.neighbourhood;
+
+        if (!area || area === "Unknown") {
+          area = await findNearestArea(formattedLat, formattedLng, onNotification);
+        }
+
+        // Try to find nearby intersecting streets
+        const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
+
+        const locationData = {
+          latitude: formattedLat,
+          longitude: formattedLng,
+          area: area,
+          state: address.state || "",
+          country: address.country || "",
+          intersection: intersectionStr
+        };
+
+        if (onLocationSelect) {
+          onLocationSelect(locationData);
+        }
       }
     } catch (error) {
-      console.error("Error fetching location details:", error);
+      console.error("Error handling location:", error);
     } finally {
       setIsProcessing(false);
     }
@@ -256,15 +264,8 @@ const MapEvents = ({
     if (initialLocation?.latitude && initialLocation?.longitude) {
       map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
 
-      // For readOnly mode, just add the marker without fetching location details
-      if (readOnly) {
-        if (markerRef.current) {
-          markerRef.current.remove();
-        }
-        markerRef.current = L.marker([initialLocation.latitude, initialLocation.longitude]).addTo(map);
-      } else {
-        handleLocationSelect(initialLocation.latitude, initialLocation.longitude);
-      }
+      // Skip location fetch when we already have the data
+      handleLocationSelect(initialLocation.latitude, initialLocation.longitude, true);
     }
 
     return () => {
@@ -272,7 +273,7 @@ const MapEvents = ({
         markerRef.current.remove();
       }
     };
-  }, [map, initialLocation?.latitude, initialLocation?.longitude, readOnly]);
+  }, [map, initialLocation?.latitude, initialLocation?.longitude]);
 
   return isProcessing ? (
     <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">

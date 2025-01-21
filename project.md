@@ -17,3 +17,5 @@
 - Added map state persistence between view and edit modes
 - Added address search functionality to report edit mode
 - Ensured consistent address search behavior between new and edit modes
+- Optimized map data handling between view/edit modes to eliminate unnecessary API calls
+- Improved map marker persistence between view and edit modes

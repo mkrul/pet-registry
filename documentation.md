@@ -38,6 +38,6 @@
 - When managing map markers, maintain a single source of truth to prevent duplicate markers
 - Address search functionality should be consistent between new report and edit modes
 - Use debounced address search to prevent excessive API calls while typing
-- When switching between view/edit modes, maintain map state to prevent unnecessary reloads
-- Use skipMapLoad and onMapInitialized props to control map initialization behavior
-- Lift map state to container components to share between child components
+- When switching between view/edit modes, avoid unnecessary API calls by reusing existing location data
+- Use flags to control data fetching behavior when data is already available
+- Optimize map marker handling to prevent flickering during mode switches
