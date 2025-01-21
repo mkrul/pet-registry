@@ -167,7 +167,8 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
 const MapEvents = ({
   onLocationSelect,
   initialLocation,
-  onNotification
+  onNotification,
+  readOnly
 }: MapProps & {
   onNotification: (notification: { type: NotificationType; message: string } | null) => void;
 }) => {
@@ -175,7 +176,9 @@ const MapEvents = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const map = useMapEvents({
     click: async e => {
-      await handleLocationSelect(e.latlng.lat, e.latlng.lng);
+      if (!readOnly) {
+        await handleLocationSelect(e.latlng.lat, e.latlng.lng);
+      }
     }
   });
 
@@ -252,16 +255,24 @@ const MapEvents = ({
   useEffect(() => {
     if (initialLocation?.latitude && initialLocation?.longitude) {
       map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
-      handleLocationSelect(initialLocation.latitude, initialLocation.longitude);
+
+      // For readOnly mode, just add the marker without fetching location details
+      if (readOnly) {
+        if (markerRef.current) {
+          markerRef.current.remove();
+        }
+        markerRef.current = L.marker([initialLocation.latitude, initialLocation.longitude]).addTo(map);
+      } else {
+        handleLocationSelect(initialLocation.latitude, initialLocation.longitude);
+      }
     }
 
-    // Cleanup marker on unmount
     return () => {
       if (markerRef.current) {
         markerRef.current.remove();
       }
     };
-  }, [map, initialLocation?.latitude, initialLocation?.longitude]);
+  }, [map, initialLocation?.latitude, initialLocation?.longitude, readOnly]);
 
   return isProcessing ? (
     <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
@@ -310,13 +321,12 @@ const Map: React.FC<MapProps> = ({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          {!readOnly && (
-            <MapEvents
-              onLocationSelect={onLocationSelect}
-              initialLocation={initialLocation}
-              onNotification={setNotification}
-            />
-          )}
+          <MapEvents
+            onLocationSelect={onLocationSelect}
+            initialLocation={initialLocation}
+            onNotification={setNotification}
+            readOnly={readOnly}
+          />
         </MapContainer>
         {isLoading && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
