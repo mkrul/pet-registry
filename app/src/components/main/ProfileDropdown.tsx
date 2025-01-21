@@ -43,17 +43,17 @@ const ProfileDropdown: React.FC = () => {
         <div
           tabIndex={0}
           role="button"
-          className="btn btn-ghost btn-circle avatar"
+          className="btn btn-ghost hover:bg-blue-200 btn-circle avatar"
           onClick={handleToggle}
           data-testid="profile-button"
         >
           <div className="w-10 rounded-full">
-            <img alt="User avatar" src="/images/placeholder-white.jpg" className="object-cover" />
+            <img alt="User avatar" src="/images/placeholder-blue.jpg" className="object-cover" />
           </div>
         </div>
         <ul
           tabIndex={0}
-          className={`menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow ${
+          className={`menu menu-sm dropdown-content bg-blue-200 rounded-box z-[1] mt-3 w-52 p-2 shadow ${
             isOpen ? "block" : "hidden"
           }`}
         >

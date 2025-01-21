@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShowReportFormContainerProps } from "../../../types/Report";
 import ReportViewMode from "../edit/ReportViewMode";
@@ -40,6 +40,10 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     getFilteredBreedOptions,
     getFilteredColorOptions
   } = useReportEdit(report);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);

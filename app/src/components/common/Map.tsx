@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { MapContainer, TileLayer, useMapEvents, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -173,125 +173,95 @@ const MapEvents = ({
 }) => {
   const markerRef = useRef<L.Marker | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
   const map = useMapEvents({
     click: async e => {
-      if (isProcessing) return;
-      setIsProcessing(true);
-      const { lat, lng } = e.latlng;
-
-      try {
-        const formattedLat = Number(lat.toFixed(6));
-        const formattedLng = Number(lng.toFixed(6));
-
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const address = data.address;
-
-        // Check if location is in the US
-        if (!isUSLocation(address.country || "")) {
-          onNotification({
-            type: NotificationType.ERROR,
-            message: "Sorry, we are only able to support US locations at this time."
-          });
-          setIsProcessing(false);
-          return;
-        }
-
-        // Clear notification when selecting US location
-        onNotification(null);
-
-        // Remove existing marker if any
-        if (markerRef.current) {
-          markerRef.current.remove();
-        }
-
-        let area =
-          address.area ||
-          address.town ||
-          address.village ||
-          address.suburb ||
-          address.municipality ||
-          address.neighbourhood;
-
-        if (!area || area === "Unknown") {
-          area = await findNearestArea(formattedLat, formattedLng, onNotification);
-        }
-
-        if (area === "Unknown Location") {
-          onNotification({
-            type: NotificationType.ERROR,
-            message:
-              "The map does not recognize the location you selected. Please choose a different location."
-          });
-          if (onLocationSelect) {
-            onLocationSelect({
-              latitude: 0,
-              longitude: 0,
-              area: "",
-              state: "",
-              country: "",
-              intersection: null
-            });
-          }
-          setIsProcessing(false);
-          return;
-        }
-
-        // Create new marker only after confirming valid location
-        markerRef.current = L.marker([formattedLat, formattedLng], { draggable: true }).addTo(map);
-
-        // Debug logging for OpenStreetMap response
-        console.log("OpenStreetMap raw address data:", address);
-        console.log("Road value:", address.road);
-        console.log("Available paths:", {
-          footway: address.footway,
-          path: address.path,
-          cycleway: address.cycleway,
-          pedestrian: address.pedestrian,
-          service: address.service,
-          residential: address.residential
-        });
-
-        // Try to find nearby intersecting streets
-        const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
-
-        const locationData = {
-          latitude: formattedLat,
-          longitude: formattedLng,
-          area: area,
-          state: address.state || "",
-          country: address.country || "",
-          intersection: intersectionStr
-        };
-
-        // Debug logging for intersection calculation
-        console.log("Intersection calculation:", {
-          hasRoad: !!address.road,
-          intersectingPaths: [
-            address.footway,
-            address.path,
-            address.cycleway,
-            address.pedestrian,
-            address.service,
-            address.residential
-          ].filter(Boolean),
-          finalIntersection: locationData.intersection
-        });
-
-        console.log("Final Location Data:", locationData);
-        if (onLocationSelect) {
-          onLocationSelect(locationData);
-        }
-      } catch (error) {
-        console.error("Error fetching location details:", error);
-      } finally {
-        setIsProcessing(false);
-      }
+      await handleLocationSelect(e.latlng.lat, e.latlng.lng);
     }
   });
+
+  // Extract location selection logic into reusable function
+  const handleLocationSelect = async (lat: number, lng: number) => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
+    try {
+      const formattedLat = Number(lat.toFixed(6));
+      const formattedLng = Number(lng.toFixed(6));
+
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const address = data.address;
+
+      // Check if location is in the US
+      if (!isUSLocation(address.country || "")) {
+        onNotification({
+          type: NotificationType.ERROR,
+          message: "Sorry, we are only able to support US locations at this time."
+        });
+        return;
+      }
+
+      // Clear notification when selecting US location
+      onNotification(null);
+
+      // Remove existing marker if any
+      if (markerRef.current) {
+        markerRef.current.remove();
+      }
+
+      let area =
+        address.area ||
+        address.town ||
+        address.village ||
+        address.suburb ||
+        address.municipality ||
+        address.neighbourhood;
+
+      if (!area || area === "Unknown") {
+        area = await findNearestArea(formattedLat, formattedLng, onNotification);
+      }
+
+      // Create new marker
+      markerRef.current = L.marker([formattedLat, formattedLng]).addTo(map);
+
+      // Try to find nearby intersecting streets
+      const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
+
+      const locationData = {
+        latitude: formattedLat,
+        longitude: formattedLng,
+        area: area,
+        state: address.state || "",
+        country: address.country || "",
+        intersection: intersectionStr
+      };
+
+      if (onLocationSelect) {
+        onLocationSelect(locationData);
+      }
+    } catch (error) {
+      console.error("Error fetching location details:", error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Handle initial location changes
+  useEffect(() => {
+    if (initialLocation?.latitude && initialLocation?.longitude) {
+      map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
+      handleLocationSelect(initialLocation.latitude, initialLocation.longitude);
+    }
+
+    // Cleanup marker on unmount
+    return () => {
+      if (markerRef.current) {
+        markerRef.current.remove();
+      }
+    };
+  }, [map, initialLocation?.latitude, initialLocation?.longitude]);
 
   return isProcessing ? (
     <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
@@ -311,12 +281,11 @@ const Map: React.FC<MapProps> = ({
     type: NotificationType;
     message: string;
   } | null>(null);
-  const defaultCenter: [number, number] = [39.8283, -98.5795]; // Center of US
 
-  const center: [number, number] =
-    initialLocation?.latitude && initialLocation?.longitude
-      ? [initialLocation.latitude, initialLocation.longitude]
-      : defaultCenter;
+  // Add effect to handle initial map setup
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   return (
     <div className="space-y-2">
@@ -329,10 +298,13 @@ const Map: React.FC<MapProps> = ({
       )}
       <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
         <MapContainer
-          center={center}
-          zoom={initialZoom}
+          center={
+            initialLocation
+              ? [initialLocation.latitude, initialLocation.longitude]
+              : [39.8283, -98.5795]
+          }
+          zoom={initialLocation ? 16 : initialZoom}
           className="h-full w-full"
-          whenReady={() => setIsLoading(false)}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -344,9 +316,6 @@ const Map: React.FC<MapProps> = ({
               initialLocation={initialLocation}
               onNotification={setNotification}
             />
-          )}
-          {initialLocation?.latitude && initialLocation?.longitude && (
-            <Marker position={[initialLocation.latitude, initialLocation.longitude]} />
           )}
         </MapContainer>
         {isLoading && (

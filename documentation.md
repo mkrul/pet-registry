@@ -29,3 +29,10 @@
 - When detecting street intersections, using a smaller initial search radius (100m) with a fallback to a larger radius (200m) provides more accurate results
 - Filtering OpenStreetMap highway types to include only proper roads (primary, secondary, tertiary, residential, unclassified) improves intersection detection accuracy
 - Overpass API queries should be structured to return roads in order of proximity to the target point
+- When initializing new records in API endpoints, using a simple JSON structure with default values can be more reliable than complex serializers
+- When using Leaflet maps in React, use useEffect to handle map view updates in response to prop changes
+- Setting map view with animation provides better UX when changing locations programmatically
+- Reusing location selection logic ensures consistent behavior between manual selection and address search
+- When handling map interactions, extract shared logic into reusable functions to maintain consistency
+- Use window.scrollTo(0, 0) in useEffect to ensure proper scroll position on component mount
+- When managing map markers, maintain a single source of truth to prevent duplicate markers

@@ -28,7 +28,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
   return (
     <div className="mt-8">
       <h2 className="text-lg font-medium text-gray-900 mb-2">Upload Image</h2>
-      <p className="text-sm text-gray-600 mb-2">
+      <p className="text-base text-gray-600 mb-2">
         Choose a photo of the animal that is clear and well lit, with the animal centered in the
         frame.
       </p>

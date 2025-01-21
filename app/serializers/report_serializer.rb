@@ -83,11 +83,11 @@ class ReportSerializer < ActiveModel::Serializer
       return false
     end
 
-    if time_since_creation <= 48.hours && time_between_update_and_creation > 5
+    if time_since_creation <= 24.hours && time_between_update_and_creation > 5
       return true
     end
 
-    object.updated_at >= 48.hours.ago
+    object.updated_at >= 24.hours.ago
   end
 
   def intersection
