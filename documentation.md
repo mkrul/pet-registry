@@ -36,3 +36,8 @@
 - When handling map interactions, extract shared logic into reusable functions to maintain consistency
 - Use window.scrollTo(0, 0) in useEffect to ensure proper scroll position on component mount
 - When managing map markers, maintain a single source of truth to prevent duplicate markers
+- Address search functionality should be consistent between new report and edit modes
+- Use debounced address search to prevent excessive API calls while typing
+- When switching between view/edit modes, maintain map state to prevent unnecessary reloads
+- Use skipMapLoad and onMapInitialized props to control map initialization behavior
+- Lift map state to container components to share between child components

@@ -13,4 +13,7 @@
 - Added scroll-to-top behavior when resetting search filters
 - Fixed scroll position restoration when using browser back button by using requestAnimationFrame
 - Added automatic scroll to top when changing pages in reports list
-- Fixed content flash when changing pages by using key prop for component remounting
+- Optimized map loading between view/edit modes to prevent duplicate requests
+- Added map state persistence between view and edit modes
+- Added address search functionality to report edit mode
+- Ensured consistent address search behavior between new and edit modes
