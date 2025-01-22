@@ -169,7 +169,8 @@ const MapEvents = ({
   onLocationSelect,
   initialLocation,
   onNotification,
-  readOnly
+  readOnly,
+  initialZoom
 }: MapProps & {
   onNotification: (notification: { type: NotificationType; message: string } | null) => void;
 }) => {
@@ -276,14 +277,8 @@ const MapEvents = ({
   useEffect(() => {
     if (initialLocation?.latitude && initialLocation?.longitude) {
       map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
-
-      // If location data is empty, fetch it (this handles address search case)
-      if (!initialLocation.area || !initialLocation.state || !initialLocation.country) {
-        handleLocationSelect(initialLocation.latitude, initialLocation.longitude, false);
-      } else {
-        // Otherwise use existing data (this handles edit mode initial load)
-        handleLocationSelect(initialLocation.latitude, initialLocation.longitude, true);
-      }
+    } else {
+      map.setView([39.8283, -98.5795], initialZoom, { animate: true });
     }
 
     return () => {
@@ -291,7 +286,7 @@ const MapEvents = ({
         markerRef.current.remove();
       }
     };
-  }, [map, initialLocation?.latitude, initialLocation?.longitude]);
+  }, [map, initialLocation?.latitude, initialLocation?.longitude, initialZoom]);
 
   return isProcessing ? (
     <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
@@ -303,7 +298,7 @@ const MapEvents = ({
 const Map: React.FC<MapProps> = ({
   onLocationSelect,
   initialLocation,
-  initialZoom = 15,
+  initialZoom = 4,
   readOnly = false
 }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -347,6 +342,7 @@ const Map: React.FC<MapProps> = ({
             initialLocation={initialLocation}
             onNotification={setNotification}
             readOnly={readOnly}
+            initialZoom={initialZoom}
           />
         </MapContainer>
         {isLoading && (
