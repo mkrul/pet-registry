@@ -6,14 +6,14 @@ import ReportEditMode from "../edit/ReportEditMode";
 import Notification from "../../common/Notification";
 import { NotificationState, NotificationType } from "../../../types/common/Notification";
 import { useReportEdit } from "../../../hooks/useReportEdit";
-import { useStore } from "react-redux";
+import { useStore, useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
 
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [notification, setNotification] = useState<NotificationState | null>(null);
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const store = useStore();
+  const dispatch = useDispatch();
+  const notification = useSelector((state: RootState) => state.notifications.notification);
 
   const {
     formData,
@@ -80,15 +80,19 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
   const handleSubmit = async (e: React.FormEvent) => {
     const result = await handleSaveChanges(e);
     if (result.error) {
-      setNotification({
-        type: NotificationType.ERROR,
-        message: result.error
-      });
+      dispatch(
+        setNotification({
+          type: NotificationType.ERROR,
+          message: result.error
+        })
+      );
     } else if (result.success) {
-      setNotification({
-        type: NotificationType.SUCCESS,
-        message: result.success.message
-      });
+      dispatch(
+        setNotification({
+          type: NotificationType.SUCCESS,
+          message: result.success.message
+        })
+      );
       setIsEditing(false);
     }
   };
@@ -113,7 +117,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
           <Notification
             type={notification.type}
             message={notification.message}
-            onClose={() => setNotification(null)}
+            onClose={() => dispatch(setNotification(null))}
           />
         )}
 

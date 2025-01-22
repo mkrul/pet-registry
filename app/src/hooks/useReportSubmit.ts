@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { NotificationType } from "../types/common/Notification";
+import { NotificationType, NotificationState } from "../types/common/Notification";
 import { ReportPropsForm } from "../types/Report";
 import { UseReportSubmitProps } from "../types/hooks/Report";
+import { ReportResponse } from "../types/Report";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../redux/features/notifications/notificationsSlice";
 
 export const useReportSubmit = ({
   submitReport,
@@ -11,10 +14,7 @@ export const useReportSubmit = ({
   showColor3
 }: UseReportSubmitProps) => {
   const navigate = useNavigate();
-  const [notification, setNotification] = useState<{
-    type: NotificationType;
-    message: string;
-  } | null>(null);
+  const dispatch = useDispatch();
 
   const prepareFormData = (formData: ReportPropsForm, selectedImage: File | null) => {
     const formDataToSend = new FormData();
@@ -52,30 +52,27 @@ export const useReportSubmit = ({
   };
 
   const handleSubmit = async (formData: ReportPropsForm, selectedImage: File | null) => {
-    setNotification(null);
+    dispatch(setNotification(null));
     const formDataToSend = prepareFormData(formData, selectedImage);
 
     try {
-      const response = await submitReport(formDataToSend);
-      if (response.report) {
-        navigate(`/reports/${response.report.id}`);
-      } else {
+      const response = (await submitReport(formDataToSend)) as ReportResponse;
+      dispatch(
+        setNotification({
+          type: NotificationType.SUCCESS,
+          message: response.message
+        })
+      );
+      navigate(`/reports/${response.report.id}`);
+    } catch (error: any) {
+      dispatch(
         setNotification({
           type: NotificationType.ERROR,
-          message: response.message || "Failed to create report"
-        });
-      }
-    } catch (error: any) {
-      setNotification({
-        type: NotificationType.ERROR,
-        message: error.data?.message || "Failed to create report"
-      });
+          message: error.data?.message
+        })
+      );
     }
   };
 
-  return {
-    handleSubmit,
-    notification,
-    setNotification
-  };
+  return { handleSubmit };
 };

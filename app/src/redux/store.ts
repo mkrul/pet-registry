@@ -4,6 +4,7 @@ import authReducer from "./features/auth/authSlice";
 import reportsReducer from "./features/reports/reportsSlice";
 import reportsApi from "./features/reports/reportsApi";
 import searchReducer from "./features/search/searchSlice";
+import notificationsReducer from "./features/notifications/notificationsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     [authApiSlice.reducerPath]: authApiSlice.reducer,
     [reportsApi.reducerPath]: reportsApi.reducer,
     reports: reportsReducer,
-    search: searchReducer
+    search: searchReducer,
+    notifications: notificationsReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(authApiSlice.middleware).concat(reportsApi.middleware)

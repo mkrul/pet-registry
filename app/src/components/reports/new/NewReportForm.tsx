@@ -18,10 +18,13 @@ import Spinner from "../../common/Spinner";
 import { NotificationType } from "../../../types/common/Notification";
 import { Button } from "@mui/material";
 import { FormPopulateButton } from "../../development/FormPopulateButton";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
+  const dispatch = useDispatch();
 
   const {
     formData,
@@ -50,7 +53,7 @@ const NewReportForm: React.FC = () => {
     }
   }, [formData.color2, formData.color3]);
 
-  const { handleSubmit, notification, setNotification } = useReportSubmit({
+  const { handleSubmit } = useReportSubmit({
     submitReport: data => submitReport(data).unwrap(),
     showBreed2,
     showColor2,
@@ -59,14 +62,16 @@ const NewReportForm: React.FC = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setNotification(null);
+    dispatch(setNotification(null));
 
     const validationError = validateReportForm(formData, selectedImage);
     if (validationError) {
-      setNotification({
-        type: NotificationType.ERROR,
-        message: validationError
-      });
+      dispatch(
+        setNotification({
+          type: NotificationType.ERROR,
+          message: validationError
+        })
+      );
       return;
     }
 
@@ -91,14 +96,6 @@ const NewReportForm: React.FC = () => {
         setShowColor2={setShowColor2}
         setShowColor3={setShowColor3}
       />
-
-      {notification?.type === NotificationType.SUCCESS && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
 
       <div className="mt-[0.5rem]">
         <p className="text-md text-gray-500">
@@ -156,14 +153,6 @@ const NewReportForm: React.FC = () => {
           intersection: formData.intersection
         }}
       />
-
-      {notification?.type === NotificationType.ERROR && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
 
       <SubmitButton isLoading={isLoading} />
     </form>

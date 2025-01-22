@@ -4,6 +4,7 @@ import { PaginationProps } from "./common/Pagination";
 import { FiltersProps } from "./common/Search";
 import { SelectChangeEvent } from "@mui/material";
 import { MapLocation } from "../types/common/Map";
+import { NotificationState } from "./common/Notification";
 
 export interface ReportProps {
   id: number;
@@ -138,6 +139,8 @@ export interface ReportViewModeProps {
 export interface ShowReportFormContainerProps {
   report: ReportProps;
   errors?: string[];
+  notification?: NotificationState | null;
+  onNotificationClose?: () => void;
 }
 
 export interface BasicInfoFieldsProps {
@@ -214,4 +217,9 @@ export interface Report {
   intersection: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReportResponse {
+  report: ReportProps;
+  message: string;
 }

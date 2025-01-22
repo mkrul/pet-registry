@@ -4,10 +4,12 @@ import { useGetReportQuery } from "../../redux/features/reports/reportsApi";
 import ShowReportFormContainer from "../../components/reports/show/ShowReportFormContainer";
 import Spinner from "../../components/common/Spinner";
 import { NotificationState, NotificationType } from "../../types/common/Notification";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../../redux/features/notifications/notificationsSlice";
 
 const ReportShowPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const dispatch = useDispatch();
   const { data: report, error, isLoading } = useGetReportQuery(Number(id));
   const [searchParams] = useSearchParams();
   const location = useLocation();
@@ -19,21 +21,14 @@ const ReportShowPage: React.FC = () => {
   useEffect(() => {
     if (error && "data" in error) {
       const apiError = error as { data: { message: string } };
-      setNotification({
-        type: NotificationType.ERROR,
-        message: apiError.data.message
-      });
+      dispatch(
+        setNotification({
+          type: NotificationType.ERROR,
+          message: apiError.data.message
+        })
+      );
     }
-  }, [error]);
-
-  useEffect(() => {
-    if (location.state?.isNewReport) {
-      setNotification({
-        type: NotificationType.SUCCESS,
-        message: location.state.message
-      });
-    }
-  }, [location]);
+  }, [error, dispatch]);
 
   const errors = error ? [error.toString()] : [];
 

@@ -1,52 +1,6 @@
 ## New Learnings
 
-- RTK Query cache invalidation requires careful configuration of provideTags and invalidatesTags to ensure proper cache updates
-- When dealing with image updates, it's important to properly invalidate both individual item caches and list caches
-- Using refetchOnMountOrArgChange can help ensure data freshness when navigating between pages
-- For mobile-responsive search functionality, using a fixed position tab with smooth animations provides better UX
-- Framer Motion can be used to create smooth slide-in/out animations for mobile interfaces
-- Using Tailwind's md breakpoint (768px) effectively covers requirements for mobile-specific features targeting screens under 749px
-- OpenStreetMap API returns various road/path types (road, footway, path, cycleway, etc.) that need to be handled for accurate intersection data
-- When working with OpenStreetMap data, it's important to handle multiple possible field names for similar features
-- When debugging complex data transformations, it's helpful to log intermediate steps to understand where the logic might be failing
-- OpenStreetMap API requires different zoom levels to find different types of location data - wider zoom helps find nearby streets
-- OpenStreetMap's search API with viewbox parameter can be used to find nearby streets within a specific radius
-- Overpass API is more reliable than OpenStreetMap's search API for finding nearby streets within a specific radius
-- When working with street data, it's important to filter by highway types to get relevant results
-- Overpass API queries need to include the 'name' tag to filter for named streets only
-- OpenStreetMap address data can be used to determine urban vs rural areas for adjusting search parameters
-- In rural areas, OpenStreetMap data might require wider zoom levels and search radii to find roads
-- Leaflet marker icons need explicit configuration in React applications to work correctly in production builds
-- Default marker icons must be imported and configured using L.Icon.Default.mergeOptions for proper bundling
-- Using window.history.back() provides better UX by maintaining scroll position when returning to previous page
-- Browser's native history management helps preserve page state between navigations
-- Managing scroll position in Redux state provides reliable scroll restoration between page navigations
-- Custom hooks can provide cleaner solutions for managing UI behaviors like scroll position restoration
-- Scroll position management should be handled at specific user interaction points (navigation, reset, etc.)
-- When restoring scroll position, it's important to wait for the page to render using requestAnimationFrame
-- Pagination actions should reset scroll position to improve user experience
-- Using key prop to force component remount can prevent unwanted content flashes during updates
-- When detecting street intersections, using a smaller initial search radius (100m) with a fallback to a larger radius (200m) provides more accurate results
-- Filtering OpenStreetMap highway types to include only proper roads (primary, secondary, tertiary, residential, unclassified) improves intersection detection accuracy
-- Overpass API queries should be structured to return roads in order of proximity to the target point
-- When initializing new records in API endpoints, using a simple JSON structure with default values can be more reliable than complex serializers
-- When using Leaflet maps in React, use useEffect to handle map view updates in response to prop changes
-- Setting map view with animation provides better UX when changing locations programmatically
-- Reusing location selection logic ensures consistent behavior between manual selection and address search
-- When handling map interactions, extract shared logic into reusable functions to maintain consistency
-- Use window.scrollTo(0, 0) in useEffect to ensure proper scroll position on component mount
-- When managing map markers, maintain a single source of truth to prevent duplicate markers
-- Address search functionality should be consistent between new report and edit modes
-- Use debounced address search to prevent excessive API calls while typing
-- When switching between view/edit modes, avoid unnecessary API calls by reusing existing location data
-- Use flags to control data fetching behavior when data is already available
-- Optimize map marker handling to prevent flickering during mode switches
-- Development-only features can be conditionally rendered using process.env.NODE_ENV check
-- When testing forms, having a way to quickly populate all fields improves development efficiency
-- Development-only components can be isolated in a separate directory for easy removal in production
-- Using component composition helps maintain clean separation between development and production code
-- When generating test data, using realistic formats (like standard microchip ID prefixes) helps catch edge cases
-- When using development-only features, store test assets in the public directory for reliable access
-- When populating form data, ensure primary fields (like color1) contain the most relevant or prominent values
-- Form field visibility state should be synchronized with form data through useEffect to maintain consistency
-- Use IReport interface for form data types to maintain consistency across components
+### State Management
+- Centralized notification handling using Redux improves code maintainability and reduces prop drilling
+- Using Redux for cross-cutting concerns like notifications follows best practices for state management
+- Backend messages should be used directly rather than creating custom messages in the frontend
