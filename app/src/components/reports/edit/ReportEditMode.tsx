@@ -54,7 +54,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   return (
     <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
       {/* Action Buttons */}
-      <div className="flex justify-end mb-4 gap-2">
+      <div className="flex justify-end gap-2">
         <button
           type="submit"
           disabled={isSaving}

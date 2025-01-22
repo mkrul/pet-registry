@@ -57,13 +57,9 @@ export const useReportSubmit = ({
 
     try {
       const response = (await submitReport(formDataToSend)) as ReportResponse;
-      dispatch(
-        setNotification({
-          type: NotificationType.SUCCESS,
-          message: response.message
-        })
-      );
-      navigate(`/reports/${response.report.id}`);
+      navigate(`/reports/${response.report.id}`, {
+        state: { notification: { type: NotificationType.SUCCESS, message: response.message } }
+      });
     } catch (error: any) {
       dispatch(
         setNotification({

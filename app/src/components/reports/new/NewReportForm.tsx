@@ -78,6 +78,13 @@ const NewReportForm: React.FC = () => {
     await handleSubmit(formData, selectedImage);
   };
 
+  useEffect(() => {
+    // Clear notification when component unmounts
+    return () => {
+      dispatch(setNotification(null));
+    };
+  }, [dispatch]);
+
   if (isLoadingNewReport) return <Spinner />;
 
   return (

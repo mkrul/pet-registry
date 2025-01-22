@@ -1,8 +1,21 @@
 // Notification.tsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NotificationType, NotificationProps } from "../../types/common/Notification";
 
 const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+      setTimeout(onClose, 300); // Allow time for fade-out animation
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  if (!isVisible) return null;
+
   const typeStyles: Record<NotificationType, string> = {
     [NotificationType.SUCCESS]: "bg-green-100 border-green-400 text-green-700",
     [NotificationType.WARNING]: "bg-yellow-100 border-yellow-400 text-yellow-700",
@@ -12,7 +25,8 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
 
   return (
     <div
-      className={`${typeStyles[type]} border px-4 py-3 rounded relative mb-4 flex justify-between items-center`}
+      className={`${typeStyles[type]} border px-4 py-3 rounded relative mb-4 flex justify-between items-center
+        transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
       role="alert"
     >
       <span className="block text-base font-normal sm:inline">

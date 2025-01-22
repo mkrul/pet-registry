@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { ShowReportFormContainerProps } from "../../../types/Report";
 import ReportViewMode from "../edit/ReportViewMode";
 import ReportEditMode from "../edit/ReportEditMode";
 import Notification from "../../common/Notification";
-import { NotificationState, NotificationType } from "../../../types/common/Notification";
+import { NotificationType } from "../../../types/common/Notification";
 import { useReportEdit } from "../../../hooks/useReportEdit";
-import { useStore, useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
 
 const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const notification = useSelector((state: RootState) => state.notifications.notification);
+  const location = useLocation();
 
   const {
     formData,
@@ -45,6 +48,12 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (location.state?.notification) {
+      dispatch(setNotification(location.state.notification));
+    }
+  }, [location.state, dispatch]);
+
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -54,27 +63,9 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
   };
 
   const handleBackClick = () => {
-    console.log("ShowReportFormContainer handleBackClick - Before", {
-      currentScrollY: window.scrollY,
-      searchParams: Object.fromEntries(searchParams.entries()),
-      reduxState: store.getState().search
-    });
-
     const query = searchParams.get("query") || "";
     const page = searchParams.get("page") || "1";
-
-    console.log("ShowReportFormContainer handleBackClick - Before navigate", {
-      query,
-      page,
-      targetURL: `/?query=${encodeURIComponent(query)}&page=${page}`
-    });
-
     navigate(`/?query=${encodeURIComponent(query)}&page=${page}`);
-
-    console.log("ShowReportFormContainer handleBackClick - After navigate", {
-      newURL: window.location.href,
-      finalScrollY: window.scrollY
-    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
