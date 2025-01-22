@@ -232,6 +232,8 @@ const MapEvents = ({
             type: NotificationType.ERROR,
             message: "Sorry, we are only able to support US locations at this time."
           });
+
+          markerRef.current?.remove();
           return;
         }
 
