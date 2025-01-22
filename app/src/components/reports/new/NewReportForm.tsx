@@ -145,7 +145,17 @@ const NewReportForm: React.FC = () => {
         disabled={isLoading}
       />
 
-      <ReportLocationSelect onLocationSelect={handleLocationSelect} />
+      <ReportLocationSelect
+        onLocationSelect={handleLocationSelect}
+        initialLocation={{
+          latitude: formData.latitude,
+          longitude: formData.longitude,
+          area: formData.area || "",
+          state: formData.state || "",
+          country: formData.country || "",
+          intersection: formData.intersection
+        }}
+      />
 
       {notification?.type === NotificationType.ERROR && (
         <Notification
