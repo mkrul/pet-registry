@@ -3,6 +3,10 @@ export interface MapProps {
   initialLocation?: {
     latitude: number | null;
     longitude: number | null;
+    area?: string;
+    state?: string;
+    country?: string;
+    intersection?: string | null;
   };
   initialZoom?: number;
   readOnly?: boolean;

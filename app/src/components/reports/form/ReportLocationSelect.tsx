@@ -12,18 +12,39 @@ interface AddressSuggestion {
   lon: string;
 }
 
-export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLocationSelect }) => {
+export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
+  onLocationSelect,
+  initialLocation
+}) => {
+  // Initialize selectedLocation based on initialLocation if it exists
   const [selectedLocation, setSelectedLocation] = useState<{
     area: string;
     state: string;
     country: string;
     intersection: string | null;
-  } | null>(null);
+  } | null>(
+    initialLocation
+      ? {
+          area: initialLocation.area || "",
+          state: initialLocation.state || "",
+          country: initialLocation.country || "",
+          intersection: initialLocation.intersection || null
+        }
+      : null
+  );
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<AddressSuggestion | null>(null);
-  const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number } | null>(null);
+  const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number } | null>(
+    initialLocation && initialLocation.latitude !== null && initialLocation.longitude !== null
+      ? {
+          lat: initialLocation.latitude,
+          lng: initialLocation.longitude
+        }
+      : null
+  );
 
+  const EDIT_MODE_ZOOM_LEVEL = 16;
   const NEW_REPORT_ZOOM_LEVEL = 4;
 
   const fetchAddressSuggestions = React.useMemo(
@@ -133,15 +154,8 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({ onLo
       <div className="mt-1">
         <Map
           onLocationSelect={handleLocationSelect}
-          initialLocation={
-            mapCenter
-              ? {
-                  latitude: mapCenter.lat,
-                  longitude: mapCenter.lng
-                }
-              : undefined
-          }
-          initialZoom={mapCenter ? 16 : NEW_REPORT_ZOOM_LEVEL}
+          initialLocation={initialLocation}
+          initialZoom={mapCenter ? EDIT_MODE_ZOOM_LEVEL : NEW_REPORT_ZOOM_LEVEL}
         />
       </div>
     </div>

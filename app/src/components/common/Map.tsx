@@ -8,6 +8,7 @@ import { MapProps } from "../../types/common/Map";
 import { isUSLocation } from "../../utils/locationUtils";
 import { NotificationType } from "../../types/common/Notification";
 import "../../utils/leafletSetup";
+import { MapLocation } from "../../types/common/Map";
 
 const findNearestArea = async (
   lat: number,
@@ -201,8 +202,20 @@ const MapEvents = ({
 
       if (skipLocationFetch) {
         // If we already have the location data, just use it
-        if (initialLocation) {
-          onLocationSelect?.(initialLocation);
+        if (
+          initialLocation &&
+          initialLocation.latitude !== null &&
+          initialLocation.longitude !== null
+        ) {
+          const locationData: MapLocation = {
+            latitude: initialLocation.latitude,
+            longitude: initialLocation.longitude,
+            area: initialLocation.area || "",
+            state: initialLocation.state || "",
+            country: initialLocation.country || "",
+            intersection: initialLocation.intersection || null
+          };
+          onLocationSelect?.(locationData);
         }
       } else {
         // Existing location fetch logic
@@ -311,7 +324,9 @@ const Map: React.FC<MapProps> = ({
       <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
         <MapContainer
           center={
-            initialLocation
+            initialLocation &&
+            initialLocation.latitude !== null &&
+            initialLocation.longitude !== null
               ? [initialLocation.latitude, initialLocation.longitude]
               : [39.8283, -98.5795]
           }

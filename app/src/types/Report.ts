@@ -183,14 +183,15 @@ export interface LocationDisplayProps {
 }
 
 export interface ReportLocationFilterProps {
-  onLocationSelect: (location: {
-    latitude: number;
-    longitude: number;
-    area: string;
-    state: string;
-    country: string;
-    intersection: string | null;
-  }) => void;
+  onLocationSelect: (location: MapLocation) => void;
+  initialLocation?: {
+    latitude: number | null;
+    longitude: number | null;
+    area?: string;
+    state?: string;
+    country?: string;
+    intersection?: string | null;
+  };
 }
 
 export interface Report {
