@@ -5,6 +5,9 @@ import LocationDisplay from "../../common/LocationDisplay";
 import { Autocomplete, TextField, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";
+import { findNearestArea, findNearbyStreets } from "../../../utils/locationUtils";
+import { isUSLocation } from "../../../utils/locationUtils";
+import Spinner from "../../common/Spinner";
 
 interface AddressSuggestion {
   display_name: string;
@@ -43,6 +46,7 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
         }
       : null
   );
+  const [isProcessingAddress, setIsProcessingAddress] = useState(false);
 
   const EDIT_MODE_ZOOM_LEVEL = 16;
   const NEW_REPORT_ZOOM_LEVEL = 4;
@@ -109,27 +113,70 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
     }
   }, [initialLocation]);
 
-  const handleSearch = () => {
-    if (selectedAddress) {
-      const lat = parseFloat(selectedAddress.lat);
-      const lng = parseFloat(selectedAddress.lon);
+  const handleAddressSelect = async (_: any, value: AddressSuggestion | null) => {
+    if (value) {
+      setIsProcessingAddress(true);
+      const lat = parseFloat(value.lat);
+      const lng = parseFloat(value.lon);
 
-      // Create location object with the same structure as when clicking on map
-      const locationData = {
-        latitude: lat,
-        longitude: lng,
-        area: "", // These will be populated by the map's reverse geocoding
-        state: "",
-        country: "",
-        intersection: null
-      };
+      try {
+        // Use the same location fetch logic as map clicks
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+        );
+        const data = await response.json();
+        const address = data.address;
 
-      // Trigger the same location selection process as clicking on the map
-      onLocationSelect(locationData);
+        // Check if location is in the US
+        if (!isUSLocation(address.country || "")) {
+          return;
+        }
 
-      // Clear the search state
-      setSelectedAddress(null);
-      setSearchInput("");
+        let area =
+          address.area ||
+          address.town ||
+          address.village ||
+          address.suburb ||
+          address.municipality ||
+          address.neighbourhood;
+
+        if (!area || area === "Unknown") {
+          area = await findNearestArea(lat, lng, () => {});
+        }
+
+        // Try to find nearby intersecting streets
+        const intersectionStr = await findNearbyStreets(lat, lng);
+
+        const locationData = {
+          latitude: lat,
+          longitude: lng,
+          area: area,
+          state: address.state || "",
+          country: address.country || "",
+          intersection: intersectionStr
+        };
+
+        // Update both the map's selected location and form data
+        setSelectedLocation({
+          area: locationData.area,
+          state: locationData.state,
+          country: locationData.country,
+          intersection: locationData.intersection
+        });
+
+        onLocationSelect(locationData);
+
+        // Update map center
+        setMapCenter({ lat, lng });
+
+        // Clear the search state
+        setSelectedAddress(null);
+        setSearchInput("");
+      } catch (error) {
+        console.error("Error handling location:", error);
+      } finally {
+        setIsProcessingAddress(false);
+      }
     }
   };
 
@@ -149,15 +196,15 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
           fullWidth
           options={suggestions}
           getOptionLabel={(option: AddressSuggestion) => option.display_name}
-          filterOptions={x => x} // Disable client-side filtering
+          filterOptions={x => x}
           value={selectedAddress}
-          onChange={(_, value) => setSelectedAddress(value)}
+          onChange={handleAddressSelect}
           onInputChange={(_, value) => setSearchInput(value)}
           renderInput={params => (
             <TextField
               {...params}
-              placeholder="Enter last known address"
-              aria-label="Enter the last known address where the pet was seen"
+              placeholder="Enter the last address that the animal was seen at"
+              aria-label="Enter the last address that the animal was seen at"
               sx={{
                 backgroundColor: "white",
                 "& .MuiOutlinedInput-root": {
@@ -167,23 +214,18 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
             />
           )}
         />
-        <Button
-          variant="contained"
-          onClick={handleSearch}
-          disabled={!selectedAddress}
-          startIcon={<SearchIcon />}
-          aria-label="Search for this address on the map"
-          sx={{ minWidth: "120px" }}
-        >
-          Search
-        </Button>
       </div>
-      <div className="mt-1">
+      <div className="relative mt-1">
         <Map
           onLocationSelect={handleLocationSelect}
           initialLocation={initialLocation}
           initialZoom={mapCenter ? EDIT_MODE_ZOOM_LEVEL : NEW_REPORT_ZOOM_LEVEL}
         />
+        {isProcessingAddress && (
+          <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
+            <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
+          </div>
+        )}
       </div>
     </div>
   );

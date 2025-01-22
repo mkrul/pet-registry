@@ -174,7 +174,7 @@ const MapEvents = ({
 }: MapProps & {
   onNotification: (notification: { type: NotificationType; message: string } | null) => void;
 }) => {
-  const markerRef = useRef<L.Marker | null>(null);
+  // Remove markerRef since we no longer need it
   const [isProcessing, setIsProcessing] = useState(false);
   const map = useMapEvents({
     click: async e => {
@@ -192,14 +192,6 @@ const MapEvents = ({
     try {
       const formattedLat = Number(lat.toFixed(6));
       const formattedLng = Number(lng.toFixed(6));
-
-      // Remove existing marker if any
-      if (markerRef.current) {
-        markerRef.current.remove();
-      }
-
-      // Create new marker
-      markerRef.current = L.marker([formattedLat, formattedLng]).addTo(map);
 
       if (skipLocationFetch) {
         // If we already have the location data, just use it
@@ -232,8 +224,6 @@ const MapEvents = ({
             type: NotificationType.ERROR,
             message: "Sorry, we are only able to support US locations at this time."
           });
-
-          markerRef.current?.remove();
           return;
         }
 
@@ -282,12 +272,6 @@ const MapEvents = ({
     } else {
       map.setView([39.8283, -98.5795], initialZoom, { animate: true });
     }
-
-    return () => {
-      if (markerRef.current) {
-        markerRef.current.remove();
-      }
-    };
   }, [map, initialLocation?.latitude, initialLocation?.longitude, initialZoom]);
 
   return isProcessing ? (

@@ -76,8 +76,8 @@ const AddressSearch: React.FC<AddressSearchProps> = ({ onSearch, disabled }) => 
         <TextField
           {...params}
           label="Last Known Address"
-          placeholder="Enter last known address"
-          aria-label="Enter the last known address of the pet"
+          placeholder="Enter the last known address that the animal was seen at"
+          aria-label="Enter the last known address that the animal was seen at"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
