@@ -192,3 +192,25 @@ export interface ReportLocationFilterProps {
     intersection: string | null;
   }) => void;
 }
+
+export interface Report {
+  title: string;
+  description: string;
+  name: string;
+  species: string;
+  breed1: string;
+  breed2: string;
+  gender: string;
+  microchipId: string;
+  color1: string;
+  color2: string;
+  color3: string;
+  area: string;
+  state: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  intersection: string;
+  createdAt: string;
+  updatedAt: string;
+}

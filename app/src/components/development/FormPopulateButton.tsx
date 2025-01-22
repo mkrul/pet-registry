@@ -1,22 +1,19 @@
 import React from "react";
 import { Button } from "@mui/material";
-import { ReportFormData } from "../../types/Report";
+import { ReportPropsForm } from "../../types/Report";
 
 interface FormPopulateButtonProps {
-  setFormData: (data: ReportFormData) => void;
+  setFormData: (data: ReportPropsForm) => void;
   setSelectedImage: (file: File | null) => void;
-  setImagePreview: (preview: string | null) => void;
+  setImagePreview: React.Dispatch<React.SetStateAction<string>>;
   setShowBreed2: (show: boolean) => void;
   setShowColor2: (show: boolean) => void;
   setShowColor3: (show: boolean) => void;
 }
 
 const generateMicrochipId = () => {
-  // Format: 15 digits, starting with 985 (standard prefix)
-  const prefix = '985';
-  const remainingDigits = Array.from({ length: 12 }, () =>
-    Math.floor(Math.random() * 10)
-  ).join('');
+  const prefix = "985";
+  const remainingDigits = Array.from({ length: 12 }, () => Math.floor(Math.random() * 10)).join("");
   return prefix + remainingDigits;
 };
 
@@ -31,7 +28,8 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
   const populateFormWithDummyData = () => {
     setFormData({
       title: "Lost Golden Retriever",
-      description: "Our beloved dog Max went missing from our backyard. He's very friendly and loves treats. Last seen wearing a blue collar.",
+      description:
+        "Our beloved dog Max went missing from our backyard. He's very friendly and loves treats. Last seen wearing a blue collar.",
       name: "Max",
       species: "Dog",
       breed1: "Golden Retriever",
@@ -39,18 +37,27 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
       gender: "Male",
       microchipId: generateMicrochipId(),
       color1: "Cream",
+      color2: "",
       color3: "",
-      area: "Portland",
-      state: "Oregon",
+      area: "Cedar Bluff",
+      state: "Virginia",
       country: "United States",
-      latitude: 45.5155,
-      longitude: -122.6789,
-      intersection: "SE Main St at SE 2nd Ave",
+      latitude: 37.269039,
+      longitude: -79.931999,
+      intersection: "7th Street Southeast at 6th Street Southeast",
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
+      image: {
+        id: "1",
+        url: "/images/golden-retriever.png",
+        thumbnailUrl: "/images/golden-retriever-thumbnail.png",
+        variantUrl: "/images/golden-retriever-variant.png",
+        filename: "golden-retriever.png",
+        publicId: "golden-retriever"
+      }
     });
 
-    fetch('/images/golden-retriever.png')
+    fetch("/images/golden-retriever.png")
       .then(res => res.blob())
       .then(blob => {
         const file = new File([blob], "golden-retriever.png", { type: "image/png" });
@@ -65,7 +72,7 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
     setShowColor3(false);
   };
 
-  if (process.env.NODE_ENV !== 'development') return null;
+  if (process.env.NODE_ENV !== "development") return null;
 
   return (
     <Button

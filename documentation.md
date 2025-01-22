@@ -49,3 +49,4 @@
 - When using development-only features, store test assets in the public directory for reliable access
 - When populating form data, ensure primary fields (like color1) contain the most relevant or prominent values
 - Form field visibility state should be synchronized with form data through useEffect to maintain consistency
+- Use IReport interface for form data types to maintain consistency across components
