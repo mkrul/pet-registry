@@ -277,8 +277,13 @@ const MapEvents = ({
     if (initialLocation?.latitude && initialLocation?.longitude) {
       map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
 
-      // Skip location fetch when we already have the data
-      handleLocationSelect(initialLocation.latitude, initialLocation.longitude, true);
+      // If location data is empty, fetch it (this handles address search case)
+      if (!initialLocation.area || !initialLocation.state || !initialLocation.country) {
+        handleLocationSelect(initialLocation.latitude, initialLocation.longitude, false);
+      } else {
+        // Otherwise use existing data (this handles edit mode initial load)
+        handleLocationSelect(initialLocation.latitude, initialLocation.longitude, true);
+      }
     }
 
     return () => {

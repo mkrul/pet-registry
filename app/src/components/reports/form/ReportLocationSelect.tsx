@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "../../common/Map";
 import { ReportLocationFilterProps } from "../../../types/Report";
 import LocationDisplay from "../../common/LocationDisplay";
@@ -87,6 +87,7 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
     country: string;
     intersection: string | null;
   }) => {
+    // Update selectedLocation whenever location changes, whether from map or search
     setSelectedLocation({
       area: location.area,
       state: location.state,
@@ -96,13 +97,39 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
     onLocationSelect(location);
   };
 
+  // Update useEffect to handle location updates from parent
+  useEffect(() => {
+    if (initialLocation) {
+      setSelectedLocation({
+        area: initialLocation.area || "",
+        state: initialLocation.state || "",
+        country: initialLocation.country || "",
+        intersection: initialLocation.intersection || null
+      });
+    }
+  }, [initialLocation]);
+
   const handleSearch = () => {
     if (selectedAddress) {
-      setMapCenter({
-        lat: parseFloat(selectedAddress.lat),
-        lng: parseFloat(selectedAddress.lon)
-      });
-      setSelectedLocation(null); // Clear any existing selected location
+      const lat = parseFloat(selectedAddress.lat);
+      const lng = parseFloat(selectedAddress.lon);
+
+      // Create location object with the same structure as when clicking on map
+      const locationData = {
+        latitude: lat,
+        longitude: lng,
+        area: "", // These will be populated by the map's reverse geocoding
+        state: "",
+        country: "",
+        intersection: null
+      };
+
+      // Trigger the same location selection process as clicking on the map
+      onLocationSelect(locationData);
+
+      // Clear the search state
+      setSelectedAddress(null);
+      setSearchInput("");
     }
   };
 
