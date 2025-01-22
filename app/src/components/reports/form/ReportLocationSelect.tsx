@@ -109,6 +109,14 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
   return (
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Location</label>
+      {selectedLocation && (
+        <LocationDisplay
+          area={selectedLocation.area}
+          state={selectedLocation.state}
+          country={selectedLocation.country}
+          intersection={selectedLocation.intersection}
+        />
+      )}
       <div className="flex gap-2 mb-4">
         <Autocomplete
           fullWidth
@@ -143,14 +151,6 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
           Search
         </Button>
       </div>
-      {selectedLocation && (
-        <LocationDisplay
-          area={selectedLocation.area}
-          state={selectedLocation.state}
-          country={selectedLocation.country}
-          intersection={selectedLocation.intersection}
-        />
-      )}
       <div className="mt-1">
         <Map
           onLocationSelect={handleLocationSelect}
