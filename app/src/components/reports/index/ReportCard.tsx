@@ -78,24 +78,11 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
   const { ringStyle, badge } = getReportStatusDisplay(report);
 
   const handleReportClick = () => {
-    console.log("ReportCard handleReportClick - Before", {
-      currentScrollY: window.scrollY,
-      reduxScrollPosition: store.getState().search.scrollPosition
-    });
-
     // Save current scroll position before navigating
     dispatch(setScrollPosition(window.scrollY));
 
-    console.log("ReportCard handleReportClick - After dispatch", {
-      newReduxScrollPosition: store.getState().search.scrollPosition
-    });
-
     // Scroll to top
     window.scrollTo(0, 0);
-
-    console.log("ReportCard handleReportClick - After scroll", {
-      finalScrollY: window.scrollY
-    });
   };
 
   return (

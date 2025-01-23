@@ -38,16 +38,6 @@ const ReportIndexPage = () => {
   );
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
-  useEffect(() => {
-    console.log("ReportsIndexPage mounted", {
-      searchState,
-      currentPage,
-      activeSearch,
-      activeFilters,
-      scrollY: window.scrollY
-    });
-  }, []);
-
   useScrollRestoration();
 
   const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
@@ -56,23 +46,9 @@ const ReportIndexPage = () => {
       window.scrollTo(0, 0);
     }
 
-    console.log("handleSearchComplete called", {
-      query,
-      page,
-      filters,
-      currentScrollY: window.scrollY
-    });
-
     setActiveSearch(query);
     setActiveFilters(filters);
     setCurrentPage(page);
-
-    console.log("Before dispatching setSearchState", {
-      query,
-      page,
-      filters,
-      scrollPosition: window.scrollY
-    });
 
     // Save search state to Redux
     dispatch(
@@ -84,12 +60,6 @@ const ReportIndexPage = () => {
       })
     );
 
-    console.log("After dispatching setSearchState", {
-      newScrollY: window.scrollY,
-      reduxState: store.getState().search
-    });
-
-    // Update URL params
     const params = new URLSearchParams();
     if (query) params.set("query", query);
     if (page > 1) params.set("page", page.toString());
@@ -97,17 +67,7 @@ const ReportIndexPage = () => {
       if (value) params.set(key, value);
     });
 
-    console.log("Before setting search params", {
-      params: params.toString(),
-      currentURL: window.location.href
-    });
-
     setSearchParams(params);
-
-    console.log("After setting search params", {
-      newURL: window.location.href,
-      finalScrollY: window.scrollY
-    });
   };
 
   return (
