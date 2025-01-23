@@ -29,8 +29,6 @@ module Api
         render json: { message: 'Invalid email or password.' }, status: :unauthorized
       end
     rescue => e
-      Rails.logger.error "Login error: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Login failed' }, status: :internal_server_error
     end
 
@@ -70,8 +68,6 @@ module Api
         render json: { message: 'Not authenticated' }, status: :unauthorized
       end
     rescue StandardError => e
-      Rails.logger.error "Current user check error: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Authentication check failed' }, status: :internal_server_error
     end
 
@@ -94,8 +90,6 @@ module Api
 
       render json: { message: 'Logged out successfully.' }, status: :ok
     rescue => e
-      Rails.logger.error "Logout error: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Logout failed' }, status: :internal_server_error
     end
 

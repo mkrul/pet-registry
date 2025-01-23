@@ -65,7 +65,6 @@ module Api
         }
       }, status: :ok
     rescue StandardError => e
-      Rails.logger.error "Error in new report: #{e.message}\n#{e.backtrace.join("\n")}"
       render json: { error: "Failed to initialize new report", details: e.message }, status: :internal_server_error
     end
 
@@ -102,7 +101,6 @@ module Api
           message: "Report updated successfully"
         ), status: :ok
       else
-        Rails.logger.debug "Update failed with errors: #{outcome.errors.full_messages}"
         render json: {
           errors: outcome.errors.full_messages,
           message: outcome.errors.full_messages.join(", ")

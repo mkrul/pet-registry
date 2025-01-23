@@ -53,7 +53,6 @@ class Report < ApplicationRecord
       created_at: created_at
     }
 
-    Rails.logger.debug "Indexing report with data: #{data.inspect}"
     data
   end
 
