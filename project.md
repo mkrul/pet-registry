@@ -8,3 +8,6 @@
 - Removed map markers to enhance privacy when selecting locations
 - Unified location handling between address search and map clicks
 - Added consistent loading indicators for all location selection methods
+- Extracted Report validations into domain-specific concerns (location, image, color, core validations)
+- Extracted Report search functionality into a separate concern
+- Extracted Report normalization logic into a separate concern

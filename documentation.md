@@ -11,3 +11,10 @@
 - Location selection is handled without visual markers for improved privacy
 - Address search and map click interactions use consistent location data handling
 - Loading states are consistently displayed for both map and address search interactions
+
+### Code Organization
+- Validation logic organized into domain-specific concerns improves code maintainability
+- Following established patterns in the codebase for concern organization
+- Core model validations separated from specialized validations (location, image, color) for better organization
+- Search functionality extracted into a concern for better separation of concerns
+- Data normalization logic extracted into a dedicated concern for improved maintainability

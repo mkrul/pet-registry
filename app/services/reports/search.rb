@@ -10,7 +10,7 @@ class Reports::Search < ActiveInteraction::Base
   string :country, default: nil
   string :sort, default: nil
   integer :page, default: 1
-  integer :per_page, default: Report::REPORT_PAGE_LIMIT
+  integer :per_page, default: Report::REPORT_INDEX_PAGE_LIMIT
   string :breed, default: nil
 
   def execute

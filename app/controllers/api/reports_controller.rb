@@ -8,7 +8,7 @@ module Api
 
     def index
       page = (params[:page] || 1).to_i
-      per_page = (params[:per_page] || Report::REPORT_PAGE_LIMIT).to_i
+      per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
       result = Reports::Search.run(
         query: params[:query],
