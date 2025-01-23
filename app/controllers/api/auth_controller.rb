@@ -5,17 +5,10 @@ module Api
     respond_to :json
 
     def login
-      Rails.logger.info "Login attempt params: #{params.inspect}"
-      Rails.logger.info "Request content type: #{request.content_type}"
-      Rails.logger.info "Headers: #{request.headers.to_h.select { |k,v| k.start_with?('HTTP_') }}"
-
       email = login_params[:email].to_s.strip.downcase
       password = login_params[:password].to_s.strip
 
-      Rails.logger.info "Processed email: #{email}"
-
       user = User.find_by("LOWER(email) = LOWER(?)", email)
-      Rails.logger.info "Found user: #{user&.email}"
 
       if user&.valid_password?(password)
         sign_in(user)
@@ -27,7 +20,6 @@ module Api
           }
         }, status: :ok
       else
-        Rails.logger.info "Authentication failed for email: #{email}"
         render json: { error: "Invalid email or password" }, status: :unauthorized
       end
     end
@@ -53,8 +45,6 @@ module Api
     private
 
     def login_params
-      Rails.logger.info "Raw params: #{params.inspect}"
-      Rails.logger.info "Content type: #{request.content_type}"
       params.require(:user).permit(:email, :password)
     end
 
