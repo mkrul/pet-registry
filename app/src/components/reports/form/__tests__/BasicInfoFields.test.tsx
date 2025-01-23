@@ -91,7 +91,6 @@ describe("BasicInfoFields", () => {
 
       const input = screen.getByLabelText(new RegExp(label, "i"));
 
-      // Directly simulate change event instead of clear + type
       await act(async () => {
         const fieldName = label === "pet's name" ? "name" : label;
         const changeEvent = {

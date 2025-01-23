@@ -44,29 +44,28 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
 
     if (value) {
       if (name === "color1") {
-        // First clear any duplicates
         if (value === formData.color2) {
           onInputChange({ target: { name: "color2", value: null } });
-          onShowColor2Change(false); // Also hide the field
+          onShowColor2Change(false);
         }
         if (value === formData.color3) {
           onInputChange({ target: { name: "color3", value: null } });
-          onShowColor3Change(false); // Also hide the field
+          onShowColor3Change(false);
         }
-        // Then update color1
+
         onInputChange(e);
       } else if (name === "color2") {
         if (value === formData.color1) {
-          return; // Don't allow color2 to match color1
+          return;
         }
         if (value === formData.color3) {
           onInputChange({ target: { name: "color3", value: null } });
-          onShowColor3Change(false); // Also hide the field
+          onShowColor3Change(false);
         }
         onInputChange(e);
       } else if (name === "color3") {
         if (value === formData.color1 || value === formData.color2) {
-          return; // Don't allow color3 to match color1 or color2
+          return;
         }
         onInputChange(e);
       }

@@ -5,7 +5,6 @@ import ReportEditMode from "../ReportEditMode";
 import { ReportEditModeProps } from "../../../../types/Report";
 import { ImageProps } from "../../../../types/common/Image";
 
-// Mock dependencies
 vi.mock("../../../common/Map", () => ({
   default: () => <div data-testid="map">Map Component</div>
 }));
@@ -22,7 +21,6 @@ vi.mock("../../../common/BreedSearch", () => ({
   )
 }));
 
-// Mock formatDate for consistent snapshots
 vi.mock("../../../lib/formatDate", () => ({
   default: () => "01/01/2023"
 }));
@@ -84,21 +82,17 @@ describe("ReportEditMode", () => {
     it("renders form with initial values", () => {
       render(<ReportEditMode {...mockProps} />);
 
-      // Test text inputs
       expect(screen.getByDisplayValue("Test Report")).toBeDefined();
       expect(screen.getByDisplayValue("Test Description")).toBeDefined();
       expect(screen.getByDisplayValue("Max")).toBeDefined();
       expect(screen.getByDisplayValue("123456")).toBeDefined();
 
-      // Test selects
       expect(screen.getByText("Dog")).toBeDefined();
       expect(screen.getByText("Male")).toBeDefined();
       expect(screen.getByText("Black")).toBeDefined();
 
-      // Test breed search
       expect(screen.getByTestId("breed-search")).toBeDefined();
 
-      // Test location
       expect(screen.getByText("Test Area, Test State, Test Country")).toBeDefined();
       expect(screen.getByTestId("map")).toBeDefined();
     });
@@ -159,7 +153,6 @@ describe("ReportEditMode", () => {
       fireEvent.click(addColorButton);
       expect(mockProps.addColor).toHaveBeenCalled();
 
-      // Test with additional colors
       rerender(<ReportEditMode {...mockProps} showColor2={true} showColor3={true} />);
       expect(screen.queryByText(/add another color/i)).toBeNull();
       expect(mockGetFilteredColorOptions).toHaveBeenCalled();

@@ -32,7 +32,6 @@ describe("SubmitButton", () => {
       expect(button).toHaveClass("bg-gray-400", "cursor-not-allowed");
       expect(button).not.toHaveClass("bg-green-600", "hover:bg-green-700");
 
-      // Check if spinner is present
       const spinner = screen.getByRole("status");
       expect(spinner).toBeDefined();
       expect(spinner.querySelector("svg")).toHaveClass("text-white");

@@ -8,13 +8,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         alert("File size exceeds 5MB.");
         return;
       }
 
-      // Validate file type
       const validTypes = ["image/jpeg", "image/png", "image/gif"];
       if (!validTypes.includes(file.type)) {
         alert("Unsupported file type. Please upload a JPEG, PNG, or GIF image.");

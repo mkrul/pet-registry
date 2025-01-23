@@ -15,7 +15,6 @@ const ReportIndexPage = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Get search state from Redux
   const searchState = useAppSelector(state => state.search);
 
   const [activeSearch, setActiveSearch] = useState(
@@ -41,7 +40,6 @@ const ReportIndexPage = () => {
   useScrollRestoration();
 
   const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
-    // Scroll to top immediately when page changes
     if (page !== currentPage) {
       window.scrollTo(0, 0);
     }
@@ -50,7 +48,6 @@ const ReportIndexPage = () => {
     setActiveFilters(filters);
     setCurrentPage(page);
 
-    // Save search state to Redux
     dispatch(
       setSearchState({
         query,

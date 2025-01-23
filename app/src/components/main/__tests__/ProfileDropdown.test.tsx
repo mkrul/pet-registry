@@ -9,7 +9,6 @@ import { authApiSlice } from "../../../redux/features/auth/authApiSlice";
 
 const mockNavigate = vi.fn();
 
-// Mock react-router-dom
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual("react-router-dom");
   return {
@@ -18,7 +17,6 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-// Mock the LogoutButton component
 vi.mock("../../auth/LogoutButton", () => ({
   default: ({ onCompleted }: { onCompleted: () => void }) => (
     <button data-testid="logout-button" onClick={onCompleted}>
@@ -27,7 +25,6 @@ vi.mock("../../auth/LogoutButton", () => ({
   )
 }));
 
-// Mock NavLink component
 vi.mock("../../common/NavLink", () => ({
   default: ({
     children,

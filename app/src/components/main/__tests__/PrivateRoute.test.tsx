@@ -9,12 +9,10 @@ import authReducer from "../../../redux/features/auth/authSlice";
 import { User } from "../../../types/auth/User";
 import { useGetCurrentUserQuery } from "../../../redux/features/auth/authApiSlice";
 
-// Mock the entire authApiSlice module
 vi.mock("../../../redux/features/auth/authApiSlice", () => ({
   useGetCurrentUserQuery: vi.fn()
 }));
 
-// Mock components
 const ProtectedComponent = () => <div data-testid="protected">Protected Content</div>;
 const LoginPage = () => {
   const location = useLocation();

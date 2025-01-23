@@ -14,14 +14,12 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || placeholderPath);
 
   const getReportStatusDisplay = (report: ReportCardProps["report"]) => {
-    // Handle ring styling
     const ringStyle = report.recentlyCreated
       ? "ring-4 ring-blue-500 rounded-lg"
       : report.recentlyUpdated
         ? "ring-4 ring-green-500 rounded-lg"
         : "";
 
-    // Handle badge component
     const badge = report.recentlyCreated ? (
       <span
         className="absolute bottom-0 right-0 z-10 bg-blue-500 text-blue-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-blue-500 dark:text-blue-100"
@@ -45,14 +43,12 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
     return { ringStyle, badge };
   };
 
-  // Format the date
   const formattedDate = new Date(report.updatedAt).toLocaleDateString(undefined, {
     month: "2-digit",
     day: "2-digit",
     year: "numeric"
   });
 
-  // Format the time with timezone
   const formattedTime = new Date(report.updatedAt).toLocaleTimeString(undefined, {
     hour: "numeric",
     minute: "2-digit",
@@ -72,16 +68,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
     }
   };
 
-  // Construct the URL with query parameters
   const reportUrl = `/reports/${report.id}?query=${encodeURIComponent(currentQuery)}&page=${currentPage}`;
 
   const { ringStyle, badge } = getReportStatusDisplay(report);
 
   const handleReportClick = () => {
-    // Save current scroll position before navigating
     dispatch(setScrollPosition(window.scrollY));
 
-    // Scroll to top
     window.scrollTo(0, 0);
   };
 

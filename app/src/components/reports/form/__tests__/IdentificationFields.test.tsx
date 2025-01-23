@@ -85,7 +85,6 @@ describe("IdentificationFields", () => {
       await user.click(genderSelect);
     });
 
-    // Wait for MUI menu to appear
     const menu = document.querySelector('[role="listbox"]');
     expect(menu).toBeDefined();
 
@@ -117,7 +116,6 @@ describe("IdentificationFields", () => {
       await user.click(speciesSelect);
     });
 
-    // Wait for MUI menu to appear
     const menu = document.querySelector('[role="listbox"]');
     expect(menu).toBeDefined();
 
@@ -156,7 +154,6 @@ describe("IdentificationFields", () => {
       />
     );
 
-    // Use queryByTestId instead of getByTestId to avoid throwing
     const breed2Field = screen.queryByTestId("breed-search-2");
     const removeButton = screen.queryByTestId("remove-breed-button");
     expect(breed2Field).toBeDefined();
@@ -190,15 +187,12 @@ describe("IdentificationFields", () => {
       />
     );
 
-    // Check button disabled state
     const addBreedButton = screen.getByTestId("add-breed-button");
     expect(addBreedButton).toBeDisabled();
 
-    // For MUI TextField, check the input element
     const microchipInput = screen.getByTestId("microchip-id-input").querySelector("input");
     expect(microchipInput).toBeDisabled();
 
-    // For MUI Select components
     const genderSelect = screen.getByTestId("gender-select");
     const speciesSelect = screen.getByTestId("species-select");
 
@@ -206,12 +200,10 @@ describe("IdentificationFields", () => {
       expect(select).toHaveClass("Mui-disabled");
     });
 
-    // For BreedSearch components
     const breedSearchControl = screen.getByTestId("breed-search-form-control");
     const autocompleteInput = breedSearchControl.querySelector('input[role="combobox"]');
     expect(autocompleteInput).toBeDisabled();
 
-    // If breed2 is shown, check that one too
     const breed2SearchControl = screen.queryByTestId("breed-search-form-control");
     if (breed2SearchControl) {
       const autocompleteInput2 = breed2SearchControl.querySelector('input[role="combobox"]');
@@ -220,7 +212,6 @@ describe("IdentificationFields", () => {
       }
     }
 
-    // Check remove breed button if visible
     const removeButton = screen.queryByTestId("remove-breed-button");
     if (removeButton) {
       expect(removeButton).toBeDisabled();

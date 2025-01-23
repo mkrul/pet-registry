@@ -5,7 +5,6 @@ import ReportViewMode from "../ReportViewMode";
 import { ReportViewModeProps } from "../../../../types/Report";
 import { ImageProps } from "../../../../types/common/Image";
 
-// Mock dependencies
 vi.mock("../../../common/Map", () => ({
   default: () => <div data-testid="map">Map Component</div>
 }));
@@ -14,7 +13,6 @@ vi.mock("../../../common/Spinner", () => ({
   default: () => <div data-testid="spinner">Loading...</div>
 }));
 
-// Mock formatDate for consistent testing
 vi.mock("../../../lib/formatDate", () => ({
   default: () => "12/31/2022, 7:00 PM"
 }));
@@ -169,7 +167,7 @@ describe("ReportViewMode", () => {
 
       render(<ReportViewMode {...mockProps} report={partialReport} />);
 
-      expect(screen.getByText("Unknown")).toBeDefined(); // For microchipId
+      expect(screen.getByText("Unknown")).toBeDefined();
       expect(screen.queryByText("Golden Retriever")).toBeNull();
     });
   });

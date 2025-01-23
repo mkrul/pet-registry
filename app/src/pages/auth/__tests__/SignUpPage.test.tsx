@@ -8,14 +8,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../../../redux/features/auth/authSlice";
 import { authApiSlice as authApi } from "../../../redux/features/auth/authApiSlice";
 
-// Mock navigate function
 const mockNavigate = vi.fn();
 vi.mock("react-router-dom", async () => ({
   ...(await vi.importActual("react-router-dom")),
   useNavigate: () => mockNavigate
 }));
 
-// Setup store for testing
 const setupStore = () => {
   return configureStore({
     reducer: {
@@ -26,7 +24,6 @@ const setupStore = () => {
   });
 };
 
-// Mock signup mutation
 const mockSignUpMutation = vi.fn();
 vi.mock("../../../redux/features/auth/authApiSlice", async () => {
   const actual = await vi.importActual("../../../redux/features/auth/authApiSlice");

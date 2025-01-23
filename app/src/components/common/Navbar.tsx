@@ -5,7 +5,7 @@ import NavLink from "./NavLink";
 const NavBar = () => {
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.location.replace(window.location.origin); // Force complete page reload and reset URL
+    window.location.replace(window.location.origin);
   };
 
   return (

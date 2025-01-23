@@ -12,7 +12,6 @@ const ProfileDropdown: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
 
-  // Check current user on mount
   useGetCurrentUserQuery();
 
   const handleToggle = () => {

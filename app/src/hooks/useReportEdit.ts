@@ -41,7 +41,6 @@ export const useReportEdit = (report: ReportProps) => {
     setFormData(prev => {
       const newFormData = { ...prev };
 
-      // Handle color-specific logic
       if (name.startsWith("color")) {
         if (value) {
           if (name === "color1") {
@@ -62,14 +61,12 @@ export const useReportEdit = (report: ReportProps) => {
         }
       }
 
-      // Handle species change - reset breeds if species changes
       if (name === "species") {
         newFormData.breed1 = "";
         newFormData.breed2 = null;
         setShowBreed2(false);
       }
 
-      // Update the field value
       (newFormData as any)[name] = value;
       return newFormData;
     });

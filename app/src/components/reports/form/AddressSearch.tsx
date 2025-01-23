@@ -66,7 +66,7 @@ const AddressSearch: React.FC<AddressSearchProps> = ({ onSearch, disabled }) => 
       disabled={disabled}
       options={options}
       getOptionLabel={(option: AddressSuggestion) => option.display_name}
-      filterOptions={x => x} // Disable client-side filtering
+      filterOptions={x => x}
       loading={loading}
       onInputChange={(_, value) => setInputValue(value)}
       onChange={handleOptionSelect}

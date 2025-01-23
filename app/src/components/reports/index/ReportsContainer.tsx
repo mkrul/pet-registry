@@ -16,7 +16,6 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   const { reports, data, isLoading, error, notification, setNotification, refetch } =
     useReportsData(query, filters, page);
 
-  // Force refetch when component mounts
   useEffect(() => {
     refetch();
   }, [refetch]);

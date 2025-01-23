@@ -1,4 +1,3 @@
-// Notification.tsx
 import React, { useEffect, useState } from "react";
 import { NotificationType, NotificationProps } from "../../types/common/Notification";
 
@@ -8,7 +7,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
-      setTimeout(onClose, 300); // Allow time for fade-out animation
+      setTimeout(onClose, 300);
     }, 5000);
 
     return () => clearTimeout(timer);
