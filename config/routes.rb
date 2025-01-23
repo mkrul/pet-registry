@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   namespace :api do
     # Custom auth routes
     post 'auth/registration', to: 'registrations#create'
-    post 'auth/login', to: 'sessions#create'
-    delete 'auth/logout', to: 'sessions#destroy'
-    get 'auth/current_user', to: 'sessions#show'
+    post '/login', to: 'auth#login'
+    get '/current_user', to: 'auth#user_info'
+    delete '/logout', to: 'auth#logout'
 
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
     get 'filters/states', to: 'filters#states'

@@ -25,3 +25,8 @@
 - Added tests for breed list file corruption handling
 - Included tests for image attachment presence
 - Added tests for normalization of nil values
+- Fixed authentication controller to handle case-insensitive email comparison
+- Improved JSON request handling in authentication endpoints
+- Added consistent content-type handling for API requests
+- Fixed authentication tests to use consistent JSON format
+- Standardized test request headers across all test cases

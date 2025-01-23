@@ -40,3 +40,12 @@
 - Added breed list file corruption handling tests
 - Included image attachment presence tests
 - Added normalization of nil values tests
+
+### API Authentication
+- Case-insensitive email handling improves user experience
+- Proper content-type headers are crucial for JSON API endpoints
+- Request parameter handling should be consistent between JSON and form data
+
+### API Testing
+- API tests should consistently use JSON format for request bodies
+- Headers should be consistent across all API test cases
