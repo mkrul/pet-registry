@@ -36,10 +36,9 @@ class Reports::Search < ActiveInteraction::Base
 
   def where_conditions
     conditions = { status: 'active' }
-    # Set species condition, prioritizing explicit filter over query content
     if species.present?
       conditions[:species] = species.downcase
-    elsif query.present? && !species.present?  # Only check query if no species filter
+    elsif query.present? && !species.present?
       query_words = query.downcase.split
       if query_words.include?('dog')
         conditions[:species] = 'dog'
@@ -48,7 +47,6 @@ class Reports::Search < ActiveInteraction::Base
       end
     end
 
-    # Add location conditions
     if country.present?
       conditions[:country] = country
     end
@@ -61,7 +59,6 @@ class Reports::Search < ActiveInteraction::Base
       conditions[:area] = area
     end
 
-    # Add other filters
     filters = []
 
     if gender.present?
@@ -87,7 +84,6 @@ class Reports::Search < ActiveInteraction::Base
       }
     end
 
-    # Add other filters to conditions
     if filters.any?
       conditions[:_and] ||= []
       conditions[:_and].concat(filters)
@@ -102,7 +98,7 @@ class Reports::Search < ActiveInteraction::Base
       { created_at: :asc }
     when 'recently updated'
       { updated_at: :desc }
-    else # 'newest' or default
+    else
       { created_at: :desc }
     end
   end
