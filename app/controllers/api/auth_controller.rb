@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class AuthController < ApplicationController
     skip_before_action :verify_authenticity_token
@@ -8,7 +10,7 @@ module Api
       email = login_params[:email].to_s.strip.downcase
       password = login_params[:password].to_s.strip
 
-      user = User.find_by("LOWER(email) = LOWER(?)", email)
+      user = User.find_by(email: email)
 
       if user&.valid_password?(password)
         sign_in(user)

@@ -6,10 +6,12 @@ module Api
       user = User.find_by(email: sign_in_params[:email])
 
       if user&.valid_password?(sign_in_params[:password])
+        # Sign in the user and set up session
         warden.set_user(user)
         sign_in(user)
         session[:user_id] = user.id
 
+        # Set remember me token
         if user.respond_to?(:remember_me!) && Devise.respond_to?(:remember_for)
           user.remember_me!
           cookies.signed[:remember_user_token] = {
@@ -27,6 +29,8 @@ module Api
         render json: { message: 'Invalid email or password.' }, status: :unauthorized
       end
     rescue => e
+      Rails.logger.error "Login error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Login failed' }, status: :internal_server_error
     end
 
@@ -62,6 +66,8 @@ module Api
         render json: { message: 'Not authenticated' }, status: :unauthorized
       end
     rescue StandardError => e
+      Rails.logger.error "Current user check error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Authentication check failed' }, status: :internal_server_error
     end
 
@@ -81,6 +87,8 @@ module Api
 
       render json: { message: 'Logged out successfully.' }, status: :ok
     rescue => e
+      Rails.logger.error "Logout error: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
       render json: { message: 'Logout failed' }, status: :internal_server_error
     end
 
