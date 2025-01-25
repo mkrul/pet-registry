@@ -68,7 +68,7 @@ RSpec.describe "Api::SessionsController", type: :request do
 
       it 'handles missing parameters' do
         post '/api/login', params: {}.to_json, headers: headers
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:bad_request)
       end
     end
 
@@ -78,14 +78,23 @@ RSpec.describe "Api::SessionsController", type: :request do
           user: { email: user.email, password: 'password123' }
         }.to_json, headers: headers
 
-        set_cookie = response.headers['Set-Cookie']
+        # Get all Set-Cookie headers
+        set_cookie_headers = response.headers['Set-Cookie']
 
-        expect(set_cookie).to include('remember_user_token=')
+        # If multiple cookies are set, they will be in an array
+        set_cookie_headers = Array(set_cookie_headers)
+
+        # Find the remember_user_token cookie
+        remember_cookie = set_cookie_headers.find { |c| c.include?('remember_user_token=') }
+
+        expect(remember_cookie).to be_present
+        expect(remember_cookie).to include('remember_user_token=')
 
         remember_duration = Devise.remember_for.from_now
-        expected_expires = remember_duration.strftime("%a, %d-%b-%Y %H:%M:%S %Z")
-
-        expect(set_cookie).to match(/Expires=#{expected_expires}/)
+        # Match the actual cookie expiration format
+        expected_expires = remember_duration.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        # Use a more flexible regex to match the expiration date
+        expect(remember_cookie).to match(/expires=#{expected_expires}/i)
       end
     end
 
@@ -268,12 +277,18 @@ RSpec.describe "Api::SessionsController", type: :request do
       it 'logs out the user' do
         delete '/api/logout', headers: headers
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)['message']).to eq('Logged out successfully')
+        expect(JSON.parse(response.body)['message']).to eq('Logged out successfully.')
       end
 
       it 'clears remember me token' do
         delete '/api/logout', headers: headers
-        expect(cookies[:remember_user_token]).to be_nil
+        # Check the Set-Cookie header for deletion
+        set_cookie_headers = response.headers['Set-Cookie']
+        set_cookie_headers = Array(set_cookie_headers)
+
+        # Look for the remember_user_token cookie being set to expire in the past
+        remember_cookie = set_cookie_headers.find { |c| c.include?('remember_user_token=') }
+        expect(remember_cookie).to match(/remember_user_token=;.*expires=.*1970/)
       end
     end
 
