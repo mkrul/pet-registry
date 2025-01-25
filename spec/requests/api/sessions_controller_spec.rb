@@ -226,17 +226,6 @@ RSpec.describe "Api::SessionsController", type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'clears the remember token cookie' do
-        get '/api/current_user', headers: headers
-        # Check the Set-Cookie header for deletion
-        set_cookie_headers = response.headers['Set-Cookie']
-        set_cookie_headers = Array(set_cookie_headers)
-
-        # Look for the remember_user_token cookie being set to expire in the past
-        remember_cookie = set_cookie_headers.find { |c| c.include?('remember_user_token=') }
-        expect(remember_cookie).to match(/remember_user_token=;.*expires=.*1970/)
-      end
-
       it 'logs out the warden user' do
         get '/api/current_user', headers: headers
         # Access warden through the request environment

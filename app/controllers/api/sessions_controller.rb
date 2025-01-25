@@ -35,7 +35,7 @@ module Api
         end
 
         render json: {
-          message: 'Logged in successfully.',
+          message: 'Logged in successfully',
           user: user.as_json(only: [:id, :email])
         }, status: :ok
       else

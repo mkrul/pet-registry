@@ -40,7 +40,7 @@ export const authApiSlice = createApi({
     }),
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
-        url: "/auth/logout",
+        url: "/logout",
         method: "DELETE"
       }),
       invalidatesTags: ["Auth"],
@@ -61,7 +61,7 @@ export const authApiSlice = createApi({
     }),
     getCurrentUser: builder.query<AuthResponse, void>({
       query: () => ({
-        url: "auth/current_user",
+        url: "/current_user",
         method: "GET"
       }),
       keepUnusedDataFor: 3600,
