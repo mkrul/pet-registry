@@ -212,22 +212,41 @@ RSpec.describe "Api::SessionsController", type: :request do
     end
 
     context 'when session is expired' do
-      it 'handles expired remember token' do
+      before do
         post '/api/login', params: {
           user: { email: user.email, password: 'password123' }
         }.to_json, headers: headers
 
-        # Update the remember_created_at to simulate expiration
-        user.update(remember_created_at: 3.weeks.ago)
+        # Simulate session expiration
+        travel_to Devise.timeout_in.from_now + 1.minute
+      end
 
-        travel_to 3.weeks.from_now do
-          # Clear session to simulate expiration
-          session.clear
-          cookies.delete(:remember_user_token)
-          get '/api/current_user', headers: headers
-          expect(response).to have_http_status(:unauthorized)
-          expect(cookies[:remember_user_token]).to be_nil
-        end
+      it 'returns unauthorized status' do
+        get '/api/current_user', headers: headers
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'clears the remember token cookie' do
+        get '/api/current_user', headers: headers
+        # Check the Set-Cookie header for deletion
+        set_cookie_headers = response.headers['Set-Cookie']
+        set_cookie_headers = Array(set_cookie_headers)
+
+        # Look for the remember_user_token cookie being set to expire in the past
+        remember_cookie = set_cookie_headers.find { |c| c.include?('remember_user_token=') }
+        expect(remember_cookie).to match(/remember_user_token=;.*expires=.*1970/)
+      end
+
+      it 'logs out the warden user' do
+        get '/api/current_user', headers: headers
+        # Access warden through the request environment
+        expect(request.env['warden'].user).to be_nil
+      end
+
+      it 'clears the session data' do
+        get '/api/current_user', headers: headers
+        expect(session[:user_id]).to be_nil
+        expect(session["warden.user..key"]).to be_nil
       end
     end
 
