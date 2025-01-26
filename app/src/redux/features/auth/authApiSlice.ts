@@ -8,6 +8,10 @@ export const authApiSlice = createApi({
     baseUrl: "/api",
     credentials: "include",
     prepareHeaders: headers => {
+      const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content");
+      if (token) {
+        headers.set("X-CSRF-Token", token);
+      }
       headers.set("Accept", "application/json");
       headers.set("Content-Type", "application/json");
       return headers;
@@ -38,7 +42,8 @@ export const authApiSlice = createApi({
     logout: builder.mutation({
       query: () => ({
         url: "/logout",
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include"
       }),
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
@@ -46,7 +51,9 @@ export const authApiSlice = createApi({
           localStorage.clear();
           sessionStorage.clear();
           dispatch(clearUser());
-        } catch (err) {
+          dispatch(authApiSlice.util.resetApiState());
+          window.location.href = "/";
+        } catch (err: any) {
           dispatch(setError("Logout failed"));
         }
       }

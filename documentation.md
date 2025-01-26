@@ -102,6 +102,6 @@
 - Frontend state must be synchronized with backend session
 
 ### Session Security
-- Session cookies should be domain-restricted in production
-- Development environments can use broader cookie domains for flexibility
-- Explicit domain configuration improves security in production
+- CSRF protection is essential for all state-changing requests
+- Complete logout requires clearing both client and server state
+- Force page reload after logout ensures clean state
