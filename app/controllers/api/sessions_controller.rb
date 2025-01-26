@@ -136,9 +136,19 @@ module Api
         })
         sign_out(:user)
         reset_session
-        render json: { message: 'Logged out successfully.' }, status: :ok
+        render json: { message: 'Logged out successfully' }, status: :ok
       else
         render json: { message: 'No user to log out' }, status: :ok
+      end
+    end
+
+    def user_info
+      if current_user
+        render json: {
+          user: current_user.as_json(only: [:id, :email])
+        }, status: :ok
+      else
+        render json: { error: 'Not authenticated' }, status: :unauthorized
       end
     end
 

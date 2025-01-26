@@ -49,3 +49,8 @@
 ### API Testing
 - API tests should consistently use JSON format for request bodies
 - Headers should be consistent across all API test cases
+
+### Authentication Architecture
+- Consolidated authentication logic into a single controller improves maintainability
+- Session management should be handled consistently across all authentication endpoints
+- Remember-me functionality and session expiration are handled in one place

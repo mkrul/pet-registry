@@ -30,3 +30,6 @@
 - Added consistent content-type handling for API requests
 - Fixed authentication tests to use consistent JSON format
 - Standardized test request headers across all test cases
+- Consolidated authentication logic into SessionsController
+- Removed duplicate authentication handling from AuthController
+- Standardized session management across all authentication endpoints

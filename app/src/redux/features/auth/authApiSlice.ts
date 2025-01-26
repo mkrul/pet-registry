@@ -87,7 +87,7 @@ export const authApiSlice = createApi({
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
       query: credentials => ({
-        url: "/auth/registration",
+        url: "/sign_up",
         method: "POST",
         body: credentials
       }),

@@ -285,7 +285,7 @@ RSpec.describe "Api::SessionsController", type: :request do
       it 'logs out the user' do
         delete '/api/logout', headers: headers
         expect(response).to have_http_status(:ok)
-        expect(JSON.parse(response.body)['message']).to eq('Logged out successfully.')
+        expect(JSON.parse(response.body)['message']).to eq('Logged out successfully')
       end
 
       it 'clears remember me token' do
