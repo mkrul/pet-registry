@@ -33,3 +33,7 @@
 - Consolidated authentication logic into SessionsController
 - Removed duplicate authentication handling from AuthController
 - Standardized session management across all authentication endpoints
+- Refactored SessionsController for improved maintainability
+- Extracted session management logic into focused methods
+- Standardized error handling and responses
+- Fixed session expiration handling in SessionsController

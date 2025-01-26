@@ -54,3 +54,12 @@
 - Consolidated authentication logic into a single controller improves maintainability
 - Session management should be handled consistently across all authentication endpoints
 - Remember-me functionality and session expiration are handled in one place
+
+### Controller Design
+- Breaking complex authentication logic into focused methods improves maintainability
+- Consistent error handling and response formats improve API reliability
+- Extracting configuration options reduces duplication and improves maintainability
+
+### Session Management
+- Session expiration must clear both the session and warden user
+- Proper session cleanup is essential for security
