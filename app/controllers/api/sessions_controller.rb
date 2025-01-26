@@ -67,13 +67,16 @@ module Api
     private
 
     def find_current_user
-      find_user_from_session || find_user_from_remember_token || find_user_from_warden
+      Rails.logger.info "Finding current user..."
+      user = find_user_from_session || find_user_from_remember_token || find_user_from_warden
+      Rails.logger.info "Current user found: #{user&.id}"
+      user
     end
 
     def find_user_from_session
       return unless session["warden.user..key"].is_a?(Hash)
       user = User.find_by(id: session["warden.user..key"]["id"])
-      if user && session_expired?
+      if user && (session_expired? || !user.remember_token?)
         reset_session
         warden.logout
         return nil
@@ -82,11 +85,15 @@ module Api
     end
 
     def find_user_from_remember_token
+      Rails.logger.info "Checking remember token..."
       return unless cookies.signed[:remember_user_token].present?
       token = cookies.signed[:remember_user_token]
+      Rails.logger.info "Remember token present: #{token.inspect}"
       return unless valid_remember_token?(token)
       user_id = token[0][0]
       user = User.find_by(id: user_id)
+      Rails.logger.info "User remember token: #{user&.remember_token.inspect}"
+      return nil unless user&.remember_token.present?
       if user
         sign_in(user)
         warden.set_user(user)
@@ -96,7 +103,7 @@ module Api
 
     def find_user_from_warden
       user = warden.user
-      if user && session_expired?
+      if user && (session_expired? || !user.remember_token?)
         warden.logout
         return nil
       end
@@ -114,12 +121,15 @@ module Api
     end
 
     def clear_user_session
+      Rails.logger.info "Clearing user session..."
+      Rails.logger.info "Before clear - Remember token: #{current_user&.remember_token.inspect}"
       current_user.forget_me! if current_user.respond_to?(:forget_me!)
       cookies.delete(:remember_user_token, cookie_options)
       sign_out(:user)
       reset_session
-      # Clear warden user
       warden.logout
+      current_user&.update_column(:remember_token, nil) if current_user
+      Rails.logger.info "After clear - Remember token: #{current_user&.remember_token.inspect}"
     end
 
     def set_remember_token(user)

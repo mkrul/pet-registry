@@ -67,6 +67,14 @@
 - Proper session store configuration is essential for maintaining authentication state
 - Complete session destruction requires clearing multiple authentication states
 - Frontend state must be synchronized with backend session
+- Remember tokens must be explicitly cleared from both cookies and user records
+- Complete session cleanup requires updating the user record
+- Remember token validation must check both cookie and database values
+- User authentication should fail if remember_token is cleared from database
+- Session authentication should verify both session validity and remember token status
+- User lookup from session must respect remember token state
+- All authentication methods must consistently validate remember token state
+- Warden user lookup should respect the same authentication rules as other methods
 
 ### Error Handling
 - Consistent error response formatting improves API reliability

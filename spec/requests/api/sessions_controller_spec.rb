@@ -273,7 +273,7 @@ RSpec.describe "Api::SessionsController", type: :request do
     end
   end
 
-  describe 'DELETE //logout' do
+  describe 'DELETE /api/logout' do
     context 'when user is logged in' do
       before do
         sign_in user
@@ -283,13 +283,13 @@ RSpec.describe "Api::SessionsController", type: :request do
       end
 
       it 'logs out the user' do
-        delete '//logout', headers: headers
+        delete '/api/logout', headers: headers
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)['message']).to eq('Logged out successfully')
       end
 
       it 'clears remember me token' do
-        delete '//logout', headers: headers
+        delete '/api/logout', headers: headers
         # Check the Set-Cookie header for deletion
         set_cookie_headers = response.headers['Set-Cookie']
         set_cookie_headers = Array(set_cookie_headers)
@@ -302,7 +302,7 @@ RSpec.describe "Api::SessionsController", type: :request do
 
     context 'when user is not logged in' do
       it 'returns success message' do
-        delete '//logout', headers: headers
+        delete '/api/logout', headers: headers
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)['message']).to eq('No user to log out')
       end
@@ -314,7 +314,7 @@ RSpec.describe "Api::SessionsController", type: :request do
           user: { email: user.email, password: 'password123' }
         }.to_json, headers: headers
 
-        delete '//logout', headers: headers
+        delete '/api/logout', headers: headers
 
         get '/api/current_user', headers: headers
         expect(response).to have_http_status(:unauthorized)
@@ -327,7 +327,7 @@ RSpec.describe "Api::SessionsController", type: :request do
         user.remember_me!
         original_token = user.remember_token
 
-        delete '//logout', headers: headers
+        delete '/api/logout', headers: headers
 
         user.reload
         expect(user.remember_token).not_to eq(original_token)
@@ -336,7 +336,7 @@ RSpec.describe "Api::SessionsController", type: :request do
 
     context 'when using invalid session data' do
       it 'handles corrupted session gracefully' do
-        delete '//logout', headers: headers
+        delete '/api/logout', headers: headers
 
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)['message']).to eq('No user to log out')
@@ -348,11 +348,11 @@ RSpec.describe "Api::SessionsController", type: :request do
         sign_in user
         threads = []
         threads << Thread.new do
-          delete '//logout', headers: headers
+          delete '/api/logout', headers: headers
         end
 
         threads << Thread.new do
-          delete '//logout', headers: headers
+          delete '/api/logout', headers: headers
         end
 
         threads.each(&:join)
