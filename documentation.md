@@ -4,6 +4,9 @@
 - Centralized notification handling using Redux improves code maintainability and reduces prop drilling
 - Using Redux for cross-cutting concerns like notifications follows best practices for state management
 - Backend messages should be used directly rather than creating custom messages in the frontend
+- Consolidating state management improves maintainability
+- Proper separation of concerns between API calls and local state
+- Loading and error states should be handled consistently
 
 ### Map Behavior
 - The map now zooms out to a level of 4 when creating a new report, providing a broader view of the United States
@@ -61,5 +64,36 @@
 - Extracting configuration options reduces duplication and improves maintainability
 
 ### Session Management
-- Session expiration must clear both the session and warden user
-- Proper session cleanup is essential for security
+- Proper session store configuration is essential for maintaining authentication state
+- Complete session destruction requires clearing multiple authentication states
+- Frontend state must be synchronized with backend session
+
+### Error Handling
+- Consistent error response formatting improves API reliability
+- transformErrorResponse should be used across all API endpoints for uniform error handling
+
+### API Slice Management
+- When resetting API state, use the current slice instance rather than undefined references
+- Proper instance references prevent TypeScript errors and runtime issues
+
+### Redux Toolkit
+- Action creators must be properly imported before use
+- Missing imports can cause TypeScript errors
+
+### RTK Query
+- Mutation hooks require proper argument types
+- Empty objects can be used as default arguments when no data is needed
+
+### Redux Actions
+- Use the correct action creators for state management
+- clearUser is the appropriate action for logout functionality
+
+### Session Persistence
+- Proper session store configuration is essential for maintaining authentication state
+- Cookies must be properly included in API requests
+- Frontend state must be synchronized with backend session
+
+### Session Security
+- Session cookies should be domain-restricted in production
+- Development environments can use broader cookie domains for flexibility
+- Explicit domain configuration improves security in production

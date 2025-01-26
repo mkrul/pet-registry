@@ -1,7 +1,5 @@
 module Api
   class SessionsController < ApplicationController
-    skip_before_action :verify_authenticity_token
-
     def create
       if request.content_type != 'application/json'
         return render json: { error: 'Invalid content type' }, status: :bad_request
@@ -15,9 +13,13 @@ module Api
 
       if user&.valid_password?(user_params[:password])
         sign_in(user)
+        # Ensure session is properly maintained
         session[:user_id] = user.id
         session[:last_activity] = Time.current.to_i
         set_remember_token(user) if user.respond_to?(:remember_me!)
+        # Set session cookie options
+        request.session_options[:renew] = true
+        request.session_options[:expire_after] = 1.day
         render json: success_response(user), status: :ok
       else
         render json: { error: 'Invalid email or password' }, status: :unauthorized
@@ -42,6 +44,12 @@ module Api
     def destroy
       if current_user
         clear_user_session
+        # Ensure session is fully cleared
+        request.session_options[:skip] = true
+        # Clear CSRF token
+        reset_session
+        # Return additional headers to help frontend clear state
+        response.headers['Clear-Site-Data'] = '"cache", "cookies", "storage", "executionContexts"'
         render json: { message: 'Logged out successfully' }, status: :ok
       else
         render json: { message: 'No user to log out' }, status: :ok
@@ -110,6 +118,8 @@ module Api
       cookies.delete(:remember_user_token, cookie_options)
       sign_out(:user)
       reset_session
+      # Clear warden user
+      warden.logout
     end
 
     def set_remember_token(user)

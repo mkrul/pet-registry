@@ -37,3 +37,9 @@
 - Extracted session management logic into focused methods
 - Standardized error handling and responses
 - Fixed session expiration handling in SessionsController
+- Fixed session destruction to fully clear both backend and frontend state
+- Fixed session persistence issues
+- Improved session destruction
+- Configured secure session store settings
+- Consolidated authentication state management
+- Removed redundant state handling between authSlice and authApiSlice

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
+import { useGetCurrentUserQuery, useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 
 const ProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
@@ -14,12 +14,23 @@ const ProfileDropdown: React.FC = () => {
 
   useGetCurrentUserQuery();
 
+  const [logout] = useLogoutMutation();
+
   const handleToggle = () => {
     if (!isAuthenticated) {
       navigate("/login");
       return;
     }
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout({}).unwrap();
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Failed to logout:", err);
+    }
   };
 
   if (!isAuthenticated) {
@@ -69,7 +80,7 @@ const ProfileDropdown: React.FC = () => {
             <NavLink>Settings</NavLink>
           </li>
           <li className="hover:bg-base-100 rounded-lg transition-colors duration-200">
-            <LogoutButton onCompleted={() => navigate("/login")} />
+            <LogoutButton onCompleted={handleLogout} />
           </li>
         </ul>
       </div>
