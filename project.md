@@ -43,3 +43,11 @@
 - Configured secure session store settings
 - Consolidated authentication state management
 - Removed redundant state handling between authSlice and authApiSlice
+- [x] Removed default error messages from notifications system
+- [x] Updated notifications slice to properly handle backend error messages
+- [x] Ensured sessions controller errors are displayed correctly in the frontend
+
+### New Learnings
+- Backend error messages should be passed directly to the frontend without defaults
+- Notifications slice needs to handle both object and string error message formats
+- Empty error messages should be handled gracefully by the frontend

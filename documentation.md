@@ -105,3 +105,9 @@
 - CSRF protection is essential for all state-changing requests
 - Complete logout requires clearing both client and server state
 - Force page reload after logout ensures clean state
+
+### Notifications System Updates
+- Removed default error messages from notifications system
+- Notifications now only display messages provided from the backend
+- Error messages from the sessions controller are now properly displayed
+- Notifications slice handles both object and string error messages
