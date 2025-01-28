@@ -170,19 +170,18 @@ module Api
       Rails.logger.error "#{controller_name} error: #{error.message}"
       Rails.logger.error error.backtrace.join("\n")
     end
-
     def sign_in_params
-      if params[:user]
-        params.require(:user).permit(:email, :password).tap do |user_params|
-          user_params[:email] = user_params[:email]&.strip
-        end
-      elsif params[:session] && params[:session][:user]
-        params[:session].require(:user).permit(:email, :password).tap do |user_params|
-          user_params[:email] = user_params[:email]&.strip
-        end
-      end
+      params = user_params
+      params[:email] = params[:email]&.strip if params
+      params
     rescue ActionController::ParameterMissing
       nil
+    end
+
+    def user_params
+      params.require(:user).permit(:email, :password) || params.require(:session).require(:user).permit(:email, :password)
+    rescue ActionController::ParameterMissing
+      raise "User credentials are required"
     end
 
     def warden
