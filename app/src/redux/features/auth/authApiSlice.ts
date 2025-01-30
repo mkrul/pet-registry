@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser, clearUser, setLoading, setError } from "./authSlice";
+import { setNotification } from "../notifications/notificationsSlice";
+import { NotificationType } from "../../../types/common/Notification";
 import { AuthResponse, SignUpRequest } from "../../../types/auth/AuthApiSlice";
 
 export const authApiSlice = createApi({
@@ -32,8 +34,20 @@ export const authApiSlice = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
         } catch (err: any) {
-          dispatch(setError(err?.data?.message || "Login failed"));
+          console.log("Login error:", {
+            error: err,
+            errorData: err?.error?.data,
+            errorMessage: err?.error?.data?.error
+          });
+          const errorMessage = err?.error?.data?.error || err?.data?.error || "Login failed";
+          dispatch(setError(errorMessage));
           dispatch(clearUser());
+          dispatch(
+            setNotification({
+              type: NotificationType.ERROR,
+              message: errorMessage
+            })
+          );
         } finally {
           dispatch(setLoading(false));
         }
@@ -52,7 +66,7 @@ export const authApiSlice = createApi({
           sessionStorage.clear();
           dispatch(clearUser());
           dispatch(authApiSlice.util.resetApiState());
-          window.location.href = "/";
+          window.location.href = "/login";
         } catch (err: any) {
           dispatch(setError("Logout failed"));
         }

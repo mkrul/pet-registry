@@ -6,15 +6,22 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    console.log("Notification mounted with:", { type, message, isVisible });
+
     const timer = setTimeout(() => {
       setIsVisible(false);
-      setTimeout(onClose, 300); // Allow time for fade-out animation
+      setTimeout(onClose, 300);
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [onClose, type, message]);
 
-  if (!isVisible) return null;
+  if (!isVisible) {
+    console.log("Notification not visible, returning null");
+    return null;
+  }
+
+  console.log("Rendering notification with:", { type, message });
 
   const typeStyles: Record<NotificationType, string> = {
     [NotificationType.SUCCESS]: "bg-green-100 border-green-400 text-green-700",
@@ -29,9 +36,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
         transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
       role="alert"
     >
-      <span className="block text-base font-normal sm:inline">
-        {message || defaultMessages[type]}
-      </span>
+      <span className="block text-base font-normal sm:inline">{message}</span>
       <button onClick={onClose} className="ml-4" aria-label="Close">
         <span className="text-xl" aria-hidden="true">
           &times;

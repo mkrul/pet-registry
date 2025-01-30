@@ -1,36 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/features/auth/authApiSlice";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setUser } from "../../redux/features/auth/authSlice";
-import { NotificationType, NotificationState } from "../../types/common/Notification";
-import Notification from "../../components/common/Notification";
 import { navigateToHome } from "../../utils/navigation";
+import Notification from "../../components/common/Notification";
+import { setNotification } from "../../redux/features/notifications/notificationsSlice";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [notification, setNotification] = useState<NotificationState | null>(null);
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const notification = useAppSelector(state => state.notifications.notification);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await login({ user: { email, password } }).unwrap();
       dispatch(setUser(response.user));
-      setNotification({
-        type: NotificationType.SUCCESS,
-        message: response.message
-      });
       handleSuccessfulLogin();
-    } catch (err: unknown) {
-      const error = err as { data?: { message?: string } };
-      setNotification({
-        type: NotificationType.ERROR,
-        message: error.data?.message
-      });
+    } catch (err) {
+      // Error is already handled by the authApiSlice
     }
   };
 
@@ -48,9 +40,10 @@ const LoginPage: React.FC = () => {
           <Notification
             type={notification.type}
             message={notification.message}
-            onClose={() => setNotification(null)}
+            onClose={() => dispatch(setNotification(null))}
           />
         )}
+
         <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">
           Welcome to the
           <br />
