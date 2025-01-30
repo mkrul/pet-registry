@@ -162,7 +162,8 @@ module Api
 
     def success_response(user)
       {
-        user: user.as_json(only: [:id, :email])
+        user: user.as_json(only: [:id, :email]),
+        message: 'Logged in successfully'
       }
     end
 

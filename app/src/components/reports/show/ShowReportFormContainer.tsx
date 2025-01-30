@@ -78,12 +78,6 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
         })
       );
     } else if (result.success) {
-      dispatch(
-        setNotification({
-          type: NotificationType.SUCCESS,
-          message: result.success.message
-        })
-      );
       setIsEditing(false);
     }
   };
@@ -104,14 +98,6 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
       )}
 
       <div className="p-6 bg-white rounded-lg shadow-lg">
-        {notification && (
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={() => dispatch(setNotification(null))}
-          />
-        )}
-
         {isEditing ? (
           <ReportEditMode
             formData={formData}

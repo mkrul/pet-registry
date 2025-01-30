@@ -13,7 +13,6 @@ const LoginPage: React.FC = () => {
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const notification = useAppSelector(state => state.notifications.notification);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,14 +35,6 @@ const LoginPage: React.FC = () => {
       data-testid="login-page"
     >
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-        {notification && (
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={() => dispatch(setNotification(null))}
-          />
-        )}
-
         <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">
           Welcome to the
           <br />

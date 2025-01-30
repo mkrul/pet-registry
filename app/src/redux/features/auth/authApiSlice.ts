@@ -33,6 +33,12 @@ export const authApiSlice = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
+          dispatch(
+            setNotification({
+              type: NotificationType.SUCCESS,
+              message: data.message || "Logged in successfully"
+            })
+          );
         } catch (err: any) {
           console.log("Login error:", {
             error: err,

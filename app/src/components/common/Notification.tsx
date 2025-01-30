@@ -1,27 +1,18 @@
 // Notification.tsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NotificationType, NotificationProps } from "../../types/common/Notification";
 
 const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(() => {
-    console.log("Notification mounted with:", { type, message, isVisible });
-
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(onClose, 300);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [onClose, type, message]);
-
   if (!isVisible) {
-    console.log("Notification not visible, returning null");
     return null;
   }
 
-  console.log("Rendering notification with:", { type, message });
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(onClose, 300);
+  };
 
   const typeStyles: Record<NotificationType, string> = {
     [NotificationType.SUCCESS]: "bg-green-100 border-green-400 text-green-700",
@@ -37,7 +28,7 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
       role="alert"
     >
       <span className="block text-base font-normal sm:inline">{message}</span>
-      <button onClick={onClose} className="ml-4" aria-label="Close">
+      <button onClick={handleClose} className="ml-4" aria-label="Close">
         <span className="text-xl" aria-hidden="true">
           &times;
         </span>
