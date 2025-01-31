@@ -13,6 +13,8 @@
 - [x] Added responsive panel width for improved desktop experience
 - [x] Standardized search bar layout within panel
 - [x] Simplified filter layout to single column
+- [x] Enhanced search button visibility on larger screens
+- [x] Implemented progressive text scaling for larger screens
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -21,3 +23,5 @@
 - Used Tailwind's responsive modifiers to create device-specific layouts
 - Maintained consistent vertical layout improves usability across all screen sizes
 - Single column layout for filters enhances scanability and reduces cognitive load
+- Responsive sizing improves visual hierarchy on larger displays
+- Progressive text scaling enhances readability across different screen sizes

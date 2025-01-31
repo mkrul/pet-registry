@@ -14,12 +14,12 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
     <div>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-0 z-50 bg-blue-600 text-white px-4 py-2 rounded-l-lg shadow-lg"
+        className="fixed bottom-4 md:bottom-8 right-0 z-50 bg-blue-600 text-white px-4 py-2 md:px-5 md:py-3 rounded-l-lg shadow-lg text-sm md:text-base lg:text-lg 2xl:text-xl"
       >
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+            className="h-5 w-5 md:h-6 md:w-6"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
