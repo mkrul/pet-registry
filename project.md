@@ -20,6 +20,7 @@
 - [x] Refined glow animation to pulse outward only
 - [x] Made glow animation stop permanently after first interaction
 - [x] Fixed layout shift when opening search filters
+- [x] Extended glow animation to all devices and adjusted button positioning
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -35,3 +36,4 @@
 - Simplified animations can create more effective visual cues
 - Component state can be used to track and respond to user interactions
 - Managing document body overflow prevents unwanted layout shifts
+- Consistent animations across devices improve UI predictability
