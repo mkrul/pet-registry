@@ -17,6 +17,6 @@
 - Panel width is responsive: full-width on mobile, 1/3 width on larger devices
 - Search bar consistently displays full-width above action buttons
 - Filters display in a single column for improved readability
-- Search button scales up appropriately on larger screens with progressively larger text
+- Search button uses refined sizing for optimal visibility across screen sizes
 - Added enhanced outward pulsing glow animation to search button on all devices that stops permanently after first click
 - Prevents page scrolling and layout shifts when search panel is open
