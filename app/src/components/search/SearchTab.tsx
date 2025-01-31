@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchContainer from "./SearchContainer";
 import { FiltersProps } from "../../types/common/Search";
@@ -11,6 +11,18 @@ interface SearchTabProps {
 
 const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComplete }) => {
   const [hasBeenClicked, setHasBeenClicked] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   const handleClick = () => {
     if (!hasBeenClicked) {

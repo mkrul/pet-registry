@@ -19,6 +19,7 @@
 - [x] Enhanced glow animation and added conditional display
 - [x] Refined glow animation to pulse outward only
 - [x] Made glow animation stop permanently after first interaction
+- [x] Fixed layout shift when opening search filters
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -33,3 +34,4 @@
 - Conditional animation states improve user feedback
 - Simplified animations can create more effective visual cues
 - Component state can be used to track and respond to user interactions
+- Managing document body overflow prevents unwanted layout shifts
