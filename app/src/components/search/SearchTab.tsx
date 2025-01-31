@@ -42,7 +42,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween" }}
-            className="fixed top-0 right-0 w-full md:w-1/3 h-screen bg-white z-40 overflow-y-auto shadow-lg"
+            className="fixed top-0 right-0 w-full xs:w-4/5 sm:w-3/5 md:w-2/5 lg:w-1/3 2xl:w-1/4 h-screen bg-white z-40 overflow-y-auto shadow-lg"
           >
             <div className="p-4 pt-16">
               <SearchContainer onSearchComplete={onSearchComplete} />

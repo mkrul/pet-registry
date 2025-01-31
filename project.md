@@ -12,6 +12,7 @@
 - [x] Maintained all existing search functionality while simplifying the UI
 - [x] Added responsive panel width for improved desktop experience
 - [x] Standardized search bar layout within panel
+- [x] Simplified filter layout to single column
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -19,3 +20,4 @@
 - Leveraged Framer Motion for smooth animations in the search panel
 - Used Tailwind's responsive modifiers to create device-specific layouts
 - Maintained consistent vertical layout improves usability across all screen sizes
+- Single column layout for filters enhances scanability and reduces cognitive load

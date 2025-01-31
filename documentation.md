@@ -16,3 +16,4 @@
 - Maintains all existing search and filter functionality
 - Panel width is responsive: full-width on mobile, 1/3 width on larger devices
 - Search bar consistently displays full-width above action buttons
+- Filters display in a single column for improved readability
