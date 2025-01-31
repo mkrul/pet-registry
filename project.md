@@ -15,6 +15,10 @@
 - [x] Simplified filter layout to single column
 - [x] Enhanced search button visibility on larger screens
 - [x] Implemented progressive text scaling for larger screens
+- [x] Added pulsing glow animation for desktop search button
+- [x] Enhanced glow animation and added conditional display
+- [x] Refined glow animation to pulse outward only
+- [x] Made glow animation stop permanently after first interaction
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -25,3 +29,7 @@
 - Single column layout for filters enhances scanability and reduces cognitive load
 - Responsive sizing improves visual hierarchy on larger displays
 - Progressive text scaling enhances readability across different screen sizes
+- Custom Tailwind animations can enhance UI interactivity
+- Conditional animation states improve user feedback
+- Simplified animations can create more effective visual cues
+- Component state can be used to track and respond to user interactions

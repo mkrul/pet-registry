@@ -18,3 +18,4 @@
 - Search bar consistently displays full-width above action buttons
 - Filters display in a single column for improved readability
 - Search button scales up appropriately on larger screens with progressively larger text
+- Added enhanced outward pulsing glow animation to search button that stops permanently after first click

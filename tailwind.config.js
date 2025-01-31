@@ -93,6 +93,19 @@ module.exports = {
       minHeight: {
         '60rem': '60rem',
       },
+      keyframes: {
+        'glow-pulse': {
+          '0%': {
+            'box-shadow': '0 0 0 0 rgba(37, 99, 235, 0.6)'
+          },
+          '100%': {
+            'box-shadow': '0 0 0 12px rgba(37, 99, 235, 0)'
+          }
+        }
+      },
+      animation: {
+        'glow-pulse': 'glow-pulse 1.5s ease-out infinite'
+      }
     },
   },
   corePlugins: {

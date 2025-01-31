@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchContainer from "./SearchContainer";
 import { FiltersProps } from "../../types/common/Search";
@@ -10,11 +10,20 @@ interface SearchTabProps {
 }
 
 const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComplete }) => {
+  const [hasBeenClicked, setHasBeenClicked] = useState(false);
+
+  const handleClick = () => {
+    if (!hasBeenClicked) {
+      setHasBeenClicked(true);
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 md:bottom-8 right-0 z-50 bg-blue-600 text-white px-4 py-2 md:px-5 md:py-3 rounded-l-lg shadow-lg text-sm md:text-base lg:text-lg 2xl:text-xl"
+        onClick={handleClick}
+        className={`fixed bottom-4 md:bottom-8 right-0 z-50 bg-blue-600 text-white px-4 py-2 md:px-5 md:py-3 rounded-l-lg shadow-lg text-sm md:text-base lg:text-lg 2xl:text-xl ${!hasBeenClicked ? "md:animate-glow-pulse" : ""}`}
       >
         <div className="flex items-center gap-2">
           <svg
