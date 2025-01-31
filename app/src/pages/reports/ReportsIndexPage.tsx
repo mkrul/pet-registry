@@ -3,7 +3,7 @@ import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { setSearchState } from "../../redux/features/search/searchSlice";
 import SearchContainer from "../../components/search/SearchContainer";
-import MobileSearchTab from "../../components/search/MobileSearchTab";
+import SearchTab from "../../components/search/SearchTab";
 import ReportsContainer from "../../components/reports/index/ReportsContainer";
 import { FiltersProps } from "../../types/common/Search";
 import { useScrollRestoration } from "../../hooks/useScrollRestoration";
@@ -35,7 +35,7 @@ const ReportIndexPage = () => {
       breed: searchParams.get("breed") || ""
     }
   );
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useScrollRestoration();
 
@@ -70,18 +70,12 @@ const ReportIndexPage = () => {
   return (
     <div className="mx-auto p-4" data-testid="reports-index">
       <div className="flex flex-col gap-4">
-        {/* Desktop Search */}
-        <div className="hidden md:block">
-          <SearchContainer onSearchComplete={handleSearchComplete} />
-        </div>
-
-        {/* Mobile Search Tab */}
-        <MobileSearchTab
-          isOpen={isMobileSearchOpen}
-          setIsOpen={setIsMobileSearchOpen}
+        <SearchTab
+          isOpen={isSearchOpen}
+          setIsOpen={setIsSearchOpen}
           onSearchComplete={(query, page, filters) => {
             handleSearchComplete(query, page, filters);
-            setIsMobileSearchOpen(false);
+            setIsSearchOpen(false);
           }}
         />
 
