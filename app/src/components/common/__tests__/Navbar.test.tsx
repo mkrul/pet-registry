@@ -6,12 +6,10 @@ import userEvent from "@testing-library/user-event";
 import Navbar from "../Navbar";
 import { apiConfig } from "../../../lib/apiConfig";
 
-// Mock the ProfileDropdown component
 vi.mock("../../main/ProfileDropdown", () => ({
   default: () => <div data-testid="profile-dropdown">Profile Dropdown</div>
 }));
 
-// Mock NavLink component
 vi.mock("../NavLink", () => ({
   default: ({ children, linkTo }: { children: React.ReactNode; linkTo: string }) => (
     <a href={linkTo} data-testid="nav-link">

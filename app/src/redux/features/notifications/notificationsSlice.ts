@@ -10,6 +10,11 @@ const notificationsSlice = createSlice({
   initialState,
   reducers: {
     setNotification: (state, action: PayloadAction<NotificationState | null>) => {
+      console.log("Setting notification state:", {
+        currentState: state.notification,
+        newState: action.payload,
+        hasChanged: state.notification !== action.payload
+      });
       state.notification = action.payload;
     }
   }

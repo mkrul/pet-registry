@@ -7,6 +7,8 @@ import {
   PaginationPropsQuery,
   SubmitResponse
 } from "../../../types/redux/features/reports/ReportsApi";
+import { setNotification } from "../notifications/notificationsSlice";
+import { NotificationType } from "../../../types/common/Notification";
 
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
@@ -133,6 +135,24 @@ export const reportsApi = createApi({
         method: "PUT",
         body: data
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            setNotification({
+              type: NotificationType.SUCCESS,
+              message: data.message
+            })
+          );
+        } catch (err: any) {
+          dispatch(
+            setNotification({
+              type: NotificationType.ERROR,
+              message: err.data?.message || "Failed to update report"
+            })
+          );
+        }
+      },
       transformResponse: (response: { message: string; report: ReportProps }) => ({
         message: response.message,
         report: transformToCamelCase(response.report)

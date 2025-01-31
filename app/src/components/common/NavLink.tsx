@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { NavLinkProps } from "../../types/common/NavLink";
 
-// Reusable NavLink component to handle consistent styling
 const NavLink = ({ linkTo, children, handler, className = "" }: NavLinkProps) => {
   const path = linkTo || "#";
 

@@ -23,7 +23,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   };
 
   const handleReset = () => {
-    // Clear all URL params including sort
     const currentPath = window.location.pathname;
     window.history.replaceState({}, "", currentPath);
     setSearchParams({});

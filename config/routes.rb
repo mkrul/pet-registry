@@ -6,10 +6,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     # Custom auth routes
-    post 'auth/registration', to: 'registrations#create'
-    post 'auth/login', to: 'sessions#create'
-    delete 'auth/logout', to: 'sessions#destroy'
-    get 'auth/current_user', to: 'sessions#show'
+    post '/sign_up', to: 'registrations#create'
+    post '/login', to: 'sessions#create'
+    get '/current_user', to: 'sessions#show'
+    delete '/logout', to: 'sessions#destroy'
 
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
     get 'filters/states', to: 'filters#states'
@@ -21,6 +21,9 @@ Rails.application.routes.draw do
         get :search
       end
     end
+
+    resource :session, only: [:create, :show, :destroy]
+    get 'user_info', to: 'sessions#user_info'
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

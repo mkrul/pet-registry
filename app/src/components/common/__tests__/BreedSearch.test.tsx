@@ -5,7 +5,6 @@ import userEvent from "@testing-library/user-event";
 import BreedSearch from "../BreedSearch";
 import { getBreedsBySpecies } from "../../../lib/reports/breedList";
 
-// Mock the breedList module
 vi.mock("../../../lib/reports/breedList", () => ({
   getBreedsBySpecies: vi.fn()
 }));
@@ -71,7 +70,6 @@ describe("BreedSearch", () => {
       await userEvent.click(input);
     });
 
-    // Wait for the dropdown to appear and select an option
     const listbox = await screen.findByRole("listbox");
     const option = await screen.findByRole("option", { name: "Labrador" });
     await userEvent.click(option);

@@ -3,7 +3,6 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
 import ErrorBoundary from "../ErrorBoundary";
 
-// Mock component that throws an error
 const ThrowError = ({ shouldThrow = false }) => {
   if (shouldThrow) {
     throw new Error("Test error");
@@ -11,7 +10,6 @@ const ThrowError = ({ shouldThrow = false }) => {
   return <div>Normal Component</div>;
 };
 
-// Mock console.error to prevent error logging during tests
 const originalError = console.error;
 beforeEach(() => {
   console.error = vi.fn();
@@ -63,7 +61,6 @@ describe("ErrorBoundary", () => {
       fireEvent.click(closeButton);
       unmount();
 
-      // Re-render with new content after error is cleared
       render(
         <ErrorBoundary>
           <div>Recovered Content</div>

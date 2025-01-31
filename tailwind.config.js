@@ -37,7 +37,7 @@ module.exports = {
     screens: {
       'xs': '480px',
       'sm': '640px',
-      'md': '750px',
+      'md': '850px',
       'lg': '1080px',
       'xl': '1280px',
       '2xl': '1400px',
@@ -93,6 +93,19 @@ module.exports = {
       minHeight: {
         '60rem': '60rem',
       },
+      keyframes: {
+        'glow-pulse': {
+          '0%': {
+            'box-shadow': '0 0 0 0 rgba(37, 99, 235, 0.6)'
+          },
+          '100%': {
+            'box-shadow': '0 0 0 12px rgba(37, 99, 235, 0)'
+          }
+        }
+      },
+      animation: {
+        'glow-pulse': 'glow-pulse 1.5s ease-out infinite'
+      }
     },
   },
   corePlugins: {

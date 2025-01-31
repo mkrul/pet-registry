@@ -3,7 +3,7 @@ import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { setSearchState } from "../../redux/features/search/searchSlice";
 import SearchContainer from "../../components/search/SearchContainer";
-import MobileSearchTab from "../../components/search/MobileSearchTab";
+import SearchTab from "../../components/search/SearchTab";
 import ReportsContainer from "../../components/reports/index/ReportsContainer";
 import { FiltersProps } from "../../types/common/Search";
 import { useScrollRestoration } from "../../hooks/useScrollRestoration";
@@ -15,7 +15,6 @@ const ReportIndexPage = () => {
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Get search state from Redux
   const searchState = useAppSelector(state => state.search);
 
   const [activeSearch, setActiveSearch] = useState(
@@ -36,45 +35,19 @@ const ReportIndexPage = () => {
       breed: searchParams.get("breed") || ""
     }
   );
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-
-  useEffect(() => {
-    console.log("ReportsIndexPage mounted", {
-      searchState,
-      currentPage,
-      activeSearch,
-      activeFilters,
-      scrollY: window.scrollY
-    });
-  }, []);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useScrollRestoration();
 
   const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
-    // Scroll to top immediately when page changes
     if (page !== currentPage) {
       window.scrollTo(0, 0);
     }
-
-    console.log("handleSearchComplete called", {
-      query,
-      page,
-      filters,
-      currentScrollY: window.scrollY
-    });
 
     setActiveSearch(query);
     setActiveFilters(filters);
     setCurrentPage(page);
 
-    console.log("Before dispatching setSearchState", {
-      query,
-      page,
-      filters,
-      scrollPosition: window.scrollY
-    });
-
-    // Save search state to Redux
     dispatch(
       setSearchState({
         query,
@@ -84,12 +57,6 @@ const ReportIndexPage = () => {
       })
     );
 
-    console.log("After dispatching setSearchState", {
-      newScrollY: window.scrollY,
-      reduxState: store.getState().search
-    });
-
-    // Update URL params
     const params = new URLSearchParams();
     if (query) params.set("query", query);
     if (page > 1) params.set("page", page.toString());
@@ -97,34 +64,18 @@ const ReportIndexPage = () => {
       if (value) params.set(key, value);
     });
 
-    console.log("Before setting search params", {
-      params: params.toString(),
-      currentURL: window.location.href
-    });
-
     setSearchParams(params);
-
-    console.log("After setting search params", {
-      newURL: window.location.href,
-      finalScrollY: window.scrollY
-    });
   };
 
   return (
-    <div className="mx-auto p-4 mt-5" data-testid="reports-index">
+    <div className="mx-auto p-4" data-testid="reports-index">
       <div className="flex flex-col gap-4">
-        {/* Desktop Search */}
-        <div className="hidden md:block">
-          <SearchContainer onSearchComplete={handleSearchComplete} />
-        </div>
-
-        {/* Mobile Search Tab */}
-        <MobileSearchTab
-          isOpen={isMobileSearchOpen}
-          setIsOpen={setIsMobileSearchOpen}
+        <SearchTab
+          isOpen={isSearchOpen}
+          setIsOpen={setIsSearchOpen}
           onSearchComplete={(query, page, filters) => {
             handleSearchComplete(query, page, filters);
-            setIsMobileSearchOpen(false);
+            setIsSearchOpen(false);
           }}
         />
 

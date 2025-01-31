@@ -15,12 +15,10 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
     const { name, value } = e.target;
     const updatedFilters = { ...initialFilters, [name]: value };
 
-    // If country changes, reset state and area
     if (name === "country") {
       updatedFilters.state = "";
       updatedFilters.area = "";
     }
-    // If state changes, reset area
     if (name === "state") {
       updatedFilters.area = "";
     }

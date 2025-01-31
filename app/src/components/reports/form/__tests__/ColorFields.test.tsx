@@ -180,7 +180,6 @@ describe("ColorFields", () => {
     it("should disable add/remove buttons when loading", () => {
       render(<ColorFields {...mockProps} showColor2={true} isLoading={true} />);
 
-      // Use queryByRole to check if buttons exist and are disabled
       const addButton = screen.queryByRole("button", {
         name: /add another color/i,
         hidden: true
@@ -190,7 +189,6 @@ describe("ColorFields", () => {
         hidden: true
       });
 
-      // Check if buttons are either disabled or not rendered when loading
       if (addButton) {
         expect(addButton).toBeDisabled();
       } else {

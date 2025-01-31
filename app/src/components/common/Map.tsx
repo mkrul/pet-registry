@@ -16,20 +16,18 @@ const findNearestArea = async (
   onNotification: (notification: { type: NotificationType; message: string }) => void
 ): Promise<string> => {
   try {
-    // Use reverse geocoding with a larger zoom level to find nearby places
     const response = await fetch(
       `https://nominatim.openstreetmap.org/reverse?` +
         `format=json&` +
         `lat=${lat}&` +
         `lon=${lng}&` +
-        `zoom=10&` + // Use a wider zoom level to find nearby places
+        `zoom=10&` +
         `addressdetails=1`
     );
 
     const data = await response.json();
 
     if (data && data.address) {
-      // Check various address fields in priority order
       const areaName =
         data.address.city ||
         data.address.area ||
@@ -42,18 +40,16 @@ const findNearestArea = async (
         data.address.isolated_dwelling ||
         data.address.county;
 
-      // If we found a valid area name, return it
       if (areaName && !areaName.toLowerCase().includes("unknown")) {
         return areaName;
       }
 
-      // If no area found in immediate area, try searching in a wider radius
       const widerResponse = await fetch(
         `https://nominatim.openstreetmap.org/reverse?` +
           `format=json&` +
           `lat=${lat}&` +
           `lon=${lng}&` +
-          `zoom=8&` + // Even wider zoom level
+          `zoom=8&` +
           `addressdetails=1`
       );
 
@@ -90,7 +86,6 @@ const findNearestArea = async (
 
 const findNearbyStreets = async (lat: number, lng: number): Promise<string | null> => {
   try {
-    // First get the main street
     const mainResponse = await fetch(
       `https://nominatim.openstreetmap.org/reverse?` +
         `format=json&` +
@@ -107,8 +102,7 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
       return null;
     }
 
-    // Use a smaller initial radius to find nearby intersecting roads
-    const radius = 100; // Start with 100m radius
+    const radius = 100;
     const query = `
       [out:json][timeout:25];
       (
@@ -125,7 +119,6 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
 
     const overpassData = await overpassResponse.json();
 
-    // Sort roads by distance from the clicked point
     const roads = overpassData.elements
       .filter(
         (element: { tags?: { name?: string; highway?: string } }) =>
@@ -134,9 +127,8 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
       .map((element: { tags?: { name?: string } }) => element.tags?.name)
       .filter((name?: string): name is string => !!name);
 
-    // If no intersecting roads found with initial radius, try a slightly larger radius
     if (roads.length === 0) {
-      const widerQuery = query.replace(`${radius}`, "200"); // Increase to 200m
+      const widerQuery = query.replace(`${radius}`, "200");
       const widerResponse = await fetch(
         `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(widerQuery)}`
       );
@@ -153,7 +145,6 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
       );
     }
 
-    // Take the first (closest) intersecting road
     if (roads.length > 0) {
       return `${mainRoad} at ${roads[0]}`;
     }
@@ -174,7 +165,6 @@ const MapEvents = ({
 }: MapProps & {
   onNotification: (notification: { type: NotificationType; message: string } | null) => void;
 }) => {
-  // Remove markerRef since we no longer need it
   const [isProcessing, setIsProcessing] = useState(false);
   const map = useMapEvents({
     click: async e => {
@@ -184,7 +174,6 @@ const MapEvents = ({
     }
   });
 
-  // Extract location selection logic into reusable function
   const handleLocationSelect = async (lat: number, lng: number, skipLocationFetch = false) => {
     if (isProcessing) return;
     setIsProcessing(true);
@@ -194,7 +183,6 @@ const MapEvents = ({
       const formattedLng = Number(lng.toFixed(6));
 
       if (skipLocationFetch) {
-        // If we already have the location data, just use it
         if (
           initialLocation &&
           initialLocation.latitude !== null &&
@@ -211,14 +199,12 @@ const MapEvents = ({
           onLocationSelect?.(locationData);
         }
       } else {
-        // Existing location fetch logic
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
         );
         const data = await response.json();
         const address = data.address;
 
-        // Check if location is in the US
         if (!isUSLocation(address.country || "")) {
           onNotification({
             type: NotificationType.ERROR,
@@ -227,7 +213,6 @@ const MapEvents = ({
           return;
         }
 
-        // Clear notification when selecting US location
         onNotification(null);
 
         let area =
@@ -241,8 +226,6 @@ const MapEvents = ({
         if (!area || area === "Unknown") {
           area = await findNearestArea(formattedLat, formattedLng, onNotification);
         }
-
-        // Try to find nearby intersecting streets
         const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
 
         const locationData = {
@@ -265,7 +248,6 @@ const MapEvents = ({
     }
   };
 
-  // Handle initial location changes
   useEffect(() => {
     if (initialLocation?.latitude && initialLocation?.longitude) {
       map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
@@ -293,7 +275,6 @@ const Map: React.FC<MapProps> = ({
     message: string;
   } | null>(null);
 
-  // Add effect to handle initial map setup
   useEffect(() => {
     setIsLoading(false);
   }, []);

@@ -6,7 +6,6 @@ const getBaseUrl = (): string => {
     return `${protocol}//${hostname}/api`;
   }
 
-  // Development - use port 3000 for Rails API
   return `${protocol}//${hostname}:3000/api`;
 };
 

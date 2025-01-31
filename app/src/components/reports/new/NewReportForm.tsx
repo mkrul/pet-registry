@@ -79,7 +79,6 @@ const NewReportForm: React.FC = () => {
   };
 
   useEffect(() => {
-    // Clear notification when component unmounts
     return () => {
       dispatch(setNotification(null));
     };

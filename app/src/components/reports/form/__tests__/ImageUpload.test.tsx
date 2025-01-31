@@ -50,7 +50,6 @@ describe("ImageUpload", () => {
 
   it("rejects files larger than 5MB", () => {
     const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
-    // Create a mock file that's larger than 5MB
     const largeFile = new File([new ArrayBuffer(6 * 1024 * 1024)], "large.jpg", {
       type: "image/jpeg"
     });

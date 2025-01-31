@@ -8,7 +8,6 @@ import { Reducer } from "@reduxjs/toolkit";
 
 const mockUseGetCurrentUserQuery = vi.fn();
 
-// Mock the authApiSlice module
 vi.mock("../redux/features/auth/authApiSlice", () => ({
   authApi: {
     reducerPath: "api",

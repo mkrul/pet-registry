@@ -47,7 +47,6 @@ const mockReport: Report = {
   longitude: 0
 };
 
-// Mock all components that use hooks
 vi.mock("../../pages/reports/ReportsIndexPage", () => ({
   default: () => <div data-testid="reports-index">Reports Index</div>
 }));
@@ -68,7 +67,6 @@ vi.mock("../../pages/auth/SignUpPage", () => ({
   default: () => <div data-testid="signup-page">Sign Up</div>
 }));
 
-// Mock layout components
 vi.mock("../common/Navbar", () => ({
   default: () => <div data-testid="navbar">Navbar</div>
 }));
@@ -77,7 +75,6 @@ vi.mock("../common/Footer", () => ({
   default: () => <div data-testid="footer">Footer</div>
 }));
 
-// Mock hooks and API slices
 vi.mock("../../../hooks/useReportsData", () => ({
   useReportsData: () => ({
     reports: [],

@@ -19,7 +19,6 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
   onLocationSelect,
   initialLocation
 }) => {
-  // Initialize selectedLocation based on initialLocation if it exists
   const [selectedLocation, setSelectedLocation] = useState<{
     area: string;
     state: string;
@@ -91,7 +90,6 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
     country: string;
     intersection: string | null;
   }) => {
-    // Update selectedLocation whenever location changes, whether from map or search
     setSelectedLocation({
       area: location.area,
       state: location.state,
@@ -101,7 +99,6 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
     onLocationSelect(location);
   };
 
-  // Update useEffect to handle location updates from parent
   useEffect(() => {
     if (initialLocation) {
       setSelectedLocation({
@@ -120,14 +117,12 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
       const lng = parseFloat(value.lon);
 
       try {
-        // Use the same location fetch logic as map clicks
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
         );
         const data = await response.json();
         const address = data.address;
 
-        // Check if location is in the US
         if (!isUSLocation(address.country || "")) {
           return;
         }
@@ -144,7 +139,6 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
           area = await findNearestArea(lat, lng, () => {});
         }
 
-        // Try to find nearby intersecting streets
         const intersectionStr = await findNearbyStreets(lat, lng);
 
         const locationData = {
@@ -156,7 +150,6 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
           intersection: intersectionStr
         };
 
-        // Update both the map's selected location and form data
         setSelectedLocation({
           area: locationData.area,
           state: locationData.state,
@@ -166,10 +159,8 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
 
         onLocationSelect(locationData);
 
-        // Update map center
         setMapCenter({ lat, lng });
 
-        // Clear the search state
         setSelectedAddress(null);
         setSearchInput("");
       } catch (error) {

@@ -9,7 +9,7 @@ class Reports::Fetch < ActiveInteraction::Base
   string :gender, default: nil
   string :sort, default: nil
   integer :page, default: 1
-  integer :per_page, default: Report::REPORT_PAGE_LIMIT
+  integer :per_page, default: Report::REPORT_INDEX_PAGE_LIMIT
 
   def execute
     outcome = Reports::Search.run(

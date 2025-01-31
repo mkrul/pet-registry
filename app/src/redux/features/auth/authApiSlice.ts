@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser, clearUser } from "./authSlice";
+import { setUser, clearUser, setLoading, setError } from "./authSlice";
+import { setNotification } from "../notifications/notificationsSlice";
+import { NotificationType } from "../../../types/common/Notification";
 import { AuthResponse, SignUpRequest } from "../../../types/auth/AuthApiSlice";
 
 export const authApiSlice = createApi({
@@ -8,64 +10,78 @@ export const authApiSlice = createApi({
     baseUrl: "/api",
     credentials: "include",
     prepareHeaders: headers => {
+      const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content");
+      if (token) {
+        headers.set("X-CSRF-Token", token);
+      }
       headers.set("Accept", "application/json");
       headers.set("Content-Type", "application/json");
       return headers;
     }
   }),
   tagTypes: ["Auth"],
-  keepUnusedDataFor: 3600,
   endpoints: builder => ({
     login: builder.mutation<AuthResponse, { user: { email: string; password: string } }>({
       query: credentials => ({
-        url: "/auth/login",
+        url: "/login",
         method: "POST",
-        body: credentials
+        body: credentials,
+        credentials: "include"
       }),
-      invalidatesTags: ["Auth"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
-        } catch (err) {
+          dispatch(
+            setNotification({
+              type: NotificationType.SUCCESS,
+              message: data.message || "Logged in successfully"
+            })
+          );
+        } catch (err: any) {
+          console.log("Login error:", {
+            error: err,
+            errorData: err?.error?.data,
+            errorMessage: err?.error?.data?.error
+          });
+          const errorMessage = err?.error?.data?.error || err?.data?.error || "Login failed";
+          dispatch(setError(errorMessage));
           dispatch(clearUser());
+          dispatch(
+            setNotification({
+              type: NotificationType.ERROR,
+              message: errorMessage
+            })
+          );
+        } finally {
+          dispatch(setLoading(false));
         }
-      },
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      }
     }),
-    logout: builder.mutation<{ message: string }, void>({
+    logout: builder.mutation({
       query: () => ({
-        url: "/auth/logout",
-        method: "DELETE"
+        url: "/logout",
+        method: "DELETE",
+        credentials: "include"
       }),
-      invalidatesTags: ["Auth"],
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
+          localStorage.clear();
+          sessionStorage.clear();
           dispatch(clearUser());
-        } catch (err) {
-          dispatch(clearUser());
+          dispatch(authApiSlice.util.resetApiState());
+          window.location.href = "/login";
+        } catch (err: any) {
+          dispatch(setError("Logout failed"));
         }
-      },
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      }
     }),
     getCurrentUser: builder.query<AuthResponse, void>({
-      query: () => ({
-        url: "auth/current_user",
-        method: "GET"
-      }),
-      keepUnusedDataFor: 3600,
+      query: () => "/current_user",
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
           if (data?.user) {
@@ -75,37 +91,29 @@ export const authApiSlice = createApi({
           }
         } catch (err) {
           dispatch(clearUser());
+        } finally {
+          dispatch(setLoading(false));
         }
-      },
-      providesTags: ["Auth"],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      }
     }),
     signUp: builder.mutation<AuthResponse, SignUpRequest>({
       query: credentials => ({
-        url: "/auth/registration",
+        url: "/sign_up",
         method: "POST",
         body: credentials
       }),
-      invalidatesTags: ["Auth"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
-        } catch (err) {
+        } catch (err: any) {
+          dispatch(setError(err?.data?.message || "Sign up failed"));
           dispatch(clearUser());
+        } finally {
+          dispatch(setLoading(false));
         }
-      },
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      }
     })
   })
 });

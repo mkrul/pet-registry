@@ -1,10 +1,41 @@
 ## Completed Tasks
 
-- Migrated notification state management to Redux for consistent handling across components
-- Removed notification prop drilling from components
-- Simplified notification handling in form submissions and error cases
-- Adjusted map zoom level to 4 for new report creation to display the entire United States
-- Standardized default map zoom level for consistency
-- Removed map markers to enhance privacy when selecting locations
-- Unified location handling between address search and map clicks
-- Added consistent loading indicators for all location selection methods
+- Added error notification display to LoginPage for invalid login attempts
+- Updated logout redirect to send users to login page instead of index page
+- Added success notification for successful login with message from backend
+- Moved notifications to AppRouter for persistent display across navigation
+- Fixed duplicate notification component from ShowReportFormContainer
+- Improved notification positioning and layout in AppRouter
+- [x] Unified search interface across all device sizes
+- [x] Implemented consistent slide-out search panel behavior
+- [x] Removed device-specific search components in favor of a single solution
+- [x] Maintained all existing search functionality while simplifying the UI
+- [x] Added responsive panel width for improved desktop experience
+- [x] Standardized search bar layout within panel
+- [x] Simplified filter layout to single column
+- [x] Enhanced search button visibility on larger screens
+- [x] Implemented progressive text scaling for larger screens
+- [x] Added pulsing glow animation for desktop search button
+- [x] Enhanced glow animation and added conditional display
+- [x] Refined glow animation to pulse outward only
+- [x] Made glow animation stop permanently after first interaction
+- [x] Fixed layout shift when opening search filters
+- [x] Extended glow animation to all devices and adjusted button positioning
+- [x] Fine-tuned search button sizing for better visual balance
+
+## Learnings
+- Simplified UI maintenance by unifying mobile and desktop search experiences
+- Improved consistency in user experience across different device sizes
+- Leveraged Framer Motion for smooth animations in the search panel
+- Used Tailwind's responsive modifiers to create device-specific layouts
+- Maintained consistent vertical layout improves usability across all screen sizes
+- Single column layout for filters enhances scanability and reduces cognitive load
+- Responsive sizing improves visual hierarchy on larger displays
+- Progressive text scaling enhances readability across different screen sizes
+- Custom Tailwind animations can enhance UI interactivity
+- Conditional animation states improve user feedback
+- Simplified animations can create more effective visual cues
+- Component state can be used to track and respond to user interactions
+- Managing document body overflow prevents unwanted layout shifts
+- Consistent animations across devices improve UI predictability
+- Subtle size adjustments can improve visual harmony

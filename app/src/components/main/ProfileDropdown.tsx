@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { useGetCurrentUserQuery } from "../../redux/features/auth/authApiSlice";
+import { useGetCurrentUserQuery, useLogoutMutation } from "../../redux/features/auth/authApiSlice";
 
 const ProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
@@ -12,8 +12,9 @@ const ProfileDropdown: React.FC = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
 
-  // Check current user on mount
   useGetCurrentUserQuery();
+
+  const [logout] = useLogoutMutation();
 
   const handleToggle = () => {
     if (!isAuthenticated) {
@@ -21,6 +22,15 @@ const ProfileDropdown: React.FC = () => {
       return;
     }
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout({}).unwrap();
+      window.location.href = "/";
+    } catch (err) {
+      console.error("Failed to logout:", err);
+    }
   };
 
   if (!isAuthenticated) {
@@ -43,7 +53,7 @@ const ProfileDropdown: React.FC = () => {
         <div
           tabIndex={0}
           role="button"
-          className="btn btn-ghost hover:bg-blue-200 btn-circle avatar"
+          className="btn btn-ghost hover:bg-base-200 btn-circle avatar"
           onClick={handleToggle}
           data-testid="profile-button"
         >
@@ -53,24 +63,24 @@ const ProfileDropdown: React.FC = () => {
         </div>
         <ul
           tabIndex={0}
-          className={`menu menu-sm dropdown-content bg-blue-200 rounded-box z-[1] mt-3 w-52 p-2 shadow ${
+          className={`menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow ${
             isOpen ? "block" : "hidden"
           }`}
         >
-          <li className="hover:bg-base-100 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
             <NavLink>My Reports</NavLink>
           </li>
-          <li className="hover:bg-base-100 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
             <NavLink>My Pets</NavLink>
           </li>
-          <li className="hover:bg-base-100 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
             <NavLink>Profile</NavLink>
           </li>
-          <li className="hover:bg-base-100 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
             <NavLink>Settings</NavLink>
           </li>
-          <li className="hover:bg-base-100 rounded-lg transition-colors duration-200">
-            <LogoutButton onCompleted={() => navigate("/login")} />
+          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
+            <LogoutButton onCompleted={handleLogout} />
           </li>
         </ul>
       </div>

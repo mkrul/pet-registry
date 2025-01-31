@@ -4,7 +4,6 @@ import "@testing-library/jest-dom/vitest";
 import { MemoryRouter } from "react-router-dom";
 import Footer from "../Footer";
 
-// Mock NavLink component
 vi.mock("../NavLink", () => ({
   default: ({ children, linkTo }: { children: React.ReactNode; linkTo: string }) => (
     <a href={linkTo} data-testid="nav-link">
@@ -88,7 +87,6 @@ describe("Footer", () => {
       </MemoryRouter>
     );
 
-    // Replace dynamic year with static text for snapshot
     const yearElement = container.querySelector("p");
     if (yearElement) {
       yearElement.textContent =
