@@ -11,8 +11,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setShowFilters
 }) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="w-full xl:w-2/5 lg:w-3/5 md:w-4/5 flex content-end lg:ml-auto xl:ml-auto md:ml-auto">
+    <div className="flex flex-col md:flex-row md:items-center gap-4">
+      <div className="w-full md:w-full lg:w-full xl:w-2/5 flex content-end md:ml-auto">
         <div className="relative w-full">
           <input
             type="text"

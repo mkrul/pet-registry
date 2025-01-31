@@ -68,7 +68,7 @@ const ReportIndexPage = () => {
   };
 
   return (
-    <div className="mx-auto p-4 mt-5" data-testid="reports-index">
+    <div className="mx-auto p-4" data-testid="reports-index">
       <div className="flex flex-col gap-4">
         {/* Desktop Search */}
         <div className="hidden md:block">

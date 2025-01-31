@@ -17,32 +17,36 @@ const AppRouter = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
       {notification && (
-        <div className="fixed top-20 right-4 z-50">
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={() => dispatch(setNotification(null))}
-          />
+        <div className="w-full flex justify-center">
+          <div className="w-full max-w-4xl mx-4 mt-4">
+            <Notification
+              type={notification.type}
+              message={notification.message}
+              onClose={() => dispatch(setNotification(null))}
+            />
+          </div>
         </div>
       )}
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
-        <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUpPage />} />
-        <Route path="/" element={<ReportIndexPage />} />
-        <Route path="/reports/:id" element={<ReportShowPage />} />
+      <div className="flex-grow">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+          <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUpPage />} />
+          <Route path="/" element={<ReportIndexPage />} />
+          <Route path="/reports/:id" element={<ReportShowPage />} />
 
-        {/* Protected Routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/reports/new" element={<ReportNewPage />} />
-        </Route>
+          {/* Protected Routes */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/reports/new" element={<ReportNewPage />} />
+          </Route>
 
-        {/* Fallback Route */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* Fallback Route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
       <Footer />
     </div>
   );
