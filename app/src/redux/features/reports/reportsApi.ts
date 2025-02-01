@@ -9,6 +9,7 @@ import {
 } from "../../../types/redux/features/reports/ReportsApi";
 import { setNotification } from "../notifications/notificationsSlice";
 import { NotificationType } from "../../../types/common/Notification";
+import { getStateOptions } from "../../../lib/reports/stateList";
 
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
@@ -30,17 +31,10 @@ export const reportsApi = createApi({
       })
     }),
     getStates: build.query<string[], string>({
-      query: (country: string) => ({
-        url: `filters/states`,
-        params: { country }
-      }),
-      transformResponse: (response: { states: string[] }) => response.states,
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      queryFn: () => {
+        const states = getStateOptions();
+        return { data: states };
+      }
     }),
     getCities: build.query<string[], { country: string; state: string }>({
       query: ({ country, state }) => ({

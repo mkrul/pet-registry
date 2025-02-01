@@ -18,3 +18,7 @@ export interface SpeciesList {
 export interface GenderList {
   options: string[];
 }
+
+export interface StateList {
+  options: string[];
+}
