@@ -12,18 +12,6 @@ interface SearchTabProps {
 const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComplete }) => {
   const [hasBeenClicked, setHasBeenClicked] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
   const handleClick = () => {
     if (!hasBeenClicked) {
       setHasBeenClicked(true);
@@ -63,7 +51,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween" }}
-            className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 overflow-y-auto shadow-lg"
+            className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 shadow-lg"
           >
             <div className="p-4 pt-16">
               <SearchContainer onSearchComplete={onSearchComplete} />
