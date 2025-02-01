@@ -25,6 +25,9 @@
 - [x] Made filters permanently visible in search panel
 - [x] Removed filter toggle functionality for simpler UX
 - [x] Fixed map zoom level consistency in report view mode
+- [x] Improved session persistence across page refreshes
+- [x] Enhanced API request credential handling
+- [x] Refined user state management for authentication
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -44,3 +47,6 @@
 - Subtle size adjustments can improve visual harmony
 - Always visible filters reduce cognitive load by eliminating the need to show/hide interface elements
 - Consistent prop usage across nested components ensures predictable behavior
+- Proper credential handling ensures session persistence
+- Selective user state clearing improves user experience
+- API error handling should be specific to error types

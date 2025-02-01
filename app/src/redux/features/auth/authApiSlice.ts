@@ -79,18 +79,21 @@ export const authApiSlice = createApi({
       }
     }),
     getCurrentUser: builder.query<AuthResponse, void>({
-      query: () => "/current_user",
+      query: () => ({
+        url: "/current_user",
+        credentials: "include"
+      }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         dispatch(setLoading(true));
         try {
           const { data } = await queryFulfilled;
           if (data?.user) {
             dispatch(setUser(data.user));
-          } else {
+          }
+        } catch (err: any) {
+          if (err?.status === 401) {
             dispatch(clearUser());
           }
-        } catch (err) {
-          dispatch(clearUser());
         } finally {
           dispatch(setLoading(false));
         }

@@ -8,6 +8,9 @@
 - Success notifications for API actions should be handled in a single location to prevent duplicates
 - Notifications should be centered and constrained within the page layout for consistent display
 - Map zoom levels should be consistently controlled through the initialZoom prop, avoiding hardcoded values in both MapContainer and MapEvents components
+- Session persistence requires proper credential handling in API requests
+- User state should only be cleared on explicit authentication failures
+- Page refreshes should maintain authentication state when valid session exists
 
 ## Search Interface Updates
 - Migrated to a unified search experience across all device sizes
