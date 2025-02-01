@@ -2,10 +2,10 @@ module ReportSearchable
   extend ActiveSupport::Concern
 
   included do
-    searchkick word_middle: [:breed_1, :breed_2, :description, :title],
+    searchkick word_middle: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species],
                text_middle: [:gender],
-               searchable: [:breed_1, :breed_2, :description, :title],
-               filterable: [:species, :gender, :color_1, :color_2, :color_3, :status, :country, :state, :area, :breed_1, :breed_2],
+               searchable: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species],
+               filterable: [:status, :species, :gender, :country, :state, :area, :color_1, :color_2, :color_3],
                suggest: [:breed_1, :breed_2],
                word_start: [:breed_1, :breed_2],
                settings: {
@@ -31,7 +31,8 @@ module ReportSearchable
                      }
                    }
                  }
-               }
+               },
+               batch_size: 200
 
     after_commit :reindex_report
   end

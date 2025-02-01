@@ -17,6 +17,17 @@ const ReportIndexPage = () => {
 
   const searchState = useAppSelector(state => state.search);
 
+  const initialFilters = {
+    species: searchParams.get("species") || "",
+    color: searchParams.get("color") || "",
+    gender: searchParams.get("gender") || "",
+    area: searchParams.get("area") || "",
+    state: searchParams.get("state") || "",
+    country: searchParams.get("country") || "",
+    sort: searchParams.get("sort") || "Newest",
+    breed: searchParams.get("breed") || ""
+  };
+
   const [activeSearch, setActiveSearch] = useState(
     searchState.query || searchParams.get("query") || ""
   );
@@ -24,16 +35,7 @@ const ReportIndexPage = () => {
     searchState.page || parseInt(searchParams.get("page") || "1")
   );
   const [activeFilters, setActiveFilters] = useState<FiltersProps>(
-    searchState.filters || {
-      species: searchParams.get("species") || "",
-      color: searchParams.get("color") || "",
-      gender: searchParams.get("gender") || "",
-      area: searchParams.get("area") || "",
-      state: searchParams.get("state") || "",
-      country: searchParams.get("country") || "",
-      sort: searchParams.get("sort") || "Newest",
-      breed: searchParams.get("breed") || ""
-    }
+    searchState.filters || initialFilters
   );
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 

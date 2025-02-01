@@ -36,3 +36,15 @@
 - Fixed issue with browser's vertical scrollbar disappearing when dropdown filters are opened in the search panel
   - Solution: Added `disableScrollLock: true` to Material-UI Select components' MenuProps
   - This prevents Material-UI from locking the body scroll when dropdowns are opened while maintaining dropdown functionality
+
+## Performance Optimizations
+- Added database indices for frequently queried columns to improve report loading times
+- Indexed status and species fields for faster filtering
+- Added composite index for location-based queries (country, state)
+- Added indices for timestamp columns to improve sorting performance
+- Optimized query performance for archived/active report filtering
+- Optimized front-end data fetching with strategic caching
+- Reduced unnecessary API calls on page refresh
+- Improved initial state handling for search parameters
+- Fixed color field indexing in Elasticsearch for proper filtering
+- Reindexed reports to ensure all searchable fields are properly indexed

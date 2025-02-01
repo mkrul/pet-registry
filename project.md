@@ -32,6 +32,13 @@
 - [x] Implemented skeleton loader for profile avatar during authentication check
 - [x] Added image preloading to prevent avatar flash
 - [x] Extended loading state to cover image loading
+- [x] Added database indices to improve report loading performance
+- [x] Optimized query performance for common search and filter operations
+- [x] Added indices for timestamp-based sorting
+- [x] Optimized front-end data fetching and caching
+- [x] Improved search parameter handling
+- [x] Fixed color field indexing in Elasticsearch
+- [x] Reindexed reports for proper search functionality
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -58,3 +65,10 @@
 - Loading states prevent jarring UI transitions during state updates
 - Preloading assets prevents unwanted visual transitions
 - Loading states should consider both data and asset loading phases
+- Strategic database indexing improves query performance for frequently accessed columns
+- Composite indices optimize multi-column filtering operations
+- Timestamp indices enhance sorting performance
+- Strategic caching reduces unnecessary API calls
+- Optimized state initialization improves page load performance
+- Elasticsearch requires explicit field indexing for filterable attributes
+- Reindexing is necessary after modifying searchable configurations
