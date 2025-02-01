@@ -20,3 +20,6 @@
 - Search button uses refined sizing for optimal visibility across screen sizes
 - Added enhanced outward pulsing glow animation to search button on all devices that stops permanently after first click
 - Prevents page scrolling and layout shifts when search panel is open
+
+## UI/UX Improvements
+- Fixed layout shift caused by horizontal scrollbar during search panel animation by adding global CSS to prevent horizontal overflow while maintaining vertical scrolling functionality
