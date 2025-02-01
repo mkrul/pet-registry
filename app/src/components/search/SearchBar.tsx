@@ -6,9 +6,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   searchQuery,
   setSearchQuery,
   onSearch,
-  onReset,
-  showFilters,
-  setShowFilters
+  onReset
 }) => {
   return (
     <div className="flex flex-col gap-4">
@@ -59,12 +57,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
         </div>
       </div>
 
-      <SearchButtons
-        onSearch={onSearch}
-        onReset={onReset}
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
-      />
+      <SearchButtons onSearch={onSearch} onReset={onReset} />
+
+      {/* search tips */}
+      <div className="text-sm text-gray-500">
+        <p className="font-semibold text-base mb-1">Search tips</p>
+        <ul>
+          <li>
+            <span>🔍</span>
+            <span className="ml-1">
+              If you have trouble finding your pet using keywords, try selecting some filters.
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

@@ -8,7 +8,6 @@ import { getInitialFilters, getDefaultFilters, updateSearchParams } from "../../
 const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
-  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
 
   useEffect(() => {
@@ -42,14 +41,11 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         setSearchQuery={setSearchQuery}
         onSearch={handleSearch}
         onReset={handleReset}
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
       />
 
       <FilterContainer
         initialFilters={filters}
         onFiltersChange={setFilters}
-        showFilters={showFilters}
         onReset={handleReset}
       />
     </>

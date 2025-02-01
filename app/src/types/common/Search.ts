@@ -1,19 +1,10 @@
 import { SelectChangeEvent } from "@mui/material";
 
-export interface SearchButtonProps {
-  onSearch: () => void;
-  onReset: () => void;
-  showFilters: boolean;
-  setShowFilters: (show: boolean) => void;
-}
-
 export interface SearchBarProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onSearch: () => void;
   onReset: () => void;
-  showFilters: boolean;
-  setShowFilters: (show: boolean) => void;
 }
 
 export interface SearchContainerProps {
@@ -23,7 +14,6 @@ export interface SearchContainerProps {
 export interface FilterContainerProps {
   initialFilters: FiltersProps;
   onFiltersChange: (filters: FiltersProps) => void;
-  showFilters: boolean;
   onReset: () => void;
 }
 

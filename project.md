@@ -22,6 +22,8 @@
 - [x] Fixed layout shift when opening search filters
 - [x] Extended glow animation to all devices and adjusted button positioning
 - [x] Fine-tuned search button sizing for better visual balance
+- [x] Made filters permanently visible in search panel
+- [x] Removed filter toggle functionality for simpler UX
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -39,3 +41,4 @@
 - Managing document body overflow prevents unwanted layout shifts
 - Consistent animations across devices improve UI predictability
 - Subtle size adjustments can improve visual harmony
+- Always visible filters reduce cognitive load by eliminating the need to show/hide interface elements

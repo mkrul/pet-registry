@@ -6,7 +6,6 @@ import { FilterContainerProps } from "../../types/common/Search";
 const FilterContainer: React.FC<FilterContainerProps> = ({
   initialFilters,
   onFiltersChange,
-  showFilters,
   onReset
 }) => {
   const handleFilterChange = (
@@ -26,10 +25,8 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
     onFiltersChange(updatedFilters);
   };
 
-  if (!showFilters) return null;
-
   return (
-    <div className="w-full">
+    <div className="w-full mt-4">
       <Filters filters={initialFilters} handleFilterChange={handleFilterChange} onReset={onReset} />
     </div>
   );
