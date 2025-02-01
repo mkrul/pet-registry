@@ -15,7 +15,7 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
   handleImageLoad,
   handleImageError
 }) => {
-  const VIEW_ZOOM_LEVEL = 15;
+  const VIEW_ZOOM_LEVEL = 18;
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   const onImageLoad = () => {

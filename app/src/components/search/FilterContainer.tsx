@@ -26,7 +26,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
   };
 
   return (
-    <div className="w-full mt-1">
+    <div className="flex flex-col gap-4 overflow-y-visible">
       <Filters filters={initialFilters} handleFilterChange={handleFilterChange} onReset={onReset} />
     </div>
   );

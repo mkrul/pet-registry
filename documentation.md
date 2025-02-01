@@ -7,6 +7,7 @@
 - Notifications should be handled at the layout level to persist across route changes
 - Success notifications for API actions should be handled in a single location to prevent duplicates
 - Notifications should be centered and constrained within the page layout for consistent display
+- Map zoom levels should be consistently controlled through the initialZoom prop, avoiding hardcoded values in both MapContainer and MapEvents components
 
 ## Search Interface Updates
 - Migrated to a unified search experience across all device sizes
@@ -23,3 +24,8 @@
 
 ## UI/UX Improvements
 - Fixed layout shift caused by horizontal scrollbar during search panel animation by adding global CSS to prevent horizontal overflow while maintaining vertical scrolling functionality
+
+## Recent Updates
+- Fixed issue with browser's vertical scrollbar disappearing when dropdown filters are opened in the search panel
+  - Solution: Added `disableScrollLock: true` to Material-UI Select components' MenuProps
+  - This prevents Material-UI from locking the body scroll when dropdowns are opened while maintaining dropdown functionality

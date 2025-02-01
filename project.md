@@ -24,6 +24,7 @@
 - [x] Fine-tuned search button sizing for better visual balance
 - [x] Made filters permanently visible in search panel
 - [x] Removed filter toggle functionality for simpler UX
+- [x] Fixed map zoom level consistency in report view mode
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -42,3 +43,4 @@
 - Consistent animations across devices improve UI predictability
 - Subtle size adjustments can improve visual harmony
 - Always visible filters reduce cognitive load by eliminating the need to show/hide interface elements
+- Consistent prop usage across nested components ensures predictable behavior

@@ -53,7 +53,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
             transition={{ type: "tween" }}
             className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 shadow-lg"
           >
-            <div className="p-4 pt-16">
+            <div className="p-4 pt-16 flex flex-col h-full overflow-y-auto">
               <SearchContainer onSearchComplete={onSearchComplete} />
             </div>
           </motion.div>

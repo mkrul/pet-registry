@@ -250,7 +250,9 @@ const MapEvents = ({
 
   useEffect(() => {
     if (initialLocation?.latitude && initialLocation?.longitude) {
-      map.setView([initialLocation.latitude, initialLocation.longitude], 16, { animate: true });
+      map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
+        animate: true
+      });
     } else {
       map.setView([39.8283, -98.5795], initialZoom, { animate: true });
     }
@@ -297,7 +299,7 @@ const Map: React.FC<MapProps> = ({
               ? [initialLocation.latitude, initialLocation.longitude]
               : [39.8283, -98.5795]
           }
-          zoom={initialLocation ? 16 : initialZoom}
+          zoom={initialZoom}
           className="h-full w-full"
         >
           <TileLayer
