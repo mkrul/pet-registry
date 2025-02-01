@@ -63,10 +63,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
       <div className="text-sm text-gray-500">
         <p className="font-semibold text-base mb-1">Search tips</p>
         <ul>
+          <li className="mb-1">
+            <span>🔍</span>
+            <span className="ml-1">Adding filters can improve or narrow down your search.</span>
+          </li>
           <li>
             <span>🔍</span>
             <span className="ml-1">
-              If you have trouble finding your pet using keywords, try selecting some filters.
+              If you do not see your state or area listed in the filters, this means that no lost
+              pets have been reported in that location.
             </span>
           </li>
         </ul>

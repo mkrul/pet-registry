@@ -26,7 +26,7 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
   };
 
   return (
-    <div className="w-full mt-4">
+    <div className="w-full mt-1">
       <Filters filters={initialFilters} handleFilterChange={handleFilterChange} onReset={onReset} />
     </div>
   );
