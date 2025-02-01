@@ -21,7 +21,7 @@ class Reports::Search < ActiveInteraction::Base
       order: sort_order
     }
 
-    if query.present? && !breed.present?
+    if query.present?
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
@@ -80,6 +80,16 @@ class Reports::Search < ActiveInteraction::Base
           { color_1: color_value },
           { color_2: color_value },
           { color_3: color_value }
+        ]
+      }
+    end
+
+    if breed.present?
+      breed_value = breed.downcase
+      filters << {
+        _or: [
+          { breed_1: breed_value },
+          { breed_2: breed_value }
         ]
       }
     end
