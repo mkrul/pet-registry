@@ -9,6 +9,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
   const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
+  const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(false);
 
   useEffect(() => {
     const queryParam = searchParams.get("query") || "";
@@ -42,6 +43,44 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         onSearch={handleSearch}
         onReset={handleReset}
       />
+
+      <div className="text-sm text-gray-500 p-2 mt-2">
+        <button
+          onClick={() => setIsSearchTipsOpen(!isSearchTipsOpen)}
+          className="font-semibold text-base mb-1 flex items-center w-full"
+          aria-expanded={isSearchTipsOpen}
+          aria-controls="search-tips-content"
+        >
+          <span>Search Tips</span>
+          <span className="ml-2 text-xs">{isSearchTipsOpen ? "▼" : "▶"}</span>
+        </button>
+        <div
+          id="search-tips-content"
+          className={isSearchTipsOpen ? "block" : "hidden"}
+          aria-hidden={!isSearchTipsOpen}
+        >
+          <ul>
+            <li className="mb-1">
+              <span>🔍</span>
+              <span className="ml-1">Adding filters can improve or narrow down your search.</span>
+            </li>
+            <li>
+              <span>🔍</span>
+              <span className="ml-1">
+                If you do not see a specific breed option, this means that no lost pets of that
+                breed have been reported.
+              </span>
+            </li>
+            <li>
+              <span>🔍</span>
+              <span className="ml-1">
+                If you do not see a specific location option, this means that no lost pets have been
+                reported in that location.
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <FilterContainer
         initialFilters={filters}

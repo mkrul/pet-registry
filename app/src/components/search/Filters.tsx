@@ -30,8 +30,8 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
   };
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col gap-4">
+    <div className="p-2">
+      <div className="flex flex-col gap-2">
         <FormControl fullWidth size="small">
           <Select
             name="species"
