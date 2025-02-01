@@ -71,20 +71,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
               <span>🔍</span>
               <span className="ml-1">Adding filters can improve or narrow down your search.</span>
             </li>
-            <li>
-              <span>🔍</span>
-              <span className="ml-1">
-                If you do not see a specific breed option, this means that no lost pets of that
-                breed have been reported.
-              </span>
-            </li>
-            <li>
-              <span>🔍</span>
-              <span className="ml-1">
-                If you do not see a specific location option, this means that no lost pets have been
-                reported in that state.
-              </span>
-            </li>
           </ul>
         </div>
       </div>
