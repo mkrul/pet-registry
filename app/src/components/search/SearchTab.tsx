@@ -23,7 +23,11 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
     <div>
       <button
         onClick={handleClick}
-        className={`fixed bottom-6 md:bottom-10 right-0 z-50 bg-blue-600 text-white px-4 py-2 md:px-4 md:py-2.5 rounded-l-lg shadow-lg text-sm md:text-sm lg:text-base 2xl:text-lg ${!hasBeenClicked ? "animate-glow-pulse" : ""}`}
+        className={`fixed bottom-6 md:bottom-10 right-0 z-50 ${
+          isOpen ? "bg-gray-500" : "bg-blue-600"
+        } transition-colors duration-300 text-white px-4 py-2 md:px-4 md:py-2.5 rounded-l-lg shadow-lg text-sm md:text-sm lg:text-base 2xl:text-lg ${
+          !hasBeenClicked ? "animate-glow-pulse" : ""
+        }`}
       >
         <div className="flex items-center gap-2">
           <svg
