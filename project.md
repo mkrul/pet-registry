@@ -41,6 +41,9 @@
 - [x] Reindexed reports for proper search functionality
 - [x] Unified filter dropdown styling across all filter types
 - [x] Fixed scrollbar consistency across all filter dropdowns
+- [x] Fixed search panel behavior to remain open after reset
+- [x] Modified search panel to only close on actual searches
+- [x] Updated reset handler to preserve panel state
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -74,3 +77,6 @@
 - Optimized state initialization improves page load performance
 - Elasticsearch requires explicit field indexing for filterable attributes
 - Reindexing is necessary after modifying searchable configurations
+- Search panel state should be preserved during reset operations
+- Reset operations should update UI state without triggering search completion
+- Search completion handlers should be reserved for actual search actions

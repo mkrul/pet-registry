@@ -19,6 +19,13 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
     setIsOpen(!isOpen);
   };
 
+  const wrappedOnSearchComplete = (query: string, page: number, filters: FiltersProps) => {
+    onSearchComplete(query, page, filters);
+    if (query !== "") {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div>
       <button
@@ -58,7 +65,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
             className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 shadow-lg"
           >
             <div className="p-4 pt-16 flex flex-col h-full overflow-y-auto">
-              <SearchContainer onSearchComplete={onSearchComplete} />
+              <SearchContainer onSearchComplete={wrappedOnSearchComplete} />
             </div>
           </motion.div>
         )}

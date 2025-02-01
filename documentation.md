@@ -17,6 +17,10 @@
 - Loading states should account for both data and asset loading
 - Consistent styling across all filter dropdowns improves visual coherence and user experience
 - Consistent scrollbar behavior across all dropdowns prevents unwanted page layout shifts
+- Search panel should remain open after reset operations
+- Panel closure should only occur on actual search operations or explicit close button clicks
+- Search completion handlers should distinguish between search and reset operations
+- Reset operations should update search parameters without triggering search completion handlers
 
 ## Search Interface Updates
 - Migrated to a unified search experience across all device sizes
