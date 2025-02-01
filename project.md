@@ -28,6 +28,10 @@
 - [x] Improved session persistence across page refreshes
 - [x] Enhanced API request credential handling
 - [x] Refined user state management for authentication
+- [x] Added loading state to profile dropdown to prevent authentication flash
+- [x] Implemented skeleton loader for profile avatar during authentication check
+- [x] Added image preloading to prevent avatar flash
+- [x] Extended loading state to cover image loading
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
@@ -50,3 +54,7 @@
 - Proper credential handling ensures session persistence
 - Selective user state clearing improves user experience
 - API error handling should be specific to error types
+- Skeleton loaders improve perceived performance during authentication checks
+- Loading states prevent jarring UI transitions during state updates
+- Preloading assets prevents unwanted visual transitions
+- Loading states should consider both data and asset loading phases

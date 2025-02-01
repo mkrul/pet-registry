@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import NavLink from "../common/NavLink";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../auth/LogoutButton";
@@ -9,10 +9,16 @@ import { useGetCurrentUserQuery, useLogoutMutation } from "../../redux/features/
 const ProfileDropdown: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
+  const { isLoading } = useGetCurrentUserQuery();
 
-  useGetCurrentUserQuery();
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/images/placeholder-blue.jpg";
+    img.onload = () => setIsImageLoaded(true);
+  }, []);
 
   const [logout] = useLogoutMutation();
 
@@ -32,6 +38,14 @@ const ProfileDropdown: React.FC = () => {
       console.error("Failed to logout:", err);
     }
   };
+
+  if (isLoading || !isImageLoaded) {
+    return (
+      <div className="flex-none">
+        <div className="w-10 h-10 rounded-full bg-base-200 animate-pulse"></div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (

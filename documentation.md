@@ -11,6 +11,10 @@
 - Session persistence requires proper credential handling in API requests
 - User state should only be cleared on explicit authentication failures
 - Page refreshes should maintain authentication state when valid session exists
+- Loading states should be shown during authentication checks to prevent UI flashing
+- Skeleton loaders provide better user experience during authentication state transitions
+- Avatar images should be preloaded to prevent visual flashing during authentication
+- Loading states should account for both data and asset loading
 
 ## Search Interface Updates
 - Migrated to a unified search experience across all device sizes
