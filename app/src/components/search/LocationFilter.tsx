@@ -27,6 +27,15 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
     }
   };
 
+  const menuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: 200
+      }
+    },
+    disableScrollLock: true
+  };
+
   return (
     <>
       <FormControl fullWidth size="small">
@@ -35,19 +44,8 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
           value={country}
           onChange={onFilterChange}
           displayEmpty
-          sx={{
-            ...selectClassName,
-            "& .MuiPaper-root": {
-              maxHeight: "200px"
-            }
-          }}
-          MenuProps={{
-            PaperProps: {
-              style: {
-                maxHeight: 200
-              }
-            }
-          }}
+          sx={selectClassName}
+          MenuProps={menuProps}
           renderValue={selected => selected || "Country"}
         >
           <MenuItem value="United States">United States</MenuItem>
@@ -61,19 +59,8 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
           onChange={handleStateChange}
           disabled={!country || isLoadingStates}
           displayEmpty
-          sx={{
-            ...selectClassName,
-            "& .MuiPaper-root": {
-              maxHeight: "200px"
-            }
-          }}
-          MenuProps={{
-            PaperProps: {
-              style: {
-                maxHeight: 200
-              }
-            }
-          }}
+          sx={selectClassName}
+          MenuProps={menuProps}
           renderValue={value => value || "State"}
         >
           {states.map(state => (
@@ -91,23 +78,8 @@ const LocationSelect: React.FC<LocationFilterProps> = ({
           onChange={onFilterChange}
           disabled={!country || !state || isLoadingCities}
           displayEmpty
-          sx={{
-            ...selectClassName,
-            backgroundColor: "white !important",
-            "& .MuiSelect-select": {
-              backgroundColor: "white !important"
-            },
-            "& .MuiPaper-root": {
-              maxHeight: "200px"
-            }
-          }}
-          MenuProps={{
-            PaperProps: {
-              style: {
-                maxHeight: 200
-              }
-            }
-          }}
+          sx={selectClassName}
+          MenuProps={menuProps}
           renderValue={value => value || "Area"}
         >
           {cities.map(area => (

@@ -15,6 +15,8 @@
 - Skeleton loaders provide better user experience during authentication state transitions
 - Avatar images should be preloaded to prevent visual flashing during authentication
 - Loading states should account for both data and asset loading
+- Consistent styling across all filter dropdowns improves visual coherence and user experience
+- Consistent scrollbar behavior across all dropdowns prevents unwanted page layout shifts
 
 ## Search Interface Updates
 - Migrated to a unified search experience across all device sizes

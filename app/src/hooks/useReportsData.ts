@@ -20,9 +20,7 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
       ...filters
     },
     {
-      refetchOnMountOrArgChange: false,
-      staleTime: 30000,
-      cacheTime: 60000
+      refetchOnMountOrArgChange: false
     }
   );
 

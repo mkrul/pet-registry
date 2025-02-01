@@ -39,6 +39,8 @@
 - [x] Improved search parameter handling
 - [x] Fixed color field indexing in Elasticsearch
 - [x] Reindexed reports for proper search functionality
+- [x] Unified filter dropdown styling across all filter types
+- [x] Fixed scrollbar consistency across all filter dropdowns
 
 ## Learnings
 - Simplified UI maintenance by unifying mobile and desktop search experiences
