@@ -94,12 +94,9 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
         </FormControl>
 
         <LocationFilter
-          country={filters.country}
           state={filters.state}
-          area={filters.area}
           onFilterChange={handleFilterChange}
           selectClassName={selectStyles}
-          disabledSelectClassName={selectStyles}
         />
 
         <FormControl fullWidth size="small">

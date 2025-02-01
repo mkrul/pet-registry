@@ -1,4 +1,5 @@
 import { SelectChangeEvent } from "@mui/material";
+import { SxProps, Theme } from "@mui/material/styles";
 
 export interface SearchBarProps {
   searchQuery: string;
@@ -21,9 +22,7 @@ export interface FiltersProps {
   species: string;
   color: string;
   gender: string;
-  area: string;
   state: string;
-  country: string;
   sort: string;
   breed: string;
 }
@@ -47,10 +46,10 @@ export interface FiltersPropsProps {
 }
 
 export interface LocationFilterProps {
-  country: string;
   state: string;
-  area: string;
-  onFilterChange: (event: SelectChangeEvent<string>, child: React.ReactNode) => void;
-  selectClassName: any;
-  disabledSelectClassName: any;
+  onFilterChange: (
+    event: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>,
+    child?: React.ReactNode
+  ) => void;
+  selectClassName: SxProps<Theme>;
 }

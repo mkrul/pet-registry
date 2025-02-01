@@ -1,13 +1,8 @@
 import React from "react";
 import { LocationDisplayProps } from "../../types/common/LocationDisplay";
 
-const LocationDisplay: React.FC<LocationDisplayProps> = ({
-  area,
-  state,
-  country,
-  intersection
-}) => {
-  const locationParts = [area, state, country].filter(Boolean);
+const LocationDisplay: React.FC<LocationDisplayProps> = ({ area, state, intersection }) => {
+  const locationParts = [area, state, "United States"].filter(Boolean);
 
   if (locationParts.length === 0) {
     return null;

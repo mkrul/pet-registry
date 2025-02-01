@@ -13,20 +13,10 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
   ) => {
     const { name, value } = e.target;
     const updatedFilters = { ...initialFilters, [name]: value };
-
-    if (name === "country") {
-      updatedFilters.state = "";
-      updatedFilters.area = "";
-    }
-    if (name === "state") {
-      updatedFilters.area = "";
-    }
-
     onFiltersChange(updatedFilters);
   };
 
   const handleReset = () => {
-    console.log("FilterContainer: handleReset called");
     onReset();
   };
 

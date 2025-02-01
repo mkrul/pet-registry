@@ -82,7 +82,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
               <span>🔍</span>
               <span className="ml-1">
                 If you do not see a specific location option, this means that no lost pets have been
-                reported in that location.
+                reported in that state.
               </span>
             </li>
           </ul>

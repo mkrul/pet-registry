@@ -12,20 +12,6 @@ module Api
       render json: { states: states }
     end
 
-    def cities
-      country = params[:country]
-      state = params[:state]
-
-      cities = Report.where(country: country, state: state)
-                    .where.not(area: [nil, ''])
-                    .distinct
-                    .pluck(:area)
-                    .compact
-                    .sort
-
-      render json: { cities: cities }
-    end
-
     def breeds
       species = params[:species]&.downcase
 
