@@ -5,7 +5,8 @@ import { PaginationProps } from "../../../types/common/Pagination";
 import {
   UpdateReportResponse,
   PaginationPropsQuery,
-  SubmitResponse
+  SubmitResponse,
+  ReportsResponse
 } from "../../../types/redux/features/reports/ReportsApi";
 import { setNotification } from "../notifications/notificationsSlice";
 import { NotificationType } from "../../../types/common/Notification";
@@ -49,10 +50,7 @@ export const reportsApi = createApi({
         }
       })
     }),
-    getReports: build.query<
-      { data: ReportProps[]; pagination: PaginationProps },
-      PaginationPropsQuery
-    >({
+    getReports: build.query<ReportsResponse, PaginationPropsQuery>({
       query: params => {
         const queryParams: Record<string, string> = {
           page: params.page?.toString() || "1",
@@ -102,11 +100,10 @@ export const reportsApi = createApi({
         const serialized = JSON.stringify(queryArgs);
         return serialized;
       },
-      transformResponse: (response: { data: ReportProps[]; pagination: PaginationProps }) => {
+      transformResponse: (response: ReportsResponse) => {
         const reports = response.data.map(report => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);
-        const transformed = { data: reports, pagination };
-        return transformed;
+        return { data: reports, pagination, message: response.message };
       },
       keepUnusedDataFor: 30,
       providesTags: result =>
@@ -121,7 +118,27 @@ export const reportsApi = createApi({
         data: {
           message: response.data?.message
         }
-      })
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data.message) {
+            dispatch(
+              setNotification({
+                type: NotificationType.INFO,
+                message: data.message
+              })
+            );
+          }
+        } catch (err: any) {
+          dispatch(
+            setNotification({
+              type: NotificationType.ERROR,
+              message: err.data?.message || "Failed to fetch reports"
+            })
+          );
+        }
+      }
     }),
     updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
       query: ({ id, data }) => ({
@@ -146,22 +163,7 @@ export const reportsApi = createApi({
             })
           );
         }
-      },
-      transformResponse: (response: { message: string; report: ReportProps }) => ({
-        message: response.message,
-        report: transformToCamelCase(response.report)
-      }),
-      invalidatesTags: (result, error, { id }) => [
-        { type: "Reports", id },
-        "Reports",
-        { type: "Reports", id: "LIST" }
-      ],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      }
     }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({

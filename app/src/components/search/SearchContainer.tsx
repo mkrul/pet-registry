@@ -7,8 +7,8 @@ import { getInitialFilters, getDefaultFilters, updateSearchParams } from "../../
 
 const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<FiltersProps>(getDefaultFilters());
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
+  const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
   const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(false);
 
   useEffect(() => {
@@ -16,17 +16,6 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     setSearchQuery(queryParam);
     setFilters(getInitialFilters(searchParams));
   }, [searchParams]);
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      setSearchParams({});
-      setSearchQuery("");
-      setFilters(getDefaultFilters());
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [setSearchParams]);
 
   const handleSearch = () => {
     const params = new URLSearchParams();

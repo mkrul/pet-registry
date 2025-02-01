@@ -13,8 +13,7 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   page,
   onPageChange
 }) => {
-  const { reports, data, isLoading, error, notification, setNotification, refetch } =
-    useReportsData(query, filters, page);
+  const { reports, data, isLoading, error, refetch } = useReportsData(query, filters, page);
 
   useEffect(() => {
     refetch();
@@ -31,14 +30,7 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
     );
 
   return (
-    <div>
-      {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
+    <div className="flex flex-col gap-4">
       <ReportsGrid reports={reports} currentPage={page} currentQuery={query} />
       {data?.pagination && (
         <Pagination

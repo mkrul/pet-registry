@@ -8,6 +8,7 @@ import ReportsContainer from "../../components/reports/index/ReportsContainer";
 import { FiltersProps } from "../../types/common/Search";
 import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 import { store } from "../../redux/store";
+import { useReportsData } from "../../hooks/useReportsData";
 
 const ReportIndexPage = () => {
   const location = useLocation();
@@ -68,6 +69,8 @@ const ReportIndexPage = () => {
 
     setSearchParams(params);
   };
+
+  const { reports } = useReportsData(activeSearch, activeFilters, currentPage);
 
   return (
     <div className="mx-auto p-4" data-testid="reports-index">

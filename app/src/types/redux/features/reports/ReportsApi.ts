@@ -24,3 +24,12 @@ export interface SubmitResponse {
   report: ReportProps;
   id: number;
 }
+
+export interface ReportsResponse {
+  data: ReportProps[];
+  pagination: PaginationProps;
+  notification?: {
+    type: string;
+    message: string;
+  };
+}

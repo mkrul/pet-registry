@@ -34,7 +34,8 @@ module Api
             count: reports.total_entries,
             page: reports.current_page,
             items: reports.per_page
-          }
+          },
+          message: reports.empty? ? "No reports found matching your search criteria." : nil
         }
       else
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity

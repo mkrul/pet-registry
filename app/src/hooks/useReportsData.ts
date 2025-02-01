@@ -27,6 +27,14 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
   useEffect(() => {
     if (data?.data) {
       dispatch(setReports(data.data));
+      if (data.message) {
+        setNotification({
+          type: NotificationType.INFO,
+          message: data.message
+        });
+      } else {
+        setNotification(null);
+      }
     }
   }, [data, dispatch]);
 
