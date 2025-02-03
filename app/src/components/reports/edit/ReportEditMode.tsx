@@ -10,7 +10,7 @@ import { ReportEditModeProps } from "../../../types/Report";
 import formatDate from "../../../lib/formatDate";
 import BreedSearch from "../../common/BreedSearch";
 import LocationDisplay from "../../common/LocationDisplay";
-import { ReportLocationSelect } from "../form/ReportLocationSelect";
+import { LocationSelect } from "../form/LocationSelect";
 import { commonInputStyles } from "../../../styles/commonStyles";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
@@ -395,7 +395,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       {/* Location */}
       <div className="space-y-2">
-        <ReportLocationSelect
+        <LocationSelect
           onLocationSelect={handleLocationSelect}
           initialLocation={{
             latitude: formData.latitude || 0,

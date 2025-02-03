@@ -34,3 +34,14 @@
 - Updated ImageUpload label and spacing to match ReportEditMode layout
 - Added descriptive guidance text to ImageUpload to match ReportEditMode
 - Removed unused FormControl import from ImageUpload component
+- Updated LocationSelect component styling to match ReportEditMode
+- Added consistent text field styling to LocationSelect Autocomplete component
+- Added consistent label and spacing to LocationSelect component
+- Updated LocationSelect layout structure to match ReportEditMode
+- Updated AddressSearch component TextField styling to match LocationSelect
+- Applied consistent border colors and hover/focus states to AddressSearch component
+- Updated AddressSearch component to use commonInputStyles for consistent styling
+- Updated AddressSearch component to use consistent label styling and structure
+- Removed TextField label in favor of separate label element in AddressSearch
+- Added consistent ListboxProps to AddressSearch Autocomplete for uniform dropdown height
+- Removed unused SearchIcon import from AddressSearch component

@@ -11,7 +11,7 @@ import { BasicInfoFields } from "../form/BasicInfoFields";
 import { IdentificationFields } from "../form/IdentificationFields";
 import { ColorFields } from "../form/ColorFields";
 import { ImageUpload } from "../form/ImageUpload";
-import { ReportLocationSelect } from "../form/ReportLocationSelect";
+import { LocationSelect } from "../form/LocationSelect";
 import { SubmitButton } from "../../common/SubmitButton";
 import Notification from "../../common/Notification";
 import Spinner from "../../common/Spinner";
@@ -152,7 +152,7 @@ const NewReportForm: React.FC = () => {
         disabled={isLoading}
       />
 
-      <ReportLocationSelect
+      <LocationSelect
         onLocationSelect={handleLocationSelect}
         initialLocation={{
           latitude: formData.latitude,

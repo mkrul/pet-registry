@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Autocomplete, TextField, CircularProgress } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";
+import { commonInputStyles } from "../../../styles/commonStyles";
 
 interface AddressSearchProps {
   onSearch: (address: string) => Promise<void>;
@@ -61,41 +61,47 @@ const AddressSearch: React.FC<AddressSearchProps> = ({ onSearch, disabled }) => 
   };
 
   return (
-    <Autocomplete
-      fullWidth
-      disabled={disabled}
-      options={options}
-      getOptionLabel={(option: AddressSuggestion) => option.display_name}
-      filterOptions={x => x}
-      loading={loading}
-      onInputChange={(_, value) => setInputValue(value)}
-      onChange={handleOptionSelect}
-      noOptionsText="Start typing to search for addresses"
-      loadingText="Loading suggestions..."
-      renderInput={params => (
-        <TextField
-          {...params}
-          label="Last Known Address"
-          placeholder="Enter the last known address that the animal was seen at"
-          aria-label="Enter the last known address that the animal was seen at"
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </>
-            )
-          }}
-          sx={{
-            backgroundColor: "white",
-            "& .MuiOutlinedInput-root": {
-              backgroundColor: "white"
-            }
-          }}
-        />
-      )}
-    />
+    <div className="space-y-2">
+      <label className="text-lg font-medium text-gray-900 mb-2">Address:</label>
+      <Autocomplete
+        fullWidth
+        disabled={disabled}
+        options={options}
+        getOptionLabel={(option: AddressSuggestion) => option.display_name}
+        filterOptions={x => x}
+        loading={loading}
+        onInputChange={(_, value) => setInputValue(value)}
+        onChange={handleOptionSelect}
+        noOptionsText="Start typing to search for addresses"
+        loadingText="Loading suggestions..."
+        ListboxProps={{
+          style: { maxHeight: 200 }
+        }}
+        renderInput={params => (
+          <TextField
+            {...params}
+            placeholder="Enter the last known address that the animal was seen at"
+            aria-label="Enter the last known address that the animal was seen at"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </>
+              )
+            }}
+            sx={{
+              ...commonInputStyles,
+              backgroundColor: "white",
+              "& .MuiOutlinedInput-root": {
+                backgroundColor: "white"
+              }
+            }}
+          />
+        )}
+      />
+    </div>
   );
 };
 

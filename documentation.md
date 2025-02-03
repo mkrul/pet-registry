@@ -13,3 +13,11 @@
 - Label styling consistency is important for maintaining visual hierarchy across forms
 - Maintaining consistent help text and user guidance across forms helps provide a uniform user experience
 - Keeping imports clean and removing unused ones helps maintain code consistency across components
+- Consistent styling for location selection components helps maintain visual harmony between create and edit forms
+- Using MUI's sx prop with nested selectors allows for detailed styling control of Autocomplete and TextField components
+- Maintaining consistent spacing and layout between location components helps create a unified user experience
+- Ensuring consistent styling across related components (AddressSearch and LocationSelect) maintains visual coherence in the location selection feature
+- Using shared style definitions like commonInputStyles helps maintain consistency even in nested components like AddressSearch
+- Consistent label structure (using separate label elements instead of TextField labels) helps maintain visual hierarchy across form components
+- Consistent dropdown height settings across all form components (including Autocomplete) improve visual uniformity
+- Regular cleanup of unused imports helps maintain code cleanliness and reduces bundle size

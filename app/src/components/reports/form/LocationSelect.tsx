@@ -15,7 +15,7 @@ interface AddressSuggestion {
   lon: string;
 }
 
-export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
+export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
   onLocationSelect,
   initialLocation
 }) => {
@@ -173,7 +173,7 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-lg font-medium text-gray-900 mb-2">Location</label>
+      <label className="text-lg font-medium text-gray-900 mb-2">Location:</label>
       {selectedLocation && (
         <LocationDisplay
           area={selectedLocation.area}
@@ -199,7 +199,16 @@ export const ReportLocationSelect: React.FC<ReportLocationFilterProps> = ({
               sx={{
                 backgroundColor: "white",
                 "& .MuiOutlinedInput-root": {
-                  backgroundColor: "white"
+                  backgroundColor: "white",
+                  "& fieldset": {
+                    borderColor: "rgb(209 213 219)"
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "rgb(156 163 175)"
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "rgb(59 130 246)"
+                  }
                 }
               }}
             />
