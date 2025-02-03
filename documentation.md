@@ -7,3 +7,4 @@
 - Using shared commonInputStyles across form components ensures visual consistency between edit and create forms
 - Consistent MenuProps configuration helps maintain uniform dropdown behavior across the application
 - Component styling consistency requires matching both the internal component styles and the wrapper/container styling
+- Button styling consistency includes matching icon usage, text display, and layout spacing across similar action buttons

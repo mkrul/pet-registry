@@ -4,6 +4,8 @@ import { getColorOptions } from "../../../lib/reports/colorList";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { ColorFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
@@ -65,24 +67,26 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
   };
 
   return (
-    <>
-      <FormControl fullWidth>
-        <Select
-          labelId="color1-label"
-          id="color1"
-          name="color1"
-          value={formData.color1}
-          onChange={handleInputChange}
-          sx={commonInputStyles}
-          MenuProps={menuProps}
-        >
-          {getColorOptions().map((color, index) => (
-            <MenuItem key={`${color}-${index}`} value={color}>
-              {color}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+    <div className="space-y-6">
+      <div className="flex-grow">
+        <FormControl fullWidth>
+          <Select
+            labelId="color1-label"
+            id="color1"
+            name="color1"
+            value={formData.color1}
+            onChange={handleInputChange}
+            sx={commonInputStyles}
+            MenuProps={menuProps}
+          >
+            {getColorOptions().map((color, index) => (
+              <MenuItem key={`${color}-${index}`} value={color}>
+                {color}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
 
       {!showColor2 && formData.color1 && (
         <Button
@@ -91,39 +95,53 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           color="primary"
           variant="text"
           className="mt-2"
+          sx={commonInputStyles}
+          data-testid="add-color-button"
         >
-          + ADD ANOTHER COLOR
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
+            <span>ADD ANOTHER COLOR</span>
+          </div>
         </Button>
       )}
 
       {showColor2 && (
-        <div className="flex items-center gap-2">
-          <FormControl fullWidth>
-            <Select
-              labelId="color2-label"
-              id="color2"
-              name="color2"
-              value={formData.color2 || ""}
-              onChange={handleInputChange}
+        <div className="space-y-2">
+          <label className="text-lg font-medium text-gray-900 mb-2 mt-2">Second Color:</label>
+          <div className="flex items-center gap-4">
+            <div className="flex-grow">
+              <FormControl fullWidth>
+                <Select
+                  labelId="color2-label"
+                  id="color2"
+                  name="color2"
+                  value={formData.color2 || ""}
+                  onChange={handleInputChange}
+                  sx={commonInputStyles}
+                  MenuProps={menuProps}
+                >
+                  {getFilteredColorOptions([formData.color1]).map((color, index) => (
+                    <MenuItem key={`${color}-${index}`} value={color}>
+                      {color}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            <Button
+              type="button"
+              onClick={() => onShowColor2Change(false)}
+              disabled={isLoading}
+              color="error"
+              variant="text"
+              startIcon={<CloseIcon fontSize="medium" />}
+              aria-label="Remove Color 2"
               sx={commonInputStyles}
-              MenuProps={menuProps}
+              data-testid="remove-color-button"
             >
-              {getFilteredColorOptions([formData.color1]).map((color, index) => (
-                <MenuItem key={`${color}-${index}`} value={color}>
-                  {color}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button
-            type="button"
-            onClick={() => onShowColor2Change(false)}
-            className="text-red-600 hover:text-red-700 p-1 ml-1"
-            disabled={isLoading}
-            aria-label="Remove Color 2"
-          >
-            <CloseIcon fontSize="medium" />
-          </Button>
+              Remove
+            </Button>
+          </div>
         </div>
       )}
 
@@ -134,41 +152,57 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           color="primary"
           variant="text"
           className="mt-2"
+          sx={commonInputStyles}
+          data-testid="add-color-button"
         >
-          + ADD ANOTHER COLOR
+          <div className="flex items-center">
+            <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
+            <span>ADD ANOTHER COLOR</span>
+          </div>
         </Button>
       )}
 
       {showColor3 && (
-        <div className="flex items-center gap-2">
-          <FormControl fullWidth>
-            <Select
-              labelId="color3-label"
-              id="color3"
-              name="color3"
-              value={formData.color3 || ""}
-              onChange={handleInputChange}
+        <div className="space-y-2">
+          <label className="text-lg font-medium text-gray-900 mb-2 mt-2">Third Color:</label>
+          <div className="flex items-center gap-4">
+            <div className="flex-grow">
+              <FormControl fullWidth>
+                <Select
+                  labelId="color3-label"
+                  id="color3"
+                  name="color3"
+                  value={formData.color3 || ""}
+                  onChange={handleInputChange}
+                  sx={commonInputStyles}
+                  MenuProps={menuProps}
+                >
+                  {getFilteredColorOptions([formData.color1, formData.color2]).map(
+                    (color, index) => (
+                      <MenuItem key={`${color}-${index}`} value={color}>
+                        {color}
+                      </MenuItem>
+                    )
+                  )}
+                </Select>
+              </FormControl>
+            </div>
+            <Button
+              type="button"
+              onClick={() => onShowColor3Change(false)}
+              disabled={isLoading}
+              color="error"
+              variant="text"
+              startIcon={<CloseIcon fontSize="medium" />}
+              aria-label="Remove Color 3"
               sx={commonInputStyles}
-              MenuProps={menuProps}
+              data-testid="remove-color-button"
             >
-              {getFilteredColorOptions([formData.color1, formData.color2]).map((color, index) => (
-                <MenuItem key={`${color}-${index}`} value={color}>
-                  {color}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button
-            type="button"
-            onClick={() => onShowColor3Change(false)}
-            className="text-red-600 hover:text-red-700 p-1 ml-1"
-            disabled={isLoading}
-            aria-label="Remove Color 3"
-          >
-            <CloseIcon fontSize="medium" />
-          </Button>
+              Remove
+            </Button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
