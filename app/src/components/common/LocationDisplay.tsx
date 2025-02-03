@@ -14,20 +14,22 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
   }
 
   const locationString = () => {
-    if (locationParts.length === 4) {
+    if (area && state && intersection) {
       return (
         <>
           <p>{`${area}, ${state}, United States`}</p>
-          <p>{intersection}</p>
+          <p>Intersection of {intersection}</p>
         </>
       );
     }
-    return locationParts.join(", ");
+    return null;
   };
 
   return (
     <div className="text-gray-500 mt-2">
-      {displayTip && <Tip>Enter the last address that the animal was seen at.</Tip>}
+      {displayTip && (
+        <Tip>If an exact address is not known, click on the map to set a location.</Tip>
+      )}
       {locationString()}
     </div>
   );

@@ -180,6 +180,7 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
           state={selectedLocation.state}
           country={selectedLocation.country}
           intersection={selectedLocation.intersection}
+          displayTip={true}
         />
       )}
       <div className="flex gap-2 mb-4">
@@ -194,7 +195,8 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
           renderInput={params => (
             <TextField
               {...params}
-              aria-label="Enter the last address that the animal was seen at"
+              aria-label="Enter the address that the animal was last seen at"
+              placeholder="Enter the address that the animal was last seen at"
               sx={{
                 backgroundColor: "white",
                 "& .MuiOutlinedInput-root": {
