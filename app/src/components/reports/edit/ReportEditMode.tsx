@@ -11,19 +11,7 @@ import formatDate from "../../../lib/formatDate";
 import BreedSearch from "../../common/BreedSearch";
 import LocationDisplay from "../../common/LocationDisplay";
 import { ReportLocationSelect } from "../form/ReportLocationSelect";
-
-const commonInputStyles = {
-  backgroundColor: "white",
-  "& .MuiSelect-select": {
-    backgroundColor: "white"
-  },
-  "& .MuiOutlinedInput-root": {
-    backgroundColor: "white"
-  },
-  "& .MuiButton-outlined": {
-    backgroundColor: "white"
-  }
-};
+import { commonInputStyles } from "../../../styles/commonStyles";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,

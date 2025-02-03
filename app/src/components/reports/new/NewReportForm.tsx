@@ -20,6 +20,7 @@ import { Button } from "@mui/material";
 import { FormPopulateButton } from "../../development/FormPopulateButton";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
+import { commonInputStyles } from "../../../styles/commonStyles";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
