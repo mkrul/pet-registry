@@ -8,3 +8,8 @@
 - Consistent MenuProps configuration helps maintain uniform dropdown behavior across the application
 - Component styling consistency requires matching both the internal component styles and the wrapper/container styling
 - Button styling consistency includes matching icon usage, text display, and layout spacing across similar action buttons
+- Consistent image preview sizes help maintain visual harmony across different form views
+- Using space-y-2 utility class provides consistent vertical spacing between form elements
+- Label styling consistency is important for maintaining visual hierarchy across forms
+- Maintaining consistent help text and user guidance across forms helps provide a uniform user experience
+- Keeping imports clean and removing unused ones helps maintain code consistency across components

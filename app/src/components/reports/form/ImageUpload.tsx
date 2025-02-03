@@ -1,7 +1,8 @@
 import React from "react";
-import { FormControl, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { ImageUploadProps } from "../../../types/common/Image";
+import { commonInputStyles } from "../../../styles/commonStyles";
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview, disabled }) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,19 +25,21 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
   };
 
   return (
-    <div className="mt-8">
-      <h2 className="text-lg font-medium text-gray-900 mb-2">Upload Image</h2>
-      <p className="text-base text-gray-600 mb-2">
-        Choose a photo of the animal that is clear and well lit, with the animal centered in the
-        frame.
-      </p>
-      <FormControl fullWidth>
+    <div className="space-y-2">
+      <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
+      <div>
+        <span className="text-sm text-gray-500 font-semibold">💡 TIP:</span>{" "}
+        <span className="text-sm text-gray-500">
+          Choose a photo that is clear and well lit, with the animal centered in the frame.
+        </span>
+      </div>
+      <div className="mt-1">
         <Button
           component="label"
           variant="outlined"
           startIcon={<CloudUpload />}
-          sx={{ mt: 1, width: "fit-content" }}
           disabled={disabled}
+          sx={{ ...commonInputStyles, width: "fit-content" }}
         >
           Choose File
           <input
@@ -50,11 +53,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
           />
         </Button>
         {preview && (
-          <div className="relative w-32 h-32 mt-3">
-            <img src={preview} alt="Selected" className="object-cover w-full h-full rounded-md" />
+          <div className="mt-2 relative w-48 h-48">
+            <img src={preview} alt="Preview" className="object-cover w-full h-full rounded-md" />
           </div>
         )}
-      </FormControl>
+      </div>
     </div>
   );
 };

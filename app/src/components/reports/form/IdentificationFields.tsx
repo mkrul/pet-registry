@@ -102,9 +102,9 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Breed(s):</label>
         <div>
-          <span className="text-sm text-gray-500 font-bold">TIP:</span>{" "}
+          <span className="text-sm text-gray-500 font-semibold">💡 TIP:</span>{" "}
           <span className="text-sm text-gray-500">
-            Breeds can be difficult to guess visually. If you are unsure of the animal's primary
+            Breeds can be difficult to identify visually. If you are unsure of the animal's primary
             breed makeup, use your best guess or select "Mixed Breed" from the dropdown.
           </span>
         </div>

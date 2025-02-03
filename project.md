@@ -28,3 +28,9 @@
 - Added flex-grow wrapper to first color FormControl in ColorFields for consistent layout pattern
 - Added consistent top margin to Second and Third Color labels to match IdentificationFields spacing
 - Added space-y-6 wrapper to ColorFields to match IdentificationFields vertical spacing
+- Updated ImageUpload component styling to match ReportEditMode
+- Added commonInputStyles to ImageUpload Button component
+- Updated ImageUpload preview image size to match ReportEditMode
+- Updated ImageUpload label and spacing to match ReportEditMode layout
+- Added descriptive guidance text to ImageUpload to match ReportEditMode
+- Removed unused FormControl import from ImageUpload component
