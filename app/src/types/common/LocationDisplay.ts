@@ -3,4 +3,5 @@ export interface LocationDisplayProps {
   state?: string | null;
   country?: string | null;
   intersection?: string | null;
+  displayTip?: boolean;
 }

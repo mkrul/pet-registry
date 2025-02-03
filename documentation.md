@@ -21,3 +21,4 @@
 - Consistent label structure (using separate label elements instead of TextField labels) helps maintain visual hierarchy across form components
 - Consistent dropdown height settings across all form components (including Autocomplete) improve visual uniformity
 - Regular cleanup of unused imports helps maintain code cleanliness and reduces bundle size
+- Extracting commonly used UI patterns like tips into reusable components helps maintain consistent styling and reduces duplication

@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import Tip from "../../common/Tip";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -101,13 +102,10 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
 
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Breed(s):</label>
-        <div>
-          <span className="text-sm text-gray-500 font-semibold">💡 TIP:</span>{" "}
-          <span className="text-sm text-gray-500">
-            Breeds can be difficult to identify visually. If you are unsure of the animal's primary
-            breed makeup, use your best guess or select "Mixed Breed" from the dropdown.
-          </span>
-        </div>
+        <Tip>
+          Breeds can be difficult to identify visually. If you are unsure of the animal's primary
+          breed makeup, use your best guess or select "Mixed Breed" from the dropdown.
+        </Tip>
         <BreedSearch
           species={formData.species.toLowerCase() as "dog" | "cat"}
           value={formData.breed1}

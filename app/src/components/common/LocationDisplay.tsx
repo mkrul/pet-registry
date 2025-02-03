@@ -1,17 +1,34 @@
 import React from "react";
 import { LocationDisplayProps } from "../../types/common/LocationDisplay";
-
-const LocationDisplay: React.FC<LocationDisplayProps> = ({ area, state, intersection }) => {
-  const locationParts = [area, state, "United States"].filter(Boolean);
+import Tip from "./Tip";
+const LocationDisplay: React.FC<LocationDisplayProps> = ({
+  area,
+  state,
+  intersection,
+  displayTip
+}) => {
+  const locationParts = [area, state, "United States", intersection].filter(Boolean);
 
   if (locationParts.length === 0) {
     return null;
   }
 
+  const locationString = () => {
+    if (locationParts.length === 4) {
+      return (
+        <>
+          <p>{`${area}, ${state}, United States`}</p>
+          <p>{intersection}</p>
+        </>
+      );
+    }
+    return locationParts.join(", ");
+  };
+
   return (
     <div className="text-gray-500 mt-2">
-      <p>{locationParts.join(", ")}</p>
-      {intersection && <p className="mb-1">{intersection}</p>}
+      {displayTip && <Tip>Enter the last address that the animal was seen at.</Tip>}
+      {locationString()}
     </div>
   );
 };

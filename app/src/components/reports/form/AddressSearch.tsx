@@ -80,7 +80,6 @@ const AddressSearch: React.FC<AddressSearchProps> = ({ onSearch, disabled }) => 
         renderInput={params => (
           <TextField
             {...params}
-            placeholder="Enter the last known address that the animal was seen at"
             aria-label="Enter the last known address that the animal was seen at"
             InputProps={{
               ...params.InputProps,

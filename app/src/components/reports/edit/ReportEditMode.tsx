@@ -12,6 +12,7 @@ import BreedSearch from "../../common/BreedSearch";
 import LocationDisplay from "../../common/LocationDisplay";
 import { LocationSelect } from "../form/LocationSelect";
 import { commonInputStyles } from "../../../styles/commonStyles";
+import Tip from "../../common/Tip";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,

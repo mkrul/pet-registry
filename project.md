@@ -45,3 +45,4 @@
 - Removed TextField label in favor of separate label element in AddressSearch
 - Added consistent ListboxProps to AddressSearch Autocomplete for uniform dropdown height
 - Removed unused SearchIcon import from AddressSearch component
+- Created reusable Tip component for consistent tip styling across the application

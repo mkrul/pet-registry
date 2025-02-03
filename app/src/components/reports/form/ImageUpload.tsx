@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { ImageUploadProps } from "../../../types/common/Image";
 import { commonInputStyles } from "../../../styles/commonStyles";
+import Tip from "../../common/Tip";
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview, disabled }) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,12 +28,10 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
   return (
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
-      <div>
-        <span className="text-sm text-gray-500 font-semibold">💡 TIP:</span>{" "}
-        <span className="text-sm text-gray-500">
-          Choose a photo that is clear and well lit, with the animal centered in the frame.
-        </span>
-      </div>
+      <Tip>
+        Upload a clear, detailed photo of the animal. The best photos are taken outdoors, with good
+        lighting and a plain background.
+      </Tip>
       <div className="mt-1">
         <Button
           component="label"

@@ -179,12 +179,6 @@ export interface IdentificationFieldsProps {
   isLoading?: boolean;
 }
 
-export interface LocationDisplayProps {
-  area: string;
-  state: string;
-  country: string;
-}
-
 export interface ReportLocationFilterProps {
   onLocationSelect: (location: MapLocation) => void;
   initialLocation?: {

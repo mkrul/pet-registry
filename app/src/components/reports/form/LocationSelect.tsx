@@ -194,7 +194,6 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
           renderInput={params => (
             <TextField
               {...params}
-              placeholder="Enter the last address that the animal was seen at"
               aria-label="Enter the last address that the animal was seen at"
               sx={{
                 backgroundColor: "white",
