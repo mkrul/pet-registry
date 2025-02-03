@@ -6,16 +6,9 @@ import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
 import { IdentificationFieldsProps } from "../../../types/Report";
 import CloseIcon from "@mui/icons-material/Close";
-
-const commonInputStyles = {
-  backgroundColor: "white",
-  "& .MuiOutlinedInput-root": {
-    backgroundColor: "white"
-  },
-  "& .MuiSelect-select": {
-    backgroundColor: "white"
-  }
-};
+import { commonInputStyles } from "../../../styles/commonStyles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -31,106 +24,150 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   const speciesOptions = speciesListJson.options;
 
   return (
-    <>
-      <TextField
-        data-testid="microchip-id-input"
-        label="Microchip ID (leave blank if not known)"
-        name="microchipId"
-        value={formData.microchipId || ""}
-        onChange={onInputChange}
-        variant="outlined"
-        fullWidth
-        sx={commonInputStyles}
-        disabled={isLoading}
-      />
-
-      <FormControl fullWidth>
-        <InputLabel id="gender-label">Gender (leave blank if not known)</InputLabel>
-        <Select
-          data-testid="gender-select"
-          labelId="gender-label"
-          id="gender"
-          name="gender"
-          value={formData.gender || ""}
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID:</label>
+        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
+        <TextField
+          data-testid="microchip-id-input"
+          name="microchipId"
+          value={formData.microchipId || ""}
           onChange={onInputChange}
-          label="Gender"
+          variant="outlined"
+          fullWidth
           sx={commonInputStyles}
           disabled={isLoading}
-        >
-          {genderOptions.map((gender, index) => (
-            <MenuItem key={index} value={gender} data-testid="gender-option">
-              {gender}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        />
+      </div>
 
-      <FormControl fullWidth>
-        <InputLabel id="species-label">Species</InputLabel>
-        <Select
-          data-testid="species-select"
-          labelId="species-label"
-          id="species"
-          name="species"
-          value={formData.species}
-          onChange={e => onSpeciesChange(e.target.value as Species)}
-          label="Species"
-          sx={commonInputStyles}
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>{" "}
+        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
+        <FormControl fullWidth>
+          <Select
+            data-testid="gender-select"
+            labelId="gender-label"
+            id="gender"
+            name="gender"
+            value={formData.gender || ""}
+            onChange={onInputChange}
+            label="Gender"
+            sx={commonInputStyles}
+            disabled={isLoading}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 200
+                }
+              }
+            }}
+          >
+            {genderOptions.map((gender, index) => (
+              <MenuItem key={index} value={gender} data-testid="gender-option">
+                {gender}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Species:</label>
+        <FormControl fullWidth>
+          <Select
+            data-testid="species-select"
+            labelId="species-label"
+            id="species"
+            value={formData.species}
+            onChange={e => onSpeciesChange(e.target.value as Species)}
+            sx={commonInputStyles}
+            disabled={isLoading}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 200
+                }
+              }
+            }}
+          >
+            {speciesOptions.map((species, index) => (
+              <MenuItem key={`${species}-${index}`} value={species} data-testid="species-option">
+                {species}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">Breed(s):</label>
+        <div>
+          <span className="text-sm text-gray-500 font-bold">TIP:</span>{" "}
+          <span className="text-sm text-gray-500">
+            Breeds can be difficult to guess visually. If you are unsure of the animal's primary
+            breed makeup, use your best guess or select "Mixed Breed" from the dropdown.
+          </span>
+        </div>
+        <BreedSearch
+          species={formData.species.toLowerCase() as "dog" | "cat"}
+          value={formData.breed1}
+          onChange={breed => onBreedChange(breed)}
           disabled={isLoading}
-        >
-          {speciesOptions.map((species, index) => (
-            <MenuItem key={`${species}-${index}`} value={species} data-testid="species-option">
-              {species}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-
-      <BreedSearch
-        species={formData.species.toLowerCase() as "dog" | "cat"}
-        value={formData.breed1}
-        onChange={breed => onBreedChange(breed)}
-        disabled={isLoading}
-        excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-        required
-        size="medium"
-      />
-
-      {!showBreed2 && formData.breed1 && (
-        <Button
-          data-testid="add-breed-button"
-          onClick={() => onShowBreed2Change(true)}
-          disabled={isLoading}
-          color="primary"
-          variant="text"
-          className="mt-2"
-        >
-          + ADD ANOTHER BREED
-        </Button>
-      )}
+          excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+          required
+          size="medium"
+          hideLabel
+          disableClearable
+        />
+        {!showBreed2 && formData.breed1 && (
+          <Button
+            data-testid="add-breed-button"
+            onClick={() => onShowBreed2Change(true)}
+            disabled={isLoading}
+            color="primary"
+            variant="text"
+            className="mt-2"
+            sx={commonInputStyles}
+          >
+            <div className="flex items-center">
+              <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
+              <span>ADD ANOTHER BREED</span>
+            </div>
+          </Button>
+        )}
+      </div>
 
       {showBreed2 && (
-        <div className="flex items-center gap-2">
-          <BreedSearch
-            species={formData.species.toLowerCase() as "dog" | "cat"}
-            value={formData.breed2 || ""}
-            onChange={breed => onBreed2Change(breed)}
-            disabled={isLoading}
-            excludeBreeds={[formData.breed1]}
-            size="medium"
-          />
-          <button
-            data-testid="remove-breed-button"
-            type="button"
-            onClick={() => onShowBreed2Change(false)}
-            className="text-red-600 hover:text-red-700 p-1 ml-1"
-            disabled={isLoading}
-            aria-label="Remove Breed"
-          >
-            <CloseIcon fontSize="medium" />
-          </button>
+        <div className="space-y-2">
+          <label className="text-lg font-medium text-gray-900 mb-2">Second Breed:</label>
+          <div className="flex items-center gap-4">
+            <div className="flex-grow">
+              <BreedSearch
+                species={formData.species.toLowerCase() as "dog" | "cat"}
+                value={formData.breed2 || ""}
+                onChange={breed => onBreed2Change(breed)}
+                disabled={isLoading}
+                excludeBreeds={[formData.breed1]}
+                size="medium"
+                hideLabel
+                disableClearable
+              />
+            </div>
+            <Button
+              data-testid="remove-breed-button"
+              onClick={() => onShowBreed2Change(false)}
+              disabled={isLoading}
+              color="error"
+              variant="text"
+              startIcon={<CloseIcon fontSize="medium" />}
+              aria-label="Remove Breed"
+              sx={commonInputStyles}
+            >
+              Remove
+            </Button>
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 };

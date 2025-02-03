@@ -65,6 +65,9 @@ module.exports = {
       marginTop: {
         '6rem': '6rem',
       },
+      marginBottom: {
+        '3px': '3px',
+      },
       maxWidth: {
         'fit-content': 'fit-content',
         '20rem': '20rem',
