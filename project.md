@@ -13,3 +13,8 @@
 - Added label and consistent spacing for second breed field
 - Moved "Add Another Breed" button inside Breed(s) section for consistent layout
 - Added consistent vertical spacing between fields to match ReportEditMode
+- Updated ColorFields component to use commonInputStyles for consistent styling with ReportEditMode
+- Added consistent MenuProps to ColorFields Select components to match dropdown behavior
+- Removed custom select styles in favor of shared commonInputStyles
+- Updated ColorFields remove buttons to use MUI Button component for style consistency with ReportEditMode
+- Added consistent label and spacing wrapper to ColorFields in NewReportForm to match ReportEditMode styling

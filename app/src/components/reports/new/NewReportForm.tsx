@@ -124,19 +124,22 @@ const NewReportForm: React.FC = () => {
         isLoading={isLoading}
       />
 
-      <ColorFields
-        formData={formData}
-        showColor2={showColor2}
-        showColor3={showColor3}
-        onInputChange={
-          handleInputChange as (
-            e: SelectChangeEvent | { target: { name: string; value: string | null } }
-          ) => void
-        }
-        onShowColor2Change={setShowColor2}
-        onShowColor3Change={setShowColor3}
-        isLoading={isLoading}
-      />
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>
+        <ColorFields
+          formData={formData}
+          showColor2={showColor2}
+          showColor3={showColor3}
+          onInputChange={
+            handleInputChange as (
+              e: SelectChangeEvent | { target: { name: string; value: string | null } }
+            ) => void
+          }
+          onShowColor2Change={setShowColor2}
+          onShowColor3Change={setShowColor3}
+          isLoading={isLoading}
+        />
+      </div>
 
       <ImageUpload
         onImageSelect={file => {

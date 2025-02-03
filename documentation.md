@@ -4,3 +4,6 @@
 - Extracting shared styles to a common location helps maintain consistency and reduces duplication
 - Adding MenuProps to Select components ensures consistent dropdown behavior across forms
 - Consistent flex container spacing and layout structure helps maintain visual alignment between related components
+- Using shared commonInputStyles across form components ensures visual consistency between edit and create forms
+- Consistent MenuProps configuration helps maintain uniform dropdown behavior across the application
+- Component styling consistency requires matching both the internal component styles and the wrapper/container styling
