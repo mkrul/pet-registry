@@ -16,6 +16,7 @@ import { BasicInfoFields } from "../form/BasicInfoFields";
 import { IdentificationFields } from "../form/IdentificationFields";
 import { ColorFields } from "../form/ColorFields";
 import { ImageUpload } from "../form/ImageUpload";
+import ActionButtons from "../form/ActionButtons";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -45,34 +46,11 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 }) => {
   return (
     <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
-      {/* Action Buttons */}
-      <div className="flex justify-end gap-2">
-        <button
-          type="submit"
-          disabled={isSaving}
-          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSaving ? (
-            <div className="flex items-center">
-              <Spinner inline size={16} className="mr-2" color="text-white" />
-              Saving...
-            </div>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faSave} className="mr-2" />
-              Save
-            </>
-          )}
-        </button>
-        <button
-          type="button"
-          onClick={handleCancelChanges}
-          disabled={isSaving}
-          className="px-4 py-2 border border-blue-500 bg-white text-blue-600 hover:bg-blue-100 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Cancel
-        </button>
-      </div>
+      <ActionButtons
+        isSaving={isSaving}
+        onSave={handleSaveChanges}
+        onCancel={handleCancelChanges}
+      />
 
       <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
 
