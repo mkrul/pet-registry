@@ -28,7 +28,9 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
   return (
     <div className="text-gray-500 mt-2">
       {displayTip && (
-        <Tip>If an exact address is not known, click on the map to set a location.</Tip>
+        <div className="mb-2">
+          <Tip>If an exact address is not known, click on the map to set a location.</Tip>
+        </div>
       )}
       {locationString()}
     </div>

@@ -29,8 +29,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
       <Tip>
-        Upload a clear, detailed photo of the animal. The best photos are taken outdoors, with good
-        lighting and a plain background.
+        The best photos are taken outdoors with good lighting. Your photo should be well lit, with
+        the animal's face centered in the frame.
       </Tip>
       <div className="mt-1">
         <Button

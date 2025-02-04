@@ -2,7 +2,7 @@ import React from "react";
 import { TextField } from "@mui/material";
 import { BasicInfoFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
-
+import Tip from "../../common/Tip";
 export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   formData,
   onInputChange,
@@ -26,6 +26,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
 
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
+        <Tip>Describe the animal's appearance, behavior, and other relevant details.</Tip>
         <TextField
           name="description"
           value={formData.description || ""}
