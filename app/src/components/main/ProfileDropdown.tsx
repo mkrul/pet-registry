@@ -67,7 +67,7 @@ const ProfileDropdown: React.FC = () => {
         <div
           tabIndex={0}
           role="button"
-          className="btn btn-ghost hover:bg-base-200 btn-circle avatar"
+          className="btn btn-ghost hover:bg-blue-300 btn-circle avatar"
           onClick={handleToggle}
           data-testid="profile-button"
         >
@@ -81,19 +81,19 @@ const ProfileDropdown: React.FC = () => {
             isOpen ? "block" : "hidden"
           }`}
         >
-          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <NavLink>My Reports</NavLink>
           </li>
-          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <NavLink>My Pets</NavLink>
           </li>
-          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <NavLink>Profile</NavLink>
           </li>
-          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <NavLink>Settings</NavLink>
           </li>
-          <li className="hover:bg-blue-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <LogoutButton onCompleted={handleLogout} />
           </li>
         </ul>
