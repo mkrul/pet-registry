@@ -27,3 +27,4 @@
 - When sharing form components between edit and create forms, keeping the event handling consistent helps prevent type mismatches
 - Direct handler passing is preferable to complex event transformations when the base event types are compatible
 - SelectChangeEvent from MUI and React.ChangeEvent<HTMLInputElement> can be used interchangeably for basic form handling
+- When integrating shared components, maintaining consistent event handling patterns helps preserve existing functionality

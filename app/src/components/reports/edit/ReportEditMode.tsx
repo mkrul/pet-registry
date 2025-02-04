@@ -15,6 +15,7 @@ import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
 import { BasicInfoFields } from "../form/BasicInfoFields";
 import { IdentificationFields } from "../form/IdentificationFields";
+import { ColorFields } from "../form/ColorFields";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -147,118 +148,31 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
       {/* Colors */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>
-        <div className="space-y-3">
-          <FormControl fullWidth>
-            <Select
-              name="color1"
-              value={formData.color1}
-              onChange={handleInputChange}
-              required
-              disabled={isSaving}
-              sx={commonInputStyles}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    maxHeight: 200
-                  }
-                }
-              }}
-            >
-              {colorOptions.map((color, index) => (
-                <MenuItem key={`${color}-${index}`} value={color}>
-                  {color}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          {showColor2 ? (
-            <div className="flex items-center gap-2">
-              <FormControl fullWidth>
-                <Select
-                  name="color2"
-                  value={formData.color2 || ""}
-                  onChange={handleInputChange}
-                  disabled={isSaving}
-                  sx={commonInputStyles}
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 200
-                      }
-                    }
-                  }}
-                >
-                  {getFilteredColorOptions([formData.color1]).map((color, index) => (
-                    <MenuItem key={`${color}-${index}`} value={color}>
-                      {color}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <button
-                type="button"
-                onClick={() => removeColor(1)}
-                className="text-red-600 hover:text-red-700 p-1 ml-1"
-                disabled={isSaving}
-                aria-label="Remove Color"
-              >
-                <CloseIcon fontSize="medium" />
-              </button>
-            </div>
-          ) : null}
-
-          {showColor3 ? (
-            <div className="flex items-center gap-2">
-              <FormControl fullWidth>
-                <Select
-                  name="color3"
-                  value={formData.color3 || ""}
-                  onChange={handleInputChange}
-                  disabled={isSaving}
-                  sx={commonInputStyles}
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 200
-                      }
-                    }
-                  }}
-                >
-                  {getFilteredColorOptions([
-                    formData.color1,
-                    ...(formData.color2 ? [formData.color2] : [])
-                  ]).map((color, index) => (
-                    <MenuItem key={`${color}-${index}`} value={color}>
-                      {color}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <button
-                type="button"
-                onClick={() => removeColor(2)}
-                className="text-red-600 hover:text-red-700 p-1 ml-1"
-                disabled={isSaving}
-                aria-label="Remove Color"
-              >
-                <CloseIcon fontSize="medium" />
-              </button>
-            </div>
-          ) : null}
-
-          {!showColor2 || !showColor3 ? (
-            <Button
-              onClick={addColor}
-              disabled={isSaving}
-              color="primary"
-              variant="text"
-              className="mt-2"
-            >
-              + ADD ANOTHER COLOR
-            </Button>
-          ) : null}
-        </div>
+        <ColorFields
+          formData={formData}
+          showColor2={showColor2}
+          showColor3={showColor3}
+          onInputChange={handleInputChange}
+          onShowColor2Change={show => {
+            if (!show) {
+              const event = {
+                target: { name: "color2", value: null }
+              };
+              handleInputChange(event);
+            }
+            removeColor(1);
+          }}
+          onShowColor3Change={show => {
+            if (!show) {
+              const event = {
+                target: { name: "color3", value: null }
+              };
+              handleInputChange(event);
+            }
+            removeColor(2);
+          }}
+          isLoading={isSaving}
+        />
       </div>
 
       {/* Location */}
