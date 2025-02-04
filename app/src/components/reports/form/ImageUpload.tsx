@@ -7,6 +7,7 @@ import Tip from "../../common/Tip";
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({
   onImageSelect,
+  onFileChange,
   preview,
   disabled,
   onImageLoad,
@@ -29,7 +30,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        onImageSelect(file, reader.result as string);
+        onImageSelect?.(file, reader.result as string);
+        onFileChange?.(e);
       };
       reader.readAsDataURL(file);
     }

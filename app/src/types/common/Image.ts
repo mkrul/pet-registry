@@ -9,7 +9,8 @@ export interface ImageProps {
 }
 
 export interface ImageUploadProps {
-  onImageSelect: (file: File, preview: string) => void;
+  onImageSelect?: (file: File, preview: string) => void;
+  onFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   preview: string | null;
   disabled?: boolean;
   onImageLoad?: () => void;

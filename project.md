@@ -59,3 +59,10 @@
 - Moved FileReader logic into ImageUpload component for consistent preview handling
 - Updated ImageUploadProps type to support standardized image handling
 - Restored optional ImageProps fields to maintain backwards compatibility
+- Simplified event handling in ReportEditMode ImageUpload to match NewReportForm pattern
+- Removed complex synthetic event creation in favor of simpler event object
+- Updated ReportEditMode to consistently handle image preview parameter
+- Simplified ImageUpload interface usage in both forms
+- Moved handleImageSelect function outside ReportEditMode component to optimize performance
+- Updated handleImageSelect to use proper event creation for type safety
+- Added optional chaining to ImageUpload handlers for type safety

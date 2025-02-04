@@ -55,16 +55,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
       <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
 
       <ImageUpload
-        onImageSelect={(file, preview) => {
-          const event = new Event("change", {
-            bubbles: true
-          }) as unknown as React.ChangeEvent<HTMLInputElement>;
-          Object.defineProperty(event, "target", {
-            writable: false,
-            value: { files: [file] }
-          });
-          handleFileChange(event);
-        }}
+        onFileChange={handleFileChange}
         preview={imageSrc}
         disabled={isSaving}
         onImageLoad={handleImageLoad}

@@ -37,3 +37,10 @@
 - When modifying shared interfaces, making fields optional helps maintain backwards compatibility
 - Consistent image preview handling between create and edit forms improves user experience
 - Synthetic events should be avoided when direct handler passing is possible
+- Complex synthetic events can be replaced with simpler event objects that match the expected interface
+- Consistent event handling patterns improve code maintainability and readability
+- When standardizing interfaces, all parameters should be used consistently across implementations
+- Simplifying component usage improves code maintainability and reduces potential errors
+- Event handler functions that don't depend on component state should be defined outside the component
+- Using proper event creation methods improves type safety over simple type assertions
+- Using optional chaining for event handlers improves type safety and prevents runtime errors
