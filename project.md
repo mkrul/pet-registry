@@ -52,3 +52,4 @@
 - Removed duplicate Microchip ID, Gender, Species, and Breed fields from ReportEditMode
 - Simplified event handling in ReportEditMode by directly passing handleInputChange to IdentificationFields
 - Integrated ColorFields component into ReportEditMode, replacing duplicate color selection fields
+- Integrated ImageUpload component into ReportEditMode, replacing duplicate image upload controls

@@ -157,6 +157,8 @@ const NewReportForm: React.FC = () => {
         }}
         preview={imagePreview}
         disabled={isLoading}
+        onImageLoad={() => {}}
+        onImageError={() => {}}
       />
 
       <LocationSelect

@@ -5,7 +5,13 @@ import { ImageUploadProps } from "../../../types/common/Image";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
 
-export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview, disabled }) => {
+export const ImageUpload: React.FC<ImageUploadProps> = ({
+  onImageSelect,
+  preview,
+  disabled,
+  onImageLoad,
+  onImageError
+}) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -53,7 +59,13 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, preview
         </Button>
         {preview && (
           <div className="mt-2 relative w-48 h-48">
-            <img src={preview} alt="Preview" className="object-cover w-full h-full rounded-md" />
+            <img
+              src={preview}
+              alt="Preview"
+              className="object-cover w-full h-full rounded-md"
+              onLoad={onImageLoad}
+              onError={onImageError}
+            />
           </div>
         )}
       </div>

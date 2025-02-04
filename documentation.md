@@ -28,3 +28,4 @@
 - Direct handler passing is preferable to complex event transformations when the base event types are compatible
 - SelectChangeEvent from MUI and React.ChangeEvent<HTMLInputElement> can be used interchangeably for basic form handling
 - When integrating shared components, maintaining consistent event handling patterns helps preserve existing functionality
+- When integrating shared components, adapting event handlers to match existing patterns helps maintain backwards compatibility

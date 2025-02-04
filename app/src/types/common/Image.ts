@@ -9,6 +9,8 @@ export interface ImageProps {
 
 export interface ImageUploadProps {
   onImageSelect: (file: File) => void;
-  preview?: string;
+  preview: string | null;
   disabled?: boolean;
+  onImageLoad?: () => void;
+  onImageError?: () => void;
 }

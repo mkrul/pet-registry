@@ -1,8 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { FormControl, Select, MenuItem, TextField, Button, SelectChangeEvent } from "@mui/material";
-import { CloudUpload } from "@mui/icons-material";
+import { FormControl, Select, MenuItem, TextField, SelectChangeEvent } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Map from "../../common/Map";
 import Spinner from "../../common/Spinner";
@@ -16,6 +15,7 @@ import Tip from "../../common/Tip";
 import { BasicInfoFields } from "../form/BasicInfoFields";
 import { IdentificationFields } from "../form/IdentificationFields";
 import { ColorFields } from "../form/ColorFields";
+import { ImageUpload } from "../form/ImageUpload";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -76,40 +76,22 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
 
       <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
 
-      {/* Image */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
-        <div className="mt-1">
-          <Button
-            component="label"
-            variant="outlined"
-            startIcon={<CloudUpload />}
-            disabled={isSaving}
-            sx={{ ...commonInputStyles, width: "fit-content" }}
-          >
-            Choose File
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              disabled={isSaving}
-            />
-          </Button>
-          {imageSrc && (
-            <div className="mt-2 relative w-48 h-48">
-              <img
-                src={imageSrc}
-                alt={formData.title}
-                className="object-cover w-full h-full rounded-md"
-                onLoad={handleImageLoad}
-                onError={handleImageError}
-              />
-            </div>
-          )}
-        </div>
-      </div>
+      <ImageUpload
+        onImageSelect={file => {
+          const event = new Event("change", {
+            bubbles: true
+          }) as unknown as React.ChangeEvent<HTMLInputElement>;
+          Object.defineProperty(event, "target", {
+            writable: false,
+            value: { files: [file] }
+          });
+          handleFileChange(event);
+        }}
+        preview={imageSrc}
+        disabled={isSaving}
+        onImageLoad={handleImageLoad}
+        onImageError={handleImageError}
+      />
 
       <IdentificationFields
         formData={formData}
