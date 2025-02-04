@@ -13,6 +13,7 @@ import LocationDisplay from "../../common/LocationDisplay";
 import { LocationSelect } from "../form/LocationSelect";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
+import { BasicInfoFields } from "../form/BasicInfoFields";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -71,20 +72,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         </button>
       </div>
 
-      {/* Title */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Title:</label>
-        <TextField
-          name="title"
-          value={formData.title || ""}
-          onChange={handleInputChange}
-          required
-          variant="outlined"
-          fullWidth
-          disabled={isSaving}
-          sx={commonInputStyles}
-        />
-      </div>
+      <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
 
       {/* Image */}
       <div className="space-y-2">
@@ -119,38 +107,6 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
             </div>
           )}
         </div>
-      </div>
-
-      {/* Description */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
-        <TextField
-          name="description"
-          value={formData.description || ""}
-          onChange={handleInputChange}
-          required
-          multiline
-          rows={4}
-          variant="outlined"
-          fullWidth
-          disabled={isSaving}
-          sx={commonInputStyles}
-        />
-      </div>
-
-      {/* Name */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Name:</label>
-        <TextField
-          name="name"
-          value={formData.name || ""}
-          onChange={handleInputChange}
-          variant="outlined"
-          placeholder="Enter name (if known)"
-          fullWidth
-          disabled={isSaving}
-          sx={commonInputStyles}
-        />
       </div>
 
       {/* Species */}

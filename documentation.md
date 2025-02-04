@@ -22,3 +22,5 @@
 - Consistent dropdown height settings across all form components (including Autocomplete) improve visual uniformity
 - Regular cleanup of unused imports helps maintain code cleanliness and reduces bundle size
 - Extracting commonly used UI patterns like tips into reusable components helps maintain consistent styling and reduces duplication
+- When migrating to shared components, it's important to remove duplicate fields to maintain a single source of truth
+- Sharing form components between create and edit views ensures consistent user experience and reduces code duplication

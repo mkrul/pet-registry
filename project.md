@@ -46,3 +46,5 @@
 - Added consistent ListboxProps to AddressSearch Autocomplete for uniform dropdown height
 - Removed unused SearchIcon import from AddressSearch component
 - Created reusable Tip component for consistent tip styling across the application
+- Removed duplicate Description and Name fields from ReportEditMode in favor of shared BasicInfoFields component
+- Integrated BasicInfoFields component into ReportEditMode, replacing duplicate Title, Description, and Name fields
