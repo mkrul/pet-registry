@@ -55,3 +55,7 @@
 - Integrated ImageUpload component into ReportEditMode, replacing duplicate image upload controls
 - Integrated LocationSelect component into ReportEditMode, replacing duplicate location selection fields
 - Removed duplicate location selection fields from ReportEditMode in favor of shared LocationSelect component
+- Standardized image handling between NewReportForm and ReportEditMode
+- Moved FileReader logic into ImageUpload component for consistent preview handling
+- Updated ImageUploadProps type to support standardized image handling
+- Restored optional ImageProps fields to maintain backwards compatibility

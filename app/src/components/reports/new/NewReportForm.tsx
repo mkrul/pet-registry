@@ -149,11 +149,9 @@ const NewReportForm: React.FC = () => {
       </div>
 
       <ImageUpload
-        onImageSelect={file => {
+        onImageSelect={(file, preview) => {
           setSelectedImage(file);
-          const reader = new FileReader();
-          reader.onloadend = () => setImagePreview(reader.result as string);
-          reader.readAsDataURL(file);
+          setImagePreview(preview);
         }}
         preview={imagePreview}
         disabled={isLoading}

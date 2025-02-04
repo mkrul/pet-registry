@@ -27,7 +27,11 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         return;
       }
 
-      onImageSelect(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        onImageSelect(file, reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 

@@ -32,3 +32,8 @@
 - When integrating shared location components, maintaining consistent location data structure helps ensure compatibility
 - Using shared location selection components helps maintain consistent geocoding behavior across the application
 - Consistent location display formatting between create and edit views improves user experience
+- Centralizing file reading logic in shared components reduces duplication and ensures consistent behavior
+- When standardizing component interfaces, updating type definitions is crucial for maintaining type safety
+- When modifying shared interfaces, making fields optional helps maintain backwards compatibility
+- Consistent image preview handling between create and edit forms improves user experience
+- Synthetic events should be avoided when direct handler passing is possible
