@@ -128,3 +128,51 @@
 - Order of state updates matters for form functionality
 - Call parent handlers before updating local state
 - Keep state transitions synchronized between parent and child
+- Keep form-specific configuration in props
+- Make component behavior configurable but with sensible defaults
+- Handle loading states consistently across form components
+- Pass form-specific loading states to shared components
+- Configure zoom levels based on form context
+- Keep shared component usage consistent between forms
+- Extract magic numbers into named constants
+- Combine loading states for better UX
+- Make configuration values reusable across components
+- Extract complex async operations into focused functions
+- Keep related location processing logic together
+- Make async state transitions more predictable
+- Keep configuration constants in dedicated files
+- Use TypeScript to enforce valid zoom levels
+- Centralize shared configuration values
+- Use shared constants instead of magic numbers
+- Keep zoom level values consistent across application
+- Reference shared constants directly in components
+- Keep constants in organized directory structure
+- Use consistent import paths across components
+- Follow index.ts pattern for constants exports
+- Keep interface names consistent with component names
+- Use shared interfaces for similar component props
+- Ensure type imports match exported names
+- Use proper React event types for component callbacks
+- Handle null cases in async location processing
+- Add type safety to MUI component callbacks
+- Use shared interfaces for common data structures
+- Keep type definitions consistent across related components
+- Use Partial and Omit for flexible type definitions
+- Use consistent return types in location handlers
+- Ensure location data matches interface at all points
+- Handle optional values consistently in location data
+- Propagate shared interfaces through component hierarchy
+- Keep location data types consistent in map interactions
+- Use shared interfaces for map click events
+- Use correct import paths for shared types
+- Add proper type definitions for map libraries
+- Handle map event types correctly
+- Keep location data types consistent in map events
+- Handle map events with proper type safety
+- Use shared interfaces throughout map components
+- Define interfaces for internal component state
+- Use consistent types for map coordinates
+- Keep coordinate handling type-safe
+- Use nullish coalescing for all location fields
+- Ensure location data matches interface before callback
+- Keep location data creation patterns consistent

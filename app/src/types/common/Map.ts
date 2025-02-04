@@ -1,14 +1,9 @@
+import { LocationData } from "../Report";
+
 export interface MapProps {
-  onLocationSelect?: (location: MapLocation) => void;
-  initialLocation?: {
-    latitude: number | null;
-    longitude: number | null;
-    area?: string;
-    state?: string;
-    country?: string;
-    intersection?: string | null;
-  };
-  initialZoom?: number;
+  onLocationSelect: (location: LocationData) => void;
+  initialLocation?: Partial<LocationData>;
+  initialZoom: number;
   readOnly?: boolean;
 }
 
@@ -18,5 +13,5 @@ export interface MapLocation {
   area: string;
   state: string;
   country: string;
-  intersection: string | null;
+  intersection: string;
 }

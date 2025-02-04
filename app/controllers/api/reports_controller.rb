@@ -62,7 +62,7 @@ module Api
           country: "",
           latitude: nil,
           longitude: nil,
-          intersection: nil
+          intersection: ""
         }
       }, status: :ok
     rescue StandardError => e

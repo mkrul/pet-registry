@@ -9,6 +9,8 @@ import { isUSLocation } from "../../utils/locationUtils";
 import { NotificationType } from "../../types/common/Notification";
 import "../../utils/leafletSetup";
 import { MapLocation } from "../../types/common/Map";
+import { LocationData } from "../../types/Report";
+import { LatLngExpression } from "leaflet";
 
 const findNearestArea = async (
   lat: number,
@@ -156,14 +158,16 @@ const findNearbyStreets = async (lat: number, lng: number): Promise<string | nul
   }
 };
 
-const MapEvents = ({
+interface MapEventsProps extends MapProps {
+  onNotification: (notification: { type: NotificationType; message: string } | null) => void;
+}
+
+const MapEvents: React.FC<MapEventsProps> = ({
   onLocationSelect,
   initialLocation,
   onNotification,
   readOnly,
   initialZoom
-}: MapProps & {
-  onNotification: (notification: { type: NotificationType; message: string } | null) => void;
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const map = useMapEvents({
@@ -182,64 +186,59 @@ const MapEvents = ({
       const formattedLat = Number(lat.toFixed(6));
       const formattedLng = Number(lng.toFixed(6));
 
-      if (skipLocationFetch) {
-        if (
-          initialLocation &&
-          initialLocation.latitude !== null &&
-          initialLocation.longitude !== null
-        ) {
-          const locationData: MapLocation = {
-            latitude: initialLocation.latitude,
-            longitude: initialLocation.longitude,
-            area: initialLocation.area || "",
-            state: initialLocation.state || "",
-            country: initialLocation.country || "",
-            intersection: initialLocation.intersection || null
-          };
-          onLocationSelect?.(locationData);
-        }
-      } else {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const address = data.address;
-
-        if (!isUSLocation(address.country || "")) {
-          onNotification({
-            type: NotificationType.ERROR,
-            message: "Sorry, we are only able to support US locations at this time."
-          });
-          return;
-        }
-
-        onNotification(null);
-
-        let area =
-          address.area ||
-          address.town ||
-          address.village ||
-          address.suburb ||
-          address.municipality ||
-          address.neighbourhood;
-
-        if (!area || area === "Unknown") {
-          area = await findNearestArea(formattedLat, formattedLng, onNotification);
-        }
-        const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
-
-        const locationData = {
+      if (skipLocationFetch && initialLocation) {
+        const locationData: LocationData = {
           latitude: formattedLat,
           longitude: formattedLng,
-          area: area,
-          state: address.state || "",
-          country: address.country || "",
-          intersection: intersectionStr
+          area: initialLocation.area ?? "",
+          state: initialLocation.state ?? "",
+          country: initialLocation.country ?? "",
+          intersection: initialLocation.intersection ?? ""
         };
+        onLocationSelect(locationData);
+        return;
+      }
 
-        if (onLocationSelect) {
-          onLocationSelect(locationData);
-        }
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${formattedLat}&lon=${formattedLng}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const address = data.address;
+
+      if (!isUSLocation(address.country || "")) {
+        onNotification({
+          type: NotificationType.ERROR,
+          message: "Sorry, we are only able to support US locations at this time."
+        });
+        return;
+      }
+
+      onNotification(null);
+
+      let area =
+        address.area ||
+        address.town ||
+        address.village ||
+        address.suburb ||
+        address.municipality ||
+        address.neighbourhood;
+
+      if (!area || area === "Unknown") {
+        area = await findNearestArea(formattedLat, formattedLng, onNotification);
+      }
+      const intersectionStr = await findNearbyStreets(formattedLat, formattedLng);
+
+      const locationData: LocationData = {
+        latitude: formattedLat,
+        longitude: formattedLng,
+        area: area ?? "",
+        state: address.state ?? "",
+        country: address.country ?? "",
+        intersection: intersectionStr ?? ""
+      };
+
+      if (onLocationSelect) {
+        onLocationSelect(locationData);
       }
     } catch (error) {
       console.error("Error handling location:", error);
@@ -265,7 +264,7 @@ const MapEvents = ({
   ) : null;
 };
 
-const Map: React.FC<MapProps> = ({
+export const Map: React.FC<MapProps> = ({
   onLocationSelect,
   initialLocation,
   initialZoom = 4,
@@ -281,6 +280,18 @@ const Map: React.FC<MapProps> = ({
     setIsLoading(false);
   }, []);
 
+  const handleMapClick = (e: L.LeafletMouseEvent) => {
+    const location: LocationData = {
+      latitude: e.latlng.lat,
+      longitude: e.latlng.lng,
+      area: "",
+      state: "",
+      country: "",
+      intersection: ""
+    };
+    onLocationSelect(location);
+  };
+
   return (
     <div className="space-y-2">
       {notification && (
@@ -293,11 +304,9 @@ const Map: React.FC<MapProps> = ({
       <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
         <MapContainer
           center={
-            initialLocation &&
-            initialLocation.latitude !== null &&
-            initialLocation.longitude !== null
-              ? [initialLocation.latitude, initialLocation.longitude]
-              : [39.8283, -98.5795]
+            initialLocation?.latitude && initialLocation?.longitude
+              ? ([initialLocation.latitude, initialLocation.longitude] as LatLngExpression)
+              : ([39.8283, -98.5795] as LatLngExpression)
           }
           zoom={initialZoom}
           className="h-full w-full"

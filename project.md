@@ -150,3 +150,54 @@
 - Fixed color add functionality in ReportEditMode
 - Corrected state update order in ColorFields
 - Made color addition behavior consistent
+- Standardized LocationSelect props between forms
+- Added isLoading state to LocationSelect
+- Made zoom level configurable via props
+- Updated LocationSelect usage in both forms
+- Added loading state to location selection
+- Made zoom levels configurable per form
+- Extracted zoom level constants from LocationSelect
+- Added combined loading state handling
+- Made zoom level configuration more maintainable
+- Extracted address processing logic into separate function
+- Simplified address handling in LocationSelect
+- Made location state management more predictable
+- Moved map zoom levels to shared constants file
+- Added type safety to zoom level values
+- Made zoom level configuration centralized
+- Updated forms to use MAP_ZOOM_LEVELS constants
+- Removed magic numbers from zoom level props
+- Made zoom level usage consistent across forms
+- Standardized map constants directory structure
+- Fixed map constants import paths
+- Made constants imports consistent between forms
+- Updated LocationSelect to use LocationSelectProps interface
+- Fixed interface naming consistency
+- Made zoom level types consistent
+- Fixed type safety in LocationSelect handleAddressSelect
+- Added proper event type to Autocomplete onChange
+- Added null check for locationData
+- Created LocationData interface for consistent location handling
+- Standardized intersection type to string
+- Made location data types consistent across components
+- Updated LocationSelect handlers to use LocationData type
+- Made location data handling type-safe
+- Standardized intersection handling to string type
+- Updated Map component to use LocationData interface
+- Standardized location data handling in Map component
+- Made Map component type-safe with LocationData
+- Fixed Map component import paths
+- Added missing Leaflet types
+- Fixed map event type handling
+- Updated MapEvents to use LocationData interface
+- Fixed type safety in map event handling
+- Made map location handling consistent
+- Added MapCenter interface for type safety
+- Fixed mapCenter state type definition
+- Made map center handling more predictable
+- Standardized initialLocation handling in forms
+- Fixed null value handling in location props
+- Made location initialization consistent
+- Fixed type safety in MapEvents location handling
+- Added null checks for location data fields
+- Made location data creation consistent

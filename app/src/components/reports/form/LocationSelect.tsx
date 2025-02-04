@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Map from "../../common/Map";
-import { ReportLocationFilterProps } from "../../../types/Report";
+import { LocationData, LocationSelectProps } from "../../../types/Report";
 import LocationDisplay from "../../common/LocationDisplay";
 import { Autocomplete, TextField, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -8,6 +8,7 @@ import { debounce } from "lodash";
 import { findNearestArea, findNearbyStreets } from "../../../utils/locationUtils";
 import { isUSLocation } from "../../../utils/locationUtils";
 import Spinner from "../../common/Spinner";
+import { MAP_ZOOM_LEVELS, MapZoomLevel } from "../../../constants/map";
 
 interface AddressSuggestion {
   display_name: string;
@@ -15,30 +16,35 @@ interface AddressSuggestion {
   lon: string;
 }
 
-export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
+interface MapCenter {
+  lat: number;
+  lng: number;
+}
+
+export const LocationSelect: React.FC<LocationSelectProps> = ({
   onLocationSelect,
-  initialLocation
+  initialLocation,
+  isLoading,
+  zoomLevel = MAP_ZOOM_LEVELS.DEFAULT
 }) => {
-  const [selectedLocation, setSelectedLocation] = useState<{
-    area: string;
-    state: string;
-    country: string;
-    intersection: string | null;
-  } | null>(
+  const [selectedLocation, setSelectedLocation] = useState<Omit<
+    LocationData,
+    "latitude" | "longitude"
+  > | null>(
     initialLocation
       ? {
           area: initialLocation.area || "",
           state: initialLocation.state || "",
           country: initialLocation.country || "",
-          intersection: initialLocation.intersection || null
+          intersection: initialLocation.intersection || ""
         }
       : null
   );
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<AddressSuggestion | null>(null);
-  const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number } | null>(
-    initialLocation && initialLocation.latitude !== null && initialLocation.longitude !== null
+  const [mapCenter, setMapCenter] = useState<MapCenter | null>(
+    initialLocation?.latitude && initialLocation?.longitude
       ? {
           lat: initialLocation.latitude,
           lng: initialLocation.longitude
@@ -46,9 +52,7 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
       : null
   );
   const [isProcessingAddress, setIsProcessingAddress] = useState(false);
-
-  const EDIT_MODE_ZOOM_LEVEL = 16;
-  const NEW_REPORT_ZOOM_LEVEL = 4;
+  const isDisabled = isLoading || isProcessingAddress;
 
   const fetchAddressSuggestions = React.useMemo(
     () =>
@@ -82,14 +86,7 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
     }
   }, [searchInput, fetchAddressSuggestions]);
 
-  const handleLocationSelect = (location: {
-    latitude: number;
-    longitude: number;
-    area: string;
-    state: string;
-    country: string;
-    intersection: string | null;
-  }) => {
+  const handleLocationSelect = (location: LocationData) => {
     setSelectedLocation({
       area: location.area,
       state: location.state,
@@ -105,68 +102,74 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
         area: initialLocation.area || "",
         state: initialLocation.state || "",
         country: initialLocation.country || "",
-        intersection: initialLocation.intersection || null
+        intersection: initialLocation.intersection || ""
       });
     }
   }, [initialLocation]);
 
-  const handleAddressSelect = async (_: any, value: AddressSuggestion | null) => {
+  const handleAddressProcessing = async (
+    lat: number,
+    lng: number
+  ): Promise<LocationData | undefined> => {
+    setIsProcessingAddress(true);
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+      );
+      const data = await response.json();
+      const address = data.address;
+
+      if (!isUSLocation(address.country || "")) {
+        return;
+      }
+
+      let area =
+        address.area ||
+        address.town ||
+        address.village ||
+        address.suburb ||
+        address.municipality ||
+        address.neighbourhood;
+
+      if (!area || area === "Unknown") {
+        area = await findNearestArea(lat, lng, () => {});
+      }
+
+      const intersectionStr = await findNearbyStreets(lat, lng);
+
+      return {
+        latitude: lat,
+        longitude: lng,
+        area,
+        state: address.state || "",
+        country: address.country || "",
+        intersection: intersectionStr || ""
+      };
+    } finally {
+      setIsProcessingAddress(false);
+    }
+  };
+
+  const handleAddressSelect = async (_: React.SyntheticEvent, value: AddressSuggestion | null) => {
     if (value) {
-      setIsProcessingAddress(true);
+      const center: MapCenter = {
+        lat: parseFloat(value.lat),
+        lng: parseFloat(value.lon)
+      };
+      setMapCenter(center);
       const lat = parseFloat(value.lat);
       const lng = parseFloat(value.lon);
 
       try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-        );
-        const data = await response.json();
-        const address = data.address;
-
-        if (!isUSLocation(address.country || "")) {
-          return;
+        const locationData = await handleAddressProcessing(lat, lng);
+        if (locationData) {
+          setSelectedLocation(locationData);
+          onLocationSelect(locationData);
         }
-
-        let area =
-          address.area ||
-          address.town ||
-          address.village ||
-          address.suburb ||
-          address.municipality ||
-          address.neighbourhood;
-
-        if (!area || area === "Unknown") {
-          area = await findNearestArea(lat, lng, () => {});
-        }
-
-        const intersectionStr = await findNearbyStreets(lat, lng);
-
-        const locationData = {
-          latitude: lat,
-          longitude: lng,
-          area: area,
-          state: address.state || "",
-          country: address.country || "",
-          intersection: intersectionStr
-        };
-
-        setSelectedLocation({
-          area: locationData.area,
-          state: locationData.state,
-          country: locationData.country,
-          intersection: locationData.intersection
-        });
-
-        onLocationSelect(locationData);
-
-        setMapCenter({ lat, lng });
-
         setSelectedAddress(null);
         setSearchInput("");
       } catch (error) {
         console.error("Error handling location:", error);
-      } finally {
-        setIsProcessingAddress(false);
       }
     }
   };
@@ -214,13 +217,14 @@ export const LocationSelect: React.FC<ReportLocationFilterProps> = ({
               }}
             />
           )}
+          disabled={isDisabled}
         />
       </div>
       <div className="relative mt-1">
         <Map
           onLocationSelect={handleLocationSelect}
           initialLocation={initialLocation}
-          initialZoom={mapCenter ? EDIT_MODE_ZOOM_LEVEL : NEW_REPORT_ZOOM_LEVEL}
+          initialZoom={mapCenter ? zoomLevel : MAP_ZOOM_LEVELS.DEFAULT}
         />
         {isProcessingAddress && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">

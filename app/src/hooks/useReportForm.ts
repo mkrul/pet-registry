@@ -65,7 +65,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     area: string;
     state: string;
     country: string;
-    intersection: string | null;
+    intersection: string;
   }) => {
     setFormData(prev => ({
       ...prev,

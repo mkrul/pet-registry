@@ -177,16 +177,20 @@ export interface IdentificationFieldsProps {
   isLoading?: boolean;
 }
 
-export interface ReportLocationFilterProps {
-  onLocationSelect: (location: MapLocation) => void;
-  initialLocation?: {
-    latitude: number | null;
-    longitude: number | null;
-    area?: string;
-    state?: string;
-    country?: string;
-    intersection?: string | null;
-  };
+export interface LocationData {
+  latitude: number;
+  longitude: number;
+  area: string;
+  state: string;
+  country: string;
+  intersection: string;
+}
+
+export interface LocationSelectProps {
+  onLocationSelect: (location: LocationData) => void;
+  initialLocation?: Partial<LocationData>;
+  isLoading?: boolean;
+  zoomLevel?: MapZoomLevel;
 }
 
 export interface Report {

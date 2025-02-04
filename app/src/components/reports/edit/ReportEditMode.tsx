@@ -17,6 +17,7 @@ import { IdentificationFields } from "../form/IdentificationFields";
 import { ColorFields } from "../form/ColorFields";
 import { ImageUpload } from "../form/ImageUpload";
 import ActionButtons from "../form/ActionButtons";
+import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -74,7 +75,6 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         isLoading={isSaving}
       />
 
-      {/* Colors */}
       <ColorFields
         formData={formData}
         showColor2={showColor2}
@@ -89,20 +89,19 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         isLoading={isSaving}
       />
 
-      {/* Location */}
-      <div className="space-y-2">
-        <LocationSelect
-          onLocationSelect={handleLocationSelect}
-          initialLocation={{
-            latitude: formData.latitude || 0,
-            longitude: formData.longitude || 0,
-            area: formData.area || "",
-            state: formData.state || "",
-            country: formData.country || "",
-            intersection: formData.intersection || null
-          }}
-        />
-      </div>
+      <LocationSelect
+        onLocationSelect={handleLocationSelect}
+        initialLocation={{
+          latitude: formData.latitude ?? 0,
+          longitude: formData.longitude ?? 0,
+          area: formData.area ?? "",
+          state: formData.state ?? "",
+          country: formData.country ?? "",
+          intersection: formData.intersection ?? ""
+        }}
+        isLoading={isSaving}
+        zoomLevel={MAP_ZOOM_LEVELS.EDIT}
+      />
 
       {/* Dates */}
       <div className="space-y-2">
