@@ -170,7 +170,7 @@ export interface IdentificationFieldsProps {
     e:
       | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent
-      | { target: { name: string; value: boolean | null } }
+      | { target: { name: string; value: string | null } }
   ) => void;
   onBreedChange: (breed: string) => void;
   onBreed2Change: (breed: string) => void;

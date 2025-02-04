@@ -48,3 +48,6 @@
 - Created reusable Tip component for consistent tip styling across the application
 - Removed duplicate Description and Name fields from ReportEditMode in favor of shared BasicInfoFields component
 - Integrated BasicInfoFields component into ReportEditMode, replacing duplicate Title, Description, and Name fields
+- Integrated IdentificationFields component into ReportEditMode
+- Removed duplicate Microchip ID, Gender, Species, and Breed fields from ReportEditMode
+- Simplified event handling in ReportEditMode by directly passing handleInputChange to IdentificationFields

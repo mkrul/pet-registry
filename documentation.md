@@ -24,3 +24,6 @@
 - Extracting commonly used UI patterns like tips into reusable components helps maintain consistent styling and reduces duplication
 - When migrating to shared components, it's important to remove duplicate fields to maintain a single source of truth
 - Sharing form components between create and edit views ensures consistent user experience and reduces code duplication
+- When sharing form components between edit and create forms, keeping the event handling consistent helps prevent type mismatches
+- Direct handler passing is preferable to complex event transformations when the base event types are compatible
+- SelectChangeEvent from MUI and React.ChangeEvent<HTMLInputElement> can be used interchangeably for basic form handling

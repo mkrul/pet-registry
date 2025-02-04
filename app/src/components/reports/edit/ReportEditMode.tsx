@@ -14,6 +14,7 @@ import { LocationSelect } from "../form/LocationSelect";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
 import { BasicInfoFields } from "../form/BasicInfoFields";
+import { IdentificationFields } from "../form/IdentificationFields";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -109,129 +110,39 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         </div>
       </div>
 
-      {/* Species */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Species:</label>
-        <FormControl fullWidth>
-          <Select
-            name="species"
-            value={formData.species}
-            onChange={handleInputChange}
-            required
-            disabled={isSaving}
-            sx={commonInputStyles}
-          >
-            {speciesOptions.map((species, index) => (
-              <MenuItem key={`${species}-${index}`} value={species}>
-                {species}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-
-      {/* Breeds */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Breed(s):</label>
-        <div className="space-y-3">
-          <BreedSearch
-            species={formData.species.toLowerCase() as "dog" | "cat"}
-            value={formData.breed1}
-            onChange={breed => {
-              const event = {
-                target: { name: "breed1", value: breed }
-              } as React.ChangeEvent<HTMLInputElement>;
-              handleInputChange(event);
-            }}
-            disabled={isSaving}
-            excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-            required
-            hideLabel
-            size="medium"
-            disableClearable
-          />
-
-          {showBreed2 ? (
-            <div className="flex items-center gap-2">
-              <BreedSearch
-                species={formData.species.toLowerCase() as "dog" | "cat"}
-                value={formData.breed2 || ""}
-                onChange={breed =>
-                  handleInputChange({
-                    target: { name: "breed2", value: breed }
-                  } as React.ChangeEvent<HTMLInputElement>)
-                }
-                disabled={isSaving}
-                excludeBreeds={[formData.breed1]}
-                size="medium"
-                hideLabel
-                disableClearable
-              />
-              <button
-                type="button"
-                onClick={removeBreed}
-                className="text-red-600 hover:text-red-700 p-1 ml-1"
-                disabled={isSaving}
-                aria-label="Remove Breed"
-              >
-                <CloseIcon fontSize="medium" />
-              </button>
-            </div>
-          ) : (
-            <Button
-              onClick={addBreed}
-              disabled={isSaving}
-              color="primary"
-              variant="text"
-              className="mt-2"
-            >
-              + ADD ANOTHER BREED
-            </Button>
-          )}
-        </div>
-      </div>
-
-      {/* Gender */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>
-        <FormControl fullWidth>
-          <Select
-            name="gender"
-            value={formData.gender || ""}
-            onChange={handleInputChange}
-            disabled={isSaving}
-            sx={commonInputStyles}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 200
-                }
-              }
-            }}
-          >
-            {genderOptions.map((gender, index) => (
-              <MenuItem key={index} value={gender}>
-                {gender}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-
-      {/* Microchip ID */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID:</label>
-        <TextField
-          name="microchipId"
-          value={formData.microchipId || ""}
-          onChange={handleInputChange}
-          placeholder="Enter microchip ID (if known)"
-          variant="outlined"
-          fullWidth
-          disabled={isSaving}
-          sx={commonInputStyles}
-        />
-      </div>
+      <IdentificationFields
+        formData={formData}
+        showBreed2={showBreed2}
+        onInputChange={handleInputChange}
+        onBreedChange={breed => {
+          const event = {
+            target: { name: "breed1", value: breed }
+          } as React.ChangeEvent<HTMLInputElement>;
+          handleInputChange(event);
+        }}
+        onBreed2Change={breed => {
+          const event = {
+            target: { name: "breed2", value: breed }
+          } as React.ChangeEvent<HTMLInputElement>;
+          handleInputChange(event);
+        }}
+        onSpeciesChange={species => {
+          const event = {
+            target: { name: "species", value: species }
+          } as React.ChangeEvent<HTMLInputElement>;
+          handleInputChange(event);
+        }}
+        onShowBreed2Change={show => {
+          if (!show) {
+            const event = {
+              target: { name: "breed2", value: "" }
+            } as React.ChangeEvent<HTMLInputElement>;
+            handleInputChange(event);
+          }
+          removeBreed();
+        }}
+        isLoading={isSaving}
+      />
 
       {/* Colors */}
       <div className="space-y-2">
