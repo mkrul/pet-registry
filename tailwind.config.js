@@ -33,6 +33,7 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.purple,
       pink: colors.pink,
+      page: '#f5f5f5',
     },
     screens: {
       'xs': '480px',

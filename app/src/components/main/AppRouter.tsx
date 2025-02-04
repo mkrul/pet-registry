@@ -17,7 +17,7 @@ const AppRouter = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-page">
       <NavBar />
       {notification && (
         <div className="w-full flex justify-center">
