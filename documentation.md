@@ -29,3 +29,6 @@
 - SelectChangeEvent from MUI and React.ChangeEvent<HTMLInputElement> can be used interchangeably for basic form handling
 - When integrating shared components, maintaining consistent event handling patterns helps preserve existing functionality
 - When integrating shared components, adapting event handlers to match existing patterns helps maintain backwards compatibility
+- When integrating shared location components, maintaining consistent location data structure helps ensure compatibility
+- Using shared location selection components helps maintain consistent geocoding behavior across the application
+- Consistent location display formatting between create and edit views improves user experience

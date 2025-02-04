@@ -53,3 +53,5 @@
 - Simplified event handling in ReportEditMode by directly passing handleInputChange to IdentificationFields
 - Integrated ColorFields component into ReportEditMode, replacing duplicate color selection fields
 - Integrated ImageUpload component into ReportEditMode, replacing duplicate image upload controls
+- Integrated LocationSelect component into ReportEditMode, replacing duplicate location selection fields
+- Removed duplicate location selection fields from ReportEditMode in favor of shared LocationSelect component
