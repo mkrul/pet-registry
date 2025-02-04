@@ -44,3 +44,60 @@
 - Event handler functions that don't depend on component state should be defined outside the component
 - Using proper event creation methods improves type safety over simple type assertions
 - Using optional chaining for event handlers improves type safety and prevents runtime errors
+- Keep event transformation logic in the component that knows about the event structure
+- Standardize event handling patterns across similar form components
+- Move complex event handling logic out of parent components
+- Keep all related event transformation logic in one place
+- Simplify component interfaces by handling transformations internally
+- Reduce prop surface area when possible to improve maintainability
+- Keep related state cleanup logic with the component that manages the state
+- Simplify parent interfaces by moving cleanup logic into child components
+- Standardize state management patterns across similar components
+- Keep form field clearing logic with the component that manages the field
+- Minimize parent component responsibilities for child state management
+- Let child components handle their own cleanup logic
+- Be explicit about event types when standardizing form interfaces
+- Use type assertions judiciously to maintain compatibility with existing handlers
+- Keep event type definitions focused on actually used event types
+- Use optional callbacks to support different form behaviors
+- Keep state management consistent while allowing for form-specific cleanup
+- Make component interfaces flexible enough to handle different use cases
+- Pass cleanup callbacks directly instead of wrapping in conditional logic
+- Keep form-specific cleanup handlers at the form level
+- Allow child components to handle common state management while forms handle specific cleanup
+- Keep state management patterns identical between similar form implementations
+- Avoid wrapping simple state setters in conditional logic
+- Let child components fully manage their internal state transitions
+- Use React naming conventions for state setters (setX instead of onXChange)
+- Keep prop names consistent with their actual function
+- Follow React patterns for state management props
+- Combine related state changes into single handlers for clarity
+- Keep state transitions predictable and centralized
+- Group related state management logic together
+- Extract common event creation patterns into helper functions
+- Keep event creation consistent across similar handlers
+- Use utility functions to reduce code duplication in event handling
+- Use higher-order functions to create consistent field handlers
+- Reduce boilerplate by generating similar handlers
+- Keep field change handling patterns consistent
+- Include all possible event types in shared component interfaces
+- Make type definitions comprehensive enough to handle all use cases
+- Keep event type handling consistent across form implementations
+- Keep event type handling consistent from hooks to components
+- Define comprehensive event types at the hook level
+- Ensure form hooks can handle all component event types
+- Use consistent type assertions across similar form components
+- Keep event type handling identical between edit and create forms
+- Apply type standardization to all component usages
+- Extract common event types to reduce duplication
+- Use type aliases to improve code readability
+- Keep type assertions simple and consistent
+- Propagate shared types through component interfaces
+- Remove type assertions when interfaces match
+- Keep type definitions consistent across component hierarchy
+- Include all state management props in component interfaces
+- Keep state setter props consistent with component usage
+- Ensure parent components expose required state management functions
+- Make props required when they represent core functionality
+- Use no-op functions to satisfy required props when no action is needed
+- Keep component interfaces identical between different usages

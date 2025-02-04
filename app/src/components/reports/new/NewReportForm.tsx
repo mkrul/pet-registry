@@ -116,18 +116,9 @@ const NewReportForm: React.FC = () => {
       <IdentificationFields
         formData={formData}
         showBreed2={showBreed2}
-        onInputChange={
-          handleInputChange as (
-            e:
-              | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-              | SelectChangeEvent
-              | { target: { name: string; value: string | null } }
-          ) => void
-        }
-        onBreedChange={breed => setFormData(prev => ({ ...prev, breed1: breed }))}
-        onBreed2Change={breed => setFormData(prev => ({ ...prev, breed2: breed }))}
-        onSpeciesChange={handleSpeciesChange}
-        onShowBreed2Change={setShowBreed2}
+        onInputChange={handleInputChange}
+        setShowBreed2={setShowBreed2}
+        onBreed2Remove={() => {}}
         isLoading={isLoading}
       />
 

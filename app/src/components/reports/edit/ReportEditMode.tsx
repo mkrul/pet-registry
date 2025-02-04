@@ -29,6 +29,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   handleImageLoad,
   handleImageError,
   showBreed2,
+  setShowBreed2,
   showColor2,
   showColor3,
   addBreed,
@@ -66,33 +67,8 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         formData={formData}
         showBreed2={showBreed2}
         onInputChange={handleInputChange}
-        onBreedChange={breed => {
-          const event = {
-            target: { name: "breed1", value: breed }
-          } as React.ChangeEvent<HTMLInputElement>;
-          handleInputChange(event);
-        }}
-        onBreed2Change={breed => {
-          const event = {
-            target: { name: "breed2", value: breed }
-          } as React.ChangeEvent<HTMLInputElement>;
-          handleInputChange(event);
-        }}
-        onSpeciesChange={species => {
-          const event = {
-            target: { name: "species", value: species }
-          } as React.ChangeEvent<HTMLInputElement>;
-          handleInputChange(event);
-        }}
-        onShowBreed2Change={show => {
-          if (!show) {
-            const event = {
-              target: { name: "breed2", value: "" }
-            } as React.ChangeEvent<HTMLInputElement>;
-            handleInputChange(event);
-          }
-          removeBreed();
-        }}
+        setShowBreed2={setShowBreed2}
+        onBreed2Remove={removeBreed}
         isLoading={isSaving}
       />
 

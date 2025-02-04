@@ -23,14 +23,31 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
   showBreed2,
   onInputChange,
-  onBreedChange,
-  onBreed2Change,
-  onSpeciesChange,
-  onShowBreed2Change,
+  setShowBreed2,
+  onBreed2Remove,
   isLoading
 }) => {
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
+
+  const createChangeEvent = (name: string, value: string) =>
+    ({
+      target: { name, value }
+    }) as React.ChangeEvent<HTMLInputElement>;
+
+  const handleFieldChange = (name: string) => (value: string) => {
+    onInputChange(createChangeEvent(name, value));
+  };
+
+  const handleSpeciesChange = handleFieldChange("species");
+  const handleBreedChange = handleFieldChange("breed1");
+  const handleBreed2Change = handleFieldChange("breed2");
+
+  const handleBreed2Remove = () => {
+    onInputChange(createChangeEvent("breed2", ""));
+    onBreed2Remove?.();
+    setShowBreed2(false);
+  };
 
   return (
     <div className="space-y-6">
@@ -86,7 +103,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             labelId="species-label"
             id="species"
             value={formData.species}
-            onChange={e => onSpeciesChange(e.target.value as Species)}
+            onChange={e => handleSpeciesChange(e.target.value as Species)}
             sx={commonInputStyles}
             disabled={isLoading}
             MenuProps={{
@@ -115,7 +132,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         <BreedSearch
           species={formData.species.toLowerCase() as "dog" | "cat"}
           value={formData.breed1}
-          onChange={breed => onBreedChange(breed)}
+          onChange={handleBreedChange}
           disabled={isLoading}
           excludeBreeds={formData.breed2 ? [formData.breed2] : []}
           required
@@ -126,7 +143,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         {!showBreed2 && formData.breed1 && (
           <Button
             data-testid="add-breed-button"
-            onClick={() => onShowBreed2Change(true)}
+            onClick={() => setShowBreed2(true)}
             disabled={isLoading}
             color="primary"
             variant="text"
@@ -149,7 +166,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
               <BreedSearch
                 species={formData.species.toLowerCase() as "dog" | "cat"}
                 value={formData.breed2 || ""}
-                onChange={breed => onBreed2Change(breed)}
+                onChange={handleBreed2Change}
                 disabled={isLoading}
                 excludeBreeds={[formData.breed1]}
                 size="medium"
@@ -159,7 +176,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             </div>
             <Button
               data-testid="remove-breed-button"
-              onClick={() => onShowBreed2Change(false)}
+              onClick={handleBreed2Remove}
               disabled={isLoading}
               color="error"
               variant="text"

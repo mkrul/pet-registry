@@ -97,12 +97,7 @@ export interface UpdateReportResponse {
 
 export interface ReportEditModeProps {
   formData: ReportPropsForm;
-  handleInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-      | { target: { name: string; value: string | null } }
-  ) => void;
+  handleInputChange: (e: FormInputEvent) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSaveChanges: (e: React.FormEvent) => void;
   handleCancelChanges: () => void;
@@ -125,6 +120,7 @@ export interface ReportEditModeProps {
   getFilteredColorOptions: (excludeColors: string[]) => string[];
   genderOptions: string[];
   VIEW_ZOOM_LEVEL: number;
+  setShowBreed2: (show: boolean) => void;
 }
 
 export interface ReportViewModeProps {
@@ -163,19 +159,17 @@ export interface ColorFieldsProps {
   isLoading?: boolean;
 }
 
+export type FormInputEvent =
+  | SelectChangeEvent
+  | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  | { target: { name: string; value: string | null } };
+
 export interface IdentificationFieldsProps {
   formData: ReportPropsForm;
   showBreed2: boolean;
-  onInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-      | { target: { name: string; value: string | null } }
-  ) => void;
-  onBreedChange: (breed: string) => void;
-  onBreed2Change: (breed: string) => void;
-  onSpeciesChange: (species: Species) => void;
-  onShowBreed2Change: (show: boolean) => void;
+  onInputChange: (e: FormInputEvent) => void;
+  setShowBreed2: (show: boolean) => void;
+  onBreed2Remove: () => void;
   isLoading?: boolean;
 }
 

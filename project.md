@@ -66,3 +66,60 @@
 - Moved handleImageSelect function outside ReportEditMode component to optimize performance
 - Updated handleImageSelect to use proper event creation for type safety
 - Added optional chaining to ImageUpload handlers for type safety
+- Standardized event handling in IdentificationFields component
+- Moved event transformation logic into IdentificationFields
+- Created consistent interface between NewReportForm and ReportEditMode
+- Moved all event transformation logic into IdentificationFields
+- Removed redundant breed and species change handlers from parent components
+- Simplified IdentificationFields interface by removing unnecessary props
+- Standardized breed2 removal logic in IdentificationFields
+- Moved breed2 cleanup into IdentificationFields component
+- Simplified parent component interfaces for IdentificationFields
+- Further standardized breed2 removal logic between forms
+- Moved breed2 value clearing into IdentificationFields
+- Simplified breed2 removal callback in ReportEditMode
+- Fixed type mismatch in NewReportForm IdentificationFields onInputChange prop
+- Standardized input event types between NewReportForm and ReportEditMode
+- Simplified IdentificationFields event type definition
+- Made breed2 removal handling optional in IdentificationFields
+- Standardized breed2 state management between forms
+- Added optional onBreed2Remove callback for edit mode
+- Updated ReportEditMode to use onBreed2Remove prop
+- Simplified breed2 removal handling in ReportEditMode
+- Made breed2 removal consistent between forms
+- Simplified breed2 show/hide handling in ReportEditMode
+- Made breed2 state management identical between forms
+- Removed redundant conditional logic from ReportEditMode
+- Renamed onShowBreed2Change to setShowBreed2 for clarity
+- Made state setter naming consistent with React conventions
+- Standardized state management props between forms
+- Combined breed2 removal logic into single handler
+- Simplified breed2 state management in IdentificationFields
+- Made breed2 removal behavior more predictable
+- Standardized event creation in IdentificationFields
+- Extracted common event creation logic
+- Made event handling consistent across all field types
+- Created reusable field change handler factory
+- Simplified field-specific change handlers
+- Standardized field change handling pattern
+- Updated IdentificationFieldsProps to include all input event types
+- Fixed type mismatch in NewReportForm onInputChange prop
+- Made event type handling consistent between forms
+- Updated useReportForm hook to handle all input event types
+- Standardized event type handling in form hook
+- Fixed type mismatch in NewReportForm handleInputChange
+- Fixed type mismatch in ReportEditMode IdentificationFields usage
+- Standardized event type handling in ReportEditMode
+- Made form event handling consistent across both forms
+- Extracted FormInputEvent type for reusability
+- Simplified event type handling in form components
+- Made event type assertions more maintainable
+- Updated ReportEditModeProps to use FormInputEvent type
+- Removed unnecessary type assertion in ReportEditMode
+- Standardized input event types across interfaces
+- Added setShowBreed2 to ReportEditModeProps interface
+- Standardized breed2 state management props in ReportEditMode
+- Fixed type error in ReportEditMode component props
+- Made onBreed2Remove prop required in IdentificationFields
+- Added no-op onBreed2Remove handler to NewReportForm
+- Standardized IdentificationFields props between forms

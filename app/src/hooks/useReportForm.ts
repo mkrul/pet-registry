@@ -41,43 +41,12 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
 
   const handleInputChange = (
     e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
       | SelectChangeEvent
-      | { target: { name: string; value: boolean | null } }
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string | null } }
   ) => {
     const { name, value } = e.target;
-
-    if (name === "breed1" && value === formData.breed2) {
-      setFormData(prev => ({
-        ...prev,
-        breed2: null
-      }));
-      setShowBreed2(false);
-      return;
-    }
-
-    if (name === "color1" && (value === formData.color2 || value === formData.color3)) {
-      if (value === formData.color2) {
-        setFormData(prev => ({
-          ...prev,
-          color2: null
-        }));
-        setShowColor2(false);
-      }
-      if (value === formData.color3) {
-        setFormData(prev => ({
-          ...prev,
-          color3: null
-        }));
-        setShowColor3(false);
-      }
-      return;
-    }
-
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSpeciesChange = (species: Species) => {
