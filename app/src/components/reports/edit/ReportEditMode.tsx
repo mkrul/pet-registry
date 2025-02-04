@@ -32,6 +32,8 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   setShowBreed2,
   showColor2,
   showColor3,
+  setShowColor2,
+  setShowColor3,
   addBreed,
   removeBreed,
   addColor,
@@ -73,34 +75,19 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
       />
 
       {/* Colors */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>
-        <ColorFields
-          formData={formData}
-          showColor2={showColor2}
-          showColor3={showColor3}
-          onInputChange={handleInputChange}
-          onShowColor2Change={show => {
-            if (!show) {
-              const event = {
-                target: { name: "color2", value: null }
-              };
-              handleInputChange(event);
-            }
-            removeColor(1);
-          }}
-          onShowColor3Change={show => {
-            if (!show) {
-              const event = {
-                target: { name: "color3", value: null }
-              };
-              handleInputChange(event);
-            }
-            removeColor(2);
-          }}
-          isLoading={isSaving}
-        />
-      </div>
+      <ColorFields
+        formData={formData}
+        showColor2={showColor2}
+        showColor3={showColor3}
+        onInputChange={handleInputChange}
+        setShowColor2={setShowColor2}
+        setShowColor3={setShowColor3}
+        onColor2Add={addColor}
+        onColor3Add={addColor}
+        onColor2Remove={() => removeColor(1)}
+        onColor3Remove={() => removeColor(2)}
+        isLoading={isSaving}
+      />
 
       {/* Location */}
       <div className="space-y-2">

@@ -101,3 +101,30 @@
 - Make props required when they represent core functionality
 - Use no-op functions to satisfy required props when no action is needed
 - Keep component interfaces identical between different usages
+- Follow same naming patterns as IdentificationFields for consistency
+- Use optional callbacks to handle form-specific cleanup
+- Keep component interfaces aligned across similar form fields
+- Keep color state cleanup logic with color component
+- Use consistent state management patterns across form fields
+- Follow same patterns established in IdentificationFields
+- Keep state setter props consistent across form components
+- Follow same state management patterns for similar fields
+- Ensure parent components expose all required state setters
+- Use consistent event creation patterns across form components
+- Keep color validation logic with color component
+- Make color state changes predictable and clear
+- Extract complex validation logic into focused functions
+- Keep related color validation together
+- Make color conflict handling reusable
+- Keep component-specific labels within components
+- Encapsulate component styling for better reusability
+- Remove styling duplication from parent components
+- Handle both add and remove actions consistently
+- Keep form-specific handlers optional but available
+- Ensure all form actions have corresponding handlers
+- Keep state transition logic with the component managing the state
+- Handle optional callbacks in state change handlers
+- Make state transitions and side effects consistent
+- Order of state updates matters for form functionality
+- Call parent handlers before updating local state
+- Keep state transitions synchronized between parent and child

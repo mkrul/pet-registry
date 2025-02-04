@@ -121,6 +121,8 @@ export interface ReportEditModeProps {
   genderOptions: string[];
   VIEW_ZOOM_LEVEL: number;
   setShowBreed2: (show: boolean) => void;
+  setShowColor2: (show: boolean) => void;
+  setShowColor3: (show: boolean) => void;
 }
 
 export interface ReportViewModeProps {
@@ -151,11 +153,13 @@ export interface ColorFieldsProps {
   formData: ReportPropsForm;
   showColor2: boolean;
   showColor3: boolean;
-  onInputChange: (
-    e: SelectChangeEvent | { target: { name: string; value: string | null } }
-  ) => void;
-  onShowColor2Change: (show: boolean) => void;
-  onShowColor3Change: (show: boolean) => void;
+  onInputChange: (e: FormInputEvent) => void;
+  setShowColor2: (show: boolean) => void;
+  setShowColor3: (show: boolean) => void;
+  onColor2Add?: () => void;
+  onColor3Add?: () => void;
+  onColor2Remove?: () => void;
+  onColor3Remove?: () => void;
   isLoading?: boolean;
 }
 
