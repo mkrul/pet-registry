@@ -30,7 +30,7 @@ const AppRouter = () => {
           </div>
         </div>
       )}
-      <div className="flex-grow">
+      <div className="flex-grow bg-page">
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />

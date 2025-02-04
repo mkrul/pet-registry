@@ -17,7 +17,12 @@ module.exports = {
     './app/src/stylesheets/*.css',
   ],
   daisyui: {
-    themes: ["nord"],
+    themes: [{
+      nord: {
+        ...require("daisyui/src/theming/themes")["nord"],
+        "base-100": "#f5f5f5",
+      }
+    }],
   },
   theme: {
     colors: {
