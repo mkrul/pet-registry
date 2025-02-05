@@ -86,19 +86,19 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
   const handleShowColor2Change = (show: boolean) => {
     if (show) {
       onColor2Add?.();
-      setShowColor2(true);
     } else {
       handleColor2Remove();
     }
+    setShowColor2(show);
   };
 
   const handleShowColor3Change = (show: boolean) => {
     if (show) {
       onColor3Add?.();
-      setShowColor3(true);
     } else {
       handleColor3Remove();
     }
+    setShowColor3(show);
   };
 
   return (

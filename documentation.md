@@ -205,3 +205,17 @@
 - Remove debugging logs once functionality is fixed to keep code clean
 - Clean up temporary debugging code after resolving issues
 - Maintain code cleanliness by removing diagnostic logging after debugging
+- When using state management hooks, ensure all required state setters are properly destructured and passed down to child components
+- TypeScript linting can help identify missing props that could cause runtime errors
+- Optional callback props should be handled with optional chaining, while required state setters should be called directly
+- Props interfaces must properly type state setter functions to avoid runtime errors
+- State setter functions should be explicitly typed and wrapped when passed as props to ensure proper binding
+- Component-level state management should be handled at the container level when dealing with edit/view modes
+- Tailwind's space utilities should be adjusted based on component hierarchy and visual design requirements
+- Nested space utilities should be carefully considered to avoid compounding spacing effects
+- Consistent spacing between form sections improves visual hierarchy and readability
+- Match spacing patterns across similar form components for visual consistency
+- State management should be handled by the custom hook rather than component-level useState
+- Verify state setter functions are properly typed in component prop interfaces
+- Custom hooks must explicitly return all required state setters in their return object
+- Order state transitions carefully to ensure proper synchronization between parent and child components

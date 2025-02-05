@@ -26,6 +26,8 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     setShowBreed2,
     showColor2,
     showColor3,
+    setShowColor2,
+    setShowColor3,
     speciesOptions,
     breedOptions,
     colorOptions,
@@ -114,6 +116,8 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
             setShowBreed2={setShowBreed2}
             showColor2={showColor2}
             showColor3={showColor3}
+            setShowColor2={setShowColor2}
+            setShowColor3={setShowColor3}
             addBreed={addBreed}
             removeBreed={removeBreed}
             addColor={addColor}
