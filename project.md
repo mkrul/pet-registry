@@ -282,3 +282,7 @@
 - Standardized map zoom levels between view and edit modes for consistent user experience
 - Fixed map pin and view update when selecting location via address search to ensure selected location is visible
 - Fixed map zoom level when selecting location via address search to match pin drop zoom level
+- Fixed EditReportForm to use correct MAP_ZOOM_LEVELS.EDIT constant for consistent zoom behavior
+- Adjusted EDIT zoom level to 18 for better visibility of selected locations in edit mode
+- Fixed map zoom level in edit mode by using initialZoom prop consistently
+- Updated ReportViewMode to use MAP_ZOOM_LEVELS.VIEW constant for consistent zoom behavior

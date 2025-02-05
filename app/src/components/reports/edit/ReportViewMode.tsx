@@ -6,6 +6,7 @@ import Map from "../../common/Map";
 import { ReportViewModeProps } from "../../../types/Report";
 import Spinner from "../../common/Spinner";
 import LocationDisplay from "../../common/LocationDisplay";
+import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 
 const ReportViewMode: React.FC<ReportViewModeProps> = ({
   report,
@@ -15,7 +16,6 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
   handleImageLoad,
   handleImageError
 }) => {
-  const VIEW_ZOOM_LEVEL = 18;
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   const onImageLoad = () => {
@@ -129,7 +129,7 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
               latitude: report.latitude,
               longitude: report.longitude
             }}
-            initialZoom={VIEW_ZOOM_LEVEL}
+            initialZoom={MAP_ZOOM_LEVELS.VIEW}
             readOnly={true}
           />
         </div>

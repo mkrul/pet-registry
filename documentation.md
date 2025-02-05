@@ -281,3 +281,8 @@
 - useEffect dependencies should include all values that could trigger map position updates
 - Map view should update to show selected location regardless of selection method to maintain user context
 - Map zoom level should be consistent regardless of location selection method to provide uniform user experience
+- Using shared map zoom level constants ensures consistent zoom behavior across different form modes
+- Higher zoom levels (18) provide better visibility for precise location selection in edit mode
+- Map zoom levels should be consistently applied at the component level rather than relying on prop passing
+- Map zoom levels should be controlled through props to maintain consistent behavior across different modes
+- Using shared zoom level constants in view mode ensures consistent map display across the application
