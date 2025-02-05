@@ -274,3 +274,5 @@
 - Map markers should only be displayed in interactive map modes to avoid visual clutter in read-only views
 - State for map markers should be managed within the map component to maintain component encapsulation
 - Using conditional rendering for map markers allows different behavior between read-only and interactive modes
+- Map view initialization should only happen once to prevent unwanted zoom resets during user interaction
+- State flags can help control when effects should run to prevent unwanted side effects

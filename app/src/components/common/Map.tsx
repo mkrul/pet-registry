@@ -175,6 +175,7 @@ const MapEvents: React.FC<MapEventsProps> = ({
       ? [initialLocation.latitude, initialLocation.longitude]
       : null
   );
+  const [hasSetInitialView, setHasSetInitialView] = useState(false);
 
   const map = useMapEvents({
     click: async e => {
@@ -255,14 +256,17 @@ const MapEvents: React.FC<MapEventsProps> = ({
   };
 
   useEffect(() => {
-    if (initialLocation?.latitude && initialLocation?.longitude) {
-      map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
-        animate: true
-      });
-    } else {
-      map.setView([39.8283, -98.5795], initialZoom, { animate: true });
+    if (!hasSetInitialView) {
+      if (initialLocation?.latitude && initialLocation?.longitude) {
+        map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
+          animate: true
+        });
+      } else {
+        map.setView([39.8283, -98.5795], initialZoom, { animate: true });
+      }
+      setHasSetInitialView(true);
     }
-  }, [map, initialLocation?.latitude, initialLocation?.longitude, initialZoom]);
+  }, [map, initialLocation?.latitude, initialLocation?.longitude, initialZoom, hasSetInitialView]);
 
   return (
     <>
