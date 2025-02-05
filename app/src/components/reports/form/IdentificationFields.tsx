@@ -160,7 +160,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
           >
             <div className="flex items-center">
               <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
-              <span>ADD ANOTHER BREED</span>
+              <span>ADD BREED</span>
             </div>
           </Button>
         )}

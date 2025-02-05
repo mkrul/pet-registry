@@ -137,7 +137,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           >
             <div className="flex items-center">
               <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
-              <span>ADD ANOTHER COLOR</span>
+              <span>ADD COLOR</span>
             </div>
           </Button>
         )}
@@ -194,7 +194,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           >
             <div className="flex items-center">
               <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
-              <span>ADD ANOTHER COLOR</span>
+              <span>ADD COLOR</span>
             </div>
           </Button>
         )}

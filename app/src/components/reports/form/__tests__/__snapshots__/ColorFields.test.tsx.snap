@@ -65,7 +65,7 @@ exports[`ColorFields > Rendering > should match snapshot 1`] = `
     tabindex="0"
     type="button"
   >
-    + ADD ANOTHER COLOR
+    + ADD COLOR
   </button>
 </div>
 `;
