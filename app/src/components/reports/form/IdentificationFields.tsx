@@ -99,50 +99,49 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Species:</label>
-        <FormControl fullWidth>
-          <Select
-            data-testid="species-select"
-            labelId="species-label"
-            id="species"
-            value={formData.species}
-            onChange={e => handleSpeciesChange(e.target.value as Species)}
-            sx={commonInputStyles}
-            disabled={isLoading}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 200
+        <label className="text-lg font-medium text-gray-900">Species:</label>
+        <div>
+          <FormControl fullWidth>
+            <Select
+              data-testid="species-select"
+              labelId="species-label"
+              id="species"
+              value={formData.species}
+              onChange={e => handleSpeciesChange(e.target.value as Species)}
+              sx={commonInputStyles}
+              disabled={isLoading}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200
+                  }
                 }
-              }
-            }}
-          >
-            {speciesOptions.map((species, index) => (
-              <MenuItem key={`${species}-${index}`} value={species} data-testid="species-option">
-                {species}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
+              }}
+            >
+              {speciesOptions.map((species, index) => (
+                <MenuItem key={`${species}-${index}`} value={species} data-testid="species-option">
+                  {species}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
 
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Breed(s):</label>
-        <Tip>
-          Breeds can be difficult to identify visually. If you are unsure of the animal's primary
-          breed makeup, use your best guess or select "Mixed Breed" from the dropdown.
-        </Tip>
-        <BreedSearch
-          species={formData.species.toLowerCase() as "dog" | "cat"}
-          value={formData.breed1}
-          onChange={handleBreedChange}
-          disabled={isLoading}
-          excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-          required
-          size="medium"
-          hideLabel
-          disableClearable
-        />
+        <label className="text-lg font-medium text-gray-900">Breed:</label>
+        <div>
+          <BreedSearch
+            species={formData.species.toLowerCase() as "dog" | "cat"}
+            value={formData.breed1}
+            onChange={handleBreedChange}
+            disabled={isLoading}
+            excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+            required
+            size="medium"
+            hideLabel
+            disableClearable
+          />
+        </div>
+
         {!showBreed2 && formData.breed1 && (
           <AddFieldButton
             onClick={() => setShowBreed2(true)}
