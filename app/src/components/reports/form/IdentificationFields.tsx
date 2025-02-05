@@ -18,6 +18,7 @@ import { commonInputStyles } from "../../../styles/commonStyles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Tip from "../../common/Tip";
+import { AddFieldButton } from "../../common/AddFieldButton";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -146,23 +147,12 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
           disableClearable
         />
         {!showBreed2 && formData.breed1 && (
-          <Button
-            data-testid="add-breed-button"
-            onClick={() => {
-              console.log("Add breed button clicked");
-              setShowBreed2(true);
-            }}
+          <AddFieldButton
+            onClick={() => setShowBreed2(true)}
             disabled={isLoading}
-            color="primary"
-            variant="text"
-            className="mt-2"
-            sx={commonInputStyles}
-          >
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
-              <span>ADD BREED</span>
-            </div>
-          </Button>
+            label="ADD BREED"
+            testId="add-breed-button"
+          />
         )}
       </div>
 

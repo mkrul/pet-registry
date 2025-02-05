@@ -6,6 +6,7 @@ import { ColorFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { AddFieldButton } from "../../common/AddFieldButton";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
@@ -126,20 +127,12 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
         </div>
 
         {!showColor2 && formData.color1 && (
-          <Button
+          <AddFieldButton
             onClick={() => handleShowColor2Change(true)}
             disabled={isLoading}
-            color="primary"
-            variant="text"
-            className="mt-2"
-            sx={commonInputStyles}
-            data-testid="add-color-button"
-          >
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
-              <span>ADD COLOR</span>
-            </div>
-          </Button>
+            label="ADD COLOR"
+            testId="add-color-button"
+          />
         )}
 
         {showColor2 && (
@@ -183,20 +176,12 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
         )}
 
         {showColor2 && !showColor3 && formData.color2 && (
-          <Button
+          <AddFieldButton
             onClick={() => handleShowColor3Change(true)}
             disabled={isLoading}
-            color="primary"
-            variant="text"
-            className="mt-2"
-            sx={commonInputStyles}
-            data-testid="add-color-button"
-          >
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faPlus} className="mr-2 mb-[3px]" />
-              <span>ADD COLOR</span>
-            </div>
-          </Button>
+            label="ADD COLOR"
+            testId="add-color-button"
+          />
         )}
 
         {showColor3 && (

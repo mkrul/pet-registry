@@ -219,3 +219,9 @@
 - Verify state setter functions are properly typed in component prop interfaces
 - Custom hooks must explicitly return all required state setters in their return object
 - Order state transitions carefully to ensure proper synchronization between parent and child components
+- Reusable UI components like buttons should include customizable labels for better accessibility and reuse
+- When extracting common UI patterns, consider both visual consistency and semantic meaning
+- Using default prop values allows components to maintain backwards compatibility while adding new features
+- Component extraction should preserve existing data-testid patterns for testing consistency
+- When extracting shared components, ensure test coverage remains consistent by preserving testIds
+- Maintain consistent testIds across multiple instances of the same component type
