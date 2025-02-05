@@ -7,6 +7,7 @@ import { commonInputStyles } from "../../../styles/commonStyles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AddFieldButton } from "../../common/AddFieldButton";
+import { RemoveFieldButton } from "../../common/RemoveFieldButton";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
@@ -158,19 +159,12 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
                   </Select>
                 </FormControl>
               </div>
-              <Button
-                type="button"
+              <RemoveFieldButton
                 onClick={handleColor2Remove}
                 disabled={isLoading}
-                color="error"
-                variant="text"
-                startIcon={<CloseIcon fontSize="medium" />}
-                aria-label="Remove Color 2"
-                sx={commonInputStyles}
-                data-testid="remove-color-button"
-              >
-                Remove
-              </Button>
+                testId="remove-color-button"
+                ariaLabel="Remove Color"
+              />
             </div>
           </div>
         )}
@@ -209,19 +203,12 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
                   </Select>
                 </FormControl>
               </div>
-              <Button
-                type="button"
+              <RemoveFieldButton
                 onClick={handleColor3Remove}
                 disabled={isLoading}
-                color="error"
-                variant="text"
-                startIcon={<CloseIcon fontSize="medium" />}
-                aria-label="Remove Color 3"
-                sx={commonInputStyles}
-                data-testid="remove-color-button"
-              >
-                Remove
-              </Button>
+                testId="remove-color-button"
+                ariaLabel="Remove Color"
+              />
             </div>
           </div>
         )}

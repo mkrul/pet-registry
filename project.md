@@ -231,3 +231,9 @@
 - Created reusable AddFieldButton component with consistent styling and test coverage
 - Added testId prop to AddFieldButton to maintain existing test selectors
 - Updated all ADD COLOR and ADD BREED buttons to use consistent testIds
+- Created reusable RemoveFieldButton component for consistent remove button styling and behavior
+- Updated ColorFields to use RemoveFieldButton for color removal
+- Updated IdentificationFields to use RemoveFieldButton for breed removal
+- Maintained consistent testIds for remove buttons across components
+- Added ariaLabel prop to RemoveFieldButton for better accessibility
+- Updated all remove buttons to use specific aria labels for their context

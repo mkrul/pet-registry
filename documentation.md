@@ -225,3 +225,9 @@
 - Component extraction should preserve existing data-testid patterns for testing consistency
 - When extracting shared components, ensure test coverage remains consistent by preserving testIds
 - Maintain consistent testIds across multiple instances of the same component type
+- Extract common UI patterns like remove buttons to improve maintainability and consistency
+- Preserve aria-label and accessibility features when extracting shared button components
+- Keep error state styling consistent across similar destructive actions
+- Maintain consistent icon usage across similar button types
+- When creating shared button components, ensure aria-labels can be customized for specific contexts
+- Maintain consistent aria-labels across similar actions (e.g., "Remove Color", "Remove Breed")

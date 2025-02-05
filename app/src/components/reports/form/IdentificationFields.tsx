@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Tip from "../../common/Tip";
 import { AddFieldButton } from "../../common/AddFieldButton";
+import { RemoveFieldButton } from "../../common/RemoveFieldButton";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -172,18 +173,12 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
                 disableClearable
               />
             </div>
-            <Button
-              data-testid="remove-breed-button"
+            <RemoveFieldButton
               onClick={handleBreed2Remove}
               disabled={isLoading}
-              color="error"
-              variant="text"
-              startIcon={<CloseIcon fontSize="medium" />}
-              aria-label="Remove Breed"
-              sx={commonInputStyles}
-            >
-              Remove
-            </Button>
+              testId="remove-breed-button"
+              ariaLabel="Remove Breed"
+            />
           </div>
         </div>
       )}
