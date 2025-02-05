@@ -130,10 +130,16 @@ const NewReportForm: React.FC = () => {
         onInputChange={handleInputChange}
         setShowColor2={setShowColor2}
         setShowColor3={setShowColor3}
-        onColor2Add={() => {}}
-        onColor3Add={() => {}}
-        onColor2Remove={() => {}}
-        onColor3Remove={() => {}}
+        onColor2Add={() => setShowColor2(true)}
+        onColor3Add={() => setShowColor3(true)}
+        onColor2Remove={() => {
+          setFormData(prev => ({ ...prev, color2: null }));
+          setShowColor2(false);
+        }}
+        onColor3Remove={() => {
+          setFormData(prev => ({ ...prev, color3: null }));
+          setShowColor3(false);
+        }}
         isLoading={isLoading}
       />
 

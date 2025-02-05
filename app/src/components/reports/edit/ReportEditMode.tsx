@@ -30,6 +30,15 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   removeColor,
   handleLocationSelect
 }) => {
+  React.useEffect(() => {
+    if (formData.color2) {
+      setShowColor2(true);
+    }
+    if (formData.color3) {
+      setShowColor3(true);
+    }
+  }, [formData.color2, formData.color3, setShowColor2, setShowColor3]);
+
   return (
     <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
       <ActionButtons
@@ -64,10 +73,20 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         onInputChange={handleInputChange}
         setShowColor2={setShowColor2}
         setShowColor3={setShowColor3}
-        onColor2Add={addColor}
-        onColor3Add={addColor}
-        onColor2Remove={() => removeColor(1)}
-        onColor3Remove={() => removeColor(2)}
+        onColor2Add={() => setShowColor2(true)}
+        onColor3Add={() => setShowColor3(true)}
+        onColor2Remove={() => {
+          handleInputChange({
+            target: { name: "color2", value: null }
+          });
+          setShowColor2(false);
+        }}
+        onColor3Remove={() => {
+          handleInputChange({
+            target: { name: "color3", value: null }
+          });
+          setShowColor3(false);
+        }}
         isLoading={isSaving}
       />
 
