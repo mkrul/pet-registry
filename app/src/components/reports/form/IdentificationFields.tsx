@@ -1,25 +1,12 @@
 import React from "react";
-import {
-  FormControl,
-  TextField,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  SelectChangeEvent
-} from "@mui/material";
+import { FormControl, TextField, Select, MenuItem } from "@mui/material";
 import { Species } from "../../../lib/reports/breedList";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
 import { IdentificationFieldsProps } from "../../../types/Report";
-import CloseIcon from "@mui/icons-material/Close";
 import { commonInputStyles } from "../../../styles/commonStyles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import Tip from "../../common/Tip";
 import { AddFieldButton } from "../../common/AddFieldButton";
-import { RemoveFieldButton } from "../../common/RemoveFieldButton";
 import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
