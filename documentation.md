@@ -276,3 +276,4 @@
 - Using conditional rendering for map markers allows different behavior between read-only and interactive modes
 - Map view initialization should only happen once to prevent unwanted zoom resets during user interaction
 - State flags can help control when effects should run to prevent unwanted side effects
+- Map zoom levels should remain consistent when transitioning between view and edit modes to maintain user context

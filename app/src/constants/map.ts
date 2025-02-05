@@ -1,5 +1,5 @@
 export const MAP_ZOOM_LEVELS = {
-  EDIT: 16,
+  EDIT: 18,
   NEW: 4,
   DEFAULT: 4
 } as const;

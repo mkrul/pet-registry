@@ -279,3 +279,4 @@
 - Added map pin display for location selection in Map component
 - Preserved read-only behavior in ReportViewMode while adding pin display for edit/create modes
 - Fixed map zoom reset issue when dropping pins by only setting initial view once
+- Standardized map zoom levels between view and edit modes for consistent user experience
