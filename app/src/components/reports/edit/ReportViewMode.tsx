@@ -131,6 +131,7 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
             }}
             initialZoom={MAP_ZOOM_LEVELS.VIEW}
             readOnly={true}
+            onLocationSelect={() => {}}
           />
         </div>
       </div>
