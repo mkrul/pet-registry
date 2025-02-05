@@ -8,6 +8,7 @@ interface ColorSearchProps {
   excludeColors?: (string | null)[];
   disabled?: boolean;
   size?: "small" | "medium";
+  sx?: any;
 }
 
 export const ColorSearch: React.FC<ColorSearchProps> = ({
@@ -15,7 +16,8 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
   onChange,
   excludeColors = [],
   disabled = false,
-  size = "small"
+  size = "small",
+  sx
 }) => {
   const colorOptions = React.useMemo(() => {
     const colors = getColorOptions();
@@ -29,7 +31,7 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
       options={colorOptions}
       disabled={disabled}
       size={size}
-      renderInput={params => <TextField {...params} variant="outlined" size={size} />}
+      renderInput={params => <TextField {...params} variant="outlined" size={size} sx={sx} />}
     />
   );
 };

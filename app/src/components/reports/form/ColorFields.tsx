@@ -3,6 +3,7 @@ import { ColorFieldsProps } from "../../../types/Report";
 import { AddFieldButton } from "../../common/AddFieldButton";
 import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 import { ColorSearch } from "../../common/ColorSearch";
+import { commonInputStyles } from "../../../styles/commonStyles";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
@@ -39,6 +40,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           disabled={isLoading}
           size="medium"
           excludeColors={[formData.color2, formData.color3].filter(Boolean)}
+          sx={commonInputStyles}
         />
       </div>
 
@@ -70,6 +72,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
                 disabled={isLoading}
                 size="medium"
                 excludeColors={[formData.color1, formData.color3].filter(Boolean)}
+                sx={commonInputStyles}
               />
             </AdditionalFieldSet>
           </div>
@@ -104,6 +107,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
                 disabled={isLoading}
                 size="medium"
                 excludeColors={[formData.color1, formData.color2].filter(Boolean)}
+                sx={commonInputStyles}
               />
             </AdditionalFieldSet>
           </div>
