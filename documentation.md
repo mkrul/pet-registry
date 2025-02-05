@@ -264,3 +264,10 @@
 - Avoid combining margin utilities with space utilities on parent elements to prevent spacing conflicts
 - Use identical spacing utilities between similar form components to ensure visual consistency
 - Position action buttons inline with their related form controls for better visual connection
+- Session management requires both frontend and backend coordination
+- Regular polling helps maintain active sessions
+- Session renewal should happen on authenticated requests
+- Same-site cookie settings affect session security
+- Session duration should balance security with user experience
+- Frontend state management should handle session expiration gracefully
+- Sessions should persist until explicit logout rather than using automatic expiration for better user experience

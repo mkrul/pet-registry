@@ -34,6 +34,7 @@ module Api
     def show
       current_user = find_current_user
       if current_user
+        renew_session
         render json: success_response(current_user), status: :ok
       else
         render json: { error: 'Not authenticated' }, status: :unauthorized
@@ -195,6 +196,11 @@ module Api
       last_activity = Time.at(session[:last_activity].to_i)
       timeout = Devise.timeout_in || 30.minutes
       last_activity < timeout.ago
+    end
+
+    def renew_session
+      session[:last_activity] = Time.current.to_i
+      session[:expires_at] = 4.hours.from_now.to_i
     end
   end
 end

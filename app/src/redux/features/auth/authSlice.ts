@@ -20,9 +20,12 @@ const authSlice = createSlice({
     setUser(state, action: PayloadAction<UserProps>) {
       state.user = action.payload;
       state.error = null;
+      state.isLoading = false;
     },
     clearUser(state) {
       state.user = null;
+      state.isLoading = false;
+      state.error = null;
     },
     setLoading(state, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;

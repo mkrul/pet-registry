@@ -17,8 +17,8 @@ const App: React.FC = () => {
   });
 
   const { data, isLoading, isError, error } = useGetCurrentUserQuery(undefined, {
-    pollingInterval: 3600000,
-    refetchOnMountOrArgChange: 3600
+    pollingInterval: 900000,
+    refetchOnMountOrArgChange: true
   });
 
   useEffect(() => {
