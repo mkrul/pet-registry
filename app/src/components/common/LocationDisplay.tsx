@@ -14,11 +14,11 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
   }
 
   const locationString = () => {
-    if (area && state && intersection) {
+    if (area && state) {
       return (
         <>
           <p>{`${area}, ${state}, United States`}</p>
-          <p>Intersection of {intersection}</p>
+          {intersection && <p>Intersection of {intersection}</p>}
         </>
       );
     }
