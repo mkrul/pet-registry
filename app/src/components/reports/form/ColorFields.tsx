@@ -1,13 +1,8 @@
 import React from "react";
-import { FormControl, Select, MenuItem, Button } from "@mui/material";
-import { getColorOptions } from "../../../lib/reports/colorList";
-import { Close as CloseIcon } from "@mui/icons-material";
 import { ColorFieldsProps } from "../../../types/Report";
-import { commonInputStyles } from "../../../styles/commonStyles";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AddFieldButton } from "../../common/AddFieldButton";
-import { RemoveFieldButton } from "../../common/RemoveFieldButton";
+import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
+import { ColorSearch } from "../../common/ColorSearch";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
@@ -22,85 +17,16 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
   onColor3Remove,
   isLoading
 }) => {
-  const getFilteredColorOptions = (selectedColors: (string | null)[]) => {
-    const validSelectedColors = selectedColors.filter(
-      (color): color is string => color !== null && color !== ""
-    );
-    return getColorOptions().filter(color => !validSelectedColors.includes(color));
+  const handleColorChange = (value: string) => {
+    onInputChange({ target: { name: "color1", value } });
   };
 
-  const menuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 200
-      }
-    }
+  const handleColor2Change = (value: string) => {
+    onInputChange({ target: { name: "color2", value } });
   };
 
-  const createChangeEvent = (name: string, value: string | null) =>
-    ({
-      target: { name, value }
-    }) as React.ChangeEvent<HTMLInputElement>;
-
-  const handleColorConflict = (value: string) => {
-    if (value === formData.color2) {
-      onInputChange(createChangeEvent("color2", null));
-      setShowColor2(false);
-    }
-    if (value === formData.color3) {
-      onInputChange(createChangeEvent("color3", null));
-      setShowColor3(false);
-    }
-  };
-
-  const handleColorChange = (e: any) => {
-    handleColorConflict(e.target.value);
-    onInputChange(e);
-  };
-
-  const handleColor2Change = (e: any) => {
-    const { value } = e.target;
-    if (value === formData.color1) return;
-    if (value === formData.color3) {
-      onInputChange(createChangeEvent("color3", null));
-      setShowColor3(false);
-    }
-    onInputChange(e);
-  };
-
-  const handleColor3Change = (e: any) => {
-    if (e.target.value === formData.color1 || e.target.value === formData.color2) return;
-    onInputChange(e);
-  };
-
-  const handleColor2Remove = () => {
-    onInputChange({ target: { name: "color2", value: null } });
-    onColor2Remove?.();
-    setShowColor2(false);
-  };
-
-  const handleColor3Remove = () => {
-    onInputChange({ target: { name: "color3", value: null } });
-    onColor3Remove?.();
-    setShowColor3(false);
-  };
-
-  const handleShowColor2Change = (show: boolean) => {
-    if (show) {
-      onColor2Add?.();
-    } else {
-      handleColor2Remove();
-    }
-    setShowColor2(show);
-  };
-
-  const handleShowColor3Change = (show: boolean) => {
-    if (show) {
-      onColor3Add?.();
-    } else {
-      handleColor3Remove();
-    }
-    setShowColor3(show);
+  const handleColor3Change = (value: string) => {
+    onInputChange({ target: { name: "color3", value } });
   };
 
   return (
@@ -108,28 +34,18 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
       <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>
       <div className="space-y-6">
         <div className="flex-grow">
-          <FormControl fullWidth>
-            <Select
-              labelId="color1-label"
-              id="color1"
-              name="color1"
-              value={formData.color1}
-              onChange={handleColorChange}
-              sx={commonInputStyles}
-              MenuProps={menuProps}
-            >
-              {getColorOptions().map((color, index) => (
-                <MenuItem key={`${color}-${index}`} value={color}>
-                  {color}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <ColorSearch
+            value={formData.color1}
+            onChange={handleColorChange}
+            disabled={isLoading}
+            size="medium"
+            excludeColors={[formData.color2, formData.color3].filter(Boolean)}
+          />
         </div>
 
         {!showColor2 && formData.color1 && (
           <AddFieldButton
-            onClick={() => handleShowColor2Change(true)}
+            onClick={() => setShowColor2(true)}
             disabled={isLoading}
             label="ADD COLOR"
             testId="add-color-button"
@@ -137,41 +53,29 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
         )}
 
         {showColor2 && (
-          <div className="space-y-2">
-            <label className="text-lg font-medium text-gray-900 mb-2 mt-2">Second Color:</label>
-            <div className="flex items-center gap-4">
-              <div className="flex-grow">
-                <FormControl fullWidth>
-                  <Select
-                    labelId="color2-label"
-                    id="color2"
-                    name="color2"
-                    value={formData.color2 || ""}
-                    onChange={handleColor2Change}
-                    sx={commonInputStyles}
-                    MenuProps={menuProps}
-                  >
-                    {getFilteredColorOptions([formData.color1]).map((color, index) => (
-                      <MenuItem key={`${color}-${index}`} value={color}>
-                        {color}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <RemoveFieldButton
-                onClick={handleColor2Remove}
-                disabled={isLoading}
-                testId="remove-color-button"
-                ariaLabel="Remove Color"
-              />
-            </div>
-          </div>
+          <AdditionalFieldSet
+            label="Second Color"
+            onRemove={() => {
+              onInputChange({ target: { name: "color2", value: null } });
+              onColor2Remove?.();
+              setShowColor2(false);
+            }}
+            disabled={isLoading}
+            testId="remove-color-button"
+          >
+            <ColorSearch
+              value={formData.color2 || ""}
+              onChange={handleColor2Change}
+              disabled={isLoading}
+              size="medium"
+              excludeColors={[formData.color1, formData.color3].filter(Boolean)}
+            />
+          </AdditionalFieldSet>
         )}
 
         {showColor2 && !showColor3 && formData.color2 && (
           <AddFieldButton
-            onClick={() => handleShowColor3Change(true)}
+            onClick={() => setShowColor3(true)}
             disabled={isLoading}
             label="ADD COLOR"
             testId="add-color-button"
@@ -179,38 +83,24 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
         )}
 
         {showColor3 && (
-          <div className="space-y-2">
-            <label className="text-lg font-medium text-gray-900 mb-2 mt-2">Third Color:</label>
-            <div className="flex items-center gap-4">
-              <div className="flex-grow">
-                <FormControl fullWidth>
-                  <Select
-                    labelId="color3-label"
-                    id="color3"
-                    name="color3"
-                    value={formData.color3 || ""}
-                    onChange={handleColor3Change}
-                    sx={commonInputStyles}
-                    MenuProps={menuProps}
-                  >
-                    {getFilteredColorOptions([formData.color1, formData.color2]).map(
-                      (color, index) => (
-                        <MenuItem key={`${color}-${index}`} value={color}>
-                          {color}
-                        </MenuItem>
-                      )
-                    )}
-                  </Select>
-                </FormControl>
-              </div>
-              <RemoveFieldButton
-                onClick={handleColor3Remove}
-                disabled={isLoading}
-                testId="remove-color-button"
-                ariaLabel="Remove Color"
-              />
-            </div>
-          </div>
+          <AdditionalFieldSet
+            label="Third Color"
+            onRemove={() => {
+              onInputChange({ target: { name: "color3", value: null } });
+              onColor3Remove?.();
+              setShowColor3(false);
+            }}
+            disabled={isLoading}
+            testId="remove-color-button"
+          >
+            <ColorSearch
+              value={formData.color3 || ""}
+              onChange={handleColor3Change}
+              disabled={isLoading}
+              size="medium"
+              excludeColors={[formData.color1, formData.color2].filter(Boolean)}
+            />
+          </AdditionalFieldSet>
         )}
       </div>
     </div>

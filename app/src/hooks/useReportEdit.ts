@@ -30,7 +30,7 @@ export const useReportEdit = (report: ReportProps) => {
 
   const handleInputChange = (
     e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>
       | SelectChangeEvent
       | {
           target: { name: string; value: string | null };
@@ -61,13 +61,7 @@ export const useReportEdit = (report: ReportProps) => {
         }
       }
 
-      if (name === "species") {
-        newFormData.breed1 = "";
-        newFormData.breed2 = null;
-        setShowBreed2(false);
-      }
-
-      (newFormData as any)[name] = value;
+      newFormData[name] = value;
       return newFormData;
     });
   };

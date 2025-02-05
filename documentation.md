@@ -231,3 +231,27 @@
 - Maintain consistent icon usage across similar button types
 - When creating shared button components, ensure aria-labels can be customized for specific contexts
 - Maintain consistent aria-labels across similar actions (e.g., "Remove Color", "Remove Breed")
+- Extract common layout patterns into reusable components to maintain consistent structure
+- When components share similar layout patterns, create a flexible container component
+- Use children prop to maintain component flexibility while standardizing layout
+- Keep accessibility features like labels and ARIA attributes consistent across similar patterns
+- Clean up debugging code after completing component refactoring
+- Keep imports minimal by removing unused dependencies from shared components
+- When creating similar selection components, maintain consistent prop patterns
+- Use Autocomplete for better user experience in selection interfaces
+- Reuse styling patterns across similar form components for consistency
+- Keep component interfaces similar when they serve similar purposes
+- Remove helper functions that are no longer needed after component extraction
+- Clean up related imports when moving functionality to shared components
+- Remove component imports that are now handled by child components
+- Consider event handling consistency across the entire form when choosing between direct values and synthetic events
+- Maintain consistent event patterns when components share the same parent handlers
+- Maintain consistent type safety across similar form handlers
+- Ensure event handler types match between parent and child components
+- Match component prop types with existing form patterns for seamless integration
+- Handle event type conversion within reusable components rather than at usage sites
+- Handle nullable values consistently in component interfaces
+- Match type definitions with actual usage patterns in parent components
+- Preserve complex state update logic when refactoring event handlers
+- Handle state dependencies in form hooks rather than individual components
+- Match component prop types with parent data structures to avoid type coercion

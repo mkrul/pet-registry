@@ -20,6 +20,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Tip from "../../common/Tip";
 import { AddFieldButton } from "../../common/AddFieldButton";
 import { RemoveFieldButton } from "../../common/RemoveFieldButton";
+import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -50,11 +51,6 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
     onBreed2Remove?.();
     setShowBreed2(false);
   };
-
-  console.log("IdentificationFields render:", {
-    showBreed2,
-    formData: { breed1: formData.breed1, breed2: formData.breed2 }
-  });
 
   return (
     <div className="space-y-6">
@@ -158,29 +154,23 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       </div>
 
       {showBreed2 && (
-        <div className="space-y-2">
-          <label className="text-lg font-medium text-gray-900 mb-2">Second Breed:</label>
-          <div className="flex items-center gap-4">
-            <div className="flex-grow">
-              <BreedSearch
-                species={formData.species.toLowerCase() as "dog" | "cat"}
-                value={formData.breed2 || ""}
-                onChange={handleBreed2Change}
-                disabled={isLoading}
-                excludeBreeds={[formData.breed1]}
-                size="medium"
-                hideLabel
-                disableClearable
-              />
-            </div>
-            <RemoveFieldButton
-              onClick={handleBreed2Remove}
-              disabled={isLoading}
-              testId="remove-breed-button"
-              ariaLabel="Remove Breed"
-            />
-          </div>
-        </div>
+        <AdditionalFieldSet
+          label="Second Breed"
+          onRemove={handleBreed2Remove}
+          disabled={isLoading}
+          testId="remove-breed-button"
+        >
+          <BreedSearch
+            species={formData.species.toLowerCase() as "dog" | "cat"}
+            value={formData.breed2 || ""}
+            onChange={handleBreed2Change}
+            disabled={isLoading}
+            excludeBreeds={[formData.breed1]}
+            size="medium"
+            hideLabel
+            disableClearable
+          />
+        </AdditionalFieldSet>
       )}
     </div>
   );
