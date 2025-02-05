@@ -155,23 +155,27 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       </div>
 
       {showBreed2 && (
-        <AdditionalFieldSet
-          label="Second Breed"
-          onRemove={handleBreed2Remove}
-          disabled={isLoading}
-          testId="remove-breed-button"
-        >
-          <BreedSearch
-            species={formData.species.toLowerCase() as "dog" | "cat"}
-            value={formData.breed2 || ""}
-            onChange={handleBreed2Change}
-            disabled={isLoading}
-            excludeBreeds={[formData.breed1]}
-            size="medium"
-            hideLabel
-            disableClearable
-          />
-        </AdditionalFieldSet>
+        <div className="mt-8">
+          <div className="mb-6">
+            <AdditionalFieldSet
+              label="Second Breed:"
+              onRemove={handleBreed2Remove}
+              disabled={isLoading}
+              testId="remove-breed-button"
+            >
+              <BreedSearch
+                species={formData.species.toLowerCase() as "dog" | "cat"}
+                value={formData.breed2 || ""}
+                onChange={handleBreed2Change}
+                disabled={isLoading}
+                excludeBreeds={[formData.breed1]}
+                size="medium"
+                hideLabel
+                disableClearable
+              />
+            </AdditionalFieldSet>
+          </div>
+        </div>
       )}
     </div>
   );

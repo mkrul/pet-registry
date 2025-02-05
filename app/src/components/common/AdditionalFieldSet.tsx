@@ -17,17 +17,12 @@ export const AdditionalFieldSet: React.FC<AdditionalFieldSetProps> = ({
   children
 }) => {
   return (
-    <div className="space-y-2">
-      <label className="text-lg font-medium text-gray-900 mb-2 mt-2">{label}</label>
-      <div className="flex items-center gap-4">
-        <div className="flex-grow">{children}</div>
-        <RemoveFieldButton
-          onClick={onRemove}
-          disabled={disabled}
-          testId={testId}
-          ariaLabel={`Remove ${label}`}
-        />
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-lg font-medium text-gray-900">{label}</label>
+        <RemoveFieldButton onClick={onRemove} disabled={disabled} testId={testId} />
       </div>
+      {children}
     </div>
   );
 };

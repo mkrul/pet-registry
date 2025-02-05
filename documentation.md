@@ -256,3 +256,10 @@
 - Handle state dependencies in form hooks rather than individual components
 - Match component prop types with parent data structures to avoid type coercion
 - When using nested spacing utilities, separate distinct form sections to allow parent spacing to work consistently
+- Maintain consistent spacing for similar form sections even when using shared components
+- Use consistent margin sizes for similar form section types across components
+- Let parent components control spacing to avoid competing margin rules in shared components
+- Apply consistent margin wrappers to similar form sections to maintain visual rhythm
+- Use consistent space-y utilities between similar form components to maintain spacing rhythm
+- Avoid combining margin utilities with space utilities on parent elements to prevent spacing conflicts
+- Use identical spacing utilities between similar form components to ensure visual consistency
