@@ -269,3 +269,4 @@
 - Standardized spacing between sections in ColorFields to match IdentificationFields
 - Removed redundant margin from ColorFields label to maintain consistent spacing with form fields
 - Matched ColorFields spacing with IdentificationFields by using consistent space-y-2 utility
+- Repositioned remove button to be inline with form fields in AdditionalFieldSet for better visual alignment

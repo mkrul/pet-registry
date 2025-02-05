@@ -263,3 +263,4 @@
 - Use consistent space-y utilities between similar form components to maintain spacing rhythm
 - Avoid combining margin utilities with space utilities on parent elements to prevent spacing conflicts
 - Use identical spacing utilities between similar form components to ensure visual consistency
+- Position action buttons inline with their related form controls for better visual connection
