@@ -25,6 +25,20 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
       </div>
 
       <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Pet's Name:</label>{" "}
+        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
+        <TextField
+          name="name"
+          value={formData.name || ""}
+          onChange={onInputChange}
+          variant="outlined"
+          fullWidth
+          disabled={readOnly}
+          sx={commonInputStyles}
+        />
+      </div>
+
+      <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
         <Tip>Describe the animal's appearance, behavior, and other relevant details.</Tip>
         <TextField
@@ -36,20 +50,6 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           variant="outlined"
           fullWidth
           required
-          disabled={readOnly}
-          sx={commonInputStyles}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Pet's Name:</label>{" "}
-        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
-        <TextField
-          name="name"
-          value={formData.name || ""}
-          onChange={onInputChange}
-          variant="outlined"
-          fullWidth
           disabled={readOnly}
           sx={commonInputStyles}
         />

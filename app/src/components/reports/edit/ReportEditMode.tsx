@@ -1,6 +1,5 @@
 import React from "react";
 import { ReportEditModeProps } from "../../../types/Report";
-import formatDate from "../../../lib/formatDate";
 import { LocationSelect } from "../form/LocationSelect";
 import { BasicInfoFields } from "../form/BasicInfoFields";
 import { IdentificationFields } from "../form/IdentificationFields";
@@ -8,6 +7,7 @@ import { ColorFields } from "../form/ColorFields";
 import { ImageUpload } from "../form/ImageUpload";
 import ActionButtons from "../form/ActionButtons";
 import { MAP_ZOOM_LEVELS } from "../../../constants/map";
+import ReportDates from "../form/ReportDates";
 
 const ReportEditMode: React.FC<ReportEditModeProps> = ({
   formData,
@@ -104,23 +104,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         zoomLevel={MAP_ZOOM_LEVELS.EDIT}
       />
 
-      {/* Dates */}
-      <div className="space-y-2">
-        <div className="flex gap-8">
-          <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Posted at:</label>
-            <p className="text-md text-gray-500 mb-4">
-              {formData.createdAt ? formatDate(formData.createdAt) : ""}
-            </p>
-          </div>
-          <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Updated at:</label>
-            <p className="text-md text-gray-500 mb-4">
-              {formData.updatedAt ? formatDate(formData.updatedAt) : ""}
-            </p>
-          </div>
-        </div>
-      </div>
+      <ReportDates createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />
     </form>
   );
 };

@@ -287,3 +287,4 @@
 - Map zoom levels should be controlled through props to maintain consistent behavior across different modes
 - Using shared zoom level constants in view mode ensures consistent map display across the application
 - Required props must be provided even in read-only modes to satisfy TypeScript interface requirements
+- Shared components can help eliminate duplicate code while maintaining consistent styling and layout

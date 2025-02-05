@@ -7,6 +7,7 @@ import { ReportViewModeProps } from "../../../types/Report";
 import Spinner from "../../common/Spinner";
 import LocationDisplay from "../../common/LocationDisplay";
 import { MAP_ZOOM_LEVELS } from "../../../constants/map";
+import ReportDates from "../form/ReportDates";
 
 const ReportViewMode: React.FC<ReportViewModeProps> = ({
   report,
@@ -47,6 +48,8 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
       {/* Title */}
       <h2 className="text-2xl font-semibold text-gray-900">{report.title}</h2>
 
+      <ReportDates createdAt={report.createdAt} updatedAt={report.updatedAt} />
+
       {/* Image */}
       <div className="space-y-2">
         <div className="mt-1 relative">
@@ -65,16 +68,16 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
         </div>
       </div>
 
-      {/* Description */}
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
-        <p className="text-gray-500 whitespace-pre-wrap">{report.description}</p>
-      </div>
-
       {/* Name */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Name:</label>
         <p className="text-md text-gray-500 mb-4">{report.name || "Unknown"}</p>
+      </div>
+
+      {/* Description */}
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
+        <p className="text-gray-500 whitespace-pre-wrap">{report.description}</p>
       </div>
 
       {/* Species */}
@@ -133,20 +136,6 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
             readOnly={true}
             onLocationSelect={() => {}}
           />
-        </div>
-      </div>
-
-      {/* Dates */}
-      <div className="space-y-2">
-        <div className="flex gap-8">
-          <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Posted at:</label>
-            <p className="text-md text-gray-500 mb-4">{formatDate(report.createdAt)}</p>
-          </div>
-          <div>
-            <label className="text-lg font-medium text-gray-900 mb-2">Updated at:</label>
-            <p className="text-md text-gray-500 mb-4">{formatDate(report.updatedAt)}</p>
-          </div>
         </div>
       </div>
     </div>

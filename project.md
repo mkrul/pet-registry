@@ -287,3 +287,4 @@
 - Fixed map zoom level in edit mode by using initialZoom prop consistently
 - Updated ReportViewMode to use MAP_ZOOM_LEVELS.VIEW constant for consistent zoom behavior
 - Fixed type error in ReportViewMode by adding required onLocationSelect prop to Map component
+- Created shared ReportDates component to eliminate duplicate date display code
