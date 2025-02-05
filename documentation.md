@@ -176,3 +176,32 @@
 - Use nullish coalescing for all location fields
 - Ensure location data matches interface before callback
 - Keep location data creation patterns consistent
+- When sharing form components between edit and create forms, all required handlers must be provided for full functionality
+- Keep feature parity between similar forms by providing consistent handler functions
+- Make form component behavior identical between different implementations by matching all required props
+- When sharing form components between edit and create forms, avoid adding unnecessary props when existing props already provide the needed functionality
+- Keep component interfaces minimal by using existing props instead of creating new ones for the same functionality
+- Maintain consistent behavior between forms by using the same prop patterns for similar actions
+- When debugging shared form components, track state changes at both parent and child component levels to identify where state updates might be failing
+- Add strategic console logs to track user interactions and state updates in form components
+- When debugging function props, inspect the complete function details including toString() representation
+- Add thorough prop validation checks to identify both existence and correct type of function props
+- Add detailed prop validation logging to catch undefined function props early in the component lifecycle
+- Use type checking and error handling to prevent runtime crashes from undefined function props
+- When debugging form components with multiple instances, track individual component state to identify instance-specific issues
+- Add logging to shared components to verify prop values are being passed correctly through the component hierarchy
+- When debugging prop issues, track the complete prop chain from parent to child to identify where props are being lost
+- Add detailed prop type and value logging to identify prop definition mismatches
+- When debugging prop chain issues, verify both the type definition and the actual prop passing in parent components
+- Track prop values through the entire component hierarchy to identify where required props are missing
+- When sharing form functionality between create and edit modes, ensure state management hooks are consistently used in both components
+- Verify that state management hooks are properly initialized in both create and edit modes
+- When using custom hooks, ensure all state setters are properly exposed in the hook's return object
+- Verify that state setters are correctly passed through the entire component chain
+- Check hook implementation when state management isn't working in one component but works in another
+- When state setters aren't working, check if they're properly returned from custom hooks
+- Ensure all required state management functions are included in hook return objects
+- Verify hook implementation matches between create and edit forms for shared functionality
+- Remove debugging logs once functionality is fixed to keep code clean
+- Clean up temporary debugging code after resolving issues
+- Maintain code cleanliness by removing diagnostic logging after debugging

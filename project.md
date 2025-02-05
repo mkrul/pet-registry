@@ -201,3 +201,10 @@
 - Fixed type safety in MapEvents location handling
 - Added null checks for location data fields
 - Made location data creation consistent
+- Added onBreed2Add handler to ReportEditMode IdentificationFields to fix "Add Another Breed" functionality
+- Made breed addition behavior consistent between NewReportForm and ReportEditMode
+- Fixed "Add Another Breed" functionality in ReportEditMode by removing unnecessary onBreed2Add prop
+- Standardized breed addition behavior between NewReportForm and ReportEditMode
+- Removed debugging logs from ReportEditMode component
+- Removed debugging logs from BreedSearch component
+- Cleaned up console logs after fixing breed addition functionality

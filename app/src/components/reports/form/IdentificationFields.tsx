@@ -49,6 +49,11 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
     setShowBreed2(false);
   };
 
+  console.log("IdentificationFields render:", {
+    showBreed2,
+    formData: { breed1: formData.breed1, breed2: formData.breed2 }
+  });
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -143,7 +148,10 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         {!showBreed2 && formData.breed1 && (
           <Button
             data-testid="add-breed-button"
-            onClick={() => setShowBreed2(true)}
+            onClick={() => {
+              console.log("Add breed button clicked");
+              setShowBreed2(true);
+            }}
             disabled={isLoading}
             color="primary"
             variant="text"

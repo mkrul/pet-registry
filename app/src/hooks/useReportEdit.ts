@@ -181,6 +181,7 @@ export const useReportEdit = (report: ReportProps) => {
     isSaving,
     imageSrc,
     showBreed2,
+    setShowBreed2,
     showColor2,
     showColor3,
     speciesOptions,

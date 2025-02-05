@@ -23,6 +23,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     isSaving,
     imageSrc,
     showBreed2,
+    setShowBreed2,
     showColor2,
     showColor3,
     speciesOptions,
@@ -110,6 +111,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
             handleImageLoad={handleImageLoad}
             handleImageError={handleImageError}
             showBreed2={showBreed2}
+            setShowBreed2={setShowBreed2}
             showColor2={showColor2}
             showColor3={showColor3}
             addBreed={addBreed}

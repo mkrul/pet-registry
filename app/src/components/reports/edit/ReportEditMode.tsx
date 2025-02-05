@@ -1,17 +1,7 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { FormControl, Select, MenuItem, TextField, SelectChangeEvent } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import Map from "../../common/Map";
-import Spinner from "../../common/Spinner";
 import { ReportEditModeProps } from "../../../types/Report";
 import formatDate from "../../../lib/formatDate";
-import BreedSearch from "../../common/BreedSearch";
-import LocationDisplay from "../../common/LocationDisplay";
 import { LocationSelect } from "../form/LocationSelect";
-import { commonInputStyles } from "../../../styles/commonStyles";
-import Tip from "../../common/Tip";
 import { BasicInfoFields } from "../form/BasicInfoFields";
 import { IdentificationFields } from "../form/IdentificationFields";
 import { ColorFields } from "../form/ColorFields";
@@ -35,18 +25,10 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   showColor3,
   setShowColor2,
   setShowColor3,
-  addBreed,
   removeBreed,
   addColor,
   removeColor,
-  handleLocationSelect,
-  speciesOptions,
-  breedOptions,
-  getFilteredBreedOptions,
-  colorOptions,
-  getFilteredColorOptions,
-  genderOptions,
-  VIEW_ZOOM_LEVEL
+  handleLocationSelect
 }) => {
   return (
     <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
