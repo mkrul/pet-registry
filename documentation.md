@@ -255,3 +255,4 @@
 - Preserve complex state update logic when refactoring event handlers
 - Handle state dependencies in form hooks rather than individual components
 - Match component prop types with parent data structures to avoid type coercion
+- When using nested spacing utilities, separate distinct form sections to allow parent spacing to work consistently

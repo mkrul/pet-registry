@@ -261,3 +261,4 @@
 - Updated ColorSearch excludeColors type to match form data structure
 - Restored color conflict handling in useReportEdit hook
 - Fixed ability to add and remove third color
+- Fixed spacing inconsistency between Species/Breed sections in IdentificationFields to match ColorFields spacing

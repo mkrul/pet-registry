@@ -40,7 +40,7 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
   }, [formData.color2, formData.color3, setShowColor2, setShowColor3]);
 
   return (
-    <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-6">
+    <form id="edit-report-form" onSubmit={handleSaveChanges} className="space-y-4">
       <ActionButtons
         isSaving={isSaving}
         onSave={handleSaveChanges}

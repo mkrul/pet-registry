@@ -126,7 +126,9 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             </Select>
           </FormControl>
         </div>
+      </div>
 
+      <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Breed:</label>
         <div>
           <BreedSearch
