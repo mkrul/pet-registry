@@ -277,3 +277,7 @@
 - Map view initialization should only happen once to prevent unwanted zoom resets during user interaction
 - State flags can help control when effects should run to prevent unwanted side effects
 - Map zoom levels should remain consistent when transitioning between view and edit modes to maintain user context
+- Map position and markers should update consistently whether location is selected via click or address search
+- useEffect dependencies should include all values that could trigger map position updates
+- Map view should update to show selected location regardless of selection method to maintain user context
+- Map zoom level should be consistent regardless of location selection method to provide uniform user experience

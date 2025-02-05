@@ -256,14 +256,16 @@ const MapEvents: React.FC<MapEventsProps> = ({
   };
 
   useEffect(() => {
-    if (!hasSetInitialView) {
-      if (initialLocation?.latitude && initialLocation?.longitude) {
-        map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
-          animate: true
-        });
-      } else {
-        map.setView([39.8283, -98.5795], initialZoom, { animate: true });
+    if (initialLocation?.latitude && initialLocation?.longitude) {
+      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
+      map.setView([initialLocation.latitude, initialLocation.longitude], 16, {
+        animate: true
+      });
+      if (!hasSetInitialView) {
+        setHasSetInitialView(true);
       }
+    } else if (!hasSetInitialView) {
+      map.setView([39.8283, -98.5795], initialZoom, { animate: true });
       setHasSetInitialView(true);
     }
   }, [map, initialLocation?.latitude, initialLocation?.longitude, initialZoom, hasSetInitialView]);

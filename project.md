@@ -280,3 +280,5 @@
 - Preserved read-only behavior in ReportViewMode while adding pin display for edit/create modes
 - Fixed map zoom reset issue when dropping pins by only setting initial view once
 - Standardized map zoom levels between view and edit modes for consistent user experience
+- Fixed map pin and view update when selecting location via address search to ensure selected location is visible
+- Fixed map zoom level when selecting location via address search to match pin drop zoom level
