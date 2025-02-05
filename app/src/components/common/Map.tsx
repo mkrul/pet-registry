@@ -170,9 +170,16 @@ const MapEvents: React.FC<MapEventsProps> = ({
   initialZoom
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState<[number, number] | null>(
+    initialLocation?.latitude && initialLocation?.longitude
+      ? [initialLocation.latitude, initialLocation.longitude]
+      : null
+  );
+
   const map = useMapEvents({
     click: async e => {
       if (!readOnly) {
+        setSelectedPosition([e.latlng.lat, e.latlng.lng]);
         await handleLocationSelect(e.latlng.lat, e.latlng.lng);
       }
     }
@@ -257,11 +264,16 @@ const MapEvents: React.FC<MapEventsProps> = ({
     }
   }, [map, initialLocation?.latitude, initialLocation?.longitude, initialZoom]);
 
-  return isProcessing ? (
-    <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
-      <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
-    </div>
-  ) : null;
+  return (
+    <>
+      {isProcessing ? (
+        <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
+          <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
+        </div>
+      ) : null}
+      {!readOnly && selectedPosition && <Marker position={selectedPosition} />}
+    </>
+  );
 };
 
 export const Map: React.FC<MapProps> = ({

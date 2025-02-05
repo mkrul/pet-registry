@@ -271,3 +271,6 @@
 - Session duration should balance security with user experience
 - Frontend state management should handle session expiration gracefully
 - Sessions should persist until explicit logout rather than using automatic expiration for better user experience
+- Map markers should only be displayed in interactive map modes to avoid visual clutter in read-only views
+- State for map markers should be managed within the map component to maintain component encapsulation
+- Using conditional rendering for map markers allows different behavior between read-only and interactive modes
