@@ -1,17 +1,15 @@
 import { transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ReportProps } from "../../../types/Report";
-import { PaginationProps } from "../../../types/common/Pagination";
 import {
   UpdateReportResponse,
-  PaginationPropsQuery,
   SubmitResponse,
   ReportsResponse
 } from "../../../types/redux/features/reports/ReportsApi";
 import { setNotification } from "../notifications/notificationsSlice";
 import { NotificationType } from "../../../types/common/Notification";
 import { getStateOptions } from "../../../lib/reports/stateList";
-
+import { PaginationPropsQuery } from "../../../types/common/Pagination";
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
