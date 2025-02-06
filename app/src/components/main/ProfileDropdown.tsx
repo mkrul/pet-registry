@@ -22,6 +22,22 @@ const ProfileDropdown: React.FC = () => {
 
   const [logout] = useLogoutMutation();
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   const handleToggle = () => {
     if (!isAuthenticated) {
       navigate("/login");
@@ -64,9 +80,7 @@ const ProfileDropdown: React.FC = () => {
   return (
     <div className="flex-none gap-2">
       <div className="dropdown dropdown-end" ref={dropdownRef}>
-        <div
-          tabIndex={0}
-          role="button"
+        <button
           className="btn btn-ghost hover:bg-blue-300 btn-circle avatar"
           onClick={handleToggle}
           data-testid="profile-button"
@@ -74,9 +88,8 @@ const ProfileDropdown: React.FC = () => {
           <div className="w-10 rounded-full">
             <img alt="User avatar" src="/images/placeholder-blue.jpg" className="object-cover" />
           </div>
-        </div>
+        </button>
         <ul
-          tabIndex={0}
           className={`menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow ${
             isOpen ? "block" : "hidden"
           }`}

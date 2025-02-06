@@ -286,3 +286,6 @@
 - Moved name field to presence-only normalization group
 - Fixed case preservation for pet names in reports
 - Maintained existing normalizations for other fields
+- Fixed ProfileDropdown toggle behavior to consistently stay open when clicked
+- Improved ProfileDropdown accessibility by using proper button element
+- Added click outside handling to ProfileDropdown for better user experience

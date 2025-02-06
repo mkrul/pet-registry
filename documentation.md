@@ -482,3 +482,7 @@
 - Case preservation requirements should be considered at both frontend and backend
 - Data normalization strategies should be field-specific based on requirements
 - Some fields require case preservation while others benefit from normalization
+- Using proper button elements instead of divs with role="button" provides better accessibility and more consistent click behavior
+- Click outside handlers should be added and removed based on component state to prevent memory leaks
+- Removing unnecessary tabIndex attributes can improve focus management and prevent click handling issues
+- Dropdown components should handle both click and focus events consistently for better user experience
