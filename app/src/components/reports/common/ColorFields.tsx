@@ -29,6 +29,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           size="medium"
           excludeColors={[formData.color2, formData.color3].filter(Boolean)}
           sx={commonInputStyles}
+          required
         />
       </div>
 

@@ -4,11 +4,14 @@ import { getColorOptions } from "../../lib/reports/colorList";
 
 interface ColorSearchProps {
   value: string;
-  onChange: (value: string) => void;
+  onChange: (color: string) => void;
   excludeColors?: (string | null)[];
   disabled?: boolean;
   size?: "small" | "medium";
   sx?: any;
+  required?: boolean;
+  hideLabel?: boolean;
+  disableClearable?: boolean;
 }
 
 export const ColorSearch: React.FC<ColorSearchProps> = ({
@@ -17,7 +20,8 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
   excludeColors = [],
   disabled = false,
   size = "small",
-  sx
+  sx,
+  required = false
 }) => {
   const colorOptions = React.useMemo(() => {
     const colors = getColorOptions();
@@ -31,7 +35,9 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
       options={colorOptions}
       disabled={disabled}
       size={size}
-      renderInput={params => <TextField {...params} variant="outlined" size={size} sx={sx} />}
+      renderInput={params => (
+        <TextField {...params} required={required} variant="outlined" size={size} sx={sx} />
+      )}
     />
   );
 };

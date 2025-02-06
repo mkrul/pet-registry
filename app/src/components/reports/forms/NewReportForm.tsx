@@ -61,7 +61,6 @@ const NewReportForm: React.FC = () => {
       id="lost-pet-report-form"
       onSubmit={e => onSubmit(e, formData, selectedImage)}
       encType="multipart/form-data"
-      noValidate
     >
       <FormPopulateButton
         setFormData={setFormData}

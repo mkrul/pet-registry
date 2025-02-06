@@ -488,3 +488,31 @@
 - Dropdown components should handle both click and focus events consistently for better user experience
 - RTK Query's cache invalidation system ensures data consistency after mutations
 - Using invalidatesTags with both specific and LIST tags ensures both individual and list views stay in sync
+- The noValidate attribute on forms disables browser-native form validation tooltips
+- Removing noValidate enables consistent form validation behavior across create and edit forms
+- HTML5 form validation requires both the required attribute on inputs and form validation to be enabled
+- Browser-native validation tooltips provide immediate feedback without additional error handling code
+- Event handlers for MUI Select components should use consistent transformation patterns across all select fields
+- Using the same event transformation helper ensures uniform event handling across different form controls
+- Form validation should be applied consistently across all required fields including custom components like ColorSearch
+- Required attribute works with custom form components when they properly forward the attribute to their underlying input elements
+- Custom form components need their prop interfaces updated to support HTML form attributes like required
+- TypeScript helps ensure form validation attributes are properly typed in component interfaces
+- MUI Autocomplete components need to forward the required prop to their renderInput TextField to enable form validation
+- Custom form components should properly propagate HTML form attributes to their underlying input elements
+- HTML file inputs support the required attribute for form validation like other input types
+- Browser-native validation works consistently for both text inputs and file uploads
+- Hidden form inputs need to use visually-hidden techniques rather than display:none to support validation tooltips
+- Using position:absolute and clip maintains form validation while allowing custom styled controls
+- Form validation tooltips require a proper stacking context from a relatively positioned parent to scroll correctly with their inputs
+- Using inline-block with relative positioning maintains both tooltip positioning and normal document flow
+- MUI's sx prop can be used to style form validation messages that properly maintain their position during scrolling
+- Using MUI's styling system provides better integration with its form validation behavior
+- MUI's FormControl and FormHelperText provide better validation message handling than custom CSS solutions
+- Using MUI's form components ensures consistent validation message behavior across different form fields
+- Form inputs must remain focusable for browser validation to work properly
+- Using proper visually-hidden techniques maintains accessibility and validation while hiding inputs
+- MUI's FormControl with proper positioning provides better validation message behavior than custom positioning
+- Browser-native validation tooltips work best when using framework-provided form components and structure
+- File inputs should remain in the normal document flow to maintain proper validation behavior
+- Using opacity:0 with proper positioning allows file inputs to remain focusable while visually styled

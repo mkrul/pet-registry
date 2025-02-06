@@ -32,6 +32,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   const handleSpeciesChange = handleFieldChange("species");
   const handleBreedChange = handleFieldChange("breed1");
   const handleBreed2Change = handleFieldChange("breed2");
+  const handleGenderChange = handleFieldChange("gender");
 
   const handleBreed2Remove = () => {
     onInputChange(createChangeEvent("breed2", ""));
@@ -59,13 +60,13 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>{" "}
         <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
-        <FormControl fullWidth>
+        <FormControl fullWidth required>
           <Select
             data-testid="gender-select"
             labelId="gender-label"
             id="gender"
             value={formData.gender || ""}
-            onChange={onInputChange}
+            onChange={e => handleGenderChange(e.target.value)}
             sx={commonInputStyles}
             disabled={isLoading}
             MenuProps={{
@@ -88,7 +89,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Species:</label>
         <div>
-          <FormControl fullWidth>
+          <FormControl fullWidth required>
             <Select
               data-testid="species-select"
               labelId="species-label"

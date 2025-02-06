@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, FormControl } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { ImageUploadProps } from "../../../types/common/Image";
 import { commonInputStyles } from "../../../styles/commonStyles";
@@ -45,24 +45,35 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
         the animal's face centered in the frame.
       </Tip>
       <div className="mt-1">
-        <Button
-          component="label"
-          variant="outlined"
-          startIcon={<CloudUpload />}
-          disabled={disabled}
-          sx={{ ...commonInputStyles, width: "fit-content" }}
-        >
-          Choose File
+        <div className="relative">
           <input
             type="file"
             name="image"
             accept="image/*"
             onChange={handleImageChange}
-            style={{ display: "none" }}
+            style={{
+              opacity: 0,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              cursor: "pointer",
+              zIndex: 1
+            }}
             disabled={disabled}
             data-testid="file-input"
+            required
           />
-        </Button>
+          <Button
+            variant="outlined"
+            startIcon={<CloudUpload />}
+            disabled={disabled}
+            sx={{ ...commonInputStyles, width: "fit-content", position: "relative" }}
+          >
+            Choose File
+          </Button>
+        </div>
         {preview && (
           <div className="mt-2 relative w-48 h-48">
             <img
