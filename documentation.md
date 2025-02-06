@@ -288,3 +288,57 @@
 - Using shared zoom level constants in view mode ensures consistent map display across the application
 - Required props must be provided even in read-only modes to satisfy TypeScript interface requirements
 - Shared components can help eliminate duplicate code while maintaining consistent styling and layout
+- Complex geocoding functions should be extracted into dedicated services for better maintainability
+- Map event handling logic should be separated from main map rendering component
+- Breaking down complex components into smaller, focused pieces improves code organization
+- Separating concerns in map components allows for better testing and maintenance
+- Location processing logic should be isolated from UI rendering code
+- Map state management should be handled in dedicated components
+- Geocoding services should be centralized for reuse across the application
+- Component responsibilities should be clearly defined and separated
+- Map marker and event handling can be isolated from base map setup
+- Loading and notification states should be managed in dedicated container components
+- UI state management should be separated from core component functionality
+- Container components can handle common UI patterns across multiple instances
+- Component hierarchy should reflect logical state management boundaries
+- Wrapper components can provide consistent loading and error states
+- Render props can provide better type safety than component composition for shared state
+- Container components should expose state management handlers through render props when needed
+- State management should flow through explicit props rather than implicit context
+- Component communication patterns should be type-safe and explicit
+- Render props provide better control over state handler scoping
+- Common types should be shared across related components
+- Notification patterns should be consistent throughout the application
+- Type definitions should be centralized when used across multiple components
+- Shared interfaces improve maintainability and type consistency
+- Type reuse helps enforce consistent patterns across components
+- Magic numbers should be extracted into named constants
+- Geographic constants should be shared across map components
+- Default values should be centralized in constants files
+- Coordinate values should be managed in a single location
+- Constants should be properly typed for better maintainability
+- Geographic coordinate types should be shared across the application
+- Type definitions should cover all shared data structures
+- Constant type definitions should match their usage patterns
+- Type safety should extend to configuration constants
+- Shared types help maintain consistency in geographic data handling
+- Avoid duplicate type definitions across the application
+- Consolidate related types into a single location
+- Type definitions should be organized by domain rather than component
+- Shared data structures should have a single source of truth
+- Type imports are preferable to duplicate definitions
+- Reuse coordinate types consistently across interfaces
+- Props should leverage shared type definitions
+- Interface composition should use consistent base types
+- Type intersections can combine shared type definitions
+- Prop types should align with their underlying data structures
+- Component refactoring should include verification of all usage sites
+- Type changes should be validated across all consuming components
+- Coordinate handling should be consistent across all form types
+- Component interfaces should be used consistently across the application
+- Prop patterns should be standardized across similar form components
+- Common initialization patterns should be extracted into helper functions
+- Location data transformation should be consistent across components
+- Helper functions can enforce consistent data structure usage
+- Initialization logic should be centralized for maintainability
+- Data transformation patterns should be reusable across components

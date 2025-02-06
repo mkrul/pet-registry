@@ -15,3 +15,8 @@ export interface NotificationProps {
   message?: string;
   onClose: () => void;
 }
+
+export interface NotificationMessage {
+  type: NotificationType;
+  message: string;
+}
