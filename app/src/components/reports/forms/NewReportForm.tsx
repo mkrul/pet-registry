@@ -91,7 +91,6 @@ const NewReportForm: React.FC = () => {
         formData={formData}
         showColor2={showColor2}
         showColor3={showColor3}
-        onInputChange={handleInputChange}
         setShowColor2={showColor2Field}
         setShowColor3={showColor3Field}
         onColor2Add={showColor2Field}
@@ -99,6 +98,9 @@ const NewReportForm: React.FC = () => {
         onColor2Remove={removeColor2}
         onColor3Remove={removeColor3}
         isLoading={isLoading}
+        handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
+        handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
+        handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
       />
 
       <ImageUpload

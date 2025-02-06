@@ -71,7 +71,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
         formData={formData}
         showColor2={showColor2}
         showColor3={showColor3}
-        onInputChange={handleInputChange}
         setShowColor2={setShowColor2}
         setShowColor3={setShowColor3}
         onColor2Add={() => setShowColor2(true)}
@@ -89,6 +88,9 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
           setShowColor3(false);
         }}
         isLoading={isSaving}
+        handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
+        handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
+        handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
       />
 
       <LocationSelect

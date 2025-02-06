@@ -1,4 +1,4 @@
-import { LocationData, ReportProps } from "../types/Report";
+import { LocationData, ReportProps, ReportPropsForm } from "../types/Report";
 import { MapCoordinates } from "../types/common/Map";
 
 export const createMapLocation = (
