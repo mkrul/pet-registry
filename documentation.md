@@ -470,3 +470,15 @@
 - Use useCallback for form input handlers
 - Memoize higher-order functions that use state setters
 - Use useCallback for handler factory functions
+- Using specific function types instead of React.SetStateAction helps prevent unwanted state transformations
+- State setter types should match their actual usage patterns to maintain data integrity
+- Form data setters should preserve exact input values without transformation
+- Direct state setters are preferable when exact value preservation is required
+- Form input handlers should preserve exact input values without transformation
+- State updates should maintain data integrity by avoiding implicit transformations
+- Input event handlers should preserve the original case of text input
+- Direct value assignment is preferable to implicit value transformation
+- Server-side normalizations can affect data presentation in the frontend
+- Case preservation requirements should be considered at both frontend and backend
+- Data normalization strategies should be field-specific based on requirements
+- Some fields require case preservation while others benefit from normalization

@@ -74,7 +74,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
         | { target: { name: string; value: string | null } }
     ) => {
       const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData(prev => ({ ...prev, [name]: value === null ? null : value }));
     },
     [setFormData]
   );

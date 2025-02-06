@@ -4,7 +4,6 @@ module ReportNormalizations
   included do
     normalizes :status,
                :archived_at,
-               :name,
                :species,
                :color_1,
                :color_2,
@@ -15,6 +14,7 @@ module ReportNormalizations
 
     normalizes :title,
                :description,
+               :name,
                with: ->(value) { value.presence }
   end
 end

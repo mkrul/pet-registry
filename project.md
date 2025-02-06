@@ -274,3 +274,15 @@
 - Fixed state setter dependencies in useReportForm
 - Memoized color change handler factory in useReportForm
 - Fixed remaining state setter dependencies
+- Updated FormPopulateHandlers type to use specific function signatures
+- Fixed name capitalization preservation in form population
+- Improved type safety in form data state management
+- Standardized state setter types to preserve input values
+- Updated handleInputChange to preserve exact input values
+- Fixed case preservation in form input handling
+- Improved data integrity in form state updates
+- Standardized value preservation in form handlers
+- Updated ReportNormalizations to preserve name field case
+- Moved name field to presence-only normalization group
+- Fixed case preservation for pet names in reports
+- Maintained existing normalizations for other fields
