@@ -11,7 +11,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ onCompleted, className = ""
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      await logout({}).unwrap();
       dispatch(clearUser());
       onCompleted();
     } catch (err: unknown) {
