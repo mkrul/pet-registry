@@ -392,3 +392,23 @@
 - Ensure consistent import cleanup across all component variants
 - Keep imports minimal after standardizing functionality
 - Maintain clean imports in view components
+- Required props must be provided even in read-only mode
+- Maintain type safety when simplifying components
+- Keep required props consistent across all usages
+- Default zoom levels should be explicitly provided
+- Preserve component contracts when standardizing behavior
+- Handle null values appropriately in data transformations
+- Convert null to undefined for optional string properties
+- Ensure type compatibility between source and target interfaces
+- Transform nullable fields to match component expectations
+- Maintain type safety when converting between data formats
+- Helper functions should handle multiple input types
+- Convert between null and undefined explicitly when types differ
+- Support both form and API data structures in helpers
+- Ensure type compatibility with both new and existing data
+- Handle type conversions at the helper function level
+- Import all required types for helper functions
+- Keep type imports complete and explicit
+- Ensure all used types are properly imported
+- Maintain clean type dependencies
+- Import domain types in utility functions

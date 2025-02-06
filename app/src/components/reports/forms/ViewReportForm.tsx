@@ -8,6 +8,7 @@ import Spinner from "../../common/Spinner";
 import LocationDisplay from "../../common/LocationDisplay";
 import DateDisplay from "../common/DateDisplay";
 import { createMapLocation } from "../../../utils/mapUtils";
+import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 
 const ViewReportForm: React.FC<ViewReportFormProps> = ({
   report,
@@ -129,6 +130,7 @@ const ViewReportForm: React.FC<ViewReportFormProps> = ({
             initialLocation={createMapLocation(report)}
             readOnly={true}
             onLocationSelect={() => {}}
+            initialZoom={MAP_ZOOM_LEVELS.DEFAULT}
           />
         </div>
       </div>
