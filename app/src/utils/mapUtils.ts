@@ -11,3 +11,14 @@ export const createMapLocation = (
   country: location.country ?? "",
   intersection: location.intersection === null ? undefined : location.intersection
 });
+
+export const adaptFormDataToLocation = (
+  formData: ReportPropsForm
+): Partial<LocationData & MapCoordinates> => ({
+  latitude: formData.latitude || 0,
+  longitude: formData.longitude || 0,
+  area: formData.area || "",
+  state: formData.state || "",
+  country: formData.country || "",
+  intersection: formData.intersection || ""
+});

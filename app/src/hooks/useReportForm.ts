@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SelectChangeEvent } from "@mui/material";
 import { ReportPropsForm } from "../types/Report";
-import { Species } from "../lib/reports/breedList";
+import { createMapLocation, adaptFormDataToLocation } from "../utils/mapUtils";
 
 export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   const [formData, setFormData] = useState<ReportPropsForm>({
@@ -32,120 +32,132 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     intersection: null,
     ...initialData
   });
-
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [showBreed2, setShowBreed2] = useState(false);
   const [showColor2, setShowColor2] = useState(false);
   const [showColor3, setShowColor3] = useState(false);
 
-  const handleInputChange = (
-    e:
-      | SelectChangeEvent
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | { target: { name: string; value: string | null } }
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSpeciesChange = (species: Species) => {
-    setFormData(prev => ({
-      ...prev,
-      species,
-      breed1: "",
-      breed2: null
-    }));
-    setShowBreed2(false);
-  };
-
-  const handleLocationSelect = (location: {
-    latitude: number;
-    longitude: number;
-    area: string;
-    state: string;
-    country: string;
-    intersection: string;
-  }) => {
-    setFormData(prev => ({
-      ...prev,
-      ...location
-    }));
-  };
-
-  const initializeColors = () => {
+  const initializeColors = React.useCallback(() => {
     if (formData.color2) {
       setShowColor2(true);
     }
     if (formData.color3) {
       setShowColor3(true);
     }
-  };
+  }, [formData.color2, formData.color3, setShowColor2, setShowColor3]);
 
-  const removeColor2 = () => {
-    setFormData(prev => ({ ...prev, color2: null }));
-    setShowColor2(false);
-  };
-
-  const removeColor3 = () => {
-    setFormData(prev => ({ ...prev, color3: null }));
-    setShowColor3(false);
-  };
-
-  const handleColor1Change = (value: string) => {
-    setFormData(prev => ({ ...prev, color1: value }));
-  };
-
-  const handleColor2Change = (value: string) => {
-    setFormData(prev => ({ ...prev, color2: value }));
-  };
-
-  const handleColor3Change = (value: string) => {
-    setFormData(prev => ({ ...prev, color3: value }));
-  };
+  useEffect(() => {
+    initializeColors();
+  }, [initializeColors]);
 
   const handleImageSelect = (file: File, preview: string) => {
     setSelectedImage(file);
     setImagePreview(preview);
   };
-
-  const removeBreed2 = () => {
-    setFormData(prev => ({ ...prev, breed2: null }));
-    setShowBreed2(false);
-  };
-
-  const showBreed2Field = () => setShowBreed2(true);
-  const showColor2Field = () => setShowColor2(true);
-  const showColor3Field = () => setShowColor3(true);
-
   const handleImageLoad = () => {};
   const handleImageError = () => {};
 
-  useEffect(() => {
-    initializeColors();
-  }, [formData.color2, formData.color3]);
+  const getInitialLocation = React.useCallback(
+    () =>
+      formData.latitude && formData.longitude
+        ? createMapLocation(adaptFormDataToLocation(formData))
+        : undefined,
+    [formData]
+  );
+
+  const handleInputChange = React.useCallback(
+    (
+      e:
+        | SelectChangeEvent
+        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | { target: { name: string; value: string | null } }
+    ) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+    },
+    [setFormData]
+  );
+
+  const handleLocationSelect = React.useCallback(
+    (location: {
+      latitude: number;
+      longitude: number;
+      area: string;
+      state: string;
+      country: string;
+      intersection: string;
+    }) => {
+      setFormData(prev => ({
+        ...prev,
+        ...location
+      }));
+    },
+    [setFormData]
+  );
+
+  const showField = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => setter(true);
+
+  const removeField =
+    (
+      fieldName: "breed2" | "color2" | "color3",
+      setter: React.Dispatch<React.SetStateAction<boolean>>
+    ) =>
+    () => {
+      setFormData(prev => ({ ...prev, [fieldName]: null }));
+      setter(false);
+    };
+
+  const handleColorChange = React.useCallback(
+    (colorField: "color1" | "color2" | "color3") => (value: string) => {
+      setFormData(prev => ({ ...prev, [colorField]: value }));
+    },
+    [setFormData]
+  );
+
+  const handleColor1Change = handleColorChange("color1");
+  const handleColor2Change = handleColorChange("color2");
+  const handleColor3Change = handleColorChange("color3");
+
+  const showBreed2Field = showField(setShowBreed2);
+  const showColor2Field = showField(setShowColor2);
+  const showColor3Field = showField(setShowColor3);
+
+  const removeBreed2 = removeField("breed2", setShowBreed2);
+  const removeColor2 = removeField("color2", setShowColor2);
+  const removeColor3 = removeField("color3", setShowColor3);
 
   return {
+    // Form data
     formData,
     setFormData,
+    handleInputChange,
+    handleLocationSelect,
+    getInitialLocation,
+
+    // Image handling
     selectedImage,
     imagePreview,
+    handleImageSelect,
+    handleImageLoad,
+    handleImageError,
+
+    // Visibility state
     showBreed2,
     showColor2,
     showColor3,
-    handleInputChange,
-    handleLocationSelect,
-    removeColor2,
-    removeColor3,
-    handleColor1Change,
-    handleColor2Change,
-    handleColor3Change,
-    handleImageSelect,
-    removeBreed2,
     showBreed2Field,
     showColor2Field,
     showColor3Field,
-    handleImageLoad,
-    handleImageError
+
+    // Field removal
+    removeBreed2,
+    removeColor2,
+    removeColor3,
+
+    // Color handling
+    handleColor1Change,
+    handleColor2Change,
+    handleColor3Change
   };
 };

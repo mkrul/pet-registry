@@ -14,7 +14,6 @@ import { LocationSelect } from "../common/LocationSelect";
 import { SubmitButton } from "../../common/SubmitButton";
 import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
-import { createMapLocation } from "../../../utils/mapUtils";
 import { useNotificationCleanup } from "../../../hooks/useNotificationCleanup";
 
 const NewReportForm: React.FC = () => {
@@ -39,7 +38,8 @@ const NewReportForm: React.FC = () => {
     showColor2Field,
     showColor3Field,
     handleImageLoad,
-    handleImageError
+    handleImageError,
+    getInitialLocation
   } = useReportForm();
 
   const { handleSubmit } = useReportSubmit({
@@ -111,18 +111,7 @@ const NewReportForm: React.FC = () => {
 
       <LocationSelect
         onLocationSelect={handleLocationSelect}
-        initialLocation={
-          formData.latitude && formData.longitude
-            ? createMapLocation({
-                latitude: formData.latitude,
-                longitude: formData.longitude,
-                area: formData.area ?? "",
-                state: formData.state ?? "",
-                country: formData.country ?? "",
-                intersection: formData.intersection ?? ""
-              })
-            : undefined
-        }
+        initialLocation={getInitialLocation()}
         isLoading={isLoading}
       />
 

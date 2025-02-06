@@ -430,3 +430,43 @@
 - Internal hook functions don't need to be exposed if only used by effects
 - Remove unused props to maintain clean component interfaces
 - Keep component props aligned with actual functionality
+- Use utility functions to their full potential to reduce code complexity
+- Prefer built-in null handling in utility functions over inline checks
+- Keep data transformation logic in custom hooks
+- Simplify component JSX by moving conditional logic to hooks
+- Keep imports close to where they are used
+- Move utility imports to hooks when logic is encapsulated
+- Remove unused handlers when refactoring form logic
+- Keep hook interfaces focused on currently used functionality
+- Remove type imports when their associated functionality is removed
+- Keep type imports minimal and focused on current usage
+- Use higher-order functions to reduce handler duplication
+- Keep state update patterns consistent across similar fields
+- Use consistent patterns for similar state setters
+- Extract common state setting patterns into reusable functions
+- Use higher-order functions for similar state cleanup operations
+- Keep state cleanup patterns consistent across field types
+- Group higher-order functions with their instantiations
+- Keep related function declarations together for better readability
+- Keep state declarations close to their related handlers
+- Group related state management code for better maintainability
+- Keep visibility state management code together
+- Group related state management patterns for better organization
+- Keep related field management functions together
+- Group show/hide and removal logic for better maintainability
+- Keep all color-related handlers together
+- Group field value and visibility management by field type
+- Keep form input handlers close to their usage
+- Group form data management functions for better organization
+- Keep state declarations at the top of hooks
+- Group related state declarations together
+- Group hook return values by related functionality
+- Keep hook interfaces organized by feature area
+- Use useCallback for functions that depend on state
+- Properly handle state dependencies in hook functions
+- Memoize functions that use state setters
+- Use proper dependency arrays in effects and callbacks
+- Memoize handlers that use state setters
+- Use useCallback for form input handlers
+- Memoize higher-order functions that use state setters
+- Use useCallback for handler factory functions

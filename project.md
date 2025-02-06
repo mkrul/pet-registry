@@ -234,3 +234,43 @@
 - Simplified useReportForm public API
 - Removed unused showBreed2Field prop from FormPopulateButton
 - Simplified FormPopulateButton interface to match actual usage
+- Simplified LocationSelect initialLocation logic in NewReportForm
+- Leveraged createMapLocation helper for cleaner location initialization
+- Moved location initialization logic to useReportForm hook
+- Simplified LocationSelect usage in NewReportForm
+- Moved createMapLocation import to useReportForm hook
+- Cleaned up unused imports in NewReportForm
+- Removed unused handleSpeciesChange from useReportForm hook
+- Simplified useReportForm interface by removing unused handlers
+- Removed unused Species import from useReportForm
+- Further cleaned up hook dependencies
+- Simplified color change handlers in useReportForm
+- Reduced code duplication in form state management
+- Applied higher-order function pattern to field visibility handlers
+- Further reduced code duplication in useReportForm
+- Applied higher-order function pattern to field removal handlers
+- Unified field removal logic in useReportForm
+- Improved organization of higher-order functions in useReportForm
+- Grouped related function declarations in useReportForm
+- Improved organization of image-related code in useReportForm
+- Grouped related state and handlers together in useReportForm
+- Grouped field visibility and removal handlers together
+- Improved related handler organization in useReportForm
+- Grouped color change handlers with other color-related code
+- Improved color management organization in useReportForm
+- Improved organization of form input handlers in useReportForm
+- Grouped form data management functions together
+- Grouped initialization logic together in useReportForm
+- Improved hook lifecycle organization
+- Grouped state declarations together in useReportForm
+- Improved state management organization
+- Organized hook return values by functionality
+- Improved hook interface organization
+- Fixed formData dependency in getInitialLocation
+- Used useCallback to memoize location initialization
+- Memoized initializeColors function in useReportForm
+- Fixed effect dependencies in useReportForm
+- Memoized form input handlers in useReportForm
+- Fixed state setter dependencies in useReportForm
+- Memoized color change handler factory in useReportForm
+- Fixed remaining state setter dependencies

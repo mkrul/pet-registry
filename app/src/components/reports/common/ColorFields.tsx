@@ -11,8 +11,6 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
   showColor3,
   setShowColor2,
   setShowColor3,
-  onColor2Add,
-  onColor3Add,
   onColor2Remove,
   onColor3Remove,
   isLoading,
