@@ -1,6 +1,6 @@
 ## Completed Tasks
 - Updated ReportsContainer to render Pagination as a fixed footer at the bottom of the page.
-- Updated BasicInfoFields component styling to match ReportEditMode.
+- Updated BasicInfoFields component styling to match EditReportForm.
 - Added missing MUI component styles to BasicInfoFields for complete style parity.
 - Extracted commonInputStyles to shared location to maintain style consistency.
 - Updated IdentificationFields to use shared commonInputStyles for consistent styling
@@ -8,16 +8,16 @@
 - Applied commonInputStyles to "Add Another Breed" button for style consistency
 - Added hideLabel and disableClearable props to BreedSearch components for style consistency
 - Updated Remove Breed button to use MUI Button component for style consistency
-- Adjusted flex container spacing in IdentificationFields to match ReportEditMode
-- Added consistent field labels and spacing to IdentificationFields to match ReportEditMode
+- Adjusted flex container spacing in IdentificationFields to match EditReportForm
+- Added consistent field labels and spacing to IdentificationFields to match EditReportForm
 - Added label and consistent spacing for second breed field
 - Moved "Add Another Breed" button inside Breed(s) section for consistent layout
-- Added consistent vertical spacing between fields to match ReportEditMode
-- Updated ColorFields component to use commonInputStyles for consistent styling with ReportEditMode
+- Added consistent vertical spacing between fields to match EditReportForm
+- Updated ColorFields component to use commonInputStyles for consistent styling with EditReportForm
 - Added consistent MenuProps to ColorFields Select components to match dropdown behavior
 - Removed custom select styles in favor of shared commonInputStyles
-- Updated ColorFields remove buttons to use MUI Button component for style consistency with ReportEditMode
-- Added consistent label and spacing wrapper to ColorFields in NewReportForm to match ReportEditMode styling
+- Updated ColorFields remove buttons to use MUI Button component for style consistency with EditReportForm
+- Added consistent label and spacing wrapper to ColorFields in NewReportForm to match EditReportForm styling
 - Updated ColorFields "ADD COLOR" buttons to match IdentificationFields styling with FontAwesome icons
 - Updated ColorFields remove buttons to match IdentificationFields styling with text and consistent layout
 - Updated ColorFields flex container gap spacing to match IdentificationFields layout
@@ -28,16 +28,16 @@
 - Added flex-grow wrapper to first color FormControl in ColorFields for consistent layout pattern
 - Added consistent top margin to Second and Third Color labels to match IdentificationFields spacing
 - Added space-y-6 wrapper to ColorFields to match IdentificationFields vertical spacing
-- Updated ImageUpload component styling to match ReportEditMode
+- Updated ImageUpload component styling to match EditReportForm
 - Added commonInputStyles to ImageUpload Button component
-- Updated ImageUpload preview image size to match ReportEditMode
-- Updated ImageUpload label and spacing to match ReportEditMode layout
-- Added descriptive guidance text to ImageUpload to match ReportEditMode
+- Updated ImageUpload preview image size to match EditReportForm
+- Updated ImageUpload label and spacing to match EditReportForm layout
+- Added descriptive guidance text to ImageUpload to match EditReportForm
 - Removed unused FormControl import from ImageUpload component
-- Updated LocationSelect component styling to match ReportEditMode
+- Updated LocationSelect component styling to match EditReportForm
 - Added consistent text field styling to LocationSelect Autocomplete component
 - Added consistent label and spacing to LocationSelect component
-- Updated LocationSelect layout structure to match ReportEditMode
+- Updated LocationSelect layout structure to match EditReportForm
 - Updated AddressSearch component TextField styling to match LocationSelect
 - Applied consistent border colors and hover/focus states to AddressSearch component
 - Updated AddressSearch component to use commonInputStyles for consistent styling
@@ -46,29 +46,29 @@
 - Added consistent ListboxProps to AddressSearch Autocomplete for uniform dropdown height
 - Removed unused SearchIcon import from AddressSearch component
 - Created reusable Tip component for consistent tip styling across the application
-- Removed duplicate Description and Name fields from ReportEditMode in favor of shared BasicInfoFields component
-- Integrated BasicInfoFields component into ReportEditMode, replacing duplicate Title, Description, and Name fields
-- Integrated IdentificationFields component into ReportEditMode
-- Removed duplicate Microchip ID, Gender, Species, and Breed fields from ReportEditMode
-- Simplified event handling in ReportEditMode by directly passing handleInputChange to IdentificationFields
-- Integrated ColorFields component into ReportEditMode, replacing duplicate color selection fields
-- Integrated ImageUpload component into ReportEditMode, replacing duplicate image upload controls
-- Integrated LocationSelect component into ReportEditMode, replacing duplicate location selection fields
-- Removed duplicate location selection fields from ReportEditMode in favor of shared LocationSelect component
-- Standardized image handling between NewReportForm and ReportEditMode
+- Removed duplicate Description and Name fields from EditReportForm in favor of shared BasicInfoFields component
+- Integrated BasicInfoFields component into EditReportForm, replacing duplicate Title, Description, and Name fields
+- Integrated IdentificationFields component into EditReportForm
+- Removed duplicate Microchip ID, Gender, Species, and Breed fields from EditReportForm
+- Simplified event handling in EditReportForm by directly passing handleInputChange to IdentificationFields
+- Integrated ColorFields component into EditReportForm, replacing duplicate color selection fields
+- Integrated ImageUpload component into EditReportForm, replacing duplicate image upload controls
+- Integrated LocationSelect component into EditReportForm, replacing duplicate location selection fields
+- Removed duplicate location selection fields from EditReportForm in favor of shared LocationSelect component
+- Standardized image handling between NewReportForm and EditReportForm
 - Moved FileReader logic into ImageUpload component for consistent preview handling
 - Updated ImageUploadProps type to support standardized image handling
 - Restored optional ImageProps fields to maintain backwards compatibility
-- Simplified event handling in ReportEditMode ImageUpload to match NewReportForm pattern
+- Simplified event handling in EditReportForm ImageUpload to match NewReportForm pattern
 - Removed complex synthetic event creation in favor of simpler event object
-- Updated ReportEditMode to consistently handle image preview parameter
+- Updated EditReportForm to consistently handle image preview parameter
 - Simplified ImageUpload interface usage in both forms
-- Moved handleImageSelect function outside ReportEditMode component to optimize performance
+- Moved handleImageSelect function outside EditReportForm component to optimize performance
 - Updated handleImageSelect to use proper event creation for type safety
 - Added optional chaining to ImageUpload handlers for type safety
 - Standardized event handling in IdentificationFields component
 - Moved event transformation logic into IdentificationFields
-- Created consistent interface between NewReportForm and ReportEditMode
+- Created consistent interface between NewReportForm and EditReportForm
 - Moved all event transformation logic into IdentificationFields
 - Removed redundant breed and species change handlers from parent components
 - Simplified IdentificationFields interface by removing unnecessary props
@@ -77,19 +77,19 @@
 - Simplified parent component interfaces for IdentificationFields
 - Further standardized breed2 removal logic between forms
 - Moved breed2 value clearing into IdentificationFields
-- Simplified breed2 removal callback in ReportEditMode
+- Simplified breed2 removal callback in EditReportForm
 - Fixed type mismatch in NewReportForm IdentificationFields onInputChange prop
-- Standardized input event types between NewReportForm and ReportEditMode
+- Standardized input event types between NewReportForm and EditReportForm
 - Simplified IdentificationFields event type definition
 - Made breed2 removal handling optional in IdentificationFields
 - Standardized breed2 state management between forms
 - Added optional onBreed2Remove callback for edit mode
-- Updated ReportEditMode to use onBreed2Remove prop
-- Simplified breed2 removal handling in ReportEditMode
+- Updated EditReportForm to use onBreed2Remove prop
+- Simplified breed2 removal handling in EditReportForm
 - Made breed2 removal consistent between forms
-- Simplified breed2 show/hide handling in ReportEditMode
+- Simplified breed2 show/hide handling in EditReportForm
 - Made breed2 state management identical between forms
-- Removed redundant conditional logic from ReportEditMode
+- Removed redundant conditional logic from EditReportForm
 - Renamed onShowBreed2Change to setShowBreed2 for clarity
 - Made state setter naming consistent with React conventions
 - Standardized state management props between forms
@@ -108,18 +108,18 @@
 - Updated useReportForm hook to handle all input event types
 - Standardized event type handling in form hook
 - Fixed type mismatch in NewReportForm handleInputChange
-- Fixed type mismatch in ReportEditMode IdentificationFields usage
-- Standardized event type handling in ReportEditMode
+- Fixed type mismatch in EditReportForm IdentificationFields usage
+- Standardized event type handling in EditReportForm
 - Made form event handling consistent across both forms
 - Extracted FormInputEvent type for reusability
 - Simplified event type handling in form components
 - Made event type assertions more maintainable
-- Updated ReportEditModeProps to use FormInputEvent type
-- Removed unnecessary type assertion in ReportEditMode
+- Updated EditReportFormProps to use FormInputEvent type
+- Removed unnecessary type assertion in EditReportForm
 - Standardized input event types across interfaces
-- Added setShowBreed2 to ReportEditModeProps interface
-- Standardized breed2 state management props in ReportEditMode
-- Fixed type error in ReportEditMode component props
+- Added setShowBreed2 to EditReportFormProps interface
+- Standardized breed2 state management props in EditReportForm
+- Fixed type error in EditReportForm component props
 - Made onBreed2Remove prop required in IdentificationFields
 - Added no-op onBreed2Remove handler to NewReportForm
 - Standardized IdentificationFields props between forms
@@ -129,8 +129,8 @@
 - Moved color removal logic into ColorFields component
 - Added color removal handlers to ColorFields
 - Standardized color state management between forms
-- Added color state setters to ReportEditModeProps
-- Standardized color state management in ReportEditMode
+- Added color state setters to EditReportFormProps
+- Standardized color state management in EditReportForm
 - Made color state handling consistent between forms
 - Simplified color change event handling in ColorFields
 - Added createChangeEvent helper to ColorFields
@@ -142,12 +142,12 @@
 - Encapsulated ColorFields styling within component
 - Removed duplicate label and styling from parent forms
 - Added color add handlers to ColorFields interface
-- Fixed "Add Another Color" functionality in ReportEditMode
+- Fixed "Add Another Color" functionality in EditReportForm
 - Made color addition consistent between forms
 - Moved color add logic into ColorFields component
 - Added color show/hide handlers in ColorFields
 - Made color state transitions consistent between forms
-- Fixed color add functionality in ReportEditMode
+- Fixed color add functionality in EditReportForm
 - Corrected state update order in ColorFields
 - Made color addition behavior consistent
 - Standardized LocationSelect props between forms
@@ -201,25 +201,25 @@
 - Fixed type safety in MapEvents location handling
 - Added null checks for location data fields
 - Made location data creation consistent
-- Added onBreed2Add handler to ReportEditMode IdentificationFields to fix "Add Another Breed" functionality
-- Made breed addition behavior consistent between NewReportForm and ReportEditMode
-- Fixed "Add Another Breed" functionality in ReportEditMode by removing unnecessary onBreed2Add prop
-- Standardized breed addition behavior between NewReportForm and ReportEditMode
-- Removed debugging logs from ReportEditMode component
+- Added onBreed2Add handler to EditReportForm IdentificationFields to fix "Add Another Breed" functionality
+- Made breed addition behavior consistent between NewReportForm and EditReportForm
+- Fixed "Add Another Breed" functionality in EditReportForm by removing unnecessary onBreed2Add prop
+- Standardized breed addition behavior between NewReportForm and EditReportForm
+- Removed debugging logs from EditReportForm component
 - Removed debugging logs from BreedSearch component
 - Cleaned up console logs after fixing breed addition functionality
 - Fixed color addition functionality in report edit mode by properly passing state setters
 - Resolved TypeScript linting errors in ShowReportFormContainer.tsx
 - Fixed color management functions in ColorFields component to properly handle optional callbacks
-- Updated ReportEditMode component to properly handle color state setters
-- Added explicit typing and wrapping for state setter functions in ReportEditMode
+- Updated EditReportForm component to properly handle color state setters
+- Added explicit typing and wrapping for state setter functions in EditReportForm
 - Moved color visibility state management to container component level
 - Adjusted spacing in ColorFields component for better visual consistency
 - Fine-tuned nested spacing utilities in ColorFields for improved layout
 - Added consistent spacing above additional color sections
 - Matched spacing patterns with IdentificationFields component
 - Restored color state management to useReportEdit hook
-- Updated ReportEditModeProps interface to properly type state setter functions
+- Updated EditReportFormProps interface to properly type state setter functions
 - Ensured color state setters are properly returned from useReportEdit hook
 - Fixed state transition order in ColorFields component
 - Created reusable AddFieldButton component for consistent "Add" button styling and behavior
@@ -277,14 +277,14 @@
 - Added proper session renewal on authenticated requests
 - Fixed session management by removing automatic session expiration to prevent random logouts
 - Added map pin display for location selection in Map component
-- Preserved read-only behavior in ReportViewMode while adding pin display for edit/create modes
+- Preserved read-only behavior in ViewReportForm while adding pin display for edit/create modes
 - Fixed map zoom reset issue when dropping pins by only setting initial view once
 - Standardized map zoom levels between view and edit modes for consistent user experience
 - Fixed map pin and view update when selecting location via address search to ensure selected location is visible
 - Fixed map zoom level when selecting location via address search to match pin drop zoom level
-- Fixed EditReportForm to use correct MAP_ZOOM_LEVELS.EDIT constant for consistent zoom behavior
+- Fixed EditReportFormForm to use correct MAP_ZOOM_LEVELS.EDIT constant for consistent zoom behavior
 - Adjusted EDIT zoom level to 18 for better visibility of selected locations in edit mode
 - Fixed map zoom level in edit mode by using initialZoom prop consistently
-- Updated ReportViewMode to use MAP_ZOOM_LEVELS.VIEW constant for consistent zoom behavior
-- Fixed type error in ReportViewMode by adding required onLocationSelect prop to Map component
-- Created shared ReportDates component to eliminate duplicate date display code
+- Updated ViewReportForm to use MAP_ZOOM_LEVELS.VIEW constant for consistent zoom behavior
+- Fixed type error in ViewReportForm by adding required onLocationSelect prop to Map component
+- Created shared DateDisplay component to eliminate duplicate date display code

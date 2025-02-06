@@ -1,15 +1,15 @@
 import React from "react";
-import { ReportEditModeProps } from "../../../types/Report";
-import { LocationSelect } from "../form/LocationSelect";
-import { BasicInfoFields } from "../form/BasicInfoFields";
-import { IdentificationFields } from "../form/IdentificationFields";
-import { ColorFields } from "../form/ColorFields";
-import { ImageUpload } from "../form/ImageUpload";
-import ActionButtons from "../form/ActionButtons";
+import { EditReportFormProps } from "../../../types/Report";
+import { LocationSelect } from "../common/LocationSelect";
+import { BasicInfoFields } from "../common/BasicInfoFields";
+import { IdentificationFields } from "../common/IdentificationFields";
+import { ColorFields } from "../common/ColorFields";
+import { ImageUpload } from "../common/ImageUpload";
+import ActionButtons from "../common/ActionButtons";
 import { MAP_ZOOM_LEVELS } from "../../../constants/map";
-import ReportDates from "../form/ReportDates";
+import DateDisplay from "../common/DateDisplay";
 
-const ReportEditMode: React.FC<ReportEditModeProps> = ({
+const EditReportForm: React.FC<EditReportFormProps> = ({
   formData,
   handleInputChange,
   handleFileChange,
@@ -104,9 +104,9 @@ const ReportEditMode: React.FC<ReportEditModeProps> = ({
         zoomLevel={MAP_ZOOM_LEVELS.EDIT}
       />
 
-      <ReportDates createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />
+      <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />
     </form>
   );
 };
 
-export default ReportEditMode;
+export default EditReportForm;

@@ -1,4 +1,4 @@
-import NewReportForm from "../../components/reports/new/NewReportForm";
+import NewReportForm from "../../components/reports/forms/NewReportForm";
 
 const ReportNewPage = () => {
   return (

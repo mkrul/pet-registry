@@ -3,13 +3,13 @@ import formatDate from "../../../lib/formatDate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Map from "../../common/Map";
-import { ReportViewModeProps } from "../../../types/Report";
+import { ViewReportFormProps } from "../../../types/Report";
 import Spinner from "../../common/Spinner";
 import LocationDisplay from "../../common/LocationDisplay";
 import { MAP_ZOOM_LEVELS } from "../../../constants/map";
-import ReportDates from "../form/ReportDates";
+import DateDisplay from "../common/DateDisplay";
 
-const ReportViewMode: React.FC<ReportViewModeProps> = ({
+const ViewReportForm: React.FC<ViewReportFormProps> = ({
   report,
   onEditClick,
   onBackClick,
@@ -47,8 +47,6 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
 
       {/* Title */}
       <h2 className="text-2xl font-semibold text-gray-900">{report.title}</h2>
-
-      <ReportDates createdAt={report.createdAt} updatedAt={report.updatedAt} />
 
       {/* Image */}
       <div className="space-y-2">
@@ -138,8 +136,9 @@ const ReportViewMode: React.FC<ReportViewModeProps> = ({
           />
         </div>
       </div>
+      <DateDisplay createdAt={report.createdAt} updatedAt={report.updatedAt} />
     </div>
   );
 };
 
-export default ReportViewMode;
+export default ViewReportForm;

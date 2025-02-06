@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { ShowReportFormContainerProps } from "../../../types/Report";
-import ReportViewMode from "../edit/ReportViewMode";
-import ReportEditMode from "../edit/ReportEditMode";
+import ViewReportForm from "./ViewReportForm";
+import EditReportForm from "./EditReportForm";
 import Notification from "../../common/Notification";
 import { NotificationType } from "../../../types/common/Notification";
 import { useReportEdit } from "../../../hooks/useReportEdit";
@@ -102,7 +102,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
 
       <div className="p-6 bg-white rounded-lg shadow-lg">
         {isEditing ? (
-          <ReportEditMode
+          <EditReportForm
             formData={formData}
             handleInputChange={handleInputChange}
             handleFileChange={handleFileChange}
@@ -132,7 +132,7 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
             VIEW_ZOOM_LEVEL={VIEW_ZOOM_LEVEL}
           />
         ) : (
-          <ReportViewMode
+          <ViewReportForm
             report={formData}
             onEditClick={handleEditClick}
             onBackClick={handleBackClick}

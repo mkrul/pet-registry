@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ReportViewMode > Content Display > renders basic report information 1`] = `
+exports[`ViewReportForm > Content Display > renders basic report information 1`] = `
 <div>
   <div
     class="space-y-6"

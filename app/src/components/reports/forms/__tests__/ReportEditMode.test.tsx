@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import ReportEditMode from "../ReportEditMode";
-import { ReportEditModeProps } from "../../../../types/Report";
+import EditReportForm from "../EditReportForm";
+import { EditReportFormProps } from "../../../../types/Report";
 import { ImageProps } from "../../../../types/common/Image";
 
 vi.mock("../../../common/Map", () => ({
@@ -30,7 +30,7 @@ const mockGetFilteredColorOptions = vi.fn().mockImplementation(selectedColors =>
   return allColors.filter(color => !selectedColors.includes(color));
 });
 
-const mockProps: ReportEditModeProps = {
+const mockProps: EditReportFormProps = {
   formData: {
     title: "Test Report",
     description: "Test Description",
@@ -77,10 +77,10 @@ const mockProps: ReportEditModeProps = {
   VIEW_ZOOM_LEVEL: 15
 };
 
-describe("ReportEditMode", () => {
+describe("EditReportForm", () => {
   describe("Form Fields", () => {
     it("renders form with initial values", () => {
-      render(<ReportEditMode {...mockProps} />);
+      render(<EditReportForm {...mockProps} />);
 
       expect(screen.getByDisplayValue("Test Report")).toBeDefined();
       expect(screen.getByDisplayValue("Test Description")).toBeDefined();
@@ -98,7 +98,7 @@ describe("ReportEditMode", () => {
     });
 
     it("renders image section correctly", () => {
-      render(<ReportEditMode {...mockProps} />);
+      render(<EditReportForm {...mockProps} />);
 
       const uploadButton = screen.getByText(/choose file/i);
       const image = screen.getByRole("img");
@@ -111,7 +111,7 @@ describe("ReportEditMode", () => {
 
   describe("Form Actions", () => {
     it("handles save action", () => {
-      render(<ReportEditMode {...mockProps} />);
+      render(<EditReportForm {...mockProps} />);
 
       const saveButton = screen.getByText("Save");
       fireEvent.click(saveButton);
@@ -120,14 +120,14 @@ describe("ReportEditMode", () => {
     });
 
     it("shows spinner during save", () => {
-      render(<ReportEditMode {...mockProps} isSaving={true} />);
+      render(<EditReportForm {...mockProps} isSaving={true} />);
 
       expect(screen.getByTestId("inline-spinner")).toBeDefined();
       expect(screen.getByText(/saving/i)).toBeDefined();
     });
 
     it("handles cancel action", () => {
-      render(<ReportEditMode {...mockProps} />);
+      render(<EditReportForm {...mockProps} />);
 
       const cancelButton = screen.getByText(/cancel/i);
       fireEvent.click(cancelButton);
@@ -138,22 +138,22 @@ describe("ReportEditMode", () => {
 
   describe("Dynamic Fields", () => {
     it("handles breed fields correctly", () => {
-      const { rerender } = render(<ReportEditMode {...mockProps} />);
+      const { rerender } = render(<EditReportForm {...mockProps} />);
 
       expect(screen.getByText(/add another breed/i)).toBeDefined();
 
-      rerender(<ReportEditMode {...mockProps} showBreed2={true} />);
+      rerender(<EditReportForm {...mockProps} showBreed2={true} />);
       expect(screen.getByLabelText(/remove breed/i)).toBeDefined();
     });
 
     it("handles color fields correctly", () => {
-      const { rerender } = render(<ReportEditMode {...mockProps} />);
+      const { rerender } = render(<EditReportForm {...mockProps} />);
 
       const addColorButton = screen.getByText(/add another color/i);
       fireEvent.click(addColorButton);
       expect(mockProps.addColor).toHaveBeenCalled();
 
-      rerender(<ReportEditMode {...mockProps} showColor2={true} showColor3={true} />);
+      rerender(<EditReportForm {...mockProps} showColor2={true} showColor3={true} />);
       expect(screen.queryByText(/add another color/i)).toBeNull();
       expect(mockGetFilteredColorOptions).toHaveBeenCalled();
     });

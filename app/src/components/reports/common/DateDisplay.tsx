@@ -1,12 +1,12 @@
 import React from "react";
 import formatDate from "../../../lib/formatDate";
 
-interface ReportDatesProps {
+interface DateDisplayProps {
   createdAt: string;
   updatedAt: string;
 }
 
-const ReportDates: React.FC<ReportDatesProps> = ({ createdAt, updatedAt }) => {
+const DateDisplay: React.FC<DateDisplayProps> = ({ createdAt, updatedAt }) => {
   return (
     <div className="space-y-2">
       <div className="flex gap-8">
@@ -23,4 +23,4 @@ const ReportDates: React.FC<ReportDatesProps> = ({ createdAt, updatedAt }) => {
   );
 };
 
-export default ReportDates;
+export default DateDisplay;

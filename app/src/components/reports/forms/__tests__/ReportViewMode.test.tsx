@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import ReportViewMode from "../ReportViewMode";
-import { ReportViewModeProps } from "../../../../types/Report";
+import ViewReportForm from "../ViewReportForm";
+import { ViewReportFormProps } from "../../../../types/Report";
 import { ImageProps } from "../../../../types/common/Image";
 
 vi.mock("../../../common/Map", () => ({
@@ -44,7 +44,7 @@ const mockReport = {
   recentlyCreated: false
 };
 
-const mockProps: ReportViewModeProps = {
+const mockProps: ViewReportFormProps = {
   report: mockReport,
   onEditClick: vi.fn(),
   onBackClick: vi.fn(),
@@ -53,10 +53,10 @@ const mockProps: ReportViewModeProps = {
   handleImageError: vi.fn()
 };
 
-describe("ReportViewMode", () => {
+describe("ViewReportForm", () => {
   describe("Content Display", () => {
     it("renders basic report information", () => {
-      const { container } = render(<ReportViewMode {...mockProps} />);
+      const { container } = render(<ViewReportForm {...mockProps} />);
 
       expect(screen.getByText("Test Report")).toBeDefined();
       expect(screen.getByText("Test Description")).toBeDefined();
@@ -66,7 +66,7 @@ describe("ReportViewMode", () => {
     });
 
     it("renders pet details correctly", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       expect(screen.getByText("Dog")).toBeDefined();
       expect(screen.getByText("Labrador")).toBeDefined();
@@ -75,7 +75,7 @@ describe("ReportViewMode", () => {
     });
 
     it("renders all colors", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       expect(screen.getByText("Black")).toBeDefined();
       expect(screen.getByText("Brown")).toBeDefined();
@@ -83,14 +83,14 @@ describe("ReportViewMode", () => {
     });
 
     it("renders location information", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       expect(screen.getByText("Test Area, Test State, Test Country")).toBeDefined();
       expect(screen.getByTestId("map")).toBeDefined();
     });
 
     it("renders dates correctly", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       const dates = screen.getAllByText("12/31/2022, 7:00 PM");
       expect(dates).toHaveLength(2);
@@ -107,7 +107,7 @@ describe("ReportViewMode", () => {
 
   describe("Image Handling", () => {
     it("renders image with loading state", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       const image = screen.getByRole("img");
       expect(image).toBeDefined();
@@ -116,7 +116,7 @@ describe("ReportViewMode", () => {
     });
 
     it("handles image load event", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       const image = screen.getByRole("img");
       fireEvent.load(image);
@@ -126,7 +126,7 @@ describe("ReportViewMode", () => {
     });
 
     it("handles image error event", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       const image = screen.getByRole("img");
       fireEvent.error(image);
@@ -137,7 +137,7 @@ describe("ReportViewMode", () => {
 
   describe("Button Actions", () => {
     it("handles edit button click", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       const editButton = screen.getByText("Edit");
       fireEvent.click(editButton);
@@ -146,7 +146,7 @@ describe("ReportViewMode", () => {
     });
 
     it("handles back button click", () => {
-      render(<ReportViewMode {...mockProps} />);
+      render(<ViewReportForm {...mockProps} />);
 
       const backButton = screen.getByText("Back");
       fireEvent.click(backButton);
@@ -165,7 +165,7 @@ describe("ReportViewMode", () => {
         microchipId: null
       };
 
-      render(<ReportViewMode {...mockProps} report={partialReport} />);
+      render(<ViewReportForm {...mockProps} report={partialReport} />);
 
       expect(screen.getByText("Unknown")).toBeDefined();
       expect(screen.queryByText("Golden Retriever")).toBeNull();

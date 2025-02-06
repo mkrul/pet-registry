@@ -85,7 +85,7 @@ export interface ReportsGridProps {
   currentQuery: string;
 }
 
-export interface EditReportFormProps {
+export interface EditReportFormFormProps {
   report: ReportProps;
   errors?: string[];
 }
@@ -95,7 +95,7 @@ export interface UpdateReportResponse {
   report: ReportProps;
 }
 
-export interface ReportEditModeProps {
+export interface EditReportFormProps {
   formData: ReportPropsForm;
   handleInputChange: (e: FormInputEvent) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -125,7 +125,7 @@ export interface ReportEditModeProps {
   setShowColor3: (show: boolean) => void;
 }
 
-export interface ReportViewModeProps {
+export interface ViewReportFormProps {
   report: ReportProps;
   onEditClick: () => void;
   onBackClick: () => void;
