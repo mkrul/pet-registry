@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "./Spinner";
 import Notification from "./Notification";
-import { NotificationType } from "../../types/common/Notification";
 import { NotificationMessage } from "../../types/common/Notification";
 
 interface MapContainerProps {

@@ -3,7 +3,6 @@ import {
   useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../../redux/features/reports/reportsApi";
-import { SelectChangeEvent } from "@mui/material";
 import { useReportForm } from "../../../hooks/useReportForm";
 import { useReportSubmit } from "../../../hooks/useReportSubmit";
 import { validateReportForm } from "../../../services/validation/ReportFormValidation";
@@ -13,14 +12,11 @@ import { ColorFields } from "../common/ColorFields";
 import { ImageUpload } from "../common/ImageUpload";
 import { LocationSelect } from "../common/LocationSelect";
 import { SubmitButton } from "../../common/SubmitButton";
-import Notification from "../../common/Notification";
 import Spinner from "../../common/Spinner";
 import { NotificationType } from "../../../types/common/Notification";
-import { Button } from "@mui/material";
-import { FormPopulateButton } from "../../development/FormPopulateButton";
+import { FormPopulateButton } from "../../common/FormPopulateButton";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
-import { commonInputStyles } from "../../../styles/commonStyles";
 import { createMapLocation } from "../../../utils/mapUtils";
 
 const NewReportForm: React.FC = () => {

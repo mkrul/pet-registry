@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useMapEvents, Marker } from "react-leaflet";
 import { MapProps } from "../../types/common/Map";
-import { NotificationType } from "../../types/common/Notification";
 import { LocationData } from "../../types/Report";
-import { findNearestArea, findNearbyStreets, getLocationDetails } from "../../services/geocoding";
-import { isUSLocation } from "../../utils/locationUtils";
+import { getLocationDetails } from "../../services/geocoding";
 import Spinner from "./Spinner";
-import { LocationDetails } from "../../types/services/Geocoding";
 import { MapView } from "./MapView";
 import { NotificationMessage } from "../../types/common/Notification";
 
