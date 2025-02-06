@@ -289,3 +289,4 @@
 - Fixed ProfileDropdown toggle behavior to consistently stay open when clicked
 - Improved ProfileDropdown accessibility by using proper button element
 - Added click outside handling to ProfileDropdown for better user experience
+- Fixed image update refresh issue by adding cache invalidation to report update mutation in RTK Query

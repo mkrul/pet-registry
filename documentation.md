@@ -486,3 +486,5 @@
 - Click outside handlers should be added and removed based on component state to prevent memory leaks
 - Removing unnecessary tabIndex attributes can improve focus management and prevent click handling issues
 - Dropdown components should handle both click and focus events consistently for better user experience
+- RTK Query's cache invalidation system ensures data consistency after mutations
+- Using invalidatesTags with both specific and LIST tags ensures both individual and list views stay in sync

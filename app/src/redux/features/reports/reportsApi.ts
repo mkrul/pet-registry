@@ -146,6 +146,10 @@ export const reportsApi = createApi({
         method: "PUT",
         body: data
       }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Reports", id },
+        { type: "Reports", id: "LIST" }
+      ],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
