@@ -9,34 +9,24 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
   showColor2,
   showColor3,
-  onInputChange,
   setShowColor2,
   setShowColor3,
   onColor2Add,
   onColor3Add,
   onColor2Remove,
   onColor3Remove,
-  isLoading
+  isLoading,
+  handleColor1Change,
+  handleColor2Change,
+  handleColor3Change
 }) => {
-  const handleColorChange = (value: string) => {
-    onInputChange({ target: { name: "color1", value } });
-  };
-
-  const handleColor2Change = (value: string) => {
-    onInputChange({ target: { name: "color2", value } });
-  };
-
-  const handleColor3Change = (value: string) => {
-    onInputChange({ target: { name: "color3", value } });
-  };
-
   return (
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900">Colors:</label>
       <div className="flex-grow">
         <ColorSearch
           value={formData.color1}
-          onChange={handleColorChange}
+          onChange={handleColor1Change}
           disabled={isLoading}
           size="medium"
           excludeColors={[formData.color2, formData.color3].filter(Boolean)}
@@ -58,11 +48,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           <div className="mt-6">
             <AdditionalFieldSet
               label="Second Color:"
-              onRemove={() => {
-                onInputChange({ target: { name: "color2", value: null } });
-                onColor2Remove?.();
-                setShowColor2(false);
-              }}
+              onRemove={onColor2Remove}
               disabled={isLoading}
               testId="remove-color-button"
             >
@@ -93,11 +79,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           <div className="mt-6">
             <AdditionalFieldSet
               label="Third Color:"
-              onRemove={() => {
-                onInputChange({ target: { name: "color3", value: null } });
-                onColor3Remove?.();
-                setShowColor3(false);
-              }}
+              onRemove={onColor3Remove}
               disabled={isLoading}
               testId="remove-color-button"
             >

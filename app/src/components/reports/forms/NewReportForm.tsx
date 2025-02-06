@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../../redux/features/reports/reportsApi";
 import { useReportForm } from "../../../hooks/useReportForm";
 import { useReportSubmit } from "../../../hooks/useReportSubmit";
-import { validateReportForm } from "../../../services/validation/ReportFormValidation";
+import { useFormSubmission } from "../../../hooks/useFormSubmission";
 import { BasicInfoFields } from "../common/BasicInfoFields";
 import { IdentificationFields } from "../common/IdentificationFields";
 import { ColorFields } from "../common/ColorFields";
@@ -13,43 +13,34 @@ import { ImageUpload } from "../common/ImageUpload";
 import { LocationSelect } from "../common/LocationSelect";
 import { SubmitButton } from "../../common/SubmitButton";
 import Spinner from "../../common/Spinner";
-import { NotificationType } from "../../../types/common/Notification";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
-import { useDispatch } from "react-redux";
-import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
 import { createMapLocation } from "../../../utils/mapUtils";
+import { useNotificationCleanup } from "../../../hooks/useNotificationCleanup";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
-  const dispatch = useDispatch();
 
   const {
     formData,
     setFormData,
     selectedImage,
-    setSelectedImage,
     imagePreview,
-    setImagePreview,
     showBreed2,
-    setShowBreed2,
     showColor2,
-    setShowColor2,
     showColor3,
-    setShowColor3,
     handleInputChange,
-    handleSpeciesChange,
-    handleLocationSelect
+    handleLocationSelect,
+    removeColor2,
+    removeColor3,
+    handleImageSelect,
+    removeBreed2,
+    showBreed2Field,
+    showColor2Field,
+    showColor3Field,
+    handleImageLoad,
+    handleImageError
   } = useReportForm();
-
-  useEffect(() => {
-    if (formData.color2) {
-      setShowColor2(true);
-    }
-    if (formData.color3) {
-      setShowColor3(true);
-    }
-  }, [formData.color2, formData.color3]);
 
   const { handleSubmit } = useReportSubmit({
     submitReport: data => submitReport(data).unwrap(),
@@ -58,29 +49,9 @@ const NewReportForm: React.FC = () => {
     showColor3
   });
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(setNotification(null));
+  const { onSubmit } = useFormSubmission(handleSubmit);
 
-    const validationError = validateReportForm(formData, selectedImage);
-    if (validationError) {
-      dispatch(
-        setNotification({
-          type: NotificationType.ERROR,
-          message: validationError
-        })
-      );
-      return;
-    }
-
-    await handleSubmit(formData, selectedImage);
-  };
-
-  useEffect(() => {
-    return () => {
-      dispatch(setNotification(null));
-    };
-  }, [dispatch]);
+  useNotificationCleanup();
 
   if (isLoadingNewReport) return <Spinner />;
 
@@ -88,17 +59,14 @@ const NewReportForm: React.FC = () => {
     <form
       className="space-y-6"
       id="lost-pet-report-form"
-      onSubmit={onSubmit}
+      onSubmit={e => onSubmit(e, formData, selectedImage)}
       encType="multipart/form-data"
       noValidate
     >
       <FormPopulateButton
         setFormData={setFormData}
-        setSelectedImage={setSelectedImage}
-        setImagePreview={setImagePreview}
-        setShowBreed2={setShowBreed2}
-        setShowColor2={setShowColor2}
-        setShowColor3={setShowColor3}
+        handleImageSelect={handleImageSelect}
+        showColor2Field={showColor2Field}
       />
 
       <div className="mt-[0.5rem]">
@@ -114,8 +82,8 @@ const NewReportForm: React.FC = () => {
         formData={formData}
         showBreed2={showBreed2}
         onInputChange={handleInputChange}
-        setShowBreed2={setShowBreed2}
-        onBreed2Remove={() => {}}
+        setShowBreed2={showBreed2Field}
+        onBreed2Remove={removeBreed2}
         isLoading={isLoading}
       />
 
@@ -124,30 +92,21 @@ const NewReportForm: React.FC = () => {
         showColor2={showColor2}
         showColor3={showColor3}
         onInputChange={handleInputChange}
-        setShowColor2={setShowColor2}
-        setShowColor3={setShowColor3}
-        onColor2Add={() => setShowColor2(true)}
-        onColor3Add={() => setShowColor3(true)}
-        onColor2Remove={() => {
-          setFormData(prev => ({ ...prev, color2: null }));
-          setShowColor2(false);
-        }}
-        onColor3Remove={() => {
-          setFormData(prev => ({ ...prev, color3: null }));
-          setShowColor3(false);
-        }}
+        setShowColor2={showColor2Field}
+        setShowColor3={showColor3Field}
+        onColor2Add={showColor2Field}
+        onColor3Add={showColor3Field}
+        onColor2Remove={removeColor2}
+        onColor3Remove={removeColor3}
         isLoading={isLoading}
       />
 
       <ImageUpload
-        onImageSelect={(file, preview) => {
-          setSelectedImage(file);
-          setImagePreview(preview);
-        }}
+        onImageSelect={handleImageSelect}
         preview={imagePreview}
         disabled={isLoading}
-        onImageLoad={() => {}}
-        onImageError={() => {}}
+        onImageLoad={handleImageLoad}
+        onImageError={handleImageError}
       />
 
       <LocationSelect

@@ -412,3 +412,21 @@
 - Ensure all used types are properly imported
 - Maintain clean type dependencies
 - Import domain types in utility functions
+- Form submission logic should be encapsulated in dedicated hooks
+- State management should be centralized in custom hooks rather than components
+- Form population handlers should use consistent interfaces
+- Component interfaces should be minimal and focused on required functionality
+- State transitions should be managed through dedicated handlers
+- Image handling logic belongs in form management hooks
+- Field visibility logic should be managed consistently through hooks
+- Form state setters should be exposed through dedicated handlers
+- Component interfaces should avoid exposing raw state setters
+- Form population should use consistent patterns across the application
+- Form initialization logic should be handled in custom hooks
+- Effects that manage form state should live with other state management code
+- Keep components focused on rendering and event delegation
+- Keep initialization functions private when only used internally
+- Custom hooks should expose minimal public interfaces
+- Internal hook functions don't need to be exposed if only used by effects
+- Remove unused props to maintain clean component interfaces
+- Keep component props aligned with actual functionality

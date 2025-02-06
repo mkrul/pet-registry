@@ -216,3 +216,21 @@
 - Added ReportProps import to mapUtils
 - Fixed type imports for location helper
 - Completed type definitions for createMapLocation
+- Extracted form submission logic into useFormSubmission hook
+- Moved color initialization logic to useReportForm hook
+- Created FormPopulateHandlers type for consistent form population
+- Simplified FormPopulateButton interface to use dedicated handlers
+- Extracted image handling logic into useReportForm hook
+- Moved breed removal logic into useReportForm hook
+- Added field visibility handlers to useReportForm
+- Standardized form state management in useReportForm
+- Removed unused state setters from NewReportForm
+- Simplified FormPopulateButton to use minimal required props
+- Moved color initialization effect into useReportForm hook
+- Removed initialization logic from NewReportForm component
+- Made form initialization consistent in useReportForm
+- Made initializeColors function private in useReportForm
+- Removed unused export from useReportForm interface
+- Simplified useReportForm public API
+- Removed unused showBreed2Field prop from FormPopulateButton
+- Simplified FormPopulateButton interface to match actual usage

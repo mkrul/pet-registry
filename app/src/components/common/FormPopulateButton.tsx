@@ -4,11 +4,8 @@ import { ReportPropsForm } from "../../types/Report";
 
 interface FormPopulateButtonProps {
   setFormData: (data: ReportPropsForm) => void;
-  setSelectedImage: (file: File | null) => void;
-  setImagePreview: React.Dispatch<React.SetStateAction<string>>;
-  setShowBreed2: (show: boolean) => void;
-  setShowColor2: (show: boolean) => void;
-  setShowColor3: (show: boolean) => void;
+  handleImageSelect: (file: File, preview: string) => void;
+  showColor2Field: () => void;
 }
 
 const generateMicrochipId = () => {
@@ -19,12 +16,21 @@ const generateMicrochipId = () => {
 
 export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
   setFormData,
-  setSelectedImage,
-  setImagePreview,
-  setShowBreed2,
-  setShowColor2,
-  setShowColor3
+  handleImageSelect,
+  showColor2Field
 }) => {
+  const loadDummyImage = () => {
+    fetch("/images/golden-retriever.png")
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], "golden-retriever.png", { type: "image/png" });
+        handleImageSelect(file, "");
+        const reader = new FileReader();
+        reader.onloadend = () => handleImageSelect(file, reader.result as string);
+        reader.readAsDataURL(file);
+      });
+  };
+
   const populateFormWithDummyData = () => {
     setFormData({
       title: "Lost Golden Retriever",
@@ -57,19 +63,8 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
       }
     });
 
-    fetch("/images/golden-retriever.png")
-      .then(res => res.blob())
-      .then(blob => {
-        const file = new File([blob], "golden-retriever.png", { type: "image/png" });
-        setSelectedImage(file);
-        const reader = new FileReader();
-        reader.onloadend = () => setImagePreview(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-
-    setShowBreed2(false);
-    setShowColor2(true);
-    setShowColor3(false);
+    loadDummyImage();
+    showColor2Field();
   };
 
   if (process.env.NODE_ENV !== "development") return null;

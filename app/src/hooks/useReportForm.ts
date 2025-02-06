@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SelectChangeEvent } from "@mui/material";
 import { ReportPropsForm } from "../types/Report";
 import { Species } from "../lib/reports/breedList";
@@ -73,21 +73,79 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     }));
   };
 
+  const initializeColors = () => {
+    if (formData.color2) {
+      setShowColor2(true);
+    }
+    if (formData.color3) {
+      setShowColor3(true);
+    }
+  };
+
+  const removeColor2 = () => {
+    setFormData(prev => ({ ...prev, color2: null }));
+    setShowColor2(false);
+  };
+
+  const removeColor3 = () => {
+    setFormData(prev => ({ ...prev, color3: null }));
+    setShowColor3(false);
+  };
+
+  const handleColor1Change = (value: string) => {
+    setFormData(prev => ({ ...prev, color1: value }));
+  };
+
+  const handleColor2Change = (value: string) => {
+    setFormData(prev => ({ ...prev, color2: value }));
+  };
+
+  const handleColor3Change = (value: string) => {
+    setFormData(prev => ({ ...prev, color3: value }));
+  };
+
+  const handleImageSelect = (file: File, preview: string) => {
+    setSelectedImage(file);
+    setImagePreview(preview);
+  };
+
+  const removeBreed2 = () => {
+    setFormData(prev => ({ ...prev, breed2: null }));
+    setShowBreed2(false);
+  };
+
+  const showBreed2Field = () => setShowBreed2(true);
+  const showColor2Field = () => setShowColor2(true);
+  const showColor3Field = () => setShowColor3(true);
+
+  const handleImageLoad = () => {};
+  const handleImageError = () => {};
+
+  useEffect(() => {
+    initializeColors();
+  }, [formData.color2, formData.color3]);
+
   return {
     formData,
     setFormData,
     selectedImage,
-    setSelectedImage,
     imagePreview,
-    setImagePreview,
     showBreed2,
-    setShowBreed2,
     showColor2,
-    setShowColor2,
     showColor3,
-    setShowColor3,
     handleInputChange,
-    handleSpeciesChange,
-    handleLocationSelect
+    handleLocationSelect,
+    removeColor2,
+    removeColor3,
+    handleColor1Change,
+    handleColor2Change,
+    handleColor3Change,
+    handleImageSelect,
+    removeBreed2,
+    showBreed2Field,
+    showColor2Field,
+    showColor3Field,
+    handleImageLoad,
+    handleImageError
   };
 };
