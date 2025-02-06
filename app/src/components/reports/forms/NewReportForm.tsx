@@ -21,7 +21,7 @@ import { FormPopulateButton } from "../../development/FormPopulateButton";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../redux/features/notifications/notificationsSlice";
 import { commonInputStyles } from "../../../styles/commonStyles";
-import { MAP_ZOOM_LEVELS } from "../../../constants/map";
+import { createMapLocation } from "../../../utils/mapUtils";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
@@ -156,16 +156,15 @@ const NewReportForm: React.FC = () => {
 
       <LocationSelect
         onLocationSelect={handleLocationSelect}
-        initialLocation={{
+        initialLocation={createMapLocation({
           latitude: formData.latitude ?? 0,
           longitude: formData.longitude ?? 0,
           area: formData.area ?? "",
           state: formData.state ?? "",
           country: formData.country ?? "",
           intersection: formData.intersection ?? ""
-        }}
+        })}
         isLoading={isLoading}
-        zoomLevel={MAP_ZOOM_LEVELS.NEW}
       />
 
       <SubmitButton isLoading={isLoading} />

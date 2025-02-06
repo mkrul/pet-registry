@@ -342,3 +342,53 @@
 - Helper functions can enforce consistent data structure usage
 - Initialization logic should be centralized for maintainability
 - Data transformation patterns should be reusable across components
+- Helper functions should be used consistently throughout component hierarchy
+- Location initialization should follow the same pattern at all levels
+- Component composition should maintain consistent data transformation patterns
+- Parent components should use the same helper functions as their children
+- Data transformation helpers should be used at the highest appropriate level
+- Helper function usage should be consistent across all form variants
+- Create and edit forms should use the same data transformation patterns
+- Location initialization should be handled identically in all contexts
+- Form components should share the same helper functions regardless of type
+- Consistent patterns improve maintainability across form variants
+- Address processing logic belongs in dedicated services
+- UI components should delegate complex data processing
+- Geocoding operations should be centralized in services
+- Components should focus on presentation and user interaction
+- Service functions should handle all data transformation logic
+- Remove unused imports after moving functionality
+- Ensure proper type imports in service files
+- Keep import statements clean and relevant
+- Remove legacy dependencies after refactoring
+- Maintain clean import paths after code reorganization
+- Remove unused type definitions after refactoring
+- Keep interface definitions minimal and relevant
+- Clean up type definitions when simplifying components
+- Remove interfaces when their usage is inlined
+- Maintain clean type definitions after code reorganization
+- Remove unused props when simplifying component behavior
+- Keep component interfaces minimal and focused
+- Remove configuration props when behavior is standardized
+- Simplify component APIs when functionality is consolidated
+- Maintain clean interfaces after removing unused features
+- Remove unused props from component usage sites
+- Keep component usage consistent across the application
+- Update all consuming components when simplifying interfaces
+- Maintain consistent prop patterns across form variants
+- Clean up component usage after interface changes
+- Remove unused constant imports after removing related functionality
+- Clean up imports when removing feature dependencies
+- Keep import statements aligned with actual component usage
+- Remove configuration imports when standardizing behavior
+- Maintain clean import statements after feature removal
+- View components should use the same helper functions as edit/create
+- Maintain consistent patterns across all component variants
+- Helper functions should be used in read-only contexts
+- Keep data transformation consistent in view components
+- Standardize component usage across all modes
+- Remove unused imports after standardizing component behavior
+- Complete cleanup of configuration imports across all components
+- Ensure consistent import cleanup across all component variants
+- Keep imports minimal after standardizing functionality
+- Maintain clean imports in view components

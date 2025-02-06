@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import Map from "../../common/Map";
 import { LocationData, LocationSelectProps } from "../../../types/Report";
 import LocationDisplay from "../../common/LocationDisplay";
-import { Autocomplete, TextField, Button } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { Autocomplete, TextField } from "@mui/material";
 import { debounce } from "lodash";
-import { findNearestArea, findNearbyStreets } from "../../../utils/locationUtils";
-import { isUSLocation } from "../../../utils/locationUtils";
 import Spinner from "../../common/Spinner";
-import { MAP_ZOOM_LEVELS, MapZoomLevel } from "../../../constants/map";
+import { MAP_ZOOM_LEVELS } from "../../../constants/map";
+import { createMapLocation } from "../../../utils/mapUtils";
+import { processAddress } from "../../../services/geocoding";
 
 interface AddressSuggestion {
   display_name: string;
@@ -16,16 +15,10 @@ interface AddressSuggestion {
   lon: string;
 }
 
-interface MapCenter {
-  lat: number;
-  lng: number;
-}
-
 export const LocationSelect: React.FC<LocationSelectProps> = ({
   onLocationSelect,
   initialLocation,
-  isLoading,
-  zoomLevel = MAP_ZOOM_LEVELS.DEFAULT
+  isLoading
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<Omit<
     LocationData,
@@ -43,14 +36,6 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<AddressSuggestion | null>(null);
-  const [mapCenter, setMapCenter] = useState<MapCenter | null>(
-    initialLocation?.latitude && initialLocation?.longitude
-      ? {
-          lat: initialLocation.latitude,
-          lng: initialLocation.longitude
-        }
-      : null
-  );
   const [isProcessingAddress, setIsProcessingAddress] = useState(false);
   const isDisabled = isLoading || isProcessingAddress;
 
@@ -107,61 +92,14 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
     }
   }, [initialLocation]);
 
-  const handleAddressProcessing = async (
-    lat: number,
-    lng: number
-  ): Promise<LocationData | undefined> => {
-    setIsProcessingAddress(true);
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-      );
-      const data = await response.json();
-      const address = data.address;
-
-      if (!isUSLocation(address.country || "")) {
-        return;
-      }
-
-      let area =
-        address.area ||
-        address.town ||
-        address.village ||
-        address.suburb ||
-        address.municipality ||
-        address.neighbourhood;
-
-      if (!area || area === "Unknown") {
-        area = await findNearestArea(lat, lng, () => {});
-      }
-
-      const intersectionStr = await findNearbyStreets(lat, lng);
-
-      return {
-        latitude: lat,
-        longitude: lng,
-        area,
-        state: address.state || "",
-        country: address.country || "",
-        intersection: intersectionStr || ""
-      };
-    } finally {
-      setIsProcessingAddress(false);
-    }
-  };
-
   const handleAddressSelect = async (_: React.SyntheticEvent, value: AddressSuggestion | null) => {
     if (value) {
-      const center: MapCenter = {
-        lat: parseFloat(value.lat),
-        lng: parseFloat(value.lon)
-      };
-      setMapCenter(center);
       const lat = parseFloat(value.lat);
       const lng = parseFloat(value.lon);
 
       try {
-        const locationData = await handleAddressProcessing(lat, lng);
+        setIsProcessingAddress(true);
+        const locationData = await processAddress(lat, lng);
         if (locationData) {
           setSelectedLocation(locationData);
           onLocationSelect(locationData);
@@ -170,6 +108,8 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         setSearchInput("");
       } catch (error) {
         console.error("Error handling location:", error);
+      } finally {
+        setIsProcessingAddress(false);
       }
     }
   };
@@ -223,8 +163,8 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
       <div className="relative mt-1">
         <Map
           onLocationSelect={handleLocationSelect}
-          initialLocation={initialLocation}
-          initialZoom={mapCenter ? zoomLevel : MAP_ZOOM_LEVELS.DEFAULT}
+          initialLocation={initialLocation ? createMapLocation(initialLocation) : undefined}
+          initialZoom={MAP_ZOOM_LEVELS.DEFAULT}
         />
         {isProcessingAddress && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">

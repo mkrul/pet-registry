@@ -6,8 +6,8 @@ import { IdentificationFields } from "../common/IdentificationFields";
 import { ColorFields } from "../common/ColorFields";
 import { ImageUpload } from "../common/ImageUpload";
 import ActionButtons from "../common/ActionButtons";
-import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 import DateDisplay from "../common/DateDisplay";
+import { createMapLocation } from "../../../utils/mapUtils";
 
 const EditReportForm: React.FC<EditReportFormProps> = ({
   formData,
@@ -92,16 +92,15 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
 
       <LocationSelect
         onLocationSelect={handleLocationSelect}
-        initialLocation={{
+        initialLocation={createMapLocation({
           latitude: formData.latitude ?? 0,
           longitude: formData.longitude ?? 0,
           area: formData.area ?? "",
           state: formData.state ?? "",
           country: formData.country ?? "",
           intersection: formData.intersection ?? ""
-        }}
+        })}
         isLoading={isSaving}
-        zoomLevel={MAP_ZOOM_LEVELS.EDIT}
       />
 
       <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />

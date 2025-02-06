@@ -2,6 +2,7 @@ import { NotificationType } from "../types/common/Notification";
 import { isUSLocation } from "../utils/locationUtils";
 import { LocationDetails, NominatimAddress } from "../types/services/Geocoding";
 import { NotificationMessage } from "../types/common/Notification";
+import { LocationData } from "../types/Report";
 
 export const findNearestArea = async (
   lat: number,
@@ -167,5 +168,48 @@ export const getLocationDetails = async (
   } catch (error) {
     console.error("Error getting location details:", error);
     return null;
+  }
+};
+
+export const processAddress = async (
+  lat: number,
+  lng: number
+): Promise<LocationData | undefined> => {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+    );
+    const data = await response.json();
+    const address = data.address;
+
+    if (!isUSLocation(address.country || "")) {
+      return undefined;
+    }
+
+    let area =
+      address.area ||
+      address.town ||
+      address.village ||
+      address.suburb ||
+      address.municipality ||
+      address.neighbourhood;
+
+    if (!area || area === "Unknown") {
+      area = await findNearestArea(lat, lng, () => {});
+    }
+
+    const intersectionStr = await findNearbyStreets(lat, lng);
+
+    return {
+      latitude: lat,
+      longitude: lng,
+      area,
+      state: address.state || "",
+      country: address.country || "",
+      intersection: intersectionStr || ""
+    };
+  } catch (error) {
+    console.error("Error processing address:", error);
+    return undefined;
   }
 };

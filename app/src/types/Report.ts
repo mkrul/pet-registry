@@ -190,7 +190,6 @@ export interface LocationSelectProps {
   onLocationSelect: (location: LocationData) => void;
   initialLocation?: Partial<LocationData>;
   isLoading?: boolean;
-  zoomLevel?: MapZoomLevel;
 }
 
 export interface Report {
