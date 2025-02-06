@@ -5,12 +5,14 @@ interface AuthState {
   user: UserProps | null;
   isLoading: boolean;
   error: string | null;
+  lastActivity: number | null;
 }
 
 const initialState: AuthState = {
   user: null,
   isLoading: false,
-  error: null
+  error: null,
+  lastActivity: null
 };
 
 const authSlice = createSlice({
@@ -32,9 +34,12 @@ const authSlice = createSlice({
     },
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
+    },
+    updateLastActivity(state) {
+      state.lastActivity = Date.now();
     }
   }
 });
 
-export const { setUser, clearUser, setLoading, setError } = authSlice.actions;
+export const { setUser, clearUser, setLoading, setError, updateLastActivity } = authSlice.actions;
 export default authSlice.reducer;

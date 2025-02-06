@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser, clearUser, setLoading, setError } from "./authSlice";
+import { setUser, clearUser, setLoading, setError, updateLastActivity } from "./authSlice";
 import { setNotification } from "../notifications/notificationsSlice";
 import { NotificationType } from "../../../types/common/Notification";
 import { AuthResponse, SignUpRequest } from "../../../types/auth/AuthApiSlice";
@@ -117,9 +117,24 @@ export const authApiSlice = createApi({
           dispatch(setLoading(false));
         }
       }
+    }),
+    pollSession: builder.mutation<void, void>({
+      query: () => ({
+        url: "/api/sessions/poll",
+        method: "POST",
+        credentials: "include"
+      }),
+      async onQueryStarted(_, { dispatch }) {
+        dispatch(updateLastActivity());
+      }
     })
   })
 });
 
-export const { useLoginMutation, useLogoutMutation, useGetCurrentUserQuery, useSignUpMutation } =
-  authApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useGetCurrentUserQuery,
+  useSignUpMutation,
+  usePollSessionMutation
+} = authApiSlice;

@@ -15,13 +15,8 @@ module Api
 
       if user&.valid_password?(user_params[:password])
         sign_in(user)
-        # Ensure session is properly maintained
         session[:user_id] = user.id
-        session[:last_activity] = Time.current.to_i
         set_remember_token(user) if user.respond_to?(:remember_me!)
-        # Set session cookie options
-        request.session_options[:renew] = true
-        request.session_options[:expire_after] = 1.day
         render json: success_response(user), status: :ok
       else
         render json: { error: 'Invalid email or password' }, status: :unauthorized
@@ -67,36 +62,33 @@ module Api
       end
     end
 
+    def poll
+      if current_user
+        renew_session
+        render json: { message: 'Session renewed' }, status: :ok
+      else
+        render json: { error: 'Not authenticated' }, status: :unauthorized
+      end
+    end
+
     private
 
     def find_current_user
-      Rails.logger.info "Finding current user..."
       user = find_user_from_session || find_user_from_remember_token || find_user_from_warden
-      Rails.logger.info "Current user found: #{user&.id}"
       user
     end
 
     def find_user_from_session
       return unless session["warden.user..key"].is_a?(Hash)
-      user = User.find_by(id: session["warden.user..key"]["id"])
-      if user && (session_expired? || !user.remember_token?)
-        reset_session
-        warden.logout
-        return nil
-      end
-      user
+      User.find_by(id: session["warden.user..key"]["id"])
     end
 
     def find_user_from_remember_token
-      Rails.logger.info "Checking remember token..."
       return unless cookies.signed[:remember_user_token].present?
       token = cookies.signed[:remember_user_token]
-      Rails.logger.info "Remember token present: #{token.inspect}"
-      return unless valid_remember_token?(token)
+      return unless token.is_a?(Array) && token.size == 3 && token[0].is_a?(Array)
       user_id = token[0][0]
       user = User.find_by(id: user_id)
-      Rails.logger.info "User remember token: #{user&.remember_token.inspect}"
-      return nil unless user&.remember_token.present?
       if user
         sign_in(user)
         warden.set_user(user)
@@ -105,22 +97,7 @@ module Api
     end
 
     def find_user_from_warden
-      user = warden.user
-      if user && (session_expired? || !user.remember_token?)
-        warden.logout
-        return nil
-      end
-      user
-    end
-
-    def valid_remember_token?(token)
-      return false unless token.is_a?(Array) && token.size == 3 && token[0].is_a?(Array)
-      return false unless token[2].is_a?(String)
-
-      expiration_time = Time.at(token[2].to_f)
-      return false if expiration_time < Time.current
-
-      true
+      warden.user
     end
 
     def clear_user_session
@@ -191,16 +168,13 @@ module Api
       request.env['warden']
     end
 
-    def session_expired?
-      return false unless session[:last_activity].present?
-      last_activity = Time.at(session[:last_activity].to_i)
-      timeout = Devise.timeout_in || 30.minutes
-      last_activity < timeout.ago
-    end
-
     def renew_session
       session[:last_activity] = Time.current.to_i
       session[:expires_at] = 4.hours.from_now.to_i
+
+      if current_user.respond_to?(:remember_me!) && current_user.remember_token?
+        set_remember_token(current_user)
+      end
     end
   end
 end

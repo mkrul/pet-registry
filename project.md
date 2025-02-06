@@ -290,3 +290,11 @@
 - Improved ProfileDropdown accessibility by using proper button element
 - Added click outside handling to ProfileDropdown for better user experience
 - Fixed image update refresh issue by adding cache invalidation to report update mutation in RTK Query
+- Added session polling to maintain active user sessions
+- Added session renewal endpoint to Rails API
+- Updated session store configuration with proper expiration
+- Added lastActivity tracking to auth state management
+- Added session polling mutation to auth API slice
+- Simplified session management to maintain user sessions until explicit logout
+- Removed session expiration checks for better user experience
+- Updated session store configuration to persist sessions
