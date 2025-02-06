@@ -130,7 +130,7 @@ const ViewReportForm: React.FC<ViewReportFormProps> = ({
             initialLocation={createMapLocation(report)}
             readOnly={true}
             onLocationSelect={() => {}}
-            initialZoom={MAP_ZOOM_LEVELS.DEFAULT}
+            initialZoom={MAP_ZOOM_LEVELS.VIEW}
           />
         </div>
       </div>

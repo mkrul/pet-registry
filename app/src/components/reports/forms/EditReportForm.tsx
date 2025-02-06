@@ -8,6 +8,7 @@ import { ImageUpload } from "../common/ImageUpload";
 import ActionButtons from "../common/ActionButtons";
 import DateDisplay from "../common/DateDisplay";
 import { createMapLocation } from "../../../utils/mapUtils";
+import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 
 const EditReportForm: React.FC<EditReportFormProps> = ({
   formData,

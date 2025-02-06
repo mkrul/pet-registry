@@ -164,7 +164,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         <Map
           onLocationSelect={handleLocationSelect}
           initialLocation={initialLocation ? createMapLocation(initialLocation) : undefined}
-          initialZoom={MAP_ZOOM_LEVELS.DEFAULT}
+          initialZoom={initialLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT}
         />
         {isProcessingAddress && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
