@@ -156,14 +156,18 @@ const NewReportForm: React.FC = () => {
 
       <LocationSelect
         onLocationSelect={handleLocationSelect}
-        initialLocation={createMapLocation({
-          latitude: formData.latitude ?? 0,
-          longitude: formData.longitude ?? 0,
-          area: formData.area ?? "",
-          state: formData.state ?? "",
-          country: formData.country ?? "",
-          intersection: formData.intersection ?? ""
-        })}
+        initialLocation={
+          formData.latitude && formData.longitude
+            ? createMapLocation({
+                latitude: formData.latitude,
+                longitude: formData.longitude,
+                area: formData.area ?? "",
+                state: formData.state ?? "",
+                country: formData.country ?? "",
+                intersection: formData.intersection ?? ""
+              })
+            : undefined
+        }
         isLoading={isLoading}
       />
 
