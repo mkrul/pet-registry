@@ -298,3 +298,10 @@
 - Simplified session management to maintain user sessions until explicit logout
 - Removed session expiration checks for better user experience
 - Updated session store configuration to persist sessions
+- Updated MapEvents to prevent setting locations outside the United States
+- Added location validation before updating map marker position
+- Added user notification for non-US location selections
+- Improved map marker handling to maintain US-only locations
+- Fixed map marker behavior to prevent pin updates for non-US locations
+- Improved map marker state management to maintain last valid US location
+- Fixed pin position update timing to prevent temporary display of invalid locations

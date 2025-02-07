@@ -516,3 +516,18 @@
 - Browser-native validation tooltips work best when using framework-provided form components and structure
 - File inputs should remain in the normal document flow to maintain proper validation behavior
 - Using opacity:0 with proper positioning allows file inputs to remain focusable while visually styled
+- Map marker position should only update after validating the selected location is within the US
+- Location validation should happen before updating any UI elements to maintain data consistency
+- User feedback should be immediate when selecting invalid locations
+- Map markers should maintain their last valid position when invalid locations are selected
+- Location validation should happen before triggering state updates to prevent UI flicker
+- Geocoding responses should be validated before updating application state
+- Map click handlers should validate location data before updating markers or form state
+- User notifications should clearly indicate why a location selection was rejected
+- Map markers should only move when a valid location is selected
+- Location state should be preserved when invalid selections are made
+- Map marker state updates should only occur after successful location validation
+- Pin position should be preserved when invalid locations are selected to maintain user context
+- Location validation and UI updates should be properly sequenced to prevent unwanted state changes
+- UI state updates should happen after data validation to prevent flickering of invalid states
+- Position marker updates should be sequenced after location validation to maintain visual consistency

@@ -6,6 +6,7 @@ import { getLocationDetails } from "../../services/geocoding";
 import Spinner from "./Spinner";
 import { MapView } from "./MapView";
 import { NotificationMessage } from "../../types/common/Notification";
+import { isUSLocation } from "../../utils/locationUtils";
 
 interface MapEventsProps extends MapProps {
   onNotification: (notification: NotificationMessage | null) => void;
@@ -29,7 +30,6 @@ export const MapEvents: React.FC<MapEventsProps> = ({
   const map = useMapEvents({
     click: async e => {
       if (!readOnly) {
-        setSelectedPosition([e.latlng.lat, e.latlng.lng]);
         await handleLocationSelect(e.latlng.lat, e.latlng.lng);
       }
     }
@@ -52,6 +52,7 @@ export const MapEvents: React.FC<MapEventsProps> = ({
           country: initialLocation.country ?? "",
           intersection: initialLocation.intersection ?? ""
         };
+        setSelectedPosition([formattedLat, formattedLng]);
         onLocationSelect(locationData);
         return;
       }
@@ -71,6 +72,7 @@ export const MapEvents: React.FC<MapEventsProps> = ({
 
       onNotification(null);
       onLocationSelect(locationData);
+      setSelectedPosition([formattedLat, formattedLng]);
     } catch (error) {
       console.error("Error handling location:", error);
     } finally {
