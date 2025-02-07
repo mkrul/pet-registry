@@ -33,6 +33,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         }
       : null
   );
+  const [currentMapLocation, setCurrentMapLocation] = useState(initialLocation);
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<AddressSuggestion | null>(null);
@@ -78,6 +79,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
       country: location.country,
       intersection: location.intersection
     });
+    setCurrentMapLocation(location);
     onLocationSelect(location);
   };
 
@@ -89,6 +91,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         country: initialLocation.country || "",
         intersection: initialLocation.intersection || ""
       });
+      setCurrentMapLocation(initialLocation);
     }
   }, [initialLocation]);
 
@@ -101,8 +104,14 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         setIsProcessingAddress(true);
         const locationData = await processAddress(lat, lng);
         if (locationData) {
-          setSelectedLocation(locationData);
+          setSelectedLocation({
+            area: locationData.area,
+            state: locationData.state,
+            country: locationData.country,
+            intersection: locationData.intersection
+          });
           onLocationSelect(locationData);
+          setCurrentMapLocation(locationData);
         }
         setSelectedAddress(null);
         setSearchInput("");
@@ -163,8 +172,8 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
       <div className="relative mt-1">
         <Map
           onLocationSelect={handleLocationSelect}
-          initialLocation={initialLocation ? createMapLocation(initialLocation) : undefined}
-          initialZoom={initialLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT}
+          initialLocation={currentMapLocation ? createMapLocation(currentMapLocation) : undefined}
+          initialZoom={currentMapLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT}
         />
         {isProcessingAddress && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">

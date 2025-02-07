@@ -20,12 +20,14 @@ export const MapEvents: React.FC<MapEventsProps> = ({
   initialZoom
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedPosition, setSelectedPosition] = useState<[number, number] | null>(
-    initialLocation?.latitude && initialLocation?.longitude
-      ? [initialLocation.latitude, initialLocation.longitude]
-      : null
-  );
+  const [selectedPosition, setSelectedPosition] = useState<[number, number] | null>(null);
   const [hasSetInitialView, setHasSetInitialView] = useState(false);
+
+  useEffect(() => {
+    if (initialLocation?.latitude && initialLocation?.longitude) {
+      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
+    }
+  }, [initialLocation?.latitude, initialLocation?.longitude]);
 
   const map = useMapEvents({
     click: async e => {
@@ -70,9 +72,9 @@ export const MapEvents: React.FC<MapEventsProps> = ({
         intersection: locationDetails.intersectionStr ?? ""
       };
 
+      setSelectedPosition([formattedLat, formattedLng]);
       onNotification(null);
       onLocationSelect(locationData);
-      setSelectedPosition([formattedLat, formattedLng]);
     } catch (error) {
       console.error("Error handling location:", error);
     } finally {

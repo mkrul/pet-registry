@@ -531,3 +531,22 @@
 - Location validation and UI updates should be properly sequenced to prevent unwanted state changes
 - UI state updates should happen after data validation to prevent flickering of invalid states
 - Position marker updates should be sequenced after location validation to maintain visual consistency
+- Map marker state should be synchronized with both click and search interactions
+- Location updates from different sources should trigger consistent UI updates
+- Map markers should respond to both direct clicks and programmatic location changes
+- State initialization should be simplified to prevent race conditions with effects
+- Initial state and effect updates should not duplicate logic to maintain predictable behavior
+- Component mount state should be handled separately from update state for proper initialization
+- Initial location data should be processed immediately on mount to ensure proper pin placement
+- Multiple effects watching the same dependencies can cause state update interference
+- Location state updates should be handled by a single effect to maintain consistency
+- UI state updates should precede data change notifications to ensure visual feedback
+- Pin placement should happen before location selection to maintain UI responsiveness
+- Map component initialLocation should be updated when address search selection changes
+- Address search location updates should maintain consistency with map pin placement
+- Component-level state should track current map location for proper pin updates
+- Address search and map click interactions should update the same location state
+- Component internal state should stay synchronized with prop changes
+- Location state updates should handle both initial and subsequent prop changes
+- Location state updates should be consistent across all selection methods
+- Map click handlers should update the same state as address search selections
