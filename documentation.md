@@ -560,7 +560,8 @@
 - Pin drop zoom levels should be configurable through constants
 
 ## Form Validation
-- Title field validation now uses MUI Alert component to display error messages
-- Error messages appear below the field when validation fails
+- Title, Description, Species, Breed, Color, Image, and Location fields now use MUI Alert components to display error messages
+- Error messages appear below each field when validation fails
 - Validation occurs on form submission
 - Replaced browser default validation with custom MUI Alert for better UI consistency
+- Added smooth scrolling to invalid fields for better user experience

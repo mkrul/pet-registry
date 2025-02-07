@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, TextField, Select, MenuItem } from "@mui/material";
+import { FormControl, TextField, Select, MenuItem, Alert } from "@mui/material";
 import { Species } from "../../../lib/reports/breedList";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
@@ -15,7 +15,9 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   onInputChange,
   setShowBreed2,
   onBreed2Remove,
-  isLoading
+  isLoading,
+  error,
+  breedError
 }) => {
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
@@ -89,30 +91,29 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Species:</label>
         <div>
-          <FormControl fullWidth required>
-            <Select
-              data-testid="species-select"
-              labelId="species-label"
-              id="species"
-              value={formData.species}
-              onChange={e => handleSpeciesChange(e.target.value as Species)}
-              sx={commonInputStyles}
-              disabled={isLoading}
-              MenuProps={{
-                PaperProps: {
-                  style: {
-                    maxHeight: 200
-                  }
-                }
-              }}
-            >
-              {speciesOptions.map((species, index) => (
-                <MenuItem key={`${species}-${index}`} value={species} data-testid="species-option">
-                  {species}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <TextField
+            select
+            name="species"
+            value={formData.species || ""}
+            onChange={onInputChange}
+            variant="outlined"
+            fullWidth
+            required
+            disabled={isLoading}
+            sx={commonInputStyles}
+            error={!!error}
+          >
+            {speciesOptions.map(option => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
         </div>
       </div>
 
@@ -129,7 +130,14 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             size="medium"
             hideLabel
             disableClearable
+            error={!!breedError}
+            data-testid="breed-search"
           />
+          {breedError && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {breedError}
+            </Alert>
+          )}
         </div>
 
         {!showBreed2 && formData.breed1 && (

@@ -335,3 +335,9 @@
 ## Recent Updates
 - Enhanced form validation UI for the Title field in NewReportForm using MUI Alert component
 - Replaced default HTML5 validation with custom MUI Alert validation for Title field
+- Added custom validation for Description field with MUI Alert
+- Added custom validation for Species field with MUI Alert
+- Added custom validation for Breed field with MUI Alert
+- Added custom validation for Color field with MUI Alert
+- Added custom validation for Image field with MUI Alert
+- Added custom validation for Location field with MUI Alert

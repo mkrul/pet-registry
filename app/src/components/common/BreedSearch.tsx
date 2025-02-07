@@ -8,11 +8,13 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   value,
   onChange,
   excludeBreeds = [],
-  required = false,
   disabled = false,
-  hideLabel = false,
   size = "small",
-  disableClearable = false
+  required = false,
+  hideLabel = false,
+  disableClearable = false,
+  error = false,
+  "data-testid": dataTestId
 }) => {
   const breedOptions = useMemo(() => {
     const breeds = species ? getBreedsBySpecies(species) : [];
@@ -22,7 +24,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   const inputHeight = size === "medium" ? "56px" : "40px";
 
   return (
-    <FormControl fullWidth data-testid="breed-search-form-control">
+    <FormControl fullWidth data-testid={dataTestId}>
       <Autocomplete
         value={value}
         onChange={(_, newValue) => onChange(newValue || "")}
@@ -42,6 +44,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
             variant="outlined"
             size={size}
             required={required}
+            error={error}
             sx={{
               "& .MuiInputBase-root": {
                 height: inputHeight,

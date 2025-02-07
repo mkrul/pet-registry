@@ -8,7 +8,8 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   formData,
   onInputChange,
   readOnly,
-  error
+  error,
+  descriptionError
 }) => {
   return (
     <div className="space-y-6">
@@ -60,7 +61,13 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           required
           disabled={readOnly}
           sx={commonInputStyles}
+          error={!!descriptionError}
         />
+        {descriptionError && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {descriptionError}
+          </Alert>
+        )}
       </div>
     </div>
   );

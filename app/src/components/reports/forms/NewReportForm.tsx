@@ -54,6 +54,12 @@ const NewReportForm: React.FC = () => {
   const { onSubmit } = useFormSubmission(handleSubmit);
 
   const [titleError, setTitleError] = useState<string>("");
+  const [descriptionError, setDescriptionError] = useState<string>("");
+  const [speciesError, setSpeciesError] = useState<string>("");
+  const [breedError, setBreedError] = useState<string>("");
+  const [colorError, setColorError] = useState<string>("");
+  const [imageError, setImageError] = useState<string>("");
+  const [locationError, setLocationError] = useState<string>("");
 
   const handleFormSubmit = (
     e: React.FormEvent,
@@ -62,12 +68,64 @@ const NewReportForm: React.FC = () => {
   ) => {
     e.preventDefault();
     setTitleError("");
+    setDescriptionError("");
+    setSpeciesError("");
+    setBreedError("");
+    setColorError("");
+    setImageError("");
+    setLocationError("");
 
     if (!formData.title?.trim()) {
       setTitleError("Please enter a title");
       document
         .querySelector('input[name="title"]')
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!formData.description?.trim()) {
+      setDescriptionError("Please enter a description");
+      document
+        .querySelector('textarea[name="description"]')
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!formData.species) {
+      setSpeciesError("Please select a species");
+      document
+        .querySelector('input[name="species"]')
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!formData.breed1) {
+      setBreedError("Please select a breed");
+      document
+        .querySelector(".MuiAutocomplete-input")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!formData.color1) {
+      setColorError("Please select a color");
+      document
+        .querySelector(".MuiAutocomplete-input")
+        ?.closest(".space-y-2")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!selectedImage) {
+      setImageError("Please upload an image");
+      document
+        .querySelector('input[type="file"]')
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!formData.latitude || !formData.longitude) {
+      setLocationError("Please select a location");
       return;
     }
 
@@ -99,7 +157,12 @@ const NewReportForm: React.FC = () => {
         </p>
       </div>
 
-      <BasicInfoFields formData={formData} onInputChange={handleInputChange} error={titleError} />
+      <BasicInfoFields
+        formData={formData}
+        onInputChange={handleInputChange}
+        error={titleError}
+        descriptionError={descriptionError}
+      />
 
       <IdentificationFields
         formData={formData}
@@ -108,6 +171,8 @@ const NewReportForm: React.FC = () => {
         setShowBreed2={showBreed2Field}
         onBreed2Remove={removeBreed2}
         isLoading={isLoading}
+        error={speciesError}
+        breedError={breedError}
       />
 
       <ColorFields
@@ -124,6 +189,7 @@ const NewReportForm: React.FC = () => {
         handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
         handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
         handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
+        error={colorError}
       />
 
       <ImageUpload
@@ -132,12 +198,14 @@ const NewReportForm: React.FC = () => {
         disabled={isLoading}
         onImageLoad={handleImageLoad}
         onImageError={handleImageError}
+        error={imageError}
       />
 
       <LocationSelect
         onLocationSelect={handleLocationSelect}
         initialLocation={getInitialLocation()}
         isLoading={isLoading}
+        error={locationError}
       />
 
       <SubmitButton isLoading={isLoading} />

@@ -148,6 +148,7 @@ export interface BasicInfoFieldsProps {
   ) => void;
   readOnly?: boolean;
   error?: string;
+  descriptionError?: string;
 }
 
 export interface ColorFieldsProps {
@@ -164,6 +165,7 @@ export interface ColorFieldsProps {
   handleColor1Change: (color: string) => void;
   handleColor2Change: (color: string) => void;
   handleColor3Change: (color: string) => void;
+  error?: string;
 }
 
 export type FormInputEvent =
@@ -178,6 +180,8 @@ export interface IdentificationFieldsProps {
   setShowBreed2: (show: boolean) => void;
   onBreed2Remove: () => void;
   isLoading?: boolean;
+  error?: string;
+  breedError?: string;
 }
 
 export interface LocationData {
@@ -193,6 +197,7 @@ export interface LocationSelectProps {
   onLocationSelect: (location: LocationData) => void;
   initialLocation?: Partial<LocationData>;
   isLoading?: boolean;
+  error?: string;
 }
 
 export interface Report {
@@ -220,4 +225,13 @@ export interface Report {
 export interface ReportResponse {
   report: ReportProps;
   message: string;
+}
+
+export interface ImageUploadProps {
+  onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  preview: string | null;
+  disabled?: boolean;
+  onImageLoad?: () => void;
+  onImageError?: () => void;
+  error?: string;
 }

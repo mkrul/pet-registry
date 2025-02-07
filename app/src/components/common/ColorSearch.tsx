@@ -1,6 +1,7 @@
 import React from "react";
 import { TextField, Autocomplete } from "@mui/material";
 import { getColorOptions } from "../../lib/reports/colorList";
+import { SxProps } from "@mui/material";
 
 interface ColorSearchProps {
   value: string;
@@ -8,10 +9,11 @@ interface ColorSearchProps {
   excludeColors?: (string | null)[];
   disabled?: boolean;
   size?: "small" | "medium";
-  sx?: any;
+  sx?: SxProps;
   required?: boolean;
   hideLabel?: boolean;
   disableClearable?: boolean;
+  error?: boolean;
 }
 
 export const ColorSearch: React.FC<ColorSearchProps> = ({
@@ -21,7 +23,8 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
   disabled = false,
   size = "small",
   sx,
-  required = false
+  required = false,
+  error = false
 }) => {
   const colorOptions = React.useMemo(() => {
     const colors = getColorOptions();
@@ -36,7 +39,14 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
       disabled={disabled}
       size={size}
       renderInput={params => (
-        <TextField {...params} required={required} variant="outlined" size={size} sx={sx} />
+        <TextField
+          {...params}
+          required={required}
+          variant="outlined"
+          size={size}
+          sx={sx}
+          error={error}
+        />
       )}
     />
   );

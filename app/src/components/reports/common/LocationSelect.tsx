@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Map from "../../common/Map";
 import { LocationData, LocationSelectProps } from "../../../types/Report";
 import LocationDisplay from "../../common/LocationDisplay";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Alert } from "@mui/material";
 import { debounce } from "lodash";
 import Spinner from "../../common/Spinner";
 import { MAP_ZOOM_LEVELS } from "../../../constants/map";
@@ -18,7 +18,8 @@ interface AddressSuggestion {
 export const LocationSelect: React.FC<LocationSelectProps> = ({
   onLocationSelect,
   initialLocation,
-  isLoading
+  isLoading,
+  error
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<Omit<
     LocationData,
@@ -149,6 +150,8 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
               {...params}
               aria-label="Enter the address that the animal was last seen at"
               placeholder="Enter the address that the animal was last seen at"
+              required
+              error={!!error}
               sx={{
                 backgroundColor: "white",
                 "& .MuiOutlinedInput-root": {
@@ -169,6 +172,11 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
           disabled={isDisabled}
         />
       </div>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
       <div className="relative mt-1">
         <Map
           onLocationSelect={handleLocationSelect}

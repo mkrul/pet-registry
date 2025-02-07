@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, FormControl } from "@mui/material";
+import { Button, FormControl, Alert } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { ImageUploadProps } from "../../../types/common/Image";
 import { commonInputStyles } from "../../../styles/commonStyles";
@@ -11,7 +11,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   preview,
   disabled,
   onImageLoad,
-  onImageError
+  onImageError,
+  error
 }) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -69,11 +70,21 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             variant="outlined"
             startIcon={<CloudUpload />}
             disabled={disabled}
-            sx={{ ...commonInputStyles, width: "fit-content", position: "relative" }}
+            sx={{
+              ...commonInputStyles,
+              width: "fit-content",
+              position: "relative",
+              borderColor: error ? "error.main" : undefined
+            }}
           >
             Choose File
           </Button>
         </div>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
         {preview && (
           <div className="mt-2 relative w-48 h-48">
             <img
