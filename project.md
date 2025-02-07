@@ -344,3 +344,4 @@
 - Replaced non-US location notification with MUI Alert
 - Removed notification handling from geocoding service
 - Updated map click handling to support MUI Alert for non-US locations
+- Fixed map pin behavior to prevent display for non-US locations

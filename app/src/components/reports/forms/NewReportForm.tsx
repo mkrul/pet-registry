@@ -16,7 +16,7 @@ import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
 import { useNotificationCleanup } from "../../../hooks/useNotificationCleanup";
 import { Alert } from "@mui/material";
-import { ReportPropsForm } from "../../../types/Report";
+import { ReportPropsForm, LocationData } from "../../../types/Report";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
