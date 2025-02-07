@@ -131,50 +131,32 @@ export const findNearbyStreets = async (lat: number, lng: number): Promise<strin
   }
 };
 
-export const getLocationDetails = async (
-  lat: number,
-  lng: number,
-  onNotification: (notification: NotificationMessage | null) => void
-): Promise<LocationDetails | null> => {
+export const getLocationDetails = async (lat: number, lng: number) => {
   try {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+      `https://nominatim.openstreetmap.org/reverse?` +
+        `format=json&` +
+        `lat=${lat}&` +
+        `lon=${lng}&` +
+        `addressdetails=1`
     );
     const data = await response.json();
-    const address = data.address;
-
-    if (!isUSLocation(address.country || "")) {
-      onNotification({
-        type: NotificationType.ERROR,
-        message: "Sorry, we are only able to support US locations at this time."
-      });
-      return null;
-    }
-
-    let area =
-      address.area ||
-      address.town ||
-      address.village ||
-      address.suburb ||
-      address.municipality ||
-      address.neighbourhood;
-
-    if (!area || area === "Unknown") {
-      area = await findNearestArea(lat, lng, onNotification);
-    }
-    const intersectionStr = await findNearbyStreets(lat, lng);
-
-    return { address, area, intersectionStr };
+    return {
+      area:
+        data.address.city || data.address.town || data.address.village || data.address.county || "",
+      address: {
+        state: data.address.state || "",
+        country: data.address.country || ""
+      },
+      intersectionStr: data.display_name || ""
+    };
   } catch (error) {
-    console.error("Error getting location details:", error);
+    console.error("Error fetching location details:", error);
     return null;
   }
 };
 
-export const processAddress = async (
-  lat: number,
-  lng: number
-): Promise<LocationData | undefined> => {
+export const processAddress = async (lat: number, lng: number): Promise<LocationData> => {
   try {
     const response = await fetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
@@ -183,7 +165,15 @@ export const processAddress = async (
     const address = data.address;
 
     if (!isUSLocation(address.country || "")) {
-      return undefined;
+      return {
+        latitude: lat,
+        longitude: lng,
+        area: "",
+        state: "",
+        country: address.country || "",
+        intersection: "",
+        error: "Sorry, we are only able to support US locations at this time."
+      };
     }
 
     let area =
@@ -210,6 +200,14 @@ export const processAddress = async (
     };
   } catch (error) {
     console.error("Error processing address:", error);
-    return undefined;
+    return {
+      latitude: lat,
+      longitude: lng,
+      area: "",
+      state: "",
+      country: "",
+      intersection: "",
+      error: "Error processing location"
+    };
   }
 };

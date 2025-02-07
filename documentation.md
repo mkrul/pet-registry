@@ -565,3 +565,4 @@
 - Validation occurs on form submission
 - Replaced browser default validation with custom MUI Alert for better UI consistency
 - Added smooth scrolling to invalid fields for better user experience
+- Non-US location errors now display through MUI Alert system

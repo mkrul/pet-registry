@@ -191,6 +191,7 @@ export interface LocationData {
   state: string;
   country: string;
   intersection: string;
+  error?: string;
 }
 
 export interface LocationSelectProps {

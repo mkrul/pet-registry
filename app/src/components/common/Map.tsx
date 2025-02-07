@@ -3,43 +3,34 @@ import { MapContainer as LeafletMapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapProps } from "../../types/common/Map";
 import "../../utils/leafletSetup";
-import { LatLngExpression } from "leaflet";
 import { MapEvents } from "./MapEvents";
-import { MapContainer } from "./MapContainer";
-import { DEFAULT_MAP_CENTER } from "../../constants/map";
+import { MAP_ZOOM_LEVELS } from "../../constants/map";
 
 export const Map: React.FC<MapProps> = ({
   onLocationSelect,
   initialLocation,
-  initialZoom = 4,
-  readOnly = false
+  readOnly,
+  initialZoom
 }) => {
   return (
-    <MapContainer>
-      {setNotification => (
-        <LeafletMapContainer
-          center={
-            initialLocation?.latitude && initialLocation?.longitude
-              ? ([initialLocation.latitude, initialLocation.longitude] as LatLngExpression)
-              : ([DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude] as LatLngExpression)
-          }
-          zoom={initialZoom}
-          className="h-full w-full"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <MapEvents
-            onLocationSelect={onLocationSelect}
-            initialLocation={initialLocation}
-            onNotification={setNotification}
-            readOnly={readOnly}
-            initialZoom={initialZoom}
-          />
-        </LeafletMapContainer>
-      )}
-    </MapContainer>
+    <div className="h-[400px] w-full rounded-lg overflow-hidden">
+      <LeafletMapContainer
+        center={[39.8283, -98.5795]}
+        zoom={initialZoom || MAP_ZOOM_LEVELS.DEFAULT}
+        className="h-full"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <MapEvents
+          onLocationSelect={onLocationSelect}
+          initialLocation={initialLocation}
+          readOnly={readOnly}
+          initialZoom={initialZoom}
+        />
+      </LeafletMapContainer>
+    </div>
   );
 };
 

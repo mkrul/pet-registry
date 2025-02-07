@@ -132,6 +132,15 @@ const NewReportForm: React.FC = () => {
     onSubmit(e, formData, selectedImage);
   };
 
+  const handleLocationUpdate = (location: LocationData) => {
+    if (location.error) {
+      setLocationError(location.error);
+      return;
+    }
+    setLocationError("");
+    handleLocationSelect(location);
+  };
+
   useNotificationCleanup();
 
   if (isLoadingNewReport) return <Spinner />;
@@ -202,7 +211,7 @@ const NewReportForm: React.FC = () => {
       />
 
       <LocationSelect
-        onLocationSelect={handleLocationSelect}
+        onLocationSelect={handleLocationUpdate}
         initialLocation={getInitialLocation()}
         isLoading={isLoading}
         error={locationError}

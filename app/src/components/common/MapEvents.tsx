@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useMapEvents, Marker } from "react-leaflet";
 import { MapProps } from "../../types/common/Map";
 import { LocationData } from "../../types/Report";
-import { getLocationDetails } from "../../services/geocoding";
+import { processAddress } from "../../services/geocoding";
 import Spinner from "./Spinner";
 import { MapView } from "./MapView";
-import { NotificationMessage } from "../../types/common/Notification";
-import { isUSLocation } from "../../utils/locationUtils";
 import { MAP_ZOOM_LEVELS } from "../../constants/map";
 
 interface MapEventsProps extends MapProps {
-  onNotification: (notification: NotificationMessage | null) => void;
+  readOnly?: boolean;
 }
 
 export const MapEvents: React.FC<MapEventsProps> = ({
   onLocationSelect,
   initialLocation,
-  onNotification,
   readOnly,
   initialZoom
 }) => {
@@ -45,39 +42,15 @@ export const MapEvents: React.FC<MapEventsProps> = ({
     try {
       const formattedLat = Number(lat.toFixed(6));
       const formattedLng = Number(lng.toFixed(6));
+      const locationData = await processAddress(formattedLat, formattedLng);
 
-      if (skipLocationFetch && initialLocation) {
-        const locationData: LocationData = {
-          latitude: formattedLat,
-          longitude: formattedLng,
-          area: initialLocation.area ?? "",
-          state: initialLocation.state ?? "",
-          country: initialLocation.country ?? "",
-          intersection: initialLocation.intersection ?? ""
-        };
-        setSelectedPosition([formattedLat, formattedLng]);
+      if (locationData) {
+        if (!locationData.error) {
+          setSelectedPosition([formattedLat, formattedLng]);
+          map.setView([formattedLat, formattedLng], MAP_ZOOM_LEVELS.PIN_DROP);
+        }
         onLocationSelect(locationData);
-        map.setView([formattedLat, formattedLng], MAP_ZOOM_LEVELS.PIN_DROP);
-        return;
       }
-
-      const locationDetails = await getLocationDetails(formattedLat, formattedLng, onNotification);
-
-      if (!locationDetails) return;
-
-      const locationData: LocationData = {
-        latitude: formattedLat,
-        longitude: formattedLng,
-        area: locationDetails.area ?? "",
-        state: locationDetails.address.state ?? "",
-        country: locationDetails.address.country ?? "",
-        intersection: locationDetails.intersectionStr ?? ""
-      };
-
-      setSelectedPosition([formattedLat, formattedLng]);
-      onNotification(null);
-      onLocationSelect(locationData);
-      map.setView([formattedLat, formattedLng], MAP_ZOOM_LEVELS.PIN_DROP);
     } catch (error) {
       console.error("Error handling location:", error);
     } finally {

@@ -74,6 +74,13 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
   }, [searchInput, fetchAddressSuggestions]);
 
   const handleLocationSelect = (location: LocationData) => {
+    if (location.country !== "United States") {
+      onLocationSelect({
+        ...location,
+        error: "Sorry, we are only able to support US locations at this time."
+      });
+      return;
+    }
     setSelectedLocation({
       area: location.area,
       state: location.state,
@@ -105,6 +112,13 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         setIsProcessingAddress(true);
         const locationData = await processAddress(lat, lng);
         if (locationData) {
+          if (locationData.country !== "United States") {
+            onLocationSelect({
+              ...locationData,
+              error: "Sorry, we are only able to support US locations at this time."
+            });
+            return;
+          }
           setSelectedLocation({
             area: locationData.area,
             state: locationData.state,

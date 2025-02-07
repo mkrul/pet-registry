@@ -341,3 +341,6 @@
 - Added custom validation for Color field with MUI Alert
 - Added custom validation for Image field with MUI Alert
 - Added custom validation for Location field with MUI Alert
+- Replaced non-US location notification with MUI Alert
+- Removed notification handling from geocoding service
+- Updated map click handling to support MUI Alert for non-US locations
