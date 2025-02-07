@@ -323,3 +323,11 @@
 - Improved location state consistency between props and internal state
 - Fixed map pin synchronization between click and search handlers
 - Unified location state updates across all selection methods
+- Adjusted map zoom level for better location context
+- Reduced auto-zoom intensity for location selection
+- Modified pin drop zoom behavior for better user experience
+- Added moderate zoom level for active location selection
+- Unified zoom behavior across all pin drop scenarios
+- Ensured consistent zoom level for all location selections
+- Added PIN_DROP zoom level constant for consistent pin placement zoom
+- Centralized pin drop zoom configuration in map constants

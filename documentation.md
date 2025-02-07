@@ -550,3 +550,11 @@
 - Location state updates should handle both initial and subsequent prop changes
 - Location state updates should be consistent across all selection methods
 - Map click handlers should update the same state as address search selections
+- Map zoom levels should provide enough context while still showing location detail
+- Auto-zoom behavior should balance between location focus and spatial awareness
+- Active location selection should use different zoom levels than initial view
+- Pin drop interactions should maintain broader map context while still focusing on selection
+- Location selection zoom behavior should be consistent across all interaction paths
+- Skip location fetch cases should maintain the same zoom behavior as normal selections
+- Zoom level constants should include all map interaction scenarios
+- Pin drop zoom levels should be configurable through constants

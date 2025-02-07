@@ -7,6 +7,7 @@ import Spinner from "./Spinner";
 import { MapView } from "./MapView";
 import { NotificationMessage } from "../../types/common/Notification";
 import { isUSLocation } from "../../utils/locationUtils";
+import { MAP_ZOOM_LEVELS } from "../../constants/map";
 
 interface MapEventsProps extends MapProps {
   onNotification: (notification: NotificationMessage | null) => void;
@@ -56,6 +57,7 @@ export const MapEvents: React.FC<MapEventsProps> = ({
         };
         setSelectedPosition([formattedLat, formattedLng]);
         onLocationSelect(locationData);
+        map.setView([formattedLat, formattedLng], MAP_ZOOM_LEVELS.PIN_DROP);
         return;
       }
 
@@ -75,6 +77,7 @@ export const MapEvents: React.FC<MapEventsProps> = ({
       setSelectedPosition([formattedLat, formattedLng]);
       onNotification(null);
       onLocationSelect(locationData);
+      map.setView([formattedLat, formattedLng], MAP_ZOOM_LEVELS.PIN_DROP);
     } catch (error) {
       console.error("Error handling location:", error);
     } finally {
