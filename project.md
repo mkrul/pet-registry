@@ -331,3 +331,7 @@
 - Ensured consistent zoom level for all location selections
 - Added PIN_DROP zoom level constant for consistent pin placement zoom
 - Centralized pin drop zoom configuration in map constants
+
+## Recent Updates
+- Enhanced form validation UI for the Title field in NewReportForm using MUI Alert component
+- Replaced default HTML5 validation with custom MUI Alert validation for Title field

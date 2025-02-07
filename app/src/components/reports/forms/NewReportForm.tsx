@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
@@ -15,6 +15,8 @@ import { SubmitButton } from "../../common/SubmitButton";
 import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
 import { useNotificationCleanup } from "../../../hooks/useNotificationCleanup";
+import { Alert } from "@mui/material";
+import { ReportPropsForm } from "../../../types/Report";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
@@ -51,6 +53,27 @@ const NewReportForm: React.FC = () => {
 
   const { onSubmit } = useFormSubmission(handleSubmit);
 
+  const [titleError, setTitleError] = useState<string>("");
+
+  const handleFormSubmit = (
+    e: React.FormEvent,
+    formData: ReportPropsForm,
+    selectedImage: File | null
+  ) => {
+    e.preventDefault();
+    setTitleError("");
+
+    if (!formData.title?.trim()) {
+      setTitleError("Please enter a title");
+      document
+        .querySelector('input[name="title"]')
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    onSubmit(e, formData, selectedImage);
+  };
+
   useNotificationCleanup();
 
   if (isLoadingNewReport) return <Spinner />;
@@ -59,8 +82,9 @@ const NewReportForm: React.FC = () => {
     <form
       className="space-y-6"
       id="lost-pet-report-form"
-      onSubmit={e => onSubmit(e, formData, selectedImage)}
+      onSubmit={e => handleFormSubmit(e, formData, selectedImage)}
       encType="multipart/form-data"
+      noValidate
     >
       <FormPopulateButton
         setFormData={setFormData}
@@ -75,7 +99,7 @@ const NewReportForm: React.FC = () => {
         </p>
       </div>
 
-      <BasicInfoFields formData={formData} onInputChange={handleInputChange} />
+      <BasicInfoFields formData={formData} onInputChange={handleInputChange} error={titleError} />
 
       <IdentificationFields
         formData={formData}

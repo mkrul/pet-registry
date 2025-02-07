@@ -143,10 +143,11 @@ export interface ShowReportFormContainerProps {
 
 export interface BasicInfoFieldsProps {
   formData: ReportPropsForm;
-  onInputChange?: (
+  onInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
   ) => void;
   readOnly?: boolean;
+  error?: string;
 }
 
 export interface ColorFieldsProps {

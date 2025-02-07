@@ -1,15 +1,17 @@
 import React from "react";
-import { TextField } from "@mui/material";
+import { TextField, Alert } from "@mui/material";
 import { BasicInfoFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
+
 export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   formData,
   onInputChange,
-  readOnly
+  readOnly,
+  error
 }) => {
   return (
-    <>
+    <div className="space-y-6">
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Title:</label>
         <TextField
@@ -21,7 +23,13 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           required
           disabled={readOnly}
           sx={commonInputStyles}
+          error={!!error}
         />
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -54,6 +62,6 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           sx={commonInputStyles}
         />
       </div>
-    </>
+    </div>
   );
 };
