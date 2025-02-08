@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import Map from "../../common/Map";
 import { LocationData, LocationSelectProps } from "../../../types/Report";
 import LocationDisplay from "../../common/LocationDisplay";
-import { Autocomplete, TextField, Alert } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { debounce } from "lodash";
 import Spinner from "../../common/Spinner";
 import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 import { createMapLocation } from "../../../utils/mapUtils";
 import { processAddress } from "../../../services/geocoding";
+import { FormFieldError } from "../../common/FormFieldError";
 
 interface AddressSuggestion {
   display_name: string;
@@ -186,11 +187,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
           disabled={isDisabled}
         />
       </div>
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
+      <FormFieldError error={error} />
       <div className="relative mt-1">
         <Map
           onLocationSelect={handleLocationSelect}

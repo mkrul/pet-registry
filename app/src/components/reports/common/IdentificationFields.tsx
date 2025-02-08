@@ -4,7 +4,6 @@ import {
   TextField,
   Select,
   MenuItem,
-  Alert,
   RadioGroup,
   FormControlLabel,
   Radio
@@ -16,6 +15,7 @@ import { AddFieldButton } from "../../common/AddFieldButton";
 import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 import { IdentificationFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
+import { FormFieldError } from "../../common/FormFieldError";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -101,10 +101,17 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
           Is the animal spayed or neutered?
         </label>
         <div>
-          <RadioGroup name="altered" value={formData.altered} onChange={onInputChange}>
-            <FormControlLabel value={1} control={<Radio />} label="Yes" />
-            <FormControlLabel value={0} control={<Radio />} label="No" />
-            <FormControlLabel value={null} control={<Radio />} label="I don't know" />
+          <RadioGroup
+            name="altered"
+            value={formData.altered === null ? "" : formData.altered.toString()}
+            onChange={e => {
+              console.log("Radio value changed to:", e.target.value);
+              onInputChange(e);
+            }}
+          >
+            <FormControlLabel value="1" control={<Radio />} label="Yes" />
+            <FormControlLabel value="0" control={<Radio />} label="No" />
+            <FormControlLabel value="" control={<Radio />} label="I don't know" />
           </RadioGroup>
         </div>
       </div>
@@ -129,11 +136,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
               </MenuItem>
             ))}
           </TextField>
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
+          <FormFieldError error={error} />
         </div>
       </div>
 
@@ -153,11 +156,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             error={!!breedError}
             data-testid="breed-search"
           />
-          {breedError && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {breedError}
-            </Alert>
-          )}
+          <FormFieldError error={breedError} />
         </div>
 
         {!showBreed2 && formData.breed1 && (

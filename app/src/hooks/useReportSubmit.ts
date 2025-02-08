@@ -17,6 +17,7 @@ export const useReportSubmit = ({
   const dispatch = useDispatch();
 
   const prepareFormData = (formData: ReportPropsForm, selectedImage: File | null) => {
+    console.log("Preparing form data, altered value:", formData.altered);
     const formDataToSend = new FormData();
     const data = {
       title: formData.title,
@@ -35,7 +36,8 @@ export const useReportSubmit = ({
       country: formData.country,
       latitude: formData.latitude,
       longitude: formData.longitude,
-      intersection: formData.intersection
+      intersection: formData.intersection,
+      altered: formData.altered
     };
 
     Object.entries(data).forEach(([key, value]) => {

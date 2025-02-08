@@ -159,22 +159,11 @@ module Api
         :longitude,
         :intersection,
         :altered
-      )
-
-      if processed_params[:altered].present?
-        processed_params[:altered] = case processed_params[:altered]
-          when "true" then 1
-          when "false" then 0
-          else nil
-        end
-      end
-
-      processed_params.merge(report: @report)
+      ).merge(report: @report)
     end
 
     def update_params
       processed_params = params.permit(
-        :id,
         :title,
         :description,
         :name,
@@ -195,17 +184,31 @@ module Api
         :status,
         :intersection,
         :altered
+      ).merge(report: @report)
+    end
+
+    def report_params
+      params.permit(
+        :title,
+        :description,
+        :name,
+        :gender,
+        :species,
+        :breed_1,
+        :breed_2,
+        :color_1,
+        :color_2,
+        :color_3,
+        :microchip_id,
+        :area,
+        :state,
+        :country,
+        :latitude,
+        :longitude,
+        :intersection,
+        :image,
+        :altered
       )
-
-      if processed_params[:altered].present?
-        processed_params[:altered] = case processed_params[:altered]
-          when "true" then 1
-          when "false" then 0
-          else nil
-        end
-      end
-
-      processed_params.merge(report: @report)
     end
 
   end

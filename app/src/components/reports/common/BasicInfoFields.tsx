@@ -1,8 +1,9 @@
 import React from "react";
-import { TextField, Alert } from "@mui/material";
+import { TextField } from "@mui/material";
 import { BasicInfoFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
+import { FormFieldError } from "../../common/FormFieldError";
 
 export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   formData,
@@ -26,11 +27,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           sx={commonInputStyles}
           error={!!error}
         />
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+        <FormFieldError error={error} />
       </div>
 
       <div className="space-y-2">
@@ -63,11 +60,7 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           sx={commonInputStyles}
           error={!!descriptionError}
         />
-        {descriptionError && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {descriptionError}
-          </Alert>
-        )}
+        <FormFieldError error={descriptionError} />
       </div>
     </div>
   );

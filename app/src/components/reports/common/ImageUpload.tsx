@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, FormControl, Alert } from "@mui/material";
+import { Button, FormControl } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { ImageUploadProps } from "../../../types/common/Image";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import Tip from "../../common/Tip";
+import { FormFieldError } from "../../common/FormFieldError";
 
 export const ImageUpload: React.FC<ImageUploadProps> = ({
   onImageSelect,
@@ -80,11 +81,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             Choose File
           </Button>
         </div>
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+        <FormFieldError error={error} />
         {preview && (
           <div className="mt-2 relative w-48 h-48">
             <img

@@ -10,7 +10,6 @@ module ReportNormalizations
                :color_3,
                :gender,
                :microchip_id,
-               :altered,
                with: ->(value) { value.presence }
 
     normalizes :title,
@@ -20,5 +19,10 @@ module ReportNormalizations
                :color_3,
                :breed_2,
                with: ->(value) { value.presence }
+
+    normalizes :altered, with: ->(value) {
+      return nil if value.blank?
+      value.to_i
+    }
   end
 end

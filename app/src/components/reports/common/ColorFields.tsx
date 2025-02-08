@@ -4,7 +4,7 @@ import { AddFieldButton } from "../../common/AddFieldButton";
 import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 import { ColorSearch } from "../../common/ColorSearch";
 import { commonInputStyles } from "../../../styles/commonStyles";
-import { Alert } from "@mui/material";
+import { FormFieldError } from "../../common/FormFieldError";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
@@ -37,11 +37,7 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
             required
             error={!!error}
           />
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
+          <FormFieldError error={error} />
         </div>
 
         {!showColor2 && formData.color1 && (

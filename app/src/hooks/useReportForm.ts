@@ -15,6 +15,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     color1: "",
     color2: null,
     color3: null,
+    altered: null,
     image: {
       id: "",
       url: "",
@@ -67,14 +68,9 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   );
 
   const handleInputChange = React.useCallback(
-    (
-      e:
-        | SelectChangeEvent
-        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-        | { target: { name: string; value: string | null } }
-    ) => {
-      const { name, value } = e.target;
-      setFormData(prev => ({ ...prev, [name]: value === null ? null : value }));
+    (e: FormInputEvent) => {
+      console.log("Form input changed:", e.target.name, e.target.value);
+      setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     },
     [setFormData]
   );

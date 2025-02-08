@@ -32,6 +32,7 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
   };
 
   const populateFormWithDummyData = () => {
+    console.log("Populating form with altered:", 1);
     setFormData({
       title: "Lost Golden Retriever",
       description:
@@ -41,6 +42,7 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
       breed1: "Golden Retriever",
       breed2: "",
       gender: "Male",
+      altered: 1,
       microchipId: generateMicrochipId(),
       color1: "Cream",
       color2: "",

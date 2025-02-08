@@ -9,5 +9,17 @@
 - Added altered status to Create and Update services
 - Updated seed data to include altered status
 - Updated all seed records with appropriate altered status values
-- Added altered status normalization
+- Fixed altered status normalization to handle nil values correctly
 - Added altered status display to ViewReportForm
+- Fixed altered status radio selection in form population
+- Fixed radio group controlled state handling for altered status
+- Added proper initialization for altered status in form state
+- Added altered status to form submission data
+- Added altered parameter to strong parameters
+- Fixed altered status value conversion in controller
+- Simplified altered status handling in controller
+- Created FormFieldError wrapper component for consistent error display
+- Updated all form field components to use FormFieldError wrapper
+- Standardized error alert styling and positioning across form fields
+- Cleaned up unused Alert imports after FormFieldError implementation
+- Completed cleanup of all unused Alert imports across form components

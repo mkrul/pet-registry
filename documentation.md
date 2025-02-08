@@ -8,3 +8,18 @@
 - Seed data includes altered status for all reports
 - Altered status values are normalized to handle empty/nil values consistently
 - Altered status is displayed in human-readable format in view mode
+- Form population correctly sets altered status radio selection
+- Radio group values need consistent handling between null and empty string
+- Altered status needs proper initialization in form state
+- Form submission needs to include altered status field
+- Altered status parameter needs to be permitted in controller
+- Controller needs to handle both numeric and boolean string values for altered status
+- Rails enum handles altered status conversion automatically
+- Altered status normalization needs to handle numeric string conversion
+- Altered status needs single consistent normalization
+- Altered status normalization needs to preserve nil values
+- Form field error displays should be consistent across all form components
+- Error alerts should be positioned consistently below their respective fields
+- Error display logic should be centralized in a reusable component
+- Remove unused imports when centralizing component functionality to maintain clean code
+- Ensure all components are cleaned up when centralizing shared functionality
