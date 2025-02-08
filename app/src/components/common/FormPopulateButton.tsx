@@ -64,7 +64,6 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
     });
 
     loadDummyImage();
-    showColor2Field();
   };
 
   if (process.env.NODE_ENV !== "development") return null;

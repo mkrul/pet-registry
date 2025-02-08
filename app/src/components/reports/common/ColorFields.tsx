@@ -43,67 +43,63 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
             </Alert>
           )}
         </div>
+
+        {!showColor2 && formData.color1 && (
+          <AddFieldButton
+            onClick={() => setShowColor2(true)}
+            disabled={isLoading}
+            label="ADD COLOR"
+            testId="add-color-button"
+          />
+        )}
       </div>
 
-      {!showColor2 && formData.color1 && (
-        <AddFieldButton
-          onClick={() => setShowColor2(true)}
-          disabled={isLoading}
-          label="ADD COLOR"
-          testId="add-color-button"
-        />
-      )}
-
       {showColor2 && (
-        <div className="mt-8">
-          <div className="mt-6">
-            <AdditionalFieldSet
-              label="Second Color:"
-              onRemove={onColor2Remove}
+        <div className="space-y-2">
+          <AdditionalFieldSet
+            label="Second Color:"
+            onRemove={onColor2Remove}
+            disabled={isLoading}
+            testId="remove-color-button"
+          >
+            <ColorSearch
+              value={formData.color2 || ""}
+              onChange={handleColor2Change}
               disabled={isLoading}
-              testId="remove-color-button"
-            >
-              <ColorSearch
-                value={formData.color2 || ""}
-                onChange={handleColor2Change}
-                disabled={isLoading}
-                size="medium"
-                excludeColors={[formData.color1, formData.color3].filter(Boolean)}
-                sx={commonInputStyles}
-              />
-            </AdditionalFieldSet>
-          </div>
+              size="medium"
+              excludeColors={[formData.color1, formData.color3].filter(Boolean)}
+              sx={commonInputStyles}
+            />
+          </AdditionalFieldSet>
+
+          {!showColor3 && formData.color2 && (
+            <AddFieldButton
+              onClick={() => setShowColor3(true)}
+              disabled={isLoading}
+              label="ADD COLOR"
+              testId="add-color-button"
+            />
+          )}
         </div>
       )}
 
-      {showColor2 && !showColor3 && formData.color2 && (
-        <AddFieldButton
-          onClick={() => setShowColor3(true)}
-          disabled={isLoading}
-          label="ADD COLOR"
-          testId="add-color-button"
-        />
-      )}
-
       {showColor3 && (
-        <div className="mt-8">
-          <div className="mt-6">
-            <AdditionalFieldSet
-              label="Third Color:"
-              onRemove={onColor3Remove}
+        <div className="space-y-2">
+          <AdditionalFieldSet
+            label="Third Color:"
+            onRemove={onColor3Remove}
+            disabled={isLoading}
+            testId="remove-color-button"
+          >
+            <ColorSearch
+              value={formData.color3 || ""}
+              onChange={handleColor3Change}
               disabled={isLoading}
-              testId="remove-color-button"
-            >
-              <ColorSearch
-                value={formData.color3 || ""}
-                onChange={handleColor3Change}
-                disabled={isLoading}
-                size="medium"
-                excludeColors={[formData.color1, formData.color2].filter(Boolean)}
-                sx={commonInputStyles}
-              />
-            </AdditionalFieldSet>
-          </div>
+              size="medium"
+              excludeColors={[formData.color1, formData.color2].filter(Boolean)}
+              sx={commonInputStyles}
+            />
+          </AdditionalFieldSet>
         </div>
       )}
     </div>

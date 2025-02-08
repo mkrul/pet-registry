@@ -23,7 +23,6 @@ export const AddFieldButton: React.FC<AddFieldButtonProps> = ({
       disabled={disabled}
       color="primary"
       variant="text"
-      className="mt-2"
       sx={commonInputStyles}
       data-testid={testId}
     >

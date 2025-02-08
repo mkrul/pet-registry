@@ -161,8 +161,8 @@ const NewReportForm: React.FC = () => {
 
       <div className="mt-[0.5rem]">
         <p className="text-md text-gray-500">
-          Please include as many details as possible in the description, and upload your best photo
-          of the animal.
+          Use this form to report a lost or found pet in your area. Please include as many details
+          as possible in the description, and upload your best photo of the animal.
         </p>
       </div>
 
