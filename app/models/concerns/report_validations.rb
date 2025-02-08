@@ -21,5 +21,10 @@ module ReportValidations
                             allow_blank: true
     enum altered: { altered: 1, intact: 0, unknown: nil }
     validates :altered, inclusion: { in: altered.keys }
+    validates :gender, inclusion: {
+      in: %w[male female],
+      message: "must be either Male or Female",
+      allow_nil: true
+    }
   end
 end

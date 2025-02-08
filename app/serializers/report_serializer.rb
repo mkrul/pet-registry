@@ -36,7 +36,7 @@ class ReportSerializer < ActiveModel::Serializer
   end
 
   def gender
-    object.gender&.capitalize
+    object.gender&.titleize
   end
 
   def image
