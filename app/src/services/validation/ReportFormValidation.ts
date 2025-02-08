@@ -10,5 +10,8 @@ export const validateReportForm = (formData: ReportPropsForm, selectedImage: Fil
   if (!formData.color1) return "Primary color is required";
   if (!selectedImage && !formData.image?.url) return "Image is required";
   if (!formData.latitude || !formData.longitude) return "Location is required";
+  if (formData.altered !== null && formData.altered !== 0 && formData.altered !== 1) {
+    return "Altered status must be valid";
+  }
   return null;
 };

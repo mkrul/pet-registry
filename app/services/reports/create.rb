@@ -22,6 +22,7 @@ module Reports
     string :microchip_id, default: nil
     string :intersection, default: nil
     file :image, default: nil
+    integer :altered, default: nil
 
     def execute
       report = Report.new(inputs.merge(status: 'active'))

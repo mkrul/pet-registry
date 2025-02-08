@@ -139,7 +139,7 @@ module Api
     private
 
     def create_params
-      params.permit(
+      processed_params = params.permit(
         :title,
         :name,
         :description,
@@ -157,12 +157,23 @@ module Api
         :country,
         :latitude,
         :longitude,
-        :intersection
-      ).merge(report: @report)
+        :intersection,
+        :altered
+      )
+
+      if processed_params[:altered].present?
+        processed_params[:altered] = case processed_params[:altered]
+          when "true" then 1
+          when "false" then 0
+          else nil
+        end
+      end
+
+      processed_params.merge(report: @report)
     end
 
     def update_params
-      params.permit(
+      processed_params = params.permit(
         :id,
         :title,
         :description,
@@ -182,8 +193,19 @@ module Api
         :latitude,
         :longitude,
         :status,
-        :intersection
-      ).merge(report: @report)
+        :intersection,
+        :altered
+      )
+
+      if processed_params[:altered].present?
+        processed_params[:altered] = case processed_params[:altered]
+          when "true" then 1
+          when "false" then 0
+          else nil
+        end
+      end
+
+      processed_params.merge(report: @report)
     end
 
   end

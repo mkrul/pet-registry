@@ -2,3 +2,12 @@
 - Updated gender validation to only allow "Male" and "Female"
 - Added case normalization for gender values in serializer
 - Ensured gender field can be left blank if unknown
+- Added proper validation for altered status values
+- Updated TypeScript types for altered status field
+- Simplified altered status to use numeric values (1/0/null) throughout
+- Added frontend validation for altered status values
+- Added altered status to Create and Update services
+- Updated seed data to include altered status
+- Updated all seed records with appropriate altered status values
+- Added altered status normalization
+- Added altered status display to ViewReportForm

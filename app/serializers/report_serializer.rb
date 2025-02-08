@@ -12,11 +12,7 @@ class ReportSerializer < ActiveModel::Serializer
   end
 
   def altered
-    return true if object.altered == 1
-
-    return false if object.altered == 0
-
-    nil
+    object.altered
   end
 
   def species

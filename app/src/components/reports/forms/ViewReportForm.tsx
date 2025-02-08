@@ -106,6 +106,14 @@ const ViewReportForm: React.FC<ViewReportFormProps> = ({
         <p className="text-md text-gray-500 mb-4">{report.microchipId || "Unknown"}</p>
       </div>
 
+      {/* Altered Status */}
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900 mb-2">Spayed/Neutered:</label>
+        <p className="text-md text-gray-500 mb-4">
+          {report.altered === 1 ? "Yes" : report.altered === 0 ? "No" : "Unknown"}
+        </p>
+      </div>
+
       {/* Colors */}
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Colors:</label>

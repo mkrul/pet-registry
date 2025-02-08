@@ -102,9 +102,9 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         </label>
         <div>
           <RadioGroup name="altered" value={formData.altered} onChange={onInputChange}>
-            <FormControlLabel value="true" control={<Radio />} label="Yes" />
-            <FormControlLabel value="false" control={<Radio />} label="No" />
-            <FormControlLabel value="" control={<Radio />} label="I don't know" />
+            <FormControlLabel value={1} control={<Radio />} label="Yes" />
+            <FormControlLabel value={0} control={<Radio />} label="No" />
+            <FormControlLabel value={null} control={<Radio />} label="I don't know" />
           </RadioGroup>
         </div>
       </div>
