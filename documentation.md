@@ -23,3 +23,6 @@
 - Error display logic should be centralized in a reusable component
 - Remove unused imports when centralizing component functionality to maintain clean code
 - Ensure all components are cleaned up when centralizing shared functionality
+- Form validation errors are more effective when displayed next to their respective fields
+- Field-level error state should be managed at the form level
+- Validation messages should be clear and contextual to their fields

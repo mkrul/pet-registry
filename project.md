@@ -23,3 +23,6 @@
 - Standardized error alert styling and positioning across form fields
 - Cleaned up unused Alert imports after FormFieldError implementation
 - Completed cleanup of all unused Alert imports across form components
+- Shifted form validation errors from Notification to inline field display
+- Added field-specific error state management in NewReportForm
+- Removed redundant validation notification messages
