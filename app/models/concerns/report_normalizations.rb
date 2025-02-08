@@ -10,11 +10,14 @@ module ReportNormalizations
                :color_3,
                :gender,
                :microchip_id,
-               with: ->(value) { value.presence&.downcase || nil }
+               with: ->(value) { value.presence&.downcase }
 
     normalizes :title,
-               :description,
+               :gender,
                :name,
+               :color_2,
+               :color_3,
+               :breed_2,
                with: ->(value) { value.presence }
   end
 end
