@@ -19,6 +19,7 @@ export interface ReportProps {
   color2: string | null;
   color3: string | null;
   gender: string | null;
+  altered: boolean | null;
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -54,6 +55,7 @@ export interface ReportPropsForm {
   color2: string | null;
   color3: string | null;
   gender: string | null;
+  altered: boolean | null;
   microchipId: string | null;
   image: ImageProps;
   area: string | null;

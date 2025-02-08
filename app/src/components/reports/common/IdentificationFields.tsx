@@ -1,13 +1,21 @@
 import React from "react";
-import { FormControl, TextField, Select, MenuItem, Alert } from "@mui/material";
-import { Species } from "../../../lib/reports/breedList";
+import {
+  FormControl,
+  TextField,
+  Select,
+  MenuItem,
+  Alert,
+  RadioGroup,
+  FormControlLabel,
+  Radio
+} from "@mui/material";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
-import { IdentificationFieldsProps } from "../../../types/Report";
-import { commonInputStyles } from "../../../styles/commonStyles";
 import { AddFieldButton } from "../../common/AddFieldButton";
 import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
+import { IdentificationFieldsProps } from "../../../types/Report";
+import { commonInputStyles } from "../../../styles/commonStyles";
 
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
@@ -88,6 +96,18 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         </FormControl>
       </div>
 
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">
+          Is the animal spayed or neutered?
+        </label>
+        <div>
+          <RadioGroup name="altered" value={formData.altered} onChange={onInputChange}>
+            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+            <FormControlLabel value="false" control={<Radio />} label="No" />
+            <FormControlLabel value="" control={<Radio />} label="I don't know" />
+          </RadioGroup>
+        </div>
+      </div>
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Species:</label>
         <div>

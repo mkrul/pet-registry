@@ -1,6 +1,6 @@
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
-             :color_1, :color_2, :color_3, :name, :gender, :image,
+             :color_1, :color_2, :color_3, :name, :gender, :image, :altered,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
              :area, :state, :country, :latitude, :longitude, :intersection
@@ -9,6 +9,14 @@ class ReportSerializer < ActiveModel::Serializer
     data = super
     data.transform_keys! { |key| key.to_s.camelize(:lower) }
     data
+  end
+
+  def altered
+    return true if object.altered == 1
+
+    return false if object.altered == 0
+
+    nil
   end
 
   def species
