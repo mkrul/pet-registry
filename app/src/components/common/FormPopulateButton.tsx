@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "@mui/material";
-import { ReportPropsForm } from "../../types/Report";
+import { ReportPropsForm } from "../../types/redux/features/reports/ReportsApi";
 
 interface FormPopulateButtonProps {
-  setFormData: (data: ReportPropsForm) => void;
+  setFormData: Dispatch<SetStateAction<ReportPropsForm>>;
   handleImageSelect: (file: File, preview: string) => void;
   showColor2Field: () => void;
 }

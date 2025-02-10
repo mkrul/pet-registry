@@ -110,3 +110,52 @@
 - Removed notification handling from API endpoints
 - Simplified API error responses for form validation
 - Cleaned up API transformation logic
+- Added proper typing for RTK Query error responses
+- Fixed TypeScript errors in error handling
+- Added error response interface for validation messages
+- Moved ErrorResponse interface to API types
+- Centralized error response types
+- Fixed component error typing
+- Updated SubmitResponse interface to extend ReportProps
+- Fixed response handling in form submission
+- Fixed return type consistency in submit handler
+- Ensured proper typing for all response paths
+- Added missing SubmitResponse type import
+- Fixed TypeScript errors in response handling
+- Grouped related type imports
+- Added ValidationErrorResponse interface
+- Fixed validation error response typing
+- Ensured error response shape matches success case
+- Fixed RTK Query response type assertion
+- Updated success response type handling
+- Added proper type coercion for API responses
+- Fixed RTK Query success response structure
+- Added proper response data transformation
+- Ensured consistent response shape for success case
+- Added FormInputEvent type definition for form input handling
+- Added proper type definitions for ReportPropsForm and LocationData
+- Updated IdentificationFieldsProps to include microchipError
+- Fixed type assertions in form submission handling
+- Added missing type imports to IdentificationFields interface
+- Fixed type dependencies in component interfaces
+- Added proper type definitions to useReportForm hook
+- Fixed form state initialization with proper types
+- Added type safety to form event handlers
+- Fixed React type imports in useReportForm
+- Updated callback dependencies for better performance
+- Added proper typing for state setters
+- Fixed form submission event types in NewReportForm
+- Added proper type annotations to submit handlers
+- Improved type safety in RTK Query response handling
+- Added ValidationErrors interface for proper error typing
+- Fixed type error in scrollToFirstError call
+- Updated ValidationErrors interface to use non-optional string fields
+- Fixed response transformation in submitReport mutation
+- Fixed altered field type in ReportPropsForm interface
+- Fixed FormPopulateButton props to properly type state setter
+- Fixed ReportPropsForm import path in FormPopulateButton
+- Updated FormInputEvent to support both input and textarea elements
+- Updated FormInputEvent to support MUI SelectChangeEvent
+- Simplified FormInputEvent to minimal required interface
+- Added microchipError to IdentificationFieldsProps interface
+- Fixed navigation handling in useFormSubmission hook

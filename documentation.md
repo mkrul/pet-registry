@@ -111,3 +111,57 @@
 - API endpoints should be cleaned up after validation system migration
 - Redux slice transformations should be simplified after validation changes
 - API error handling should be consistent with form-level validation
+- RTK Query error responses need proper TypeScript interfaces
+- Error response types should include both message and errors fields
+- FetchBaseQueryError needs to be extended for custom error data
+- API error types should be centralized in redux type definitions
+- Error response interfaces should be exported from API type files
+- Error types should be reusable across components
+- API response types need to include optional data field
+- Response interfaces should handle both success and error cases
+- Type definitions should cover all possible response structures
+- RTK Query response types need explicit type assertions
+- Error and success responses need consistent return types
+- Response type handling needs to cover all code paths
+- Missing type imports can cause TypeScript errors in response handling
+- Submit response types need to be imported alongside error types
+- Type imports should be grouped by source file
+- Validation error responses need their own interface
+- Error responses need to match success response shape
+- Response types need to handle partial data structures
+- RTK Query response types may need type assertions with unknown
+- Response type coercion needs to handle complex type hierarchies
+- Type assertions should be used when type inference fails
+- RTK Query success responses need proper structure mapping
+- Response data needs to be transformed to match expected interface
+- Success case needs to maintain consistent response shape
+- FormInputEvent type needs to extend React's ChangeEvent for proper form handling
+- ReportPropsForm interface needs to include all form fields with proper types
+- Type assertions should be avoided when possible in favor of proper type definitions
+- Component props interfaces should be updated when adding new error handling props
+- Component type definitions need to import their dependent types explicitly
+- Interface files should import all required types rather than relying on global types
+- Form hooks need explicit type definitions for state and handlers
+- Form state initialization should include all possible form fields with proper types
+- Form hooks should accept properly typed partial initial data
+- React state setter types should use Dispatch and SetStateAction
+- Callback dependencies should be minimal to prevent unnecessary rerenders
+- React imports should be granular to reduce bundle size
+- Form event types need to be properly constrained to HTMLFormElement
+- Form submission handlers need explicit return type annotations
+- RTK Query response handling needs proper type narrowing
+- Validation error types need to include an index signature for dynamic field errors
+- ValidationErrors interface should list all possible form field errors
+- Validation error fields should be non-optional when used with form validation services
+- SubmitResponse interface needs to include both report and data fields for type consistency
+- API response transformations need to explicitly return the full expected type structure
+- Response interfaces may need to extend base types to inherit required fields
+- Form field types need to match their backend counterparts (e.g., altered status as 0 | 1 | null)
+- Component props that receive state setters should use Dispatch<SetStateAction> type
+- Type imports should be consistent across components to avoid type mismatches
+- Form event types need to handle multiple input element types (input/textarea)
+- Form event types need to handle Material-UI's SelectChangeEvent alongside native events
+- Form event types should be simplified to only include required properties
+- Component prop interfaces need to be updated when adding new error fields
+- Component prop interfaces need to be defined in both types and component files
+- Form submission hooks need to handle navigation in a centralized location

@@ -1,15 +1,19 @@
-import { ReportPropsForm } from "../types/Report";
+import { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
 
-export const useFormSubmission = (
-  handleSubmit: (formData: ReportPropsForm, selectedImage: File | null) => Promise<void>
-) => {
-  const onSubmit = async (
-    e: React.FormEvent,
-    formData: ReportPropsForm,
-    selectedImage: File | null
-  ) => {
-    e.preventDefault();
-    await handleSubmit(formData, selectedImage);
+export const useFormSubmission = (handleSubmit: any) => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (e: FormEvent, formData: ReportPropsForm, selectedImage: File | null) => {
+    try {
+      const response = await handleSubmit(formData, selectedImage);
+      if (response?.id) {
+        navigate(`/reports/${response.id}`);
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
 
   return { onSubmit };

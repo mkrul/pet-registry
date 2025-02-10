@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
@@ -14,7 +14,13 @@ import { LocationSelect } from "../common/LocationSelect";
 import { SubmitButton } from "../../common/SubmitButton";
 import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
-import { ReportPropsForm, LocationData } from "../../../types/Report";
+import {
+  ReportPropsForm,
+  LocationData,
+  ErrorResponse,
+  SubmitResponse,
+  ValidationErrorResponse
+} from "../../../types/redux/features/reports/ReportsApi";
 import {
   validateReportForm,
   hasValidationErrors,
@@ -24,6 +30,9 @@ import {
   handleReportValidationErrors,
   getFieldFromMessage
 } from "../../../services/validation/ReportFormValidation";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { FormInputEvent } from "../../../types/forms/FormEvent";
+import { ValidationErrors } from "../../../types/validation/ValidationErrors";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
@@ -54,26 +63,26 @@ const NewReportForm: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState(getInitialErrors());
 
   const { handleSubmit } = useReportSubmit({
-    submitReport: async data => {
+    submitReport: async (data: FormData): Promise<SubmitResponse | ValidationErrorResponse> => {
       try {
         const response = await submitReport(data);
-        console.log("Submit response:", response);
         if ("error" in response) {
-          const error = response.error;
-          console.log("Submit error data:", error?.data);
+          const error = response.error as FetchBaseQueryError & ErrorResponse;
           if (error?.data?.message) {
-            console.log("Processing validation error for:", error.data.message);
             const field = getFieldFromMessage(error.data.message);
-            console.log("Mapped to field:", field);
             handleReportValidationErrors({ message: error.data.message }, { setFieldErrors });
-            scrollToFirstError({ [field]: error.data.message });
-            return { message: "Validation failed" };
+            scrollToFirstError({ [field]: error.data.message } as ValidationErrors);
+            return { message: "Validation failed", id: 0 };
           }
           throw error;
         }
-        return response.data;
+        return {
+          message: "Success",
+          report: response.data,
+          id: response.data.id,
+          data: response.data
+        };
       } catch (error) {
-        console.log("Submit catch error:", error);
         throw error;
       }
     },
@@ -85,7 +94,7 @@ const NewReportForm: React.FC = () => {
   const { onSubmit } = useFormSubmission(handleSubmit);
 
   const handleFormSubmit = (
-    e: React.FormEvent,
+    e: FormEvent<HTMLFormElement>,
     formData: ReportPropsForm,
     selectedImage: File | null
   ) => {

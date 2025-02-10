@@ -116,10 +116,13 @@ export const reportsApi = createApi({
         method: "POST",
         body: formData
       }),
-      transformResponse: (response: { message: string; id: number } & ReportProps) => ({
+      transformResponse: (
+        response: { message: string; id: number } & ReportProps
+      ): SubmitResponse => ({
         message: response.message,
         report: transformToCamelCase(response),
-        id: response.id
+        id: response.id,
+        data: transformToCamelCase(response)
       }),
       invalidatesTags: ["Reports"]
     }),

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react";
 import { SelectChangeEvent } from "@mui/material";
-import { ReportPropsForm } from "../types/Report";
+import { ReportPropsForm, LocationData } from "../types/redux/features/reports/ReportsApi";
+import { FormInputEvent } from "../types/forms/FormEvent";
 import { createMapLocation, adaptFormDataToLocation } from "../utils/mapUtils";
 
 export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
@@ -39,14 +40,14 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   const [showColor2, setShowColor2] = useState(false);
   const [showColor3, setShowColor3] = useState(false);
 
-  const initializeColors = React.useCallback(() => {
+  const initializeColors = useCallback(() => {
     if (formData.color2) {
       setShowColor2(true);
     }
     if (formData.color3) {
       setShowColor3(true);
     }
-  }, [formData.color2, formData.color3, setShowColor2, setShowColor3]);
+  }, [formData.color2, formData.color3]);
 
   useEffect(() => {
     initializeColors();
@@ -59,7 +60,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   const handleImageLoad = () => {};
   const handleImageError = () => {};
 
-  const getInitialLocation = React.useCallback(
+  const getInitialLocation = useCallback(
     () =>
       formData.latitude && formData.longitude
         ? createMapLocation(adaptFormDataToLocation(formData))
@@ -67,47 +68,28 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     [formData]
   );
 
-  const handleInputChange = React.useCallback(
-    (e: FormInputEvent) => {
-      setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    },
-    [setFormData]
-  );
+  const handleInputChange = useCallback((e: FormInputEvent) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
 
-  const handleLocationSelect = React.useCallback(
-    (location: {
-      latitude: number;
-      longitude: number;
-      area: string;
-      state: string;
-      country: string;
-      intersection: string;
-    }) => {
-      setFormData(prev => ({
-        ...prev,
-        ...location
-      }));
-    },
-    [setFormData]
-  );
+  const handleLocationSelect = useCallback((location: LocationData) => {
+    setFormData(prev => ({ ...prev, ...location }));
+  }, []);
 
-  const showField = (setter: React.Dispatch<React.SetStateAction<boolean>>) => () => setter(true);
+  const showField = (setter: Dispatch<SetStateAction<boolean>>) => () => setter(true);
 
   const removeField =
-    (
-      fieldName: "breed2" | "color2" | "color3",
-      setter: React.Dispatch<React.SetStateAction<boolean>>
-    ) =>
+    (fieldName: "breed2" | "color2" | "color3", setter: Dispatch<SetStateAction<boolean>>) =>
     () => {
       setFormData(prev => ({ ...prev, [fieldName]: null }));
       setter(false);
     };
 
-  const handleColorChange = React.useCallback(
+  const handleColorChange = useCallback(
     (colorField: "color1" | "color2" | "color3") => (value: string) => {
       setFormData(prev => ({ ...prev, [colorField]: value }));
     },
-    [setFormData]
+    []
   );
 
   const handleColor1Change = handleColorChange("color1");

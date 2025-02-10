@@ -6,10 +6,17 @@ export interface UpdateReportResponse {
   report: ReportProps;
 }
 
-export interface SubmitResponse {
+export interface ValidationErrorResponse {
+  message: string;
+  id?: number;
+  report?: ReportProps;
+}
+
+export interface SubmitResponse extends ReportProps {
   message: string;
   report: ReportProps;
   id: number;
+  data: ReportProps;
 }
 
 export interface ReportsResponse {
@@ -20,4 +27,49 @@ export interface ReportsResponse {
     type: string;
     message: string;
   };
+}
+
+export interface ErrorResponse {
+  data: {
+    message?: string;
+    errors?: Record<string, string>;
+  };
+}
+
+export interface ReportPropsForm {
+  title: string;
+  description: string;
+  name: string;
+  gender: string;
+  species: string;
+  breed1: string;
+  breed2: string | null;
+  color1: string;
+  color2: string | null;
+  color3: string | null;
+  altered: 0 | 1 | null;
+  image: {
+    id: string;
+    url: string;
+    thumbnailUrl: string;
+    variantUrl: string;
+    filename: string;
+    publicId: string;
+  };
+  microchipId: string;
+  area: string | null;
+  state: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  intersection: string | null;
+}
+
+export interface LocationData {
+  latitude: number;
+  longitude: number;
+  area: string;
+  state: string;
+  country: string;
+  intersection: string;
 }

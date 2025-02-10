@@ -17,6 +17,19 @@ import { IdentificationFieldsProps } from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import { FormFieldError } from "../../common/FormFieldError";
 
+interface IdentificationFieldsProps {
+  formData: ReportPropsForm;
+  showBreed2: boolean;
+  onInputChange: (e: FormInputEvent) => void;
+  setShowBreed2: () => void;
+  onBreed2Remove: () => void;
+  isLoading: boolean;
+  error?: string;
+  breedError?: string;
+  alteredError?: string;
+  microchipError?: string;
+}
+
 export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   formData,
   showBreed2,
