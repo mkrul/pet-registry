@@ -162,3 +162,7 @@
 - Added success notification dispatch in useReportSubmit
 - Centralized notification display in App component
 - Fixed success message access from API response
+- Fixed report status logic to properly show NEW vs UPDATED
+- Added recently_created check to prevent incorrect update status
+- Fixed report status timing calculations
+- Improved accuracy of NEW vs UPDATED status logic

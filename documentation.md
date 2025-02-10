@@ -168,3 +168,7 @@
 - Success notifications should be dispatched in the submission hook where we have access to the API response
 - Notification display should be centralized in App.tsx to prevent duplicate notifications
 - Backend success messages should be accessed from response.data for proper handling
+- Report status indicators need to prioritize "NEW" over "UPDATED" state
+- Recently created reports should not be marked as updated
+- Report status timing needs precise second-level accuracy
+- Status calculations should use consistent time comparisons

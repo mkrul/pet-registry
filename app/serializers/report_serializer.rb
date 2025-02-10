@@ -72,26 +72,18 @@ class ReportSerializer < ActiveModel::Serializer
 
   def recently_created
     return false unless object.created_at >= 1.hour.ago
-
-    time_difference = (object.updated_at.to_i - object.created_at.to_i).abs
-    return false if time_difference > 5
-
+    return false if object.updated_at > object.created_at + 5.seconds
     true
   end
 
   def recently_updated
-    time_since_creation = Time.current - object.created_at
-    time_between_update_and_creation = (object.updated_at.to_i - object.created_at.to_i).abs
+    return false if recently_created
+    return false if Time.current - object.created_at <= 1.hour
 
-    if time_since_creation <= 24.hours && time_between_update_and_creation <= 5
-      return false
-    end
+    time_between_update_and_creation = object.updated_at - object.created_at
+    return true if time_between_update_and_creation > 5.seconds && object.updated_at >= 24.hours.ago
 
-    if time_since_creation <= 24.hours && time_between_update_and_creation > 5
-      return true
-    end
-
-    object.updated_at >= 24.hours.ago
+    false
   end
 
   def intersection
