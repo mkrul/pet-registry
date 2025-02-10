@@ -26,7 +26,8 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   isLoading,
   error,
   breedError,
-  alteredError
+  alteredError,
+  microchipError
 }) => {
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
@@ -54,7 +55,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Microchip ID:</label>
+        <label className="text-lg font-medium text-gray-900">Microchip ID:</label>
         <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
         <TextField
           data-testid="microchip-id-input"
@@ -65,7 +66,9 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
           fullWidth
           sx={commonInputStyles}
           disabled={isLoading}
+          error={!!microchipError}
         />
+        <FormFieldError error={microchipError} />
       </div>
 
       <div className="space-y-2">

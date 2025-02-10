@@ -84,3 +84,30 @@
 - Utility functions used across components need to be explicitly exported
 - Field mapping utilities should be accessible to both validation and form components
 - Error handling utilities should be part of the public validation API
+- Basic info field validation patterns need to be comprehensive
+- Field mapping should include all possible backend validation fields
+- Location field should be included in field mapping for completeness
+- Field patterns should handle variations in backend error message terminology
+- Field mapping should handle both snake_case and camelCase backend field names
+- Microchip validation needs to handle both full and abbreviated terms
+- Backend error messages for IDs need more flexible pattern matching
+- Field pattern matching should include fallback patterns for common terms
+- Microchip validation needs to handle compound term variations
+- Error props need to be passed to all form field components
+- Form field components need to handle all possible validation errors
+- Error display needs to be consistent across all input fields
+- Field mapping process needs detailed logging for debugging
+- Error field resolution needs to be logged before error handling
+- Validation flow needs logging at each transformation step
+- Error props need to be passed through from form state to child components
+- Field error state needs to be connected to component display props
+- Validation state needs to be properly propagated to form fields
+- Error field selectors need to include all form input fields
+- Scroll behavior needs to be consistent across all validation errors
+- Field selectors need to match exact input name attributes
+- Form validation system should be fully migrated to one consistent approach
+- Legacy notification code should be removed after migration
+- Import statements should be cleaned up after feature migration
+- API endpoints should be cleaned up after validation system migration
+- Redux slice transformations should be simplified after validation changes
+- API error handling should be consistent with form-level validation

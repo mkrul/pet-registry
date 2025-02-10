@@ -62,8 +62,11 @@ const NewReportForm: React.FC = () => {
           const error = response.error;
           console.log("Submit error data:", error?.data);
           if (error?.data?.message) {
+            console.log("Processing validation error for:", error.data.message);
+            const field = getFieldFromMessage(error.data.message);
+            console.log("Mapped to field:", field);
             handleReportValidationErrors({ message: error.data.message }, { setFieldErrors });
-            scrollToFirstError({ [getFieldFromMessage(error.data.message)]: error.data.message });
+            scrollToFirstError({ [field]: error.data.message });
             return { message: "Validation failed" };
           }
           throw error;
@@ -148,6 +151,7 @@ const NewReportForm: React.FC = () => {
         error={fieldErrors.species}
         breedError={fieldErrors.breed1}
         alteredError={fieldErrors.altered}
+        microchipError={fieldErrors.microchipId}
       />
 
       <ColorFields

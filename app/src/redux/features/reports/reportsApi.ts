@@ -6,10 +6,9 @@ import {
   SubmitResponse,
   ReportsResponse
 } from "../../../types/redux/features/reports/ReportsApi";
-import { setNotification } from "../notifications/notificationsSlice";
-import { NotificationType } from "../../../types/common/Notification";
 import { getStateOptions } from "../../../lib/reports/stateList";
 import { PaginationPropsQuery } from "../../../types/common/Pagination";
+
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
   baseQuery: fetchBaseQuery({
@@ -21,13 +20,7 @@ export const reportsApi = createApi({
     getReport: build.query<ReportProps, number>({
       query: id => `reports/${id}`,
       transformResponse: (response: ReportProps) => transformToCamelCase(response),
-      providesTags: (result, error, id) => [{ type: "Reports", id: id }],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      providesTags: (result, error, id) => [{ type: "Reports", id: id }]
     }),
     getStates: build.query<string[], string>({
       queryFn: () => {
@@ -40,13 +33,7 @@ export const reportsApi = createApi({
         url: `filters/cities`,
         params: { country, state }
       }),
-      transformResponse: (response: { cities: string[] }) => response.cities,
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      transformResponse: (response: { cities: string[] }) => response.cities
     }),
     getReports: build.query<ReportsResponse, PaginationPropsQuery>({
       query: params => {
@@ -110,33 +97,7 @@ export const reportsApi = createApi({
               ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
               { type: "Reports", id: "LIST" }
             ]
-          : [{ type: "Reports", id: "LIST" }],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      }),
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          if (data.message) {
-            dispatch(
-              setNotification({
-                type: NotificationType.INFO,
-                message: data.message
-              })
-            );
-          }
-        } catch (err: any) {
-          dispatch(
-            setNotification({
-              type: NotificationType.ERROR,
-              message: err.data?.message || "Failed to fetch reports"
-            })
-          );
-        }
-      }
+          : [{ type: "Reports", id: "LIST" }]
     }),
     updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
       query: ({ id, data }) => ({
@@ -147,25 +108,7 @@ export const reportsApi = createApi({
       invalidatesTags: (result, error, { id }) => [
         { type: "Reports", id },
         { type: "Reports", id: "LIST" }
-      ],
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(
-            setNotification({
-              type: NotificationType.SUCCESS,
-              message: data.message
-            })
-          );
-        } catch (err: any) {
-          dispatch(
-            setNotification({
-              type: NotificationType.ERROR,
-              message: err.data?.message || "Failed to update report"
-            })
-          );
-        }
-      }
+      ]
     }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
@@ -178,36 +121,18 @@ export const reportsApi = createApi({
         report: transformToCamelCase(response),
         id: response.id
       }),
-      invalidatesTags: ["Reports"],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      invalidatesTags: ["Reports"]
     }),
     getNewReport: build.query<ReportProps, void>({
       query: () => "reports/new",
-      providesTags: ["Reports"],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      providesTags: ["Reports"]
     }),
     getBreeds: build.query<string[], string>({
       query: (species: string) => ({
         url: `filters/breeds`,
         params: { species }
       }),
-      transformResponse: (response: { breeds: string[] }) => response.breeds,
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      transformResponse: (response: { breeds: string[] }) => response.breeds
     })
   })
 });

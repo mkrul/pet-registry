@@ -83,3 +83,30 @@
 - Added export for field mapping utility function
 - Made validation utilities accessible to form components
 - Fixed validation error field mapping accessibility
+- Updated field mapping patterns to include all basic info fields
+- Added location field to validation field mapping
+- Ensured consistent field mapping for all form sections
+- Updated microchip ID field pattern to handle more validation message variations
+- Added support for both snake_case and camelCase microchip field names
+- Fixed microchip ID validation error display
+- Enhanced microchip ID pattern matching for validation messages
+- Added fallback pattern matching for ID-related errors
+- Improved field detection for compound validation terms
+- Added microchip error prop to IdentificationFields
+- Added error display for microchip ID validation
+- Ensured consistent error handling across all identification fields
+- Added detailed logging for field mapping process
+- Added validation error processing logs
+- Added field resolution logging
+- Added microchipId error prop connection to IdentificationFields
+- Fixed microchip validation error display propagation
+- Connected field error state to component display
+- Added microchip ID field selector for error scrolling
+- Fixed error scroll behavior for microchip validation
+- Ensured consistent scroll behavior across all fields
+- Completed migration to MUI Alert validation system
+- Removed legacy notification code
+- Cleaned up unused notification imports
+- Removed notification handling from API endpoints
+- Simplified API error responses for form validation
+- Cleaned up API transformation logic

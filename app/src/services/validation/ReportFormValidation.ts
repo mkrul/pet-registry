@@ -79,7 +79,8 @@ const errorFieldSelectors: ValidationFieldSelectors = {
   species: 'input[name="species"]',
   breed1: ".MuiAutocomplete-input",
   color1: ".MuiAutocomplete-input",
-  image: 'input[type="file"]'
+  image: 'input[type="file"]',
+  microchipId: 'input[name="microchipId"]'
 };
 
 export const scrollToFirstError = (errors: ValidationErrors): void => {
@@ -87,10 +88,7 @@ export const scrollToFirstError = (errors: ValidationErrors): void => {
   const selector = errorFieldSelectors[firstErrorField as string];
 
   if (selector) {
-    const element =
-      firstErrorField === "color1"
-        ? document.querySelector(selector)?.closest(".space-y-2")
-        : document.querySelector(selector);
+    const element = document.querySelector(selector);
     element?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 };
@@ -131,7 +129,8 @@ export const getFieldFromMessage = (message: string): keyof ValidationErrors => 
     breed1: /breed/i,
     color1: /color/i,
     altered: /spayed|neutered/i,
-    microchipId: /microchip/i
+    microchipId: /microchip.*id|chip.*id|microchip/i,
+    location: /location/i
   };
 
   for (const [field, pattern] of Object.entries(fieldPatterns)) {
@@ -139,6 +138,11 @@ export const getFieldFromMessage = (message: string): keyof ValidationErrors => 
       return field as keyof ValidationErrors;
     }
   }
+
+  if (/id/i.test(message)) {
+    return "microchipId";
+  }
+
   return "title";
 };
 
@@ -174,7 +178,9 @@ export const mapIdentificationFieldErrors = (
     breed_2: "breed2",
     color_1: "color1",
     altered: "altered",
-    microchip_id: "microchipId"
+    microchip_id: "microchipId",
+    microchipId: "microchipId",
+    location: "location"
   };
 
   const mappedErrors = Object.entries(serverErrors).reduce(
