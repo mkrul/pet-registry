@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { setNotification } from "../redux/features/notifications/notificationsSlice";
-import { validateReportForm } from "../services/validation/ReportFormValidation";
 import { NotificationType } from "../types/common/Notification";
 import { ReportPropsForm } from "../types/Report";
 
@@ -16,17 +15,6 @@ export const useFormSubmission = (
   ) => {
     e.preventDefault();
     dispatch(setNotification(null));
-
-    const validationError = validateReportForm(formData, selectedImage);
-    if (validationError) {
-      dispatch(
-        setNotification({
-          type: NotificationType.ERROR,
-          message: validationError
-        })
-      );
-      return;
-    }
 
     await handleSubmit(formData, selectedImage);
   };

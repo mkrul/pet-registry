@@ -26,3 +26,9 @@
 - Form validation errors are more effective when displayed next to their respective fields
 - Field-level error state should be managed at the form level
 - Validation messages should be clear and contextual to their fields
+- Material-UI RadioGroup treats undefined value as truly unselected, while empty string can be treated as a selectable value
+- Form validation should include all required fields, including radio group selections
+- Error messages for radio groups should follow the same pattern as other form fields
+- Field-specific errors need to be properly passed to FormFieldError components
+- Required field validation alerts should be consistent across all required form fields
+- Validation error messages should follow consistent phrasing pattern across all required fields

@@ -4,7 +4,6 @@ import { getColorOptions } from "../lib/reports/colorList";
 import { getBreedsBySpecies } from "../lib/reports/breedList";
 import { getGenderOptions } from "../lib/reports/genderList";
 import { getSpeciesOptions } from "../lib/reports/speciesList";
-import { validateReportForm } from "../services/validation/ReportFormValidation";
 import { ReportProps } from "../types/Report";
 import { transformToSnakeCase } from "../lib/apiHelpers";
 import { SelectChangeEvent } from "@mui/material";
@@ -137,12 +136,6 @@ export const useReportEdit = (report: ReportProps) => {
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-
-    const validationError = validateReportForm(formData, newImageFile);
-    if (validationError) {
-      setIsSaving(false);
-      return { error: validationError as string };
-    }
 
     const formDataToSend = new FormData();
     const snakeCaseData = transformToSnakeCase(formData);

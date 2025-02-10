@@ -26,3 +26,9 @@
 - Shifted form validation errors from Notification to inline field display
 - Added field-specific error state management in NewReportForm
 - Removed redundant validation notification messages
+- Fixed RadioGroup default selection by using undefined for unselected state
+- Added validation requirement for altered status field
+- Added error message display for altered status validation
+- Fixed error display for altered status validation
+- Added required field validation alert for altered status
+- Standardized altered status validation message
