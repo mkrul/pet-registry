@@ -25,7 +25,8 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   onBreed2Remove,
   isLoading,
   error,
-  breedError
+  breedError,
+  alteredError
 }) => {
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
@@ -105,7 +106,6 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             name="altered"
             value={formData.altered === null ? undefined : formData.altered.toString()}
             onChange={e => {
-              console.log("Radio value changed to:", e.target.value);
               onInputChange(e);
             }}
           >
@@ -113,7 +113,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             <FormControlLabel value="0" control={<Radio />} label="No" />
             <FormControlLabel value="" control={<Radio />} label="I don't know" />
           </RadioGroup>
-          <FormFieldError error={error} />
+          <FormFieldError error={alteredError} />
         </div>
       </div>
       <div className="space-y-2">

@@ -32,3 +32,7 @@
 - Fixed error display for altered status validation
 - Added required field validation alert for altered status
 - Standardized altered status validation message
+- Fixed altered status validation message to show correct text
+- Added proper validation order for altered status field
+- Fixed altered status validation error display by passing specific error prop
+- Removed error state styling from altered status radio buttons

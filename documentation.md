@@ -32,3 +32,8 @@
 - Field-specific errors need to be properly passed to FormFieldError components
 - Required field validation alerts should be consistent across all required form fields
 - Validation error messages should follow consistent phrasing pattern across all required fields
+- Altered status validation message should specifically mention spayed/neutered status
+- Form validation should check altered status before species selection
+- Form field errors should be passed specifically to their respective form fields for proper display
+- Radio buttons should show error state styling consistent with other form inputs
+- Radio button validation errors should only show error message without visual styling on the buttons

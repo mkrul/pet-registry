@@ -97,6 +97,17 @@ const NewReportForm: React.FC = () => {
       return;
     }
 
+    if (formData.altered === null) {
+      setFieldErrors(prev => ({
+        ...prev,
+        altered: "Please indicate whether the animal is spayed or neutered"
+      }));
+      document
+        .querySelector('input[name="altered"]')
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
     if (!formData.species) {
       setFieldErrors(prev => ({ ...prev, species: "Please select a species" }));
       document
@@ -188,6 +199,7 @@ const NewReportForm: React.FC = () => {
         isLoading={isLoading}
         error={fieldErrors.species}
         breedError={fieldErrors.breed1}
+        alteredError={fieldErrors.altered}
       />
 
       <ColorFields
