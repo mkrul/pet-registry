@@ -181,9 +181,10 @@ export interface IdentificationFieldsProps {
   onInputChange: (e: FormInputEvent) => void;
   setShowBreed2: (show: boolean) => void;
   onBreed2Remove: () => void;
-  isLoading?: boolean;
-  error?: string;
-  breedError?: string;
+  isLoading: boolean;
+  error: string;
+  breedError: string;
+  alteredError: string;
 }
 
 export interface LocationData {

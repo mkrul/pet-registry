@@ -36,3 +36,13 @@
 - Added proper validation order for altered status field
 - Fixed altered status validation error display by passing specific error prop
 - Removed error state styling from altered status radio buttons
+- Moved form validation logic to dedicated validation service
+- Centralized form validation error handling
+- Moved scroll-to-error functionality to validation service
+- Further simplified form component responsibilities
+- Updated IdentificationFieldsProps type to include alteredError prop
+- Moved error state initialization to validation service
+- Moved location validation logic to validation service
+- Added proper type imports for location validation
+- Improved validation service type organization
+- Improved DOM selector type organization in validation service

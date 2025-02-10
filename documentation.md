@@ -37,3 +37,13 @@
 - Form field errors should be passed specifically to their respective form fields for proper display
 - Radio buttons should show error state styling consistent with other form inputs
 - Radio button validation errors should only show error message without visual styling on the buttons
+- Form validation logic should be separated from form components for better maintainability
+- Validation error handling should be centralized to ensure consistent behavior
+- DOM manipulation for validation feedback should be handled by validation service
+- Form components should focus solely on form state and user interaction handling
+- TypeScript interfaces should be updated when adding new error props to components
+- Error state initialization should be centralized in validation service for consistency
+- Location validation should be handled by validation service for consistency
+- Validation services should import all required types directly
+- Framework-specific types should be isolated in validation services
+- DOM selectors should be typed for better maintainability

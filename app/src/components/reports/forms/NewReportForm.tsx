@@ -15,8 +15,14 @@ import { SubmitButton } from "../../common/SubmitButton";
 import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
 import { useNotificationCleanup } from "../../../hooks/useNotificationCleanup";
-import { Alert } from "@mui/material";
 import { ReportPropsForm, LocationData } from "../../../types/Report";
+import {
+  validateReportForm,
+  hasValidationErrors,
+  scrollToFirstError,
+  getInitialErrors,
+  handleLocationValidation
+} from "../../../services/validation/ReportFormValidation";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
@@ -44,16 +50,7 @@ const NewReportForm: React.FC = () => {
     getInitialLocation
   } = useReportForm();
 
-  const [fieldErrors, setFieldErrors] = useState({
-    title: "",
-    description: "",
-    species: "",
-    breed1: "",
-    color1: "",
-    image: "",
-    location: "",
-    altered: ""
-  });
+  const [fieldErrors, setFieldErrors] = useState(getInitialErrors());
 
   const { handleSubmit } = useReportSubmit({
     submitReport: data => submitReport(data).unwrap(),
@@ -70,79 +67,13 @@ const NewReportForm: React.FC = () => {
     selectedImage: File | null
   ) => {
     e.preventDefault();
-    setFieldErrors({
-      title: "",
-      description: "",
-      species: "",
-      breed1: "",
-      color1: "",
-      image: "",
-      location: "",
-      altered: ""
-    });
+    setFieldErrors(getInitialErrors());
 
-    if (!formData.title?.trim()) {
-      setFieldErrors(prev => ({ ...prev, title: "Please enter a title" }));
-      document
-        .querySelector('input[name="title"]')
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
+    const validationErrors = validateReportForm(formData, selectedImage);
 
-    if (!formData.description?.trim()) {
-      setFieldErrors(prev => ({ ...prev, description: "Please enter a description" }));
-      document
-        .querySelector('textarea[name="description"]')
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (formData.altered === null) {
-      setFieldErrors(prev => ({
-        ...prev,
-        altered: "Please indicate whether the animal is spayed or neutered"
-      }));
-      document
-        .querySelector('input[name="altered"]')
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (!formData.species) {
-      setFieldErrors(prev => ({ ...prev, species: "Please select a species" }));
-      document
-        .querySelector('input[name="species"]')
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (!formData.breed1) {
-      setFieldErrors(prev => ({ ...prev, breed1: "Please select a breed" }));
-      document
-        .querySelector(".MuiAutocomplete-input")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (!formData.color1) {
-      setFieldErrors(prev => ({ ...prev, color1: "Please select a color" }));
-      document
-        .querySelector(".MuiAutocomplete-input")
-        ?.closest(".space-y-2")
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (!selectedImage) {
-      setFieldErrors(prev => ({ ...prev, image: "Please upload an image" }));
-      document
-        .querySelector('input[type="file"]')
-        ?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
-
-    if (!formData.latitude || !formData.longitude) {
-      setFieldErrors(prev => ({ ...prev, location: "Please select a location" }));
+    if (hasValidationErrors(validationErrors)) {
+      setFieldErrors(validationErrors);
+      scrollToFirstError(validationErrors);
       return;
     }
 
@@ -150,12 +81,9 @@ const NewReportForm: React.FC = () => {
   };
 
   const handleLocationUpdate = (location: LocationData) => {
-    if (location.error) {
-      setFieldErrors(prev => ({ ...prev, location: location.error || "" }));
-      return;
+    if (handleLocationValidation(location, { setFieldErrors })) {
+      handleLocationSelect(location);
     }
-    setFieldErrors(prev => ({ ...prev, location: "" }));
-    handleLocationSelect(location);
   };
 
   useNotificationCleanup();
