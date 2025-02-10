@@ -165,3 +165,6 @@
 - Component prop interfaces need to be updated when adding new error fields
 - Component prop interfaces need to be defined in both types and component files
 - Form submission hooks need to handle navigation in a centralized location
+- Success notifications should be dispatched in the submission hook where we have access to the API response
+- Notification display should be centralized in App.tsx to prevent duplicate notifications
+- Backend success messages should be accessed from response.data for proper handling

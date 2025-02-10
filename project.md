@@ -159,3 +159,6 @@
 - Simplified FormInputEvent to minimal required interface
 - Added microchipError to IdentificationFieldsProps interface
 - Fixed navigation handling in useFormSubmission hook
+- Added success notification dispatch in useReportSubmit
+- Centralized notification display in App component
+- Fixed success message access from API response
