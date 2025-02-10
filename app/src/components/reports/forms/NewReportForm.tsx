@@ -14,14 +14,15 @@ import { LocationSelect } from "../common/LocationSelect";
 import { SubmitButton } from "../../common/SubmitButton";
 import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
-import { useNotificationCleanup } from "../../../hooks/useNotificationCleanup";
 import { ReportPropsForm, LocationData } from "../../../types/Report";
 import {
   validateReportForm,
   hasValidationErrors,
   scrollToFirstError,
   getInitialErrors,
-  handleLocationValidation
+  handleLocationValidation,
+  handleReportValidationErrors,
+  getFieldFromMessage
 } from "../../../services/validation/ReportFormValidation";
 
 const NewReportForm: React.FC = () => {
@@ -53,7 +54,26 @@ const NewReportForm: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState(getInitialErrors());
 
   const { handleSubmit } = useReportSubmit({
-    submitReport: data => submitReport(data).unwrap(),
+    submitReport: async data => {
+      try {
+        const response = await submitReport(data);
+        console.log("Submit response:", response);
+        if ("error" in response) {
+          const error = response.error;
+          console.log("Submit error data:", error?.data);
+          if (error?.data?.message) {
+            handleReportValidationErrors({ message: error.data.message }, { setFieldErrors });
+            scrollToFirstError({ [getFieldFromMessage(error.data.message)]: error.data.message });
+            return { message: "Validation failed" };
+          }
+          throw error;
+        }
+        return response.data;
+      } catch (error) {
+        console.log("Submit catch error:", error);
+        throw error;
+      }
+    },
     showBreed2,
     showColor2,
     showColor3
@@ -67,9 +87,11 @@ const NewReportForm: React.FC = () => {
     selectedImage: File | null
   ) => {
     e.preventDefault();
+    console.log("Form submit started with data:", formData);
     setFieldErrors(getInitialErrors());
 
     const validationErrors = validateReportForm(formData, selectedImage);
+    console.log("Frontend validation errors:", validationErrors);
 
     if (hasValidationErrors(validationErrors)) {
       setFieldErrors(validationErrors);
@@ -85,8 +107,6 @@ const NewReportForm: React.FC = () => {
       handleLocationSelect(location);
     }
   };
-
-  useNotificationCleanup();
 
   if (isLoadingNewReport) return <Spinner />;
 

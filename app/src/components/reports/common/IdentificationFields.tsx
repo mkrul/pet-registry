@@ -104,7 +104,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
         <div>
           <RadioGroup
             name="altered"
-            value={formData.altered === null ? undefined : formData.altered.toString()}
+            value={formData.altered?.toString() || ""}
             onChange={e => {
               onInputChange(e);
             }}

@@ -69,7 +69,6 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
 
   const handleInputChange = React.useCallback(
     (e: FormInputEvent) => {
-      console.log("Form input changed:", e.target.name, e.target.value);
       setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     },
     [setFormData]

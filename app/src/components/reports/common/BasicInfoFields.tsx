@@ -15,50 +15,35 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Title:</label>
+        <label className="text-lg font-medium text-gray-900">Title:</label>
         <TextField
           name="title"
-          value={formData.title || ""}
+          value={formData.title}
           onChange={onInputChange}
           variant="outlined"
           fullWidth
           required
           disabled={readOnly}
-          sx={commonInputStyles}
           error={!!error}
+          sx={commonInputStyles}
         />
         <FormFieldError error={error} />
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Pet's Name:</label>{" "}
-        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
-        <TextField
-          name="name"
-          value={formData.name || ""}
-          onChange={onInputChange}
-          variant="outlined"
-          fullWidth
-          disabled={readOnly}
-          sx={commonInputStyles}
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Description:</label>
-        <Tip>Describe the animal's appearance, behavior, and other relevant details.</Tip>
+        <label className="text-lg font-medium text-gray-900">Description:</label>
         <TextField
           name="description"
-          value={formData.description || ""}
+          value={formData.description}
           onChange={onInputChange}
-          multiline
-          rows={4}
           variant="outlined"
           fullWidth
+          multiline
+          rows={4}
           required
           disabled={readOnly}
-          sx={commonInputStyles}
           error={!!descriptionError}
+          sx={commonInputStyles}
         />
         <FormFieldError error={descriptionError} />
       </div>

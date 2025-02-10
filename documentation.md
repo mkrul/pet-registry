@@ -47,3 +47,40 @@
 - Validation services should import all required types directly
 - Framework-specific types should be isolated in validation services
 - DOM selectors should be typed for better maintainability
+- Backend validation errors should be displayed inline with form fields for consistency
+- Use "server" instead of "backend" in naming for clarity
+- Use domain-specific naming for validation error handling
+- Use consistent error display pattern (field alerts) instead of multiple systems
+- Server validation errors should be mapped to specific form fields for proper display
+- Form submission hooks should focus on data transformation, not error display
+- Remove unused notification imports when switching to field-level alerts
+- Form data transformation should be handled by a dedicated utility
+- Form data utilities should import their required types directly
+- Remove notification-related hooks when switching to field alerts
+- Include all form fields in server validation error mapping
+- Form field components need to handle their own error displays
+- Maintain consistent input styling across form fields
+- Backend validation errors should be handled consistently with frontend validation errors
+- Form submission hooks should return proper response types for error handling
+- Backend validation errors should trigger the same visual feedback as frontend validation
+- RTK Query mutation responses need to be handled without unwrap() for proper error handling
+- Backend validation errors need to be extracted from the RTK Query error response structure
+- Error handling should preserve the original error structure for proper type checking
+- MUI RadioGroup must maintain consistent controlled state throughout component lifecycle
+- Radio button values should be normalized to strings for controlled components
+- Form population should maintain consistent value types for radio inputs
+- Error mapping needs detailed logging to trace validation flow
+- Server error structure needs verification at each transformation step
+- Form submission validation chain needs end-to-end tracking
+- Backend validation messages can come in different formats (errors object vs message string)
+- Error handling needs to handle both structured and simple message formats
+- Error mapping should convert single message responses into field-specific format
+- Backend validation messages need to be mapped to specific fields based on content
+- Error field detection should use pattern matching for flexible message handling
+- Single message validation errors need intelligent field mapping
+- Error message objects should be passed through validation chain without premature field mapping
+- Field mapping should happen at the validation service level for consistency
+- Error scrolling should use the same field mapping as validation display
+- Utility functions used across components need to be explicitly exported
+- Field mapping utilities should be accessible to both validation and form components
+- Error handling utilities should be part of the public validation API

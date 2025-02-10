@@ -10,6 +10,7 @@ export interface ValidationErrors {
   image: string;
   location: string;
   altered: string;
+  microchipId: string;
 }
 
 export const validateReportForm = (
@@ -24,7 +25,8 @@ export const validateReportForm = (
     color1: "",
     image: "",
     location: "",
-    altered: ""
+    altered: "",
+    microchipId: ""
   };
 
   if (!formData.title?.trim()) {
@@ -101,7 +103,8 @@ export const getInitialErrors = (): ValidationErrors => ({
   color1: "",
   image: "",
   location: "",
-  altered: ""
+  altered: "",
+  microchipId: ""
 });
 
 export interface ValidationErrorSetter {
@@ -118,4 +121,69 @@ export const handleLocationValidation = (
   }
   setFieldErrors(prev => ({ ...prev, location: "" }));
   return true;
+};
+
+export const getFieldFromMessage = (message: string): keyof ValidationErrors => {
+  const fieldPatterns = {
+    title: /title/i,
+    description: /description/i,
+    species: /species/i,
+    breed1: /breed/i,
+    color1: /color/i,
+    altered: /spayed|neutered/i,
+    microchipId: /microchip/i
+  };
+
+  for (const [field, pattern] of Object.entries(fieldPatterns)) {
+    if (pattern.test(message)) {
+      return field as keyof ValidationErrors;
+    }
+  }
+  return "title";
+};
+
+export const handleReportValidationErrors = (
+  reportValidations: Record<string, string>,
+  { setFieldErrors }: ValidationErrorSetter
+): void => {
+  console.log("Handling validation errors:", reportValidations);
+  const mappedErrors =
+    "message" in reportValidations
+      ? { [getFieldFromMessage(reportValidations.message)]: reportValidations.message }
+      : mapIdentificationFieldErrors(reportValidations);
+  console.log("Mapped validation errors:", mappedErrors);
+  setFieldErrors(prev => {
+    const newErrors = {
+      ...prev,
+      ...mappedErrors
+    };
+    console.log("New field errors state:", newErrors);
+    return newErrors;
+  });
+};
+
+export const mapIdentificationFieldErrors = (
+  serverErrors: Record<string, string>
+): Partial<ValidationErrors> => {
+  console.log("Server errors received:", serverErrors);
+  const fieldMapping: Record<string, keyof ValidationErrors> = {
+    title: "title",
+    description: "description",
+    species: "species",
+    breed_1: "breed1",
+    breed_2: "breed2",
+    color_1: "color1",
+    altered: "altered",
+    microchip_id: "microchipId"
+  };
+
+  const mappedErrors = Object.entries(serverErrors).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      [fieldMapping[key] || key]: value
+    }),
+    {}
+  );
+  console.log("Mapped errors result:", mappedErrors);
+  return mappedErrors;
 };

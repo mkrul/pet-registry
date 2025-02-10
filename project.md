@@ -46,3 +46,40 @@
 - Added proper type imports for location validation
 - Improved validation service type organization
 - Improved DOM selector type organization in validation service
+- Integrated backend validation errors with form field alerts
+- Improved naming of server validation error handling
+- Improved naming of validation error handling to be more domain-specific
+- Removed notification system from form submission in favor of field alerts
+- Added field-specific error mapping for server validation errors
+- Removed notification handling from report submission hook
+- Cleaned up notification-related imports from report submission hook
+- Created form data utility for consistent form data transformation
+- Added proper type imports to form data utility
+- Removed notification cleanup hook from form component
+- Added title field to server validation error mapping
+- Added error display handling for title field in BasicInfoFields
+- Restored common input styles for form fields
+- Fixed backend validation errors to display using MUI Alerts
+- Updated useReportSubmit hook to properly handle backend validation responses
+- Ensured Title field backend validation errors display correctly
+- Fixed RTK Query error handling in useReportSubmit hook
+- Updated NewReportForm to properly handle RTK Query validation errors
+- Ensured backend validation errors are properly displayed in MUI Alerts
+- Fixed RadioGroup controlled state in IdentificationFields
+- Ensured consistent value handling for altered status radio buttons
+- Fixed form population handling for radio button controls
+- Added detailed logging for validation error mapping
+- Added form submission validation logging
+- Added server error transformation logging
+- Updated error handling to support simple message format from backend
+- Added support for single message validation errors
+- Fixed title field validation error display
+- Added intelligent field mapping for validation messages
+- Fixed description field validation error display
+- Added pattern-based field detection for validation messages
+- Fixed error field mapping to handle all validation message types
+- Updated error scrolling to use consistent field mapping
+- Fixed description field validation error display location
+- Added export for field mapping utility function
+- Made validation utilities accessible to form components
+- Fixed validation error field mapping accessibility
