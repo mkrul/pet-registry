@@ -63,6 +63,8 @@ export interface ReportPropsForm {
   latitude: number | null;
   longitude: number | null;
   intersection: string | null;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface LocationData {

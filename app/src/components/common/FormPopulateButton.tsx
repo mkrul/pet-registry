@@ -53,8 +53,8 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
       latitude: 37.269039,
       longitude: -79.931999,
       intersection: "7th Street Southeast at 6th Street Southeast",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       image: {
         id: "1",
         url: "/images/golden-retriever.png",
