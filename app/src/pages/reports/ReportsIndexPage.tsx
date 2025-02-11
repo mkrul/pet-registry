@@ -1,33 +1,19 @@
-import { useState, useEffect } from "react";
-import { useLocation, useSearchParams, useNavigate } from "react-router-dom";
+import { useState, useCallback, useMemo } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { setSearchState } from "../../redux/features/search/searchSlice";
-import SearchContainer from "../../components/search/SearchContainer";
 import SearchTab from "../../components/search/SearchTab";
 import ReportsContainer from "../../components/reports/index/ReportsContainer";
 import { FiltersProps } from "../../types/common/Search";
 import { useScrollRestoration } from "../../hooks/useScrollRestoration";
-import { store } from "../../redux/store";
 import { useReportsData } from "../../hooks/useReportsData";
+import { useSearchParamsState } from "../../hooks/useSearchParams";
 
 const ReportIndexPage = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  const { searchParams, updateSearchParams, getInitialFilters } = useSearchParamsState();
   const searchState = useAppSelector(state => state.search);
 
-  const initialFilters = {
-    species: searchParams.get("species") || "",
-    color: searchParams.get("color") || "",
-    gender: searchParams.get("gender") || "",
-    area: searchParams.get("area") || "",
-    state: searchParams.get("state") || "",
-    country: searchParams.get("country") || "",
-    sort: searchParams.get("sort") || "Newest",
-    breed: searchParams.get("breed") || ""
-  };
+  const initialFilters = useMemo(() => getInitialFilters(), [searchParams]);
 
   const [activeSearch, setActiveSearch] = useState(
     searchState.query || searchParams.get("query") || ""
@@ -42,35 +28,44 @@ const ReportIndexPage = () => {
 
   useScrollRestoration();
 
-  const handleSearchComplete = (query: string, page: number, filters: FiltersProps) => {
-    if (page !== currentPage) {
-      window.scrollTo(0, 0);
-    }
+  const handleSearchComplete = useCallback(
+    (query: string, page: number, filters: FiltersProps) => {
+      if (page !== currentPage) {
+        window.scrollTo(0, 0);
+      }
 
-    setActiveSearch(query);
-    setActiveFilters(filters);
-    setCurrentPage(page);
+      setActiveSearch(query);
+      setActiveFilters(filters);
+      setCurrentPage(page);
 
-    dispatch(
-      setSearchState({
-        query,
-        page,
-        filters,
-        scrollPosition: window.scrollY
-      })
-    );
+      dispatch(
+        setSearchState({
+          query,
+          page,
+          filters,
+          scrollPosition: window.scrollY
+        })
+      );
 
-    const params = new URLSearchParams();
-    if (query) params.set("query", query);
-    if (page > 1) params.set("page", page.toString());
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value) params.set(key, value);
-    });
+      updateSearchParams(query, page, filters);
+    },
+    [currentPage, dispatch, updateSearchParams]
+  );
 
-    setSearchParams(params);
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      handleSearchComplete(activeSearch, page, activeFilters);
+    },
+    [activeSearch, activeFilters, handleSearchComplete]
+  );
 
-  const { reports } = useReportsData(activeSearch, activeFilters, currentPage);
+  const handleSearchTabComplete = useCallback(
+    (query: string, page: number, filters: FiltersProps) => {
+      handleSearchComplete(query, page, filters);
+      setIsSearchOpen(false);
+    },
+    [handleSearchComplete, setIsSearchOpen]
+  );
 
   return (
     <div className="mx-auto p-4" data-testid="reports-index">
@@ -78,10 +73,7 @@ const ReportIndexPage = () => {
         <SearchTab
           isOpen={isSearchOpen}
           setIsOpen={setIsSearchOpen}
-          onSearchComplete={(query, page, filters) => {
-            handleSearchComplete(query, page, filters);
-            setIsSearchOpen(false);
-          }}
+          onSearchComplete={handleSearchTabComplete}
         />
 
         <div>
@@ -90,7 +82,7 @@ const ReportIndexPage = () => {
             query={activeSearch}
             filters={activeFilters}
             page={currentPage}
-            onPageChange={page => handleSearchComplete(activeSearch, page, activeFilters)}
+            onPageChange={handlePageChange}
           />
         </div>
       </div>
