@@ -184,3 +184,50 @@
 - Removed unnecessary effect dependency
 - Fixed breed field warning to only show when species is missing
 - Improved breed field interaction logic
+- Fixed second breed field removal functionality
+- Improved breed field state management
+- Fixed second breed field state management in form hook
+- Improved breed removal state handling
+- Fixed second breed field visibility condition
+- Fixed second breed field conditional rendering
+- Simplified breed field visibility logic
+- Unified field removal logic in form hook
+- Standardized state update sequence for removals
+- Removed redundant breed2 state synchronization
+- Improved breed field state initialization
+- Added smooth transition for field removal
+- Improved additional field set animation
+- Connected field set visibility to parent state
+- Improved field removal animation control
+- Fixed breed field removal handler
+- Improved breed field state management
+- Fixed breed field state setter propagation
+- Improved form state management consistency
+- Fixed second breed field spacing consistency
+- Standardized form field spacing patterns
+- Fixed second breed field top margin
+- Aligned breed field spacing with color fields
+- Fixed breed field spacing hierarchy
+- Improved form field spacing structure
+- Adjusted breed field vertical spacing
+- Standardized form section spacing values
+- Refined form field spacing granularity
+- Balanced vertical spacing between form elements
+- Fixed form field button spacing
+- Optimized vertical spacing between form elements
+- Matched breed field spacing with color fields
+- Standardized additional field spacing patterns
+- Fixed conditional spacing for second breed field
+- Improved dynamic margin handling for optional fields
+- Verified breed field removal state sequence
+- Improved breed field state transition handling
+- Fixed species selection after breed removal
+- Restored form input change handling
+- Fixed first breed field bottom margin
+- Improved breed fields spacing relationship
+- Fixed breed field container nesting
+- Improved breed field margin structure
+- Fixed add breed button spacing
+- Balanced breed field container spacing
+- Reduced add breed button top spacing
+- Refined form field spacing intervals

@@ -190,3 +190,43 @@
 - Avoid useEffect for state updates that can be handled synchronously
 - Form field warnings should only trigger when conditions are unmet
 - Input interactions should validate current state before showing warnings
+- Form field removal should follow consistent patterns
+- State management utilities should handle similar operations uniformly
+- Form field state should be initialized directly from props
+- Avoid unnecessary effects for state synchronization
+- Component removal should include proper transition animations
+- MUI Collapse provides consistent enter/exit animations
+- Animation state should be controlled by parent components
+- Transition components need explicit visibility control
+- Component handlers should use props for state updates
+- Field removal should handle both local and parent state
+- Form state setters must be properly destructured and passed
+- Component state management requires consistent prop passing
+- Form field spacing should follow consistent patterns
+- Component layout patterns should be standardized across similar components
+- Form field margins should be consistent across similar sections
+- Vertical spacing should follow established component patterns
+- Form field spacing requires proper nesting structure
+- Component spacing should use consistent hierarchy patterns
+- Form section spacing should use consistent gap values
+- Tailwind spacing classes should align across similar components
+- Form spacing needs different values for different element types
+- Vertical rhythm requires balanced spacing between related elements
+- Button elements should inherit parent container spacing
+- Form spacing should minimize wrapper element margins
+- Similar form sections should share identical spacing patterns
+- Form field groups should maintain consistent visual hierarchy
+- Optional field spacing should be added conditionally
+- Form spacing should reflect field visibility state
+- State updates for field removal should follow consistent order
+- Field visibility state should be updated last in removal sequence
+- Form event handlers must maintain core input functionality
+- State updates should preserve essential form operations
+- Related form fields should adjust spacing based on siblings
+- Container margins should adapt to field visibility state
+- Form field containers need proper nesting for margin control
+- Dynamic margins require correct container hierarchy
+- Form button spacing needs consistent parent container gaps
+- Container spacing should handle both static and dynamic margins
+- Action buttons need tighter spacing with related inputs
+- Form spacing intervals should reflect element relationships

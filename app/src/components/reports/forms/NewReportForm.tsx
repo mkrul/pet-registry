@@ -57,7 +57,8 @@ const NewReportForm: React.FC = () => {
     showColor3Field,
     handleImageLoad,
     handleImageError,
-    getInitialLocation
+    getInitialLocation,
+    setShowBreed2
   } = useReportForm();
 
   const [fieldErrors, setFieldErrors] = useState(getInitialErrors());
@@ -154,7 +155,7 @@ const NewReportForm: React.FC = () => {
         formData={formData}
         showBreed2={showBreed2}
         onInputChange={handleInputChange}
-        setShowBreed2={showBreed2Field}
+        setShowBreed2={setShowBreed2}
         onBreed2Remove={removeBreed2}
         isLoading={isLoading}
         error={fieldErrors.species}

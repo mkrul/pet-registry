@@ -1,4 +1,5 @@
 import React from "react";
+import { Collapse } from "@mui/material";
 import { RemoveFieldButton } from "./RemoveFieldButton";
 
 interface AdditionalFieldSetProps {
@@ -7,6 +8,7 @@ interface AdditionalFieldSetProps {
   disabled?: boolean;
   testId: string;
   children: React.ReactNode;
+  show?: boolean;
 }
 
 export const AdditionalFieldSet: React.FC<AdditionalFieldSetProps> = ({
@@ -14,15 +16,18 @@ export const AdditionalFieldSet: React.FC<AdditionalFieldSetProps> = ({
   onRemove,
   disabled = false,
   testId,
-  children
+  children,
+  show = true
 }) => {
   return (
-    <div>
-      <label className="text-lg font-medium text-gray-900 block mb-2">{label}</label>
-      <div className="flex items-center gap-4">
-        <div className="flex-grow">{children}</div>
-        <RemoveFieldButton onClick={onRemove} disabled={disabled} testId={testId} />
+    <Collapse in={show} timeout={300}>
+      <div>
+        <label className="text-lg font-medium text-gray-900 block mb-2">{label}</label>
+        <div className="flex items-center gap-4">
+          <div className="flex-grow">{children}</div>
+          <RemoveFieldButton onClick={onRemove} disabled={disabled} testId={testId} />
+        </div>
       </div>
-    </div>
+    </Collapse>
   );
 };

@@ -27,7 +27,7 @@ interface Props {
   formData: ReportPropsForm;
   showBreed2: boolean;
   onInputChange: (e: FormInputEvent) => void;
-  setShowBreed2: () => void;
+  setShowBreed2: (show: boolean) => void;
   onBreed2Remove: () => void;
   isLoading: boolean;
   error: string;
@@ -72,7 +72,7 @@ export const IdentificationFields: React.FC<Props> = ({
 
   const handleBreed2Remove = () => {
     onInputChange(createChangeEvent("breed2", ""));
-    onBreed2Remove?.();
+    onBreed2Remove();
     setShowBreed2(false);
   };
 
@@ -181,42 +181,44 @@ export const IdentificationFields: React.FC<Props> = ({
 
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Breed:</label>
-        <div>
-          <BreedSearch
-            species={formData.species.toLowerCase() as "dog" | "cat"}
-            value={formData.breed1}
-            onChange={handleBreedChange}
-            disabled={isLoading}
-            excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-            required
-            size="medium"
-            hideLabel
-            disableClearable
-            error={!!breedError}
-            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
-            data-testid="breed-search"
-          />
-          <FormFieldError error={breedError} />
-        </div>
+        <div className="space-y-2">
+          <div className={showBreed2 ? "mb-6" : ""}>
+            <BreedSearch
+              species={formData.species.toLowerCase() as "dog" | "cat"}
+              value={formData.breed1}
+              onChange={handleBreedChange}
+              disabled={isLoading}
+              excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+              required
+              size="medium"
+              hideLabel
+              disableClearable
+              error={!!breedError}
+              onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+              data-testid="breed-search"
+            />
+            <FormFieldError error={breedError} />
+          </div>
 
-        {!showBreed2 && formData.breed1 && (
-          <AddFieldButton
-            onClick={() => setShowBreed2(true)}
-            disabled={isLoading}
-            label="ADD BREED"
-            testId="add-breed-button"
-          />
-        )}
-      </div>
+          {!showBreed2 && formData.breed1 && (
+            <AddFieldButton
+              onClick={() => setShowBreed2(true)}
+              disabled={isLoading}
+              label="ADD BREED"
+              testId="add-breed-button"
+            />
+          )}
 
-      {showBreed2 && (
-        <div className="mt-8">
-          <div className="mb-6">
+          {showBreed2 && (
             <AdditionalFieldSet
               label="Second Breed:"
-              onRemove={handleBreed2Remove}
+              onRemove={() => {
+                handleBreed2Remove();
+                setShowBreed2(false);
+              }}
               disabled={isLoading}
               testId="remove-breed-button"
+              show={showBreed2}
             >
               <BreedSearch
                 species={formData.species.toLowerCase() as "dog" | "cat"}
@@ -229,9 +231,9 @@ export const IdentificationFields: React.FC<Props> = ({
                 disableClearable
               />
             </AdditionalFieldSet>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -36,7 +36,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
-  const [showBreed2, setShowBreed2] = useState(false);
+  const [showBreed2, setShowBreed2] = useState(!!initialData?.breed2);
   const [showColor2, setShowColor2] = useState(false);
   const [showColor3, setShowColor3] = useState(false);
 
@@ -81,8 +81,8 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   const removeField =
     (fieldName: "breed2" | "color2" | "color3", setter: Dispatch<SetStateAction<boolean>>) =>
     () => {
-      setFormData(prev => ({ ...prev, [fieldName]: null }));
       setter(false);
+      setFormData(prev => ({ ...prev, [fieldName]: null }));
     };
 
   const handleColorChange = useCallback(
@@ -121,6 +121,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
 
     // Visibility state
     showBreed2,
+    setShowBreed2,
     showColor2,
     showColor3,
     showBreed2Field,
