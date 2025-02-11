@@ -10,11 +10,34 @@ import SignUpPage from "../../pages/auth/SignUpPage";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import Notification from "../common/Notification";
 import { setNotification } from "../../redux/features/notifications/notificationsSlice";
+import ComponentLoader from "../common/ComponentLoader";
+import { useMemo } from "react";
 
 const AppRouter = () => {
   const user = useAppSelector(state => state.auth.user);
   const notification = useAppSelector(state => state.notifications.notification);
   const dispatch = useAppDispatch();
+
+  const routesComponent = useMemo(
+    () => (
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
+        <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUpPage />} />
+        <Route path="/" element={<ReportIndexPage />} />
+        <Route path="/reports/:id" element={<ReportShowPage />} />
+
+        {/* Protected Routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/reports/new" element={<ReportNewPage />} />
+        </Route>
+
+        {/* Fallback Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    ),
+    [user]
+  );
 
   return (
     <div className="min-h-screen bg-page">
@@ -31,21 +54,7 @@ const AppRouter = () => {
         </div>
       )}
       <div className="flex-grow bg-page">
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
-          <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUpPage />} />
-          <Route path="/" element={<ReportIndexPage />} />
-          <Route path="/reports/:id" element={<ReportShowPage />} />
-
-          {/* Protected Routes */}
-          <Route element={<PrivateRoute />}>
-            <Route path="/reports/new" element={<ReportNewPage />} />
-          </Route>
-
-          {/* Fallback Route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <ComponentLoader>{routesComponent}</ComponentLoader>
       </div>
       <Footer />
     </div>

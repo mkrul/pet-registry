@@ -7,7 +7,6 @@ import { FiltersProps } from "../../types/common/Search";
 import { useScrollRestoration } from "../../hooks/useScrollRestoration";
 import { useReportsData } from "../../hooks/useReportsData";
 import { useSearchParamsState } from "../../hooks/useSearchParams";
-import ComponentLoader from "../../components/common/ComponentLoader";
 
 const ReportIndexPage = () => {
   const dispatch = useAppDispatch();
@@ -70,27 +69,25 @@ const ReportIndexPage = () => {
   );
 
   return (
-    <ComponentLoader>
-      <div className="mx-auto p-4" data-testid="reports-index">
-        <div className="flex flex-col gap-4">
-          <SearchTab
-            isOpen={isSearchOpen}
-            setIsOpen={setIsSearchOpen}
-            onSearchComplete={handleSearchTabComplete}
-          />
+    <div className="mx-auto p-4" data-testid="reports-index">
+      <div className="flex flex-col gap-4">
+        <SearchTab
+          isOpen={isSearchOpen}
+          setIsOpen={setIsSearchOpen}
+          onSearchComplete={handleSearchTabComplete}
+        />
 
-          <div>
-            <ReportsContainer
-              key={currentPage}
-              query={activeSearch}
-              filters={activeFilters}
-              page={currentPage}
-              onPageChange={handlePageChange}
-            />
-          </div>
+        <div>
+          <ReportsContainer
+            key={currentPage}
+            query={activeSearch}
+            filters={activeFilters}
+            page={currentPage}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
-    </ComponentLoader>
+    </div>
   );
 };
 

@@ -1,31 +1,18 @@
-import { useEffect } from "react";
-import { useAppDispatch } from "../../redux/hooks";
-import { setComponentsLoading } from "../../redux/features/loading/loadingSlice";
+import { PropsWithChildren, Suspense } from "react";
+import { CircularProgress } from "@mui/material";
 
-interface ComponentLoaderProps {
-  children: React.ReactNode;
+interface ComponentLoaderProps extends PropsWithChildren {
+  fallback?: React.ReactNode;
 }
 
-const ComponentLoader: React.FC<ComponentLoaderProps> = ({ children }) => {
-  const dispatch = useAppDispatch();
+const DefaultFallback = () => (
+  <div className="flex justify-center items-center min-h-[200px]" role="status" aria-live="polite">
+    <CircularProgress aria-label="Loading content" />
+  </div>
+);
 
-  useEffect(() => {
-    dispatch(setComponentsLoading(true));
-
-    // Use requestAnimationFrame to wait for next paint
-    const timer = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        dispatch(setComponentsLoading(false));
-      });
-    });
-
-    return () => {
-      cancelAnimationFrame(timer);
-      dispatch(setComponentsLoading(true));
-    };
-  }, [dispatch]);
-
-  return <>{children}</>;
+const ComponentLoader = ({ children, fallback = <DefaultFallback /> }: ComponentLoaderProps) => {
+  return <Suspense fallback={fallback}>{children}</Suspense>;
 };
 
 export default ComponentLoader;

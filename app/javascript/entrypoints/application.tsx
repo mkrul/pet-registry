@@ -5,18 +5,20 @@ import { store } from "../../src/redux/store";
 import ErrorBoundary from "../../src/components/main/ErrorBoundary";
 import App from "./Main";
 
-const rootElement = document.getElementById("root") as HTMLElement;
+const rootElement = document.getElementById("root");
 
-if (rootElement) {
-  const root = createRoot(rootElement);
-
-  root.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
-      </Provider>
-    </React.StrictMode>
-  );
+if (!rootElement) {
+  throw new Error("Root element not found");
 }
+
+const root = createRoot(rootElement);
+
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </Provider>
+  </React.StrictMode>
+);
