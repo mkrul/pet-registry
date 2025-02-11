@@ -19,7 +19,6 @@ module ReportValidations
                             length: { maximum: 35, message: "ID must be 35 characters or less" },
                             format: { with: /\A[A-Za-z0-9\-]+\z/, message: "ID can only contain letters, numbers, and hyphens" },
                             allow_blank: true
-    enum altered: { altered: 1, intact: 0, unknown: nil }
     validates :altered, inclusion: { in: [0, 1, nil], message: "status must be valid" }
     validates :gender, inclusion: {
       in: %w[male female],

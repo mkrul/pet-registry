@@ -72,7 +72,7 @@ class ReportSerializer < ActiveModel::Serializer
 
   def recently_created
     return false unless object.created_at >= 1.hour.ago
-    return false if object.updated_at > object.created_at + 5.seconds
+    return false if object.updated_at > object.created_at + 10.seconds
     true
   end
 
