@@ -42,10 +42,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   return (
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
-      <Tip>
-        The best photos are taken outdoors with good lighting. Your photo should be well lit, with
-        the animal's face centered in the frame.
-      </Tip>
+      <Tip>Choose a photo that is well lit, with the animal centered in the frame.</Tip>
       <div className="mt-1">
         <div className="relative">
           <input
