@@ -10,5 +10,6 @@ export interface BreedSearchProps {
   size?: "small" | "medium";
   disableClearable?: boolean;
   error?: boolean;
+  onEmptySpeciesClick?: () => void;
   "data-testid"?: string;
 }

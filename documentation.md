@@ -172,3 +172,21 @@
 - Recently created reports should not be marked as updated
 - Report status timing needs precise second-level accuracy
 - Status calculations should use consistent time comparisons
+- Form field dependencies should provide immediate user feedback
+- Container-level event handling provides better control than prop drilling
+- MUI Autocomplete requires comprehensive slot handling for complete click coverage
+- Form field interactions should handle all possible user interaction points
+- MUI TextField InputProps provide direct access to input click events
+- Form field click handling should use native input event propagation
+- Form field placeholders should guide users through required steps
+- Input fields should provide context-aware placeholder text
+- Placeholder text should maintain sufficient contrast for readability
+- MUI TextField placeholder styles can be customized through InputBase selectors
+- Form warning states should clear automatically when requirements are met
+- Form field dependencies should handle both show and hide conditions
+- Form warning states should stay synchronized with form data
+- React effects should handle derived state updates
+- Form state updates should be handled directly in event handlers when possible
+- Avoid useEffect for state updates that can be handled synchronously
+- Form field warnings should only trigger when conditions are unmet
+- Input interactions should validate current state before showing warnings

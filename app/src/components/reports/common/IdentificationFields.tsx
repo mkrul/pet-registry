@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   TextField,
@@ -6,31 +6,37 @@ import {
   MenuItem,
   RadioGroup,
   FormControlLabel,
-  Radio
+  Radio,
+  Alert,
+  SelectChangeEvent
 } from "@mui/material";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
 import { AddFieldButton } from "../../common/AddFieldButton";
 import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
-import { IdentificationFieldsProps } from "../../../types/Report";
+import {
+  IdentificationFieldsProps as BaseIdentificationFieldsProps,
+  ReportPropsForm,
+  FormInputEvent
+} from "../../../types/Report";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import { FormFieldError } from "../../common/FormFieldError";
 
-interface IdentificationFieldsProps {
+interface Props {
   formData: ReportPropsForm;
   showBreed2: boolean;
   onInputChange: (e: FormInputEvent) => void;
   setShowBreed2: () => void;
   onBreed2Remove: () => void;
   isLoading: boolean;
-  error?: string;
+  error: string;
   breedError?: string;
   alteredError?: string;
   microchipError?: string;
 }
 
-export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
+export const IdentificationFields: React.FC<Props> = ({
   formData,
   showBreed2,
   onInputChange,
@@ -42,6 +48,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
   alteredError,
   microchipError
 }) => {
+  const [showSpeciesRequired, setShowSpeciesRequired] = useState(false);
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
 
@@ -54,7 +61,11 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
     onInputChange(createChangeEvent(name, value));
   };
 
-  const handleSpeciesChange = handleFieldChange("species");
+  const handleSpeciesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowSpeciesRequired(false);
+    onInputChange(e);
+  };
+
   const handleBreedChange = handleFieldChange("breed1");
   const handleBreed2Change = handleFieldChange("breed2");
   const handleGenderChange = handleFieldChange("gender");
@@ -63,6 +74,12 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
     onInputChange(createChangeEvent("breed2", ""));
     onBreed2Remove?.();
     setShowBreed2(false);
+  };
+
+  const handleBreedClick = () => {
+    if (!formData.species) {
+      setShowSpeciesRequired(true);
+    }
   };
 
   return (
@@ -93,7 +110,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             labelId="gender-label"
             id="gender"
             value={formData.gender || ""}
-            onChange={e => handleGenderChange(e.target.value)}
+            onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
             sx={commonInputStyles}
             disabled={isLoading}
             MenuProps={{
@@ -139,7 +156,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             select
             name="species"
             value={formData.species || ""}
-            onChange={onInputChange}
+            onChange={handleSpeciesChange}
             variant="outlined"
             fullWidth
             required
@@ -154,6 +171,11 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             ))}
           </TextField>
           <FormFieldError error={error} />
+          {showSpeciesRequired && (
+            <Alert severity="warning" sx={{ mt: 1 }}>
+              Please select a species first
+            </Alert>
+          )}
         </div>
       </div>
 
@@ -171,6 +193,7 @@ export const IdentificationFields: React.FC<IdentificationFieldsProps> = ({
             hideLabel
             disableClearable
             error={!!breedError}
+            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
             data-testid="breed-search"
           />
           <FormFieldError error={breedError} />

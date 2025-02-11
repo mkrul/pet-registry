@@ -166,3 +166,21 @@
 - Added recently_created check to prevent incorrect update status
 - Fixed report status timing calculations
 - Improved accuracy of NEW vs UPDATED status logic
+- Added species requirement warning for breed field interaction
+- Improved form field dependency validation feedback
+- Improved breed field interaction to handle all click areas
+- Enhanced species warning trigger for better user experience
+- Fixed breed field click handling using MUI InputProps
+- Simplified breed field interaction handling
+- Added species requirement placeholder text to breed field
+- Improved breed field user guidance
+- Improved breed field placeholder visibility
+- Enhanced placeholder text styling for better readability
+- Fixed species warning alert to clear on species selection
+- Improved species selection state handling
+- Fixed species warning alert state synchronization
+- Improved species selection state management
+- Simplified species warning state management
+- Removed unnecessary effect dependency
+- Fixed breed field warning to only show when species is missing
+- Improved breed field interaction logic

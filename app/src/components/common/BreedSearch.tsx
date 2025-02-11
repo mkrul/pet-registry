@@ -14,12 +14,19 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   hideLabel = false,
   disableClearable = false,
   error = false,
+  onEmptySpeciesClick,
   "data-testid": dataTestId
 }) => {
   const breedOptions = useMemo(() => {
     const breeds = species ? getBreedsBySpecies(species) : [];
     return breeds.filter(breed => !excludeBreeds.includes(breed));
   }, [species, excludeBreeds]);
+
+  const handleClick = () => {
+    if (!species && onEmptySpeciesClick) {
+      onEmptySpeciesClick();
+    }
+  };
 
   const inputHeight = size === "medium" ? "56px" : "40px";
 
@@ -32,6 +39,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         disabled={disabled || !species}
         size={size}
         disableClearable={disableClearable}
+        onFocus={handleClick}
         slotProps={{
           listbox: {
             style: { maxHeight: 200 }
@@ -41,10 +49,15 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
           <TextField
             {...params}
             label={hideLabel ? undefined : "Breed"}
+            placeholder={species ? undefined : "Please select a species first"}
             variant="outlined"
             size={size}
             required={required}
             error={error}
+            InputProps={{
+              ...params.InputProps,
+              onClick: handleClick
+            }}
             sx={{
               "& .MuiInputBase-root": {
                 height: inputHeight,
@@ -52,6 +65,11 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
               },
               "& .MuiInputLabel-asterisk": {
                 display: "none"
+              },
+              "& .MuiInputBase-input::placeholder": {
+                opacity: 0.8,
+                color: "text.secondary",
+                fontStyle: "italic"
               }
             }}
           />
