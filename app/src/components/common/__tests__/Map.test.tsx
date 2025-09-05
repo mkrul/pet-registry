@@ -3,7 +3,6 @@ import { render, waitFor, act } from "@testing-library/react";
 import Map from "../Map";
 import { MapProps } from "../../../types/common/Map";
 
-// Mock Leaflet
 const mockAddTo = vi.fn();
 const mockRemove = vi.fn();
 vi.mock("leaflet", () => ({
@@ -15,12 +14,10 @@ vi.mock("leaflet", () => ({
   }
 }));
 
-// Mock Leaflet and its components
 vi.mock("react-leaflet", () => ({
   MapContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   TileLayer: () => null,
   useMapEvents: (handlers: { click: (e: any) => void }) => {
-    // Store the click handler for testing
     (global as any).mockMapClick = handlers.click;
     return { remove: vi.fn() };
   },
@@ -37,7 +34,6 @@ describe("Map", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    // Mock successful US location response
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         json: () =>
@@ -57,7 +53,6 @@ describe("Map", () => {
   it("handles location selection correctly", async () => {
     render(<Map {...defaultProps} />);
 
-    // Simulate map click
     const mockClickEvent = {
       latlng: {
         lat: 40.7128,
@@ -65,17 +60,14 @@ describe("Map", () => {
       }
     };
 
-    // Trigger the stored click handler with act
     await act(async () => {
       await (global as any).mockMapClick(mockClickEvent);
     });
 
-    // Verify the fetch call
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining("nominatim.openstreetmap.org/reverse")
     );
 
-    // Verify onLocationSelect was called with correct data
     await waitFor(() => {
       expect(mockOnLocationSelect).toHaveBeenCalledWith({
         latitude: 40.7128,
@@ -88,7 +80,6 @@ describe("Map", () => {
   });
 
   it("handles non-US location selection correctly", async () => {
-    // Mock non-US location response
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         json: () =>
@@ -106,7 +97,6 @@ describe("Map", () => {
 
     render(<Map {...defaultProps} />);
 
-    // Simulate map click
     const mockClickEvent = {
       latlng: {
         lat: 43.6532,
@@ -114,17 +104,14 @@ describe("Map", () => {
       }
     };
 
-    // Trigger the stored click handler with act
     await act(async () => {
       await (global as any).mockMapClick(mockClickEvent);
     });
 
-    // Verify the fetch call was made
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining("nominatim.openstreetmap.org/reverse")
     );
 
-    // Verify onLocationSelect was NOT called for non-US location
     await waitFor(() => {
       expect(mockOnLocationSelect).not.toHaveBeenCalled();
     });
@@ -133,7 +120,6 @@ describe("Map", () => {
   it("shows notification for non-US location selection", async () => {
     const { getByRole } = render(<Map {...defaultProps} />);
 
-    // Mock non-US location response
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         json: () =>
@@ -149,7 +135,6 @@ describe("Map", () => {
       })
     );
 
-    // Simulate map click
     const mockClickEvent = {
       latlng: {
         lat: 43.6532,
@@ -157,12 +142,10 @@ describe("Map", () => {
       }
     };
 
-    // Trigger the stored click handler with act
     await act(async () => {
       await (global as any).mockMapClick(mockClickEvent);
     });
 
-    // Wait for notification to appear and verify its content
     await waitFor(() => {
       const alert = getByRole("alert");
       expect(alert).toBeInTheDocument();
@@ -175,7 +158,6 @@ describe("Map", () => {
   it("clears notification when selecting US location", async () => {
     const { getByRole, queryByRole } = render(<Map {...defaultProps} />);
 
-    // First click on non-US location
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         json: () =>
@@ -197,7 +179,6 @@ describe("Map", () => {
       });
     });
 
-    // Verify notification is shown
     await waitFor(() => {
       const alert = getByRole("alert");
       expect(alert).toBeInTheDocument();
@@ -206,7 +187,6 @@ describe("Map", () => {
       );
     });
 
-    // Then click on US location
     global.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         json: () =>
@@ -228,7 +208,6 @@ describe("Map", () => {
       });
     });
 
-    // Verify notification is cleared
     await waitFor(() => {
       expect(queryByRole("alert")).not.toBeInTheDocument();
     });

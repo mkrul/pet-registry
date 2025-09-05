@@ -1,19 +1,11 @@
 import { SelectChangeEvent } from "@mui/material";
-
-export interface SearchButtonProps {
-  onSearch: () => void;
-  onReset: () => void;
-  showFilters: boolean;
-  setShowFilters: (show: boolean) => void;
-}
+import { SxProps, Theme } from "@mui/material/styles";
 
 export interface SearchBarProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onSearch: () => void;
   onReset: () => void;
-  showFilters: boolean;
-  setShowFilters: (show: boolean) => void;
 }
 
 export interface SearchContainerProps {
@@ -23,7 +15,6 @@ export interface SearchContainerProps {
 export interface FilterContainerProps {
   initialFilters: FiltersProps;
   onFiltersChange: (filters: FiltersProps) => void;
-  showFilters: boolean;
   onReset: () => void;
 }
 
@@ -31,9 +22,7 @@ export interface FiltersProps {
   species: string;
   color: string;
   gender: string;
-  area: string;
   state: string;
-  country: string;
   sort: string;
   breed: string;
 }
@@ -57,10 +46,10 @@ export interface FiltersPropsProps {
 }
 
 export interface LocationFilterProps {
-  country: string;
   state: string;
-  area: string;
-  onFilterChange: (event: SelectChangeEvent<string>, child: React.ReactNode) => void;
-  selectClassName: any;
-  disabledSelectClassName: any;
+  onFilterChange: (
+    event: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>,
+    child?: React.ReactNode
+  ) => void;
+  selectClassName: SxProps<Theme>;
 }

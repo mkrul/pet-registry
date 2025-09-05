@@ -20,9 +20,18 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
     }
   };
 
+  const menuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: 200
+      }
+    },
+    disableScrollLock: true
+  };
+
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="p-2">
+      <div className="flex flex-col gap-2">
         <FormControl fullWidth size="small">
           <Select
             name="species"
@@ -30,6 +39,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             onChange={handleFilterChange}
             displayEmpty
             sx={selectStyles}
+            MenuProps={menuProps}
             renderValue={selected => selected || "Species"}
           >
             {speciesListJson.options.map((species, index) => (
@@ -56,19 +66,8 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             value={filters.color}
             onChange={handleFilterChange}
             displayEmpty
-            sx={{
-              ...selectStyles,
-              "& .MuiPaper-root": {
-                maxHeight: "200px"
-              }
-            }}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 200
-                }
-              }
-            }}
+            sx={selectStyles}
+            MenuProps={menuProps}
             renderValue={selected => selected || "Color"}
           >
             {colorListJson.options.map((color, index) => (
@@ -86,6 +85,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
             onChange={handleFilterChange}
             displayEmpty
             sx={selectStyles}
+            MenuProps={menuProps}
             renderValue={selected => selected || "Gender"}
           >
             <MenuItem value="Male">Male</MenuItem>
@@ -94,16 +94,19 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
         </FormControl>
 
         <LocationFilter
-          country={filters.country}
           state={filters.state}
-          area={filters.area}
           onFilterChange={handleFilterChange}
           selectClassName={selectStyles}
-          disabledSelectClassName={selectStyles}
         />
 
         <FormControl fullWidth size="small">
-          <Select name="sort" value={filters.sort} onChange={handleFilterChange} sx={selectStyles}>
+          <Select
+            name="sort"
+            value={filters.sort}
+            onChange={handleFilterChange}
+            sx={selectStyles}
+            MenuProps={menuProps}
+          >
             <MenuItem value="Newest">Newest</MenuItem>
             {sortOptionsJson.options
               .filter(option => option !== "Newest")

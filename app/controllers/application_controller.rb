@@ -13,6 +13,5 @@ class ApplicationController < ActionController::Base
 
   def set_devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
-    Rails.logger.debug "Devise mapping: #{@devise_mapping.inspect}"
   end
 end

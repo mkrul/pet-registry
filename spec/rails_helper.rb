@@ -30,6 +30,9 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.strategy = :transaction
     Warden.test_mode!
+    Rails.logger = ActiveSupport::Logger.new(STDOUT)
+    Rails.logger.level = :debug
+    ActiveSupport::LogSubscriber.colorize_logging = true
   end
 
   config.after(:each) do
@@ -46,6 +49,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.around(:each) do |example|
+    ActiveSupport::LogSubscriber.logger.level = :debug
     DatabaseCleaner.cleaning do
       example.run
     end

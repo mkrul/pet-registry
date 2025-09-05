@@ -9,4 +9,7 @@ export interface BreedSearchProps {
   hideLabel?: boolean;
   size?: "small" | "medium";
   disableClearable?: boolean;
+  error?: boolean;
+  onEmptySpeciesClick?: () => void;
+  "data-testid"?: string;
 }

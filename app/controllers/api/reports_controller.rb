@@ -8,7 +8,7 @@ module Api
 
     def index
       page = (params[:page] || 1).to_i
-      per_page = (params[:per_page] || Report::REPORT_PAGE_LIMIT).to_i
+      per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
       result = Reports::Search.run(
         query: params[:query],
@@ -34,7 +34,8 @@ module Api
             count: reports.total_entries,
             page: reports.current_page,
             items: reports.per_page
-          }
+          },
+          message: reports.empty? ? "No reports found matching your search criteria." : nil
         }
       else
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
@@ -61,11 +62,10 @@ module Api
           country: "",
           latitude: nil,
           longitude: nil,
-          intersection: nil
+          intersection: ""
         }
       }, status: :ok
     rescue StandardError => e
-      Rails.logger.error "Error in new report: #{e.message}\n#{e.backtrace.join("\n")}"
       render json: { error: "Failed to initialize new report", details: e.message }, status: :internal_server_error
     end
 
@@ -102,7 +102,6 @@ module Api
           message: "Report updated successfully"
         ), status: :ok
       else
-        Rails.logger.debug "Update failed with errors: #{outcome.errors.full_messages}"
         render json: {
           errors: outcome.errors.full_messages,
           message: outcome.errors.full_messages.join(", ")
@@ -140,7 +139,7 @@ module Api
     private
 
     def create_params
-      params.permit(
+      processed_params = params.permit(
         :title,
         :name,
         :description,
@@ -158,13 +157,13 @@ module Api
         :country,
         :latitude,
         :longitude,
-        :intersection
+        :intersection,
+        :altered
       ).merge(report: @report)
     end
 
     def update_params
-      params.permit(
-        :id,
+      processed_params = params.permit(
         :title,
         :description,
         :name,
@@ -183,8 +182,33 @@ module Api
         :latitude,
         :longitude,
         :status,
-        :intersection
+        :intersection,
+        :altered
       ).merge(report: @report)
+    end
+
+    def report_params
+      params.permit(
+        :title,
+        :description,
+        :name,
+        :gender,
+        :species,
+        :breed_1,
+        :breed_2,
+        :color_1,
+        :color_2,
+        :color_3,
+        :microchip_id,
+        :area,
+        :state,
+        :country,
+        :latitude,
+        :longitude,
+        :intersection,
+        :image,
+        :altered
+      )
     end
 
   end

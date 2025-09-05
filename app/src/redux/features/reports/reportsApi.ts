@@ -1,12 +1,13 @@
 import { transformToCamelCase } from "../../../lib/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { ReportProps } from "../../../types/Report";
-import { PaginationProps } from "../../../types/common/Pagination";
 import {
   UpdateReportResponse,
-  PaginationPropsQuery,
-  SubmitResponse
+  SubmitResponse,
+  ReportsResponse
 } from "../../../types/redux/features/reports/ReportsApi";
+import { getStateOptions } from "../../../lib/reports/stateList";
+import { PaginationPropsQuery } from "../../../types/common/Pagination";
 
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
@@ -19,44 +20,22 @@ export const reportsApi = createApi({
     getReport: build.query<ReportProps, number>({
       query: id => `reports/${id}`,
       transformResponse: (response: ReportProps) => transformToCamelCase(response),
-      providesTags: (result, error, id) => [{ type: "Reports", id: id }],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      providesTags: (result, error, id) => [{ type: "Reports", id: id }]
     }),
     getStates: build.query<string[], string>({
-      query: (country: string) => ({
-        url: `filters/states`,
-        params: { country }
-      }),
-      transformResponse: (response: { states: string[] }) => response.states,
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      queryFn: () => {
+        const states = getStateOptions();
+        return { data: states };
+      }
     }),
     getCities: build.query<string[], { country: string; state: string }>({
       query: ({ country, state }) => ({
         url: `filters/cities`,
         params: { country, state }
       }),
-      transformResponse: (response: { cities: string[] }) => response.cities,
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      transformResponse: (response: { cities: string[] }) => response.cities
     }),
-    getReports: build.query<
-      { data: ReportProps[]; pagination: PaginationProps },
-      PaginationPropsQuery
-    >({
+    getReports: build.query<ReportsResponse, PaginationPropsQuery>({
       query: params => {
         const queryParams: Record<string, string> = {
           page: params.page?.toString() || "1",
@@ -106,11 +85,10 @@ export const reportsApi = createApi({
         const serialized = JSON.stringify(queryArgs);
         return serialized;
       },
-      transformResponse: (response: { data: ReportProps[]; pagination: PaginationProps }) => {
+      transformResponse: (response: ReportsResponse) => {
         const reports = response.data.map(report => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);
-        const transformed = { data: reports, pagination };
-        return transformed;
+        return { data: reports, pagination, message: response.message };
       },
       keepUnusedDataFor: 30,
       providesTags: result =>
@@ -119,13 +97,7 @@ export const reportsApi = createApi({
               ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
               { type: "Reports", id: "LIST" }
             ]
-          : [{ type: "Reports", id: "LIST" }],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+          : [{ type: "Reports", id: "LIST" }]
     }),
     updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
       query: ({ id, data }) => ({
@@ -133,21 +105,10 @@ export const reportsApi = createApi({
         method: "PUT",
         body: data
       }),
-      transformResponse: (response: { message: string; report: ReportProps }) => ({
-        message: response.message,
-        report: transformToCamelCase(response.report)
-      }),
       invalidatesTags: (result, error, { id }) => [
         { type: "Reports", id },
-        "Reports",
         { type: "Reports", id: "LIST" }
-      ],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      ]
     }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
@@ -155,41 +116,26 @@ export const reportsApi = createApi({
         method: "POST",
         body: formData
       }),
-      transformResponse: (response: { message: string; id: number } & ReportProps) => ({
+      transformResponse: (
+        response: { message: string; id: number } & ReportProps
+      ): SubmitResponse => ({
         message: response.message,
         report: transformToCamelCase(response),
-        id: response.id
+        id: response.id,
+        data: transformToCamelCase(response)
       }),
-      invalidatesTags: ["Reports"],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      invalidatesTags: ["Reports"]
     }),
     getNewReport: build.query<ReportProps, void>({
       query: () => "reports/new",
-      providesTags: ["Reports"],
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      providesTags: ["Reports"]
     }),
     getBreeds: build.query<string[], string>({
       query: (species: string) => ({
         url: `filters/breeds`,
         params: { species }
       }),
-      transformResponse: (response: { breeds: string[] }) => response.breeds,
-      transformErrorResponse: (response: { status: number; data: any }) => ({
-        status: response.status,
-        data: {
-          message: response.data?.message
-        }
-      })
+      transformResponse: (response: { breeds: string[] }) => response.breeds
     })
   })
 });

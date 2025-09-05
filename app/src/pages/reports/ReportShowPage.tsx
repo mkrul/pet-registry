@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../redux/features/reports/reportsApi";
-import ShowReportFormContainer from "../../components/reports/show/ShowReportFormContainer";
+import ShowReportFormContainer from "../../components/reports/forms/ShowReportFormContainer";
 import Spinner from "../../components/common/Spinner";
 import { NotificationState, NotificationType } from "../../types/common/Notification";
 import { useDispatch } from "react-redux";

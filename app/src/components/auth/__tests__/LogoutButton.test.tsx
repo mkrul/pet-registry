@@ -9,12 +9,10 @@ import { Reducer } from "@reduxjs/toolkit";
 const mockLogoutMutation = vi.fn();
 const mockDispatch = vi.fn();
 
-// Mock the authApiSlice module
 vi.mock("../../../redux/features/auth/authApiSlice", () => ({
   useLogoutMutation: () => [mockLogoutMutation]
 }));
 
-// Mock redux hooks
 vi.mock("../../../redux/hooks", () => ({
   useAppDispatch: () => mockDispatch
 }));
@@ -56,7 +54,7 @@ describe("LogoutButton", () => {
     await fireEvent.click(button);
 
     expect(mockLogoutMutation).toHaveBeenCalled();
-    expect(mockDispatch).toHaveBeenCalledWith(expect.any(Object)); // clearUser action
+    expect(mockDispatch).toHaveBeenCalledWith(expect.any(Object));
     expect(mockOnCompleted).toHaveBeenCalled();
   });
 
@@ -73,7 +71,7 @@ describe("LogoutButton", () => {
     await fireEvent.click(button);
 
     expect(mockLogoutMutation).toHaveBeenCalled();
-    expect(mockDispatch).toHaveBeenCalledWith(expect.any(Object)); // clearUser action
+    expect(mockDispatch).toHaveBeenCalledWith(expect.any(Object));
     expect(mockOnCompleted).toHaveBeenCalled();
   });
 

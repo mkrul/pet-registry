@@ -1,7 +1,11 @@
+import { useAppSelector } from "../../redux/hooks";
 import NavLink from "../common/NavLink";
 
 const Footer = () => {
+  const isPageReady = useAppSelector(state => state.loading.isPageReady);
   const currentYear = new Date().getFullYear();
+
+  if (!isPageReady) return null;
 
   return (
     <div className="bg-base-200 py-6" role="contentinfo" data-testid="footer">

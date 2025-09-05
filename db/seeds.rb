@@ -24,7 +24,7 @@ report01 = CreateReport.new.call(
   name: 'Phantom',
   status: 'active',
   species: 'dog',
-  gender: 'Male (neutered)',
+  gender: 'Male',
   breed_1: 'Mixed Breed',
   breed_2: nil,
   color_1: 'gray',
@@ -38,7 +38,8 @@ report01 = CreateReport.new.call(
   country: 'United States',
   latitude: 33.428863,
   longitude: -94.030952,
-  intersection: 'East 5th Street at Hazel Street'
+  intersection: 'East 5th Street at Hazel Street',
+  altered: 1
 )
 bar.increment!
 
@@ -48,7 +49,7 @@ report02 = CreateReport.new.call(
   name: 'Buddy',
   status: 'active',
   species: 'dog',
-  gender: 'Male (neutered)',
+  gender: 'Male',
   breed_1: 'Beagle',
   breed_2: 'Mixed Breed',
   color_1: 'brown',
@@ -62,7 +63,8 @@ report02 = CreateReport.new.call(
   country: 'United States',
   latitude: 41.910517,
   longitude: -74.06064,
-  intersection: 'Joys Lane at Hook Street'
+  intersection: 'Joys Lane at Hook Street',
+  altered: 0
 )
 bar.increment!
 
@@ -96,7 +98,7 @@ report04 = CreateReport.new.call(
   name: nil,
   status: 'active',
   species: 'dog',
-  gender: 'Male (neutered)',
+  gender: 'Male',
   breed_1: 'Golden Retriever',
   breed_2: nil,
   color_1: 'yellow',
@@ -134,7 +136,8 @@ report05 = CreateReport.new.call(
   country: 'United States',
   latitude: 37.089692,
   longitude: -84.591293,
-  intersection: 'Jarvis Avenue / KY 769 at Vermillion Avenue'
+  intersection: 'Jarvis Avenue / KY 769 at Vermillion Avenue',
+  altered: 1
 )
 bar.increment!
 
@@ -144,7 +147,7 @@ report06 = CreateReport.new.call(
   name: 'Freckles',
   status: 'active',
   species: 'dog',
-  gender: 'Male (intact)',
+  gender: 'Male',
   breed_1: 'American Bulldog',
   breed_2: 'Dalmatian',
   color_1: 'white',
@@ -240,7 +243,7 @@ report10 = CreateReport.new.call(
   name: 'Oreo',
   status: 'active',
   species: 'cat',
-  gender: 'Female (spayed)',
+  gender: 'Female',
   breed_1: 'Mixed Breed',
   breed_2: nil,
   color_1: 'black',
@@ -336,7 +339,7 @@ report14 = CreateReport.new.call(
   name: 'Molly',
   status: 'active',
   species: 'dog',
-  gender: 'Female (spayed)',
+  gender: 'Female',
   breed_1: 'Scottish Terrier',
   breed_2: 'Mixed Breed',
   color_1: 'black',
@@ -360,7 +363,7 @@ report15 = CreateReport.new.call(
   name: 'Tiger',
   status: 'active',
   species: 'dog',
-  gender: 'Male (neutered)',
+  gender: 'Male',
   breed_1: 'Greyhound',
   breed_2: 'Mixed Breed',
   color_1: 'brindle',
@@ -408,7 +411,7 @@ report17 = CreateReport.new.call(
   name: 'Mauly',
   status: 'active',
   species: 'dog',
-  gender: 'Female (intact)',
+  gender: 'Female',
   breed_1: 'American Pit Bull Terrier',
   breed_2: 'Mixed Breed',
   color_1: 'gray',
@@ -456,7 +459,7 @@ report19 = CreateReport.new.call(
   name: 'Orion',
   status: 'active',
   species: 'dog',
-  gender: 'Male (intact)',
+  gender: 'Male',
   breed_1: 'American Pit Bull Terrier',
   breed_2: 'American Bully',
   color_1: 'white',

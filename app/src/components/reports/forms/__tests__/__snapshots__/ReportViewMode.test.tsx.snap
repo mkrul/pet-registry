@@ -1,0 +1,244 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ViewReportForm > Content Display > renders basic report information 1`] = `
+<div>
+  <div
+    class="space-y-6"
+  >
+    <div
+      class="flex justify-end mb-4 gap-2"
+    >
+      <button
+        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+        type="button"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-pencil mr-2"
+          data-icon="pencil"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"
+            fill="currentColor"
+          />
+        </svg>
+        Edit
+      </button>
+      <button
+        class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+        type="button"
+      >
+        Back
+      </button>
+    </div>
+    <h2
+      class="text-2xl font-semibold text-gray-900"
+    >
+      Test Report
+    </h2>
+    <div
+      class="space-y-2"
+    >
+      <div
+        class="mt-1 relative"
+      >
+        <div
+          class="absolute inset-0 flex items-center justify-center bg-gray-50 mb-4 mt-4"
+        >
+          <div
+            data-testid="spinner"
+          >
+            Loading...
+          </div>
+        </div>
+        <img
+          alt="Test Report"
+          class="w-full rounded-lg shadow-sm"
+          src="/test-image.jpg"
+        />
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Description:
+      </label>
+      <p
+        class="text-gray-500 whitespace-pre-wrap"
+      >
+        Test Description
+      </p>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Name:
+      </label>
+      <p
+        class="text-md text-gray-500 mb-4"
+      >
+        Max
+      </p>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Species:
+      </label>
+      <p
+        class="text-md text-gray-500 mb-4"
+      >
+        Dog
+      </p>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Breed(s):
+      </label>
+      <div
+        class="space-y-1"
+      >
+        <p
+          class="text-md text-gray-500"
+        >
+          Labrador
+        </p>
+        <p
+          class="text-md text-gray-500"
+        >
+          Golden Retriever
+        </p>
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Gender:
+      </label>
+      <p
+        class="text-md text-gray-500 mb-4"
+      >
+        Male
+      </p>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Microchip ID:
+      </label>
+      <p
+        class="text-md text-gray-500 mb-4"
+      >
+        123456
+      </p>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-2"
+      >
+        Colors:
+      </label>
+      <div
+        class="space-y-1"
+      >
+        <p
+          class="text-md text-gray-500"
+        >
+          Black
+        </p>
+        <p
+          class="text-md text-gray-500"
+        >
+          Brown
+        </p>
+        <p
+          class="text-md text-gray-500"
+        >
+          White
+        </p>
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <label
+        class="text-lg font-medium text-gray-900 mb-4"
+      >
+        Location:
+      </label>
+      <p
+        class="text-gray-500 mt-2"
+      >
+        Test Area, Test State, Test Country
+      </p>
+      <div
+        class="mt-1"
+      >
+        <div
+          data-testid="map"
+        >
+          Map Component
+        </div>
+      </div>
+    </div>
+    <div
+      class="space-y-2"
+    >
+      <div
+        class="flex gap-8"
+      >
+        <div>
+          <label
+            class="text-lg font-medium text-gray-900 mb-2"
+          >
+            Posted at:
+          </label>
+          <p
+            class="text-md text-gray-500 mb-4"
+          >
+            12/31/2022, 7:00 PM
+          </p>
+        </div>
+        <div>
+          <label
+            class="text-lg font-medium text-gray-900 mb-2"
+          >
+            Updated at:
+          </label>
+          <p
+            class="text-md text-gray-500 mb-4"
+          >
+            12/31/2022, 7:00 PM
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

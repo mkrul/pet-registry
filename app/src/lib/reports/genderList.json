@@ -1,10 +1,6 @@
 {
   "options": [
-    "Male (intact)",
-    "Female (intact)",
-    "Male (neutered)",
-    "Female (spayed)",
-    "Female",
-    "Male"
+    "Male",
+    "Female"
   ]
 }

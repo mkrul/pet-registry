@@ -85,6 +85,4 @@ describe("ReportCard", () => {
       expect(screen.queryByText("UPDATED")).not.toBeInTheDocument();
     });
   });
-
-  // Add other ReportCard tests as needed...
 });

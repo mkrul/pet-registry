@@ -1,0 +1,77 @@
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import SearchContainer from "./SearchContainer";
+import { FiltersProps } from "../../types/common/Search";
+
+interface SearchTabProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  onSearchComplete: (query: string, page: number, filters: FiltersProps) => void;
+}
+
+const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComplete }) => {
+  const [hasBeenClicked, setHasBeenClicked] = useState(false);
+
+  const handleClick = () => {
+    if (!hasBeenClicked) {
+      setHasBeenClicked(true);
+    }
+    setIsOpen(!isOpen);
+  };
+
+  const wrappedOnSearchComplete = (query: string, page: number, filters: FiltersProps) => {
+    onSearchComplete(query, page, filters);
+    if (query !== "") {
+      setIsOpen(false);
+    }
+  };
+
+  return (
+    <div>
+      <button
+        onClick={handleClick}
+        className={`fixed bottom-6 md:bottom-10 right-0 z-50 ${
+          isOpen ? "bg-gray-500" : "bg-blue-600"
+        } transition-colors duration-300 text-white px-4 py-2 md:px-4 md:py-2.5 rounded-l-lg shadow-lg text-sm md:text-sm lg:text-base 2xl:text-lg ${
+          !hasBeenClicked ? "animate-glow-pulse" : ""
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 md:h-5 md:w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          {isOpen ? "Close" : "Search"}
+        </div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween" }}
+            className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 shadow-lg"
+          >
+            <div className="p-4 pt-16 flex flex-col h-full overflow-y-auto">
+              <SearchContainer onSearchComplete={wrappedOnSearchComplete} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default SearchTab;

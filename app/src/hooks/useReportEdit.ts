@@ -4,7 +4,6 @@ import { getColorOptions } from "../lib/reports/colorList";
 import { getBreedsBySpecies } from "../lib/reports/breedList";
 import { getGenderOptions } from "../lib/reports/genderList";
 import { getSpeciesOptions } from "../lib/reports/speciesList";
-import { validateReportForm } from "../services/validation/ReportFormValidation";
 import { ReportProps } from "../types/Report";
 import { transformToSnakeCase } from "../lib/apiHelpers";
 import { SelectChangeEvent } from "@mui/material";
@@ -30,7 +29,7 @@ export const useReportEdit = (report: ReportProps) => {
 
   const handleInputChange = (
     e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLInputElement>
       | SelectChangeEvent
       | {
           target: { name: string; value: string | null };
@@ -41,7 +40,6 @@ export const useReportEdit = (report: ReportProps) => {
     setFormData(prev => {
       const newFormData = { ...prev };
 
-      // Handle color-specific logic
       if (name.startsWith("color")) {
         if (value) {
           if (name === "color1") {
@@ -62,15 +60,7 @@ export const useReportEdit = (report: ReportProps) => {
         }
       }
 
-      // Handle species change - reset breeds if species changes
-      if (name === "species") {
-        newFormData.breed1 = "";
-        newFormData.breed2 = null;
-        setShowBreed2(false);
-      }
-
-      // Update the field value
-      (newFormData as any)[name] = value;
+      newFormData[name] = value;
       return newFormData;
     });
   };
@@ -147,12 +137,6 @@ export const useReportEdit = (report: ReportProps) => {
     e.preventDefault();
     setIsSaving(true);
 
-    const validationError = validateReportForm(formData, newImageFile);
-    if (validationError) {
-      setIsSaving(false);
-      return { error: validationError as string };
-    }
-
     const formDataToSend = new FormData();
     const snakeCaseData = transformToSnakeCase(formData);
 
@@ -184,8 +168,11 @@ export const useReportEdit = (report: ReportProps) => {
     isSaving,
     imageSrc,
     showBreed2,
+    setShowBreed2,
     showColor2,
     showColor3,
+    setShowColor2,
+    setShowColor3,
     speciesOptions,
     breedOptions,
     colorOptions,

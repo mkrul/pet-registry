@@ -1,6 +1,6 @@
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
-             :color_1, :color_2, :color_3, :name, :gender, :image,
+             :color_1, :color_2, :color_3, :name, :gender, :image, :altered,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
              :area, :state, :country, :latitude, :longitude, :intersection
@@ -9,6 +9,10 @@ class ReportSerializer < ActiveModel::Serializer
     data = super
     data.transform_keys! { |key| key.to_s.camelize(:lower) }
     data
+  end
+
+  def altered
+    object.altered
   end
 
   def species
@@ -28,7 +32,7 @@ class ReportSerializer < ActiveModel::Serializer
   end
 
   def gender
-    object.gender&.capitalize
+    object.gender&.titleize
   end
 
   def image
@@ -68,26 +72,18 @@ class ReportSerializer < ActiveModel::Serializer
 
   def recently_created
     return false unless object.created_at >= 1.hour.ago
-
-    time_difference = (object.updated_at.to_i - object.created_at.to_i).abs
-    return false if time_difference > 5
-
+    return false if object.updated_at > object.created_at + 10.seconds
     true
   end
 
   def recently_updated
-    time_since_creation = Time.current - object.created_at
-    time_between_update_and_creation = (object.updated_at.to_i - object.created_at.to_i).abs
+    return false if recently_created
+    return false if Time.current - object.created_at <= 1.hour
 
-    if time_since_creation <= 24.hours && time_between_update_and_creation <= 5
-      return false
-    end
+    time_between_update_and_creation = object.updated_at - object.created_at
+    return true if time_between_update_and_creation > 5.seconds && object.updated_at >= 24.hours.ago
 
-    if time_since_creation <= 24.hours && time_between_update_and_creation > 5
-      return true
-    end
-
-    object.updated_at >= 24.hours.ago
+    false
   end
 
   def intersection

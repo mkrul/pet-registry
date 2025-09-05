@@ -19,6 +19,7 @@ export interface ReportProps {
   color2: string | null;
   color3: string | null;
   gender: string | null;
+  altered: 1 | 0 | null;
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -54,6 +55,7 @@ export interface ReportPropsForm {
   color2: string | null;
   color3: string | null;
   gender: string | null;
+  altered: 1 | 0 | null;
   microchipId: string | null;
   image: ImageProps;
   area: string | null;
@@ -85,7 +87,7 @@ export interface ReportsGridProps {
   currentQuery: string;
 }
 
-export interface EditReportFormProps {
+export interface EditReportFormFormProps {
   report: ReportProps;
   errors?: string[];
 }
@@ -95,14 +97,9 @@ export interface UpdateReportResponse {
   report: ReportProps;
 }
 
-export interface ReportEditModeProps {
+export interface EditReportFormProps {
   formData: ReportPropsForm;
-  handleInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-      | { target: { name: string; value: string | null } }
-  ) => void;
+  handleInputChange: (e: FormInputEvent) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSaveChanges: (e: React.FormEvent) => void;
   handleCancelChanges: () => void;
@@ -125,9 +122,12 @@ export interface ReportEditModeProps {
   getFilteredColorOptions: (excludeColors: string[]) => string[];
   genderOptions: string[];
   VIEW_ZOOM_LEVEL: number;
+  setShowBreed2: (show: boolean) => void;
+  setShowColor2: (show: boolean) => void;
+  setShowColor3: (show: boolean) => void;
 }
 
-export interface ReportViewModeProps {
+export interface ViewReportFormProps {
   report: ReportProps;
   onEditClick: () => void;
   onBackClick: () => void;
@@ -145,56 +145,63 @@ export interface ShowReportFormContainerProps {
 
 export interface BasicInfoFieldsProps {
   formData: ReportPropsForm;
-  onInputChange?: (
+  onInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
   ) => void;
   readOnly?: boolean;
+  error?: string;
+  descriptionError?: string;
 }
 
 export interface ColorFieldsProps {
   formData: ReportPropsForm;
   showColor2: boolean;
   showColor3: boolean;
-  onInputChange: (
-    e: SelectChangeEvent | { target: { name: string; value: string | null } }
-  ) => void;
-  onShowColor2Change: (show: boolean) => void;
-  onShowColor3Change: (show: boolean) => void;
-  isLoading?: boolean;
+  setShowColor2: (show: boolean) => void;
+  setShowColor3: (show: boolean) => void;
+  onColor2Add?: () => void;
+  onColor3Add?: () => void;
+  onColor2Remove: () => void;
+  onColor3Remove: () => void;
+  isLoading: boolean;
+  handleColor1Change: (color: string) => void;
+  handleColor2Change: (color: string) => void;
+  handleColor3Change: (color: string) => void;
+  error?: string;
 }
+
+export type FormInputEvent =
+  | SelectChangeEvent
+  | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  | { target: { name: string; value: string | null } };
 
 export interface IdentificationFieldsProps {
   formData: ReportPropsForm;
   showBreed2: boolean;
-  onInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | SelectChangeEvent
-      | { target: { name: string; value: boolean | null } }
-  ) => void;
-  onBreedChange: (breed: string) => void;
-  onBreed2Change: (breed: string) => void;
-  onSpeciesChange: (species: Species) => void;
-  onShowBreed2Change: (show: boolean) => void;
-  isLoading?: boolean;
+  onInputChange: (e: FormInputEvent) => void;
+  setShowBreed2: (show: boolean) => void;
+  onBreed2Remove: () => void;
+  isLoading: boolean;
+  error: string;
+  breedError: string;
+  alteredError: string;
 }
 
-export interface LocationDisplayProps {
+export interface LocationData {
+  latitude: number;
+  longitude: number;
   area: string;
   state: string;
   country: string;
+  intersection: string;
+  error?: string;
 }
 
-export interface ReportLocationFilterProps {
-  onLocationSelect: (location: MapLocation) => void;
-  initialLocation?: {
-    latitude: number | null;
-    longitude: number | null;
-    area?: string;
-    state?: string;
-    country?: string;
-    intersection?: string | null;
-  };
+export interface LocationSelectProps {
+  onLocationSelect: (location: LocationData) => void;
+  initialLocation?: Partial<LocationData>;
+  isLoading?: boolean;
+  error?: string;
 }
 
 export interface Report {
@@ -222,4 +229,13 @@ export interface Report {
 export interface ReportResponse {
   report: ReportProps;
   message: string;
+}
+
+export interface ImageUploadProps {
+  onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  preview: string | null;
+  disabled?: boolean;
+  onImageLoad?: () => void;
+  onImageError?: () => void;
+  error?: string;
 }

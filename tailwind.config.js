@@ -17,7 +17,12 @@ module.exports = {
     './app/src/stylesheets/*.css',
   ],
   daisyui: {
-    themes: ["nord"],
+    themes: [{
+      nord: {
+        ...require("daisyui/src/theming/themes")["nord"],
+        "base-100": "#f5f5f5",
+      }
+    }],
   },
   theme: {
     colors: {
@@ -33,11 +38,12 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.purple,
       pink: colors.pink,
+      page: '#f5f5f5',
     },
     screens: {
       'xs': '480px',
       'sm': '640px',
-      'md': '750px',
+      'md': '850px',
       'lg': '1080px',
       'xl': '1280px',
       '2xl': '1400px',
@@ -65,6 +71,9 @@ module.exports = {
       marginTop: {
         '6rem': '6rem',
       },
+      marginBottom: {
+        '3px': '3px',
+      },
       maxWidth: {
         'fit-content': 'fit-content',
         '20rem': '20rem',
@@ -80,6 +89,7 @@ module.exports = {
         '9rem': '9rem',
         '10rem': '10rem',
         '22rem': '22rem',
+        '27rem': '27rem',
         '30rem': '35rem',
         '40rem': '40rem',
         '50rem': '50rem',
@@ -93,6 +103,19 @@ module.exports = {
       minHeight: {
         '60rem': '60rem',
       },
+      keyframes: {
+        'glow-pulse': {
+          '0%': {
+            'box-shadow': '0 0 0 0 rgba(37, 99, 235, 0.6)'
+          },
+          '100%': {
+            'box-shadow': '0 0 0 12px rgba(37, 99, 235, 0)'
+          }
+        }
+      },
+      animation: {
+        'glow-pulse': 'glow-pulse 1.5s ease-out infinite'
+      }
     },
   },
   corePlugins: {

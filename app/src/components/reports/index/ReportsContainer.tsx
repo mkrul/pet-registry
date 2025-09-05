@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Spinner from "../../common/Spinner";
 import { NotificationType } from "../../../types/common/Notification";
 import Notification from "../../common/Notification";
 import { useReportsData } from "../../../hooks/useReportsData";
 import ReportsGrid from "./ReportsGrid";
-import Pagination from "../../common/Pagination";
-import { ReportsContainerProps } from "../../../types/Report";
+import { FiltersProps } from "../../../types/common/Search";
+
+interface ReportsContainerProps {
+  query: string;
+  filters: FiltersProps;
+  page: number;
+  onPageChange: (page: number) => void;
+}
 
 const ReportsContainer: React.FC<ReportsContainerProps> = ({
   query,
@@ -13,43 +19,27 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   page,
   onPageChange
 }) => {
-  const { reports, data, isLoading, error, notification, setNotification, refetch } =
-    useReportsData(query, filters, page);
+  const { reports, isLoading, error } = useReportsData(query, filters, page);
 
-  // Force refetch when component mounts
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spinner />
+      </div>
+    );
+  }
 
-  if (isLoading) return <Spinner />;
-  if (error)
+  if (error) {
     return (
       <Notification
         type={NotificationType.ERROR}
-        message={"An error occurred while loading reports"}
+        message="An error occurred while loading reports"
         onClose={() => {}}
       />
     );
+  }
 
-  return (
-    <div>
-      {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
-      <ReportsGrid reports={reports} currentPage={page} currentQuery={query} />
-      {data?.pagination && (
-        <Pagination
-          currentPage={page}
-          totalPages={data.pagination.pages}
-          onPageChange={onPageChange}
-        />
-      )}
-    </div>
-  );
+  return <ReportsGrid reports={reports} currentPage={page} currentQuery={query} />;
 };
 
 export default ReportsContainer;

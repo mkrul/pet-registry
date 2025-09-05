@@ -7,14 +7,19 @@ import Footer from "../common/Footer";
 import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../../pages/auth/LoginPage";
 import SignUpPage from "../../pages/auth/SignUpPage";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import Notification from "../common/Notification";
+import { setNotification } from "../../redux/features/notifications/notificationsSlice";
+import ComponentLoader from "../common/ComponentLoader";
+import { useMemo } from "react";
 
 const AppRouter = () => {
   const user = useAppSelector(state => state.auth.user);
+  const notification = useAppSelector(state => state.notifications.notification);
+  const dispatch = useAppDispatch();
 
-  return (
-    <div>
-      <NavBar />
+  const routesComponent = useMemo(
+    () => (
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <LoginPage />} />
@@ -30,6 +35,27 @@ const AppRouter = () => {
         {/* Fallback Route */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+    ),
+    [user]
+  );
+
+  return (
+    <div className="min-h-screen bg-page">
+      <NavBar />
+      {notification && (
+        <div className="w-full flex justify-center">
+          <div className="w-full max-w-4xl mx-4 mt-4">
+            <Notification
+              type={notification.type}
+              message={notification.message}
+              onClose={() => dispatch(setNotification(null))}
+            />
+          </div>
+        </div>
+      )}
+      <div className="flex-grow bg-page">
+        <ComponentLoader>{routesComponent}</ComponentLoader>
+      </div>
       <Footer />
     </div>
   );

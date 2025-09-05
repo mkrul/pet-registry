@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_19_140319) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_08_085843) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -70,6 +70,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_19_140319) do
     t.float "latitude"
     t.float "longitude"
     t.string "intersection"
+    t.integer "altered"
+    t.index ["archived_at"], name: "index_reports_on_archived_at"
+    t.index ["country", "state"], name: "index_reports_on_country_and_state"
+    t.index ["created_at"], name: "index_reports_on_created_at"
+    t.index ["species"], name: "index_reports_on_species"
+    t.index ["status"], name: "index_reports_on_status"
+    t.index ["updated_at"], name: "index_reports_on_updated_at"
   end
 
   create_table "users", force: :cascade do |t|

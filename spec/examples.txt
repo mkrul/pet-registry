@@ -1,23 +1,31 @@
-example_id                                            | status | run_time        |
------------------------------------------------------ | ------ | --------------- |
-./spec/requests/api/auth/registrations_spec.rb[1:1:1] | passed | 0.24959 seconds |
-./spec/requests/api/auth/registrations_spec.rb[1:1:2] | passed | 0.21838 seconds |
-./spec/requests/api/auth/registrations_spec.rb[1:1:3] | passed | 0.54683 seconds |
-./spec/requests/api/auth/registrations_spec.rb[1:1:4] | passed | 0.24259 seconds |
-./spec/requests/api/auth/registrations_spec.rb[1:1:5] | passed | 0.24914 seconds |
-./spec/requests/api/auth/registrations_spec.rb[1:1:6] | passed | 0.02733 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:1:1]      | passed | 0.39883 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:1:2]      | passed | 0.42483 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:1:3]      | passed | 0.00285 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:1:4]      | passed | 0.19921 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:2:1]      | passed | 0.212 seconds   |
-./spec/requests/api/auth/sessions_spec.rb[1:2:2]      | passed | 0.23092 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:2:3]      | passed | 0.00531 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:2:4]      | passed | 0.31973 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:3:1]      | passed | 0.20965 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:3:2]      | passed | 0.00356 seconds |
-./spec/requests/api/auth/sessions_spec.rb[1:3:3]      | passed | 0.21574 seconds |
-./spec/requests/home_spec.rb[1:1:1]                   | passed | 0.02515 seconds |
-./spec/requests/home_spec.rb[1:1:2]                   | passed | 0.10803 seconds |
-./spec/requests/home_spec.rb[1:1:3]                   | passed | 0.27226 seconds |
-./spec/requests/home_spec.rb[1:1:4]                   | passed | 0.04294 seconds |
+example_id                                                | status | run_time        |
+--------------------------------------------------------- | ------ | --------------- |
+./spec/requests/api/sessions_controller_spec.rb[1:1:1:1]  | passed | 0.39778 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:1:2]  | passed | 0.40823 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:2:1]  | passed | 0.43363 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:2:2]  | passed | 0.17857 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:3:1]  | passed | 0.42398 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:3:2]  | passed | 0.00269 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:4:1]  | passed | 0.48193 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:5:1]  | passed | 0.4033 seconds  |
+./spec/requests/api/sessions_controller_spec.rb[1:1:6:1]  | passed | 0.00454 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:6:2]  | passed | 0.00519 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:7:1]  | passed | 0.40697 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:8:1]  | passed | 0.00254 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:9:1]  | passed | 0.40324 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:1:10:1] | passed | 0.47227 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:1:1]  | passed | 0.41387 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:2:1]  | passed | 0.40385 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:3:1]  | passed | 0.00416 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:4:1]  | passed | 0.41341 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:4:2]  | passed | 0.42532 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:4:3]  | passed | 0.41561 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:5:1]  | passed | 0.83708 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:2:6:1]  | passed | 0.00487 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:3:1:1]  | passed | 0.41925 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:3:1:2]  | passed | 0.40727 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:3:2:1]  | passed | 0.0031 seconds  |
+./spec/requests/api/sessions_controller_spec.rb[1:3:3:1]  | passed | 0.41049 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:3:4:1]  | passed | 0.20978 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:3:5:1]  | passed | 0.00336 seconds |
+./spec/requests/api/sessions_controller_spec.rb[1:3:6:1]  | passed | 0.20205 seconds |

@@ -4,6 +4,19 @@ export interface PaginationProps {
   items: number;
   pages: number;
 }
+export interface PaginationPropsQuery {
+  page: number;
+  items: number;
+  query?: string;
+  species?: string;
+  color?: string;
+  gender?: string;
+  sort?: string;
+  country?: string;
+  state?: string;
+  area?: string;
+  breed?: string;
+}
 
 export interface PaginationPagesProps {
   currentPage: number;

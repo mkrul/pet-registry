@@ -7,9 +7,6 @@ import { NotificationState, NotificationType } from "../types/common/Notificatio
 import { FiltersProps } from "../types/common/Search";
 import environment from "../config/environment";
 
-// Add logging for debugging
-console.log("API URL:", environment.apiUrl);
-
 export const useReportsData = (query: string, filters: FiltersProps, page: number) => {
   const dispatch = useDispatch();
   const reports = useSelector((state: RootState) => state.reports.data);
@@ -23,14 +20,21 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
       ...filters
     },
     {
-      refetchOnMountOrArgChange: true
+      refetchOnMountOrArgChange: false
     }
   );
 
   useEffect(() => {
     if (data?.data) {
       dispatch(setReports(data.data));
-      console.log("Reports data loaded successfully");
+      if (data.message) {
+        setNotification({
+          type: NotificationType.INFO,
+          message: data.message
+        });
+      } else {
+        setNotification(null);
+      }
     }
   }, [data, dispatch]);
 

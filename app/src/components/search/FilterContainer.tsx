@@ -6,7 +6,6 @@ import { FilterContainerProps } from "../../types/common/Search";
 const FilterContainer: React.FC<FilterContainerProps> = ({
   initialFilters,
   onFiltersChange,
-  showFilters,
   onReset
 }) => {
   const handleFilterChange = (
@@ -14,24 +13,15 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
   ) => {
     const { name, value } = e.target;
     const updatedFilters = { ...initialFilters, [name]: value };
-
-    // If country changes, reset state and area
-    if (name === "country") {
-      updatedFilters.state = "";
-      updatedFilters.area = "";
-    }
-    // If state changes, reset area
-    if (name === "state") {
-      updatedFilters.area = "";
-    }
-
     onFiltersChange(updatedFilters);
   };
 
-  if (!showFilters) return null;
+  const handleReset = () => {
+    onReset();
+  };
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col gap-4 overflow-y-visible">
       <Filters filters={initialFilters} handleFilterChange={handleFilterChange} onReset={onReset} />
     </div>
   );

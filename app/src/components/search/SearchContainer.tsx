@@ -8,8 +8,8 @@ import { getInitialFilters, getDefaultFilters, updateSearchParams } from "../../
 const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
-  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
+  const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(false);
 
   useEffect(() => {
     const queryParam = searchParams.get("query") || "";
@@ -18,12 +18,18 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   }, [searchParams]);
 
   const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set("query", searchQuery);
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+    });
+    setSearchParams(params);
+
     updateSearchParams(searchQuery, filters);
     onSearchComplete(searchQuery, 1, filters);
   };
 
   const handleReset = () => {
-    // Clear all URL params including sort
     const currentPath = window.location.pathname;
     window.history.replaceState({}, "", currentPath);
     setSearchParams({});
@@ -33,7 +39,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     setFilters(defaultFilters);
     window.scrollTo(0, 0);
 
-    onSearchComplete("", 1, defaultFilters);
+    updateSearchParams("", defaultFilters);
   };
 
   return (
@@ -43,14 +49,35 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         setSearchQuery={setSearchQuery}
         onSearch={handleSearch}
         onReset={handleReset}
-        showFilters={showFilters}
-        setShowFilters={setShowFilters}
       />
+
+      <div className="text-sm text-gray-500 p-2 mt-2">
+        <button
+          onClick={() => setIsSearchTipsOpen(!isSearchTipsOpen)}
+          className="font-semibold text-base mb-1 flex items-center w-full"
+          aria-expanded={isSearchTipsOpen}
+          aria-controls="search-tips-content"
+        >
+          <span>Search Tips</span>
+          <span className="ml-2 text-xs">{isSearchTipsOpen ? "▼" : "▶"}</span>
+        </button>
+        <div
+          id="search-tips-content"
+          className={isSearchTipsOpen ? "block" : "hidden"}
+          aria-hidden={!isSearchTipsOpen}
+        >
+          <ul>
+            <li className="mb-1">
+              <span>🔍</span>
+              <span className="ml-1">Adding filters can improve or narrow down your search.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <FilterContainer
         initialFilters={filters}
         onFiltersChange={setFilters}
-        showFilters={showFilters}
         onReset={handleReset}
       />
     </>
