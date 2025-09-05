@@ -10,14 +10,12 @@ interface ReportsContainerProps {
   query: string;
   filters: FiltersProps;
   page: number;
-  onPageChange: (page: number) => void;
 }
 
 const ReportsContainer: React.FC<ReportsContainerProps> = ({
   query,
   filters,
   page,
-  onPageChange
 }) => {
   const { reports, isLoading, error } = useReportsData(query, filters, page);
 

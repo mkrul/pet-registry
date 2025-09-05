@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { FiltersProps } from "../types/common/Search";
-import ReportsContainer from "../components/reports/index/ReportsContainer";
+import { FiltersProps } from "../../../types/common/Search";
+import ReportsContainer from "./ReportsContainer";
 
 export interface ReportsContentProps {
   activeSearch: string;
@@ -9,22 +9,22 @@ export interface ReportsContentProps {
   handlePageChange: (page: number) => void;
 }
 
-export const useReportsContent = ({
+export const ReportsContent = ({
   activeSearch,
   currentPage,
   activeFilters,
-  handlePageChange,
+  handlePageChange
 }: ReportsContentProps) => {
   return useMemo(
     () => (
       <ReportsContainer
-        key={currentPage}
         query={activeSearch}
         filters={activeFilters}
         page={currentPage}
-        onPageChange={handlePageChange}
       />
     ),
     [currentPage, activeSearch, activeFilters, handlePageChange]
   );
 };
+
+

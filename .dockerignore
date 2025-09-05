@@ -1,0 +1,78 @@
+# Git
+.git
+.gitignore
+README.md
+documentation.md
+project.md
+
+# Documentation
+*.md
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Dependencies
+node_modules
+vendor/bundle
+
+# Logs
+*.log
+log/*
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+tmp/*
+storage/*
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment files (keep local ones, but not the docker ones)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Test files
+spec/
+test/
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Build outputs (will be regenerated)
+public/vite*
+public/assets
+app/assets/builds
+
+# Yarn/npm
+yarn-error.log
+npm-debug.log*
+
+# Rails specific
+/config/master.key
+/config/credentials/
+
+# Temporary files
+*.tmp

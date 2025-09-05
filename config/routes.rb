@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
 
+  get 'up', to: 'home#up'
+
   devise_for :users
 
   namespace :api do

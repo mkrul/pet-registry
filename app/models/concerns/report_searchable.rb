@@ -8,6 +8,12 @@ module ReportSearchable
                filterable: [:status, :species, :gender, :country, :state, :area, :color_1, :color_2, :color_3],
                suggest: [:breed_1, :breed_2],
                word_start: [:breed_1, :breed_2],
+               mappings: {
+                 properties: {
+                   created_at: { type: "date" },
+                   updated_at: { type: "date" }
+                 }
+               },
                settings: {
                  analysis: {
                    filter: {
