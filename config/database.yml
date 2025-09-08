@@ -8,11 +8,20 @@ default: &default
 
 development:
   <<: *default
-  database: pet_registry_development
+  database: <%= ENV.fetch("POSTGRES_DB") { "pet_registry_development" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "" } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
 
 test:
   <<: *default
-  database: pet_registry_test
+  database: <%= ENV.fetch("POSTGRES_TEST_DB") { "pet_registry_test" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "" } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
 
 production:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

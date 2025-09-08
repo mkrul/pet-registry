@@ -1,0 +1,160 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: pet_registry_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for Action Cable and caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # OpenSearch for search functionality
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    environment:
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node1
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "DISABLE_INSTALL_DEMO_CONFIG=true"
+      - "DISABLE_SECURITY_PLUGIN=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    ports:
+      - "19200:9200"
+      - "19600:9600"
+    logging:
+      driver: none
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Rails Application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: >
+      bash -c "
+        rm -f tmp/pids/server.pid &&
+        bundle exec rails db:prepare &&
+        if [ "$REINDEX" = "1" ]; then bundle exec rails searchkick:reindex:all --trace; fi &&
+        exec bundle exec rails server -b '0.0.0.0'
+      "
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+      - node_modules:/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
+    environment:
+      - RAILS_ENV=development
+      - POSTGRES_DB=pet_registry_development
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_TEST_DB=pet_registry_test
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/pet_registry_development
+      - REDIS_URL=redis://redis:6379/0
+      - OPENSEARCH_URL=http://opensearch:9200
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+      - EDITOR=vim
+      - VISUAL=vim
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/up || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Vite Development Server for React
+  vite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: bin/vite dev
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - "3036:3036"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - web
+
+  # CSS Build Process
+  css:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: yarn build:css --watch
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      - web
+
+  # TypeScript Type Checking
+  typescript:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: yarn ts-check
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  redis_data:
+  opensearch_data:
+  bundle_cache:
+  node_modules:
