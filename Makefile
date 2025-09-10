@@ -9,8 +9,12 @@ help: ## Show this help message
 build: ## Build all Docker images
 	docker-compose build
 
-up: ## Start all services
-	REINDEX=1 docker-compose up
+attach: ## Start all services and attach to web container
+	REINDEX=1 docker-compose up -d
+	@echo "⏳ Waiting for services to be ready..."
+	@sleep 5
+	@echo "🔗 Attaching to web container..."
+	docker-compose attach web
 
 up-d: ## Start all services in background
 	docker-compose up -d

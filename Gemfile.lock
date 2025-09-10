@@ -247,9 +247,6 @@ GEM
       method_source (~> 1.0)
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
-    pry-remote (0.1.8)
-      pry (~> 0.9)
-      slop (~> 3.0)
     psych (5.2.6)
       date
       stringio
@@ -350,7 +347,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    slop (3.6.0)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -430,7 +426,6 @@ DEPENDENCIES
   progress_bar
   pry
   pry-nav
-  pry-remote
   puma (>= 5.0)
   rack-cors (~> 2.0, >= 2.0.2)
   rails (~> 8.0.2.1)

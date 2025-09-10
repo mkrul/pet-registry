@@ -78,6 +78,7 @@ module Api
     def edit; end
 
     def create
+      debugger
       outcome = Reports::Create.run(create_params)
 
       if outcome.valid?
