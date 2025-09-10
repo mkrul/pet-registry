@@ -39,7 +39,7 @@ report01 = CreateReport.new.call(
   latitude: 33.428863,
   longitude: -94.030952,
   intersection: 'East 5th Street at Hazel Street',
-  altered: 1
+  is_altered: true
 )
 bar.increment!
 
@@ -64,7 +64,7 @@ report02 = CreateReport.new.call(
   latitude: 41.910517,
   longitude: -74.06064,
   intersection: 'Joys Lane at Hook Street',
-  altered: 0
+  is_altered: false
 )
 bar.increment!
 
@@ -137,7 +137,7 @@ report05 = CreateReport.new.call(
   latitude: 37.089692,
   longitude: -84.591293,
   intersection: 'Jarvis Avenue / KY 769 at Vermillion Avenue',
-  altered: 1
+  is_altered: true
 )
 bar.increment!
 

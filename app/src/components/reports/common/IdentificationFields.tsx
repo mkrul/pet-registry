@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   TextField,
@@ -109,7 +109,7 @@ export const IdentificationFields: React.FC<Props> = ({
             data-testid="gender-select"
             labelId="gender-label"
             id="gender"
-            value={formData.gender || ""}
+            value={formData.gender?.toLowerCase()}
             onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
             sx={commonInputStyles}
             disabled={isLoading}
@@ -136,15 +136,15 @@ export const IdentificationFields: React.FC<Props> = ({
         </label>
         <div>
           <RadioGroup
-            name="altered"
-            value={formData.altered?.toString() || ""}
+            name="isAltered"
+            value={formData.isAltered}
             onChange={e => {
               onInputChange(e);
             }}
           >
-            <FormControlLabel value="1" control={<Radio />} label="Yes" />
-            <FormControlLabel value="0" control={<Radio />} label="No" />
-            <FormControlLabel value="" control={<Radio />} label="I don't know" />
+            <FormControlLabel value={1} control={<Radio />} label="Yes" />
+            <FormControlLabel value={0} control={<Radio />} label="No" />
+            <FormControlLabel value={null} control={<Radio />} label="I don't know" />
           </RadioGroup>
           <FormFieldError error={alteredError} />
         </div>
@@ -155,7 +155,7 @@ export const IdentificationFields: React.FC<Props> = ({
           <TextField
             select
             name="species"
-            value={formData.species || ""}
+            value={formData.species?.toLowerCase()}
             onChange={handleSpeciesChange}
             variant="outlined"
             fullWidth
@@ -222,7 +222,7 @@ export const IdentificationFields: React.FC<Props> = ({
             >
               <BreedSearch
                 species={formData.species.toLowerCase() as "dog" | "cat"}
-                value={formData.breed2 || ""}
+                value={formData.breed2}
                 onChange={handleBreed2Change}
                 disabled={isLoading}
                 excludeBreeds={[formData.breed1]}

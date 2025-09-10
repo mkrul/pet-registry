@@ -22,9 +22,10 @@ module Reports
     string :microchip_id, default: nil
     string :intersection, default: nil
     file :image, default: nil
-    integer :altered, default: nil
+    boolean :is_altered, default: nil
 
     def execute
+      debugger
       Rails.logger.info("Create service inputs: #{inputs.inspect}")
       report = Report.new(inputs.merge(status: 'active'))
       Rails.logger.info("Report before save: #{report.attributes.inspect}")

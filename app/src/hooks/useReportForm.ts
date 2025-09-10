@@ -16,7 +16,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     color1: "",
     color2: null,
     color3: null,
-    altered: null,
+    isAltered: null,
     image: {
       id: "",
       url: "",

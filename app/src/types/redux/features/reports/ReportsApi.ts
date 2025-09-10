@@ -47,7 +47,7 @@ export interface ReportPropsForm {
   color1: string;
   color2: string | null;
   color3: string | null;
-  altered: 0 | 1 | null;
+  isAltered: boolean | null;
   image: {
     id: string;
     url: string;

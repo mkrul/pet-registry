@@ -11,8 +11,8 @@ class ReportSerializer < ActiveModel::Serializer
     data
   end
 
-  def altered
-    object.altered
+  def is_altered
+    object.is_altered
   end
 
   def species

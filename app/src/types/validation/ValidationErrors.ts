@@ -7,7 +7,7 @@ export interface ValidationErrors {
   color1: string;
   color2: string;
   color3: string;
-  altered: string;
+  isAltered: boolean;
   microchipId: string;
   image: string;
   location: string;

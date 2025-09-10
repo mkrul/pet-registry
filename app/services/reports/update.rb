@@ -22,7 +22,7 @@ class Reports::Update < ActiveInteraction::Base
   float :latitude, default: nil
   float :longitude, default: nil
   string :intersection, default: nil
-  integer :altered, default: nil
+  boolean :is_altered, default: nil
 
   def execute
     ActiveRecord::Base.transaction do
@@ -59,7 +59,7 @@ class Reports::Update < ActiveInteraction::Base
       latitude: latitude,
       longitude: longitude,
       intersection: intersection,
-      altered: altered
+      is_altered: is_altered
     )
   end
 

@@ -21,17 +21,7 @@ import {
   SubmitResponse,
   ValidationErrorResponse
 } from "../../../types/redux/features/reports/ReportsApi";
-import {
-  validateReportForm,
-  hasValidationErrors,
-  scrollToFirstError,
-  getInitialErrors,
-  handleLocationValidation,
-  handleReportValidationErrors,
-  getFieldFromMessage
-} from "../../../services/validation/ReportFormValidation";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { FormInputEvent } from "../../../types/forms/FormEvent";
 import { ValidationErrors } from "../../../types/validation/ValidationErrors";
 
 const NewReportForm: React.FC = () => {
@@ -61,7 +51,6 @@ const NewReportForm: React.FC = () => {
     setShowBreed2
   } = useReportForm();
 
-  const [fieldErrors, setFieldErrors] = useState(getInitialErrors());
 
   const { handleSubmit } = useReportSubmit({
     submitReport: async (data: FormData): Promise<SubmitResponse | ValidationErrorResponse> => {
@@ -70,9 +59,6 @@ const NewReportForm: React.FC = () => {
         if ("error" in response) {
           const error = response.error as FetchBaseQueryError & ErrorResponse;
           if (error?.data?.message) {
-            const field = getFieldFromMessage(error.data.message);
-            handleReportValidationErrors({ message: error.data.message }, { setFieldErrors });
-            scrollToFirstError({ [field]: error.data.message } as ValidationErrors);
             return { message: "Validation failed", id: 0 };
           }
           throw error;
@@ -100,25 +86,12 @@ const NewReportForm: React.FC = () => {
     selectedImage: File | null
   ) => {
     e.preventDefault();
-    console.log("Form submit started with data:", formData);
-    setFieldErrors(getInitialErrors());
-
-    const validationErrors = validateReportForm(formData, selectedImage);
-    console.log("Frontend validation errors:", validationErrors);
-
-    if (hasValidationErrors(validationErrors)) {
-      setFieldErrors(validationErrors);
-      scrollToFirstError(validationErrors);
-      return;
-    }
 
     onSubmit(e, formData, selectedImage);
   };
 
   const handleLocationUpdate = (location: LocationData) => {
-    if (handleLocationValidation(location, { setFieldErrors })) {
-      handleLocationSelect(location);
-    }
+    handleLocationSelect(location);
   };
 
   if (isLoadingNewReport) return <Spinner />;
@@ -147,8 +120,8 @@ const NewReportForm: React.FC = () => {
       <BasicInfoFields
         formData={formData}
         onInputChange={handleInputChange}
-        error={fieldErrors.title}
-        descriptionError={fieldErrors.description}
+        error={""}
+        descriptionError={""}
       />
 
       <IdentificationFields
@@ -158,10 +131,10 @@ const NewReportForm: React.FC = () => {
         setShowBreed2={setShowBreed2}
         onBreed2Remove={removeBreed2}
         isLoading={isLoading}
-        error={fieldErrors.species}
-        breedError={fieldErrors.breed1}
-        alteredError={fieldErrors.altered}
-        microchipError={fieldErrors.microchipId}
+        error={""}
+        breedError={""}
+        alteredError={""}
+        microchipError={""}
       />
 
       <ColorFields
@@ -178,7 +151,7 @@ const NewReportForm: React.FC = () => {
         handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
         handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
         handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
-        error={fieldErrors.color1}
+        error={""}
       />
 
       <ImageUpload
@@ -187,14 +160,14 @@ const NewReportForm: React.FC = () => {
         disabled={isLoading}
         onImageLoad={handleImageLoad}
         onImageError={handleImageError}
-        error={fieldErrors.image}
+        error={""}
       />
 
       <LocationSelect
         onLocationSelect={handleLocationUpdate}
         initialLocation={getInitialLocation()}
         isLoading={isLoading}
-        error={fieldErrors.location}
+        error={""}
       />
 
       <SubmitButton isLoading={isLoading} />
