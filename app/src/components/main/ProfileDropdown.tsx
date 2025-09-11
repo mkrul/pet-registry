@@ -81,7 +81,7 @@ const ProfileDropdown: React.FC = () => {
     <div className="flex-none gap-2">
       <div className="dropdown dropdown-end" ref={dropdownRef}>
         <button
-          className="btn btn-ghost hover:bg-blue-300 btn-circle avatar"
+          className="btn btn-ghost hover:bg-blue-300 btn-circle avatar mr-2"
           onClick={handleToggle}
           data-testid="profile-button"
         >

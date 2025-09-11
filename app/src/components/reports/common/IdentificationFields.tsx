@@ -165,7 +165,7 @@ export const IdentificationFields: React.FC<Props> = ({
             error={!!error}
           >
             {speciesOptions.map(option => (
-              <MenuItem key={option} value={option}>
+              <MenuItem key={option} value={option.toLowerCase()}>
                 {option}
               </MenuItem>
             ))}
