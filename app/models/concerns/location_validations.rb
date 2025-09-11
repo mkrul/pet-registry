@@ -2,17 +2,24 @@ module LocationValidations
   extend ActiveSupport::Concern
 
   included do
-    validates :area, presence: { message: "cannot be blank" }, if: -> { latitude.present? || longitude.present? }
-    validates :state, presence: { message: "cannot be blank" },
-            if: -> { (latitude.present? || longitude.present?) && country.downcase != "united states" || area.downcase != "washington" },
+    # Core location fields are required for all reports
+    validates :area, presence: { message: "is required" }
+    validates :country, presence: { message: "is required" }
+    validates :latitude, presence: { message: "is required" }
+    validates :longitude, presence: { message: "is required" }
+
+    # State is required unless it's Washington (special case)
+    validates :state, presence: { message: "is required" },
+            unless: -> { area&.downcase == "washington" },
             allow_blank: true
-    validates :country, presence: { message: "cannot be blank" }, if: -> { latitude.present? || longitude.present? }
+
+    # Country must be United States
     validates :country, inclusion: {
       in: ["United States"],
-      message: "must be united states"
-    }, if: -> { latitude.present? || longitude.present? }
-    validates :latitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
-    validates :longitude, presence: { message: "cannot be blank" }, if: -> { area.present? || state.present? || country.present? }
+      message: "must be United States"
+    }
+
+    # Optional field validations
     validates :intersection, length: { maximum: 100, message: "must be 100 characters or less" }, allow_blank: true
   end
 end

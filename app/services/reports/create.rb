@@ -25,9 +25,17 @@ module Reports
     boolean :is_altered, default: nil
 
     def execute
-      debugger
       Rails.logger.info("Create service inputs: #{inputs.inspect}")
-      report = Report.new(inputs.merge(status: 'active'))
+
+      # Convert string inputs to appropriate types
+      processed_inputs = inputs.to_h.dup
+      processed_inputs[:is_altered] = case inputs[:is_altered]
+                                     when 'true', '1', 1, true then true
+                                     when 'false', '0', 0, false then false
+                                     else nil
+                                     end
+
+      report = Report.new(processed_inputs.merge(status: 'active'))
       Rails.logger.info("Report before save: #{report.attributes.inspect}")
 
       unless report.save

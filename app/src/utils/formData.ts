@@ -17,10 +17,10 @@ export const createFormData = (
     description: formData.description,
     name: formData.name,
     gender: formData.gender,
-    species: formData.species.toLowerCase(),
+    species: formData.species?.toLowerCase() || "",
     breed_1: formData.breed1,
     breed_2: showBreed2 && formData.breed2 ? formData.breed2 : null,
-    color_1: formData.color1?.toLowerCase(),
+    color_1: formData.color1?.toLowerCase() || "",
     color_2: showColor2 && formData.color2 ? formData.color2.toLowerCase() : null,
     color_3: showColor3 && formData.color3 ? formData.color3.toLowerCase() : null,
     microchip_id: formData.microchipId,
@@ -34,9 +34,8 @@ export const createFormData = (
   };
 
   Object.entries(data).forEach(([key, value]) => {
-    if (value !== null && value !== undefined) {
-      formDataToSend.append(key, value.toString());
-    }
+    // Always send the value, even if it's an empty string, so validations can be triggered
+    formDataToSend.append(key, value !== null && value !== undefined ? value.toString() : "");
   });
 
   if (selectedImage) {

@@ -16,13 +16,8 @@ import Spinner from "../../common/Spinner";
 import { FormPopulateButton } from "../../common/FormPopulateButton";
 import {
   ReportPropsForm,
-  LocationData,
-  ErrorResponse,
-  SubmitResponse,
-  ValidationErrorResponse
+  LocationData
 } from "../../../types/redux/features/reports/ReportsApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { ValidationErrors } from "../../../types/validation/ValidationErrors";
 
 const NewReportForm: React.FC = () => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
@@ -53,26 +48,7 @@ const NewReportForm: React.FC = () => {
 
 
   const { handleSubmit } = useReportSubmit({
-    submitReport: async (data: FormData): Promise<SubmitResponse | ValidationErrorResponse> => {
-      try {
-        const response = await submitReport(data);
-        if ("error" in response) {
-          const error = response.error as FetchBaseQueryError & ErrorResponse;
-          if (error?.data?.message) {
-            return { message: "Validation failed", id: 0 };
-          }
-          throw error;
-        }
-        return {
-          message: "Success",
-          report: response.data,
-          id: response.data.id,
-          data: response.data
-        };
-      } catch (error) {
-        throw error;
-      }
-    },
+    submitReport,
     showBreed2,
     showColor2,
     showColor3
