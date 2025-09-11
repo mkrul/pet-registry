@@ -109,7 +109,7 @@ export const IdentificationFields: React.FC<Props> = ({
             data-testid="gender-select"
             labelId="gender-label"
             id="gender"
-            value={formData.gender?.toLowerCase()}
+            value={formData.gender || ""}
             onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
             sx={commonInputStyles}
             disabled={isLoading}
