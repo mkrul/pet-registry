@@ -5,6 +5,7 @@ module ImageValidations
     VALID_IMAGE_TYPES = %w[image/jpeg image/png image/gif].freeze
     MAX_IMAGE_SIZE = 5.megabytes
 
+    validates :image, presence: { message: "is required" }
     validate :image_size_within_limit?
     validate :validate_image_format
   end
