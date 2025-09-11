@@ -9,7 +9,7 @@ module ReportValidations
     validates :name,
       presence: { message: "cannot be blank" },
       length: { maximum: 30, message: "must be 30 characters or less" },
-      format: { with: /\A[a-zA-Z0-9\s\-]+\z/, message: "Name can only contain letters, numbers, spaces, and hyphens" },
+      format: { with: /\A[a-zA-Z0-9\s\-]+\z/, message: "can only contain letters, numbers, spaces, and hyphens" },
       allow_blank: true,
       allow_nil: true
 
@@ -32,9 +32,9 @@ module ReportValidations
       inclusion: { in: %w[dog cat], message: "must be either dog or cat" }
 
     validates :microchip_id,
-      uniqueness: { allow_nil: true, message: "ID is already registered" },
-      length: { maximum: 35, message: "ID must be 35 characters or less" },
-      format: { with: /\A[A-Za-z0-9\-]+\z/, message: "ID can only contain letters, numbers, and hyphens" },
+      uniqueness: { allow_nil: true, message: "is already registered" },
+      length: { maximum: 35, message: "must be 35 characters or less" },
+      format: { with: /\A[A-Za-z0-9\-]+\z/, message: "can only contain letters, numbers, and hyphens" },
       allow_blank: true,
       allow_nil: true
 

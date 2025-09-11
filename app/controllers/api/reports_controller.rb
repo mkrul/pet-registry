@@ -78,7 +78,7 @@ module Api
     def edit; end
 
     def create
-      debugger
+      Rails.logger.info("Create params received: #{create_params.inspect}")
       outcome = Reports::Create.run(create_params)
 
       if outcome.valid?
@@ -87,6 +87,7 @@ module Api
           message: "Report created successfully"
         ), status: :created
       else
+        Rails.logger.error("Validation failed: #{outcome.errors.full_messages}")
         render json: {
           errors: outcome.errors.full_messages,
           message: outcome.errors.full_messages.join(", ")
@@ -140,7 +141,7 @@ module Api
     private
 
     def create_params
-      processed_params = params.permit(
+      params.permit(
         :title,
         :name,
         :description,
@@ -160,7 +161,7 @@ module Api
         :longitude,
         :intersection,
         :is_altered
-      ).merge(report: @report)
+      )
     end
 
     def update_params
