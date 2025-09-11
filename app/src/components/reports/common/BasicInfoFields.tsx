@@ -22,6 +22,8 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           onChange={onInputChange}
           variant="outlined"
           fullWidth
+          multiline
+          rows={1}
           required
           disabled={readOnly}
           error={!!error}
