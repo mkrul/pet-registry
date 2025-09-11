@@ -9,6 +9,7 @@ import { MAP_ZOOM_LEVELS } from "../../../constants/map";
 import { createMapLocation } from "../../../utils/mapUtils";
 import { processAddress } from "../../../services/geocoding";
 import { FormFieldError } from "../../common/FormFieldError";
+import Tip from "../../common/Tip";
 
 interface AddressSuggestion {
   display_name: string;
@@ -142,6 +143,9 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
   return (
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Location:</label>
+      <Tip>
+        Use the map or enter the address where the animal was last seen. We'll convert this to the nearest intersection or cross street (the exact address will remain private).
+      </Tip>
       {selectedLocation && (
         <LocationDisplay
           area={selectedLocation.area}
@@ -163,8 +167,8 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
           renderInput={params => (
             <TextField
               {...params}
-              aria-label="Enter the address that the animal was last seen at"
-              placeholder="Enter the address that the animal was last seen at"
+              aria-label="Enter an address"
+              placeholder="Enter an address"
               required
               error={!!error}
               sx={{

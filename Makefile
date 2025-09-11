@@ -31,6 +31,13 @@ logs-web: ## View logs from web service
 shell: ## Access Rails container shell
 	docker-compose exec web bash
 
+restartweb: ## Restart web container and attach to it
+	docker-compose restart web
+	@echo "⏳ Waiting for web container to be ready..."
+	@sleep 3
+	@echo "🔗 Attaching to web container..."
+	docker-compose attach web
+
 console: ## Access Rails console
 	docker-compose exec web bundle exec rails console
 
