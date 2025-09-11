@@ -19,10 +19,11 @@ export const useFormSubmission = (handleSubmit: any) => {
     } catch (error) {
       const validationError = error as ValidationError;
 
-      // If it's a validation error, we don't need to do anything here
-      // as the notification is already handled in useReportSubmit
+      // If it's a validation error, scroll to top to show the notification
       if (validationError.validationErrors) {
         console.log("Validation errors:", validationError.validationErrors);
+        // Scroll to top to ensure user sees the error notification
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
 
