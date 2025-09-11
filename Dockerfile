@@ -33,7 +33,7 @@ FROM base AS development
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
     postgresql-client \
-    vim-tiny \
+    vim \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy dependency files

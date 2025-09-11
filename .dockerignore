@@ -70,9 +70,5 @@ app/assets/builds
 yarn-error.log
 npm-debug.log*
 
-# Rails specific
-/config/master.key
-/config/credentials/
-
 # Temporary files
 *.tmp

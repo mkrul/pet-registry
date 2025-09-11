@@ -30,7 +30,7 @@ export const createFormData = (
     latitude: formData.latitude,
     longitude: formData.longitude,
     intersection: formData.intersection,
-    altered: formData.altered
+    is_altered: formData.isAltered
   };
 
   Object.entries(data).forEach(([key, value]) => {

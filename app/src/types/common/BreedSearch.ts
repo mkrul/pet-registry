@@ -1,7 +1,7 @@
 import { Species } from "../../lib/reports/breedList";
 export interface BreedSearchProps {
-  species: Species | "";
-  value: string;
+  species: Species | null;
+  value: string | null;
   onChange: (breed: string) => void;
   excludeBreeds?: string[];
   required?: boolean;

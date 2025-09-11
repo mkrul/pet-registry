@@ -78,6 +78,7 @@ module Api
     def edit; end
 
     def create
+      debugger
       outcome = Reports::Create.run(create_params)
 
       if outcome.valid?
@@ -158,7 +159,7 @@ module Api
         :latitude,
         :longitude,
         :intersection,
-        :altered
+        :is_altered
       ).merge(report: @report)
     end
 
@@ -183,7 +184,7 @@ module Api
         :longitude,
         :status,
         :intersection,
-        :altered
+        :is_altered
       ).merge(report: @report)
     end
 
@@ -207,7 +208,7 @@ module Api
         :longitude,
         :intersection,
         :image,
-        :altered
+        :is_altered
       )
     end
 

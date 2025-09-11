@@ -67,7 +67,6 @@ group :development, :test do
   gem 'byebug'
   gem 'pry'
   gem 'pry-nav'
-  gem 'pry-remote'
   gem 'rspec-rails', '~> 6.1.3'
 end
 

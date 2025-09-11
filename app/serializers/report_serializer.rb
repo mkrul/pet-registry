@@ -1,6 +1,6 @@
 class ReportSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :status, :species, :breed_1, :breed_2,
-             :color_1, :color_2, :color_3, :name, :gender, :image, :altered,
+             :color_1, :color_2, :color_3, :name, :gender, :image, :is_altered,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
              :area, :state, :country, :latitude, :longitude, :intersection
@@ -11,8 +11,8 @@ class ReportSerializer < ActiveModel::Serializer
     data
   end
 
-  def altered
-    object.altered
+  def is_altered
+    object.is_altered
   end
 
   def species

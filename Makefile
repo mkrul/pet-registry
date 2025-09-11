@@ -9,8 +9,12 @@ help: ## Show this help message
 build: ## Build all Docker images
 	docker-compose build
 
-up: ## Start all services
-	REINDEX=1 docker-compose up
+attach: ## Start all services and attach to web container
+	REINDEX=1 docker-compose up -d
+	@echo "⏳ Waiting for services to be ready..."
+	@sleep 5
+	@echo "🔗 Attaching to web container..."
+	docker-compose attach web
 
 up-d: ## Start all services in background
 	docker-compose up -d
@@ -26,6 +30,13 @@ logs-web: ## View logs from web service
 
 shell: ## Access Rails container shell
 	docker-compose exec web bash
+
+restartweb: ## Restart web container and attach to it
+	docker-compose restart web
+	@echo "⏳ Waiting for web container to be ready..."
+	@sleep 3
+	@echo "🔗 Attaching to web container..."
+	docker-compose attach web
 
 console: ## Access Rails console
 	docker-compose exec web bundle exec rails console
