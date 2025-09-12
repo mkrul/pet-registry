@@ -56,6 +56,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
         disabled={isSaving}
         onImageLoad={handleImageLoad}
         onImageError={handleImageError}
+        required={false}
       />
 
       <IdentificationFields
@@ -65,6 +66,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
         setShowBreed2={setShowBreed2}
         onBreed2Remove={removeBreed}
         isLoading={isSaving}
+        error=""
       />
 
       <ColorFields
@@ -104,6 +106,7 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
           intersection: formData.intersection ?? ""
         })}
         isLoading={isSaving}
+        required={false}
       />
 
       <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />

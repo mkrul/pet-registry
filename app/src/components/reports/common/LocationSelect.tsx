@@ -21,7 +21,8 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
   onLocationSelect,
   initialLocation,
   isLoading,
-  error
+  error,
+  required = true
 }) => {
   const [selectedLocation, setSelectedLocation] = useState<Omit<
     LocationData,
@@ -169,7 +170,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
               {...params}
               aria-label="Enter an address"
               placeholder="Enter an address"
-              required
+              required={required}
               error={!!error}
               sx={{
                 backgroundColor: "white",

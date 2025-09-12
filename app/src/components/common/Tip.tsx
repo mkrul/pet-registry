@@ -2,12 +2,16 @@ import React from "react";
 
 interface TipProps {
   children: React.ReactNode;
+  emoji?: string;
+  showTipLabel?: boolean;
 }
 
-const Tip: React.FC<TipProps> = ({ children }) => {
+const Tip: React.FC<TipProps> = ({ children, emoji = "💡", showTipLabel = true }) => {
   return (
     <div>
-      <span className="text-sm text-gray-500 font-semibold">💡 TIP:</span>{" "}
+      <span className="text-sm text-gray-500 font-semibold">
+        {emoji} {showTipLabel && "TIP:"}
+      </span>{" "}
       <span className="text-sm text-gray-500">{children}</span>
     </div>
   );

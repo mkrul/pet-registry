@@ -202,6 +202,7 @@ export interface LocationSelectProps {
   initialLocation?: Partial<LocationData>;
   isLoading?: boolean;
   error?: string;
+  required?: boolean;
 }
 
 export interface Report {
