@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import ProfileDropdown from "../main/ProfileDropdown";
 import NavLink from "./NavLink";
@@ -6,6 +6,7 @@ import NavLink from "./NavLink";
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -27,6 +28,11 @@ const NavBar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
+
+  // Close menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -68,16 +74,16 @@ const NavBar = () => {
                 data-testid="mobile-menu"
               >
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="/reports/new">Report</NavLink>
+                  <NavLink linkTo="/reports/new" handler={() => setIsMenuOpen(false)}>Report</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="/reports">Search</NavLink>
+                  <NavLink linkTo="/reports" handler={() => setIsMenuOpen(false)}>Search</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="#">About</NavLink>
+                  <NavLink linkTo="#" handler={() => setIsMenuOpen(false)}>About</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="#">Contact</NavLink>
+                  <NavLink linkTo="#" handler={() => setIsMenuOpen(false)}>Contact</NavLink>
                 </li>
               </ul>
             </div>

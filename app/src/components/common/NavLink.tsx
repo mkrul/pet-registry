@@ -6,17 +6,17 @@ const NavLink = ({ linkTo, children, handler, className = "" }: NavLinkProps) =>
 
   const baseClasses = "text-base focus:outline-none active:outline-none no-tap-highlight";
 
-  const renderComponent = handler ? (
-    <button onClick={handler} className={`${baseClasses} ${className}`}>
-      {children}
-    </button>
-  ) : (
-    <Link to={path} className={`${baseClasses} ${className}`}>
+  const handleClick = () => {
+    if (handler) {
+      handler();
+    }
+  };
+
+  return (
+    <Link to={path} className={`${baseClasses} ${className}`} onClick={handleClick}>
       {children}
     </Link>
   );
-
-  return renderComponent;
 };
 
 export default NavLink;
