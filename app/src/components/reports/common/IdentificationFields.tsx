@@ -139,11 +139,14 @@ export const IdentificationFields: React.FC<Props> = ({
             name="isAltered"
             value={formData.isAltered}
             onChange={e => {
-              onInputChange(e);
+              const value = e.target.value === "true" ? true : e.target.value === "false" ? false : null;
+              onInputChange({
+                target: { name: "isAltered", value }
+              });
             }}
           >
-            <FormControlLabel value={1} control={<Radio />} label="Yes" />
-            <FormControlLabel value={0} control={<Radio />} label="No" />
+            <FormControlLabel value={true} control={<Radio />} label="Yes" />
+            <FormControlLabel value={false} control={<Radio />} label="No" />
             <FormControlLabel value={null} control={<Radio />} label="I don't know" />
           </RadioGroup>
           <FormFieldError error={alteredError} />

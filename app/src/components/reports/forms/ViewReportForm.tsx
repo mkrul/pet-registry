@@ -87,7 +87,7 @@ const ViewReportForm: React.FC<ViewReportFormProps> = ({
 
       {/* Breeds */}
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Breed(s):</label>
+        <label className="text-lg font-medium text-gray-900 mb-2">Breed:</label>
         <div className="space-y-1">
           <p className="text-md text-gray-500">{report.breed1}</p>
           {report.breed2 && <p className="text-md text-gray-500">{report.breed2}</p>}

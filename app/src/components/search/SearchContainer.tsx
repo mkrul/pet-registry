@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import FilterContainer from "./FilterContainer";
+import Tip from "../common/Tip";
 import { FiltersProps, SearchContainerProps } from "../../types/common/Search";
 import { getInitialFilters, getDefaultFilters, updateSearchParams } from "../../utils/filterUtils";
 
@@ -68,8 +69,19 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         >
           <ul>
             <li className="mb-1">
-              <span>🔍</span>
-              <span className="ml-1">Adding filters can improve or narrow down your search.</span>
+              <li className="mb-1">
+                <Tip emoji="🔍" showTipLabel={false}>
+                  Adding filters can improve or narrow down your search.
+                </Tip>
+              </li>
+              <Tip emoji="🔍" showTipLabel={false}>
+                Double check your spelling and use simple keywords
+              </Tip>
+            </li>
+            <li className="mb-1">
+              <Tip emoji="🔍" showTipLabel={false}>
+                Try different keywords if you can't find what you're looking for. For example, a lost American Bully might have been reported as a "bulldog" or "pit bull".
+              </Tip>
             </li>
           </ul>
         </div>

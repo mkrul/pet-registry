@@ -13,7 +13,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onImageLoad,
   onImageError,
-  error
+  error,
+  required = true
 }) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -62,7 +63,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
             }}
             disabled={disabled}
             data-testid="file-input"
-            required
+            required={required}
           />
           <Button
             variant="outlined"
