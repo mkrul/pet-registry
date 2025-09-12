@@ -17,7 +17,7 @@ const Footer = () => {
           <NavLink linkTo="/reports">Search</NavLink>
         </div>
         <div className="mt-4 text-sm text-gray-500">
-          <p>&copy; {currentYear} Lost Pet Registry. All rights reserved.</p>
+          <p>&copy; {currentYear} Lost Pets Registry. All rights reserved.</p>
         </div>
 
         <div className="mt-4 text-sm text-gray-500">🇵🇸 Free Palestine.</div>

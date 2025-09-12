@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
         <h1 className="text-2xl font-bold text-center text-blue-600 mb-6">
           Welcome to the
           <br />
-          Lost Pet Registry!
+          Lost Pets Registry!
         </h1>
         <p className="text-gray-600 text-center mb-8">
           Log in to report an animal as lost or found and help reunite pets with their owners.
