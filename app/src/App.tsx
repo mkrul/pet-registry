@@ -4,6 +4,7 @@ import { useGetCurrentUserQuery } from "./redux/features/auth/authApiSlice";
 import AppRouter from "./components/main/AppRouter";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { setUser, clearUser } from "./redux/features/auth/authSlice";
+import { setComponentsLoading } from "./redux/features/loading/loadingSlice";
 import Spinner from "./components/common/Spinner";
 import Notification from "./components/common/Notification";
 import { setNotification } from "./redux/features/notifications/notificationsSlice";
@@ -35,7 +36,12 @@ const App: React.FC = () => {
         );
       }
     }
-  }, [data, isError, error, dispatch]);
+
+    // Set components as loaded once auth query is complete (success or error)
+    if (!isLoading) {
+      dispatch(setComponentsLoading(false));
+    }
+  }, [data, isError, error, isLoading, dispatch]);
 
   if (isLoading) {
     return (
