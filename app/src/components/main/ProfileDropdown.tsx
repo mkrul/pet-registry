@@ -58,7 +58,7 @@ const ProfileDropdown: React.FC = () => {
   if (isLoading || !isImageLoaded) {
     return (
       <div className="flex-none">
-        <div className="w-10 h-10 rounded-full bg-base-200 animate-pulse"></div>
+        <div className="w-11 h-11 rounded-full bg-base-200 animate-pulse"></div>
       </div>
     );
   }
@@ -81,12 +81,12 @@ const ProfileDropdown: React.FC = () => {
     <div className="flex-none gap-2">
       <div className="dropdown dropdown-end" ref={dropdownRef}>
         <button
-          className="btn btn-ghost hover:bg-blue-300 btn-circle avatar mr-2"
+          className="btn btn-ghost hover:bg-blue-300 btn-circle avatar sm:mr-2"
           onClick={handleToggle}
           data-testid="profile-button"
         >
-          <div className="w-10 rounded-full">
-            <img alt="User avatar" src="/images/placeholder-blue.jpg" className="object-cover" />
+          <div className="w-11 h-11 rounded-full">
+            <img alt="User avatar" src="/images/placeholder-blue.jpg" className="object-cover w-full h-full" />
           </div>
         </button>
         <ul
