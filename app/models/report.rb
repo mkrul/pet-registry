@@ -7,12 +7,7 @@ class Report < ApplicationRecord
   include ReportValidations
   include ReportSearchable
   include ReportNormalizations
-  include CloudinaryFolderConfiguration
-
-  has_one_attached :image, dependent: :destroy
-
-  # Configure the folder name for this model's Cloudinary uploads
-  set_cloudinary_folder 'reports'
+  has_one_attached :image, service: :cloudinary_reports, dependent: :destroy
 
   enum :status, { active: 'active', archived: 'archived' }
 

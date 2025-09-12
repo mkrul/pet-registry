@@ -30,6 +30,8 @@ class CreateReport
   end
 
   def attach_image(report, local_path)
+    # Use the standard ActiveStorage attachment flow
+    # The cloudinary_reports service will automatically handle the folder structure
     report.image.attach(
       io: File.open(local_path),
       filename: File.basename(local_path)
