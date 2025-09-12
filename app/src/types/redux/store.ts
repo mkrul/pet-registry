@@ -5,5 +5,7 @@ export interface RootState {
   notifications: NotificationState;
   loading: {
     isPageReady: boolean;
+    apiCallsInProgress: number;
+    componentsLoading: boolean;
   };
 }
