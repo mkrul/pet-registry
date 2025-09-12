@@ -23,10 +23,10 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* Navigation for larger screens */}
+          {/* Navigation for larger screens (850px+) */}
           <div className="hidden md:flex flex-none">
             <ul
-              className="menu menu-horizontal px-1"
+              className="menu menu-horizontal [&>li>a]:px-[0.75rem]"
               data-testid="desktop-nav"
               aria-label="desktop navigation"
             >
@@ -45,18 +45,40 @@ const NavBar = () => {
             </ul>
           </div>
 
+          {/* Navigation for tablet sizes (640px-849px) */}
+          <div className="hidden sm:flex md:hidden flex-none">
+            <ul
+              className="menu menu-horizontal [&>li>a]:px-[0.75rem]"
+              data-testid="tablet-nav"
+              aria-label="tablet navigation"
+            >
+              <li>
+                <NavLink linkTo="/reports/new">Report</NavLink>
+              </li>
+              <li>
+                <NavLink linkTo="/reports">Search</NavLink>
+              </li>
+              <li>
+                <NavLink linkTo="#">About</NavLink>
+              </li>
+              <li>
+                <NavLink linkTo="#">Contact</NavLink>
+              </li>
+            </ul>
+          </div>
+
           <ProfileDropdown />
         </div>
 
-        {/* Navigation for smaller devices */}
-        <div className="md:hidden w-full px-4 mt-2 mb-5 text-center">
+        {/* Navigation for mobile devices (below 640px) */}
+        <div className="sm:hidden w-full px-4 mt-2 mb-5 text-center">
           <ul
-            className="flex justify-center space-x-6"
+            className="flex justify-center space-x-[0.75rem]"
             data-testid="mobile-nav"
             aria-label="mobile navigation"
           >
             <li>
-              <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
+              <NavLink linkTo="/reports/new">Report</NavLink>
             </li>
             <li>
               <NavLink linkTo="/reports">Search</NavLink>
