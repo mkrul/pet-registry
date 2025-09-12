@@ -4,7 +4,7 @@ module CloudinaryFolderConfiguration
   extend ActiveSupport::Concern
 
   class_methods do
-    def cloudinary_folder(folder_name)
+    def set_cloudinary_folder(folder_name)
       @cloudinary_folder = folder_name
     end
 

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 # Configure ActiveStorage to use model-specific folder structure for Cloudinary
-Rails.application.configure do
+# This initializer runs after all classes are loaded to avoid NameError issues
+
+Rails.application.config.after_initialize do
   # Override the Cloudinary service to use custom folder structure based on blob metadata
   ActiveStorage::Service::CloudinaryService.class_eval do
     def upload(key, io, filename: nil, content_type: nil, **options)
