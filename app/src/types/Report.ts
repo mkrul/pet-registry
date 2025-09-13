@@ -38,6 +38,7 @@ export interface ReportProps {
 export interface ReportPropsState {
   data: ReportProps[];
   query: string;
+  perPage: number;
 }
 export interface GetReportsResponse {
   data: ReportProps[];
