@@ -3,6 +3,7 @@ export interface PaginationProps {
   page: number;
   items: number;
   pages: number;
+  per_page: number;
 }
 export interface PaginationPropsQuery {
   page: number;

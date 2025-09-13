@@ -39,7 +39,7 @@ export const reportsApi = createApi({
       query: params => {
         const queryParams: Record<string, string> = {
           page: params.page?.toString() || "1",
-          per_page: params.items?.toString() || "21"
+          per_page: params.items?.toString() || "21" // This will be overridden by useReportsData hook
         };
 
         if (params.breed) {
@@ -118,12 +118,16 @@ export const reportsApi = createApi({
       }),
       transformResponse: (
         response: { message: string; id: number } & ReportProps
-      ): SubmitResponse => ({
-        message: response.message,
-        report: transformToCamelCase(response),
-        id: response.id,
-        data: transformToCamelCase(response)
-      }),
+      ): SubmitResponse => {
+        const transformedReport = transformToCamelCase(response);
+        return {
+          ...transformedReport,
+          message: response.message,
+          report: transformedReport,
+          id: response.id,
+          data: transformedReport
+        };
+      },
       invalidatesTags: ["Reports"]
     }),
     getNewReport: build.query<ReportProps, void>({

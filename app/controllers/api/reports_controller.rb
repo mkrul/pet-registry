@@ -33,7 +33,8 @@ module Api
             pages: reports.total_pages,
             count: reports.total_entries,
             page: reports.current_page,
-            items: reports.per_page
+            items: reports.per_page,
+            per_page: Report::REPORT_INDEX_PAGE_LIMIT
           },
           message: reports.empty? ? "No reports found matching your search criteria." : nil
         }
