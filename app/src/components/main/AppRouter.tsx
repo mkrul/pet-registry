@@ -40,7 +40,7 @@ const AppRouter = () => {
   );
 
   return (
-    <div className="min-h-screen bg-page">
+    <div className="min-h-screen bg-page flex flex-col">
       <NavBar />
       {notification && (
         <div className="w-full flex justify-center">
