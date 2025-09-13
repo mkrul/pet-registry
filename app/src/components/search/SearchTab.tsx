@@ -30,16 +30,17 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
     <div>
       <button
         onClick={handleClick}
-        className={`fixed bottom-6 md:bottom-10 right-0 z-50 ${
-          isOpen ? "bg-gray-500" : "bg-blue-600"
-        } transition-colors duration-300 text-white px-4 py-2 md:px-4 md:py-2.5 rounded-l-lg shadow-lg text-sm md:text-sm lg:text-base 2xl:text-lg ${
+        className={`fixed bottom-16 md:bottom-10 right-0 z-50 ${
+          isOpen ? "bg-green-500" : "bg-green-600"
+        } transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base ${
           !hasBeenClicked ? "animate-glow-pulse" : ""
         }`}
       >
+        {/* Mobile: Icon only, Desktop: Icon + Text in flex container */}
         <div className="flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 md:h-5 md:w-5"
+            className="h-7 w-7 md:h-5 md:w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -51,7 +52,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>
-          {isOpen ? "Close" : "Search"}
+          <span className="hidden md:inline">{isOpen ? "Close" : "Search"}</span>
         </div>
       </button>
 
