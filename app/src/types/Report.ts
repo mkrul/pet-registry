@@ -85,6 +85,13 @@ export interface ReportsGridProps {
   reports: ReportProps[];
   currentPage: number;
   currentQuery: string;
+  pagination?: {
+    pages: number;
+    count: number;
+    page: number;
+    items: number;
+  };
+  onPageChange?: (page: number) => void;
 }
 
 export interface EditReportFormFormProps {

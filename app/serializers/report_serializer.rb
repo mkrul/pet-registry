@@ -38,7 +38,13 @@ class ReportSerializer < ActiveModel::Serializer
   def image
     return unless object.image.attached?
 
-    public_id = object.image.blob.key
+    # For cloudinary_reports service, we need to include the folder path
+    blob_key = object.image.blob.key
+    public_id = if object.image.blob.service_name == 'cloudinary_reports'
+                  "#{Rails.env}/reports/#{blob_key}"
+                else
+                  blob_key
+                end
 
     image_data = {
       id: object.image.id,

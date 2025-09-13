@@ -47,6 +47,6 @@ module ReportValidations
       inclusion: {
       in: %w[male female],
       message: "must be either Male or Female"
-    }
+    }, allow_blank: true, allow_nil: true
   end
 end

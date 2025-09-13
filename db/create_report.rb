@@ -5,12 +5,16 @@ class CreateReport
 
   def call(params)
     @report.assign_attributes(params.except(:image_url))
+
+    handle_image(@report, params[:image_url])
+
     if @report.save
-      handle_image(@report, params[:image_url])
+      @report
     else
       if @report.errors.any?
-        puts "Errors while creating report with title '#{@report.title}': #{@report.errors.full_messages.join(', ')}"
+        puts "Errors while creating report for '#{@report.title}': #{@report.errors.full_messages.join(', ')}"
       end
+      nil
     end
   end
 
@@ -20,9 +24,22 @@ class CreateReport
   end
 
   def attach_image(report, local_path)
+    file_content = File.read(local_path, mode: 'rb')
+    file_io = StringIO.new(file_content)
+
+    content_type = case File.extname(local_path).downcase
+                   when '.jpg', '.jpeg'
+                     'image/jpeg'
+                   when '.png'
+                     'image/png'
+                   else
+                     'image/jpeg'
+                   end
+
     report.image.attach(
-      io: File.open(local_path),
-      filename: File.basename(local_path)
+      io: file_io,
+      filename: File.basename(local_path),
+      content_type: content_type
     )
   end
 end

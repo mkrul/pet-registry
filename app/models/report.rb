@@ -7,8 +7,7 @@ class Report < ApplicationRecord
   include ReportValidations
   include ReportSearchable
   include ReportNormalizations
-
-  has_one_attached :image, dependent: :destroy
+  has_one_attached :image, service: :cloudinary_reports, dependent: :destroy
 
   enum :status, { active: 'active', archived: 'archived' }
 
