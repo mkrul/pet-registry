@@ -106,10 +106,10 @@ module.exports = {
       keyframes: {
         'glow-pulse': {
           '0%': {
-            'box-shadow': '0 0 0 0 rgba(37, 99, 235, 0.6)'
+            'box-shadow': '0 0 0 0 rgba(34, 197, 94, 0.6)'
           },
           '100%': {
-            'box-shadow': '0 0 0 12px rgba(37, 99, 235, 0)'
+            'box-shadow': '0 0 0 12px rgba(34, 197, 94, 0)'
           }
         }
       },
