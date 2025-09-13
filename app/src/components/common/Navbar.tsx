@@ -74,7 +74,7 @@ const NavBar = () => {
                 data-testid="mobile-menu"
               >
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="/reports/new" handler={() => setIsMenuOpen(false)}>Report</NavLink>
+                  <NavLink linkTo="/reports/new" handler={() => setIsMenuOpen(false)}>New Report</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
                   <NavLink linkTo="/reports" handler={() => setIsMenuOpen(false)}>Search</NavLink>
@@ -129,7 +129,7 @@ const NavBar = () => {
               aria-label="tablet navigation"
             >
               <li>
-                <NavLink linkTo="/reports/new">Report</NavLink>
+                <NavLink linkTo="/reports/new">New Report</NavLink>
               </li>
               <li>
                 <NavLink linkTo="/reports">Search</NavLink>
