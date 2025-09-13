@@ -15,7 +15,7 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
   const { data, error, isLoading, refetch } = useGetReportsQuery(
     {
       page,
-      items: 20,
+      items: 21,
       query,
       ...filters
     },

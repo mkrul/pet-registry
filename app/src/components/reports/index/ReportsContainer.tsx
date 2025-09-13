@@ -16,8 +16,9 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
   query,
   filters,
   page,
+  onPageChange,
 }) => {
-  const { reports, isLoading, error } = useReportsData(query, filters, page);
+  const { reports, data, isLoading, error } = useReportsData(query, filters, page);
 
   if (isLoading) {
     return (
@@ -37,7 +38,15 @@ const ReportsContainer: React.FC<ReportsContainerProps> = ({
     );
   }
 
-  return <ReportsGrid reports={reports} currentPage={page} currentQuery={query} />;
+  return (
+    <ReportsGrid
+      reports={reports}
+      currentPage={page}
+      currentQuery={query}
+      pagination={data?.pagination}
+      onPageChange={onPageChange}
+    />
+  );
 };
 
 export default ReportsContainer;

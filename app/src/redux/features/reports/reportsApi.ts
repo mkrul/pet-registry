@@ -39,7 +39,7 @@ export const reportsApi = createApi({
       query: params => {
         const queryParams: Record<string, string> = {
           page: params.page?.toString() || "1",
-          per_page: params.items?.toString() || "20"
+          per_page: params.items?.toString() || "21"
         };
 
         if (params.breed) {
