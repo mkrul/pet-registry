@@ -7,9 +7,6 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
-      Rails.logger.info "=== CONTROLLER DEBUG START ==="
-      Rails.logger.info "Request params: #{params.inspect}"
-
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
@@ -28,15 +25,13 @@ module Api
         per_page: per_page
       }
 
-      Rails.logger.info "Search service params: #{search_params.inspect}"
-
       result = Reports::Search.run(search_params)
 
       if result.valid?
         reports = result.result
-        Rails.logger.info "Search successful: #{reports.total_entries} results found"
+        Rails.logger.debug "Search result: #{reports.total_entries} total entries, #{reports.to_a.length} in current page"
         render json: {
-          data: ActiveModelSerializers::SerializableResource.new(reports),
+          data: ActiveModelSerializers::SerializableResource.new(reports.to_a, each_serializer: ReportSerializer),
           pagination: {
             pages: reports.total_pages,
             count: reports.total_entries,
@@ -47,11 +42,8 @@ module Api
           message: reports.empty? ? "No reports found matching your search criteria." : nil
         }
       else
-        Rails.logger.error "Search failed: #{result.errors.full_messages}"
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
       end
-
-      Rails.logger.info "=== CONTROLLER DEBUG END ==="
     end
 
     def new

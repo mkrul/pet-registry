@@ -17,7 +17,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-4 text-sm text-gray-500">
-          This project relies on the generosity of others to help keep it running. Please consider donating to support its continued development.
+          This project depends on the generosity of others to keep it running. Please consider donating to support its continued development.
         </div>
       </div>
     </div>
