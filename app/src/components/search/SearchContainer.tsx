@@ -10,7 +10,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
   const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
-  const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(false);
+  const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(true);
 
   useEffect(() => {
     const queryParam = searchParams.get("query") || "";
