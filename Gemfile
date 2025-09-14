@@ -27,8 +27,7 @@ gem 'redis', '~> 5.3'
 
 # use searchkick for search
 gem 'searchkick', '~> 5.3', '>= 5.3.1'
-# use opensearch-ruby for search
-gem 'opensearch-ruby', '~> 3.4'
+# use elasticsearch-ruby for search
 # use active_interaction for service objects
 gem 'active_interaction', '~> 5.3'
 # use vite_rails for development
@@ -85,8 +84,10 @@ group :test do
   gem 'selenium-webdriver'
 end
 
+# Elasticsearch client for both development (OpenSearch) and production
+gem 'elasticsearch', '~> 7.10.1'
+gem 'elasticsearch-transport', '~> 7.10.1'
+
 group :production do
-  # DO NOT UPGRADE - these versions are required in order to support Cloudinary
-  gem 'elasticsearch', '~> 7.10.1'
-  gem 'elasticsearch-transport', '~> 7.10.1'
+  # Production-specific gems can go here
 end

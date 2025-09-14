@@ -50,6 +50,9 @@ test-js: ## Run JavaScript tests
 migrate: ## Run database migrations
 	docker-compose exec web bundle exec rails db:migrate
 
+creds:
+	docker-compose exec web bundle exec rails credentials:edit
+
 seed: ## Run database seeds
 	docker-compose exec web bundle exec rails db:seed
 

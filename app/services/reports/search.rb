@@ -22,11 +22,12 @@ class Reports::Search < ActiveInteraction::Base
     }
 
     if query.present?
+      search_query = query.downcase
+      # Use simple search options that work well with Elasticsearch
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
-      search_options[:match] = :word_middle
-      search_options[:misspellings] = { below: 2 }
       search_options[:operator] = "or"
-      Report.search(query.downcase, **search_options)
+
+      Report.search(search_query, **search_options)
     else
       Report.search("*", **search_options)
     end
@@ -38,13 +39,6 @@ class Reports::Search < ActiveInteraction::Base
     conditions = { status: 'active' }
     if species.present?
       conditions[:species] = species.downcase
-    elsif query.present? && !species.present?
-      query_words = query.downcase.split
-      if query_words.include?('dog')
-        conditions[:species] = 'dog'
-      elsif query_words.include?('cat')
-        conditions[:species] = 'cat'
-      end
     end
 
     if country.present?

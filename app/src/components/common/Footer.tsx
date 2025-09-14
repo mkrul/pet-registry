@@ -13,10 +13,12 @@ const Footer = () => {
           <NavLink linkTo="#">Contact</NavLink>
         </div>
         <div className="mt-4 text-sm text-gray-500">
-          <p>&copy; {currentYear} Lost Pets Registry. All rights reserved.</p>
+          <p>&copy; {currentYear} Lost Pets Registry. All rights reserved. 🇵🇸 Free Palestine.</p>
         </div>
 
-        <div className="mt-4 text-sm text-gray-500">🇵🇸 Free Palestine.</div>
+        <div className="mt-4 text-sm text-gray-500">
+          This project relies on the generosity of others to help keep it running. Please consider donating to support its continued development.
+        </div>
       </div>
     </div>
   );
