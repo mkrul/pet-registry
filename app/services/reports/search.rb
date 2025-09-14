@@ -25,13 +25,26 @@ class Reports::Search < ActiveInteraction::Base
     if query.present?
       search_query = query.downcase
 
-      # Use Elasticsearch for all searches with different strategies based on content
-      if contains_breed_terms?(search_query)
-        # For breed searches, use higher breed weights and exclude species field
-        elasticsearch_search(search_query, search_options, breed_search: true)
+      # Remove species keywords from search query if they're being used for filtering
+      cleaned_search_query = remove_species_keywords_from_query(search_query)
+      Rails.logger.debug "Original query: '#{search_query}', cleaned query: '#{cleaned_search_query}'"
+
+      # If cleaned query is empty, use match_all query with filters
+      if cleaned_search_query.blank?
+        Rails.logger.debug "Cleaned query is empty, using match_all query with filters"
+        elasticsearch_search_all(search_options)
       else
-        # For general searches, use standard weights and include species field
-        elasticsearch_search(search_query, search_options, breed_search: false)
+        # Use Elasticsearch for all searches with different strategies based on content
+        is_breed_search = contains_breed_terms?(cleaned_search_query)
+        Rails.logger.debug "Cleaned search query: '#{cleaned_search_query}', is_breed_search: #{is_breed_search}"
+
+        if is_breed_search
+          # For breed searches, use higher breed weights and exclude species field
+          elasticsearch_search(cleaned_search_query, search_options, breed_search: true)
+        else
+          # For general searches, use standard weights and include species field
+          elasticsearch_search(cleaned_search_query, search_options, breed_search: false)
+        end
       end
     else
       # No query provided, return all active reports using match_all query
@@ -49,18 +62,19 @@ class Reports::Search < ActiveInteraction::Base
 
     if target_species.present?
       conditions[:species] = target_species
+      Rails.logger.debug "Species filter applied: #{target_species}"
     end
 
     if country.present?
-      conditions[:country] = country
+      conditions[:country] = country.downcase
     end
 
     if state.present?
-      conditions[:state] = state
+      conditions[:state] = state.downcase
     end
 
     if area.present?
-      conditions[:area] = area
+      conditions[:area] = area.downcase
     end
 
     filters = []
@@ -123,25 +137,60 @@ class Reports::Search < ActiveInteraction::Base
 
     search_query = query.downcase
 
-    # Cat keywords
-    cat_keywords = %w[cat cats kitty kitten kittens]
-    return 'cat' if cat_keywords.any? { |keyword| search_query.include?(keyword) }
+    # Cat keywords - check for cat-related terms
+    cat_keywords = %w[cat cats kitty kitten kittens feline]
+    if cat_keywords.any? { |keyword| search_query.include?(keyword) }
+      Rails.logger.debug "Detected cat species from query: '#{search_query}'"
+      return 'cat'
+    end
 
-    # Dog keywords
-    dog_keywords = %w[dog dogs doggie doggy doggies puppy puppies]
-    return 'dog' if dog_keywords.any? { |keyword| search_query.include?(keyword) }
+    # Dog keywords - check for dog-related terms
+    dog_keywords = %w[dog dogs doggie doggy doggies puppy puppies canine]
+    if dog_keywords.any? { |keyword| search_query.include?(keyword) }
+      Rails.logger.debug "Detected dog species from query: '#{search_query}'"
+      return 'dog'
+    end
 
+    Rails.logger.debug "No species detected from query: '#{search_query}'"
     nil
+  end
+
+  def remove_species_keywords_from_query(search_query)
+    return search_query unless search_query.present?
+
+    # Only remove species keywords if they're being used for filtering
+    # (i.e., if no explicit species parameter was provided)
+    return search_query if species.present?
+
+    cleaned_query = search_query.dup
+
+    # Remove cat keywords
+    cat_keywords = %w[cat cats kitty kitten kittens feline]
+    cat_keywords.each do |keyword|
+      # Remove the keyword and any surrounding whitespace
+      cleaned_query = cleaned_query.gsub(/\b#{Regexp.escape(keyword)}\b/, '').strip
+    end
+
+    # Remove dog keywords
+    dog_keywords = %w[dog dogs doggie doggy doggies puppy puppies canine]
+    dog_keywords.each do |keyword|
+      # Remove the keyword and any surrounding whitespace
+      cleaned_query = cleaned_query.gsub(/\b#{Regexp.escape(keyword)}\b/, '').strip
+    end
+
+    # Clean up multiple spaces and return
+    cleaned_query.gsub(/\s+/, ' ').strip
   end
 
   def contains_breed_terms?(search_query)
     # Get all valid breeds from the breed list
     all_breeds = Report.all_breeds.map(&:downcase)
 
-    all_breeds_words = all_breeds.flat_map { |breed| breed.split(/\s+/) }
-    return true if all_breeds_words.any? { |breed| search_query.include?(breed) }
+    # First check for exact breed matches (including compound breeds like "pit bull")
 
-    # Extract significant words from all breed names (2+ characters, excluding common words)
+    return true if all_breeds.any? { |breed| search_query.include?(breed) }
+
+    # Then check for individual breed words (2+ characters, excluding common words)
     breed_words = all_breeds.flat_map { |breed| breed.split(/\s+/) }
                            .select { |word| word.length > 2 && !%w[the and dog cat].include?(word) }
                            .uniq
@@ -207,8 +256,8 @@ class Reports::Search < ActiveInteraction::Base
     fields = if breed_search
       # For breed searches, exclude species field and use higher breed weights
       [
-        "breed_1.analyzed^100",
-        "breed_2.analyzed^100",
+        "breed_1.analyzed^200",
+        "breed_2.analyzed^200",
         "description.analyzed^20",
         "title.analyzed^15",
         "color_1.analyzed^5",
@@ -218,8 +267,8 @@ class Reports::Search < ActiveInteraction::Base
     else
       # For general searches, include species field with standard weights
       [
-        "breed_1.analyzed^10",
-        "breed_2.analyzed^10",
+        "breed_1.analyzed^20",
+        "breed_2.analyzed^20",
         "description.analyzed^10",
         "title.analyzed^10",
         "color_1.analyzed^5",
@@ -229,30 +278,77 @@ class Reports::Search < ActiveInteraction::Base
       ]
     end
 
-    es_query = {
-      query: {
-        bool: {
-          must: [
-            {
-              multi_match: {
-                query: search_query,
-                fields: fields,
-                type: "best_fields",
-                operator: "or"
+    # Build a more sophisticated query for breed searches
+    if breed_search
+      es_query = {
+        query: {
+          bool: {
+            should: [
+              # Exact phrase match for breed fields (highest priority)
+              {
+                multi_match: {
+                  query: search_query,
+                  fields: ["breed_1.analyzed^500", "breed_2.analyzed^500"],
+                  type: "phrase",
+                  boost: 3.0
+                }
+              },
+              # Best fields match for breed fields (high priority)
+              {
+                multi_match: {
+                  query: search_query,
+                  fields: ["breed_1.analyzed^200", "breed_2.analyzed^200"],
+                  type: "best_fields",
+                  operator: "and"
+                }
+              },
+              # General multi-match for all fields
+              {
+                multi_match: {
+                  query: search_query,
+                  fields: fields,
+                  type: "best_fields",
+                  operator: "or"
+                }
               }
-            }
-          ],
-          filter: build_elasticsearch_filters(where_conditions)
-        }
-      },
-      sort: sort_order,
-      from: (search_options[:page] - 1) * search_options[:per_page],
-      size: search_options[:per_page]
-    }
+            ],
+            minimum_should_match: 1,
+            filter: build_elasticsearch_filters(where_conditions)
+          }
+        },
+        sort: sort_order,
+        from: (search_options[:page] - 1) * search_options[:per_page],
+        size: search_options[:per_page]
+      }
+    else
+      # Standard query for non-breed searches
+      es_query = {
+        query: {
+          bool: {
+            must: [
+              {
+                multi_match: {
+                  query: search_query,
+                  fields: fields,
+                  type: "best_fields",
+                  operator: "or"
+                }
+              }
+            ],
+            filter: build_elasticsearch_filters(where_conditions)
+          }
+        },
+        sort: sort_order,
+        from: (search_options[:page] - 1) * search_options[:per_page],
+        size: search_options[:per_page]
+      }
+    end
 
     # Execute Elasticsearch query
     client = elasticsearch_client
     index_name = "reports_#{Rails.env}"
+
+    Rails.logger.debug "Elasticsearch query: #{es_query.to_json}"
 
     response = client.search(
       index: index_name,
