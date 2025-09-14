@@ -86,7 +86,9 @@ class Reports::Search < ActiveInteraction::Base
           { gender: gender_value },
           { gender: "#{gender_value} (intact)" },
           { gender: "#{gender_value} (neutered)" },
-          { gender: "#{gender_value} (spayed)" }
+          { gender: "#{gender_value} (spayed)" },
+          { gender: nil },
+          { gender: "" }
         ]
       }
     end
@@ -228,7 +230,18 @@ class Reports::Search < ActiveInteraction::Base
             or_conditions = condition[:_or].map do |or_condition|
               or_condition.map do |field, field_value|
                 field_name = filterable_fields.include?(field.to_s) ? field.to_s : "#{field}.analyzed"
-                { term: { field_name => field_value } }
+
+                # Handle nil and empty string values for missing/unknown data
+                if field_value.nil?
+                  { bool: { must_not: { exists: { field: field_name } } } }
+                elsif field_value == ""
+                  { bool: { should: [
+                    { bool: { must_not: { exists: { field: field_name } } } },
+                    { term: { field_name => "" } }
+                  ], minimum_should_match: 1 } }
+                else
+                  { term: { field_name => field_value } }
+                end
               end
             end.flatten
             filters << { bool: { should: or_conditions, minimum_should_match: 1 } }
