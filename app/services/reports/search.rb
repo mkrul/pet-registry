@@ -14,6 +14,9 @@ class Reports::Search < ActiveInteraction::Base
   string :breed, default: nil
 
   def execute
+    Rails.logger.info "=== SEARCH DEBUG START ==="
+    Rails.logger.info "Input params: query=#{query.inspect}, species=#{species.inspect}, color=#{color.inspect}"
+
     search_options = {
       where: where_conditions,
       page: page,
@@ -21,15 +24,28 @@ class Reports::Search < ActiveInteraction::Base
       order: sort_order
     }
 
+    Rails.logger.info "Where conditions: #{where_conditions.inspect}"
+
     if query.present?
+      search_query = query.downcase
+      Rails.logger.info "Search query: #{search_query.inspect}"
+
       search_options[:fields] = ["breed_1^10", "breed_2^10", "description^5", "title^2", "color_1^2", "color_2^2", "color_3^2", "species^10"]
       search_options[:match] = :word_middle
       search_options[:misspellings] = { below: 2 }
       search_options[:operator] = "or"
-      Report.search(query.downcase, **search_options)
+
+      Rails.logger.info "Search options: #{search_options.inspect}"
+      result = Report.search(search_query, **search_options)
+      Rails.logger.info "Search result count: #{result.total_entries}"
     else
-      Report.search("*", **search_options)
+      Rails.logger.info "No query present, using wildcard search"
+      result = Report.search("*", **search_options)
+      Rails.logger.info "Wildcard search result count: #{result.total_entries}"
     end
+
+    Rails.logger.info "=== SEARCH DEBUG END ==="
+    result
   end
 
   private
