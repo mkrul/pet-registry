@@ -19,13 +19,23 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
     onFiltersChange(updatedFilters);
   };
 
+  const handleClearFilter = (filterName: keyof typeof initialFilters) => {
+    const updatedFilters = { ...initialFilters, [filterName]: "" };
+    onFiltersChange(updatedFilters);
+  };
+
   const handleReset = () => {
     onReset();
   };
 
   return (
     <div className="flex flex-col gap-4 overflow-y-visible">
-      <Filters filters={initialFilters} handleFilterChange={handleFilterChange} onReset={onReset} />
+      <Filters
+        filters={initialFilters}
+        handleFilterChange={handleFilterChange}
+        onReset={onReset}
+        onClearFilter={handleClearFilter}
+      />
       <RememberFiltersToggle
         isEnabled={rememberFilters}
         onToggle={onRememberFiltersToggle}

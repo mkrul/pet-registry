@@ -35,6 +35,7 @@ export interface FiltersHandlerProps {
   filters: FiltersProps;
   handleFilterChange: (e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>) => void;
   onReset: () => void;
+  onClearFilter: (filterName: keyof FiltersProps) => void;
 }
 
 export interface SearchContainerQueryProps {
