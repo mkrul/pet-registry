@@ -30,16 +30,20 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
 
   return (
     <div className="flex flex-col gap-4 overflow-y-visible">
-      <Filters
-        filters={initialFilters}
-        handleFilterChange={handleFilterChange}
-        onReset={onReset}
-        onClearFilter={handleClearFilter}
-      />
-      <RememberFiltersToggle
-        isEnabled={rememberFilters}
-        onToggle={onRememberFiltersToggle}
-      />
+      <div className="p-2">
+        <Filters
+          filters={initialFilters}
+          handleFilterChange={handleFilterChange}
+          onReset={onReset}
+          onClearFilter={handleClearFilter}
+        />
+        <div className="mt-4">
+          <RememberFiltersToggle
+            isEnabled={rememberFilters}
+            onToggle={onRememberFiltersToggle}
+          />
+        </div>
+      </div>
     </div>
   );
 };

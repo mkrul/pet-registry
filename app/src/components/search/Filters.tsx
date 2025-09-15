@@ -31,8 +31,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
   };
 
   return (
-    <div className="p-2">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
         <FilterWithClear
           hasValue={!!filters.species}
           onClear={() => onClearFilter('species')}
@@ -150,7 +149,6 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
               ))}
           </Select>
         </FormControl>
-      </div>
     </div>
   );
 };
