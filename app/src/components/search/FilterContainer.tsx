@@ -1,12 +1,15 @@
 import React from "react";
 import Filters from "./Filters";
+import RememberFiltersToggle from "../common/RememberFiltersToggle";
 import { SelectChangeEvent } from "@mui/material";
 import { FilterContainerProps } from "../../types/common/Search";
 
 const FilterContainer: React.FC<FilterContainerProps> = ({
   initialFilters,
   onFiltersChange,
-  onReset
+  onReset,
+  rememberFilters,
+  onRememberFiltersToggle
 }) => {
   const handleFilterChange = (
     e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>
@@ -23,6 +26,10 @@ const FilterContainer: React.FC<FilterContainerProps> = ({
   return (
     <div className="flex flex-col gap-4 overflow-y-visible">
       <Filters filters={initialFilters} handleFilterChange={handleFilterChange} onReset={onReset} />
+      <RememberFiltersToggle
+        isEnabled={rememberFilters}
+        onToggle={onRememberFiltersToggle}
+      />
     </div>
   );
 };

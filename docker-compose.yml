@@ -67,7 +67,7 @@ services:
       bash -c "
         rm -f tmp/pids/server.pid &&
         bundle exec rails db:prepare &&
-        if [ "$$REINDEX" = "1" ]; then bundle exec rails searchkick:reindex:all --trace; fi &&
+        if [ "$${REINDEX:-0}" = "1" ]; then bundle exec rails searchkick:reindex:all --trace; fi &&
         exec bundle exec rails server -b '0.0.0.0'
       "
     volumes:
