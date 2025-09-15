@@ -64,7 +64,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
         showBreed2={showBreed2}
         onInputChange={handleInputChange}
         setShowBreed2={setShowBreed2}
-        onBreed2Remove={removeBreed}
         isLoading={isSaving}
         error=""
       />
@@ -77,18 +76,6 @@ const EditReportForm: React.FC<EditReportFormProps> = ({
         setShowColor3={setShowColor3}
         onColor2Add={() => setShowColor2(true)}
         onColor3Add={() => setShowColor3(true)}
-        onColor2Remove={() => {
-          handleInputChange({
-            target: { name: "color2", value: null }
-          });
-          setShowColor2(false);
-        }}
-        onColor3Remove={() => {
-          handleInputChange({
-            target: { name: "color3", value: null }
-          });
-          setShowColor3(false);
-        }}
         isLoading={isSaving}
         handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
         handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}

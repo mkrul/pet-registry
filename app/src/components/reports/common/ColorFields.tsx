@@ -14,8 +14,6 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
   setShowColor3,
   onColor2Add,
   onColor3Add,
-  onColor2Remove,
-  onColor3Remove,
   isLoading,
   handleColor1Change,
   handleColor2Change,
@@ -54,9 +52,6 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
         <div className="space-y-2">
           <AdditionalFieldSet
             label="Second Color:"
-            onRemove={onColor2Remove}
-            disabled={isLoading}
-            testId="remove-color-button"
           >
             <ColorSearch
               value={formData.color2 || ""}
@@ -83,9 +78,6 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
         <div className="space-y-2">
           <AdditionalFieldSet
             label="Third Color:"
-            onRemove={onColor3Remove}
-            disabled={isLoading}
-            testId="remove-color-button"
           >
             <ColorSearch
               value={formData.color3 || ""}

@@ -70,6 +70,11 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
 
   const handleInputChange = useCallback((e: FormInputEvent) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+
+    // Hide breed2 field if it's cleared
+    if (e.target.name === "breed2" && !e.target.value) {
+      setShowBreed2(false);
+    }
   }, []);
 
   const handleLocationSelect = useCallback((location: LocationData) => {
@@ -78,16 +83,18 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
 
   const showField = (setter: Dispatch<SetStateAction<boolean>>) => () => setter(true);
 
-  const removeField =
-    (fieldName: "breed2" | "color2" | "color3", setter: Dispatch<SetStateAction<boolean>>) =>
-    () => {
-      setter(false);
-      setFormData(prev => ({ ...prev, [fieldName]: null }));
-    };
 
   const handleColorChange = useCallback(
     (colorField: "color1" | "color2" | "color3") => (value: string) => {
       setFormData(prev => ({ ...prev, [colorField]: value }));
+
+      // Hide the field if it's cleared and it's color2 or color3
+      if (!value && colorField === "color2") {
+        setShowColor2(false);
+      }
+      if (!value && colorField === "color3") {
+        setShowColor3(false);
+      }
     },
     []
   );
@@ -99,10 +106,6 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   const showBreed2Field = showField(setShowBreed2);
   const showColor2Field = showField(setShowColor2);
   const showColor3Field = showField(setShowColor3);
-
-  const removeBreed2 = removeField("breed2", setShowBreed2);
-  const removeColor2 = removeField("color2", setShowColor2);
-  const removeColor3 = removeField("color3", setShowColor3);
 
   return {
     // Form data
@@ -127,11 +130,6 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     showBreed2Field,
     showColor2Field,
     showColor3Field,
-
-    // Field removal
-    removeBreed2,
-    removeColor2,
-    removeColor3,
 
     // Color handling
     handleColor1Change,

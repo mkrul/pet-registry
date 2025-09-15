@@ -28,7 +28,6 @@ interface Props {
   showBreed2: boolean;
   onInputChange: (e: FormInputEvent) => void;
   setShowBreed2: (show: boolean) => void;
-  onBreed2Remove: () => void;
   isLoading: boolean;
   error: string;
   breedError?: string;
@@ -41,7 +40,6 @@ export const IdentificationFields: React.FC<Props> = ({
   showBreed2,
   onInputChange,
   setShowBreed2,
-  onBreed2Remove,
   isLoading,
   error,
   breedError,
@@ -70,11 +68,6 @@ export const IdentificationFields: React.FC<Props> = ({
   const handleBreed2Change = handleFieldChange("breed2");
   const handleGenderChange = handleFieldChange("gender");
 
-  const handleBreed2Remove = () => {
-    onInputChange(createChangeEvent("breed2", ""));
-    onBreed2Remove();
-    setShowBreed2(false);
-  };
 
   const handleBreedClick = () => {
     if (!formData.species) {
@@ -215,12 +208,6 @@ export const IdentificationFields: React.FC<Props> = ({
           {showBreed2 && (
             <AdditionalFieldSet
               label="Second Breed:"
-              onRemove={() => {
-                handleBreed2Remove();
-                setShowBreed2(false);
-              }}
-              disabled={isLoading}
-              testId="remove-breed-button"
               show={showBreed2}
             >
               <BreedSearch
@@ -231,7 +218,6 @@ export const IdentificationFields: React.FC<Props> = ({
                 excludeBreeds={[formData.breed1]}
                 size="medium"
                 hideLabel
-                disableClearable
               />
             </AdditionalFieldSet>
           )}

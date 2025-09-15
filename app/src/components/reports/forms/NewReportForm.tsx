@@ -33,10 +33,7 @@ const NewReportForm: React.FC = () => {
     showColor3,
     handleInputChange,
     handleLocationSelect,
-    removeColor2,
-    removeColor3,
     handleImageSelect,
-    removeBreed2,
     showBreed2Field,
     showColor2Field,
     showColor3Field,
@@ -105,7 +102,6 @@ const NewReportForm: React.FC = () => {
         showBreed2={showBreed2}
         onInputChange={handleInputChange}
         setShowBreed2={setShowBreed2}
-        onBreed2Remove={removeBreed2}
         isLoading={isLoading}
         error={""}
         breedError={""}
@@ -121,8 +117,6 @@ const NewReportForm: React.FC = () => {
         setShowColor3={showColor3Field}
         onColor2Add={showColor2Field}
         onColor3Add={showColor3Field}
-        onColor2Remove={removeColor2}
-        onColor3Remove={removeColor3}
         isLoading={isLoading}
         handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
         handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}

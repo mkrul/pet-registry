@@ -169,8 +169,6 @@ export interface ColorFieldsProps {
   setShowColor3: (show: boolean) => void;
   onColor2Add?: () => void;
   onColor3Add?: () => void;
-  onColor2Remove: () => void;
-  onColor3Remove: () => void;
   isLoading: boolean;
   handleColor1Change: (color: string) => void;
   handleColor2Change: (color: string) => void;
