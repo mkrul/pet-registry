@@ -2,7 +2,7 @@ module ReportSearchable
   extend ActiveSupport::Concern
 
   included do
-    searchkick searchable: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species],
+    searchkick searchable: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species, :gender],
                filterable: [:status, :species, :gender, :country, :state, :area, :color_1, :color_2, :color_3],
                suggest: [:breed_1, :breed_2],
                batch_size: 200

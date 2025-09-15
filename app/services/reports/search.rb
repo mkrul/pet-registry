@@ -26,6 +26,7 @@ class Reports::Search < ActiveInteraction::Base
       search_query = query.downcase
 
       cleaned_search_query = remove_species_keywords_from_query(search_query)
+      cleaned_search_query = remove_gender_keywords_from_query(cleaned_search_query)
       Rails.logger.debug "Original query: '#{search_query}', cleaned query: '#{cleaned_search_query}'"
 
       if cleaned_search_query.blank?
@@ -72,18 +73,20 @@ class Reports::Search < ActiveInteraction::Base
 
     filters = []
 
-    if gender.present?
-      gender_value = gender.downcase
+    target_gender = gender.present? ? gender.downcase : detect_gender_from_query
+
+    if target_gender.present?
       filters << {
         _or: [
-          { gender: gender_value },
-          { gender: "#{gender_value} (intact)" },
-          { gender: "#{gender_value} (neutered)" },
-          { gender: "#{gender_value} (spayed)" },
+          { gender: target_gender },
+          { gender: "#{target_gender} (intact)" },
+          { gender: "#{target_gender} (neutered)" },
+          { gender: "#{target_gender} (spayed)" },
           { gender: nil },
           { gender: "" }
         ]
       }
+      Rails.logger.debug "Gender filter applied: #{target_gender} (including nil/unknown)"
     end
 
     if color.present?
@@ -148,6 +151,27 @@ class Reports::Search < ActiveInteraction::Base
     nil
   end
 
+  def detect_gender_from_query
+    return nil unless query.present?
+
+    search_query = query.downcase
+
+    male_keywords = %w[male boy]
+    if male_keywords.any? { |keyword| search_query.include?(keyword) }
+      Rails.logger.debug "Detected male gender from query: '#{search_query}'"
+      return 'male'
+    end
+
+    female_keywords = %w[female girl]
+    if female_keywords.any? { |keyword| search_query.include?(keyword) }
+      Rails.logger.debug "Detected female gender from query: '#{search_query}'"
+      return 'female'
+    end
+
+    Rails.logger.debug "No gender detected from query: '#{search_query}'"
+    nil
+  end
+
   def remove_species_keywords_from_query(search_query)
     return search_query unless search_query.present?
 
@@ -162,6 +186,26 @@ class Reports::Search < ActiveInteraction::Base
 
     dog_keywords = %w[dog dogs doggie doggy doggies puppy puppies canine]
     dog_keywords.each do |keyword|
+      cleaned_query = cleaned_query.gsub(/\b#{Regexp.escape(keyword)}\b/, '').strip
+    end
+
+    cleaned_query.gsub(/\s+/, ' ').strip
+  end
+
+  def remove_gender_keywords_from_query(search_query)
+    return search_query unless search_query.present?
+
+    return search_query if gender.present?
+
+    cleaned_query = search_query.dup
+
+    male_keywords = %w[male boy]
+    male_keywords.each do |keyword|
+      cleaned_query = cleaned_query.gsub(/\b#{Regexp.escape(keyword)}\b/, '').strip
+    end
+
+    female_keywords = %w[female girl]
+    female_keywords.each do |keyword|
       cleaned_query = cleaned_query.gsub(/\b#{Regexp.escape(keyword)}\b/, '').strip
     end
 
