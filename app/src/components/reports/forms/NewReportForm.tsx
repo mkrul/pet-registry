@@ -28,27 +28,17 @@ const NewReportForm: React.FC = () => {
     setFormData,
     selectedImage,
     imagePreview,
-    showBreed2,
-    showColor2,
-    showColor3,
     handleInputChange,
     handleLocationSelect,
     handleImageSelect,
-    showBreed2Field,
-    showColor2Field,
-    showColor3Field,
     handleImageLoad,
     handleImageError,
-    getInitialLocation,
-    setShowBreed2
+    getInitialLocation
   } = useReportForm();
 
 
   const { handleSubmit } = useReportSubmit({
-    submitReport,
-    showBreed2,
-    showColor2,
-    showColor3
+    submitReport
   });
 
   const { onSubmit } = useFormSubmission(handleSubmit);
@@ -80,7 +70,6 @@ const NewReportForm: React.FC = () => {
       <FormPopulateButton
         setFormData={setFormData}
         handleImageSelect={handleImageSelect}
-        showColor2Field={showColor2Field}
       />
 
       <div className="mt-[0.5rem]">
@@ -99,9 +88,7 @@ const NewReportForm: React.FC = () => {
 
       <IdentificationFields
         formData={formData}
-        showBreed2={showBreed2}
         onInputChange={handleInputChange}
-        setShowBreed2={setShowBreed2}
         isLoading={isLoading}
         error={""}
         breedError={""}
@@ -111,12 +98,6 @@ const NewReportForm: React.FC = () => {
 
       <ColorFields
         formData={formData}
-        showColor2={showColor2}
-        showColor3={showColor3}
-        setShowColor2={showColor2Field}
-        setShowColor3={showColor3Field}
-        onColor2Add={showColor2Field}
-        onColor3Add={showColor3Field}
         isLoading={isLoading}
         handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
         handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}

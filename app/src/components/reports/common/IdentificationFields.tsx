@@ -13,8 +13,6 @@ import {
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
-import { AddFieldButton } from "../../common/AddFieldButton";
-import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 import {
   IdentificationFieldsProps as BaseIdentificationFieldsProps,
   ReportPropsForm,
@@ -25,9 +23,7 @@ import { FormFieldError } from "../../common/FormFieldError";
 
 interface Props {
   formData: ReportPropsForm;
-  showBreed2: boolean;
   onInputChange: (e: FormInputEvent) => void;
-  setShowBreed2: (show: boolean) => void;
   isLoading: boolean;
   error: string;
   breedError?: string;
@@ -37,9 +33,7 @@ interface Props {
 
 export const IdentificationFields: React.FC<Props> = ({
   formData,
-  showBreed2,
   onInputChange,
-  setShowBreed2,
   isLoading,
   error,
   breedError,
@@ -176,51 +170,40 @@ export const IdentificationFields: React.FC<Props> = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Breed:</label>
+        <label className="text-lg font-medium text-gray-900">First Breed:</label>
         <div className="space-y-2">
-          <div className={showBreed2 ? "mb-6" : ""}>
-            <BreedSearch
-              species={formData.species.toLowerCase() as "dog" | "cat"}
-              value={formData.breed1}
-              onChange={handleBreedChange}
-              disabled={isLoading}
-              excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-              required
-              size="medium"
-              hideLabel
-              disableClearable
-              error={!!breedError}
-              onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
-              data-testid="breed-search"
-            />
-            <FormFieldError error={breedError} />
-          </div>
+          <BreedSearch
+            species={formData.species.toLowerCase() as "dog" | "cat"}
+            value={formData.breed1}
+            onChange={handleBreedChange}
+            disabled={isLoading}
+            excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+            required
+            size="medium"
+            hideLabel
+            disableClearable
+            error={!!breedError}
+            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+            data-testid="breed-search"
+          />
+          <FormFieldError error={breedError} />
+        </div>
+      </div>
 
-          {!showBreed2 && formData.breed1 && (
-            <AddFieldButton
-              onClick={() => setShowBreed2(true)}
-              disabled={isLoading}
-              label="ADD BREED"
-              testId="add-breed-button"
-            />
-          )}
-
-          {showBreed2 && (
-            <AdditionalFieldSet
-              label="Second Breed:"
-              show={showBreed2}
-            >
-              <BreedSearch
-                species={formData.species.toLowerCase() as "dog" | "cat"}
-                value={formData.breed2}
-                onChange={handleBreed2Change}
-                disabled={isLoading}
-                excludeBreeds={[formData.breed1]}
-                size="medium"
-                hideLabel
-              />
-            </AdditionalFieldSet>
-          )}
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">Second Breed:</label>
+        <div className="space-y-2">
+          <BreedSearch
+            species={formData.species.toLowerCase() as "dog" | "cat"}
+            value={formData.breed2}
+            onChange={handleBreed2Change}
+            disabled={isLoading}
+            excludeBreeds={[formData.breed1]}
+            size="medium"
+            hideLabel
+            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+            data-testid="breed2-search"
+          />
         </div>
       </div>
     </div>

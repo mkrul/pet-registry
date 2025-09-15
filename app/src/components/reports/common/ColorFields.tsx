@@ -1,20 +1,13 @@
 import React from "react";
-import { FormControl, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { FormControl, Select, MenuItem, SelectChangeEvent, IconButton, Box } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import { ColorFieldsProps } from "../../../types/Report";
-import { AddFieldButton } from "../../common/AddFieldButton";
-import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 import { getColorOptions } from "../../../lib/reports/colorList";
 import { commonInputStyles } from "../../../styles/commonStyles";
 import { FormFieldError } from "../../common/FormFieldError";
 
 export const ColorFields: React.FC<ColorFieldsProps> = ({
   formData,
-  showColor2,
-  showColor3,
-  setShowColor2,
-  setShowColor3,
-  onColor2Add,
-  onColor3Add,
   isLoading,
   handleColor1Change,
   handleColor2Change,
@@ -44,10 +37,18 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
     handleColor3Change(e.target.value);
   };
 
+  const handleRemoveColor2 = () => {
+    handleColor2Change("");
+  };
+
+  const handleRemoveColor3 = () => {
+    handleColor3Change("");
+  };
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Colors:</label>
+        <label className="text-lg font-medium text-gray-900">First Color:</label>
         <div className="flex-grow">
           <FormControl fullWidth>
             <Select
@@ -75,91 +76,99 @@ export const ColorFields: React.FC<ColorFieldsProps> = ({
           </FormControl>
           <FormFieldError error={error} />
         </div>
-
-        {!showColor2 && formData.color1 && (
-          <AddFieldButton
-            onClick={() => setShowColor2(true)}
-            disabled={isLoading}
-            label="ADD COLOR"
-            testId="add-color-button"
-          />
-        )}
       </div>
 
-      {showColor2 && (
-        <div className="space-y-2">
-          <AdditionalFieldSet
-            label="Second Color:"
-          >
-            <FormControl fullWidth>
-              <Select
-                data-testid="color2-select"
-                labelId="color2-label"
-                id="color2"
-                value={formData.color2 || ""}
-                onChange={handleColor2SelectChange}
-                sx={commonInputStyles}
-                disabled={isLoading}
-                MenuProps={{
-                  PaperProps: {
-                    style: {
-                      maxHeight: 200
-                    }
-                  }
-                }}
-              >
-                {getFilteredColorOptions([formData.color1, formData.color3].filter(Boolean)).map((color, index) => (
-                  <MenuItem key={index} value={color} data-testid="color2-option">
-                    {color}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </AdditionalFieldSet>
-
-          {!showColor3 && formData.color2 && (
-            <AddFieldButton
-              onClick={() => setShowColor3(true)}
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">Second Color:</label>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <FormControl fullWidth>
+            <Select
+              data-testid="color2-select"
+              labelId="color2-label"
+              id="color2"
+              value={formData.color2 || ""}
+              onChange={handleColor2SelectChange}
+              sx={commonInputStyles}
               disabled={isLoading}
-              label="ADD COLOR"
-              testId="add-color-button"
-            />
-          )}
-        </div>
-      )}
-
-      {showColor3 && (
-        <div className="space-y-2">
-          <AdditionalFieldSet
-            label="Third Color:"
-          >
-            <FormControl fullWidth>
-              <Select
-                data-testid="color3-select"
-                labelId="color3-label"
-                id="color3"
-                value={formData.color3 || ""}
-                onChange={handleColor3SelectChange}
-                sx={commonInputStyles}
-                disabled={isLoading}
-                MenuProps={{
-                  PaperProps: {
-                    style: {
-                      maxHeight: 200
-                    }
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200
                   }
-                }}
-              >
-                {getFilteredColorOptions([formData.color1, formData.color2].filter(Boolean)).map((color, index) => (
-                  <MenuItem key={index} value={color} data-testid="color3-option">
-                    {color}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </AdditionalFieldSet>
-        </div>
-      )}
+                }
+              }}
+            >
+              {getFilteredColorOptions([formData.color1, formData.color3].filter(Boolean)).map((color, index) => (
+                <MenuItem key={index} value={color} data-testid="color2-option">
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {formData.color2 && (
+            <IconButton
+              onClick={handleRemoveColor2}
+              disabled={isLoading}
+              size="small"
+              data-testid="remove-color2-button"
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  color: 'error.main'
+                }
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">Third Color:</label>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <FormControl fullWidth>
+            <Select
+              data-testid="color3-select"
+              labelId="color3-label"
+              id="color3"
+              value={formData.color3 || ""}
+              onChange={handleColor3SelectChange}
+              sx={commonInputStyles}
+              disabled={isLoading}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200
+                  }
+                }
+              }}
+            >
+              {getFilteredColorOptions([formData.color1, formData.color2].filter(Boolean)).map((color, index) => (
+                <MenuItem key={index} value={color} data-testid="color3-option">
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {formData.color3 && (
+            <IconButton
+              onClick={handleRemoveColor3}
+              disabled={isLoading}
+              size="small"
+              data-testid="remove-color3-button"
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  color: 'error.main'
+                }
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
+      </div>
     </div>
   );
 };

@@ -22,12 +22,6 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     formData,
     isSaving,
     imageSrc,
-    showBreed2,
-    setShowBreed2,
-    showColor2,
-    showColor3,
-    setShowColor2,
-    setShowColor3,
     speciesOptions,
     breedOptions,
     colorOptions,
@@ -38,10 +32,6 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     handleImageLoad,
     handleImageError,
     handleSaveChanges,
-    addBreed,
-    removeBreed,
-    addColor,
-    removeColor,
     handleLocationSelect,
     getFilteredBreedOptions,
     getFilteredColorOptions
@@ -112,16 +102,6 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
             imageSrc={imageSrc}
             handleImageLoad={handleImageLoad}
             handleImageError={handleImageError}
-            showBreed2={showBreed2}
-            setShowBreed2={setShowBreed2}
-            showColor2={showColor2}
-            showColor3={showColor3}
-            setShowColor2={setShowColor2}
-            setShowColor3={setShowColor3}
-            addBreed={addBreed}
-            removeBreed={removeBreed}
-            addColor={addColor}
-            removeColor={removeColor}
             handleLocationSelect={handleLocationSelect}
             speciesOptions={speciesOptions}
             breedOptions={breedOptions}

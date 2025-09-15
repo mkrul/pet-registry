@@ -17,9 +17,6 @@ export const useReportEdit = (report: ReportProps) => {
   }, [report]);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
-  const [showBreed2, setShowBreed2] = useState(!!formData.breed2);
-  const [showColor2, setShowColor2] = useState(!!formData.color2);
-  const [showColor3, setShowColor3] = useState(!!formData.color3);
   const [isSaving, setIsSaving] = useState(false);
 
   const [updateReport] = useUpdateReportMutation();
@@ -86,35 +83,6 @@ export const useReportEdit = (report: ReportProps) => {
     }
   };
 
-  const addBreed = () => setShowBreed2(true);
-  const removeBreed = () => {
-    setShowBreed2(false);
-    setFormData(prev => ({ ...prev, breed2: null }));
-  };
-
-  const addColor = () => {
-    if (!showColor2) setShowColor2(true);
-    else if (!showColor3) setShowColor3(true);
-  };
-
-  const removeColor = (colorIndex: number) => {
-    if (colorIndex === 1) {
-      if (formData.color3) {
-        setFormData(prev => ({
-          ...prev,
-          color2: formData.color3,
-          color3: null
-        }));
-        setShowColor3(false);
-      } else {
-        setFormData(prev => ({ ...prev, color2: null }));
-        setShowColor2(false);
-      }
-    } else if (colorIndex === 2) {
-      setFormData(prev => ({ ...prev, color3: null }));
-      setShowColor3(false);
-    }
-  };
 
   const handleLocationSelect = (location: {
     latitude: number;
@@ -172,12 +140,6 @@ export const useReportEdit = (report: ReportProps) => {
     formData,
     isSaving,
     imageSrc,
-    showBreed2,
-    setShowBreed2,
-    showColor2,
-    showColor3,
-    setShowColor2,
-    setShowColor3,
     speciesOptions,
     breedOptions,
     colorOptions,
@@ -188,10 +150,6 @@ export const useReportEdit = (report: ReportProps) => {
     handleImageLoad,
     handleImageError,
     handleSaveChanges,
-    addBreed,
-    removeBreed,
-    addColor,
-    removeColor,
     handleLocationSelect,
     getFilteredBreedOptions,
     getFilteredColorOptions

@@ -5,7 +5,6 @@ import { ReportPropsForm } from "../../types/redux/features/reports/ReportsApi";
 interface FormPopulateButtonProps {
   setFormData: Dispatch<SetStateAction<ReportPropsForm>>;
   handleImageSelect: (file: File, preview: string) => void;
-  showColor2Field: () => void;
 }
 
 const generateMicrochipId = () => {
@@ -16,8 +15,7 @@ const generateMicrochipId = () => {
 
 export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
   setFormData,
-  handleImageSelect,
-  showColor2Field
+  handleImageSelect
 }) => {
   const loadDummyImage = () => {
     fetch("/images/golden-retriever.png")
