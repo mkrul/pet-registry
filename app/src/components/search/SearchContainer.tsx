@@ -4,15 +4,25 @@ import SearchBar from "./SearchBar";
 import FilterContainer from "./FilterContainer";
 import Tip from "../common/Tip";
 import { FiltersProps, SearchContainerProps } from "../../types/common/Search";
-import { getInitialFilters, getDefaultFilters, updateSearchParams } from "../../utils/filterUtils";
+import {
+  getInitialFilters,
+  getInitialSearchQuery,
+  getDefaultFilters,
+  updateSearchParams,
+  saveSearchToLocalStorage,
+  clearSearchFromLocalStorage
+} from "../../utils/filterUtils";
 
 const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
-  const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
+  const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery(searchParams));
+  const [filters, setFilters] = useState<FiltersProps>(() => getInitialFilters(searchParams));
   const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(() => {
-    // Check localStorage for user's preference, default to true if not set
     const saved = localStorage.getItem('searchTipsOpen');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+  const [rememberFilters, setRememberFilters] = useState<boolean>(() => {
+    const saved = localStorage.getItem('rememberFiltersEnabled');
     return saved !== null ? JSON.parse(saved) : true;
   });
 
@@ -21,6 +31,14 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     setSearchQuery(queryParam);
     setFilters(getInitialFilters(searchParams));
   }, [searchParams]);
+
+  useEffect(() => {
+    if (rememberFilters) {
+      saveSearchToLocalStorage(searchQuery, filters);
+    } else {
+      clearSearchFromLocalStorage();
+    }
+  }, [searchQuery, filters, rememberFilters]);
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -44,14 +62,28 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     setFilters(defaultFilters);
     window.scrollTo(0, 0);
 
+    if (rememberFilters) {
+      clearSearchFromLocalStorage();
+    }
+
     updateSearchParams("", defaultFilters);
   };
 
   const handleSearchTipsToggle = () => {
     const newState = !isSearchTipsOpen;
     setIsSearchTipsOpen(newState);
-    // Save user's preference to localStorage
     localStorage.setItem('searchTipsOpen', JSON.stringify(newState));
+  };
+
+  const handleRememberFiltersToggle = (enabled: boolean) => {
+    setRememberFilters(enabled);
+    localStorage.setItem('rememberFiltersEnabled', JSON.stringify(enabled));
+
+    if (enabled) {
+      saveSearchToLocalStorage(searchQuery, filters);
+    } else {
+      clearSearchFromLocalStorage();
+    }
   };
 
   return (
@@ -102,6 +134,8 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
         initialFilters={filters}
         onFiltersChange={setFilters}
         onReset={handleReset}
+        rememberFilters={rememberFilters}
+        onRememberFiltersToggle={handleRememberFiltersToggle}
       />
     </>
   );

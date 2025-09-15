@@ -16,6 +16,8 @@ export interface FilterContainerProps {
   initialFilters: FiltersProps;
   onFiltersChange: (filters: FiltersProps) => void;
   onReset: () => void;
+  rememberFilters: boolean;
+  onRememberFiltersToggle: (enabled: boolean) => void;
 }
 
 export interface FiltersProps {
@@ -23,6 +25,8 @@ export interface FiltersProps {
   color: string;
   gender: string;
   state: string;
+  area: string;
+  country: string;
   sort: string;
   breed: string;
 }
@@ -31,6 +35,7 @@ export interface FiltersHandlerProps {
   filters: FiltersProps;
   handleFilterChange: (e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>) => void;
   onReset: () => void;
+  onClearFilter: (filterName: keyof FiltersProps) => void;
 }
 
 export interface SearchContainerQueryProps {

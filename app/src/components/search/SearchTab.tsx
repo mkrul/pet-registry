@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchContainer from "./SearchContainer";
 import { FiltersProps } from "../../types/common/Search";
+import useClickOutside from "../../hooks/useClickOutside";
 
 interface SearchTabProps {
   isOpen: boolean;
@@ -11,6 +12,12 @@ interface SearchTabProps {
 
 const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComplete }) => {
   const [hasBeenClicked, setHasBeenClicked] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useClickOutside({
+    isOpen,
+    onClose: () => setIsOpen(false),
+    excludeRef: closeButtonRef
+  });
 
   const handleClick = () => {
     if (!hasBeenClicked) {
@@ -29,6 +36,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
   return (
     <div>
       <button
+        ref={closeButtonRef}
         onClick={handleClick}
         className={`fixed bottom-16 md:bottom-10 right-0 z-50 ${
           isOpen ? "bg-gray-500" : "bg-green-600"
@@ -59,6 +67,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={panelRef}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}

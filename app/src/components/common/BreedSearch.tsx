@@ -49,7 +49,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
           <TextField
             {...params}
             label={hideLabel ? undefined : "Breed"}
-            placeholder={species ? undefined : "Please select a species first"}
+            placeholder={species ? "Breed" : "Please select a species first"}
             variant="outlined"
             size={size}
             required={required}
@@ -67,9 +67,9 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
                 display: "none"
               },
               "& .MuiInputBase-input::placeholder": {
-                opacity: 0.8,
-                color: "text.secondary",
-                fontStyle: "italic"
+                opacity: species ? 1 : 0.8,
+                color: species ? "text.primary" : "text.secondary",
+                fontStyle: species ? "normal" : "italic"
               }
             }}
           />
