@@ -15,6 +15,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   disableClearable = false,
   error = false,
   onEmptySpeciesClick,
+  showBreedPlaceholder = true,
   "data-testid": dataTestId
 }) => {
   const breedOptions = useMemo(() => {
@@ -49,7 +50,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
           <TextField
             {...params}
             label={hideLabel ? undefined : "Breed"}
-            placeholder={species ? "Breed" : "Please select a species first"}
+            placeholder={species ? (showBreedPlaceholder ? "Breed" : "") : "Please select a species first"}
             variant="outlined"
             size={size}
             required={required}

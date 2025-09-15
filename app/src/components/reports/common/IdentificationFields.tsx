@@ -184,6 +184,7 @@ export const IdentificationFields: React.FC<Props> = ({
             disableClearable
             error={!!breedError}
             onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+            showBreedPlaceholder={false}
             data-testid="breed-search"
           />
           <FormFieldError error={breedError} />
@@ -202,6 +203,7 @@ export const IdentificationFields: React.FC<Props> = ({
             size="medium"
             hideLabel
             onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+            showBreedPlaceholder={false}
             data-testid="breed2-search"
           />
         </div>

@@ -11,5 +11,6 @@ export interface BreedSearchProps {
   disableClearable?: boolean;
   error?: boolean;
   onEmptySpeciesClick?: () => void;
+  showBreedPlaceholder?: boolean;
   "data-testid"?: string;
 }
