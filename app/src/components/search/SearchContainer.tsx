@@ -10,7 +10,11 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get("query") || "");
   const [filters, setFilters] = useState<FiltersProps>(getInitialFilters(searchParams));
-  const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(false);
+  const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(() => {
+    // Check localStorage for user's preference, default to true if not set
+    const saved = localStorage.getItem('searchTipsOpen');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
 
   useEffect(() => {
     const queryParam = searchParams.get("query") || "";
@@ -43,6 +47,13 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     updateSearchParams("", defaultFilters);
   };
 
+  const handleSearchTipsToggle = () => {
+    const newState = !isSearchTipsOpen;
+    setIsSearchTipsOpen(newState);
+    // Save user's preference to localStorage
+    localStorage.setItem('searchTipsOpen', JSON.stringify(newState));
+  };
+
   return (
     <>
       <SearchBar
@@ -54,7 +65,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
 
       <div className="text-sm text-gray-500 p-2 mt-2">
         <button
-          onClick={() => setIsSearchTipsOpen(!isSearchTipsOpen)}
+          onClick={handleSearchTipsToggle}
           className="font-semibold text-base mb-1 flex items-center w-full"
           aria-expanded={isSearchTipsOpen}
           aria-controls="search-tips-content"

@@ -551,7 +551,7 @@ bar.increment!
 
 report23 = CreateReport.new.call(
   title: 'Puppy found',
-  description: "I have no idea who owns this previous baby but I hope I can find his owner soon! I found him outside of a restaraunt on Main Street. I have no idea what breed he is, maybe a husky german shepherd mix?",
+  description: "I have no idea who owns this precious baby but I hope I can find his owner soon! I found him outside of a restaraunt on Main Street. I have no idea what breed he is, maybe a husky german shepherd mix?",
   name: nil,
   status: 'active',
   species: 'dog',

@@ -30,17 +30,14 @@ services:
       timeout: 5s
       retries: 5
 
-  # OpenSearch for search functionality
-  opensearch:
-    image: opensearchproject/opensearch:2.11.0
+  # Elasticsearch for search functionality
+  elasticsearch:
+    image: elasticsearch:7.17.21
     environment:
-      - cluster.name=opensearch-cluster
-      - node.name=opensearch-node1
       - discovery.type=single-node
       - bootstrap.memory_lock=true
-      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "DISABLE_INSTALL_DEMO_CONFIG=true"
-      - "DISABLE_SECURITY_PLUGIN=true"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -49,10 +46,9 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - opensearch_data:/usr/share/opensearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
     ports:
       - "19200:9200"
-      - "19600:9600"
     logging:
       driver: none
     healthcheck:
@@ -71,7 +67,7 @@ services:
       bash -c "
         rm -f tmp/pids/server.pid &&
         bundle exec rails db:prepare &&
-        if [ "$REINDEX" = "1" ]; then bundle exec rails searchkick:reindex:all --trace; fi &&
+        if [ "$$REINDEX" = "1" ]; then bundle exec rails searchkick:reindex:all --trace; fi &&
         exec bundle exec rails server -b '0.0.0.0'
       "
     volumes:
@@ -87,7 +83,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      opensearch:
+      elasticsearch:
         condition: service_healthy
     environment:
       - RAILS_ENV=development
@@ -99,7 +95,7 @@ services:
       - POSTGRES_TEST_DB=pet_registry_test
       - DATABASE_URL=postgresql://postgres:password@postgres:5432/pet_registry_development
       - REDIS_URL=redis://redis:6379/0
-      - OPENSEARCH_URL=http://opensearch:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
       - EDITOR=vim
       - VISUAL=vim
@@ -157,6 +153,6 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  opensearch_data:
+  elasticsearch_data:
   bundle_cache:
   node_modules:

@@ -10,7 +10,7 @@ module Api
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
-      result = Reports::Search.run(
+      search_params = {
         query: params[:query],
         species: params[:species],
         color: params[:color],
@@ -23,12 +23,15 @@ module Api
         sort: params[:sort],
         page: page,
         per_page: per_page
-      )
+      }
+
+      result = Reports::Search.run(search_params)
 
       if result.valid?
         reports = result.result
+        Rails.logger.debug "Search result: #{reports.total_entries} total entries, #{reports.to_a.length} in current page"
         render json: {
-          data: ActiveModelSerializers::SerializableResource.new(reports),
+          data: ActiveModelSerializers::SerializableResource.new(reports.to_a, each_serializer: ReportSerializer),
           pagination: {
             pages: reports.total_pages,
             count: reports.total_entries,

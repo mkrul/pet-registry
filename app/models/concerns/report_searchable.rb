@@ -2,42 +2,9 @@ module ReportSearchable
   extend ActiveSupport::Concern
 
   included do
-    searchkick word_middle: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species],
-               text_middle: [:gender],
-               searchable: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species],
+    searchkick searchable: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species],
                filterable: [:status, :species, :gender, :country, :state, :area, :color_1, :color_2, :color_3],
                suggest: [:breed_1, :breed_2],
-               word_start: [:breed_1, :breed_2],
-               mappings: {
-                 properties: {
-                   created_at: { type: "date" },
-                   updated_at: { type: "date" }
-                 }
-               },
-               settings: {
-                 analysis: {
-                   filter: {
-                     breed_synonym: {
-                       type: "synonym",
-                       synonyms: [
-                         "pitbull, pit bull, bully",
-                       ]
-                     }
-                   },
-                   analyzer: {
-                     searchkick_word_search: {
-                       type: "custom",
-                       tokenizer: "standard",
-                       filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
-                     },
-                     searchkick_word_middle_search: {
-                       type: "custom",
-                       tokenizer: "standard",
-                       filter: ["lowercase", "breed_synonym", "word_delimiter", "asciifolding"]
-                     }
-                   }
-                 }
-               },
                batch_size: 200
 
     after_commit :reindex_report
@@ -55,10 +22,10 @@ module ReportSearchable
       color_3: color_3&.downcase,
       name: name&.downcase,
       gender: gender&.downcase,
-      status: status,
-      country: country,
-      state: state,
-      area: area,
+      status: status&.downcase,
+      country: country&.downcase,
+      state: state&.downcase,
+      area: area&.downcase,
       updated_at: updated_at,
       created_at: created_at
     }

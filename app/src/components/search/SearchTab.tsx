@@ -31,7 +31,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
       <button
         onClick={handleClick}
         className={`fixed bottom-16 md:bottom-10 right-0 z-50 ${
-          isOpen ? "bg-green-500" : "bg-green-600"
+          isOpen ? "bg-gray-500" : "bg-green-600"
         } transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base ${
           !hasBeenClicked ? "animate-glow-pulse" : ""
         }`}
