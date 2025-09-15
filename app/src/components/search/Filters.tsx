@@ -71,6 +71,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
               } as React.ChangeEvent<HTMLSelectElement>)
             }
             disableClearable={true}
+            hideLabel={true}
           />
         </FilterWithClear>
 

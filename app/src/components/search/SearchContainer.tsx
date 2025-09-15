@@ -62,6 +62,10 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     setFilters(defaultFilters);
     window.scrollTo(0, 0);
 
+    if (rememberFilters) {
+      clearSearchFromLocalStorage();
+    }
+
     updateSearchParams("", defaultFilters);
   };
 
