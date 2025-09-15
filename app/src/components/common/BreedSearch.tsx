@@ -66,6 +66,15 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
               "& .MuiInputLabel-asterisk": {
                 display: "none"
               },
+              "& .MuiInputLabel-root": {
+                color: "text.secondary"
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "text.secondary"
+              },
+              "& .MuiInputLabel-root.MuiFormLabel-filled": {
+                color: "text.secondary"
+              },
               "& .MuiInputBase-input::placeholder": {
                 opacity: species ? 1 : 0.8,
                 color: species ? "text.primary" : "text.secondary",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUpdateReportMutation } from "../redux/features/reports/reportsApi";
 import { getColorOptions } from "../lib/reports/colorList";
 import { getBreedsBySpecies } from "../lib/reports/breedList";
@@ -10,6 +10,11 @@ import { SelectChangeEvent } from "@mui/material";
 
 export const useReportEdit = (report: ReportProps) => {
   const [formData, setFormData] = useState(report);
+
+  useEffect(() => {
+    setFormData(report);
+    setImageSrc(report.image?.variantUrl || "/images/placeholder.png");
+  }, [report]);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
   const [showBreed2, setShowBreed2] = useState(!!formData.breed2);

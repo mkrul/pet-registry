@@ -179,7 +179,7 @@ export interface ColorFieldsProps {
 export type FormInputEvent =
   | SelectChangeEvent
   | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  | { target: { name: string; value: string | null } };
+  | { target: { name: string; value: string | boolean | null } };
 
 export interface IdentificationFieldsProps {
   formData: ReportPropsForm;
