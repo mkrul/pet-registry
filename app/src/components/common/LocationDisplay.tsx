@@ -1,6 +1,6 @@
 import React from "react";
 import { LocationDisplayProps } from "../../types/common/LocationDisplay";
-import Tip from "./Tip";
+import { getStateAbbreviation } from "../../utils/stateUtils";
 const LocationDisplay: React.FC<LocationDisplayProps> = ({
   area,
   state,
@@ -15,10 +15,11 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
 
   const locationString = () => {
     if (area && state) {
+      const stateAbbr = getStateAbbreviation(state);
       return (
         <>
-          <p>{`${area}, ${state}, United States`}</p>
-          {intersection && <p>Intersection of {intersection}</p>}
+          {intersection && <p>Last seen near {intersection} in {area}, {stateAbbr}</p>}
+          <p>{}</p>
         </>
       );
     }
