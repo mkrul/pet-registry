@@ -4,7 +4,7 @@ module Api
   class ReportsController < ApplicationController
 
     before_action :set_report, only: %i[show edit update destroy]
-    before_action :authenticate_user!, only: [:user_reports]
+    before_action :authenticate_user!, only: [:user_reports, :create]
     skip_before_action :verify_authenticity_token
 
     def index
@@ -84,7 +84,7 @@ module Api
 
     def create
       Rails.logger.info("Create params received: #{report_params.inspect}")
-      outcome = Reports::Create.run(report_params)
+      outcome = Reports::Create.run(report_params.merge(user_id: current_user.id))
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
@@ -126,22 +126,31 @@ module Api
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
-      reports = current_user.reports
+      reports_query = Report.where(user: current_user)
                             .includes(:image_attachment)
                             .order(created_at: :desc)
-                            .page(page)
-                            .per(per_page)
+
+      total_count = reports_query.count
+      offset = (page - 1) * per_page
+      reports = reports_query.limit(per_page).offset(offset)
+
+      paginated_reports = PaginatedCollection.new(
+        reports.to_a,
+        total: total_count,
+        page: page,
+        per_page: per_page
+      )
 
       render json: {
-        data: ActiveModelSerializers::SerializableResource.new(reports.to_a, each_serializer: ReportSerializer),
+        data: ActiveModelSerializers::SerializableResource.new(paginated_reports.to_a, each_serializer: ReportSerializer),
         pagination: {
-          pages: reports.total_pages,
-          count: reports.total_entries,
-          page: reports.current_page,
-          items: reports.per_page,
+          pages: paginated_reports.total_pages,
+          count: paginated_reports.total_entries,
+          page: paginated_reports.current_page,
+          items: paginated_reports.per_page,
           per_page: Report::REPORT_INDEX_PAGE_LIMIT
         },
-        message: reports.empty? ? "You haven't created any reports yet." : nil
+        message: paginated_reports.empty? ? "You haven't created any reports yet." : nil
       }
     end
 

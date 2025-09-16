@@ -1,45 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUserReportsData } from '../../hooks/useUserReportsData';
 import { ReportProps } from '../../types/Report';
+import { NotificationState, NotificationType } from '../../types/common/Notification';
+import MinifiedReportCard from './MinifiedReportCard';
+import Notification from '../common/Notification';
 
 const DashboardReports: React.FC = () => {
   const [page, setPage] = useState(1);
-  const { reports, isLoading, notification } = useUserReportsData(page);
+  const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
+  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const { reports, isLoading, notification: apiNotification } = useUserReportsData(page);
 
-  const renderReportCard = (report: ReportProps) => (
-    <div key={report.id} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">{report.title}</h3>
-          <p className="text-sm text-gray-600 mb-3 line-clamp-2">{report.description}</p>
-          <div className="flex items-center space-x-4 text-sm text-gray-500">
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {new Date(report.createdAt).toLocaleDateString()}
-            </span>
-            <span className="flex items-center">
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              {report.area && report.state ? `${report.area}, ${report.state}` : 'Location not specified'}
-            </span>
-          </div>
-        </div>
-        <div className="ml-4">
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-            report.status === 'active'
-              ? 'bg-green-100 text-green-800'
-              : 'bg-gray-100 text-gray-800'
-          }`}>
-            {report.status}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+  const handleEditReport = (report: ReportProps) => {
+    console.log('Edit report:', report.id);
+  };
+
+  const handleDeleteReport = (report: ReportProps) => {
+    console.log('Delete report:', report.id);
+  };
+
+  useEffect(() => {
+    if (apiNotification) {
+      setNotification(apiNotification);
+    }
+  }, [apiNotification]);
+
+  const handleNotificationClose = () => {
+    setNotification(null);
+  };
+
 
   if (isLoading) {
     return (
@@ -67,18 +56,110 @@ const DashboardReports: React.FC = () => {
       </div>
 
       {notification && (
-        <div className={`mb-6 p-4 rounded-md ${
-          notification.type === 'error'
-            ? 'bg-red-50 text-red-700 border border-red-200'
-            : 'bg-blue-50 text-blue-700 border border-blue-200'
-        }`}>
-          {notification.message}
-        </div>
+        <Notification
+          type={notification.type}
+          message={notification.message}
+          onClose={handleNotificationClose}
+        />
       )}
 
-      {reports.length > 0 ? (
-        <div className="space-y-4">
-          {reports.map(renderReportCard)}
+      {selectedReport ? (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setSelectedReport(null)}
+              className="flex items-center text-gray-600 hover:text-gray-900"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Reports
+            </button>
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="md:flex">
+              <div className="md:w-1/2">
+                <img
+                  src={selectedReport.image?.variantUrl || "/images/placeholder.png"}
+                  alt={selectedReport.title}
+                  className="w-full h-64 md:h-full object-cover"
+                />
+              </div>
+              <div className="md:w-1/2 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-bold text-gray-900">{selectedReport.title}</h3>
+                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                    selectedReport.status === 'active'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {selectedReport.status}
+                  </span>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Description</h4>
+                    <p className="text-gray-900">{selectedReport.description}</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 mb-1">Species</h4>
+                      <p className="text-gray-900 capitalize">{selectedReport.species}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
+                      <p className="text-gray-900">{selectedReport.breed1}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 mb-1">Gender</h4>
+                      <p className="text-gray-900 capitalize">{selectedReport.gender || 'Unknown'}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 mb-1">Name</h4>
+                      <p className="text-gray-900">{selectedReport.name || 'Unknown'}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Location</h4>
+                    <p className="text-gray-900">
+                      {[selectedReport.area, selectedReport.state, selectedReport.country]
+                        .filter(Boolean)
+                        .join(', ') || 'Location not specified'}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Created</h4>
+                    <p className="text-gray-900">
+                      {new Date(selectedReport.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : reports.length > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+          {reports.map(report => (
+            <MinifiedReportCard
+              key={report.id}
+              report={report}
+              onClick={setSelectedReport}
+              onEdit={handleEditReport}
+              onDelete={handleDeleteReport}
+            />
+          ))}
         </div>
       ) : (
         <div className="bg-gray-50 rounded-lg p-8 text-center">
