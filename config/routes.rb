@@ -27,7 +27,10 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :pets
+
     get 'users/reports', to: 'reports#user_reports'
+    get 'users/pets', to: 'pets#user_pets'
 
     resource :session, only: [:create, :show, :destroy]
     get 'user_info', to: 'sessions#user_info'

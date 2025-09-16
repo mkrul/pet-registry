@@ -32,11 +32,11 @@ module BreedList
     valid_breeds = self.class.valid_breeds_for(species)
     valid_breeds_downcased = valid_breeds.map(&:downcase)
 
-    if breed_1.present? && !valid_breeds_downcased.include?(breed_1)
+    if breed_1.present? && !valid_breeds_downcased.include?(breed_1.downcase)
       errors.add(:breed_1, "is not a valid breed for #{species}")
     end
 
-    if breed_2.present? && !valid_breeds_downcased.include?(breed_2)
+    if breed_2.present? && !valid_breeds_downcased.include?(breed_2.downcase)
       errors.add(:breed_2, "is not a valid breed for #{species}")
     end
   end
