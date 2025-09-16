@@ -7,7 +7,7 @@ const Footer = () => {
     <div className="bg-base-200 py-6" role="contentinfo" data-testid="footer">
       <div className="container mx-auto px-4 text-center">
         <div className="flex justify-center space-x-6">
-          <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
+          <NavLink linkTo="/reports/new">New Report</NavLink>
           <NavLink linkTo="/reports">Search</NavLink>
           <NavLink linkTo="#">About</NavLink>
           <NavLink linkTo="#">Contact</NavLink>

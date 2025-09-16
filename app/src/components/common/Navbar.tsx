@@ -99,36 +99,12 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* Navigation for larger screens (850px+) */}
-          <div className="hidden md:flex flex-none">
+          {/* Navigation for screens 640px and larger */}
+          <div className="hidden sm:flex flex-none">
             <ul
               className="menu menu-horizontal [&>li>a]:px-[0.875rem]"
               data-testid="desktop-nav"
               aria-label="desktop navigation"
-            >
-              <li>
-                <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
-              </li>
-              <li>
-                <NavLink linkTo="/reports">Search</NavLink>
-              </li>
-              <li>
-                <NavLink linkTo="#">About</NavLink>
-              </li>
-              {!isAuthenticated && (
-                <li>
-                  <NavLink linkTo="/login" data-testid="nav-link-login">Log In</NavLink>
-                </li>
-              )}
-            </ul>
-          </div>
-
-          {/* Navigation for tablet sizes (640px-849px) */}
-          <div className="hidden sm:flex md:hidden flex-none">
-            <ul
-              className="menu menu-horizontal [&>li>a]:px-[0.875rem]"
-              data-testid="tablet-nav"
-              aria-label="tablet navigation"
             >
               <li>
                 <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
