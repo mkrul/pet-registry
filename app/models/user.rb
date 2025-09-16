@@ -3,6 +3,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :authentication_keys => [:email]
 
+  has_many :reports, dependent: :destroy
+
   # Add case-insensitive email validation
   before_validation :downcase_email
 

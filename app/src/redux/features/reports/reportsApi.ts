@@ -140,6 +140,33 @@ export const reportsApi = createApi({
         params: { species }
       }),
       transformResponse: (response: { breeds: string[] }) => response.breeds
+    }),
+    getUserReports: build.query<ReportsResponse, PaginationPropsQuery>({
+      query: params => {
+        const queryParams: Record<string, string> = {
+          page: params.page?.toString() || "1",
+          per_page: params.items?.toString() || "21"
+        };
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        return {
+          url: `users/reports?${queryString}`,
+          method: "GET"
+        };
+      },
+      transformResponse: (response: ReportsResponse) => {
+        const reports = response.data.map(report => transformToCamelCase(report));
+        const pagination = transformToCamelCase(response.pagination);
+        return { data: reports, pagination, message: response.message };
+      },
+      providesTags: result =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
+              { type: "Reports", id: "USER_LIST" }
+            ]
+          : [{ type: "Reports", id: "USER_LIST" }]
     })
   })
 });
@@ -152,6 +179,7 @@ export const {
   useGetBreedsQuery,
   useSubmitReportMutation,
   useGetNewReportQuery,
-  useUpdateReportMutation
+  useUpdateReportMutation,
+  useGetUserReportsQuery
 } = reportsApi;
 export default reportsApi;

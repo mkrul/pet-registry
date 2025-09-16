@@ -4,6 +4,7 @@ module Api
   class ReportsController < ApplicationController
 
     before_action :set_report, only: %i[show edit update destroy]
+    before_action :authenticate_user!, only: [:user_reports]
     skip_before_action :verify_authenticity_token
 
     def index
@@ -119,6 +120,29 @@ module Api
       @report.destroy!
 
       head :no_content
+    end
+
+    def user_reports
+      page = (params[:page] || 1).to_i
+      per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
+
+      reports = current_user.reports
+                            .includes(:image_attachment)
+                            .order(created_at: :desc)
+                            .page(page)
+                            .per(per_page)
+
+      render json: {
+        data: ActiveModelSerializers::SerializableResource.new(reports.to_a, each_serializer: ReportSerializer),
+        pagination: {
+          pages: reports.total_pages,
+          count: reports.total_entries,
+          page: reports.current_page,
+          items: reports.per_page,
+          per_page: Report::REPORT_INDEX_PAGE_LIMIT
+        },
+        message: reports.empty? ? "You haven't created any reports yet." : nil
+      }
     end
 
     private
