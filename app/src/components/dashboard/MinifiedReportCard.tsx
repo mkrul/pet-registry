@@ -36,7 +36,7 @@ const MinifiedReportCard: React.FC<MinifiedReportCardProps> = ({ report, onClick
               }
             }}
           />
-          <div className="absolute top-2 right-2 flex space-x-1">
+          <div className="absolute bottom-2 right-2 flex space-x-1">
             {onEdit && (
               <button
                 onClick={handleEditClick}
