@@ -8,13 +8,14 @@ import {
   FormControlLabel,
   Radio,
   Alert,
-  SelectChangeEvent
+  SelectChangeEvent,
+  IconButton,
+  Box
 } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
-import { AddFieldButton } from "../../common/AddFieldButton";
-import { AdditionalFieldSet } from "../../common/AdditionalFieldSet";
 import {
   IdentificationFieldsProps as BaseIdentificationFieldsProps,
   ReportPropsForm,
@@ -25,10 +26,7 @@ import { FormFieldError } from "../../common/FormFieldError";
 
 interface Props {
   formData: ReportPropsForm;
-  showBreed2: boolean;
   onInputChange: (e: FormInputEvent) => void;
-  setShowBreed2: (show: boolean) => void;
-  onBreed2Remove: () => void;
   isLoading: boolean;
   error: string;
   breedError?: string;
@@ -38,10 +36,7 @@ interface Props {
 
 export const IdentificationFields: React.FC<Props> = ({
   formData,
-  showBreed2,
   onInputChange,
-  setShowBreed2,
-  onBreed2Remove,
   isLoading,
   error,
   breedError,
@@ -70,11 +65,10 @@ export const IdentificationFields: React.FC<Props> = ({
   const handleBreed2Change = handleFieldChange("breed2");
   const handleGenderChange = handleFieldChange("gender");
 
-  const handleBreed2Remove = () => {
-    onInputChange(createChangeEvent("breed2", ""));
-    onBreed2Remove();
-    setShowBreed2(false);
+  const handleClearGender = () => {
+    onInputChange(createChangeEvent("gender", ""));
   };
+
 
   const handleBreedClick = () => {
     if (!formData.species) {
@@ -104,30 +98,48 @@ export const IdentificationFields: React.FC<Props> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>{" "}
         <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
-        <FormControl fullWidth>
-          <Select
-            data-testid="gender-select"
-            labelId="gender-label"
-            id="gender"
-            value={formData.gender || ""}
-            onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
-            sx={commonInputStyles}
-            disabled={isLoading}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 200
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <FormControl fullWidth>
+            <Select
+              data-testid="gender-select"
+              labelId="gender-label"
+              id="gender"
+              value={formData.gender || ""}
+              onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
+              sx={commonInputStyles}
+              disabled={isLoading}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200
+                  }
                 }
-              }
-            }}
-          >
-            {genderOptions.map((gender, index) => (
-              <MenuItem key={index} value={gender} data-testid="gender-option">
-                {gender}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              }}
+            >
+              {genderOptions.map((gender, index) => (
+                <MenuItem key={index} value={gender} data-testid="gender-option">
+                  {gender}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {formData.gender && (
+            <IconButton
+              onClick={handleClearGender}
+              disabled={isLoading}
+              size="small"
+              data-testid="remove-gender-button"
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  color: 'error.main'
+                }
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
       </div>
 
       <div className="space-y-2">
@@ -183,58 +195,42 @@ export const IdentificationFields: React.FC<Props> = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Breed:</label>
+        <label className="text-lg font-medium text-gray-900">First Breed:</label>
         <div className="space-y-2">
-          <div className={showBreed2 ? "mb-6" : ""}>
-            <BreedSearch
-              species={formData.species.toLowerCase() as "dog" | "cat"}
-              value={formData.breed1}
-              onChange={handleBreedChange}
-              disabled={isLoading}
-              excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-              required
-              size="medium"
-              hideLabel
-              disableClearable
-              error={!!breedError}
-              onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
-              data-testid="breed-search"
-            />
-            <FormFieldError error={breedError} />
-          </div>
+          <BreedSearch
+            species={formData.species.toLowerCase() as "dog" | "cat"}
+            value={formData.breed1}
+            onChange={handleBreedChange}
+            disabled={isLoading}
+            excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+            required
+            size="medium"
+            hideLabel
+            disableClearable
+            error={!!breedError}
+            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+            showBreedPlaceholder={false}
+            data-testid="breed-search"
+          />
+          <FormFieldError error={breedError} />
+        </div>
+      </div>
 
-          {!showBreed2 && formData.breed1 && (
-            <AddFieldButton
-              onClick={() => setShowBreed2(true)}
-              disabled={isLoading}
-              label="ADD BREED"
-              testId="add-breed-button"
-            />
-          )}
-
-          {showBreed2 && (
-            <AdditionalFieldSet
-              label="Second Breed:"
-              onRemove={() => {
-                handleBreed2Remove();
-                setShowBreed2(false);
-              }}
-              disabled={isLoading}
-              testId="remove-breed-button"
-              show={showBreed2}
-            >
-              <BreedSearch
-                species={formData.species.toLowerCase() as "dog" | "cat"}
-                value={formData.breed2}
-                onChange={handleBreed2Change}
-                disabled={isLoading}
-                excludeBreeds={[formData.breed1]}
-                size="medium"
-                hideLabel
-                disableClearable
-              />
-            </AdditionalFieldSet>
-          )}
+      <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">Second Breed:</label>
+        <div className="space-y-2">
+          <BreedSearch
+            species={formData.species.toLowerCase() as "dog" | "cat"}
+            value={formData.breed2}
+            onChange={handleBreed2Change}
+            disabled={isLoading}
+            excludeBreeds={[formData.breed1]}
+            size="medium"
+            hideLabel
+            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+            showBreedPlaceholder={false}
+            data-testid="breed2-search"
+          />
         </div>
       </div>
     </div>

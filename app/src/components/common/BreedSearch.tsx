@@ -15,6 +15,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
   disableClearable = false,
   error = false,
   onEmptySpeciesClick,
+  showBreedPlaceholder = true,
   "data-testid": dataTestId
 }) => {
   const breedOptions = useMemo(() => {
@@ -38,7 +39,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         options={breedOptions}
         disabled={disabled || !species}
         size={size}
-        disableClearable={disableClearable}
+        clearable={!disableClearable}
         onFocus={handleClick}
         slotProps={{
           listbox: {
@@ -49,7 +50,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
           <TextField
             {...params}
             label={hideLabel ? undefined : "Breed"}
-            placeholder={species ? "Breed" : "Please select a species first"}
+            placeholder={species ? (showBreedPlaceholder ? "Breed" : "") : "Please select a species first"}
             variant="outlined"
             size={size}
             required={required}
@@ -65,6 +66,15 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
               },
               "& .MuiInputLabel-asterisk": {
                 display: "none"
+              },
+              "& .MuiInputLabel-root": {
+                color: "text.secondary"
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "text.secondary"
+              },
+              "& .MuiInputLabel-root.MuiFormLabel-filled": {
+                color: "text.secondary"
               },
               "& .MuiInputBase-input::placeholder": {
                 opacity: species ? 1 : 0.8,

@@ -4,6 +4,6 @@ import { SelectChangeEvent } from "@mui/material";
 export interface FormInputEvent {
   target: {
     name: string;
-    value: string | null;
+    value: string | boolean | null;
   };
 }

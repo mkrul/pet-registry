@@ -12,19 +12,12 @@ interface ValidationErrorResponse {
 }
 
 export const useReportSubmit = ({
-  submitReport,
-  showBreed2,
-  showColor2,
-  showColor3
+  submitReport
 }: UseReportSubmitProps) => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (formData: ReportPropsForm, selectedImage: File | null) => {
-    const data = createFormData(formData, selectedImage, {
-      showBreed2,
-      showColor2,
-      showColor3
-    });
+    const data = createFormData(formData, selectedImage);
 
     try {
       const response = await submitReport(data);

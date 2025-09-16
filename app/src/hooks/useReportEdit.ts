@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUpdateReportMutation } from "../redux/features/reports/reportsApi";
 import { getColorOptions } from "../lib/reports/colorList";
 import { getBreedsBySpecies } from "../lib/reports/breedList";
@@ -10,11 +10,13 @@ import { SelectChangeEvent } from "@mui/material";
 
 export const useReportEdit = (report: ReportProps) => {
   const [formData, setFormData] = useState(report);
+
+  useEffect(() => {
+    setFormData(report);
+    setImageSrc(report.image?.variantUrl || "/images/placeholder.png");
+  }, [report]);
   const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
-  const [showBreed2, setShowBreed2] = useState(!!formData.breed2);
-  const [showColor2, setShowColor2] = useState(!!formData.color2);
-  const [showColor3, setShowColor3] = useState(!!formData.color3);
   const [isSaving, setIsSaving] = useState(false);
 
   const [updateReport] = useUpdateReportMutation();
@@ -39,6 +41,11 @@ export const useReportEdit = (report: ReportProps) => {
 
     setFormData(prev => {
       const newFormData = { ...prev };
+
+      if (name === "species" && prev.species !== value) {
+        newFormData.breed1 = "";
+        newFormData.breed2 = null;
+      }
 
       if (name.startsWith("color")) {
         if (value) {
@@ -81,35 +88,6 @@ export const useReportEdit = (report: ReportProps) => {
     }
   };
 
-  const addBreed = () => setShowBreed2(true);
-  const removeBreed = () => {
-    setShowBreed2(false);
-    setFormData(prev => ({ ...prev, breed2: null }));
-  };
-
-  const addColor = () => {
-    if (!showColor2) setShowColor2(true);
-    else if (!showColor3) setShowColor3(true);
-  };
-
-  const removeColor = (colorIndex: number) => {
-    if (colorIndex === 1) {
-      if (formData.color3) {
-        setFormData(prev => ({
-          ...prev,
-          color2: formData.color3,
-          color3: null
-        }));
-        setShowColor3(false);
-      } else {
-        setFormData(prev => ({ ...prev, color2: null }));
-        setShowColor2(false);
-      }
-    } else if (colorIndex === 2) {
-      setFormData(prev => ({ ...prev, color3: null }));
-      setShowColor3(false);
-    }
-  };
 
   const handleLocationSelect = (location: {
     latitude: number;
@@ -167,12 +145,6 @@ export const useReportEdit = (report: ReportProps) => {
     formData,
     isSaving,
     imageSrc,
-    showBreed2,
-    setShowBreed2,
-    showColor2,
-    showColor3,
-    setShowColor2,
-    setShowColor3,
     speciesOptions,
     breedOptions,
     colorOptions,
@@ -183,10 +155,6 @@ export const useReportEdit = (report: ReportProps) => {
     handleImageLoad,
     handleImageError,
     handleSaveChanges,
-    addBreed,
-    removeBreed,
-    addColor,
-    removeColor,
     handleLocationSelect,
     getFilteredBreedOptions,
     getFilteredColorOptions

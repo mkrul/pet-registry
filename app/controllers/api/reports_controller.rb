@@ -50,23 +50,23 @@ module Api
       @report = Report.new
       render json: {
         report: {
-          title: "",
-          description: "",
-          name: "",
-          gender: "",
-          species: "",
-          breed_1: "",
-          breed_2: "",
-          color_1: "",
-          color_2: "",
-          color_3: "",
-          microchip_id: "",
-          area: "",
-          state: "",
-          country: "",
+          title: nil,
+          description: nil,
+          name: nil,
+          gender: nil,
+          species: nil,
+          breed_1: nil,
+          breed_2: nil,
+          color_1: nil,
+          color_2: nil,
+          color_3: nil,
+          microchip_id: nil,
+          area: nil,
+          state: nil,
+          country: nil,
           latitude: nil,
           longitude: nil,
-          intersection: ""
+          intersection: nil
         }
       }, status: :ok
     rescue StandardError => e
@@ -82,8 +82,8 @@ module Api
     def edit; end
 
     def create
-      Rails.logger.info("Create params received: #{create_params.inspect}")
-      outcome = Reports::Create.run(create_params)
+      Rails.logger.info("Create params received: #{report_params.inspect}")
+      outcome = Reports::Create.run(report_params)
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
@@ -100,7 +100,7 @@ module Api
     end
 
     def update
-      outcome = Reports::Update.run(update_params)
+      outcome = Reports::Update.run(report_params.merge(report: @report))
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
@@ -143,55 +143,6 @@ module Api
     end
 
     private
-
-    def create_params
-      params.permit(
-        :title,
-        :name,
-        :description,
-        :gender,
-        :species,
-        :breed_1,
-        :breed_2,
-        :color_1,
-        :color_2,
-        :color_3,
-        :microchip_id,
-        :image,
-        :area,
-        :state,
-        :country,
-        :latitude,
-        :longitude,
-        :intersection,
-        :is_altered
-      )
-    end
-
-    def update_params
-      processed_params = params.permit(
-        :title,
-        :description,
-        :name,
-        :gender,
-        :species,
-        :breed_1,
-        :breed_2,
-        :color_1,
-        :color_2,
-        :color_3,
-        :microchip_id,
-        :image,
-        :area,
-        :state,
-        :country,
-        :latitude,
-        :longitude,
-        :status,
-        :intersection,
-        :is_altered
-      ).merge(report: @report)
-    end
 
     def report_params
       params.permit(

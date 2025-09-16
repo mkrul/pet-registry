@@ -3,7 +3,6 @@ import { ImageProps } from "./common/Image";
 import { PaginationProps } from "./common/Pagination";
 import { FiltersProps } from "./common/Search";
 import { SelectChangeEvent } from "@mui/material";
-import { MapLocation } from "../types/common/Map";
 import { NotificationState } from "./common/Notification";
 
 export interface ReportProps {
@@ -115,14 +114,7 @@ export interface EditReportFormProps {
   imageSrc: string | null;
   handleImageLoad: () => void;
   handleImageError: () => void;
-  showBreed2: boolean;
-  showColor2: boolean;
-  showColor3: boolean;
-  addBreed: () => void;
-  removeBreed: () => void;
-  addColor: () => void;
-  removeColor: (index: number) => void;
-  handleLocationSelect: (location: MapLocation) => void;
+  handleLocationSelect: (location: LocationData) => void;
   speciesOptions: string[];
   breedOptions: string[];
   getFilteredBreedOptions: (excludeBreeds: string[]) => string[];
@@ -130,9 +122,6 @@ export interface EditReportFormProps {
   getFilteredColorOptions: (excludeColors: string[]) => string[];
   genderOptions: string[];
   VIEW_ZOOM_LEVEL: number;
-  setShowBreed2: (show: boolean) => void;
-  setShowColor2: (show: boolean) => void;
-  setShowColor3: (show: boolean) => void;
 }
 
 export interface ViewReportFormProps {
@@ -163,14 +152,6 @@ export interface BasicInfoFieldsProps {
 
 export interface ColorFieldsProps {
   formData: ReportPropsForm;
-  showColor2: boolean;
-  showColor3: boolean;
-  setShowColor2: (show: boolean) => void;
-  setShowColor3: (show: boolean) => void;
-  onColor2Add?: () => void;
-  onColor3Add?: () => void;
-  onColor2Remove: () => void;
-  onColor3Remove: () => void;
   isLoading: boolean;
   handleColor1Change: (color: string) => void;
   handleColor2Change: (color: string) => void;
@@ -181,18 +162,16 @@ export interface ColorFieldsProps {
 export type FormInputEvent =
   | SelectChangeEvent
   | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  | { target: { name: string; value: string | null } };
+  | { target: { name: string; value: string | boolean | null } };
 
 export interface IdentificationFieldsProps {
   formData: ReportPropsForm;
-  showBreed2: boolean;
   onInputChange: (e: FormInputEvent) => void;
-  setShowBreed2: (show: boolean) => void;
-  onBreed2Remove: () => void;
   isLoading: boolean;
   error: string;
   breedError: string;
   alteredError: string;
+  microchipError?: string;
 }
 
 export interface LocationData {
