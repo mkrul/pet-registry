@@ -4,6 +4,7 @@ import { ReportProps } from '../../types/Report';
 import { NotificationState, NotificationType } from '../../types/common/Notification';
 import ReportPreview from './ReportPreview';
 import ReportDetailView from './ReportDetailView';
+import ReportEditView from './ReportEditView';
 import Notification from '../common/Notification';
 import NewReportForm from '../reports/forms/NewReportForm';
 import { useGetNewReportQuery } from '../../redux/features/reports/reportsApi';
@@ -16,13 +17,14 @@ interface DashboardReportsProps {
 const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
+  const [editingReport, setEditingReport] = useState<ReportProps | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const [isCreatingReport, setIsCreatingReport] = useState(false);
   const { reports, isLoading, notification: apiNotification } = useUserReportsData(page);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
 
   const handleEditReport = (report: ReportProps) => {
-    console.log('Edit report:', report.id);
+    setEditingReport(report);
   };
 
   const handleDeleteReport = (report: ReportProps) => {
@@ -36,6 +38,15 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const handleBackToReports = () => {
     setIsCreatingReport(false);
     setSelectedReport(null);
+    setEditingReport(null);
+  };
+
+  const handleEditSaveSuccess = () => {
+    setEditingReport(null);
+    setNotification({
+      type: NotificationType.SUCCESS,
+      message: 'Report updated successfully'
+    });
   };
 
   useEffect(() => {
@@ -99,6 +110,18 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
           <NewReportForm />
         </div>
       </div>
+    );
+  }
+
+  if (editingReport) {
+    return (
+      <ReportEditView
+        report={editingReport}
+        onBack={handleBackToReports}
+        onSaveSuccess={handleEditSaveSuccess}
+        notification={notification}
+        onNotificationClose={handleNotificationClose}
+      />
     );
   }
 
