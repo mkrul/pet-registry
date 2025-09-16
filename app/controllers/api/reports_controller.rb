@@ -145,9 +145,15 @@ module Api
       per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
       reports_query = Report.where(user: current_user)
-                            .where(status: 'active')
                             .includes(:image_attachment)
                             .order(created_at: :desc)
+
+      if params[:status].present?
+        reports_query = reports_query.where(status: params[:status])
+      else
+        # Default: show only active reports
+        reports_query = reports_query.where(status: 'active')
+      end
 
       total_count = reports_query.count
       offset = (page - 1) * per_page

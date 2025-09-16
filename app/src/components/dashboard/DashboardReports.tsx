@@ -15,6 +15,8 @@ interface DashboardReportsProps {
   shouldCreateReport?: boolean;
 }
 
+type ReportFilter = 'active' | 'archived';
+
 const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
@@ -22,7 +24,8 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const [reportToArchive, setReportToArchive] = useState<ReportProps | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const [isCreatingReport, setIsCreatingReport] = useState(false);
-  const { reports, isLoading, notification: apiNotification } = useUserReportsData(page);
+  const [activeFilter, setActiveFilter] = useState<ReportFilter>('active');
+  const { reports, isLoading, notification: apiNotification } = useUserReportsData(page, activeFilter);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
 
@@ -54,6 +57,11 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
 
   const handleCancelArchive = () => {
     setReportToArchive(null);
+  };
+
+  const handleFilterChange = (filter: ReportFilter) => {
+    setActiveFilter(filter);
+    setPage(1);
   };
 
   const handleCreateReport = () => {
@@ -163,6 +171,35 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
         </button>
       </div>
 
+      <div className="flex space-x-1 mb-6">
+        <button
+          onClick={() => handleFilterChange('active')}
+          disabled={!!selectedReport}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            selectedReport
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              : activeFilter === 'active'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Active
+        </button>
+        <button
+          onClick={() => handleFilterChange('archived')}
+          disabled={!!selectedReport}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            selectedReport
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              : activeFilter === 'archived'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Archived
+        </button>
+      </div>
+
       {notification && (
         <Notification
           type={notification.type}
@@ -195,16 +232,25 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No reports found</h3>
-          <p className="mt-1 text-sm text-gray-500">Get started by creating your first pet report.</p>
-          <div className="mt-6">
-            <button
-              onClick={handleCreateReport}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Create Report
-            </button>
-          </div>
+          <h3 className="mt-2 text-sm font-medium text-gray-900">
+            {activeFilter === 'archived' ? 'No archived reports' : 'No active reports'}
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            {activeFilter === 'archived'
+              ? 'You haven\'t archived any reports yet.'
+              : 'Get started by creating your first pet report.'
+            }
+          </p>
+          {activeFilter === 'active' && (
+            <div className="mt-6">
+              <button
+                onClick={handleCreateReport}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                Create Report
+              </button>
+            </div>
+          )}
         </div>
       )}
 

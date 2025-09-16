@@ -152,12 +152,16 @@ export const reportsApi = createApi({
       }),
       transformResponse: (response: { breeds: string[] }) => response.breeds
     }),
-    getUserReports: build.query<ReportsResponse, PaginationPropsQuery>({
+    getUserReports: build.query<ReportsResponse, PaginationPropsQuery & { status?: string }>({
       query: params => {
         const queryParams: Record<string, string> = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21"
         };
+
+        if (params.status) {
+          queryParams.status = params.status;
+        }
 
         const queryString = new URLSearchParams(queryParams).toString();
 

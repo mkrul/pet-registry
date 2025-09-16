@@ -6,7 +6,9 @@ import { useGetUserReportsQuery } from "../redux/features/reports/reportsApi";
 import { NotificationState, NotificationType } from "../types/common/Notification";
 import { PaginationPropsQuery } from "../types/common/Pagination";
 
-export const useUserReportsData = (page: number) => {
+type ReportFilter = 'active' | 'archived';
+
+export const useUserReportsData = (page: number, filter: ReportFilter = 'active') => {
   const dispatch = useDispatch();
   const reports = useSelector((state: RootState) => state.reports.data);
   const perPage = useSelector((state: RootState) => state.reports.perPage);
@@ -15,7 +17,8 @@ export const useUserReportsData = (page: number) => {
   const { data, error, isLoading, refetch } = useGetUserReportsQuery(
     {
       page,
-      items: perPage
+      items: perPage,
+      status: filter
     },
     {
       refetchOnMountOrArgChange: false
