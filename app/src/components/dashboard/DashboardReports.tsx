@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useUserReportsData } from '../../hooks/useUserReportsData';
 import { ReportProps } from '../../types/Report';
 import { NotificationState, NotificationType } from '../../types/common/Notification';
@@ -9,6 +10,9 @@ import Notification from '../common/Notification';
 import ConfirmationModal from '../common/ConfirmationModal';
 import NewReportForm from '../reports/forms/NewReportForm';
 import { useGetNewReportQuery, useArchiveReportMutation } from '../../redux/features/reports/reportsApi';
+import { useGetPetQuery } from '../../redux/features/pets/petsApi';
+import { PetProps } from '../../types/Pet';
+import { ReportPropsForm } from '../../types/redux/features/reports/ReportsApi';
 import Spinner from '../common/Spinner';
 
 interface DashboardReportsProps {
@@ -17,7 +21,29 @@ interface DashboardReportsProps {
 
 type ReportFilter = 'active' | 'archived';
 
+const mapPetToReportForm = (pet: PetProps): Partial<ReportPropsForm> => ({
+  name: pet.name,
+  species: pet.species,
+  breed1: pet.breed1,
+  breed2: pet.breed2,
+  color1: pet.color1,
+  color2: pet.color2,
+  color3: pet.color3,
+  gender: pet.gender || '',
+  isAltered: pet.isAltered,
+  microchipId: pet.microchipId || '',
+  image: {
+    id: pet.image?.id || '',
+    url: pet.image?.url || '',
+    thumbnailUrl: pet.image?.thumbnailUrl || '',
+    variantUrl: pet.image?.variantUrl || '',
+    filename: pet.image?.filename || '',
+    publicId: pet.image?.publicId || ''
+  }
+});
+
 const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
+  const [searchParams] = useSearchParams();
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
   const [editingReport, setEditingReport] = useState<ReportProps | null>(null);
@@ -28,6 +54,13 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const { reports, isLoading, notification: apiNotification } = useUserReportsData(page, activeFilter);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
+
+  const petId = searchParams.get('petId');
+  const reportId = searchParams.get('reportId');
+  const { data: petData, isLoading: isLoadingPet } = useGetPetQuery(
+    petId ? parseInt(petId) : 0,
+    { skip: !petId }
+  );
 
   const handleEditReport = (report: ReportProps) => {
     setEditingReport(report);
@@ -95,12 +128,21 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     }
   }, [shouldCreateReport]);
 
+  useEffect(() => {
+    if (reportId && reports.length > 0) {
+      const report = reports.find(r => r.id === parseInt(reportId));
+      if (report) {
+        setSelectedReport(report);
+      }
+    }
+  }, [reportId, reports]);
+
   const handleNotificationClose = () => {
     setNotification(null);
   };
 
 
-  if (isLoading || isLoadingNewReport) {
+  if (isLoading || isLoadingNewReport || (petId && isLoadingPet)) {
     return (
       <div>
         <div className="flex justify-between items-center mb-6">
@@ -141,7 +183,10 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
         )}
 
         <div className="w-full mx-auto px-2">
-          <NewReportForm />
+          <NewReportForm
+            initialData={petData ? mapPetToReportForm(petData) : undefined}
+            petId={petId ? parseInt(petId) : undefined}
+          />
         </div>
       </div>
     );

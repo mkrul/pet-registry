@@ -19,7 +19,12 @@ import {
   LocationData
 } from "../../../types/redux/features/reports/ReportsApi";
 
-const NewReportForm: React.FC = () => {
+interface NewReportFormProps {
+  initialData?: Partial<ReportPropsForm>;
+  petId?: number;
+}
+
+const NewReportForm: React.FC<NewReportFormProps> = ({ initialData, petId }) => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
 
@@ -34,7 +39,7 @@ const NewReportForm: React.FC = () => {
     handleImageLoad,
     handleImageError,
     getInitialLocation
-  } = useReportForm();
+  } = useReportForm(initialData);
 
 
   const { handleSubmit } = useReportSubmit({
@@ -50,7 +55,7 @@ const NewReportForm: React.FC = () => {
   ) => {
     e.preventDefault();
 
-    onSubmit(e, formData, selectedImage);
+    onSubmit(e, formData, selectedImage, petId);
   };
 
   const handleLocationUpdate = (location: LocationData) => {

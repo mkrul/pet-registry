@@ -14,6 +14,8 @@ export interface PetProps {
   gender: string | null;
   isAltered: boolean | null;
   microchipId: string | null;
+  reportId: number | null;
+  status: 'home' | 'missing';
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

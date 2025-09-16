@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserPetsData } from '../../hooks/useUserPetsData';
 import { PetProps } from '../../types/Pet';
 import { NotificationState, NotificationType } from '../../types/common/Notification';
@@ -18,6 +19,7 @@ interface DashboardPetsProps {
 type PetFilter = 'all' | 'dog' | 'cat';
 
 const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }) => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [selectedPet, setSelectedPet] = useState<PetProps | null>(null);
   const [editingPet, setEditingPet] = useState<PetProps | null>(null);
@@ -66,6 +68,10 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   const handleCreatePet = () => {
     setIsCreatingPet(true);
+  };
+
+  const handleCreateReport = (pet: PetProps) => {
+    navigate(`/dashboard?section=reports&action=create&petId=${pet.id}`);
   };
 
   const handleBackToPets = () => {
@@ -226,6 +232,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
           onBack={() => setSelectedPet(null)}
           onEdit={handleEditPet}
           onDelete={handleDeletePet}
+          onCreateReport={handleCreateReport}
         />
       ) : pets.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">

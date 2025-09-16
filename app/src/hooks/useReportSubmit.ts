@@ -16,8 +16,8 @@ export const useReportSubmit = ({
 }: UseReportSubmitProps) => {
   const dispatch = useDispatch();
 
-  const handleSubmit = async (formData: ReportPropsForm, selectedImage: File | null) => {
-    const data = createFormData(formData, selectedImage);
+  const handleSubmit = async (formData: ReportPropsForm, selectedImage: File | null, petId?: number) => {
+    const data = createFormData(formData, selectedImage, petId);
 
     try {
       const response = await submitReport(data);

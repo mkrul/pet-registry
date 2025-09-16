@@ -2,7 +2,8 @@ import { ReportPropsForm } from "../types/Report";
 
 export const createFormData = (
   formData: ReportPropsForm,
-  selectedImage: File | null
+  selectedImage: File | null,
+  petId?: number
 ): FormData => {
   const formDataToSend = new FormData();
   const data = {
@@ -30,6 +31,10 @@ export const createFormData = (
     // Always send the value, even if it's an empty string, so validations can be triggered
     formDataToSend.append(key, value !== null && value !== undefined ? value.toString() : "");
   });
+
+  if (petId) {
+    formDataToSend.append("pet_id", petId.toString());
+  }
 
   if (selectedImage) {
     formDataToSend.append("image", selectedImage);

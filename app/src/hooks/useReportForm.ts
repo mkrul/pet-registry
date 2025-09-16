@@ -35,7 +35,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     ...initialData
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [imagePreview, setImagePreview] = useState<string>(initialData?.image?.variantUrl || "");
 
   const handleImageSelect = (file: File, preview: string) => {
     setSelectedImage(file);

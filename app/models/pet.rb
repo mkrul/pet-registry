@@ -8,6 +8,7 @@ class Pet < ApplicationRecord
   has_one_attached :image, service: :cloudinary_pets, dependent: :destroy
 
   belongs_to :user
+  belongs_to :report, optional: true
 
   scope :active, -> { where(deleted_at: nil) }
   scope :by_species, ->(species) { where(species: species) }
@@ -19,5 +20,14 @@ class Pet < ApplicationRecord
   def active?
     deleted_at.nil?
   end
+
+  def missing?
+    report.present? && report.active?
+  end
+
+  def home?
+    !missing?
+  end
+
 
 end

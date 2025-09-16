@@ -10,11 +10,11 @@ interface ValidationError {
 export const useFormSubmission = (handleSubmit: any) => {
   const navigate = useNavigate();
 
-  const onSubmit = async (e: FormEvent, formData: ReportPropsForm, selectedImage: File | null) => {
+  const onSubmit = async (e: FormEvent, formData: ReportPropsForm, selectedImage: File | null, petId?: number) => {
     try {
-      const response = await handleSubmit(formData, selectedImage);
+      const response = await handleSubmit(formData, selectedImage, petId);
       if (response?.id) {
-        navigate(`/reports/${response.id}`);
+        navigate(`/dashboard?section=reports&reportId=${response.id}`);
       }
     } catch (error) {
       const validationError = error as ValidationError;

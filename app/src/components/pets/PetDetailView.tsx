@@ -6,9 +6,10 @@ interface PetDetailViewProps {
   onBack: () => void;
   onEdit?: (pet: PetProps) => void;
   onDelete?: (pet: PetProps) => void;
+  onCreateReport?: (pet: PetProps) => void;
 }
 
-const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDelete }) => {
+const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDelete, onCreateReport }) => {
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onEdit?.(pet);
@@ -17,6 +18,11 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDelete?.(pet);
+  };
+
+  const handleCreateReportClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onCreateReport?.(pet);
   };
 
   return (
@@ -33,7 +39,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
         </button>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden relative">
         <div className="md:flex">
           <div className="md:w-1/2">
             <img
@@ -82,23 +88,10 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
                   <p className="text-gray-900 capitalize">{pet.gender || 'Unknown'}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Primary Breed</h4>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breeds</h4>
                   <p className="text-gray-900">{pet.breed1}</p>
-                </div>
-                {pet.breed2 && (
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 mb-1">Secondary Breed</h4>
+                  {pet.breed2 && (
                     <p className="text-gray-900">{pet.breed2}</p>
-                  </div>
-                )}
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Colors</h4>
-                  <p className="text-gray-900 capitalize">{pet.color1}</p>
-                  {pet.color2 && (
-                    <p className="text-gray-900 capitalize">{pet.color2}</p>
-                  )}
-                  {pet.color3 && (
-                    <p className="text-gray-900 capitalize">{pet.color3}</p>
                   )}
                 </div>
                 <div>
@@ -127,6 +120,23 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
                   })}
                 </p>
               </div>
+
+              {pet.status === 'home' && onCreateReport && (
+                <button
+                  onClick={handleCreateReportClick}
+                  className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors self-end"
+                >
+                  {pet.name} is missing! Create a lost pet report
+                </button>
+              )}
+              {pet.status === 'missing' && (
+                <button
+                  onClick={handleCreateReportClick}
+                  className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors self-end"
+                >
+                  This pet was found!
+                </button>
+              )}
             </div>
           </div>
         </div>

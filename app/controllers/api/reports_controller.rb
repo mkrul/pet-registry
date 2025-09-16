@@ -222,7 +222,8 @@ module Api
         :longitude,
         :intersection,
         :image,
-        :is_altered
+        :is_altered,
+        :pet_id
       )
     end
 

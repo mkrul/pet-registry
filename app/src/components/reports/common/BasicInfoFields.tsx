@@ -15,6 +15,20 @@ export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
+        <label className="text-lg font-medium text-gray-900">Pet Name:</label>
+        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
+        <TextField
+          name="name"
+          value={formData.name}
+          onChange={onInputChange}
+          variant="outlined"
+          fullWidth
+          disabled={readOnly}
+          sx={commonInputStyles}
+        />
+      </div>
+
+      <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Title:</label>
         <TextField
           name="title"
