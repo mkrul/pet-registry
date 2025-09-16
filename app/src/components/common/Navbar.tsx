@@ -107,7 +107,7 @@ const NavBar = () => {
               aria-label="desktop navigation"
             >
               <li>
-                <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
+                <NavLink linkTo="/reports/new">New Report</NavLink>
               </li>
               <li>
                 <NavLink linkTo="/reports">Search</NavLink>
