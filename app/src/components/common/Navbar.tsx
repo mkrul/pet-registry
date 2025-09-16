@@ -2,11 +2,14 @@ import { Link, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 import ProfileDropdown from "../main/ProfileDropdown";
 import NavLink from "./NavLink";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
 
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -74,16 +77,13 @@ const NavBar = () => {
                 data-testid="mobile-menu"
               >
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="/reports/new" handler={() => setIsMenuOpen(false)}>New Report</NavLink>
+                  <NavLink linkTo="/reports/new" handler={() => setIsMenuOpen(false)}>Report a Lost Pet</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
                   <NavLink linkTo="/reports" handler={() => setIsMenuOpen(false)}>Search</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
                   <NavLink linkTo="#" handler={() => setIsMenuOpen(false)}>About</NavLink>
-                </li>
-                <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="#" handler={() => setIsMenuOpen(false)}>Contact</NavLink>
                 </li>
               </ul>
             </div>
@@ -99,15 +99,15 @@ const NavBar = () => {
             </Link>
           </div>
 
-          {/* Navigation for larger screens (850px+) */}
-          <div className="hidden md:flex flex-none">
+          {/* Navigation for screens 640px and larger */}
+          <div className="hidden sm:flex flex-none">
             <ul
-              className="menu menu-horizontal [&>li>a]:px-[0.75rem]"
+              className="menu menu-horizontal [&>li>a]:px-[0.875rem]"
               data-testid="desktop-nav"
               aria-label="desktop navigation"
             >
               <li>
-                <NavLink linkTo="/reports/new">New Report</NavLink>
+                <NavLink linkTo="/reports/new">Report a Lost Pet</NavLink>
               </li>
               <li>
                 <NavLink linkTo="/reports">Search</NavLink>
@@ -115,31 +115,11 @@ const NavBar = () => {
               <li>
                 <NavLink linkTo="#">About</NavLink>
               </li>
-              <li>
-                <NavLink linkTo="#">Contact</NavLink>
-              </li>
-            </ul>
-          </div>
-
-          {/* Navigation for tablet sizes (640px-849px) */}
-          <div className="hidden sm:flex md:hidden flex-none">
-            <ul
-              className="menu menu-horizontal [&>li>a]:px-[0.75rem]"
-              data-testid="tablet-nav"
-              aria-label="tablet navigation"
-            >
-              <li>
-                <NavLink linkTo="/reports/new">New Report</NavLink>
-              </li>
-              <li>
-                <NavLink linkTo="/reports">Search</NavLink>
-              </li>
-              <li>
-                <NavLink linkTo="#">About</NavLink>
-              </li>
-              <li>
-                <NavLink linkTo="#">Contact</NavLink>
-              </li>
+              {!isAuthenticated && (
+                <li>
+                  <NavLink linkTo="/login" data-testid="nav-link-login">Log In</NavLink>
+                </li>
+              )}
             </ul>
           </div>
 

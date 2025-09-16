@@ -3,6 +3,7 @@ import NavBar from "../common/Navbar";
 import ReportIndexPage from "../../pages/reports/ReportsIndexPage";
 import ReportNewPage from "../../pages/reports/ReportNewPage";
 import ReportShowPage from "../../pages/reports/ReportShowPage";
+import DashboardPage from "../../pages/dashboard/DashboardPage";
 import Footer from "../common/Footer";
 import PrivateRoute from "./PrivateRoute";
 import LoginPage from "../../pages/auth/LoginPage";
@@ -30,6 +31,7 @@ const AppRouter = () => {
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/reports/new" element={<ReportNewPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
 
         {/* Fallback Route */}

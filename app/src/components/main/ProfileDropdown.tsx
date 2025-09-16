@@ -64,17 +64,7 @@ const ProfileDropdown: React.FC = () => {
   }
 
   if (!isAuthenticated) {
-    return (
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <NavLink linkTo="/login" data-testid="nav-link-login">
-              Log In
-            </NavLink>
-          </li>
-        </ul>
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -95,16 +85,7 @@ const ProfileDropdown: React.FC = () => {
           }`}
         >
           <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink>My Reports</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink>My Pets</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink>Profile</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink>Settings</NavLink>
+            <NavLink linkTo="/dashboard">Dashboard</NavLink>
           </li>
           <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <LogoutButton onCompleted={handleLogout} />
