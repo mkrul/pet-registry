@@ -88,18 +88,6 @@ const ProfileDropdown: React.FC = () => {
             <NavLink linkTo="/dashboard">Dashboard</NavLink>
           </li>
           <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink linkTo="/dashboard/reports">My Reports</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink linkTo="/dashboard/pets">My Pets</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink linkTo="/dashboard/profile">Profile</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-            <NavLink linkTo="/dashboard/settings">Settings</NavLink>
-          </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
             <LogoutButton onCompleted={handleLogout} />
           </li>
         </ul>
