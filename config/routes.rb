@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  get 'dashboard', to: 'user_dashboard#index'
-
   namespace :api do
     # Custom auth routes
     post '/sign_up', to: 'registrations#create'
@@ -28,6 +26,10 @@ Rails.application.routes.draw do
 
     resource :session, only: [:create, :show, :destroy]
     get 'user_info', to: 'sessions#user_info'
+  end
+
+  namespace :user do
+    get 'dashboard', to: 'dashboard#index'
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -64,17 +64,7 @@ const ProfileDropdown: React.FC = () => {
   }
 
   if (!isAuthenticated) {
-    return (
-      <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <NavLink linkTo="/login" data-testid="nav-link-login">
-              Log In
-            </NavLink>
-          </li>
-        </ul>
-      </div>
-    );
+    return null;
   }
 
   return (
