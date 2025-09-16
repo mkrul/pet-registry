@@ -107,6 +107,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQue
               area={report.area}
               state={report.state}
               intersection={report.intersection}
+              useStateAbbreviation={true}
             />
             <div className="border-t border-gray-200 mt-3 pt-3">
               <div className="text-gray-500 text-md">

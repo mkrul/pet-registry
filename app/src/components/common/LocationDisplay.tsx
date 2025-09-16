@@ -5,7 +5,8 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
   area,
   state,
   intersection,
-  displayTip
+  displayTip,
+  useStateAbbreviation = false
 }) => {
   const locationParts = [area, state, "United States", intersection].filter(Boolean);
 
@@ -15,10 +16,10 @@ const LocationDisplay: React.FC<LocationDisplayProps> = ({
 
   const locationString = () => {
     if (area && state) {
-      const stateAbbr = getStateAbbreviation(state);
+      const stateDisplay = useStateAbbreviation ? getStateAbbreviation(state) : state;
       return (
         <>
-          {intersection && <p>Last seen near {intersection} in {area}, {stateAbbr}</p>}
+          {intersection && <p>Last seen near {intersection} in {area}, {stateDisplay}</p>}
           <p>{}</p>
         </>
       );
