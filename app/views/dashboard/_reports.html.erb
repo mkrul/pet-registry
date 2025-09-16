@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "dashboard_content" do %>
+  <div class="dashboard-section">
+    <h2>My Reports</h2>
+    <p>Manage your pet reports and view report history.</p>
+
+    <div class="reports-actions">
+      <%= link_to "Create New Report", "#", class: "btn btn-primary" %>
+      <%= link_to "Search Reports", "#", class: "btn btn-secondary" %>
+    </div>
+
+    <div class="reports-list">
+      <h3>Recent Reports</h3>
+      <p>No reports found. Create your first report to get started.</p>
+    </div>
+  </div>
+<% end %>

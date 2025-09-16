@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <h1>User Dashboard</h1>
+
+  <div class="dashboard-navigation">
+    <nav class="dashboard-nav">
+      <ul>
+        <li>
+          <%= link_to "Overview", dashboard_path,
+              class: "nav-link #{'active' if @active_section == 'overview'}",
+              data: { turbo_frame: "dashboard_content" } %>
+        </li>
+        <li>
+          <%= link_to "My Reports", dashboard_reports_path,
+              class: "nav-link #{'active' if @active_section == 'reports'}",
+              data: { turbo_frame: "dashboard_content" } %>
+        </li>
+        <li>
+          <%= link_to "My Pets", dashboard_pets_path,
+              class: "nav-link #{'active' if @active_section == 'pets'}",
+              data: { turbo_frame: "dashboard_content" } %>
+        </li>
+        <li>
+          <%= link_to "Profile", dashboard_profile_path,
+              class: "nav-link #{'active' if @active_section == 'profile'}",
+              data: { turbo_frame: "dashboard_content" } %>
+        </li>
+        <li>
+          <%= link_to "Settings", dashboard_settings_path,
+              class: "nav-link #{'active' if @active_section == 'settings'}",
+              data: { turbo_frame: "dashboard_content" } %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <%= turbo_frame_tag "dashboard_content" do %>
+    <div class="dashboard-content">
+      <% case @active_section %>
+      <% when 'overview' %>
+        <%= render 'overview' %>
+      <% when 'reports' %>
+        <%= render 'reports' %>
+      <% when 'pets' %>
+        <%= render 'pets' %>
+      <% when 'profile' %>
+        <%= render 'profile' %>
+      <% when 'settings' %>
+        <%= render 'settings' %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "dashboard_content" do %>
+  <div class="dashboard-section">
+    <h2>My Pets</h2>
+    <p>Manage your registered pets and their information.</p>
+
+    <div class="pets-actions">
+      <%= link_to "Register New Pet", "#", class: "btn btn-primary" %>
+      <%= link_to "Import Pet Data", "#", class: "btn btn-secondary" %>
+    </div>
+
+    <div class="pets-list">
+      <h3>Registered Pets</h3>
+      <p>No pets registered yet. Register your first pet to get started.</p>
+    </div>
+  </div>
+<% end %>
