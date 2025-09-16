@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
 import DashboardOverview from '../../components/dashboard/DashboardOverview';
 import DashboardReports from '../../components/dashboard/DashboardReports';
@@ -10,14 +11,28 @@ type DashboardSection = 'overview' | 'reports' | 'pets' | 'profile' | 'settings'
 
 const DashboardPage: React.FC = () => {
   const user = useAppSelector(state => state.auth.user);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<DashboardSection>('overview');
+
+  useEffect(() => {
+    const section = searchParams.get('section') as DashboardSection;
+    if (section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section)) {
+      setActiveSection(section);
+    }
+  }, [searchParams]);
+
+  const handleSectionChange = (section: DashboardSection) => {
+    setActiveSection(section);
+    navigate('/dashboard', { replace: true });
+  };
 
   const renderSection = () => {
     switch (activeSection) {
       case 'overview':
-        return <DashboardOverview onNavigate={setActiveSection} />;
+        return <DashboardOverview onNavigate={handleSectionChange} />;
       case 'reports':
-        return <DashboardReports />;
+        return <DashboardReports shouldCreateReport={searchParams.get('action') === 'create'} />;
       case 'pets':
         return <DashboardPets />;
       case 'profile':
@@ -43,7 +58,7 @@ const DashboardPage: React.FC = () => {
               <ul className="space-y-2">
                 <li>
                   <button
-                    onClick={() => setActiveSection('overview')}
+                    onClick={() => handleSectionChange('overview')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'overview'
                         ? 'bg-blue-100 text-blue-700'
@@ -55,7 +70,7 @@ const DashboardPage: React.FC = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => setActiveSection('reports')}
+                    onClick={() => handleSectionChange('reports')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'reports'
                         ? 'bg-blue-100 text-blue-700'
@@ -67,7 +82,7 @@ const DashboardPage: React.FC = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => setActiveSection('pets')}
+                    onClick={() => handleSectionChange('pets')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'pets'
                         ? 'bg-blue-100 text-blue-700'
@@ -79,7 +94,7 @@ const DashboardPage: React.FC = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => setActiveSection('profile')}
+                    onClick={() => handleSectionChange('profile')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'profile'
                         ? 'bg-blue-100 text-blue-700'
@@ -91,7 +106,7 @@ const DashboardPage: React.FC = () => {
                 </li>
                 <li>
                   <button
-                    onClick={() => setActiveSection('settings')}
+                    onClick={() => handleSectionChange('settings')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'settings'
                         ? 'bg-blue-100 text-blue-700'

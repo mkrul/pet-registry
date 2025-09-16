@@ -110,6 +110,17 @@ export const reportsApi = createApi({
         { type: "Reports", id: "LIST" }
       ]
     }),
+    archiveReport: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `reports/${id}/archive`,
+        method: "PATCH"
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Reports", id },
+        { type: "Reports", id: "LIST" },
+        { type: "Reports", id: "USER_LIST" }
+      ]
+    }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
         url: "reports",
@@ -140,6 +151,37 @@ export const reportsApi = createApi({
         params: { species }
       }),
       transformResponse: (response: { breeds: string[] }) => response.breeds
+    }),
+    getUserReports: build.query<ReportsResponse, PaginationPropsQuery & { status?: string }>({
+      query: params => {
+        const queryParams: Record<string, string> = {
+          page: params.page?.toString() || "1",
+          per_page: params.items?.toString() || "21"
+        };
+
+        if (params.status) {
+          queryParams.status = params.status;
+        }
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        return {
+          url: `users/reports?${queryString}`,
+          method: "GET"
+        };
+      },
+      transformResponse: (response: ReportsResponse) => {
+        const reports = response.data.map(report => transformToCamelCase(report));
+        const pagination = transformToCamelCase(response.pagination);
+        return { data: reports, pagination, message: response.message };
+      },
+      providesTags: result =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
+              { type: "Reports", id: "USER_LIST" }
+            ]
+          : [{ type: "Reports", id: "USER_LIST" }]
     })
   })
 });
@@ -152,6 +194,8 @@ export const {
   useGetBreedsQuery,
   useSubmitReportMutation,
   useGetNewReportQuery,
-  useUpdateReportMutation
+  useUpdateReportMutation,
+  useArchiveReportMutation,
+  useGetUserReportsQuery
 } = reportsApi;
 export default reportsApi;

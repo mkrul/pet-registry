@@ -1,7 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "../common/Navbar";
 import ReportIndexPage from "../../pages/reports/ReportsIndexPage";
-import ReportNewPage from "../../pages/reports/ReportNewPage";
 import ReportShowPage from "../../pages/reports/ReportShowPage";
 import DashboardPage from "../../pages/dashboard/DashboardPage";
 import Footer from "../common/Footer";
@@ -30,7 +29,6 @@ const AppRouter = () => {
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="/reports/new" element={<ReportNewPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
 

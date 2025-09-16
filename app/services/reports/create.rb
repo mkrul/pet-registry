@@ -14,6 +14,7 @@ module Reports
     string :country
     string :latitude
     string :longitude
+    integer :user_id
     string :name, default: nil
     string :gender, default: nil
     string :breed_2, default: nil

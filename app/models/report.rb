@@ -9,6 +9,8 @@ class Report < ApplicationRecord
   include ReportNormalizations
   has_one_attached :image, service: :cloudinary_reports, dependent: :destroy
 
+  belongs_to :user
+
   enum :status, { active: 'active', archived: 'archived' }
 
   REPORT_INDEX_PAGE_LIMIT = 21
