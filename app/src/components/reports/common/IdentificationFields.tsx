@@ -69,6 +69,14 @@ export const IdentificationFields: React.FC<Props> = ({
     onInputChange(createChangeEvent("gender", ""));
   };
 
+  const handleClearBreed1 = () => {
+    onInputChange(createChangeEvent("breed1", ""));
+  };
+
+  const handleClearBreed2 = () => {
+    onInputChange(createChangeEvent("breed2", ""));
+  };
+
 
   const handleBreedClick = () => {
     if (!formData.species) {
@@ -197,21 +205,39 @@ export const IdentificationFields: React.FC<Props> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">First Breed:</label>
         <div className="space-y-2">
-          <BreedSearch
-            species={formData.species.toLowerCase() as "dog" | "cat"}
-            value={formData.breed1}
-            onChange={handleBreedChange}
-            disabled={isLoading}
-            excludeBreeds={formData.breed2 ? [formData.breed2] : []}
-            required
-            size="medium"
-            hideLabel
-            disableClearable
-            error={!!breedError}
-            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
-            showBreedPlaceholder={false}
-            data-testid="breed-search"
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <BreedSearch
+              species={formData.species.toLowerCase() as "dog" | "cat"}
+              value={formData.breed1}
+              onChange={handleBreedChange}
+              disabled={isLoading}
+              excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+              required
+              size="medium"
+              hideLabel
+              disableClearable
+              error={!!breedError}
+              onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+              showBreedPlaceholder={false}
+              data-testid="breed-search"
+            />
+            {formData.breed1 && (
+              <IconButton
+                onClick={handleClearBreed1}
+                disabled={isLoading}
+                size="small"
+                data-testid="remove-breed1-button"
+                sx={{
+                  color: 'text.secondary',
+                  '&:hover': {
+                    color: 'error.main'
+                  }
+                }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            )}
+          </Box>
           <FormFieldError error={breedError} />
         </div>
       </div>
@@ -219,18 +245,36 @@ export const IdentificationFields: React.FC<Props> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900">Second Breed:</label>
         <div className="space-y-2">
-          <BreedSearch
-            species={formData.species.toLowerCase() as "dog" | "cat"}
-            value={formData.breed2}
-            onChange={handleBreed2Change}
-            disabled={isLoading}
-            excludeBreeds={[formData.breed1]}
-            size="medium"
-            hideLabel
-            onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
-            showBreedPlaceholder={false}
-            data-testid="breed2-search"
-          />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <BreedSearch
+              species={formData.species.toLowerCase() as "dog" | "cat"}
+              value={formData.breed2}
+              onChange={handleBreed2Change}
+              disabled={isLoading}
+              excludeBreeds={[formData.breed1]}
+              size="medium"
+              hideLabel
+              onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+              showBreedPlaceholder={false}
+              data-testid="breed2-search"
+            />
+            {formData.breed2 && (
+              <IconButton
+                onClick={handleClearBreed2}
+                disabled={isLoading}
+                size="small"
+                data-testid="remove-breed2-button"
+                sx={{
+                  color: 'text.secondary',
+                  '&:hover': {
+                    color: 'error.main'
+                  }
+                }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            )}
+          </Box>
         </div>
       </div>
     </div>

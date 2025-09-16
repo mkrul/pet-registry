@@ -40,6 +40,7 @@ export const BreedSearch: React.FC<BreedSearchProps> = ({
         disabled={disabled || !species}
         size={size}
         clearable={!disableClearable}
+        disableClearable={disableClearable}
         onFocus={handleClick}
         slotProps={{
           listbox: {
