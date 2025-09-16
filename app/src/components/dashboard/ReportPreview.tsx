@@ -1,14 +1,14 @@
 import React from 'react';
 import { ReportProps } from '../../types/Report';
 
-interface MinifiedReportCardProps {
+interface ReportPreviewProps {
   report: ReportProps;
   onClick: (report: ReportProps) => void;
   onEdit?: (report: ReportProps) => void;
   onDelete?: (report: ReportProps) => void;
 }
 
-const MinifiedReportCard: React.FC<MinifiedReportCardProps> = ({ report, onClick, onEdit, onDelete }) => {
+const ReportPreview: React.FC<ReportPreviewProps> = ({ report, onClick, onEdit, onDelete }) => {
   const placeholderPath = "/images/placeholder.png";
   const imageSrc = report.image?.variantUrl || placeholderPath;
 
@@ -23,7 +23,7 @@ const MinifiedReportCard: React.FC<MinifiedReportCardProps> = ({ report, onClick
   };
 
   return (
-    <div onClick={() => onClick(report)} className="block">
+    <div onClick={() => onClick(report)} className="block group">
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
         <div className="aspect-square relative">
           <img
@@ -36,7 +36,7 @@ const MinifiedReportCard: React.FC<MinifiedReportCardProps> = ({ report, onClick
               }
             }}
           />
-          <div className="absolute bottom-2 right-2 flex space-x-1">
+          <div className="absolute bottom-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             {onEdit && (
               <button
                 onClick={handleEditClick}
@@ -66,4 +66,4 @@ const MinifiedReportCard: React.FC<MinifiedReportCardProps> = ({ report, onClick
   );
 };
 
-export default MinifiedReportCard;
+export default ReportPreview;
