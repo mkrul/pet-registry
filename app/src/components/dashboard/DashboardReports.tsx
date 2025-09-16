@@ -5,12 +5,21 @@ import { NotificationState, NotificationType } from '../../types/common/Notifica
 import ReportPreview from './ReportPreview';
 import ReportDetailView from './ReportDetailView';
 import Notification from '../common/Notification';
+import NewReportForm from '../reports/forms/NewReportForm';
+import { useGetNewReportQuery } from '../../redux/features/reports/reportsApi';
+import Spinner from '../common/Spinner';
 
-const DashboardReports: React.FC = () => {
+interface DashboardReportsProps {
+  shouldCreateReport?: boolean;
+}
+
+const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [isCreatingReport, setIsCreatingReport] = useState(false);
   const { reports, isLoading, notification: apiNotification } = useUserReportsData(page);
+  const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
 
   const handleEditReport = (report: ReportProps) => {
     console.log('Edit report:', report.id);
@@ -20,28 +29,74 @@ const DashboardReports: React.FC = () => {
     console.log('Delete report:', report.id);
   };
 
+  const handleCreateReport = () => {
+    setIsCreatingReport(true);
+  };
+
+  const handleBackToReports = () => {
+    setIsCreatingReport(false);
+    setSelectedReport(null);
+  };
+
   useEffect(() => {
     if (apiNotification) {
       setNotification(apiNotification);
     }
   }, [apiNotification]);
 
+  useEffect(() => {
+    if (shouldCreateReport) {
+      setIsCreatingReport(true);
+    }
+  }, [shouldCreateReport]);
+
   const handleNotificationClose = () => {
     setNotification(null);
   };
 
 
-  if (isLoading) {
+  if (isLoading || isLoadingNewReport) {
     return (
       <div>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">My Reports</h2>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+          <button
+            onClick={handleCreateReport}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+          >
             Create New Report
           </button>
         </div>
         <div className="flex justify-center items-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <Spinner />
+        </div>
+      </div>
+    );
+  }
+
+  if (isCreatingReport) {
+    return (
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900">Create New Report</h2>
+          <button
+            onClick={handleBackToReports}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+          >
+            Back to Reports
+          </button>
+        </div>
+
+        {notification && (
+          <Notification
+            type={notification.type}
+            message={notification.message}
+            onClose={handleNotificationClose}
+          />
+        )}
+
+        <div className="w-full mx-auto px-2">
+          <NewReportForm />
         </div>
       </div>
     );
@@ -51,7 +106,10 @@ const DashboardReports: React.FC = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900">My Reports</h2>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+        <button
+          onClick={handleCreateReport}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+        >
           Create New Report
         </button>
       </div>
@@ -91,7 +149,10 @@ const DashboardReports: React.FC = () => {
           <h3 className="mt-2 text-sm font-medium text-gray-900">No reports found</h3>
           <p className="mt-1 text-sm text-gray-500">Get started by creating your first pet report.</p>
           <div className="mt-6">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            <button
+              onClick={handleCreateReport}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            >
               Create Report
             </button>
           </div>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hooks';
 import DashboardOverview from '../../components/dashboard/DashboardOverview';
 import DashboardReports from '../../components/dashboard/DashboardReports';
@@ -10,14 +11,22 @@ type DashboardSection = 'overview' | 'reports' | 'pets' | 'profile' | 'settings'
 
 const DashboardPage: React.FC = () => {
   const user = useAppSelector(state => state.auth.user);
+  const [searchParams] = useSearchParams();
   const [activeSection, setActiveSection] = useState<DashboardSection>('overview');
+
+  useEffect(() => {
+    const section = searchParams.get('section') as DashboardSection;
+    if (section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section)) {
+      setActiveSection(section);
+    }
+  }, [searchParams]);
 
   const renderSection = () => {
     switch (activeSection) {
       case 'overview':
         return <DashboardOverview onNavigate={setActiveSection} />;
       case 'reports':
-        return <DashboardReports />;
+        return <DashboardReports shouldCreateReport={searchParams.get('action') === 'create'} />;
       case 'pets':
         return <DashboardPets />;
       case 'profile':
