@@ -42,6 +42,11 @@ export const useReportEdit = (report: ReportProps) => {
     setFormData(prev => {
       const newFormData = { ...prev };
 
+      if (name === "species" && prev.species !== value) {
+        newFormData.breed1 = "";
+        newFormData.breed2 = null;
+      }
+
       if (name.startsWith("color")) {
         if (value) {
           if (name === "color1") {

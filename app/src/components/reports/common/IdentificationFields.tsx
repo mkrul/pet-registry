@@ -8,8 +8,11 @@ import {
   FormControlLabel,
   Radio,
   Alert,
-  SelectChangeEvent
+  SelectChangeEvent,
+  IconButton,
+  Box
 } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import { getGenderOptions } from "../../../lib/reports/genderList";
 import speciesListJson from "../../../../../config/species.json";
 import BreedSearch from "../../common/BreedSearch";
@@ -62,6 +65,10 @@ export const IdentificationFields: React.FC<Props> = ({
   const handleBreed2Change = handleFieldChange("breed2");
   const handleGenderChange = handleFieldChange("gender");
 
+  const handleClearGender = () => {
+    onInputChange(createChangeEvent("gender", ""));
+  };
+
 
   const handleBreedClick = () => {
     if (!formData.species) {
@@ -91,30 +98,48 @@ export const IdentificationFields: React.FC<Props> = ({
       <div className="space-y-2">
         <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>{" "}
         <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
-        <FormControl fullWidth>
-          <Select
-            data-testid="gender-select"
-            labelId="gender-label"
-            id="gender"
-            value={formData.gender || ""}
-            onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
-            sx={commonInputStyles}
-            disabled={isLoading}
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  maxHeight: 200
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <FormControl fullWidth>
+            <Select
+              data-testid="gender-select"
+              labelId="gender-label"
+              id="gender"
+              value={formData.gender || ""}
+              onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
+              sx={commonInputStyles}
+              disabled={isLoading}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200
+                  }
                 }
-              }
-            }}
-          >
-            {genderOptions.map((gender, index) => (
-              <MenuItem key={index} value={gender} data-testid="gender-option">
-                {gender}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              }}
+            >
+              {genderOptions.map((gender, index) => (
+                <MenuItem key={index} value={gender} data-testid="gender-option">
+                  {gender}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {formData.gender && (
+            <IconButton
+              onClick={handleClearGender}
+              disabled={isLoading}
+              size="small"
+              data-testid="remove-gender-button"
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  color: 'error.main'
+                }
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Box>
       </div>
 
       <div className="space-y-2">

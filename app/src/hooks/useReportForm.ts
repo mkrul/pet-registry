@@ -53,7 +53,16 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
   );
 
   const handleInputChange = useCallback((e: FormInputEvent) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData(prev => {
+      const newData = { ...prev, [e.target.name]: e.target.value };
+
+      if (e.target.name === "species" && prev.species !== e.target.value) {
+        newData.breed1 = "";
+        newData.breed2 = "";
+      }
+
+      return newData;
+    });
   }, []);
 
   const handleLocationSelect = useCallback((location: LocationData) => {
