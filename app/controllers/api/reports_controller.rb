@@ -3,8 +3,8 @@
 module Api
   class ReportsController < ApplicationController
 
-    before_action :set_report, only: %i[show edit update destroy]
-    before_action :authenticate_user!, only: [:user_reports, :create]
+    before_action :set_report, only: %i[show edit update destroy archive]
+    before_action :authenticate_user!, only: [:user_reports, :create, :archive]
     skip_before_action :verify_authenticity_token
 
     def index
@@ -122,11 +122,30 @@ module Api
       head :no_content
     end
 
+    def archive
+      if @report.user != current_user
+        render json: { message: "You can only archive your own reports" }, status: :forbidden
+        return
+      end
+
+      if @report.archived?
+        render json: { message: "Report is already archived" }, status: :unprocessable_entity
+        return
+      end
+
+      @report.update!(status: "archived", archived_at: Time.current)
+
+      render json: { message: "Report archived successfully" }, status: :ok
+    rescue StandardError => e
+      render json: { message: "Failed to archive report", error: e.message }, status: :unprocessable_entity
+    end
+
     def user_reports
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
       reports_query = Report.where(user: current_user)
+                            .where(status: 'active')
                             .includes(:image_attachment)
                             .order(created_at: :desc)
 

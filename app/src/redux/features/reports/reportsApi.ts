@@ -110,6 +110,17 @@ export const reportsApi = createApi({
         { type: "Reports", id: "LIST" }
       ]
     }),
+    archiveReport: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `reports/${id}/archive`,
+        method: "PATCH"
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Reports", id },
+        { type: "Reports", id: "LIST" },
+        { type: "Reports", id: "USER_LIST" }
+      ]
+    }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
         url: "reports",
@@ -180,6 +191,7 @@ export const {
   useSubmitReportMutation,
   useGetNewReportQuery,
   useUpdateReportMutation,
+  useArchiveReportMutation,
   useGetUserReportsQuery
 } = reportsApi;
 export default reportsApi;

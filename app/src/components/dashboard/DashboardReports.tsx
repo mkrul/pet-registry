@@ -6,8 +6,9 @@ import ReportPreview from './ReportPreview';
 import ReportDetailView from './ReportDetailView';
 import ReportEditView from './ReportEditView';
 import Notification from '../common/Notification';
+import ConfirmationModal from '../common/ConfirmationModal';
 import NewReportForm from '../reports/forms/NewReportForm';
-import { useGetNewReportQuery } from '../../redux/features/reports/reportsApi';
+import { useGetNewReportQuery, useArchiveReportMutation } from '../../redux/features/reports/reportsApi';
 import Spinner from '../common/Spinner';
 
 interface DashboardReportsProps {
@@ -18,17 +19,41 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
   const [editingReport, setEditingReport] = useState<ReportProps | null>(null);
+  const [reportToArchive, setReportToArchive] = useState<ReportProps | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const [isCreatingReport, setIsCreatingReport] = useState(false);
   const { reports, isLoading, notification: apiNotification } = useUserReportsData(page);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
+  const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
 
   const handleEditReport = (report: ReportProps) => {
     setEditingReport(report);
   };
 
   const handleDeleteReport = (report: ReportProps) => {
-    console.log('Delete report:', report.id);
+    setReportToArchive(report);
+  };
+
+  const handleConfirmArchive = async () => {
+    if (!reportToArchive) return;
+
+    try {
+      await archiveReport(reportToArchive.id).unwrap();
+      setReportToArchive(null);
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: 'Report archived successfully'
+      });
+    } catch (error: any) {
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message || 'Failed to archive report'
+      });
+    }
+  };
+
+  const handleCancelArchive = () => {
+    setReportToArchive(null);
   };
 
   const handleCreateReport = () => {
@@ -39,6 +64,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     setIsCreatingReport(false);
     setSelectedReport(null);
     setEditingReport(null);
+    setReportToArchive(null);
   };
 
   const handleEditSaveSuccess = () => {
@@ -181,6 +207,17 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={!!reportToArchive}
+        onClose={handleCancelArchive}
+        onConfirm={handleConfirmArchive}
+        title="Archive Report"
+        message={`Are you sure you want to archive "${reportToArchive?.title}"? This action can be undone.`}
+        confirmText="Archive"
+        cancelText="Cancel"
+        isLoading={isArchiving}
+      />
     </div>
   );
 };

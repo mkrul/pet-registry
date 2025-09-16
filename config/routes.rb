@@ -22,6 +22,9 @@ Rails.application.routes.draw do
       collection do
         get :search
       end
+      member do
+        patch :archive
+      end
     end
 
     get 'users/reports', to: 'reports#user_reports'
