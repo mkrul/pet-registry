@@ -4,7 +4,7 @@
     "watchAdditionalPaths": []
   },
   "development": {
-    "autoBuild": false,
+    "autoBuild": true,
     "publicOutputDir": "vite-dev",
     "host": "vite",
     "publicDeServerUrl": "http://vite:3036",

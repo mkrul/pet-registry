@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  get 'dashboard', to: 'user_dashboard#index'
+
   namespace :api do
     # Custom auth routes
     post '/sign_up', to: 'registrations#create'

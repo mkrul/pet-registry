@@ -51,6 +51,9 @@ gem 'active_model_serializers', '~> 0.10.14'
 
 # image storage and processing
 gem 'cloudinary', '~> 1.29.0'
+
+# authorization
+gem 'pundit', '~> 2.3'
 gem 'activestorage-cloudinary-service', '~> 0.2.3'
 gem 'image_processing', '~> 1.12'
 gem 'mini_magick', '~> 4.11'
