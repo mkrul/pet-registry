@@ -14,6 +14,8 @@ import { useGetPetQuery } from '../../redux/features/pets/petsApi';
 import { PetProps } from '../../types/Pet';
 import { ReportPropsForm } from '../../types/redux/features/reports/ReportsApi';
 import Spinner from '../common/Spinner';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { setNotification } from '../../redux/features/notifications/notificationsSlice';
 
 interface DashboardReportsProps {
   shouldCreateReport?: boolean;
@@ -44,11 +46,12 @@ const mapPetToReportForm = (pet: PetProps): Partial<ReportPropsForm> => ({
 
 const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
   const [searchParams] = useSearchParams();
+  const dispatch = useAppDispatch();
+  const notification = useAppSelector(state => state.notifications.notification);
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
   const [editingReport, setEditingReport] = useState<ReportProps | null>(null);
   const [reportToArchive, setReportToArchive] = useState<ReportProps | null>(null);
-  const [notification, setNotification] = useState<NotificationState | null>(null);
   const [isCreatingReport, setIsCreatingReport] = useState(false);
   const [activeFilter, setActiveFilter] = useState<ReportFilter>('active');
   const { reports, isLoading, notification: apiNotification } = useUserReportsData(page, activeFilter);
@@ -57,6 +60,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
 
   const petId = searchParams.get('petId');
   const reportId = searchParams.get('reportId');
+  const action = searchParams.get('action');
   const { data: petData, isLoading: isLoadingPet } = useGetPetQuery(
     petId ? parseInt(petId) : 0,
     { skip: !petId }
@@ -76,15 +80,15 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     try {
       await archiveReport(reportToArchive.id).unwrap();
       setReportToArchive(null);
-      setNotification({
+      dispatch(setNotification({
         type: NotificationType.SUCCESS,
         message: 'Report archived successfully'
-      });
+      }));
     } catch (error: any) {
-      setNotification({
+      dispatch(setNotification({
         type: NotificationType.ERROR,
         message: error.data?.message || 'Failed to archive report'
-      });
+      }));
     }
   };
 
@@ -110,17 +114,17 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
 
   const handleEditSaveSuccess = () => {
     setEditingReport(null);
-    setNotification({
+    dispatch(setNotification({
       type: NotificationType.SUCCESS,
       message: 'Report updated successfully'
-    });
+    }));
   };
 
   useEffect(() => {
     if (apiNotification) {
-      setNotification(apiNotification);
+      dispatch(setNotification(apiNotification));
     }
-  }, [apiNotification]);
+  }, [apiNotification, dispatch]);
 
   useEffect(() => {
     if (shouldCreateReport) {
@@ -129,16 +133,28 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   }, [shouldCreateReport]);
 
   useEffect(() => {
-    if (reportId && reports.length > 0) {
-      const report = reports.find(r => r.id === parseInt(reportId));
-      if (report) {
-        setSelectedReport(report);
+    if (action === 'create') {
+      setIsCreatingReport(true);
+    } else if (action !== 'create' && isCreatingReport) {
+      setIsCreatingReport(false);
+    }
+  }, [action, isCreatingReport]);
+
+  useEffect(() => {
+    if (reportId) {
+      if (reports.length > 0) {
+        const report = reports.find(r => r.id === parseInt(reportId));
+        if (report) {
+          setSelectedReport(report);
+        }
+      } else if (!isLoading) {
+        setSelectedReport(null);
       }
     }
-  }, [reportId, reports]);
+  }, [reportId, reports, isLoading]);
 
   const handleNotificationClose = () => {
-    setNotification(null);
+    dispatch(setNotification(null));
   };
 
 

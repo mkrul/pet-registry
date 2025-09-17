@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import NavBar from "../common/Navbar";
 import ReportIndexPage from "../../pages/reports/ReportsIndexPage";
 import ReportShowPage from "../../pages/reports/ReportShowPage";
@@ -17,6 +17,9 @@ const AppRouter = () => {
   const user = useAppSelector(state => state.auth.user);
   const notification = useAppSelector(state => state.notifications.notification);
   const dispatch = useAppDispatch();
+  const location = useLocation();
+
+  const isDashboardPage = location.pathname === '/dashboard';
 
   const routesComponent = useMemo(
     () => (
@@ -42,7 +45,7 @@ const AppRouter = () => {
   return (
     <div className="min-h-screen bg-page flex flex-col">
       <NavBar />
-      {notification && (
+      {notification && !isDashboardPage && (
         <div className="w-full flex justify-center">
           <div className="w-full max-w-4xl mx-4 mt-4">
             <Notification

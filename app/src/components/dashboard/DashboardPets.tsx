@@ -12,6 +12,8 @@ import NewPetForm from '../pets/forms/NewPetForm';
 import { useGetNewPetQuery, useDeletePetMutation, useArchivePetMutation } from '../../redux/features/pets/petsApi';
 import { useDeleteReportMutation } from '../../redux/features/reports/reportsApi';
 import Spinner from '../common/Spinner';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { setNotification } from '../../redux/features/notifications/notificationsSlice';
 
 interface DashboardPetsProps {
   shouldCreatePet?: boolean;
@@ -21,11 +23,12 @@ type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
 
 const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const notification = useAppSelector(state => state.notifications.notification);
   const [page, setPage] = useState(1);
   const [selectedPet, setSelectedPet] = useState<PetProps | null>(null);
   const [editingPet, setEditingPet] = useState<PetProps | null>(null);
   const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
-  const [notification, setNotification] = useState<NotificationState | null>(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
   const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
   const { pets, isLoading, notification: apiNotification } = useUserPetsData(page, activeFilter);
@@ -48,15 +51,15 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     try {
       await archivePet(petToArchive.id).unwrap();
       setPetToArchive(null);
-      setNotification({
+      dispatch(setNotification({
         type: NotificationType.SUCCESS,
         message: 'Pet archived successfully'
-      });
+      }));
     } catch (error: any) {
-      setNotification({
+      dispatch(setNotification({
         type: NotificationType.ERROR,
         message: error.data?.message || 'Failed to archive pet'
-      });
+      }));
     }
   };
 
@@ -82,15 +85,15 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
     try {
       await deleteReport(pet.reportId).unwrap();
-      setNotification({
+      dispatch(setNotification({
         type: NotificationType.SUCCESS,
         message: 'Report deleted successfully. Pet status updated to home.'
-      });
+      }));
     } catch (error: any) {
-      setNotification({
+      dispatch(setNotification({
         type: NotificationType.ERROR,
         message: error.data?.message || 'Failed to delete report'
-      });
+      }));
     }
   };
 
@@ -103,17 +106,17 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   const handleEditSaveSuccess = () => {
     setEditingPet(null);
-    setNotification({
+    dispatch(setNotification({
       type: NotificationType.SUCCESS,
       message: 'Pet updated successfully'
-    });
+    }));
   };
 
   useEffect(() => {
     if (apiNotification) {
-      setNotification(apiNotification);
+      dispatch(setNotification(apiNotification));
     }
-  }, [apiNotification]);
+  }, [apiNotification, dispatch]);
 
   useEffect(() => {
     if (shouldCreatePet) {
@@ -122,7 +125,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   }, [shouldCreatePet]);
 
   const handleNotificationClose = () => {
-    setNotification(null);
+    dispatch(setNotification(null));
   };
 
   if (isLoading || isLoadingNewPet) {

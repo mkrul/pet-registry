@@ -14,7 +14,9 @@ export const useFormSubmission = (handleSubmit: any) => {
     try {
       const response = await handleSubmit(formData, selectedImage, petId);
       if (response?.id) {
-        navigate(`/dashboard?section=reports&reportId=${response.id}`);
+        setTimeout(() => {
+          navigate(`/dashboard?section=reports&reportId=${response.id}`);
+        }, 100);
       }
     } catch (error) {
       const validationError = error as ValidationError;
