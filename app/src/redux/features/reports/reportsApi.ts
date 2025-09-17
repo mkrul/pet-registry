@@ -152,7 +152,7 @@ export const reportsApi = createApi({
           data: transformedReport
         };
       },
-      invalidatesTags: ["Reports"]
+      invalidatesTags: ["Reports", "Pets"]
     }),
     getNewReport: build.query<ReportProps, void>({
       query: () => "reports/new",

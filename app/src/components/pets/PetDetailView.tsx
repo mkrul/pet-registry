@@ -54,7 +54,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
               className="w-full h-64 md:h-full object-cover"
             />
           </div>
-          <div className="md:w-1/2 p-6">
+          <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-2xl font-bold text-gray-900">{pet.name}</h3>
               <div className="flex space-x-2">
@@ -83,7 +83,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 flex-1">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Species</h4>
@@ -126,11 +126,13 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
                   })}
                 </p>
               </div>
+            </div>
 
+            <div className="mt-4">
               {pet.status === 'home' && onCreateReport && (
                 <button
                   onClick={handleCreateReportClick}
-                  className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors self-end"
+                  className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
                 >
                   {pet.name} is missing! Create a lost pet report
                 </button>
@@ -138,7 +140,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
               {pet.status === 'missing' && (
                 <button
                   onClick={handleDeleteReportClick}
-                  className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors self-end"
+                  className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
                 >
                   {pet.name} was found! Delete the open report
                 </button>

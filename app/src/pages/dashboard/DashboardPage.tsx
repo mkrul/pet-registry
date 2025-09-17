@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { setNotification } from '../../redux/features/notifications/notificationsSlice';
 import DashboardOverview from '../../components/dashboard/DashboardOverview';
 import DashboardReports from '../../components/dashboard/DashboardReports';
 import DashboardPets from '../../components/dashboard/DashboardPets';
@@ -11,6 +12,7 @@ type DashboardSection = 'overview' | 'reports' | 'pets' | 'profile' | 'settings'
 
 const DashboardPage: React.FC = () => {
   const user = useAppSelector(state => state.auth.user);
+  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<DashboardSection>('overview');
@@ -21,6 +23,10 @@ const DashboardPage: React.FC = () => {
       setActiveSection(section);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    dispatch(setNotification(null));
+  }, [activeSection, dispatch]);
 
   const handleSectionChange = (section: DashboardSection) => {
     setActiveSection(section);

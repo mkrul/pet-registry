@@ -145,7 +145,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
     <div className="space-y-2">
       <label className="text-lg font-medium text-gray-900 mb-2">Location:</label>
       <Tip>
-        Click on the map or enter the address where the animal was last seen. The exact address will remain private - your report will only show the general area or nearest intersection.
+        Click on the map or enter the address where the animal was last seen. This address will remain private and the report will only show the general area or nearest intersection.
       </Tip>
       {selectedLocation && (
         <LocationDisplay

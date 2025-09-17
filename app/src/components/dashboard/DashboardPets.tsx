@@ -31,7 +31,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
   const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
-  const { pets, isLoading, notification: apiNotification } = useUserPetsData(page, activeFilter);
+  const { pets, isLoading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
@@ -85,6 +85,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
     try {
       await deleteReport(pet.reportId).unwrap();
+      await refetch();
       dispatch(setNotification({
         type: NotificationType.SUCCESS,
         message: 'Report deleted successfully. Pet status updated to home.'
