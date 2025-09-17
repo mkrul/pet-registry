@@ -15,7 +15,7 @@ export const reportsApi = createApi({
     baseUrl: "/api/",
     credentials: "same-origin"
   }),
-  tagTypes: ["Reports"],
+  tagTypes: ["Reports", "Pets"],
   endpoints: build => ({
     getReport: build.query<ReportProps, number>({
       query: id => `reports/${id}`,
@@ -121,6 +121,19 @@ export const reportsApi = createApi({
         { type: "Reports", id: "USER_LIST" }
       ]
     }),
+    deleteReport: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `reports/${id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Reports", id },
+        { type: "Reports", id: "LIST" },
+        { type: "Reports", id: "USER_LIST" },
+        { type: "Pets", id: "LIST" },
+        { type: "Pets", id: "USER_LIST" }
+      ]
+    }),
     submitReport: build.mutation<SubmitResponse, FormData>({
       query: formData => ({
         url: "reports",
@@ -196,6 +209,7 @@ export const {
   useGetNewReportQuery,
   useUpdateReportMutation,
   useArchiveReportMutation,
+  useDeleteReportMutation,
   useGetUserReportsQuery
 } = reportsApi;
 export default reportsApi;

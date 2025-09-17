@@ -10,11 +10,12 @@ class Report < ApplicationRecord
   has_one_attached :image, service: :cloudinary_reports, dependent: :destroy
 
   belongs_to :user
-  has_many :pets, dependent: :nullify
+  has_one :pet, dependent: :nullify
 
   enum :status, { active: 'active', archived: 'archived' }
 
   after_update :update_pet_status_on_archive, if: :saved_change_to_status?
+  after_destroy :update_pet_status_on_destroy
 
   REPORT_INDEX_PAGE_LIMIT = 21
 
@@ -27,8 +28,14 @@ class Report < ApplicationRecord
   private
 
   def update_pet_status_on_archive
-    if archived? && pets.any?
-      pets.update_all(report_id: nil)
+    if archived? && pet.present?
+      pet.update!(report_id: nil)
+    end
+  end
+
+  def update_pet_status_on_destroy
+    if pet.present?
+      pet.update!(report_id: nil)
     end
   end
 end

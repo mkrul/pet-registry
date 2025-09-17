@@ -10,6 +10,7 @@ import Notification from '../common/Notification';
 import ConfirmationModal from '../common/ConfirmationModal';
 import NewPetForm from '../pets/forms/NewPetForm';
 import { useGetNewPetQuery, useDeletePetMutation } from '../../redux/features/pets/petsApi';
+import { useDeleteReportMutation } from '../../redux/features/reports/reportsApi';
 import Spinner from '../common/Spinner';
 
 interface DashboardPetsProps {
@@ -30,6 +31,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   const { pets, isLoading, notification: apiNotification } = useUserPetsData(page, activeFilter);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
+  const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
 
   const handleEditPet = (pet: PetProps) => {
     setEditingPet(pet);
@@ -72,6 +74,23 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   const handleCreateReport = (pet: PetProps) => {
     navigate(`/dashboard?section=reports&action=create&petId=${pet.id}`);
+  };
+
+  const handleDeleteReport = async (pet: PetProps) => {
+    if (!pet.reportId) return;
+
+    try {
+      await deleteReport(pet.reportId).unwrap();
+      setNotification({
+        type: NotificationType.SUCCESS,
+        message: 'Report deleted successfully. Pet status updated to home.'
+      });
+    } catch (error: any) {
+      setNotification({
+        type: NotificationType.ERROR,
+        message: error.data?.message || 'Failed to delete report'
+      });
+    }
   };
 
   const handleBackToPets = () => {
@@ -233,6 +252,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
           onEdit={handleEditPet}
           onDelete={handleDeletePet}
           onCreateReport={handleCreateReport}
+          onDeleteReport={handleDeleteReport}
         />
       ) : pets.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">

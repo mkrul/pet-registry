@@ -37,10 +37,7 @@ const PetPreview: React.FC<PetPreviewProps> = ({ pet, onClick, onEdit, onDelete 
               }
             }}
           />
-          <div className="absolute bottom-2 right-2">
-            <PetStatusPill status={pet.status} />
-          </div>
-          <div className="absolute bottom-2 left-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="absolute bottom-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             {onEdit && (
               <button
                 onClick={handleEditClick}
@@ -67,6 +64,9 @@ const PetPreview: React.FC<PetPreviewProps> = ({ pet, onClick, onEdit, onDelete 
         </div>
         <div className="p-3">
           <h3 className="font-medium text-gray-900 truncate">{pet.name}</h3>
+          <div className="mt-1">
+            <PetStatusPill status={pet.status} />
+          </div>
         </div>
       </div>
     </div>

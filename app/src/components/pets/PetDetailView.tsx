@@ -7,9 +7,10 @@ interface PetDetailViewProps {
   onEdit?: (pet: PetProps) => void;
   onDelete?: (pet: PetProps) => void;
   onCreateReport?: (pet: PetProps) => void;
+  onDeleteReport?: (pet: PetProps) => void;
 }
 
-const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDelete, onCreateReport }) => {
+const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport }) => {
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onEdit?.(pet);
@@ -23,6 +24,11 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
   const handleCreateReportClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onCreateReport?.(pet);
+  };
+
+  const handleDeleteReportClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDeleteReport?.(pet);
   };
 
   return (
@@ -131,10 +137,10 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
               )}
               {pet.status === 'missing' && (
                 <button
-                  onClick={handleCreateReportClick}
+                  onClick={handleDeleteReportClick}
                   className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors self-end"
                 >
-                  This pet was found!
+                  {pet.name} was found! Delete the open report
                 </button>
               )}
             </div>

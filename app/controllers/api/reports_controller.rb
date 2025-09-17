@@ -84,7 +84,18 @@ module Api
 
     def create
       Rails.logger.info("Create params received: #{report_params.inspect}")
-      outcome = Reports::Create.run(report_params.merge(user_id: current_user.id))
+
+      if report_params[:pet_id].present?
+        pet = Pet.find_by(id: report_params[:pet_id], user_id: current_user.id)
+        if pet&.image&.attached?
+          report_attributes = report_params.except(:pet_id).merge(user_id: current_user.id)
+          outcome = Reports::CopyFromPet.run(pet: pet, report_attributes: report_attributes)
+        else
+          outcome = Reports::Create.run(report_params.merge(user_id: current_user.id))
+        end
+      else
+        outcome = Reports::Create.run(report_params.merge(user_id: current_user.id))
+      end
 
       if outcome.valid?
         serialized_report = ReportSerializer.new(outcome.result).as_json
@@ -138,6 +149,19 @@ module Api
       render json: { message: "Report archived successfully" }, status: :ok
     rescue StandardError => e
       render json: { message: "Failed to archive report", error: e.message }, status: :unprocessable_entity
+    end
+
+    def copy_from_pet
+      outcome = Reports::CopyFromPet.run(pet: @pet, report_attributes: report_params)
+
+      if outcome.valid?
+        serialized_report = ReportSerializer.new(outcome.result).as_json
+        render json: serialized_report.merge(
+          message: "Report copied from pet successfully"
+        ), status: :created
+      else
+        render json: { errors: outcome.errors.full_messages }, status: :unprocessable_entity
+      end
     end
 
     def user_reports
