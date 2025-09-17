@@ -27,7 +27,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :pets
+    resources :pets do
+      member do
+        patch :archive
+      end
+    end
 
     get 'users/reports', to: 'reports#user_reports'
     get 'users/pets', to: 'pets#user_pets'

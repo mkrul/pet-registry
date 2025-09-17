@@ -9,7 +9,7 @@ import PetEditView from '../pets/PetEditView';
 import Notification from '../common/Notification';
 import ConfirmationModal from '../common/ConfirmationModal';
 import NewPetForm from '../pets/forms/NewPetForm';
-import { useGetNewPetQuery, useDeletePetMutation } from '../../redux/features/pets/petsApi';
+import { useGetNewPetQuery, useDeletePetMutation, useArchivePetMutation } from '../../redux/features/pets/petsApi';
 import { useDeleteReportMutation } from '../../redux/features/reports/reportsApi';
 import Spinner from '../common/Spinner';
 
@@ -17,50 +17,51 @@ interface DashboardPetsProps {
   shouldCreatePet?: boolean;
 }
 
-type PetFilter = 'all' | 'dog' | 'cat';
+type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
 
 const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [selectedPet, setSelectedPet] = useState<PetProps | null>(null);
   const [editingPet, setEditingPet] = useState<PetProps | null>(null);
-  const [petToDelete, setPetToDelete] = useState<PetProps | null>(null);
+  const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
   const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
   const { pets, isLoading, notification: apiNotification } = useUserPetsData(page, activeFilter);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
+  const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
 
   const handleEditPet = (pet: PetProps) => {
     setEditingPet(pet);
   };
 
-  const handleDeletePet = (pet: PetProps) => {
-    setPetToDelete(pet);
+  const handleArchivePet = (pet: PetProps) => {
+    setPetToArchive(pet);
   };
 
-  const handleConfirmDelete = async () => {
-    if (!petToDelete) return;
+  const handleConfirmArchive = async () => {
+    if (!petToArchive) return;
 
     try {
-      await deletePet(petToDelete.id).unwrap();
-      setPetToDelete(null);
+      await archivePet(petToArchive.id).unwrap();
+      setPetToArchive(null);
       setNotification({
         type: NotificationType.SUCCESS,
-        message: 'Pet deleted successfully'
+        message: 'Pet archived successfully'
       });
     } catch (error: any) {
       setNotification({
         type: NotificationType.ERROR,
-        message: error.data?.message || 'Failed to delete pet'
+        message: error.data?.message || 'Failed to archive pet'
       });
     }
   };
 
-  const handleCancelDelete = () => {
-    setPetToDelete(null);
+  const handleCancelArchive = () => {
+    setPetToArchive(null);
   };
 
   const handleFilterChange = (filter: PetFilter) => {
@@ -97,7 +98,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     setIsCreatingPet(false);
     setSelectedPet(null);
     setEditingPet(null);
-    setPetToDelete(null);
+    setPetToArchive(null);
   };
 
   const handleEditSaveSuccess = () => {
@@ -235,6 +236,19 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
         >
           Cats
         </button>
+        <button
+          onClick={() => handleFilterChange('archived')}
+          disabled={!!selectedPet}
+          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            selectedPet
+              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              : activeFilter === 'archived'
+              ? 'bg-green-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Archived
+        </button>
       </div>
 
       {notification && (
@@ -250,7 +264,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
           pet={selectedPet}
           onBack={() => setSelectedPet(null)}
           onEdit={handleEditPet}
-          onDelete={handleDeletePet}
+          onDelete={handleArchivePet}
           onCreateReport={handleCreateReport}
           onDeleteReport={handleDeleteReport}
         />
@@ -262,7 +276,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
               pet={pet}
               onClick={setSelectedPet}
               onEdit={handleEditPet}
-              onDelete={handleDeletePet}
+              onDelete={handleArchivePet}
             />
           ))}
         </div>
@@ -271,28 +285,37 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No pets registered</h3>
-          <p className="mt-1 text-sm text-gray-500">Register your first pet to get started.</p>
-          <div className="mt-6">
-            <button
-              onClick={handleCreatePet}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Register Pet
-            </button>
-          </div>
+          <h3 className="mt-2 text-sm font-medium text-gray-900">
+            {activeFilter === 'archived' ? 'No archived pets' : 'No pets registered'}
+          </h3>
+          <p className="mt-1 text-sm text-gray-500">
+            {activeFilter === 'archived'
+              ? 'You haven\'t archived any pets yet.'
+              : 'Register your first pet to get started.'
+            }
+          </p>
+          {activeFilter !== 'archived' && (
+            <div className="mt-6">
+              <button
+                onClick={handleCreatePet}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                Register Pet
+              </button>
+            </div>
+          )}
         </div>
       )}
 
       <ConfirmationModal
-        isOpen={!!petToDelete}
-        onClose={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
-        title="Delete Pet"
-        message={`Are you sure you want to delete "${petToDelete?.name}"? This action cannot be undone.`}
-        confirmText="Delete"
+        isOpen={!!petToArchive}
+        onClose={handleCancelArchive}
+        onConfirm={handleConfirmArchive}
+        title="Archive Pet"
+        message={`Are you sure you want to archive "${petToArchive?.name}"? This pet will be hidden from your pets list.`}
+        confirmText="Archive"
         cancelText="Cancel"
-        isLoading={isDeleting}
+        isLoading={isArchiving}
       />
     </div>
   );

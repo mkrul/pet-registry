@@ -5,13 +5,20 @@ require 'active_interaction'
 class Pets::Fetch < ActiveInteraction::Base
   integer :user_id
   string :species, default: nil
+  boolean :archived, default: false
   integer :page, default: 1
   integer :per_page, default: 21
 
   def execute
-    pets_query = Pet.active.where(user_id: user_id)
-                   .includes(:image_attachment)
-                   .order(created_at: :desc)
+    pets_query = if archived
+                   Pet.where(user_id: user_id, archived_at: ..Time.current)
+                      .includes(:image_attachment)
+                      .order(created_at: :desc)
+                 else
+                   Pet.active.where(user_id: user_id)
+                      .includes(:image_attachment)
+                      .order(created_at: :desc)
+                 end
 
     if species.present?
       pets_query = pets_query.where(species: species)

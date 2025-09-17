@@ -1,7 +1,7 @@
 class PetSerializer < ActiveModel::Serializer
   attributes :id, :name, :species, :breed_1, :breed_2,
              :color_1, :color_2, :color_3, :gender, :image, :is_altered,
-             :microchip_id, :report_id, :status, :created_at, :updated_at, :deleted_at
+             :microchip_id, :report_id, :status, :created_at, :updated_at, :archived_at
 
   def attributes(*args)
     data = super

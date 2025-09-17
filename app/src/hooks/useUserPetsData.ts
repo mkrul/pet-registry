@@ -3,18 +3,20 @@ import { useGetUserPetsQuery } from '../redux/features/pets/petsApi';
 import { PetProps } from '../types/Pet';
 import { NotificationState, NotificationType } from '../types/common/Notification';
 
-type PetFilter = 'all' | 'dog' | 'cat';
+type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
 
 export const useUserPetsData = (page: number, filter: PetFilter) => {
   const [pets, setPets] = useState<PetProps[]>([]);
   const [notification, setNotification] = useState<NotificationState | null>(null);
 
-  const speciesFilter = filter === 'all' ? undefined : filter;
+  const speciesFilter = filter === 'all' || filter === 'archived' ? undefined : filter;
+  const archivedFilter = filter === 'archived';
 
   const { data, isLoading, error, refetch } = useGetUserPetsQuery({
     page,
     items: 21,
-    species: speciesFilter
+    species: speciesFilter,
+    archived: archivedFilter
   });
 
   useEffect(() => {

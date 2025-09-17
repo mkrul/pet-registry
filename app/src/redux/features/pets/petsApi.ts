@@ -70,6 +70,17 @@ export const petsApi = createApi({
         { type: "Pets", id: "USER_LIST" }
       ]
     }),
+    archivePet: build.mutation<{ message: string }, number>({
+      query: (id) => ({
+        url: `pets/${id}/archive`,
+        method: "PATCH"
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Pets", id },
+        { type: "Pets", id: "LIST" },
+        { type: "Pets", id: "USER_LIST" }
+      ]
+    }),
     submitPet: build.mutation<{ message: string; id: number } & PetProps, FormData>({
       query: formData => ({
         url: "pets",
@@ -105,6 +116,10 @@ export const petsApi = createApi({
           queryParams.species = params.species;
         }
 
+        if (params.archived) {
+          queryParams.archived = params.archived.toString();
+        }
+
         const queryString = new URLSearchParams(queryParams).toString();
 
         return {
@@ -135,6 +150,7 @@ export const {
   useGetNewPetQuery,
   useUpdatePetMutation,
   useDeletePetMutation,
+  useArchivePetMutation,
   useGetUserPetsQuery
 } = petsApi;
 export default petsApi;

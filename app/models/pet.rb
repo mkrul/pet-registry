@@ -10,15 +10,15 @@ class Pet < ApplicationRecord
   belongs_to :user
   belongs_to :report, optional: true
 
-  scope :active, -> { where(deleted_at: nil) }
+  scope :active, -> { where(archived_at: nil) }
   scope :by_species, ->(species) { where(species: species) }
 
   def soft_delete!
-    update!(deleted_at: Time.current)
+    update!(archived_at: Time.current)
   end
 
   def active?
-    deleted_at.nil?
+    archived_at.nil?
   end
 
   def missing?
@@ -28,6 +28,5 @@ class Pet < ApplicationRecord
   def home?
     !missing?
   end
-
 
 end

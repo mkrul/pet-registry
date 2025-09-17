@@ -2,8 +2,8 @@
 
 module Api
   class PetsController < ApplicationController
-    before_action :set_pet, only: %i[show edit update destroy]
-    before_action :authenticate_user!, only: [:index, :user_pets, :create, :update, :destroy]
+    before_action :set_pet, only: %i[show edit update destroy archive]
+    before_action :authenticate_user!, only: [:index, :user_pets, :create, :update, :destroy, :archive]
     skip_before_action :verify_authenticity_token
 
     def index
@@ -120,6 +120,24 @@ module Api
       render json: { message: "Failed to delete pet", error: e.message }, status: :unprocessable_entity
     end
 
+    def archive
+      if @pet.user != current_user
+        render json: { message: "You can only archive your own pets" }, status: :forbidden
+        return
+      end
+
+      if @pet.archived_at.present?
+        render json: { message: "Pet is already archived" }, status: :unprocessable_entity
+        return
+      end
+
+      @pet.update!(archived_at: Time.current)
+
+      render json: { message: "Pet archived successfully" }, status: :ok
+    rescue StandardError => e
+      render json: { message: "Failed to archive pet", error: e.message }, status: :unprocessable_entity
+    end
+
     def user_pets
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 21).to_i
@@ -127,6 +145,7 @@ module Api
       search_params = {
         user_id: current_user.id,
         species: params[:species],
+        archived: params[:archived],
         page: page,
         per_page: per_page
       }

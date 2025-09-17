@@ -17,6 +17,7 @@ export interface PaginationPropsQuery {
   state?: string;
   area?: string;
   breed?: string;
+  archived?: boolean;
 }
 
 export interface PaginationPagesProps {

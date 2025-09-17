@@ -18,7 +18,7 @@ export interface PetProps {
   status: 'home' | 'missing';
   createdAt: string;
   updatedAt: string;
-  deletedAt: string | null;
+  archivedAt: string | null;
   image: ImageProps;
 }
 
@@ -70,7 +70,7 @@ export interface PetsGridProps {
 
 export interface EditPetFormProps {
   formData: PetPropsForm;
-  handleInputChange: (e: FormInputEvent) => void;
+  handleInputChange: (e: PetFormInputEvent) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSaveChanges: (e: React.FormEvent) => void;
   handleCancelChanges: () => void;
