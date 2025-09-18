@@ -29,11 +29,13 @@ const DashboardPage: React.FC = () => {
   }, [activeSection, dispatch]);
 
   const handleSectionChange = (section: DashboardSection) => {
+    console.log('DashboardPage - changing section to:', section);
     setActiveSection(section);
     navigate('/dashboard', { replace: true });
   };
 
   const renderSection = () => {
+    console.log('DashboardPage - rendering section:', activeSection);
     switch (activeSection) {
       case 'overview':
         return <DashboardOverview onNavigate={handleSectionChange} />;

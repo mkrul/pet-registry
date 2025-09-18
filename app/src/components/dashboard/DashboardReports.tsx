@@ -53,9 +53,8 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const [reportToArchive, setReportToArchive] = useState<ReportProps | null>(null);
   const [isCreatingReport, setIsCreatingReport] = useState(false);
   const [activeFilter, setActiveFilter] = useState<ReportFilter>('active');
-  const [isFilterChanging, setIsFilterChanging] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
-  const { reports, isLoading, notification: apiNotification } = useUserReportsData(page, activeFilter, true);
+  const { reports, isLoading, isPreloading, notification: apiNotification } = useUserReportsData(page, activeFilter, true);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
 
@@ -68,6 +67,8 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     petId ? parseInt(petId) : 0,
     { skip: !petId }
   );
+
+  console.log('DashboardReports - isLoading:', isLoading, 'isPreloading:', isPreloading, 'isLoadingNewReport:', isLoadingNewReport, 'isLoadingPet:', petId && isLoadingPet, 'activeFilter:', activeFilter);
 
   const handleEditReport = (report: ReportProps) => {
     setEditingReport(report);
@@ -100,7 +101,6 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   };
 
   const handleFilterChange = (filter: ReportFilter) => {
-    setIsFilterChanging(true);
     setActiveFilter(filter);
     setPage(1);
   };
@@ -130,11 +130,6 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     }
   }, [apiNotification]);
 
-  useEffect(() => {
-    if (!isLoading && isFilterChanging) {
-      setIsFilterChanging(false);
-    }
-  }, [isLoading, isFilterChanging]);
 
   useEffect(() => {
     if (shouldCreateReport) {
@@ -168,24 +163,6 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   };
 
 
-  if (isLoadingNewReport || (petId && isLoadingPet)) {
-    return (
-      <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">My Reports</h2>
-          <button
-            onClick={handleCreateReport}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-          >
-            Create New Report
-          </button>
-        </div>
-        <div className="flex justify-center items-center py-12">
-          <Spinner />
-        </div>
-      </div>
-    );
-  }
 
   if (isCreatingReport) {
     return (
@@ -279,14 +256,14 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
         />
       )}
 
-      {!isLoading && !isFilterChanging && selectedReport ? (
+      {!isLoading && selectedReport ? (
         <ReportDetailView
           report={selectedReport}
           onBack={() => setSelectedReport(null)}
           onEdit={handleEditReport}
           onDelete={handleDeleteReport}
         />
-      ) : !isLoading && !isFilterChanging && reports.length > 0 ? (
+      ) : !isLoading && reports.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {reports.map(report => (
             <ReportPreview
@@ -296,7 +273,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
             />
           ))}
         </div>
-      ) : (isLoading || isFilterChanging) ? (
+      ) : isLoading ? (
         <div className="bg-gray-50 rounded-lg p-8 text-center">
           <div className="flex justify-center items-center py-12">
             <Spinner />
