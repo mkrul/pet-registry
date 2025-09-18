@@ -125,6 +125,15 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     }
   }, [shouldCreatePet]);
 
+  useEffect(() => {
+    if (selectedPet && pets.length > 0) {
+      const updatedPet = pets.find(p => p.id === selectedPet.id);
+      if (updatedPet) {
+        setSelectedPet(updatedPet);
+      }
+    }
+  }, [pets, selectedPet]);
+
   const handleNotificationClose = () => {
     dispatch(setNotification(null));
   };

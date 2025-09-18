@@ -1,6 +1,6 @@
 import React from 'react';
 import { PetProps } from '../../types/Pet';
-
+import PetStatusPill from './PetStatusPill';
 interface PetDetailViewProps {
   pet: PetProps;
   onBack: () => void;
@@ -56,7 +56,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
           </div>
           <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-gray-900">{pet.name}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 truncate flex-1 mr-4">{pet.name}</h3>
               <div className="flex space-x-2">
                 {onEdit && (
                   <button
@@ -86,37 +86,43 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
             <div className="space-y-4 flex-1">
               <div className="grid grid-cols-2 gap-4">
                 <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
+                  <p className="text-gray-900 capitalize">
+                    <PetStatusPill status={pet.status} />
+                  </p>
+                </div>
+                <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Species</h4>
                   <p className="text-gray-900 capitalize">{pet.species}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breeds</h4>
+                  <p className="text-gray-900 truncate">{pet.breed1}</p>
+                  {pet.breed2 && (
+                    <p className="text-gray-900 truncate">{pet.breed2}</p>
+                  )}
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Gender</h4>
                   <p className="text-gray-900 capitalize">{pet.gender || 'Unknown'}</p>
                 </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breeds</h4>
-                  <p className="text-gray-900">{pet.breed1}</p>
-                  {pet.breed2 && (
-                    <p className="text-gray-900">{pet.breed2}</p>
-                  )}
-                </div>
+                {pet.microchipId && (
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 mb-1">Microchip ID</h4>
+                    <p className="text-gray-900 truncate">{pet.microchipId}</p>
+                  </div>
+                )}
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Spayed/Neutered</h4>
                   <p className="text-gray-900">
                     {pet.isAltered === true ? 'Yes' : pet.isAltered === false ? 'No' : 'Unknown'}
                   </p>
                 </div>
-                {pet.microchipId && (
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 mb-1">Microchip ID</h4>
-                    <p className="text-gray-900">{pet.microchipId}</p>
-                  </div>
-                )}
               </div>
 
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-1">Registered</h4>
-                <p className="text-gray-900">
+                <p className="text-gray-900 truncate">
                   {new Date(pet.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -134,7 +140,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
                   onClick={handleCreateReportClick}
                   className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
                 >
-                  {pet.name} is missing! Create a lost pet report
+                  Create a lost pet report
                 </button>
               )}
               {pet.status === 'missing' && (
@@ -142,7 +148,7 @@ const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDe
                   onClick={handleDeleteReportClick}
                   className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
                 >
-                  {pet.name} was found! Delete the open report
+                  Delete lost pet report
                 </button>
               )}
             </div>
