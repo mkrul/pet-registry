@@ -16,6 +16,12 @@ import { ReportPropsForm } from '../../types/redux/features/reports/ReportsApi';
 import Spinner from '../common/Spinner';
 import { useAppDispatch } from '../../redux/hooks';
 import { useClearNotificationsOnUnmount } from '../../hooks/useAutoClearNotifications';
+import DashboardHeader from '../common/DashboardHeader';
+import FilterButtons from '../common/FilterButtons';
+import EmptyState from '../common/EmptyState';
+import LoadingState from '../common/LoadingState';
+import ItemGrid from '../common/ItemGrid';
+import FormLayout from '../common/FormLayout';
 
 interface DashboardReportsProps {
   shouldCreateReport?: boolean;
@@ -166,32 +172,21 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
 
   if (isCreatingReport) {
     return (
-      <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Create New Report</h2>
-          <button
-            onClick={handleBackToReports}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-          >
-            Back to Reports
-          </button>
-        </div>
-
-        {notification && (
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={handleNotificationClose}
-          />
-        )}
-
-        <div className="w-full mx-auto px-2">
-          <NewReportForm
-            initialData={petData ? mapPetToReportForm(petData) : undefined}
-            petId={petId ? parseInt(petId) : undefined}
-          />
-        </div>
-      </div>
+      <FormLayout
+        title="Create New Report"
+        backButton={{
+          label: "Back to Reports",
+          onClick: handleBackToReports,
+          className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+        }}
+        notification={notification}
+        onNotificationClose={handleNotificationClose}
+      >
+        <NewReportForm
+          initialData={petData ? mapPetToReportForm(petData) : undefined}
+          petId={petId ? parseInt(petId) : undefined}
+        />
+      </FormLayout>
     );
   }
 
@@ -207,46 +202,29 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     );
   }
 
+  const reportFilters = [
+    { value: 'active', label: 'Active' },
+    { value: 'archived', label: 'Archived' }
+  ];
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">My Reports</h2>
-        <button
-          onClick={handleCreateReport}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-        >
-          Create New Report
-        </button>
-      </div>
+      <DashboardHeader
+        title="My Reports"
+        actionButton={{
+          label: "Create New Report",
+          onClick: handleCreateReport,
+          className: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+        }}
+      />
 
-      <div className="flex space-x-1 mb-6">
-        <button
-          onClick={() => handleFilterChange('active')}
-          disabled={!!selectedReport}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedReport
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : activeFilter === 'active'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Active
-        </button>
-        <button
-          onClick={() => handleFilterChange('archived')}
-          disabled={!!selectedReport}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedReport
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : activeFilter === 'archived'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Archived
-        </button>
-      </div>
+      <FilterButtons<ReportFilter>
+        filters={reportFilters}
+        activeFilter={activeFilter}
+        onFilterChange={handleFilterChange}
+        disabled={!!selectedReport}
+        activeColor="bg-blue-600"
+      />
 
       {notification && (
         <Notification
@@ -264,7 +242,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
           onDelete={handleDeleteReport}
         />
       ) : !isLoading && reports.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <ItemGrid>
           {reports.map(report => (
             <ReportPreview
               key={report.id}
@@ -272,38 +250,32 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
               onClick={setSelectedReport}
             />
           ))}
-        </div>
+        </ItemGrid>
       ) : isLoading ? (
-        <div className="bg-gray-50 rounded-lg p-8 text-center">
-          <div className="flex justify-center items-center py-12">
-            <Spinner />
-          </div>
-        </div>
+        <LoadingState />
       ) : (
-        <div className="bg-gray-50 rounded-lg p-8 text-center">
-          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
-            {activeFilter === 'archived' ? 'No archived reports' : 'No active reports'}
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            {activeFilter === 'archived'
+        <EmptyState
+          icon={
+            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          }
+          title={activeFilter === 'archived' ? 'No archived reports' : 'No active reports'}
+          description={
+            activeFilter === 'archived'
               ? 'You haven\'t archived any reports yet.'
               : 'Report a lost pet by clicking the button below.'
-            }
-          </p>
-          {activeFilter === 'active' && (
-            <div className="mt-6">
-              <button
-                onClick={handleCreateReport}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Create Report
-              </button>
-            </div>
-          )}
-        </div>
+          }
+          actionButton={
+            activeFilter === 'active'
+              ? {
+                  label: 'Create Report',
+                  onClick: handleCreateReport,
+                  className: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors'
+                }
+              : undefined
+          }
+        />
       )}
 
       <ConfirmationModal

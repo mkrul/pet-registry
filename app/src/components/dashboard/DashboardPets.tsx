@@ -14,6 +14,12 @@ import { useDeleteReportMutation } from '../../redux/features/reports/reportsApi
 import Spinner from '../common/Spinner';
 import { useAppDispatch } from '../../redux/hooks';
 import { useClearNotificationsOnUnmount } from '../../hooks/useAutoClearNotifications';
+import DashboardHeader from '../common/DashboardHeader';
+import FilterButtons from '../common/FilterButtons';
+import EmptyState from '../common/EmptyState';
+import LoadingState from '../common/LoadingState';
+import ItemGrid from '../common/ItemGrid';
+import FormLayout from '../common/FormLayout';
 
 interface DashboardPetsProps {
   shouldCreatePet?: boolean;
@@ -30,9 +36,8 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
   const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
-  const [isFilterChanging, setIsFilterChanging] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
-  const { pets, isLoading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter);
+  const { pets, isLoading, isPreloading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter, true);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
@@ -71,7 +76,6 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   };
 
   const handleFilterChange = (filter: PetFilter) => {
-    setIsFilterChanging(true);
     setActiveFilter(filter);
     setPage(1);
   };
@@ -123,11 +127,6 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     }
   }, [apiNotification]);
 
-  useEffect(() => {
-    if (!isLoading && isFilterChanging) {
-      setIsFilterChanging(false);
-    }
-  }, [isLoading, isFilterChanging]);
 
   useEffect(() => {
     if (shouldCreatePet) {
@@ -151,47 +150,33 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   if (isLoadingNewPet) {
     return (
       <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">My Pets</h2>
-          <button
-            onClick={handleCreatePet}
-            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-          >
-            Register New Pet
-          </button>
-        </div>
-        <div className="flex justify-center items-center py-12">
-          <Spinner />
-        </div>
+        <DashboardHeader
+          title="My Pets"
+          actionButton={{
+            label: "Register New Pet",
+            onClick: handleCreatePet,
+            className: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+          }}
+        />
+        <LoadingState className="flex justify-center items-center py-12" />
       </div>
     );
   }
 
   if (isCreatingPet) {
     return (
-      <div>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Register New Pet</h2>
-          <button
-            onClick={handleBackToPets}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-          >
-            Back to Pets
-          </button>
-        </div>
-
-        {notification && (
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={handleNotificationClose}
-          />
-        )}
-
-        <div className="w-full mx-auto px-2">
-          <NewPetForm />
-        </div>
-      </div>
+      <FormLayout
+        title="Register New Pet"
+        backButton={{
+          label: "Back to Pets",
+          onClick: handleBackToPets,
+          className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+        }}
+        notification={notification}
+        onNotificationClose={handleNotificationClose}
+      >
+        <NewPetForm />
+      </FormLayout>
     );
   }
 
@@ -207,72 +192,31 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     );
   }
 
+  const petFilters = [
+    { value: 'all', label: 'All Pets' },
+    { value: 'dog', label: 'Dogs' },
+    { value: 'cat', label: 'Cats' },
+    { value: 'archived', label: 'Archived' }
+  ];
+
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">My Pets</h2>
-        <button
-          onClick={handleCreatePet}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-        >
-          Register New Pet
-        </button>
-      </div>
+      <DashboardHeader
+        title="My Pets"
+        actionButton={{
+          label: "Register New Pet",
+          onClick: handleCreatePet,
+          className: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+        }}
+      />
 
-      <div className="flex space-x-1 mb-6">
-        <button
-          onClick={() => handleFilterChange('all')}
-          disabled={!!selectedPet}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedPet
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : activeFilter === 'all'
-              ? 'bg-green-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          All Pets
-        </button>
-        <button
-          onClick={() => handleFilterChange('dog')}
-          disabled={!!selectedPet}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedPet
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : activeFilter === 'dog'
-              ? 'bg-green-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Dogs
-        </button>
-        <button
-          onClick={() => handleFilterChange('cat')}
-          disabled={!!selectedPet}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedPet
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : activeFilter === 'cat'
-              ? 'bg-green-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Cats
-        </button>
-        <button
-          onClick={() => handleFilterChange('archived')}
-          disabled={!!selectedPet}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedPet
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : activeFilter === 'archived'
-              ? 'bg-green-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Archived
-        </button>
-      </div>
+      <FilterButtons<PetFilter>
+        filters={petFilters}
+        activeFilter={activeFilter}
+        onFilterChange={handleFilterChange}
+        disabled={!!selectedPet}
+        activeColor="bg-green-600"
+      />
 
       {notification && (
         <Notification
@@ -282,13 +226,11 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
         />
       )}
 
-      {(isLoading || isFilterChanging) && (
-        <div className="flex justify-center items-center py-12">
-          <Spinner />
-        </div>
+      {(isLoading || isPreloading) && (
+        <LoadingState className="flex justify-center items-center py-12" />
       )}
 
-      {!isLoading && !isFilterChanging && selectedPet ? (
+      {!isLoading && !isPreloading && selectedPet ? (
         <PetDetailView
           pet={selectedPet}
           onBack={() => setSelectedPet(null)}
@@ -297,8 +239,8 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
           onCreateReport={handleCreateReport}
           onDeleteReport={handleDeleteReport}
         />
-      ) : !isLoading && !isFilterChanging && pets.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      ) : !isLoading && !isPreloading && pets.length > 0 ? (
+        <ItemGrid>
           {pets.map(pet => (
             <PetPreview
               key={pet.id}
@@ -306,32 +248,30 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
               onClick={setSelectedPet}
             />
           ))}
-        </div>
-      ) : !isLoading && !isFilterChanging ? (
-        <div className="bg-gray-50 rounded-lg p-8 text-center">
-          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
-          <h3 className="mt-2 text-sm font-medium text-gray-900">
-            {activeFilter === 'archived' ? 'No archived pets' : 'No pets registered'}
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            {activeFilter === 'archived'
+        </ItemGrid>
+      ) : !isLoading && !isPreloading ? (
+        <EmptyState
+          icon={
+            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          }
+          title={activeFilter === 'archived' ? 'No archived pets' : 'No pets registered'}
+          description={
+            activeFilter === 'archived'
               ? 'You haven\'t archived any pets yet.'
               : 'Register your first pet to get started.'
-            }
-          </p>
-          {activeFilter !== 'archived' && (
-            <div className="mt-6">
-              <button
-                onClick={handleCreatePet}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Register Pet
-              </button>
-            </div>
-          )}
-        </div>
+          }
+          actionButton={
+            activeFilter !== 'archived'
+              ? {
+                  label: 'Register Pet',
+                  onClick: handleCreatePet,
+                  className: 'bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors'
+                }
+              : undefined
+          }
+        />
       ) : null}
 
       <ConfirmationModal

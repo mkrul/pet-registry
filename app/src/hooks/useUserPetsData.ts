@@ -5,8 +5,7 @@ import { NotificationState, NotificationType } from '../types/common/Notificatio
 
 type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
 
-export const useUserPetsData = (page: number, filter: PetFilter) => {
-  const [pets, setPets] = useState<PetProps[]>([]);
+export const useUserPetsData = (page: number, filter: PetFilter, preloadAll: boolean = false) => {
   const [notification, setNotification] = useState<NotificationState | null>(null);
 
   const speciesFilter = filter === 'all' || filter === 'archived' ? undefined : filter;
@@ -19,11 +18,45 @@ export const useUserPetsData = (page: number, filter: PetFilter) => {
     archived: archivedFilter
   });
 
-  useEffect(() => {
-    if (data) {
-      setPets(data.data);
-    }
-  }, [data]);
+  const { data: allData, isLoading: isLoadingAll } = useGetUserPetsQuery({
+    page: 1,
+    items: 21,
+    species: undefined,
+    archived: false
+  }, {
+    refetchOnMountOrArgChange: false,
+    skip: !preloadAll || filter === 'all'
+  });
+
+  const { data: dogData, isLoading: isLoadingDogs } = useGetUserPetsQuery({
+    page: 1,
+    items: 21,
+    species: 'dog',
+    archived: false
+  }, {
+    refetchOnMountOrArgChange: false,
+    skip: !preloadAll || filter === 'dog'
+  });
+
+  const { data: catData, isLoading: isLoadingCats } = useGetUserPetsQuery({
+    page: 1,
+    items: 21,
+    species: 'cat',
+    archived: false
+  }, {
+    refetchOnMountOrArgChange: false,
+    skip: !preloadAll || filter === 'cat'
+  });
+
+  const { data: archivedData, isLoading: isLoadingArchived } = useGetUserPetsQuery({
+    page: 1,
+    items: 21,
+    species: undefined,
+    archived: true
+  }, {
+    refetchOnMountOrArgChange: false,
+    skip: !preloadAll || filter === 'archived'
+  });
 
   useEffect(() => {
     if (error) {
@@ -36,9 +69,12 @@ export const useUserPetsData = (page: number, filter: PetFilter) => {
     }
   }, [error]);
 
+  const isPreloading = preloadAll && (isLoadingAll || isLoadingDogs || isLoadingCats || isLoadingArchived);
+
   return {
-    pets,
+    pets: data?.data || [],
     isLoading,
+    isPreloading,
     notification,
     refetch
   };
