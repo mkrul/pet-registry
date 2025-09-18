@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useUserReportsData } from '../../hooks/useUserReportsData';
 import { ReportProps } from '../../types/Report';
 import { NotificationState, NotificationType } from '../../types/common/Notification';
@@ -52,6 +52,7 @@ const mapPetToReportForm = (pet: PetProps): Partial<ReportPropsForm> => ({
 
 const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
@@ -60,7 +61,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const [isCreatingReport, setIsCreatingReport] = useState(false);
   const [activeFilter, setActiveFilter] = useState<ReportFilter>('active');
   const [notification, setNotification] = useState<NotificationState | null>(null);
-  const { reports, isLoading, isPreloading, notification: apiNotification } = useUserReportsData(page, activeFilter, true);
+  const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
 
@@ -74,7 +75,6 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     { skip: !petId }
   );
 
-  console.log('DashboardReports - isLoading:', isLoading, 'isPreloading:', isPreloading, 'isLoadingNewReport:', isLoadingNewReport, 'isLoadingPet:', petId && isLoadingPet, 'activeFilter:', activeFilter);
 
   const handleEditReport = (report: ReportProps) => {
     setEditingReport(report);
@@ -112,10 +112,11 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   };
 
   const handleCreateReport = () => {
-    setIsCreatingReport(true);
+    navigate('/dashboard?section=reports&action=create');
   };
 
   const handleBackToReports = () => {
+    navigate('/dashboard?section=reports');
     setIsCreatingReport(false);
     setSelectedReport(null);
     setEditingReport(null);
@@ -163,6 +164,12 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
       }
     }
   }, [reportId, reports, isLoading]);
+
+  useEffect(() => {
+    if (action === 'create' && !isCreatingReport) {
+      refetch();
+    }
+  }, [action, isCreatingReport, refetch]);
 
   const handleNotificationClose = () => {
     setNotification(null);

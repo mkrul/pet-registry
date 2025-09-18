@@ -13,7 +13,6 @@ import { NotificationType } from "./types/common/Notification";
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const notification = useAppSelector(state => {
-    console.log("App: Selecting notification state:", state.notifications);
     return state.notifications.notification;
   });
 

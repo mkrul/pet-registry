@@ -152,7 +152,12 @@ export const reportsApi = createApi({
           data: transformedReport
         };
       },
-      invalidatesTags: ["Reports", "Pets"]
+      invalidatesTags: [
+        { type: "Reports", id: "LIST" },
+        { type: "Reports", id: "USER_LIST" },
+        { type: "Pets", id: "LIST" },
+        { type: "Pets", id: "USER_LIST" }
+      ]
     }),
     getNewReport: build.query<ReportProps, void>({
       query: () => "reports/new",

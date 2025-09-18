@@ -73,7 +73,6 @@ export const useUserReportsData = (page: number, filter: ReportFilter = 'active'
 
   const isPreloading = preloadAll && (isLoadingActive || isLoadingArchived);
 
-  console.log('useUserReportsData - filter:', filter, 'preloadAll:', preloadAll, 'isLoading:', isLoading, 'isLoadingActive:', isLoadingActive, 'isLoadingArchived:', isLoadingArchived, 'isPreloading:', isPreloading);
 
   return {
     reports: data?.data || [],

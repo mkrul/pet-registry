@@ -13,10 +13,8 @@ const PrivateRoute: React.FC = () => {
     refetchOnMountOrArgChange: 3600
   });
 
-  console.log('PrivateRoute - user:', !!user, 'isLoading:', isLoading, 'location:', location.pathname);
 
   if (isLoading && !user) {
-    console.log('PrivateRoute - showing global spinner');
     return <Spinner />;
   }
 

@@ -62,7 +62,7 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
           label="Breed"
         >
           <BreedSearch
-            species={filters.species as Species | ""}
+            species={filters.species as Species | null}
             value={filters.breed}
             onChange={(value: string) =>
               handleFilterChange({

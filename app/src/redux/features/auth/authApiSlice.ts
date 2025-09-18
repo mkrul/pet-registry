@@ -40,11 +40,6 @@ export const authApiSlice = createApi({
             })
           );
         } catch (err: any) {
-          console.log("Login error:", {
-            error: err,
-            errorData: err?.error?.data,
-            errorMessage: err?.error?.data?.error
-          });
           const errorMessage = err?.error?.data?.error || err?.data?.error || "Login failed";
           dispatch(setError(errorMessage));
           dispatch(clearUser());

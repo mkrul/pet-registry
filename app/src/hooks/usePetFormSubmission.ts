@@ -20,7 +20,6 @@ export const usePetFormSubmission = (handleSubmit: any) => {
       const validationError = error as ValidationError;
 
       if (validationError.validationErrors) {
-        console.log("Validation errors:", validationError.validationErrors);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
