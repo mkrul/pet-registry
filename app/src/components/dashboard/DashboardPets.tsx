@@ -30,6 +30,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
   const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
+  const [isFilterChanging, setIsFilterChanging] = useState(false);
   const [notification, setNotification] = useState<NotificationState | null>(null);
   const { pets, isLoading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
@@ -70,6 +71,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   };
 
   const handleFilterChange = (filter: PetFilter) => {
+    setIsFilterChanging(true);
     setActiveFilter(filter);
     setPage(1);
   };
@@ -122,6 +124,12 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   }, [apiNotification]);
 
   useEffect(() => {
+    if (!isLoading && isFilterChanging) {
+      setIsFilterChanging(false);
+    }
+  }, [isLoading, isFilterChanging]);
+
+  useEffect(() => {
     if (shouldCreatePet) {
       setIsCreatingPet(true);
     }
@@ -140,7 +148,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     setNotification(null);
   };
 
-  if (isLoading || isLoadingNewPet) {
+  if (isLoadingNewPet) {
     return (
       <div>
         <div className="flex justify-between items-center mb-6">
@@ -274,7 +282,13 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
         />
       )}
 
-      {selectedPet ? (
+      {(isLoading || isFilterChanging) && (
+        <div className="flex justify-center items-center py-12">
+          <Spinner />
+        </div>
+      )}
+
+      {!isLoading && !isFilterChanging && selectedPet ? (
         <PetDetailView
           pet={selectedPet}
           onBack={() => setSelectedPet(null)}
@@ -283,19 +297,17 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
           onCreateReport={handleCreateReport}
           onDeleteReport={handleDeleteReport}
         />
-      ) : pets.length > 0 ? (
+      ) : !isLoading && !isFilterChanging && pets.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {pets.map(pet => (
             <PetPreview
               key={pet.id}
               pet={pet}
               onClick={setSelectedPet}
-              onEdit={handleEditPet}
-              onDelete={handleArchivePet}
             />
           ))}
         </div>
-      ) : (
+      ) : !isLoading && !isFilterChanging ? (
         <div className="bg-gray-50 rounded-lg p-8 text-center">
           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -320,7 +332,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
             </div>
           )}
         </div>
-      )}
+      ) : null}
 
       <ConfirmationModal
         isOpen={!!petToArchive}

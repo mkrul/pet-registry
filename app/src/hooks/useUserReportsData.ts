@@ -8,7 +8,7 @@ import { PaginationPropsQuery } from "../types/common/Pagination";
 
 type ReportFilter = 'active' | 'archived';
 
-export const useUserReportsData = (page: number, filter: ReportFilter = 'active') => {
+export const useUserReportsData = (page: number, filter: ReportFilter = 'active', preloadAll: boolean = false) => {
   const dispatch = useDispatch();
   const reports = useSelector((state: RootState) => state.reports.data);
   const perPage = useSelector((state: RootState) => state.reports.perPage);
@@ -25,6 +25,30 @@ export const useUserReportsData = (page: number, filter: ReportFilter = 'active'
     }
   );
 
+  const { data: activeData, isLoading: isLoadingActive } = useGetUserReportsQuery(
+    {
+      page: 1,
+      items: perPage,
+      status: 'active'
+    },
+    {
+      refetchOnMountOrArgChange: false,
+      skip: !preloadAll || filter === 'active'
+    }
+  );
+
+  const { data: archivedData, isLoading: isLoadingArchived } = useGetUserReportsQuery(
+    {
+      page: 1,
+      items: perPage,
+      status: 'archived'
+    },
+    {
+      refetchOnMountOrArgChange: false,
+      skip: !preloadAll || filter === 'archived'
+    }
+  );
+
   useEffect(() => {
     if (data?.data) {
       dispatch(setReports(data.data));
@@ -33,14 +57,7 @@ export const useUserReportsData = (page: number, filter: ReportFilter = 'active'
         dispatch(setPerPage(data.pagination.per_page));
       }
 
-      if (data.message) {
-        setNotification({
-          type: NotificationType.INFO,
-          message: data.message
-        });
-      } else {
-        setNotification(null);
-      }
+      setNotification(null);
     }
   }, [data, dispatch, perPage]);
 
@@ -54,10 +71,12 @@ export const useUserReportsData = (page: number, filter: ReportFilter = 'active'
     }
   }, [error]);
 
+  const isPreloading = preloadAll && (isLoadingActive || isLoadingArchived);
+
   return {
     reports: data?.data || [],
     data,
-    isLoading,
+    isLoading: isLoading || isPreloading,
     error,
     notification,
     setNotification,
