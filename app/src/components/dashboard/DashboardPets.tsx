@@ -12,8 +12,8 @@ import NewPetForm from '../pets/forms/NewPetForm';
 import { useGetNewPetQuery, useDeletePetMutation, useArchivePetMutation } from '../../redux/features/pets/petsApi';
 import { useDeleteReportMutation } from '../../redux/features/reports/reportsApi';
 import Spinner from '../common/Spinner';
-import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { setNotification } from '../../redux/features/notifications/notificationsSlice';
+import { useAppDispatch } from '../../redux/hooks';
+import { useClearNotificationsOnUnmount } from '../../hooks/useAutoClearNotifications';
 
 interface DashboardPetsProps {
   shouldCreatePet?: boolean;
@@ -24,18 +24,20 @@ type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
 const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const notification = useAppSelector(state => state.notifications.notification);
   const [page, setPage] = useState(1);
   const [selectedPet, setSelectedPet] = useState<PetProps | null>(null);
   const [editingPet, setEditingPet] = useState<PetProps | null>(null);
   const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
   const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
+  const [notification, setNotification] = useState<NotificationState | null>(null);
   const { pets, isLoading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
+
+  useClearNotificationsOnUnmount(setNotification);
 
   const handleEditPet = (pet: PetProps) => {
     setEditingPet(pet);
@@ -51,15 +53,15 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     try {
       await archivePet(petToArchive.id).unwrap();
       setPetToArchive(null);
-      dispatch(setNotification({
+      setNotification({
         type: NotificationType.SUCCESS,
         message: 'Pet archived successfully'
-      }));
+      });
     } catch (error: any) {
-      dispatch(setNotification({
+      setNotification({
         type: NotificationType.ERROR,
         message: error.data?.message || 'Failed to archive pet'
-      }));
+      });
     }
   };
 
@@ -86,15 +88,15 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     try {
       await deleteReport(pet.reportId).unwrap();
       await refetch();
-      dispatch(setNotification({
+      setNotification({
         type: NotificationType.SUCCESS,
         message: 'Report deleted successfully. Pet status updated to home.'
-      }));
+      });
     } catch (error: any) {
-      dispatch(setNotification({
+      setNotification({
         type: NotificationType.ERROR,
         message: error.data?.message || 'Failed to delete report'
-      }));
+      });
     }
   };
 
@@ -107,17 +109,17 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   const handleEditSaveSuccess = () => {
     setEditingPet(null);
-    dispatch(setNotification({
+    setNotification({
       type: NotificationType.SUCCESS,
       message: 'Pet updated successfully'
-    }));
+    });
   };
 
   useEffect(() => {
     if (apiNotification) {
-      dispatch(setNotification(apiNotification));
+      setNotification(apiNotification);
     }
-  }, [apiNotification, dispatch]);
+  }, [apiNotification]);
 
   useEffect(() => {
     if (shouldCreatePet) {
@@ -135,7 +137,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   }, [pets, selectedPet]);
 
   const handleNotificationClose = () => {
-    dispatch(setNotification(null));
+    setNotification(null);
   };
 
   if (isLoading || isLoadingNewPet) {

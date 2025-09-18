@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import Notification from "../common/Notification";
 import { setNotification } from "../../redux/features/notifications/notificationsSlice";
 import ComponentLoader from "../common/ComponentLoader";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 const AppRouter = () => {
   const user = useAppSelector(state => state.auth.user);
@@ -20,6 +20,7 @@ const AppRouter = () => {
   const location = useLocation();
 
   const isDashboardPage = location.pathname === '/dashboard';
+
 
   const routesComponent = useMemo(
     () => (
