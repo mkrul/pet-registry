@@ -87,7 +87,7 @@ const ReportEditView: React.FC<ReportEditViewProps> = ({
         </div>
       </div>
 
-      {notification && (
+      {notification && onNotificationClose && (
         <Notification
           type={notification.type}
           message={notification.message}

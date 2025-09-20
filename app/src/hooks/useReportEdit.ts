@@ -34,7 +34,7 @@ export const useReportEdit = (report: ReportProps) => {
       | React.ChangeEvent<HTMLInputElement>
       | SelectChangeEvent
       | {
-          target: { name: string; value: string | null };
+          target: { name: string; value: string | boolean | null };
         }
   ) => {
     const { name, value } = e.target;
