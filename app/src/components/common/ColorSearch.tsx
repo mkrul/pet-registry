@@ -38,7 +38,6 @@ export const ColorSearch: React.FC<ColorSearchProps> = ({
       options={colorOptions}
       disabled={disabled}
       size={size}
-      clearable
       renderInput={params => (
         <TextField
           {...params}
