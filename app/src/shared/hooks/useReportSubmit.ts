@@ -1,35 +1,26 @@
-import { ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
-import { UseReportSubmitProps } from "../types/hooks/Report";
 import { createFormData } from "../utils/formData";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../store/features/notifications/notificationsSlice";
-import { NotificationType } from "../types/common/Notification";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-
-interface ValidationErrorResponse {
-  errors: string[];
-  message: string;
-}
 
 export const useReportSubmit = ({
   submitReport
-}: UseReportSubmitProps) => {
+}) => {
   const dispatch = useDispatch();
 
-  const handleSubmit = async (formData: ReportPropsForm, selectedImage: File | null, petId?: number) => {
+  const handleSubmit = async (formData, selectedImage, petId) => {
     const data = createFormData(formData, selectedImage, petId);
 
     try {
       const response = await submitReport(data);
       if ("error" in response) {
-        const error = response.error as FetchBaseQueryError;
+        const error = response.error;
 
         // Handle validation errors (422 status)
         if (error.status === 422 && error.data) {
-          const validationError = error.data as ValidationErrorResponse;
+          const validationError = error.data;
           dispatch(
             setNotification({
-              type: NotificationType.ERROR,
+              type: "ERROR",
               message: validationError.message || "Please fix the validation errors below"
             })
           );
@@ -39,7 +30,7 @@ export const useReportSubmit = ({
         // Handle other API errors
         dispatch(
           setNotification({
-            type: NotificationType.ERROR,
+            type: "ERROR",
             message: "An error occurred while creating the report. Please try again."
           })
         );
@@ -49,7 +40,7 @@ export const useReportSubmit = ({
       if (response.data?.message) {
         dispatch(
           setNotification({
-            type: NotificationType.SUCCESS,
+            type: "SUCCESS",
             message: response.data.message
           })
         );

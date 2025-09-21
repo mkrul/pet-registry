@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState } from "react";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
@@ -14,17 +14,8 @@ import { LocationSelect } from "../common/LocationSelect";
 import { SubmitButton } from "../../../../shared/components/common/SubmitButton";
 import Spinner from "../../../../shared/components/common/Spinner";
 import { FormPopulateButton } from "../../../../shared/components/common/FormPopulateButton";
-import {
-  ReportPropsForm,
-  LocationData
-} from "../../../../shared/types/redux/features/reports/ReportsApi";
 
-interface NewReportFormProps {
-  initialData?: Partial<ReportPropsForm>;
-  petId?: number;
-}
-
-const NewReportForm: React.FC<NewReportFormProps> = ({ initialData, petId }) => {
+const NewReportForm = ({ initialData, petId }) => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
 

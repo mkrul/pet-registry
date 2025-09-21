@@ -1,22 +1,8 @@
 import React from "react";
 import { TextField, Autocomplete } from "@mui/material";
 import { getColorOptions } from "../../reports/colorList";
-import { SxProps } from "@mui/material";
 
-interface ColorSearchProps {
-  value: string;
-  onChange: (color: string) => void;
-  excludeColors?: (string | null)[];
-  disabled?: boolean;
-  size?: "small" | "medium";
-  sx?: SxProps;
-  required?: boolean;
-  hideLabel?: boolean;
-  disableClearable?: boolean;
-  error?: boolean;
-}
-
-export const ColorSearch: React.FC<ColorSearchProps> = ({
+export const ColorSearch = ({
   value,
   onChange,
   excludeColors = [],

@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "../../../../shared/components/common/Spinner";
-import { ReportCardProps } from "../../types/Report";
 import LocationDisplay from "../../../../shared/components/common/LocationDisplay";
 import { useAppDispatch } from "../../../../store/hooks";
 import { setScrollPosition } from "../../../../store/features/search/searchSlice";
 
-const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQuery }) => {
+const ReportCard = ({ report, currentPage, currentQuery }) => {
   const dispatch = useAppDispatch();
   const placeholderPath = "/images/placeholder.png";
   const [imageIsLoading, setImageIsLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || placeholderPath);
 
-  const getReportStatusDisplay = (report: ReportCardProps["report"]) => {
+  const getReportStatusDisplay = (report) => {
     const ringStyle = report.recentlyCreated
       ? "ring-4 ring-blue-500 rounded-lg"
       : report.recentlyUpdated

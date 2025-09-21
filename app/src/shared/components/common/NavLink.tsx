@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { NavLinkProps } from "../../types/common/NavLink";
 
-const NavLink = ({ linkTo, children, handler, className = "" }: NavLinkProps) => {
+const NavLink = ({ linkTo, children, handler, className = "" }) => {
   const path = linkTo || "#";
 
   const baseClasses = "text-base focus:outline-none active:outline-none no-tap-highlight";

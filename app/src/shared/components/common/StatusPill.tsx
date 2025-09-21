@@ -1,15 +1,6 @@
 import React from 'react';
 
-interface StatusPillProps {
-  status: string;
-  variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
-  customColors?: {
-    bg: string;
-    text: string;
-  };
-}
-
-const StatusPill: React.FC<StatusPillProps> = ({
+const StatusPill = ({
   status,
   variant = 'default',
   customColors

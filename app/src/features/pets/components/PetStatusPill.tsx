@@ -1,10 +1,6 @@
 import React from 'react';
 
-interface PetStatusPillProps {
-  status: 'home' | 'missing';
-}
-
-const PetStatusPill: React.FC<PetStatusPillProps> = ({ status }) => {
+const PetStatusPill = ({ status }) => {
   if (status === 'missing') {
     return (
       <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-600 rounded-full">

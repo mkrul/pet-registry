@@ -1,18 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { setReports, setPerPage } from "../../store/features/reports/reportsSlice";
 import { useGetUserReportsQuery } from "../../store/features/reports/reportsApi";
-import { NotificationState, NotificationType } from "../types/common/Notification";
-import { PaginationPropsQuery } from "../types/common/Pagination";
 
-type ReportFilter = 'active' | 'archived';
-
-export const useUserReportsData = (page: number, filter: ReportFilter = 'active', preloadAll: boolean = false) => {
+export const useUserReportsData = (page, filter = 'active', preloadAll = false) => {
   const dispatch = useDispatch();
-  const reports = useSelector((state: RootState) => state.reports.data);
-  const perPage = useSelector((state: RootState) => state.reports.perPage);
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const reports = useSelector((state) => state.reports.data);
+  const perPage = useSelector((state) => state.reports.perPage);
+  const [notification, setNotification] = useState(null);
 
   const { data, error, isLoading, refetch } = useGetUserReportsQuery(
     {
@@ -63,9 +58,9 @@ export const useUserReportsData = (page: number, filter: ReportFilter = 'active'
 
   useEffect(() => {
     if (error && "data" in error) {
-      const apiError = error as { data: { message: string } };
+      const apiError = error;
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: apiError.data?.message
       });
     }

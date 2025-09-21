@@ -1,22 +1,13 @@
 import React from 'react';
 
-interface ItemPreviewProps<T> {
-  item: T;
-  onClick: (item: T) => void;
-  imageUrl?: string;
-  title: string;
-  statusPill?: React.ReactNode;
-  isArchived?: boolean;
-}
-
-const ItemPreview = <T,>({
+const ItemPreview = ({
   item,
   onClick,
   imageUrl,
   title,
   statusPill,
   isArchived = false
-}: ItemPreviewProps<T>) => {
+}) => {
   const placeholderPath = "/images/placeholder.png";
   const imageSrc = imageUrl || placeholderPath;
 

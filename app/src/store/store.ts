@@ -25,5 +25,3 @@ export const store = configureStore({
     getDefaultMiddleware().concat(authApiSlice.middleware).concat(reportsApi.middleware).concat(petsApi.middleware)
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;

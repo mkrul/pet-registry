@@ -1,17 +1,6 @@
 import React, { useEffect } from 'react';
 
-interface ConfirmationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  title: string;
-  message: string;
-  confirmText?: string;
-  cancelText?: string;
-  isLoading?: boolean;
-}
-
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+const ConfirmationModal = ({
   isOpen,
   onClose,
   onConfirm,
@@ -22,7 +11,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isLoading = false
 }) => {
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+    const handleEscape = (e) => {
       if (e.key === 'Escape' && isOpen) {
         onClose();
       }

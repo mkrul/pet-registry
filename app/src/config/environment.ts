@@ -1,14 +1,9 @@
-interface Environment {
-  apiUrl: string;
-  env: string;
-}
-
-const development: Environment = {
+const development = {
   apiUrl: "http:/localhost:3000",
   env: "development"
 };
 
-const production: Environment = {
+const production = {
   apiUrl: import.meta.env.VITE_API_URL || window.location.origin,
   env: "production"
 };

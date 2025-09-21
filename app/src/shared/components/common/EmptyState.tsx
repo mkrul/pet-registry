@@ -1,17 +1,6 @@
 import React from 'react';
 
-interface EmptyStateProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  actionButton?: {
-    label: string;
-    onClick: () => void;
-    className?: string;
-  };
-}
-
-const EmptyState: React.FC<EmptyStateProps> = ({
+const EmptyState = ({
   icon,
   title,
   description,

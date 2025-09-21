@@ -1,12 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-interface LoadingState {
-  isPageReady: boolean;
-  apiCallsInProgress: number;
-  componentsLoading: boolean;
-}
-
-const initialState: LoadingState = {
+const initialState = {
   isPageReady: false,
   apiCallsInProgress: 0,
   componentsLoading: true
@@ -16,7 +10,7 @@ const loadingSlice = createSlice({
   name: "loading",
   initialState,
   reducers: {
-    setComponentsLoading: (state, action: PayloadAction<boolean>) => {
+    setComponentsLoading: (state, action) => {
       state.componentsLoading = action.payload;
       state.isPageReady = !state.componentsLoading && state.apiCallsInProgress === 0;
     }

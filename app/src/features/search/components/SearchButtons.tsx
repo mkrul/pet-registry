@@ -1,11 +1,6 @@
 import React from "react";
 
-interface SearchButtonsProps {
-  onSearch: () => void;
-  onReset: () => void;
-}
-
-const SearchButtons: React.FC<SearchButtonsProps> = ({ onSearch, onReset }) => {
+const SearchButtons = ({ onSearch, onReset }) => {
   return (
     <div className="flex gap-2">
       <button

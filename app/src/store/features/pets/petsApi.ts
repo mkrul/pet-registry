@@ -1,7 +1,5 @@
 import { transformToCamelCase } from "../../../shared/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PetProps, GetPetsResponse, UpdatePetResponse } from "../../../features/pets/types/Pet";
-import { PaginationPropsQuery } from "../../../shared/types/common/Pagination";
 
 export const petsApi = createApi({
   reducerPath: "petsApi",
@@ -11,14 +9,14 @@ export const petsApi = createApi({
   }),
   tagTypes: ["Pets"],
   endpoints: build => ({
-    getPet: build.query<PetProps, number>({
+    getPet: build.query({
       query: id => `pets/${id}`,
-      transformResponse: (response: PetProps) => transformToCamelCase(response),
+      transformResponse: (response) => transformToCamelCase(response),
       providesTags: (result, error, id) => [{ type: "Pets", id: id }]
     }),
-    getPets: build.query<GetPetsResponse, PaginationPropsQuery>({
+    getPets: build.query({
       query: params => {
-        const queryParams: Record<string, string> = {
+        const queryParams:  = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21"
         };
@@ -43,7 +41,7 @@ export const petsApi = createApi({
       providesTags: result =>
         result
           ? [
-              ...result.data.map(({ id }) => ({ type: "Pets" as const, id })),
+              ...result.data.map(({ id }) => ({ type: "Pets" , id })),
               { type: "Pets", id: "LIST" }
             ]
           : [{ type: "Pets", id: "LIST" }]
@@ -59,7 +57,7 @@ export const petsApi = createApi({
         { type: "Pets", id: "LIST" }
       ]
     }),
-    deletePet: build.mutation<{ message: string }, number>({
+    deletePet: build.mutation({
       query: (id) => ({
         url: `pets/${id}`,
         method: "DELETE"
@@ -70,7 +68,7 @@ export const petsApi = createApi({
         { type: "Pets", id: "USER_LIST" }
       ]
     }),
-    archivePet: build.mutation<{ message: string }, number>({
+    archivePet: build.mutation({
       query: (id) => ({
         url: `pets/${id}/archive`,
         method: "PATCH"
@@ -81,14 +79,14 @@ export const petsApi = createApi({
         { type: "Pets", id: "USER_LIST" }
       ]
     }),
-    submitPet: build.mutation<{ message: string; id: number } & PetProps, FormData>({
+    submitPet: build.mutation({
       query: formData => ({
         url: "pets",
         method: "POST",
         body: formData
       }),
       transformResponse: (
-        response: { message: string; id: number } & PetProps
+        response
       ) => {
         const transformedPet = transformToCamelCase(response);
         return {
@@ -107,7 +105,7 @@ export const petsApi = createApi({
     }),
     getUserPets: build.query<GetPetsResponse, PaginationPropsQuery>({
       query: params => {
-        const queryParams: Record<string, string> = {
+        const queryParams:  = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21"
         };
@@ -135,7 +133,7 @@ export const petsApi = createApi({
       providesTags: result =>
         result
           ? [
-              ...result.data.map(({ id }) => ({ type: "Pets" as const, id })),
+              ...result.data.map(({ id }) => ({ type: "Pets" , id })),
               { type: "Pets", id: "USER_LIST" }
             ]
           : [{ type: "Pets", id: "USER_LIST" }]

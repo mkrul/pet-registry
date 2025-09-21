@@ -1,14 +1,8 @@
 import React from 'react';
-import { PetProps } from '../types/Pet';
 import ItemPreview from '../../../shared/components/common/ItemPreview';
 import StatusPill from '../../../shared/components/common/StatusPill';
 
-interface PetPreviewProps {
-  pet: PetProps;
-  onClick: (pet: PetProps) => void;
-}
-
-const PetPreview: React.FC<PetPreviewProps> = ({ pet, onClick }) => {
+const PetPreview = ({ pet, onClick }) => {
   const getStatusPill = () => {
     if (pet.status === 'missing') {
       return <StatusPill status="Missing" variant="error" />;

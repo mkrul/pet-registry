@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState } from "react";
 import {
   useGetNewPetQuery,
   useSubmitPetMutation
@@ -12,11 +12,8 @@ import { PetColorFields } from "../common/PetColorFields";
 import { ImageUpload } from "../../../reports/components/common/ImageUpload";
 import { SubmitButton } from "../../../../shared/components/common/SubmitButton";
 import Spinner from "../../../../shared/components/common/Spinner";
-import {
-  PetPropsForm
-} from "../../types/Pet";
 
-const NewPetForm: React.FC = () => {
+const NewPetForm = () => {
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [submitPet, { isLoading }] = useSubmitPetMutation();
 

@@ -1,8 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PetProps } from "../../../features/pets/types/Pet";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: [] as PetProps[],
+  data: [],
   query: "",
   perPage: 21
 };
@@ -11,13 +10,13 @@ const petsSlice = createSlice({
   name: "pets",
   initialState,
   reducers: {
-    setSearchQuery(state, action: PayloadAction<string>) {
+    setSearchQuery(state, action) {
       state.query = action.payload;
     },
-    setPets(state, action: PayloadAction<PetProps[]>) {
+    setPets(state, action) {
       state.data = action.payload;
     },
-    setPerPage(state, action: PayloadAction<number>) {
+    setPerPage(state, action) {
       state.perPage = action.payload;
     }
   }

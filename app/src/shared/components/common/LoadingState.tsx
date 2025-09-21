@@ -1,11 +1,7 @@
 import React from 'react';
 import Spinner from './Spinner';
 
-interface LoadingStateProps {
-  className?: string;
-}
-
-const LoadingState: React.FC<LoadingStateProps> = ({
+const LoadingState = ({
   className = "bg-gray-50 rounded-lg p-8 text-center"
 }) => {
   return (

@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser, clearUser, setLoading, setError, updateLastActivity } from "./authSlice";
 import { setNotification } from "../notifications/notificationsSlice";
-import { NotificationType } from "../../../shared/types/common/Notification";
-import { AuthResponse, SignUpRequest } from "../../../features/auth/types/AuthApiSlice";
 
 export const authApiSlice = createApi({
   reducerPath: "authApi",
@@ -21,7 +19,7 @@ export const authApiSlice = createApi({
   }),
   tagTypes: ["Auth"],
   endpoints: builder => ({
-    login: builder.mutation<AuthResponse, { user: { email: string; password: string } }>({
+    login: builder.mutation({
       query: credentials => ({
         url: "/login",
         method: "POST",
@@ -35,17 +33,17 @@ export const authApiSlice = createApi({
           dispatch(setUser(data.user));
           dispatch(
             setNotification({
-              type: NotificationType.SUCCESS,
+              type: "SUCCESS",
               message: data.message || "Logged in successfully"
             })
           );
-        } catch (err: any) {
+        } catch (err) {
           const errorMessage = err?.error?.data?.error || err?.data?.error || "Login failed";
           dispatch(setError(errorMessage));
           dispatch(clearUser());
           dispatch(
             setNotification({
-              type: NotificationType.ERROR,
+              type: "ERROR",
               message: errorMessage
             })
           );
@@ -68,12 +66,12 @@ export const authApiSlice = createApi({
           dispatch(clearUser());
           dispatch(authApiSlice.util.resetApiState());
           window.location.href = "/login";
-        } catch (err: any) {
+        } catch (err) {
           dispatch(setError("Logout failed"));
         }
       }
     }),
-    getCurrentUser: builder.query<AuthResponse, void>({
+    getCurrentUser: builder.query({
       query: () => ({
         url: "/current_user",
         credentials: "include"
@@ -85,7 +83,7 @@ export const authApiSlice = createApi({
           if (data?.user) {
             dispatch(setUser(data.user));
           }
-        } catch (err: any) {
+        } catch (err) {
           if (err?.status === 401) {
             dispatch(clearUser());
           }
@@ -94,7 +92,7 @@ export const authApiSlice = createApi({
         }
       }
     }),
-    signUp: builder.mutation<AuthResponse, SignUpRequest>({
+    signUp: builder.mutation({
       query: credentials => ({
         url: "/sign_up",
         method: "POST",
@@ -105,7 +103,7 @@ export const authApiSlice = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
-        } catch (err: any) {
+        } catch (err) {
           dispatch(setError(err?.data?.message || "Sign up failed"));
           dispatch(clearUser());
         } finally {
@@ -113,7 +111,7 @@ export const authApiSlice = createApi({
         }
       }
     }),
-    pollSession: builder.mutation<void, void>({
+    pollSession: builder.mutation({
       query: () => ({
         url: "/api/sessions/poll",
         method: "POST",

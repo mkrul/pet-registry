@@ -1,13 +1,6 @@
 import { transformToCamelCase } from "../../../shared/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ReportProps } from "../../../features/reports/types/Report";
-import {
-  UpdateReportResponse,
-  SubmitResponse,
-  ReportsResponse
-} from "../../../shared/types/redux/features/reports/ReportsApi";
 import { getStateOptions } from "../../../shared/reports/stateList";
-import { PaginationPropsQuery } from "../../../shared/types/common/Pagination";
 
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
@@ -17,27 +10,27 @@ export const reportsApi = createApi({
   }),
   tagTypes: ["Reports", "Pets"],
   endpoints: build => ({
-    getReport: build.query<ReportProps, number>({
+    getReport: build.query({
       query: id => `reports/${id}`,
-      transformResponse: (response: ReportProps) => transformToCamelCase(response),
+      transformResponse: (response) => transformToCamelCase(response),
       providesTags: (result, error, id) => [{ type: "Reports", id: id }]
     }),
-    getStates: build.query<string[], string>({
+    getStates: build.query({
       queryFn: () => {
         const states = getStateOptions();
         return { data: states };
       }
     }),
-    getCities: build.query<string[], { country: string; state: string }>({
+    getCities: build.query({
       query: ({ country, state }) => ({
         url: `filters/cities`,
         params: { country, state }
       }),
-      transformResponse: (response: { cities: string[] }) => response.cities
+      transformResponse: (response) => response.cities
     }),
-    getReports: build.query<ReportsResponse, PaginationPropsQuery>({
+    getReports: build.query({
       query: params => {
-        const queryParams: Record<string, string> = {
+        const queryParams:  = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21" // This will be overridden by useReportsData hook
         };
@@ -85,7 +78,7 @@ export const reportsApi = createApi({
         const serialized = JSON.stringify(queryArgs);
         return serialized;
       },
-      transformResponse: (response: ReportsResponse) => {
+      transformResponse: (response) => {
         const reports = response.data.map(report => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);
         return { data: reports, pagination, message: response.message };
@@ -94,12 +87,12 @@ export const reportsApi = createApi({
       providesTags: result =>
         result
           ? [
-              ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
+              ...result.data.map(({ id }) => ({ type: "Reports" , id })),
               { type: "Reports", id: "LIST" }
             ]
           : [{ type: "Reports", id: "LIST" }]
     }),
-    updateReport: build.mutation<UpdateReportResponse, { id: number; data: FormData }>({
+    updateReport: build.mutation({
       query: ({ id, data }) => ({
         url: `reports/${id}`,
         method: "PUT",
@@ -110,7 +103,7 @@ export const reportsApi = createApi({
         { type: "Reports", id: "LIST" }
       ]
     }),
-    archiveReport: build.mutation<{ message: string }, number>({
+    archiveReport: build.mutation({
       query: (id) => ({
         url: `reports/${id}/archive`,
         method: "PATCH"
@@ -121,7 +114,7 @@ export const reportsApi = createApi({
         { type: "Reports", id: "USER_LIST" }
       ]
     }),
-    deleteReport: build.mutation<{ message: string }, number>({
+    deleteReport: build.mutation({
       query: (id) => ({
         url: `reports/${id}`,
         method: "DELETE"
@@ -134,15 +127,15 @@ export const reportsApi = createApi({
         { type: "Pets", id: "USER_LIST" }
       ]
     }),
-    submitReport: build.mutation<SubmitResponse, FormData>({
+    submitReport: build.mutation({
       query: formData => ({
         url: "reports",
         method: "POST",
         body: formData
       }),
       transformResponse: (
-        response: { message: string; id: number } & ReportProps
-      ): SubmitResponse => {
+        response
+      ) => {
         const transformedReport = transformToCamelCase(response);
         return {
           ...transformedReport,
@@ -159,20 +152,20 @@ export const reportsApi = createApi({
         { type: "Pets", id: "USER_LIST" }
       ]
     }),
-    getNewReport: build.query<ReportProps, void>({
+    getNewReport: build.query({
       query: () => "reports/new",
       providesTags: ["Reports"]
     }),
-    getBreeds: build.query<string[], string>({
-      query: (species: string) => ({
+    getBreeds: build.query({
+      query: (species) => ({
         url: `filters/breeds`,
         params: { species }
       }),
-      transformResponse: (response: { breeds: string[] }) => response.breeds
+      transformResponse: (response) => response.breeds
     }),
-    getUserReports: build.query<ReportsResponse, PaginationPropsQuery & { status?: string }>({
+    getUserReports: build.query({
       query: params => {
-        const queryParams: Record<string, string> = {
+        const queryParams = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21"
         };
@@ -188,7 +181,7 @@ export const reportsApi = createApi({
           method: "GET"
         };
       },
-      transformResponse: (response: ReportsResponse) => {
+      transformResponse: (response) => {
         const reports = response.data.map(report => transformToCamelCase(report));
         const pagination = transformToCamelCase(response.pagination);
         return { data: reports, pagination, message: response.message };
@@ -196,7 +189,7 @@ export const reportsApi = createApi({
       providesTags: result =>
         result
           ? [
-              ...result.data.map(({ id }) => ({ type: "Reports" as const, id })),
+              ...result.data.map(({ id }) => ({ type: "Reports" , id })),
               { type: "Reports", id: "USER_LIST" }
             ]
           : [{ type: "Reports", id: "USER_LIST" }]

@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NotificationState } from "../../../shared/types/common/Notification";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: { notification: NotificationState | null } = {
+const initialState = {
   notification: null
 };
 
@@ -9,7 +8,7 @@ const notificationsSlice = createSlice({
   name: "notifications",
   initialState,
   reducers: {
-    setNotification: (state, action: PayloadAction<NotificationState | null>) => {
+    setNotification: (state, action) => {
       state.notification = action.payload;
     }
   }

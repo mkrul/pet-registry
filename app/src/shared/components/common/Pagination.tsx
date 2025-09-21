@@ -1,7 +1,6 @@
 import React from "react";
-import { PaginationPagesProps } from "../../types/common/Pagination";
 
-const Pagination: React.FC<PaginationPagesProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="flex justify-center items-center mt-4">
       <div className="flex items-center gap-5">

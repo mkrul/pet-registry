@@ -1,10 +1,6 @@
 import React from 'react';
 
-interface DashboardOverviewProps {
-  onNavigate: (section: 'reports' | 'pets' | 'profile' | 'settings') => void;
-}
-
-const DashboardOverview: React.FC<DashboardOverviewProps> = ({ onNavigate }) => {
+const DashboardOverview = ({ onNavigate }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>

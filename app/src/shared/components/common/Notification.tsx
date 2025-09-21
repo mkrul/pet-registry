@@ -1,8 +1,7 @@
 // Notification.tsx
 import React, { useState } from "react";
-import { NotificationType, NotificationProps } from "../../types/common/Notification";
 
-const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) => {
+const Notification = ({ type, message, onClose }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) {
@@ -14,11 +13,11 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
     setTimeout(onClose, 300);
   };
 
-  const typeStyles: Record<NotificationType, string> = {
-    [NotificationType.SUCCESS]: "bg-green-100 border-green-400 text-green-700",
-    [NotificationType.WARNING]: "bg-yellow-100 border-yellow-400 text-yellow-700",
-    [NotificationType.ERROR]: "bg-red-100 border-red-400 text-red-700",
-    [NotificationType.INFO]: "bg-blue-100 border-blue-400 text-blue-700"
+  const typeStyles = {
+    "SUCCESS": "bg-green-100 border-green-400 text-green-700",
+    "WARNING": "bg-yellow-100 border-yellow-400 text-yellow-700",
+    "ERROR": "bg-red-100 border-red-400 text-red-700",
+    "INFO": "bg-blue-100 border-blue-400 text-blue-700"
   };
 
   return (
@@ -38,10 +37,10 @@ const Notification: React.FC<NotificationProps> = ({ type, message, onClose }) =
 };
 
 const defaultMessages = {
-  [NotificationType.SUCCESS]: "The operation has completed successfully.",
-  [NotificationType.ERROR]: "An unexpected error has occurred.",
-  [NotificationType.WARNING]: "",
-  [NotificationType.INFO]: ""
+  "SUCCESS": "The operation has completed successfully.",
+  "ERROR": "An unexpected error has occurred.",
+  "WARNING": "",
+  "INFO": ""
 };
 
 export default Notification;

@@ -8,7 +8,7 @@ export const rootApiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: apiConfig.baseUrl,
     credentials: "include",
-    paramsSerializer: params => qs.stringify(params, qsSettings as any)
+    paramsSerializer: params => qs.stringify(params, qsSettings)
   }),
   endpoints: () => ({}),
   tagTypes: ["Reports"]

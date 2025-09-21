@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import { TextField, Autocomplete, FormControl } from "@mui/material";
 import { getBreedsBySpecies } from "../../reports/breedList";
-import { BreedSearchProps } from "../../types/common/BreedSearch";
 
-export const BreedSearch: React.FC<BreedSearchProps> = ({
+export const BreedSearch = ({
   species,
   value,
   onChange,
