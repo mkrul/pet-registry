@@ -5,15 +5,6 @@ import * as matchers from '@testing-library/jest-dom/matchers';
 
 expect.extend(matchers);
 
-declare module 'vitest' {
-  interface Assertion<T = any> {
-    toBeInTheDocument(): T;
-    toHaveValue(value: string | number): T;
-    toBeDisabled(): T;
-    toHaveTextContent(text: string | RegExp): T;
-  }
-}
-
 afterEach(() => {
   cleanup();
 });
