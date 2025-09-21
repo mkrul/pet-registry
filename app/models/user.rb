@@ -4,6 +4,7 @@ class User < ApplicationRecord
          :authentication_keys => [:email]
 
   has_many :reports, dependent: :destroy
+  has_many :pets, dependent: :destroy
 
   # Add case-insensitive email validation
   before_validation :downcase_email

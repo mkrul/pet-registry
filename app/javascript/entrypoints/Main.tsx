@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
-import AppRouter from "../../src/components/main/AppRouter";
+import AppRouter from "../../src/app/AppRouter";
 
 const App = () => {
   const [error, setError] = useState<string | null>(null);

@@ -1,0 +1,229 @@
+import { Species } from "../../../shared/reports/breedList";
+import { ImageProps } from "../../../shared/types/common/Image";
+import { PaginationProps } from "../../../shared/types/common/Pagination";
+import { FiltersProps } from "../../../shared/types/common/Search";
+import { SelectChangeEvent } from "@mui/material";
+import { NotificationState } from "../../../shared/types/common/Notification";
+
+export interface ReportProps {
+  id: number;
+  title: string;
+  description: string;
+  name: string | null;
+  status: string;
+  species: string;
+  breed1: string;
+  breed2: string | null;
+  color1: string;
+  color2: string | null;
+  color3: string | null;
+  gender: string | null;
+  isAltered: boolean | null;
+  archivedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  image: ImageProps;
+  microchipId: string | null;
+  recentlyUpdated: boolean;
+  recentlyCreated: boolean;
+  area: string;
+  state: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  intersection: string | null;
+}
+
+export interface ReportPropsState {
+  data: ReportProps[];
+  query: string;
+  perPage: number;
+}
+export interface GetReportsResponse {
+  data: ReportProps[];
+  pagination: PaginationProps;
+}
+
+export interface ReportPropsForm {
+  title: string;
+  description: string;
+  name: string | null;
+  species: string;
+  breed1: string;
+  breed2: string | null;
+  color1: string;
+  color2: string | null;
+  color3: string | null;
+  gender: string | null;
+  isAltered: boolean | null;
+  microchipId: string | null;
+  image: ImageProps;
+  area: string | null;
+  state: string | null;
+  country: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  intersection: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ReportsContainerProps {
+  query: string;
+  filters: FiltersProps;
+  page: number;
+  onPageChange: (page: number) => void;
+}
+
+export interface ReportCardProps {
+  report: ReportProps;
+  currentPage: number;
+  currentQuery: string;
+}
+
+export interface ReportsGridProps {
+  reports: ReportProps[];
+  currentPage: number;
+  currentQuery: string;
+  pagination?: {
+    pages: number;
+    count: number;
+    page: number;
+    items: number;
+  };
+  onPageChange?: (page: number) => void;
+}
+
+export interface EditReportFormFormProps {
+  report: ReportProps;
+  errors?: string[];
+}
+
+export interface UpdateReportResponse {
+  message: string;
+  report: ReportProps;
+}
+
+export interface EditReportFormProps {
+  formData: ReportPropsForm;
+  handleInputChange: (e: FormInputEvent) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSaveChanges: (e: React.FormEvent) => void;
+  handleCancelChanges: () => void;
+  isSaving: boolean;
+  imageSrc: string | null;
+  handleImageLoad: () => void;
+  handleImageError: () => void;
+  handleLocationSelect: (location: LocationData) => void;
+  speciesOptions: string[];
+  breedOptions: string[];
+  getFilteredBreedOptions: (excludeBreeds: string[]) => string[];
+  colorOptions: string[];
+  getFilteredColorOptions: (excludeColors: string[]) => string[];
+  genderOptions: string[];
+  VIEW_ZOOM_LEVEL: number;
+}
+
+export interface ViewReportFormProps {
+  report: ReportProps;
+  onEditClick: () => void;
+  onBackClick: () => void;
+  imageSrc: string;
+  handleImageLoad: () => void;
+  handleImageError: () => void;
+}
+
+export interface ShowReportFormContainerProps {
+  report: ReportProps;
+  errors?: string[];
+  notification?: NotificationState | null;
+  onNotificationClose?: () => void;
+}
+
+export interface BasicInfoFieldsProps {
+  formData: ReportPropsForm;
+  onInputChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent
+  ) => void;
+  readOnly?: boolean;
+  error?: string;
+  descriptionError?: string;
+}
+
+export interface ColorFieldsProps {
+  formData: ReportPropsForm;
+  isLoading: boolean;
+  handleColor1Change: (color: string) => void;
+  handleColor2Change: (color: string) => void;
+  handleColor3Change: (color: string) => void;
+  error?: string;
+}
+
+export type FormInputEvent =
+  | SelectChangeEvent
+  | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  | { target: { name: string; value: string | boolean | null } };
+
+export interface IdentificationFieldsProps {
+  formData: ReportPropsForm;
+  onInputChange: (e: FormInputEvent) => void;
+  isLoading: boolean;
+  error: string;
+  breedError: string;
+  alteredError: string;
+  microchipError?: string;
+}
+
+export interface LocationData {
+  latitude: number;
+  longitude: number;
+  area: string;
+  state: string;
+  country: string;
+  intersection: string;
+  error?: string;
+}
+
+export interface LocationSelectProps {
+  onLocationSelect: (location: LocationData) => void;
+  initialLocation?: Partial<LocationData>;
+  isLoading?: boolean;
+  error?: string;
+  required?: boolean;
+}
+
+export interface Report {
+  title: string;
+  description: string;
+  name: string;
+  species: string;
+  breed1: string;
+  breed2: string;
+  gender: string;
+  microchipId: string;
+  color1: string;
+  color2: string;
+  color3: string;
+  area: string;
+  state: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  intersection: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReportResponse {
+  report: ReportProps;
+  message: string;
+}
+
+export interface ImageUploadProps {
+  onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  preview: string | null;
+  disabled?: boolean;
+  onImageLoad?: () => void;
+  onImageError?: () => void;
+  error?: string;
+}
