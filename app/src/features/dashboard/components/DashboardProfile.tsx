@@ -1,10 +1,6 @@
 import React from 'react';
 
-interface DashboardProfileProps {
-  user: any;
-}
-
-const DashboardProfile: React.FC<DashboardProfileProps> = ({ user }) => {
+const DashboardProfile = ({ user }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile</h2>

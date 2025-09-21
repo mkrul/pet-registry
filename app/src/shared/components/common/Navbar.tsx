@@ -3,22 +3,20 @@ import { useState, useRef, useEffect } from "react";
 import ProfileDropdown from "../layout/ProfileDropdown";
 import NavLink from "./NavLink";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef(null);
   const location = useLocation();
-  const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
+  const isAuthenticated = useSelector((state) => !!state.auth.user);
 
-  const handleHomeClick = (e: React.MouseEvent) => {
+  const handleHomeClick = (e) => {
     e.preventDefault();
     window.location.replace(window.location.origin);
   };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       }
     };

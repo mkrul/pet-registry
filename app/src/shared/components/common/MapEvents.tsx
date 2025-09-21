@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useMapEvents, Marker } from "react-leaflet";
-import { MapProps } from "../../types/common/Map";
-import { LocationData } from "../../types/redux/features/reports/ReportsApi";
 import { processAddress } from "../../geocoding";
 import Spinner from "./Spinner";
 import { MapView } from "./MapView";
 import { MAP_ZOOM_LEVELS } from "../../constants/map";
 
-interface MapEventsProps extends MapProps {
-  readOnly?: boolean;
-}
 
-export const MapEvents: React.FC<MapEventsProps> = ({
+export const MapEvents = ({
   onLocationSelect,
   initialLocation,
   readOnly,
@@ -35,7 +30,7 @@ export const MapEvents: React.FC<MapEventsProps> = ({
     }
   });
 
-  const handleLocationSelect = async (lat: number, lng: number, skipLocationFetch = false) => {
+  const handleLocationSelect = async (lat, lng, skipLocationFetch = false) => {
     if (isProcessing) return;
     setIsProcessing(true);
 

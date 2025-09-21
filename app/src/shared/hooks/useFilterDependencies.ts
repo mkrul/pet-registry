@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { FiltersProps } from "../types/common/Search";
-import { SelectChangeEvent } from "@mui/material";
-
-const defaultFilters: FiltersProps = {
+const defaultFilters = {
   species: "",
   breed: "",
   color: "",
@@ -13,15 +10,10 @@ const defaultFilters: FiltersProps = {
   sort: "Newest"
 };
 
-export const useFilterDependencies = (
-  initialFilters: FiltersProps,
-  onChange: (filters: FiltersProps) => void
-) => {
+export const useFilterDependencies = (initialFilters, onChange) => {
   const [filters, setFilters] = useState(initialFilters);
 
-  const handleFilterChange = (
-    e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const updatedFilters = { ...filters, [name]: value };
     setFilters(updatedFilters);

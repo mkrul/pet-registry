@@ -1,11 +1,6 @@
 import React from "react";
 
-interface RememberFiltersToggleProps {
-  isEnabled: boolean;
-  onToggle: (enabled: boolean) => void;
-}
-
-const RememberFiltersToggle: React.FC<RememberFiltersToggleProps> = ({
+const RememberFiltersToggle = ({
   isEnabled,
   onToggle
 }) => {

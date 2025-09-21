@@ -1,12 +1,11 @@
 import React from "react";
 import { MapContainer as LeafletMapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapProps } from "../../types/common/Map";
 import "../../utils/leafletSetup";
 import { MapEvents } from "./MapEvents";
 import { MAP_ZOOM_LEVELS } from "../../constants/map";
 
-export const Map: React.FC<MapProps> = ({
+export const Map = ({
   onLocationSelect,
   initialLocation,
   readOnly,

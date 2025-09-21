@@ -4,18 +4,16 @@ import { ShowReportFormContainerProps } from "../../types/Report";
 import ViewReportForm from "./ViewReportForm";
 import EditReportForm from "./EditReportForm";
 import Notification from "../../../../shared/components/common/Notification";
-import { NotificationType } from "../../../../shared/types/common/Notification";
 import { useReportEdit } from "../../../../shared/hooks/useReportEdit";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../../store/store";
 import { setNotification } from "../../../../store/features/notifications/notificationsSlice";
 
-const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ report, errors }) => {
+const ShowReportFormContainer = ({ report, errors }) => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
-  const notification = useSelector((state: RootState) => state.notifications.notification);
+  const notification = useSelector((state) => state.notifications.notification);
   const location = useLocation();
 
   const {
@@ -61,12 +59,12 @@ const ShowReportFormContainer: React.FC<ShowReportFormContainerProps> = ({ repor
     navigate(`/?query=${encodeURIComponent(query)}&page=${page}`);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     const result = await handleSaveChanges(e);
     if (result.error) {
       dispatch(
         setNotification({
-          type: NotificationType.ERROR,
+          type: "ERROR",
           message: result.error
         })
       );

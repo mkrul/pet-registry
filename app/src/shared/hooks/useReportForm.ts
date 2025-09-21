@@ -1,11 +1,8 @@
-import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react";
-import { SelectChangeEvent } from "@mui/material";
-import { ReportPropsForm, LocationData } from "../types/redux/features/reports/ReportsApi";
-import { FormInputEvent } from "../types/forms/FormEvent";
+import { useState, useEffect, useCallback } from "react";
 import { createMapLocation, adaptFormDataToLocation } from "../utils/mapUtils";
 
-export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
-  const [formData, setFormData] = useState<ReportPropsForm>({
+export const useReportForm = (initialData) => {
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     name: "",
@@ -34,10 +31,10 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     intersection: null,
     ...initialData
   });
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(initialData?.image?.variantUrl || "");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(initialData?.image?.variantUrl || "");
 
-  const handleImageSelect = (file: File, preview: string) => {
+  const handleImageSelect = (file, preview) => {
     setSelectedImage(file);
     setImagePreview(preview);
   };
@@ -52,7 +49,7 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     [formData]
   );
 
-  const handleInputChange = useCallback((e: FormInputEvent) => {
+  const handleInputChange = useCallback((e) => {
     setFormData(prev => {
       const newData = { ...prev, [e.target.name]: e.target.value };
 
@@ -65,19 +62,19 @@ export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {
     });
   }, []);
 
-  const handleLocationSelect = useCallback((location: LocationData) => {
+  const handleLocationSelect = useCallback((location) => {
     setFormData(prev => ({ ...prev, ...location }));
   }, []);
 
-  const handleColor1Change = useCallback((value: string) => {
+  const handleColor1Change = useCallback((value) => {
     setFormData(prev => ({ ...prev, color1: value }));
   }, []);
 
-  const handleColor2Change = useCallback((value: string) => {
+  const handleColor2Change = useCallback((value) => {
     setFormData(prev => ({ ...prev, color2: value }));
   }, []);
 
-  const handleColor3Change = useCallback((value: string) => {
+  const handleColor3Change = useCallback((value) => {
     setFormData(prev => ({ ...prev, color3: value }));
   }, []);
 

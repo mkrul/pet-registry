@@ -2,14 +2,7 @@ import React from "react";
 import { IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
-interface FilterWithClearProps {
-  children: React.ReactNode;
-  hasValue: boolean;
-  onClear: () => void;
-  label: string;
-}
-
-const FilterWithClear: React.FC<FilterWithClearProps> = ({
+const FilterWithClear = ({
   children,
   hasValue,
   onClear,

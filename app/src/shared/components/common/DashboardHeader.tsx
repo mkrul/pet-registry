@@ -1,15 +1,6 @@
 import React from 'react';
 
-interface DashboardHeaderProps {
-  title: string;
-  actionButton: {
-    label: string;
-    onClick: () => void;
-    className?: string;
-  };
-}
-
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({
+const DashboardHeader = ({
   title,
   actionButton
 }) => {

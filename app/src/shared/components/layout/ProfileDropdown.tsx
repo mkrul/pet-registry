@@ -3,15 +3,14 @@ import NavLink from "../common/NavLink";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../../../features/auth/components/LogoutButton";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import { useGetCurrentUserQuery, useLogoutMutation } from "../../../store/features/auth/authApiSlice";
 
-const ProfileDropdown: React.FC = () => {
+const ProfileDropdown = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
+  const dropdownRef = useRef(null);
+  const isAuthenticated = useSelector((state) => !!state.auth.user);
   const { isLoading } = useGetCurrentUserQuery();
 
   useEffect(() => {
@@ -23,8 +22,8 @@ const ProfileDropdown: React.FC = () => {
   const [logout] = useLogoutMutation();
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };

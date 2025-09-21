@@ -1,14 +1,12 @@
-import { SortList } from "../types/common/OptionsList";
 import sortListJson from "./sortList.json" assert { type: "json" };
 
-const sortList = sortListJson as SortList;
+const sortList = sortListJson;
 
-export type Sort = (typeof sortList.options)[number];
 
-export const getSortOptions = (): string[] => {
+export const getSortOptions = () => {
   return [...sortList.options];
 };
 
-export const isValidSort = (sort: string): boolean => {
+export const isValidSort = (sort) => {
   return sortList.options.includes(sort);
 };

@@ -1,23 +1,16 @@
-import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { PetPropsForm } from "../../features/pets/types/Pet";
 
-interface ValidationError {
-  validationErrors?: string[];
-  message?: string;
-}
-
-export const usePetFormSubmission = (handleSubmit: any) => {
+export const usePetFormSubmission = (handleSubmit) => {
   const navigate = useNavigate();
 
-  const onSubmit = async (e: FormEvent, formData: PetPropsForm, selectedImage: File | null) => {
+  const onSubmit = async (e, formData, selectedImage) => {
     try {
       const response = await handleSubmit(formData, selectedImage);
       if (response?.id) {
         navigate(`/dashboard?section=pets`);
       }
     } catch (error) {
-      const validationError = error as ValidationError;
+      const validationError = error;
 
       if (validationError.validationErrors) {
         window.scrollTo({ top: 0, behavior: 'smooth' });

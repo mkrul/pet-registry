@@ -1,14 +1,12 @@
-import { StateList } from "../types/common/OptionsList";
 import stateListJson from "./stateList.json" assert { type: "json" };
 
-const stateList = stateListJson as StateList;
+const stateList = stateListJson;
 
-export type State = (typeof stateList.options)[number];
 
-export const getStateOptions = (): string[] => {
+export const getStateOptions = () => {
   return [...stateList.options].sort();
 };
 
-export const isValidState = (state: string): boolean => {
+export const isValidState = (state) => {
   return stateList.options.includes(state);
 };

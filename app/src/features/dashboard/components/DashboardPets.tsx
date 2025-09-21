@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserPetsData } from '../../../shared/hooks/useUserPetsData';
-import { PetProps } from '../../pets/types/Pet';
-import { NotificationState, NotificationType } from '../../../shared/types/common/Notification';
 import PetPreview from '../../pets/components/PetPreview';
 import PetDetailView from '../../pets/components/PetDetailView';
 import PetEditView from '../../pets/components/PetEditView';
@@ -21,22 +19,16 @@ import LoadingState from '../../../shared/components/common/LoadingState';
 import ItemGrid from '../../../shared/components/common/ItemGrid';
 import FormLayout from '../../../shared/components/common/FormLayout';
 
-interface DashboardPetsProps {
-  shouldCreatePet?: boolean;
-}
-
-type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
-
-const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }) => {
+const DashboardPets = ({ shouldCreatePet = false }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
-  const [selectedPet, setSelectedPet] = useState<PetProps | null>(null);
-  const [editingPet, setEditingPet] = useState<PetProps | null>(null);
-  const [petToArchive, setPetToArchive] = useState<PetProps | null>(null);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [editingPet, setEditingPet] = useState(null);
+  const [petToArchive, setPetToArchive] = useState(null);
   const [isCreatingPet, setIsCreatingPet] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<PetFilter>('all');
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [notification, setNotification] = useState(null);
   const { pets, isLoading, isPreloading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter, true);
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
@@ -45,11 +37,11 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   useClearNotificationsOnUnmount(setNotification);
 
-  const handleEditPet = (pet: PetProps) => {
+  const handleEditPet = (pet) => {
     setEditingPet(pet);
   };
 
-  const handleArchivePet = (pet: PetProps) => {
+  const handleArchivePet = (pet) => {
     setPetToArchive(pet);
   };
 
@@ -60,12 +52,12 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
       await archivePet(petToArchive.id).unwrap();
       setPetToArchive(null);
       setNotification({
-        type: NotificationType.SUCCESS,
+        type: "SUCCESS",
         message: 'Pet archived successfully'
       });
-    } catch (error: any) {
+    } catch (error) {
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: error.data?.message || 'Failed to archive pet'
       });
     }
@@ -75,7 +67,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     setPetToArchive(null);
   };
 
-  const handleFilterChange = (filter: PetFilter) => {
+  const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     setPage(1);
   };
@@ -84,23 +76,23 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
     setIsCreatingPet(true);
   };
 
-  const handleCreateReport = (pet: PetProps) => {
+  const handleCreateReport = (pet) => {
     navigate(`/dashboard?section=reports&action=create&petId=${pet.id}`);
   };
 
-  const handleDeleteReport = async (pet: PetProps) => {
+  const handleDeleteReport = async (pet) => {
     if (!pet.reportId) return;
 
     try {
       await deleteReport(pet.reportId).unwrap();
       await refetch();
       setNotification({
-        type: NotificationType.SUCCESS,
+        type: "SUCCESS",
         message: 'Report deleted successfully. Pet status updated to home.'
       });
-    } catch (error: any) {
+    } catch (error) {
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: error.data?.message || 'Failed to delete report'
       });
     }
@@ -116,7 +108,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
   const handleEditSaveSuccess = () => {
     setEditingPet(null);
     setNotification({
-      type: NotificationType.SUCCESS,
+      type: "SUCCESS",
       message: 'Pet updated successfully'
     });
   };
@@ -136,7 +128,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   useEffect(() => {
     if (selectedPet && pets.length > 0) {
-      const updatedPet = pets.find((p: PetProps) => p.id === selectedPet.id);
+      const updatedPet = pets.find((p) => p.id === selectedPet.id);
       if (updatedPet) {
         setSelectedPet(updatedPet);
       }
@@ -210,7 +202,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
         }}
       />
 
-      <FilterButtons<PetFilter>
+      <FilterButtons
         filters={petFilters}
         activeFilter={activeFilter}
         onFilterChange={handleFilterChange}
@@ -241,7 +233,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
         />
       ) : !isLoading && !isPreloading && pets.length > 0 ? (
         <ItemGrid>
-          {pets.map((pet: PetProps) => (
+          {pets.map((pet) => (
             <PetPreview
               key={pet.id}
               pet={pet}

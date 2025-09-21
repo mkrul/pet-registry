@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Map from "../../../../shared/components/common/Map";
-import { LocationData, LocationSelectProps } from "../../types/Report";
 import LocationDisplay from "../../../../shared/components/common/LocationDisplay";
 import { Autocomplete, TextField } from "@mui/material";
 import { debounce } from "lodash";
@@ -11,23 +10,14 @@ import { processAddress } from "../../../../shared/geocoding";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 import Tip from "../../../../shared/components/common/Tip";
 
-interface AddressSuggestion {
-  display_name: string;
-  lat: string;
-  lon: string;
-}
-
-export const LocationSelect: React.FC<LocationSelectProps> = ({
+export const LocationSelect = ({
   onLocationSelect,
   initialLocation,
   isLoading,
   error,
   required = true
 }) => {
-  const [selectedLocation, setSelectedLocation] = useState<Omit<
-    LocationData,
-    "latitude" | "longitude"
-  > | null>(
+  const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
       ? {
           area: initialLocation.area || "",
@@ -46,7 +36,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
 
   const fetchAddressSuggestions = React.useMemo(
     () =>
-      debounce(async (input: string) => {
+      debounce(async (input) => {
         if (input.length < 3) return;
 
         try {
@@ -76,7 +66,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
     }
   }, [searchInput, fetchAddressSuggestions]);
 
-  const handleLocationSelect = (location: LocationData) => {
+  const handleLocationSelect = (location) => {
     if (location.country !== "United States") {
       onLocationSelect({
         ...location,
@@ -106,7 +96,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
     }
   }, [initialLocation]);
 
-  const handleAddressSelect = async (_: React.SyntheticEvent, value: AddressSuggestion | null) => {
+  const handleAddressSelect = async (_, value) => {
     if (value) {
       const lat = parseFloat(value.lat);
       const lng = parseFloat(value.lon);
@@ -160,7 +150,7 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         <Autocomplete
           fullWidth
           options={suggestions}
-          getOptionLabel={(option: AddressSuggestion) => option.display_name}
+          getOptionLabel={(option) => option.display_name}
           filterOptions={x => x}
           value={selectedAddress}
           onChange={handleAddressSelect}

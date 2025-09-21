@@ -1,4 +1,4 @@
-const STATE_ABBREVIATIONS: Record<string, string> = {
+const STATE_ABBREVIATIONS = {
   "Alabama": "AL",
   "Alaska": "AK",
   "Arizona": "AZ",
@@ -52,7 +52,7 @@ const STATE_ABBREVIATIONS: Record<string, string> = {
   "District of Columbia": "DC"
 };
 
-export const getStateAbbreviation = (stateName: string): string => {
+export const getStateAbbreviation = (stateName) => {
   if (!stateName) return "";
 
   const normalizedStateName = stateName.trim();

@@ -1,14 +1,9 @@
 import React, { useEffect } from "react";
 import { useMap } from "react-leaflet";
-import { MapProps } from "../../types/common/Map";
 import { DEFAULT_MAP_CENTER } from "../../constants/map";
 
-interface MapViewProps extends Pick<MapProps, "initialLocation" | "initialZoom"> {
-  hasSetInitialView: boolean;
-  setHasSetInitialView: (value: boolean) => void;
-}
 
-export const MapView: React.FC<MapViewProps> = ({
+export const MapView = ({
   initialLocation,
   initialZoom,
   hasSetInitialView,

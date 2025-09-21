@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useUserReportsData } from '../../../shared/hooks/useUserReportsData';
-import { ReportProps } from '../../reports/types/Report';
-import { NotificationState, NotificationType } from '../../../shared/types/common/Notification';
 import ReportPreview from './ReportPreview';
 import ReportDetailView from './ReportDetailView';
 import ReportEditView from './ReportEditView';
@@ -11,8 +9,6 @@ import ConfirmationModal from '../../../shared/components/common/ConfirmationMod
 import NewReportForm from '../../reports/components/forms/NewReportForm';
 import { useGetNewReportQuery, useArchiveReportMutation } from '../../../store/features/reports/reportsApi';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi';
-import { PetProps } from '../../pets/types/Pet';
-import { ReportPropsForm } from '../../../shared/types/redux/features/reports/ReportsApi';
 import Spinner from '../../../shared/components/common/Spinner';
 import { useAppDispatch } from '../../../store/hooks';
 import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications';
@@ -23,13 +19,7 @@ import LoadingState from '../../../shared/components/common/LoadingState';
 import ItemGrid from '../../../shared/components/common/ItemGrid';
 import FormLayout from '../../../shared/components/common/FormLayout';
 
-interface DashboardReportsProps {
-  shouldCreateReport?: boolean;
-}
-
-type ReportFilter = 'active' | 'archived';
-
-const mapPetToReportForm = (pet: PetProps): Partial<ReportPropsForm> => ({
+const mapPetToReportForm = (pet) => ({
   name: pet.name,
   species: pet.species,
   breed1: pet.breed1,
@@ -50,17 +40,17 @@ const mapPetToReportForm = (pet: PetProps): Partial<ReportPropsForm> => ({
   }
 });
 
-const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport = false }) => {
+const DashboardReports = ({ shouldCreateReport = false }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
-  const [selectedReport, setSelectedReport] = useState<ReportProps | null>(null);
-  const [editingReport, setEditingReport] = useState<ReportProps | null>(null);
-  const [reportToArchive, setReportToArchive] = useState<ReportProps | null>(null);
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [editingReport, setEditingReport] = useState(null);
+  const [reportToArchive, setReportToArchive] = useState(null);
   const [isCreatingReport, setIsCreatingReport] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<ReportFilter>('active');
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [activeFilter, setActiveFilter] = useState('active');
+  const [notification, setNotification] = useState(null);
   const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true);
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
@@ -76,11 +66,11 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   );
 
 
-  const handleEditReport = (report: ReportProps) => {
+  const handleEditReport = (report) => {
     setEditingReport(report);
   };
 
-  const handleDeleteReport = (report: ReportProps) => {
+  const handleDeleteReport = (report) => {
     setReportToArchive(report);
   };
 
@@ -91,12 +81,12 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
       await archiveReport(reportToArchive.id).unwrap();
       setReportToArchive(null);
       setNotification({
-        type: NotificationType.SUCCESS,
+        type: "SUCCESS",
         message: 'Report archived successfully'
       });
-    } catch (error: any) {
+    } catch (error) {
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: error.data?.message || 'Failed to archive report'
       });
     }
@@ -106,7 +96,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
     setReportToArchive(null);
   };
 
-  const handleFilterChange = (filter: ReportFilter) => {
+  const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     setPage(1);
   };
@@ -126,7 +116,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
   const handleEditSaveSuccess = () => {
     setEditingReport(null);
     setNotification({
-      type: NotificationType.SUCCESS,
+      type: "SUCCESS",
       message: 'Report updated successfully'
     });
   };
@@ -225,7 +215,7 @@ const DashboardReports: React.FC<DashboardReportsProps> = ({ shouldCreateReport 
         }}
       />
 
-      <FilterButtons<ReportFilter>
+      <FilterButtons
         filters={reportFilters}
         activeFilter={activeFilter}
         onFilterChange={handleFilterChange}

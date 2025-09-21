@@ -30,7 +30,7 @@ export const reportsApi = createApi({
     }),
     getReports: build.query({
       query: params => {
-        const queryParams:  = {
+        const queryParams = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21" // This will be overridden by useReportsData hook
         };

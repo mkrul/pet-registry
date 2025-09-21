@@ -4,15 +4,13 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import App from "./App";
 import authReducer from "../store/features/auth/authSlice";
-import { Reducer } from "@reduxjs/toolkit";
-
 const mockUseGetCurrentUserQuery = vi.fn();
 
 vi.mock(".../store/features/auth/authApiSlice", () => ({
   authApi: {
     reducerPath: "api",
-    reducer: ((state = {}) => state) as Reducer<any>,
-    middleware: () => (next: any) => (action: any) => next(action),
+    reducer: ((state = {}) => state),
+    middleware: () => (next) => (action) => next(action),
     endpoints: {
       getCurrentUser: {
         select: vi.fn()
@@ -45,10 +43,10 @@ describe("App Component", () => {
     store = configureStore({
       reducer: {
         auth: authReducer,
-        api: ((state = {}) => state) as Reducer<any>
+        api: ((state = {}) => state)
       },
       middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(() => (next: any) => (action: any) => next(action))
+        getDefaultMiddleware().concat(() => (next) => (action) => next(action))
     });
     vi.clearAllMocks();
   });

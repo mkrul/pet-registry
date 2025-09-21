@@ -11,15 +11,8 @@ import { PetIdentificationFields } from './common/PetIdentificationFields';
 import { PetColorFields } from './common/PetColorFields';
 import { ImageUpload } from '../../reports/components/common/ImageUpload';
 
-interface PetEditViewProps {
-  pet: PetProps;
-  onBack: () => void;
-  onSaveSuccess?: () => void;
-  notification?: NotificationState | null;
-  onNotificationClose?: () => void;
-}
 
-const PetEditView: React.FC<PetEditViewProps> = ({
+const PetEditView:  = ({
   pet,
   onBack,
   onSaveSuccess,
@@ -43,7 +36,7 @@ const PetEditView: React.FC<PetEditViewProps> = ({
     getFilteredColorOptions
   } = usePetEdit(pet);
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     const result = await handleSaveChanges(e);
     if (result.success) {
@@ -116,9 +109,9 @@ const PetEditView: React.FC<PetEditViewProps> = ({
           <PetColorFields
             formData={formData}
             isLoading={isSaving}
-            handleColor1Change={(value: string) => handleInputChange({ target: { name: "color1", value } })}
-            handleColor2Change={(value: string) => handleInputChange({ target: { name: "color2", value } })}
-            handleColor3Change={(value: string) => handleInputChange({ target: { name: "color3", value } })}
+            handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
+            handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
+            handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
           />
         </form>
       </div>

@@ -1,12 +1,11 @@
 import React from "react";
-import { FormControl, Select, MenuItem, SelectChangeEvent, IconButton, Box } from "@mui/material";
+import { FormControl, Select, MenuItem, IconButton, Box } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { PetColorFieldsProps } from "../../types/Pet";
 import { getColorOptions } from "../../../../shared/reports/colorList";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 
-export const PetColorFields: React.FC<PetColorFieldsProps> = ({
+export const PetColorFields = ({
   formData,
   isLoading,
   handleColor1Change,
@@ -16,24 +15,24 @@ export const PetColorFields: React.FC<PetColorFieldsProps> = ({
 }) => {
   const colorOptions = getColorOptions();
 
-  const getFilteredColorOptions = (excludeColors: (string | null)[]) => {
+  const getFilteredColorOptions = (excludeColors) => {
     return colorOptions.filter(color => !excludeColors.includes(color));
   };
 
-  const createChangeEvent = (name: string, value: string) =>
+  const createChangeEvent = (name, value) =>
     ({
       target: { name, value }
-    }) as React.ChangeEvent<HTMLInputElement>;
+    });
 
-  const handleColor1SelectChange = (e: SelectChangeEvent) => {
+  const handleColor1SelectChange = (e) => {
     handleColor1Change(e.target.value);
   };
 
-  const handleColor2SelectChange = (e: SelectChangeEvent) => {
+  const handleColor2SelectChange = (e) => {
     handleColor2Change(e.target.value);
   };
 
-  const handleColor3SelectChange = (e: SelectChangeEvent) => {
+  const handleColor3SelectChange = (e) => {
     handleColor3Change(e.target.value);
   };
 

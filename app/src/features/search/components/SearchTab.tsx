@@ -4,15 +4,9 @@ import SearchContainer from "./SearchContainer";
 import { FiltersProps } from "../../../shared/types/common/Search";
 import useClickOutside from "../../../shared/hooks/useClickOutside";
 
-interface SearchTabProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  onSearchComplete: (query: string, page: number, filters: FiltersProps) => void;
-}
-
-const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComplete }) => {
+const SearchTab = ({ isOpen, setIsOpen, onSearchComplete }) => {
   const [hasBeenClicked, setHasBeenClicked] = useState(false);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef(null);
   const panelRef = useClickOutside({
     isOpen,
     onClose: () => setIsOpen(false),
@@ -26,7 +20,7 @@ const SearchTab: React.FC<SearchTabProps> = ({ isOpen, setIsOpen, onSearchComple
     setIsOpen(!isOpen);
   };
 
-  const wrappedOnSearchComplete = (query: string, page: number, filters: FiltersProps) => {
+  const wrappedOnSearchComplete = (query, page, filters) => {
     onSearchComplete(query, page, filters);
     if (query !== "") {
       setIsOpen(false);

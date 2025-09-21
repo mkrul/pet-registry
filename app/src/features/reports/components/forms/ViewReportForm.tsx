@@ -10,7 +10,7 @@ import DateDisplay from "../common/DateDisplay";
 import { createMapLocation } from "../../../../shared/utils/mapUtils";
 import { MAP_ZOOM_LEVELS } from "../../../../shared/constants/map";
 
-const ViewReportForm: React.FC<ViewReportFormProps> = ({
+const ViewReportForm:  = ({
   report,
   onEditClick,
   onBackClick,

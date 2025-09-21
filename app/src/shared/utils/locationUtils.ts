@@ -1,14 +1,8 @@
-import { NotificationType } from "../types/common/Notification";
-
-export const isUSLocation = (country: string): boolean => {
+export const isUSLocation = (country) => {
   return country.toLowerCase() === "united states";
 };
 
-export const findNearestArea = async (
-  lat: number,
-  lng: number,
-  onNotification: (notification: { type: NotificationType; message: string }) => void
-): Promise<string> => {
+export const findNearestArea = async (lat, lng, onNotification) => {
   try {
     const response = await fetch(
       `https:/nominatim.openstreetmap.org/reverse?` +
@@ -70,7 +64,7 @@ export const findNearestArea = async (
     return "Unknown Location";
   } catch (error) {
     onNotification({
-      type: NotificationType.ERROR,
+      type: "ERROR",
       message:
         "The map does not recognize the location you selected. Please choose a different location."
     });
@@ -78,7 +72,7 @@ export const findNearestArea = async (
   }
 };
 
-export const findNearbyStreets = async (lat: number, lng: number): Promise<string | null> => {
+export const findNearbyStreets = async (lat, lng) => {
   try {
     const mainResponse = await fetch(
       `https:/nominatim.openstreetmap.org/reverse?` +
@@ -115,11 +109,11 @@ export const findNearbyStreets = async (lat: number, lng: number): Promise<strin
 
     const roads = overpassData.elements
       .filter(
-        (element: { tags?: { name?: string; highway?: string } }) =>
+        (element) =>
           element.tags?.name && element.tags.name.toLowerCase() !== mainRoad.toLowerCase()
       )
-      .map((element: { tags?: { name?: string } }) => element.tags?.name)
-      .filter((name?: string): name is string => !!name);
+      .map((element) => element.tags?.name)
+      .filter((name) => !!name);
 
     if (roads.length === 0) {
       const widerQuery = query.replace(`${radius}`, "200");
@@ -131,11 +125,11 @@ export const findNearbyStreets = async (lat: number, lng: number): Promise<strin
       roads.push(
         ...widerData.elements
           .filter(
-            (element: { tags?: { name?: string; highway?: string } }) =>
+            (element) =>
               element.tags?.name && element.tags.name.toLowerCase() !== mainRoad.toLowerCase()
           )
-          .map((element: { tags?: { name?: string } }) => element.tags?.name)
-          .filter((name?: string): name is string => !!name)
+          .map((element) => element.tags?.name)
+          .filter((name) => !!name)
       );
     }
 

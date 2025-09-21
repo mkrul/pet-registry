@@ -16,7 +16,7 @@ export const petsApi = createApi({
     }),
     getPets: build.query({
       query: params => {
-        const queryParams:  = {
+        const queryParams = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21"
         };
@@ -32,7 +32,7 @@ export const petsApi = createApi({
           method: "GET"
         };
       },
-      transformResponse: (response: GetPetsResponse) => {
+      transformResponse: (response) => {
         const pets = response.data.map(pet => transformToCamelCase(pet));
         const pagination = transformToCamelCase(response.pagination);
         return { data: pets, pagination };
@@ -46,7 +46,7 @@ export const petsApi = createApi({
             ]
           : [{ type: "Pets", id: "LIST" }]
     }),
-    updatePet: build.mutation<UpdatePetResponse, { id: number; data: FormData }>({
+    updatePet: build.mutation({
       query: ({ id, data }) => ({
         url: `pets/${id}`,
         method: "PUT",
@@ -99,13 +99,13 @@ export const petsApi = createApi({
       },
       invalidatesTags: ["Pets"]
     }),
-    getNewPet: build.query<PetProps, void>({
+    getNewPet: build.query({
       query: () => "pets/new",
       providesTags: ["Pets"]
     }),
-    getUserPets: build.query<GetPetsResponse, PaginationPropsQuery>({
+    getUserPets: build.query({
       query: params => {
-        const queryParams:  = {
+        const queryParams = {
           page: params.page?.toString() || "1",
           per_page: params.items?.toString() || "21"
         };
@@ -125,7 +125,7 @@ export const petsApi = createApi({
           method: "GET"
         };
       },
-      transformResponse: (response: GetPetsResponse) => {
+      transformResponse: (response) => {
         const pets = response.data.map(pet => transformToCamelCase(pet));
         const pagination = transformToCamelCase(response.pagination);
         return { data: pets, pagination };

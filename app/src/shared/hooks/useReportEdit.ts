@@ -4,18 +4,15 @@ import { getColorOptions } from "../reports/colorList";
 import { getBreedsBySpecies } from "../reports/breedList";
 import { getGenderOptions } from "../reports/genderList";
 import { getSpeciesOptions } from "../reports/speciesList";
-import { ReportProps } from "../../features/reports/types/Report";
 import { transformToSnakeCase } from "../apiHelpers";
-import { SelectChangeEvent } from "@mui/material";
-
-export const useReportEdit = (report: ReportProps) => {
+export const useReportEdit = (report) => {
   const [formData, setFormData] = useState(report);
 
   useEffect(() => {
     setFormData(report);
     setImageSrc(report.image?.variantUrl || "/images/placeholder.png");
   }, [report]);
-  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+  const [newImageFile, setNewImageFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -24,19 +21,12 @@ export const useReportEdit = (report: ReportProps) => {
   const speciesOptions = getSpeciesOptions();
   const colorOptions = getColorOptions();
   const breedOptions = formData.species
-    ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat")
+    ? getBreedsBySpecies(formData.species.toLowerCase())
     : [];
   const genderOptions = getGenderOptions();
   const VIEW_ZOOM_LEVEL = 15;
 
-  const handleInputChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | SelectChangeEvent
-      | {
-          target: { name: string; value: string | boolean | null };
-        }
-  ) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setFormData(prev => {
@@ -64,12 +54,12 @@ export const useReportEdit = (report: ReportProps) => {
         }
       }
 
-      (newFormData as any)[name] = value;
+      newFormData[name] = value;
       return newFormData;
     });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const localUrl = URL.createObjectURL(file);
@@ -86,14 +76,7 @@ export const useReportEdit = (report: ReportProps) => {
   };
 
 
-  const handleLocationSelect = (location: {
-    latitude: number;
-    longitude: number;
-    area: string;
-    state: string;
-    country: string;
-    intersection: string | null;
-  }) => {
+  const handleLocationSelect = (location) => {
     setFormData(prev => ({
       ...prev,
       ...location
@@ -108,7 +91,7 @@ export const useReportEdit = (report: ReportProps) => {
     return colorOptions.filter(color => !selectedColors.includes(color));
   };
 
-  const handleSaveChanges = async (e: React.FormEvent) => {
+  const handleSaveChanges = async (e) => {
     e.preventDefault();
     setIsSaving(true);
 
@@ -132,7 +115,7 @@ export const useReportEdit = (report: ReportProps) => {
       }).unwrap();
       setIsSaving(false);
       return { success: response };
-    } catch (error: any) {
+    } catch (error) {
       setIsSaving(false);
       return { error: error.data?.message || "Failed to update report" };
     }

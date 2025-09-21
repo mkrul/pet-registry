@@ -5,7 +5,7 @@ import { commonInputStyles } from "../../../../shared/commonStyles";
 import Tip from "../../../../shared/components/common/Tip";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 
-export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
+export const BasicInfoFields:  = ({
   formData,
   onInputChange,
   readOnly,

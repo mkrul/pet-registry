@@ -1,20 +1,12 @@
 import React from 'react';
-import { ReportProps } from '../../reports/types/Report';
 
-interface ReportDetailViewProps {
-  report: ReportProps;
-  onBack: () => void;
-  onEdit?: (report: ReportProps) => void;
-  onDelete?: (report: ReportProps) => void;
-}
-
-const ReportDetailView: React.FC<ReportDetailViewProps> = ({ report, onBack, onEdit, onDelete }) => {
-  const handleEditClick = (e: React.MouseEvent) => {
+const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
+  const handleEditClick = (e) => {
     e.stopPropagation();
     onEdit?.(report);
   };
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
+  const handleDeleteClick = (e) => {
     e.stopPropagation();
     onDelete?.(report);
   };

@@ -4,22 +4,20 @@ import RememberFiltersToggle from "../../../shared/components/common/RememberFil
 import { SelectChangeEvent } from "@mui/material";
 import { FilterContainerProps } from "../../../shared/types/common/Search";
 
-const FilterContainer: React.FC<FilterContainerProps> = ({
+const FilterContainer:  = ({
   initialFilters,
   onFiltersChange,
   onReset,
   rememberFilters,
   onRememberFiltersToggle
 }) => {
-  const handleFilterChange = (
-    e: SelectChangeEvent<string> | React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const updatedFilters = { ...initialFilters, [name]: value };
     onFiltersChange(updatedFilters);
   };
 
-  const handleClearFilter = (filterName: keyof typeof initialFilters) => {
+  const handleClearFilter = (filterName) => {
     const updatedFilters = { ...initialFilters, [filterName]: "" };
     onFiltersChange(updatedFilters);
   };

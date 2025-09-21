@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import FilterContainer from "./FilterContainer";
 import Tip from "../../../shared/components/common/Tip";
-import { FiltersProps, SearchContainerProps } from "../../../shared/types/common/Search";
 import {
   getInitialFilters,
   getInitialSearchQuery,
@@ -13,15 +12,15 @@ import {
   clearSearchFromLocalStorage
 } from "../../../shared/utils/filterUtils";
 
-const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) => {
+const SearchContainer = ({ onSearchComplete }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(() => getInitialSearchQuery(searchParams));
-  const [filters, setFilters] = useState<FiltersProps>(() => getInitialFilters(searchParams));
+  const [filters, setFilters] = useState(() => getInitialFilters(searchParams));
   const [isSearchTipsOpen, setIsSearchTipsOpen] = useState(() => {
     const saved = localStorage.getItem('searchTipsOpen');
     return saved !== null ? JSON.parse(saved) : true;
   });
-  const [rememberFilters, setRememberFilters] = useState<boolean>(() => {
+  const [rememberFilters, setRememberFilters] = useState(() => {
     const saved = localStorage.getItem('rememberFiltersEnabled');
     return saved !== null ? JSON.parse(saved) : true;
   });
@@ -75,7 +74,7 @@ const SearchContainer: React.FC<SearchContainerProps> = ({ onSearchComplete }) =
     localStorage.setItem('searchTipsOpen', JSON.stringify(newState));
   };
 
-  const handleRememberFiltersToggle = (enabled: boolean) => {
+  const handleRememberFiltersToggle = (enabled) => {
     setRememberFilters(enabled);
     localStorage.setItem('rememberFiltersEnabled', JSON.stringify(enabled));
 

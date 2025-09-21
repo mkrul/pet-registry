@@ -1,10 +1,9 @@
-import { ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
 
 export const createFormData = (
-  formData: ReportPropsForm,
-  selectedImage: File | null,
-  petId?: number
-): FormData => {
+  formData,
+  selectedImage,
+  petId
+) => {
   const formDataToSend = new FormData();
   const data = {
     title: formData.title,

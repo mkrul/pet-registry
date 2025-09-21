@@ -40,16 +40,16 @@ const NewReportForm = ({ initialData, petId }) => {
   const { onSubmit } = useFormSubmission(handleSubmit);
 
   const handleFormSubmit = (
-    e: FormEvent<HTMLFormElement>,
-    formData: ReportPropsForm,
-    selectedImage: File | null
+    e,
+    formData,
+    selectedImage
   ) => {
     e.preventDefault();
 
     onSubmit(e, formData, selectedImage, petId);
   };
 
-  const handleLocationUpdate = (location: LocationData) => {
+  const handleLocationUpdate = (location) => {
     handleLocationSelect(location);
   };
 

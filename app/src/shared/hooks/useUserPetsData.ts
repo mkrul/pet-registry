@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useGetUserPetsQuery } from '../../store/features/pets/petsApi';
-import { PetProps } from '../../features/pets/types/Pet';
-import { NotificationState, NotificationType } from '../types/common/Notification';
 
-type PetFilter = 'all' | 'dog' | 'cat' | 'archived';
-
-export const useUserPetsData = (page: number, filter: PetFilter, preloadAll: boolean = false) => {
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+export const useUserPetsData = (page, filter, preloadAll = false) => {
+  const [notification, setNotification] = useState(null);
 
   const speciesFilter = filter === 'all' || filter === 'archived' ? undefined : filter;
   const archivedFilter = filter === 'archived';
@@ -61,7 +57,7 @@ export const useUserPetsData = (page: number, filter: PetFilter, preloadAll: boo
   useEffect(() => {
     if (error) {
       setNotification({
-        type: NotificationType.ERROR,
+        type: 'error',
         message: 'Failed to load pets. Please try again.'
       });
     } else {

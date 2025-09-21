@@ -1,9 +1,8 @@
-import { PetPropsForm } from "../../features/pets/types/Pet";
 
 export const createPetFormData = (
-  formData: PetPropsForm,
-  selectedImage: File | null
-): FormData => {
+  formData,
+  selectedImage
+) => {
   const formDataToSend = new FormData();
   const data = {
     name: formData.name,

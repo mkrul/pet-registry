@@ -8,7 +8,6 @@ import {
   FormControlLabel,
   Radio,
   Alert,
-  SelectChangeEvent,
   IconButton,
   Box
 } from "@mui/material";
@@ -16,25 +15,10 @@ import { Close as CloseIcon } from "@mui/icons-material";
 import { getGenderOptions } from "../../../../shared/reports/genderList";
 import speciesListJson from "../../../../../../config/species.json";
 import BreedSearch from "../../../../shared/components/common/BreedSearch";
-import {
-  IdentificationFieldsProps as BaseIdentificationFieldsProps,
-  ReportPropsForm,
-  FormInputEvent
-} from "../../types/Report";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 
-interface Props {
-  formData: ReportPropsForm;
-  onInputChange: (e: FormInputEvent) => void;
-  isLoading: boolean;
-  error: string;
-  breedError?: string;
-  alteredError?: string;
-  microchipError?: string;
-}
-
-export const IdentificationFields: React.FC<Props> = ({
+const IdentificationFields = ({
   formData,
   onInputChange,
   isLoading,
@@ -47,16 +31,16 @@ export const IdentificationFields: React.FC<Props> = ({
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
 
-  const createChangeEvent = (name: string, value: string) =>
+  const createChangeEvent = (name, value) =>
     ({
       target: { name, value }
-    }) as React.ChangeEvent<HTMLInputElement>;
+    });
 
-  const handleFieldChange = (name: string) => (value: string) => {
+  const handleFieldChange = (name) => (value) => {
     onInputChange(createChangeEvent(name, value));
   };
 
-  const handleSpeciesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSpeciesChange = (e) => {
     setShowSpeciesRequired(false);
     onInputChange(e);
   };
@@ -113,7 +97,7 @@ export const IdentificationFields: React.FC<Props> = ({
               labelId="gender-label"
               id="gender"
               value={formData.gender || ""}
-              onChange={(e: SelectChangeEvent) => handleGenderChange(e.target.value)}
+              onChange={(e) => handleGenderChange(e.target.value)}
               sx={commonInputStyles}
               disabled={isLoading}
               MenuProps={{
@@ -207,7 +191,7 @@ export const IdentificationFields: React.FC<Props> = ({
         <div className="space-y-2">
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <BreedSearch
-              species={formData.species.toLowerCase() as "dog" | "cat"}
+              species={formData.species.toLowerCase()}
               value={formData.breed1}
               onChange={handleBreedChange}
               disabled={isLoading}
@@ -247,7 +231,7 @@ export const IdentificationFields: React.FC<Props> = ({
         <div className="space-y-2">
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <BreedSearch
-              species={formData.species.toLowerCase() as "dog" | "cat"}
+              species={formData.species.toLowerCase()}
               value={formData.breed2}
               onChange={handleBreed2Change}
               disabled={isLoading}
@@ -280,3 +264,5 @@ export const IdentificationFields: React.FC<Props> = ({
     </div>
   );
 };
+
+export { IdentificationFields };

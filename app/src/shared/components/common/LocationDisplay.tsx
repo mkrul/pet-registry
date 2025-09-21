@@ -1,7 +1,6 @@
 import React from "react";
-import { LocationDisplayProps } from "../../types/common/LocationDisplay";
 import { getStateAbbreviation } from "../../utils/stateUtils";
-const LocationDisplay: React.FC<LocationDisplayProps> = ({
+const LocationDisplay = ({
   area,
   state,
   intersection,

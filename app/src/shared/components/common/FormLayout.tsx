@@ -1,22 +1,8 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader';
 import Notification from './Notification';
-import { NotificationState } from '../../types/common/Notification';
 
-interface FormLayoutProps {
-  title: string;
-  backButton: {
-    label: string;
-    onClick: () => void;
-    className?: string;
-  };
-  notification?: NotificationState | null;
-  onNotificationClose?: () => void;
-  children: React.ReactNode;
-  formWrapperClassName?: string;
-}
-
-const FormLayout: React.FC<FormLayoutProps> = ({
+const FormLayout = ({
   title,
   backButton,
   notification,

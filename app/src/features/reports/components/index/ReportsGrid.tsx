@@ -3,7 +3,7 @@ import ReportCard from "./ReportCard";
 import Pagination from "../../../../shared/components/common/Pagination";
 import { ReportsGridProps } from "../../types/Report";
 
-const ReportsGrid: React.FC<ReportsGridProps> = ({
+const ReportsGrid:  = ({
   reports,
   currentPage,
   currentQuery,

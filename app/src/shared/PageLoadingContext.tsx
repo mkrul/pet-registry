@@ -1,16 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-interface PageLoadingContextType {
-  setPageReady: (ready: boolean) => void;
-  isPageReady: boolean;
-}
-
-const PageLoadingContext = createContext<PageLoadingContextType>({
+const PageLoadingContext = createContext({
   setPageReady: () => {},
   isPageReady: false
 });
 
-export const PageLoadingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const PageLoadingProvider = ({ children }) => {
   const [isPageReady, setIsPageReady] = useState(false);
 
   // Reset ready state on route changes

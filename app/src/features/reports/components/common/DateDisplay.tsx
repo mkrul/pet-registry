@@ -1,12 +1,7 @@
 import React from "react";
 import formatDate from "../../../../shared/formatDate";
 
-interface DateDisplayProps {
-  createdAt: string;
-  updatedAt: string;
-}
-
-const DateDisplay: React.FC<DateDisplayProps> = ({ createdAt, updatedAt }) => {
+const DateDisplay = ({ createdAt, updatedAt }) => {
   return (
     <div className="space-y-2">
       <div className="flex gap-8">

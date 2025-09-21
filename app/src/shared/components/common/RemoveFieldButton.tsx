@@ -3,14 +3,7 @@ import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { commonInputStyles } from "../../commonStyles";
 
-interface RemoveFieldButtonProps {
-  onClick: () => void;
-  disabled?: boolean;
-  testId?: string;
-  ariaLabel?: string;
-}
-
-export const RemoveFieldButton: React.FC<RemoveFieldButtonProps> = ({
+export const RemoveFieldButton = ({
   onClick,
   disabled = false,
   testId = "remove-field-button",

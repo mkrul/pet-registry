@@ -1,9 +1,8 @@
-import { FiltersProps } from "../types/common/Search";
 
 const SEARCH_PERSISTENCE_KEY = "petRegistrySearchFilters";
 const SEARCH_QUERY_KEY = "petRegistrySearchQuery";
 
-export const getInitialFilters = (searchParams: URLSearchParams): FiltersProps => {
+export const getInitialFilters = (searchParams) => {
   // First check URL params
   const urlFilters = {
     species: searchParams.get("species") || "",
@@ -36,7 +35,7 @@ export const getInitialFilters = (searchParams: URLSearchParams): FiltersProps =
   return getDefaultFilters();
 };
 
-export const getInitialSearchQuery = (searchParams: URLSearchParams): string => {
+export const getInitialSearchQuery = (searchParams) => {
   // First check URL params
   const urlQuery = searchParams.get("query") || "";
   if (urlQuery) {
@@ -56,7 +55,7 @@ export const getInitialSearchQuery = (searchParams: URLSearchParams): string => 
   return "";
 };
 
-export const getDefaultFilters = (): FiltersProps => ({
+export const getDefaultFilters = () => ({
   species: "",
   color: "",
   gender: "",
@@ -67,7 +66,7 @@ export const getDefaultFilters = (): FiltersProps => ({
   breed: ""
 });
 
-export const saveSearchToLocalStorage = (query: string, filters: FiltersProps) => {
+export const saveSearchToLocalStorage = (query, filters) => {
   try {
     // Only save non-default values
     const filtersToSave = Object.fromEntries(
@@ -93,7 +92,7 @@ export const clearSearchFromLocalStorage = () => {
   }
 };
 
-export const updateSearchParams = (query: string, filters: FiltersProps) => {
+export const updateSearchParams = (query, filters) => {
   const newParams = new URLSearchParams();
   if (query) newParams.set("query", query);
   Object.entries(filters).forEach(([key, value]) => {

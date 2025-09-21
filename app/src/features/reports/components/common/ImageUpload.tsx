@@ -1,12 +1,11 @@
 import React from "react";
 import { Button, FormControl } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
-import { ImageUploadProps } from "../../../../shared/types/common/Image";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import Tip from "../../../../shared/components/common/Tip";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 
-export const ImageUpload: React.FC<ImageUploadProps> = ({
+export const ImageUpload = ({
   onImageSelect,
   onFileChange,
   preview,
@@ -16,7 +15,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   error,
   required = true
 }) => {
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
 
@@ -33,7 +32,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        onImageSelect?.(file, reader.result as string);
+        onImageSelect?.(file, reader.result);
         onFileChange?.(e);
       };
       reader.readAsDataURL(file);

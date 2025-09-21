@@ -35,9 +35,9 @@ const NewPetForm = () => {
   const { onSubmit } = usePetFormSubmission(handleSubmit);
 
   const handleFormSubmit = (
-    e: FormEvent<HTMLFormElement>,
-    formData: PetPropsForm,
-    selectedImage: File | null
+    e,
+    formData,
+    selectedImage
   ) => {
     e.preventDefault();
     onSubmit(e, formData, selectedImage);
@@ -79,9 +79,9 @@ const NewPetForm = () => {
       <PetColorFields
         formData={formData}
         isLoading={isLoading}
-        handleColor1Change={(value: string) => handleInputChange({ target: { name: "color1", value } })}
-        handleColor2Change={(value: string) => handleInputChange({ target: { name: "color2", value } })}
-        handleColor3Change={(value: string) => handleInputChange({ target: { name: "color3", value } })}
+        handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
+        handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
+        handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
         error={""}
       />
 

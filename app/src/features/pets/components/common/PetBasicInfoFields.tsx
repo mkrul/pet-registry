@@ -4,7 +4,7 @@ import { PetBasicInfoFieldsProps } from "../../types/Pet";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 
-export const PetBasicInfoFields: React.FC<PetBasicInfoFieldsProps> = ({
+export const PetBasicInfoFields:  = ({
   formData,
   onInputChange,
   readOnly,

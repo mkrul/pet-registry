@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const DashboardSettings: React.FC = () => {
+const DashboardSettings = () => {
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [publicProfile, setPublicProfile] = useState(false);

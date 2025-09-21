@@ -1,10 +1,8 @@
 import NavLink from "./NavLink";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const isAuthenticated = useSelector((state: RootState) => !!state.auth.user);
+  const isAuthenticated = useSelector((state) => !!state.auth.user);
 
   return (
     <div className="bg-base-200 py-6" role="contentinfo" data-testid="footer">

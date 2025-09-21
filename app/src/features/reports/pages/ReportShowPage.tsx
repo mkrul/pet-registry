@@ -3,12 +3,11 @@ import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../../store/features/reports/reportsApi";
 import ShowReportFormContainer from "../components/forms/ShowReportFormContainer";
 import Spinner from "../../../shared/components/common/Spinner";
-import { NotificationState, NotificationType } from "../../../shared/types/common/Notification";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../store/features/notifications/notificationsSlice";
 
-const ReportShowPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+const ReportShowPage = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const { data: report, error, isLoading } = useGetReportQuery(Number(id));
   const [searchParams] = useSearchParams();
@@ -20,10 +19,10 @@ const ReportShowPage: React.FC = () => {
 
   useEffect(() => {
     if (error && "data" in error) {
-      const apiError = error as { data: { message: string } };
+      const apiError = error;
       dispatch(
         setNotification({
-          type: NotificationType.ERROR,
+          type: "ERROR",
           message: apiError.data.message
         })
       );

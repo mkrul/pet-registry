@@ -1,5 +1,3 @@
-import { NavigateFunction } from "react-router-dom";
-
-export const navigateToHome = (navigate: NavigateFunction) => {
+export const navigateToHome = (navigate) => {
   navigate("/");
 };

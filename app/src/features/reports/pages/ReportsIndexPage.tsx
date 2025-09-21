@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from "../../../store/hooks";
 import { setSearchState } from "../../../store/features/search/searchSlice";
 import SearchTab from "../../search/components/SearchTab";
 import ReportsContainer from "../components/index/ReportsContainer";
-import { FiltersProps } from "../../../shared/types/common/Search";
 import { useScrollRestoration } from "../../../shared/hooks/useScrollRestoration";
 import { useReportsData } from "../../../shared/hooks/useReportsData";
 import { useSearchParamsState } from "../../../shared/hooks/useSearchParams";
@@ -20,7 +19,7 @@ const ReportIndexPage = () => {
   const [currentPage, setCurrentPage] = useState(
     searchState.page || parseInt(searchParams.get("page") || "1")
   );
-  const [activeFilters, setActiveFilters] = useState<FiltersProps>(
+  const [activeFilters, setActiveFilters] = useState(
     searchState.filters || initialFilters
   );
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -30,7 +29,7 @@ const ReportIndexPage = () => {
   useScrollRestoration();
 
   const handleSearchComplete = useCallback(
-    (query: string, page: number, filters: FiltersProps) => {
+    (query, page, filters) => {
       if (page !== currentPage) {
         window.scrollTo(0, 0);
       }
@@ -54,14 +53,14 @@ const ReportIndexPage = () => {
   );
 
   const handlePageChange = useCallback(
-    (page: number) => {
+    (page) => {
       handleSearchComplete(activeSearch, page, activeFilters);
     },
     [activeSearch, activeFilters, handleSearchComplete]
   );
 
   const handleSearchTabComplete = useCallback(
-    (query: string, page: number, filters: FiltersProps) => {
+    (query, page, filters) => {
       handleSearchComplete(query, page, filters);
       setIsSearchOpen(false);
     },

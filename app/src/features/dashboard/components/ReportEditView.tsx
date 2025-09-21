@@ -1,8 +1,6 @@
 import React from 'react';
-import { ReportProps } from '../../reports/types/Report';
 import { useReportEdit } from '../../../shared/hooks/useReportEdit';
 import Notification from '../../../shared/components/common/Notification';
-import { NotificationState } from '../../../shared/types/common/Notification';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import Spinner from '../../../shared/components/common/Spinner';
@@ -14,15 +12,7 @@ import { LocationSelect } from '../../reports/components/common/LocationSelect';
 import DateDisplay from '../../reports/components/common/DateDisplay';
 import { createMapLocation } from '../../../shared/utils/mapUtils';
 
-interface ReportEditViewProps {
-  report: ReportProps;
-  onBack: () => void;
-  onSaveSuccess?: () => void;
-  notification?: NotificationState | null;
-  onNotificationClose?: () => void;
-}
-
-const ReportEditView: React.FC<ReportEditViewProps> = ({
+const ReportEditView = ({
   report,
   onBack,
   onSaveSuccess,
@@ -48,7 +38,7 @@ const ReportEditView: React.FC<ReportEditViewProps> = ({
     getFilteredColorOptions
   } = useReportEdit(report);
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     const result = await handleSaveChanges(e);
     if (result.success) {
@@ -118,9 +108,9 @@ const ReportEditView: React.FC<ReportEditViewProps> = ({
           <ColorFields
             formData={formData}
             isLoading={isSaving}
-            handleColor1Change={(value: string) => handleInputChange({ target: { name: "color1", value } })}
-            handleColor2Change={(value: string) => handleInputChange({ target: { name: "color2", value } })}
-            handleColor3Change={(value: string) => handleInputChange({ target: { name: "color3", value } })}
+            handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
+            handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
+            handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
           />
 
           <LocationSelect

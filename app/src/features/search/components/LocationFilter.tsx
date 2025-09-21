@@ -4,7 +4,7 @@ import { useGetStatesQuery } from "../../../store/features/reports/reportsApi";
 import { SelectChangeEvent } from "@mui/material";
 import { LocationFilterProps } from "../../../shared/types/common/Search";
 
-const LocationSelect: React.FC<LocationFilterProps> = ({
+const LocationSelect:  = ({
   state,
   onFilterChange,
   selectClassName

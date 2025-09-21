@@ -4,11 +4,9 @@ import { getColorOptions } from "../reports/colorList";
 import { getBreedsBySpecies } from "../reports/breedList";
 import { getGenderOptions } from "../reports/genderList";
 import { getSpeciesOptions } from "../reports/speciesList";
-import { PetProps } from "../../features/pets/types/Pet";
 import { transformToSnakeCase } from "../apiHelpers";
-import { SelectChangeEvent } from "@mui/material";
 
-export const usePetEdit = (pet: PetProps) => {
+export const usePetEdit = (pet) => {
   const [formData, setFormData] = useState(pet);
 
   useEffect(() => {
@@ -16,7 +14,7 @@ export const usePetEdit = (pet: PetProps) => {
     setImageSrc(pet.image?.variantUrl || "/images/placeholder.png");
   }, [pet]);
 
-  const [newImageFile, setNewImageFile] = useState<File | null>(null);
+  const [newImageFile, setNewImageFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(pet.image?.variantUrl || "/images/placeholder.png");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -25,18 +23,11 @@ export const usePetEdit = (pet: PetProps) => {
   const speciesOptions = getSpeciesOptions();
   const colorOptions = getColorOptions();
   const breedOptions = formData.species
-    ? getBreedsBySpecies(formData.species.toLowerCase() as "dog" | "cat")
+    ? getBreedsBySpecies(formData.species.toLowerCase())
     : [];
   const genderOptions = getGenderOptions();
 
-  const handleInputChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | SelectChangeEvent
-      | {
-          target: { name: string; value: string | boolean | null };
-        }
-  ) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setFormData(prev => {
@@ -64,12 +55,12 @@ export const usePetEdit = (pet: PetProps) => {
         }
       }
 
-      (newFormData as any)[name] = value;
+      newFormData[name] = value;
       return newFormData;
     });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const localUrl = URL.createObjectURL(file);
@@ -93,7 +84,7 @@ export const usePetEdit = (pet: PetProps) => {
     return colorOptions.filter(color => !selectedColors.includes(color));
   };
 
-  const handleSaveChanges = async (e: React.FormEvent) => {
+  const handleSaveChanges = async (e) => {
     e.preventDefault();
     setIsSaving(true);
 
@@ -117,7 +108,7 @@ export const usePetEdit = (pet: PetProps) => {
       }).unwrap();
       setIsSaving(false);
       return { success: response };
-    } catch (error: any) {
+    } catch (error) {
       setIsSaving(false);
       return { error: error.data?.message || "Failed to update pet" };
     }

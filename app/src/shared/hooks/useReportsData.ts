@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 import { setReports, setPerPage } from "../../store/features/reports/reportsSlice";
 import { useGetReportsQuery } from "../../store/features/reports/reportsApi";
-import { NotificationState, NotificationType } from "../types/common/Notification";
-import { FiltersProps } from "../types/common/Search";
 import environment from "../../config/environment";
 
-export const useReportsData = (query: string, filters: FiltersProps, page: number) => {
+export const useReportsData = (query, filters, page) => {
   const dispatch = useDispatch();
-  const reports = useSelector((state: RootState) => state.reports.data);
-  const perPage = useSelector((state: RootState) => state.reports.perPage);
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const reports = useSelector((state) => state.reports.data);
+  const perPage = useSelector((state) => state.reports.perPage);
+  const [notification, setNotification] = useState(null);
 
   const { data, error, isLoading, refetch } = useGetReportsQuery(
     {
@@ -36,7 +33,7 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
 
       if (data.message) {
         setNotification({
-          type: NotificationType.INFO,
+          type: "INFO",
           message: data.message
         });
       } else {
@@ -47,9 +44,9 @@ export const useReportsData = (query: string, filters: FiltersProps, page: numbe
 
   useEffect(() => {
     if (error && "data" in error) {
-      const apiError = error as { data: { message: string } };
+      const apiError = error;
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: apiError.data?.message
       });
     }

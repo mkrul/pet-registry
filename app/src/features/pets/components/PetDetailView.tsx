@@ -1,32 +1,23 @@
 import React from 'react';
 import { PetProps } from '../types/Pet';
 import PetStatusPill from './PetStatusPill';
-interface PetDetailViewProps {
-  pet: PetProps;
-  onBack: () => void;
-  onEdit?: (pet: PetProps) => void;
-  onDelete?: (pet: PetProps) => void;
-  onCreateReport?: (pet: PetProps) => void;
-  onDeleteReport?: (pet: PetProps) => void;
-}
-
-const PetDetailView: React.FC<PetDetailViewProps> = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport }) => {
-  const handleEditClick = (e: React.MouseEvent) => {
+const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport }) => {
+  const handleEditClick = (e) => {
     e.stopPropagation();
     onEdit?.(pet);
   };
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
+  const handleDeleteClick = (e) => {
     e.stopPropagation();
     onDelete?.(pet);
   };
 
-  const handleCreateReportClick = (e: React.MouseEvent) => {
+  const handleCreateReportClick = (e) => {
     e.stopPropagation();
     onCreateReport?.(pet);
   };
 
-  const handleDeleteReportClick = (e: React.MouseEvent) => {
+  const handleDeleteReportClick = (e) => {
     e.stopPropagation();
     onDeleteReport?.(pet);
   };

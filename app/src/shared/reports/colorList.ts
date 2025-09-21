@@ -1,14 +1,12 @@
-import { ColorList } from "../types/common/OptionsList";
 import colorListJson from "../../../../config/colors.json";
 
-const colorList = colorListJson as ColorList;
+const colorList = colorListJson;
 
-export type Color = (typeof colorList.options)[number];
 
-export const getColorOptions = (): string[] => {
+export const getColorOptions = () => {
   return [...colorList.options].sort();
 };
 
-export const isValidColor = (color: string): boolean => {
+export const isValidColor = (color) => {
   return colorList.options.includes(color);
 };

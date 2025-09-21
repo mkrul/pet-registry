@@ -8,9 +8,7 @@ import { setComponentsLoading } from "../store/features/loading/loadingSlice";
 import Spinner from "../shared/components/common/Spinner";
 import Notification from "../shared/components/common/Notification";
 import { setNotification } from "../store/features/notifications/notificationsSlice";
-import { NotificationType } from "../shared/types/common/Notification";
-
-const App: React.FC = () => {
+const App = () => {
   const dispatch = useAppDispatch();
   const notification = useAppSelector(state => {
     return state.notifications.notification;
@@ -29,8 +27,8 @@ const App: React.FC = () => {
       if ("data" in error) {
         dispatch(
           setNotification({
-            type: NotificationType.ERROR,
-            message: (error.data as any)?.error
+            type: "ERROR",
+            message: error.data?.error
           })
         );
       }

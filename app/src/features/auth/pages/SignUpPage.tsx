@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSignUpMutation } from "../../../store/features/auth/authApiSlice";
 import Notification from "../../../shared/components/common/Notification";
-import { NotificationState, NotificationType } from "../../../shared/types/common/Notification";
-
-const SignUpPage: React.FC = () => {
+const SignUpPage = () => {
   const navigate = useNavigate();
   const [signUp] = useSignUpMutation();
   const [formData, setFormData] = useState({
@@ -12,22 +10,22 @@ const SignUpPage: React.FC = () => {
     password: "",
     passwordConfirmation: ""
   });
-  const [notification, setNotification] = useState<NotificationState | null>(null);
+  const [notification, setNotification] = useState(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setNotification(null);
 
     if (formData.password !== formData.passwordConfirmation) {
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: "Passwords do not match"
       });
       return;
@@ -42,10 +40,10 @@ const SignUpPage: React.FC = () => {
         }
       }).unwrap();
       navigate("/");
-    } catch (err: unknown) {
-      const error = err as { data?: { message?: string } };
+    } catch (err) {
+      const error = err;
       setNotification({
-        type: NotificationType.ERROR,
+        type: "ERROR",
         message: error.data?.message
       });
     }

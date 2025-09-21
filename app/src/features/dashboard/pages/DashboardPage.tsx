@@ -8,17 +8,15 @@ import DashboardPets from '../components/DashboardPets';
 import DashboardProfile from '../components/DashboardProfile';
 import DashboardSettings from '../components/DashboardSettings';
 
-type DashboardSection = 'overview' | 'reports' | 'pets' | 'profile' | 'settings';
-
-const DashboardPage: React.FC = () => {
+const DashboardPage = () => {
   const user = useAppSelector(state => state.auth.user);
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState<DashboardSection>('overview');
+  const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
-    const section = searchParams.get('section') as DashboardSection;
+    const section = searchParams.get('section');
     if (section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section)) {
       setActiveSection(section);
     }
@@ -28,7 +26,7 @@ const DashboardPage: React.FC = () => {
     dispatch(setNotification(null));
   }, [activeSection, dispatch]);
 
-  const handleSectionChange = (section: DashboardSection) => {
+  const handleSectionChange = (section) => {
     setActiveSection(section);
     navigate('/dashboard', { replace: true });
   };

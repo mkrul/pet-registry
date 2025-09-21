@@ -1,10 +1,4 @@
-import { LocationData, ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
-import { ReportProps } from "../../features/reports/types/Report";
-import { MapCoordinates } from "../types/common/Map";
-
-export const createMapLocation = (
-  location: Partial<LocationData & MapCoordinates> | ReportProps
-): Partial<LocationData & MapCoordinates> => ({
+export const createMapLocation = (location) => ({
   latitude: location.latitude,
   longitude: location.longitude,
   area: location.area ?? "",
@@ -13,9 +7,7 @@ export const createMapLocation = (
   intersection: location.intersection === null ? undefined : location.intersection
 });
 
-export const adaptFormDataToLocation = (
-  formData: ReportPropsForm
-): Partial<LocationData & MapCoordinates> => ({
+export const adaptFormDataToLocation = (formData) => ({
   latitude: formData.latitude || 0,
   longitude: formData.longitude || 0,
   area: formData.area || "",

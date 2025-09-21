@@ -1,4 +1,4 @@
-const getBaseUrl = (): string => {
+const getBaseUrl = () => {
   const hostname = window.location.hostname;
   const protocol = window.location.protocol;
 

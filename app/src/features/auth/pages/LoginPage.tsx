@@ -7,14 +7,14 @@ import { navigateToHome } from "../../../shared/utils/navigation";
 import Notification from "../../../shared/components/common/Notification";
 import { setNotification } from "../../../store/features/notifications/notificationsSlice";
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await login({ user: { email, password } }).unwrap();

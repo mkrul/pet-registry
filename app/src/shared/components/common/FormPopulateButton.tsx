@@ -1,11 +1,6 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { Button } from "@mui/material";
-import { ReportPropsForm } from "../../types/redux/features/reports/ReportsApi";
 
-interface FormPopulateButtonProps {
-  setFormData: Dispatch<SetStateAction<ReportPropsForm>>;
-  handleImageSelect: (file: File, preview: string) => void;
-}
 
 const generateMicrochipId = () => {
   const prefix = "985";
@@ -13,7 +8,7 @@ const generateMicrochipId = () => {
   return prefix + remainingDigits;
 };
 
-export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
+export const FormPopulateButton = ({
   setFormData,
   handleImageSelect
 }) => {
@@ -24,7 +19,7 @@ export const FormPopulateButton: React.FC<FormPopulateButtonProps> = ({
         const file = new File([blob], "golden-retriever.png", { type: "image/png" });
         handleImageSelect(file, "");
         const reader = new FileReader();
-        reader.onloadend = () => handleImageSelect(file, reader.result as string);
+        reader.onloadend = () => handleImageSelect(file, reader.result);
         reader.readAsDataURL(file);
       });
   };

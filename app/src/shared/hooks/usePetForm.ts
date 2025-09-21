@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
-import { PetPropsForm, PetFormInputEvent } from "../../features/pets/types/Pet";
 
-export const usePetForm = (initialData?: Partial<PetPropsForm>) => {
-  const [formData, setFormData] = useState<PetPropsForm>({
+export const usePetForm = (initialData) => {
+  const [formData, setFormData] = useState({
     name: "",
     species: "",
     breed1: "",
@@ -23,17 +22,17 @@ export const usePetForm = (initialData?: Partial<PetPropsForm>) => {
     },
     ...initialData
   });
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
-  const handleImageSelect = (file: File, preview: string) => {
+  const handleImageSelect = (file, preview) => {
     setSelectedImage(file);
     setImagePreview(preview);
   };
   const handleImageLoad = () => {};
   const handleImageError = () => {};
 
-  const handleInputChange = useCallback((e: PetFormInputEvent) => {
+  const handleInputChange = useCallback((e) => {
     setFormData(prev => {
       const newData = { ...prev, [e.target.name]: e.target.value };
 
@@ -46,15 +45,15 @@ export const usePetForm = (initialData?: Partial<PetPropsForm>) => {
     });
   }, []);
 
-  const handleColor1Change = useCallback((value: string) => {
+  const handleColor1Change = useCallback((value) => {
     setFormData(prev => ({ ...prev, color1: value }));
   }, []);
 
-  const handleColor2Change = useCallback((value: string) => {
+  const handleColor2Change = useCallback((value) => {
     setFormData(prev => ({ ...prev, color2: value }));
   }, []);
 
-  const handleColor3Change = useCallback((value: string) => {
+  const handleColor3Change = useCallback((value) => {
     setFormData(prev => ({ ...prev, color3: value }));
   }, []);
 

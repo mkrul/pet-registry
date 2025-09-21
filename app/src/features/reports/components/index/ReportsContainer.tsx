@@ -1,19 +1,11 @@
 import React from "react";
 import Spinner from "../../../../shared/components/common/Spinner";
-import { NotificationType } from "../../../../shared/types/common/Notification";
 import Notification from "../../../../shared/components/common/Notification";
 import { useReportsData } from "../../../../shared/hooks/useReportsData";
 import ReportsGrid from "./ReportsGrid";
 import { FiltersProps } from "../../../../shared/types/common/Search";
 
-interface ReportsContainerProps {
-  query: string;
-  filters: FiltersProps;
-  page: number;
-  onPageChange: (page: number) => void;
-}
-
-const ReportsContainer: React.FC<ReportsContainerProps> = ({
+const ReportsContainer = ({
   query,
   filters,
   page,

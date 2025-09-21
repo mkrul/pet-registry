@@ -9,7 +9,7 @@ import sortOptionsJson from "../../../../../config/sort_options.json";
 import { Species } from "../../../shared/reports/breedList";
 import { FiltersHandlerProps } from "../../../shared/types/common/Search";
 
-const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, onReset, onClearFilter }) => {
+const Filters:  = ({ filters, handleFilterChange, onReset, onClearFilter }) => {
   const selectStyles = {
     height: "40px",
     backgroundColor: "white !important",
@@ -62,12 +62,12 @@ const Filters: React.FC<FiltersHandlerProps> = ({ filters, handleFilterChange, o
           label="Breed"
         >
           <BreedSearch
-            species={filters.species as Species | null}
+            species={filters.species}
             value={filters.breed}
-            onChange={(value: string) =>
+            onChange={(value) =>
               handleFilterChange({
                 target: { name: "breed", value }
-              } as React.ChangeEvent<HTMLSelectElement>)
+              })
             }
             disableClearable={true}
             hideLabel={true}

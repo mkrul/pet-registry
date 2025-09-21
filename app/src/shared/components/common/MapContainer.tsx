@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "./Spinner";
 import Notification from "./Notification";
-import { NotificationMessage } from "../../types/common/Notification";
 
-interface MapContainerProps {
-  children: (
-    setNotification: (notification: NotificationMessage | null) => void
-  ) => React.ReactNode;
-}
 
-export const MapContainer: React.FC<MapContainerProps> = ({ children }) => {
+export const MapContainer = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [notification, setNotification] = useState<NotificationMessage | null>(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     setIsLoading(false);

@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
-import { NotificationState } from '../types/common/Notification';
 
-export const useClearNotificationsOnUnmount = (setNotification: (notification: NotificationState | null) => void) => {
+export const useClearNotificationsOnUnmount = (setNotification) => {
   useEffect(() => {
     return () => {
       setNotification(null);

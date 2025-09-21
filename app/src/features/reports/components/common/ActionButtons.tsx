@@ -3,13 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import Spinner from "../../../../shared/components/common/Spinner";
 
-interface ActionButtonsProps {
-  isSaving: boolean;
-  onSave: (e: React.FormEvent) => void;
-  onCancel: () => void;
-}
-
-const ActionButtons: React.FC<ActionButtonsProps> = ({ isSaving, onSave, onCancel }) => {
+const ActionButtons = ({ isSaving, onSave, onCancel }) => {
   return (
     <div className="flex justify-end gap-2">
       <button

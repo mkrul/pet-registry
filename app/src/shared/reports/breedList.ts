@@ -1,18 +1,14 @@
 import breedListJson from "../../../../config/breeds.json";
 
-const breedList = breedListJson as { dog: string[]; cat: string[] };
+const breedList = breedListJson;
 
-export type Species = "dog" | "cat";
-export type DogBreed = (typeof breedList.dog)[number];
-export type CatBreed = (typeof breedList.cat)[number];
-export type Breed = DogBreed | CatBreed;
 
-export const getBreedsBySpecies = (species: Species | null): string[] => {
+export const getBreedsBySpecies = (species) => {
   if (!species) return [];
-  return breedList[species.toLowerCase() as Species] || [];
+  return breedList[species.toLowerCase()] || [];
 };
 
-export const isValidBreed = (species: Species | null, breed: string): boolean => {
+export const isValidBreed = (species, breed) => {
   if (!species || !breed) return false;
   const breedList = getBreedsBySpecies(species);
   return breedList.includes(breed);

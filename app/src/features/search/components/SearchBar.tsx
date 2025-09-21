@@ -2,7 +2,7 @@ import React from "react";
 import { SearchBarProps } from "../../../shared/types/common/Search";
 import SearchButtons from "./SearchButtons";
 
-const SearchBar: React.FC<SearchBarProps> = ({
+const SearchBar:  = ({
   searchQuery,
   setSearchQuery,
   onSearch,
