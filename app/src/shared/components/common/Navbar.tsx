@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import ProfileDropdown from "../layout/ProfileDropdown";
 import NavLink from "./NavLink";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState } from "../../../store/store";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

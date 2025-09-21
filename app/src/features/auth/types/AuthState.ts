@@ -1,4 +1,4 @@
-import { UserProps } from "../User";
+import { UserProps } from "../../../shared/types/User";
 
 export interface AuthState {
   user: UserProps | null;

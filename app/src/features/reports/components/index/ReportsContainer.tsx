@@ -10,6 +10,7 @@ interface ReportsContainerProps {
   query: string;
   filters: FiltersProps;
   page: number;
+  onPageChange: (page: number) => void;
 }
 
 const ReportsContainer: React.FC<ReportsContainerProps> = ({

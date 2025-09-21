@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { commonInputStyles } from "../../../../shared/commonStyles";
+import { commonInputStyles } from "../../commonStyles";
 
 interface RemoveFieldButtonProps {
   onClick: () => void;

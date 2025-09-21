@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Spinner from "./Spinner";
 import Notification from "./Notification";
-import { NotificationMessage } from "../../../../shared/types/common/Notification";
+import { NotificationMessage } from "../../types/common/Notification";
 
 interface MapContainerProps {
   children: (

@@ -1,4 +1,4 @@
-import { Species } from "../../../../shared/reports/breedList";
+import { Species } from "../../reports/breedList";
 export interface BreedSearchProps {
   species: Species | null;
   value: string | null;

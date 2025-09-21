@@ -136,7 +136,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
 
   useEffect(() => {
     if (selectedPet && pets.length > 0) {
-      const updatedPet = pets.find(p => p.id === selectedPet.id);
+      const updatedPet = pets.find((p: PetProps) => p.id === selectedPet.id);
       if (updatedPet) {
         setSelectedPet(updatedPet);
       }
@@ -241,7 +241,7 @@ const DashboardPets: React.FC<DashboardPetsProps> = ({ shouldCreatePet = false }
         />
       ) : !isLoading && !isPreloading && pets.length > 0 ? (
         <ItemGrid>
-          {pets.map(pet => (
+          {pets.map((pet: PetProps) => (
             <PetPreview
               key={pet.id}
               pet={pet}

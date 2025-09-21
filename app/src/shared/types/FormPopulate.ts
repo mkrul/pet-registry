@@ -1,4 +1,4 @@
-import { ReportPropsForm } from "./Report";
+import { ReportPropsForm } from "./redux/features/reports/ReportsApi";
 
 export type FormPopulateHandlers = {
   setFormData: (data: ReportPropsForm) => void;

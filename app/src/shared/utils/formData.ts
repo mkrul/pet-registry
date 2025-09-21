@@ -1,4 +1,4 @@
-import { ReportPropsForm } from "../types/Report";
+import { ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
 
 export const createFormData = (
   formData: ReportPropsForm,

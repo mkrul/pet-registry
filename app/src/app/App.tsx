@@ -24,7 +24,7 @@ const App: React.FC = () => {
   useEffect(() => {
     if (data?.user) {
       dispatch(setUser(data.user));
-    } else if (isError) {
+    } else if (isError && error) {
       dispatch(clearUser());
       if ("data" in error) {
         dispatch(
@@ -45,7 +45,7 @@ const App: React.FC = () => {
   if (isLoading) {
     return (
       <>
-        {notification && (
+        {notification && notification.message && (
           <div className="fixed top-4 right-4 z-50 w-96">
             <Notification
               type={notification.type}
@@ -61,7 +61,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      {notification && (
+      {notification && notification.message && (
         <div className="fixed top-4 right-4 z-50 w-96">
           <Notification
             type={notification.type}

@@ -1,4 +1,4 @@
-import { PetPropsForm } from "../types/Pet";
+import { PetPropsForm } from "../../features/pets/types/Pet";
 import { createPetFormData } from "../utils/petFormData";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../store/features/notifications/notificationsSlice";

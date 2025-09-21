@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser, clearUser, setLoading, setError, updateLastActivity } from "./authSlice";
 import { setNotification } from "../notifications/notificationsSlice";
 import { NotificationType } from "../../../shared/types/common/Notification";
-import { AuthResponse, SignUpRequest } from "../../../shared/types/auth/AuthApiSlice";
+import { AuthResponse, SignUpRequest } from "../../../features/auth/types/AuthApiSlice";
 
 export const authApiSlice = createApi({
   reducerPath: "authApi",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Map from "../../../../shared/components/common/Map";
-import { LocationData, LocationSelectProps } from "../../../../shared/types/Report";
+import { LocationData, LocationSelectProps } from "../../types/Report";
 import LocationDisplay from "../../../../shared/components/common/LocationDisplay";
 import { Autocomplete, TextField } from "@mui/material";
 import { debounce } from "lodash";

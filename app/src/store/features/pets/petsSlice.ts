@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PetProps } from "../../../../features/pets/types/Pet";
+import { PetProps } from "../../../features/pets/types/Pet";
 
 const initialState = {
   data: [] as PetProps[],

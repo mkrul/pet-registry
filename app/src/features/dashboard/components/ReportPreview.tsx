@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReportProps } from '../../../shared/types/Report';
+import { ReportProps } from '../../reports/types/Report';
 import ItemPreview from '../../../shared/components/common/ItemPreview';
 import StatusPill from '../../../shared/components/common/StatusPill';
 

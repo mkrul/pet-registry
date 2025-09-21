@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField, Autocomplete } from "@mui/material";
-import { getColorOptions } from "../../../../shared/reports/colorList";
+import { getColorOptions } from "../../reports/colorList";
 import { SxProps } from "@mui/material";
 
 interface ColorSearchProps {

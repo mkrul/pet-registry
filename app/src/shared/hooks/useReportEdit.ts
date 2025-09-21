@@ -4,7 +4,7 @@ import { getColorOptions } from "../reports/colorList";
 import { getBreedsBySpecies } from "../reports/breedList";
 import { getGenderOptions } from "../reports/genderList";
 import { getSpeciesOptions } from "../reports/speciesList";
-import { ReportProps } from "../types/Report";
+import { ReportProps } from "../../features/reports/types/Report";
 import { transformToSnakeCase } from "../apiHelpers";
 import { SelectChangeEvent } from "@mui/material";
 
@@ -64,7 +64,7 @@ export const useReportEdit = (report: ReportProps) => {
         }
       }
 
-      newFormData[name] = value;
+      (newFormData as any)[name] = value;
       return newFormData;
     });
   };

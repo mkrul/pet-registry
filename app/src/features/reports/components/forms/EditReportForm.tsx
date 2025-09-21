@@ -1,5 +1,5 @@
 import React from "react";
-import { EditReportFormProps } from "../../../../shared/types/Report";
+import { EditReportFormProps } from "../../types/Report";
 import { LocationSelect } from "../common/LocationSelect";
 import { BasicInfoFields } from "../common/BasicInfoFields";
 import { IdentificationFields } from "../common/IdentificationFields";

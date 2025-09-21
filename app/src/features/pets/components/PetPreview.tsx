@@ -1,5 +1,5 @@
 import React from 'react';
-import { PetProps } from '../../../shared/types/Pet';
+import { PetProps } from '../types/Pet';
 import ItemPreview from '../../../shared/components/common/ItemPreview';
 import StatusPill from '../../../shared/components/common/StatusPill';
 

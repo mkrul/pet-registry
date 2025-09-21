@@ -1,4 +1,4 @@
-import { ReportPropsForm } from "../types/Report";
+import { ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
 import { UseReportSubmitProps } from "../types/hooks/Report";
 import { createFormData } from "../utils/formData";
 import { useDispatch } from "react-redux";

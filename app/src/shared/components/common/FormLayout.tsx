@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardHeader from './DashboardHeader';
 import Notification from './Notification';
-import { NotificationState } from '../../../../shared/types/common/Notification';
+import { NotificationState } from '../../types/common/Notification';
 
 interface FormLayoutProps {
   title: string;

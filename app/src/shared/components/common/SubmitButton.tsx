@@ -1,6 +1,6 @@
 import React from "react";
 import Spinner from "./Spinner";
-import { SubmitButtonProps } from "../../../../shared/types/common/SubmitButton";
+import { SubmitButtonProps } from "../../types/common/SubmitButton";
 
 export const SubmitButton: React.FC<SubmitButtonProps> = ({
   isLoading,

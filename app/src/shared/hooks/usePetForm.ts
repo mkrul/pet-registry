@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { PetPropsForm, PetFormInputEvent } from "../types/Pet";
+import { PetPropsForm, PetFormInputEvent } from "../../features/pets/types/Pet";
 
 export const usePetForm = (initialData?: Partial<PetPropsForm>) => {
   const [formData, setFormData] = useState<PetPropsForm>({

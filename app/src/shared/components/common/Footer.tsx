@@ -1,6 +1,6 @@
-import NavLink from "../common/NavLink";
+import NavLink from "./NavLink";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../store/store";
+import { RootState } from "../../../store/store";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();

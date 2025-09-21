@@ -1,7 +1,7 @@
 import React from "react";
 import { FormControl, Select, MenuItem, SelectChangeEvent, IconButton, Box } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { ColorFieldsProps } from "../../../../shared/types/Report";
+import { ColorFieldsProps } from "../../types/Report";
 import { getColorOptions } from "../../../../shared/reports/colorList";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";

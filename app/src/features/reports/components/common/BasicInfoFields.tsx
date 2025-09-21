@@ -1,8 +1,8 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import { BasicInfoFieldsProps } from "../../../../shared/types/Report";
+import { BasicInfoFieldsProps } from "../../types/Report";
 import { commonInputStyles } from "../../../../shared/commonStyles";
-import Tip from "../../../shared/components/common/Tip";
+import Tip from "../../../../shared/components/common/Tip";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 
 export const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({

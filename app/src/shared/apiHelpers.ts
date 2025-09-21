@@ -1,5 +1,5 @@
 import LinkHeader from "http-link-header";
-import { PaginationProps } from "../types/common/Pagination";
+import { PaginationProps } from "./types/common/Pagination";
 import _keyBy from "lodash/keyBy";
 
 export function queryPaginationTransform(response: Response): PaginationProps {
@@ -12,7 +12,8 @@ export function queryPaginationTransform(response: Response): PaginationProps {
     count: parseInt(count as string, 10),
     page: parseInt(page as string, 10),
     items: parseInt(perPage as string, 10),
-    pages: links ? parseInt(links.last.page, 10) : 1
+    pages: links ? parseInt(links.last.page, 10) : 1,
+    per_page: parseInt(perPage as string, 10)
   };
 }
 

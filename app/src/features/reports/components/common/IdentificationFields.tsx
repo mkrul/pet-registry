@@ -20,7 +20,7 @@ import {
   IdentificationFieldsProps as BaseIdentificationFieldsProps,
   ReportPropsForm,
   FormInputEvent
-} from "../../../../shared/types/Report";
+} from "../../types/Report";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 

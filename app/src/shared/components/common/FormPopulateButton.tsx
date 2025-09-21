@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "@mui/material";
-import { ReportPropsForm } from "../../../../shared/types/redux/features/reports/ReportsApi";
+import { ReportPropsForm } from "../../types/redux/features/reports/ReportsApi";
 
 interface FormPopulateButtonProps {
   setFormData: Dispatch<SetStateAction<ReportPropsForm>>;

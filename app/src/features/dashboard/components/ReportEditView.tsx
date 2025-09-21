@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReportProps } from '../../../shared/types/Report';
+import { ReportProps } from '../../reports/types/Report';
 import { useReportEdit } from '../../../shared/hooks/useReportEdit';
 import Notification from '../../../shared/components/common/Notification';
 import { NotificationState } from '../../../shared/types/common/Notification';
@@ -118,9 +118,9 @@ const ReportEditView: React.FC<ReportEditViewProps> = ({
           <ColorFields
             formData={formData}
             isLoading={isSaving}
-            handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
-            handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
-            handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
+            handleColor1Change={(value: string) => handleInputChange({ target: { name: "color1", value } })}
+            handleColor2Change={(value: string) => handleInputChange({ target: { name: "color2", value } })}
+            handleColor3Change={(value: string) => handleInputChange({ target: { name: "color3", value } })}
           />
 
           <LocationSelect

@@ -1,5 +1,5 @@
-import { SortList } from "../../../shared/types/common/OptionsList";
-import sortListJson from "./" assert { type: "json" };
+import { SortList } from "../types/common/OptionsList";
+import sortListJson from "./sortList.json" assert { type: "json" };
 
 const sortList = sortListJson as SortList;
 

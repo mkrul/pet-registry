@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NotificationState } from "../../../../../shared/types/common/Notification";
+import { NotificationState } from "../../../shared/types/common/Notification";
 
 const initialState: { notification: NotificationState | null } = {
   notification: null

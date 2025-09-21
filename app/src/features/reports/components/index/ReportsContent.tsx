@@ -21,6 +21,7 @@ export const ReportsContent = ({
         query={activeSearch}
         filters={activeFilters}
         page={currentPage}
+        onPageChange={handlePageChange}
       />
     ),
     [currentPage, activeSearch, activeFilters, handlePageChange]

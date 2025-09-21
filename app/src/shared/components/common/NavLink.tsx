@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { NavLinkProps } from "../../../../shared/types/common/NavLink";
+import { NavLinkProps } from "../../types/common/NavLink";
 
 const NavLink = ({ linkTo, children, handler, className = "" }: NavLinkProps) => {
   const path = linkTo || "#";

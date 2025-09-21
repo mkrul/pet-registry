@@ -1,4 +1,5 @@
-import { LocationData, ReportProps, ReportPropsForm } from "../types/Report";
+import { LocationData, ReportPropsForm } from "../types/redux/features/reports/ReportsApi";
+import { ReportProps } from "../../features/reports/types/Report";
 import { MapCoordinates } from "../types/common/Map";
 
 export const createMapLocation = (

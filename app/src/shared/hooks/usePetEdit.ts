@@ -4,7 +4,7 @@ import { getColorOptions } from "../reports/colorList";
 import { getBreedsBySpecies } from "../reports/breedList";
 import { getGenderOptions } from "../reports/genderList";
 import { getSpeciesOptions } from "../reports/speciesList";
-import { PetProps } from "../types/Pet";
+import { PetProps } from "../../features/pets/types/Pet";
 import { transformToSnakeCase } from "../apiHelpers";
 import { SelectChangeEvent } from "@mui/material";
 
@@ -64,7 +64,7 @@ export const usePetEdit = (pet: PetProps) => {
         }
       }
 
-      newFormData[name] = value;
+      (newFormData as any)[name] = value;
       return newFormData;
     });
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PetProps } from '../../../shared/types/Pet';
+import { PetProps } from '../types/Pet';
 import { usePetEdit } from '../../../shared/hooks/usePetEdit';
 import Notification from '../../../shared/components/common/Notification';
 import { NotificationState } from '../../../shared/types/common/Notification';
@@ -82,7 +82,7 @@ const PetEditView: React.FC<PetEditViewProps> = ({
         </div>
       </div>
 
-      {notification && (
+      {notification && onNotificationClose && (
         <Notification
           type={notification.type}
           message={notification.message}
@@ -108,14 +108,17 @@ const PetEditView: React.FC<PetEditViewProps> = ({
             onInputChange={handleInputChange}
             isLoading={isSaving}
             error=""
+            breedError=""
+            alteredError=""
+            microchipError=""
           />
 
           <PetColorFields
             formData={formData}
             isLoading={isSaving}
-            handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
-            handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
-            handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
+            handleColor1Change={(value: string) => handleInputChange({ target: { name: "color1", value } })}
+            handleColor2Change={(value: string) => handleInputChange({ target: { name: "color2", value } })}
+            handleColor3Change={(value: string) => handleInputChange({ target: { name: "color3", value } })}
           />
         </form>
       </div>

@@ -1,6 +1,6 @@
 import { transformToCamelCase } from "../../../shared/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ReportProps } from "../../../shared/types/Report";
+import { ReportProps } from "../../../features/reports/types/Report";
 import {
   UpdateReportResponse,
   SubmitResponse,

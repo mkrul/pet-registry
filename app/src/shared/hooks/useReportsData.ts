@@ -5,7 +5,7 @@ import { setReports, setPerPage } from "../../store/features/reports/reportsSlic
 import { useGetReportsQuery } from "../../store/features/reports/reportsApi";
 import { NotificationState, NotificationType } from "../types/common/Notification";
 import { FiltersProps } from "../types/common/Search";
-import environment from "../config/environment";
+import environment from "../../config/environment";
 
 export const useReportsData = (query: string, filters: FiltersProps, page: number) => {
   const dispatch = useDispatch();

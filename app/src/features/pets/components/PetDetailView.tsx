@@ -1,5 +1,5 @@
 import React from 'react';
-import { PetProps } from '../../../../shared/types/Pet';
+import { PetProps } from '../types/Pet';
 import PetStatusPill from './PetStatusPill';
 interface PetDetailViewProps {
   pet: PetProps;

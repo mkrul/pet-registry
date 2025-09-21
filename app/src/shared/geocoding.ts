@@ -2,7 +2,7 @@ import { NotificationType } from "./types/common/Notification";
 import { isUSLocation } from "./utils/locationUtils";
 import { LocationDetails, NominatimAddress } from "./types/services/Geocoding";
 import { NotificationMessage } from "./types/common/Notification";
-import { LocationData } from "./types/Report";
+import { LocationData } from "../features/reports/types/Report";
 
 export const findNearestArea = async (
   lat: number,

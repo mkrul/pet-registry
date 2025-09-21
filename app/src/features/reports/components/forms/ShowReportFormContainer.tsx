@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
-import { ShowReportFormContainerProps } from "../../../../shared/types/Report";
+import { ShowReportFormContainerProps } from "../../types/Report";
 import ViewReportForm from "./ViewReportForm";
 import EditReportForm from "./EditReportForm";
-import Notification from "../../../shared/components/common/Notification";
+import Notification from "../../../../shared/components/common/Notification";
 import { NotificationType } from "../../../../shared/types/common/Notification";
 import { useReportEdit } from "../../../../shared/hooks/useReportEdit";
 import { useSelector, useDispatch } from "react-redux";

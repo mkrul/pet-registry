@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "../../../../shared/components/common/Spinner";
-import { ReportCardProps } from "../../../../shared/types/Report";
+import { ReportCardProps } from "../../types/Report";
 import LocationDisplay from "../../../../shared/components/common/LocationDisplay";
 import { useAppDispatch } from "../../../../store/hooks";
 import { setScrollPosition } from "../../../../store/features/search/searchSlice";
-import { store } from "../../../../store/store";
 
 const ReportCard: React.FC<ReportCardProps> = ({ report, currentPage, currentQuery }) => {
   const dispatch = useAppDispatch();

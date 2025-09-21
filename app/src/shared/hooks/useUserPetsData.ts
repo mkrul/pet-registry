@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useGetUserPetsQuery } from '../../store/features/pets/petsApi';
-import { PetProps } from '../types/Pet';
+import { PetProps } from '../../features/pets/types/Pet';
 import { NotificationState, NotificationType } from '../types/common/Notification';
 
 type PetFilter = 'all' | 'dog' | 'cat' | 'archived';

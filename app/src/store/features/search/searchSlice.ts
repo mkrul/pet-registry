@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { FiltersProps } from "../../../../../shared/types/common/Search";
+import { FiltersProps } from "../../../shared/types/common/Search";
 
 interface SearchState {
   query: string;

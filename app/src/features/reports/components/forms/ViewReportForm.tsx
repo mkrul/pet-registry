@@ -3,7 +3,7 @@ import formatDate from "../../../../shared/formatDate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Map from "../../../../shared/components/common/Map";
-import { ViewReportFormProps } from "../../../../shared/types/Report";
+import { ViewReportFormProps } from "../../types/Report";
 import Spinner from "../../../../shared/components/common/Spinner";
 import LocationDisplay from "../../../../shared/components/common/LocationDisplay";
 import DateDisplay from "../common/DateDisplay";

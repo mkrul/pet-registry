@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { SpinnerProps } from "../../../../shared/types/common/Spinner";
+import { SpinnerProps } from "../../types/common/Spinner";
 
 const Spinner: React.FC<SpinnerProps> = ({
   color = "text-gray-200",

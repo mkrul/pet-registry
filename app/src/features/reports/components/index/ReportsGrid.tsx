@@ -1,7 +1,7 @@
 import React from "react";
 import ReportCard from "./ReportCard";
 import Pagination from "../../../../shared/components/common/Pagination";
-import { ReportsGridProps } from "../../../../shared/types/Report";
+import { ReportsGridProps } from "../../types/Report";
 
 const ReportsGrid: React.FC<ReportsGridProps> = ({
   reports,

@@ -14,7 +14,7 @@ import { SubmitButton } from "../../../../shared/components/common/SubmitButton"
 import Spinner from "../../../../shared/components/common/Spinner";
 import {
   PetPropsForm
-} from "../../../../shared/types/Pet";
+} from "../../types/Pet";
 
 const NewPetForm: React.FC = () => {
   const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
@@ -82,9 +82,9 @@ const NewPetForm: React.FC = () => {
       <PetColorFields
         formData={formData}
         isLoading={isLoading}
-        handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
-        handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
-        handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
+        handleColor1Change={(value: string) => handleInputChange({ target: { name: "color1", value } })}
+        handleColor2Change={(value: string) => handleInputChange({ target: { name: "color2", value } })}
+        handleColor3Change={(value: string) => handleInputChange({ target: { name: "color3", value } })}
         error={""}
       />
 

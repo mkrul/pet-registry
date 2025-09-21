@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMapEvents, Marker } from "react-leaflet";
 import { MapProps } from "../../types/common/Map";
-import { LocationData } from "../../types/Report";
+import { LocationData } from "../../types/redux/features/reports/ReportsApi";
 import { processAddress } from "../../geocoding";
 import Spinner from "./Spinner";
 import { MapView } from "./MapView";

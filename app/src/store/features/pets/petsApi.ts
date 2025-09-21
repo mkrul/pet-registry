@@ -1,6 +1,6 @@
 import { transformToCamelCase } from "../../../shared/apiHelpers";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PetProps, GetPetsResponse, UpdatePetResponse } from "../../../shared/types/Pet";
+import { PetProps, GetPetsResponse, UpdatePetResponse } from "../../../features/pets/types/Pet";
 import { PaginationPropsQuery } from "../../../shared/types/common/Pagination";
 
 export const petsApi = createApi({
@@ -37,7 +37,7 @@ export const petsApi = createApi({
       transformResponse: (response: GetPetsResponse) => {
         const pets = response.data.map(pet => transformToCamelCase(pet));
         const pagination = transformToCamelCase(response.pagination);
-        return { data: pets, pagination, message: response.message };
+        return { data: pets, pagination };
       },
       keepUnusedDataFor: 30,
       providesTags: result =>
@@ -130,7 +130,7 @@ export const petsApi = createApi({
       transformResponse: (response: GetPetsResponse) => {
         const pets = response.data.map(pet => transformToCamelCase(pet));
         const pagination = transformToCamelCase(response.pagination);
-        return { data: pets, pagination, message: response.message };
+        return { data: pets, pagination };
       },
       providesTags: result =>
         result

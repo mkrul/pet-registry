@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { PetPropsForm } from "../types/Pet";
+import { PetPropsForm } from "../../features/pets/types/Pet";
 
 interface ValidationError {
   validationErrors?: string[];

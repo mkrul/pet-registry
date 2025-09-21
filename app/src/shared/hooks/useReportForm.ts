@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, Dispatch, SetStateAction } from "react";
 import { SelectChangeEvent } from "@mui/material";
 import { ReportPropsForm, LocationData } from "../types/redux/features/reports/ReportsApi";
-import { FormInputEvent } from "../types/Report";
+import { FormInputEvent } from "../types/forms/FormEvent";
 import { createMapLocation, adaptFormDataToLocation } from "../utils/mapUtils";
 
 export const useReportForm = (initialData?: Partial<ReportPropsForm>) => {

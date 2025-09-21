@@ -20,7 +20,7 @@ import {
   PetIdentificationFieldsProps,
   PetPropsForm,
   PetFormInputEvent
-} from "../../../../shared/types/Pet";
+} from "../../types/Pet";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 

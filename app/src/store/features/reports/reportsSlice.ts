@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ReportProps, ReportPropsState } from "../../../../features/reports/types/Report";
+import { ReportProps, ReportPropsState } from "../../../features/reports/types/Report";
 
 const initialState: ReportPropsState = {
   data: [],

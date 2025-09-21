@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import { PetBasicInfoFieldsProps } from "../../../../shared/types/Pet";
+import { PetBasicInfoFieldsProps } from "../../types/Pet";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError";
 

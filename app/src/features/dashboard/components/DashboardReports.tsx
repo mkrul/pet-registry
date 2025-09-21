@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useUserReportsData } from '../../../shared/hooks/useUserReportsData';
-import { ReportProps } from '../../../shared/types/Report';
+import { ReportProps } from '../../reports/types/Report';
 import { NotificationState, NotificationType } from '../../../shared/types/common/Notification';
 import ReportPreview from './ReportPreview';
 import ReportDetailView from './ReportDetailView';
@@ -11,7 +11,7 @@ import ConfirmationModal from '../../../shared/components/common/ConfirmationMod
 import NewReportForm from '../../reports/components/forms/NewReportForm';
 import { useGetNewReportQuery, useArchiveReportMutation } from '../../../store/features/reports/reportsApi';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi';
-import { PetProps } from '../../../shared/types/Pet';
+import { PetProps } from '../../pets/types/Pet';
 import { ReportPropsForm } from '../../../shared/types/redux/features/reports/ReportsApi';
 import Spinner from '../../../shared/components/common/Spinner';
 import { useAppDispatch } from '../../../store/hooks';

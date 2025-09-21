@@ -1,4 +1,4 @@
-import { LocationData } from "../Report";
+import { LocationData } from "../redux/features/reports/ReportsApi";
 
 export interface MapCoordinates {
   latitude: number;
