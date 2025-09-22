@@ -29,7 +29,7 @@ vi.mock("../AppRouter", () => ({
 }));
 
 vi.mock(".../shared/components/common/Notification", () => ({
-  default: ({ type, message, onClose }: any) => (
+  default: ({ type, message, onClose }) => (
     <div data-testid="notification" onClick={onClose}>
       {type}: {message}
     </div>
@@ -37,7 +37,7 @@ vi.mock(".../shared/components/common/Notification", () => ({
 }));
 
 describe("App Component", () => {
-  let store: any;
+  let store;
 
   beforeEach(() => {
     store = configureStore({

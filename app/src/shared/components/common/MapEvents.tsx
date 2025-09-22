@@ -13,7 +13,7 @@ export const MapEvents = ({
   initialZoom
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedPosition, setSelectedPosition] = useState<[number, number] | null>(null);
+  const [selectedPosition, setSelectedPosition] = useState(null);
   const [hasSetInitialView, setHasSetInitialView] = useState(false);
 
   useEffect(() => {

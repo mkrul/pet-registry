@@ -29,8 +29,8 @@ export const LocationSelect = ({
   );
   const [currentMapLocation, setCurrentMapLocation] = useState(initialLocation);
   const [searchInput, setSearchInput] = useState("");
-  const [suggestions, setSuggestions] = useState<AddressSuggestion[]>([]);
-  const [selectedAddress, setSelectedAddress] = useState<AddressSuggestion | null>(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [isProcessingAddress, setIsProcessingAddress] = useState(false);
   const isDisabled = isLoading || isProcessingAddress;
 
