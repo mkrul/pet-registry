@@ -84,7 +84,7 @@ prod-build: ## Build production images
 # Development workflow
 dev: ## Start development environment
 	@echo "Starting development environment..."
-	@echo "This will start Rails, PostgreSQL, Redis, OpenSearch, Vite, CSS watcher, and TypeScript checker"
+	@echo "This will start Rails, PostgreSQL, Redis, OpenSearch, Vite, and CSS watcher"
 	docker-compose up
 
 dev-rebuild: ## Rebuild and start development environment

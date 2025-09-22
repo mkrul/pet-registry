@@ -36,7 +36,6 @@ Development
   - `bin/vite dev` (or `yarn dev`)
 - Optional helpers:
   - Tailwind CSS watcher: `yarn build:css --watch`
-  - TypeScript watch: `yarn ts-check`
 - Alternatively use process manager:
   - `foreman start -f Procfile.dev` (requires foreman)
 
@@ -73,8 +72,6 @@ Common Commands
   - `bin/rails searchkick:reindex:all`
 - Seed data:
   - `bin/rails db:seed`
-- Lint TypeScript types:
-  - `yarn ts-check`
 
 Notes
 
