@@ -1,0 +1,21 @@
+import { Link } from "react-router-dom";
+
+const NavLink = ({ linkTo, children, handler, className = "" }) => {
+  const path = linkTo || "#";
+
+  const baseClasses = "text-base focus:outline-none active:outline-none no-tap-highlight";
+
+  const handleClick = () => {
+    if (handler) {
+      handler();
+    }
+  };
+
+  return (
+    <Link to={path} className={`${baseClasses} ${className}`} onClick={handleClick}>
+      {children}
+    </Link>
+  );
+};
+
+export default NavLink;

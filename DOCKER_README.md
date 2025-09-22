@@ -16,7 +16,6 @@ Services (docker-compose.yml)
 - web: Rails app in development mode
 - vite: Vite dev server for React on 3036
 - css: Tailwind CSS watcher
-- typescript: TypeScript type checker
 
 Quick Start (Development)
 
@@ -64,7 +63,7 @@ Volumes
 
 Useful Commands
 
-- Rebuild only app images: `docker compose build web vite css typescript`
+- Rebuild only app images: `docker compose build web vite css`
 - View logs for one service: `docker compose logs -f web`
 - Run a one-off task: `docker compose run --rm web bin/rails db:seed`
 
