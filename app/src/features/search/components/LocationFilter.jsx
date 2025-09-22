@@ -1,7 +1,6 @@
 import React from "react";
 import { FormControl, Select, MenuItem } from "@mui/material";
 import { useGetStatesQuery } from "../../../store/features/reports/reportsApi.js";
-import { SelectChangeEvent } from "@mui/material";
 
 const LocationSelect = ({
   state,

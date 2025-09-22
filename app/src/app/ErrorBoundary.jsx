@@ -11,7 +11,8 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error("Error caught by ErrorBoundary:", error, errorInfo);
+    console.error("🚨 ErrorBoundary: Error caught:", error, errorInfo);
+    console.error("🚨 ErrorBoundary: Error stack:", error.stack);
   }
 
   handleClose = () => {

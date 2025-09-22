@@ -1,7 +1,6 @@
 import React from "react";
 import Filters from "./Filters";
 import RememberFiltersToggle from "../../../shared/components/common/RememberFiltersToggle.jsx";
-import { SelectChangeEvent } from "@mui/material";
 
 const FilterContainer = ({
   initialFilters,

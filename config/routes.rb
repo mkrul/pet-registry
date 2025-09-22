@@ -48,6 +48,27 @@ Rails.application.routes.draw do
   get 'manifest' => 'rails/pwa#manifest', as: :pwa_manifest
 
 
+  # Vite development server proxy
+  if Rails.env.development?
+    get '/vite-dev/*path', to: proc { |env|
+      require 'net/http'
+      require 'uri'
+
+      path = env['PATH_INFO']
+      vite_url = "http://vite:3036#{path}"
+
+      begin
+        uri = URI(vite_url)
+        response = Net::HTTP.get_response(uri)
+
+        headers = response.to_hash.transform_values { |v| v.is_a?(Array) ? v.first : v }
+        [response.code.to_i, headers, [response.body]]
+      rescue => e
+        [404, {}, ['Vite server not available']]
+      end
+    }
+  end
+
   # Catch-all route to handle client-side routing by React
   get '*path', to: 'home#index', constraints: ->(req) { req.format.html? }
 

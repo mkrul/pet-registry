@@ -15,6 +15,11 @@
     <%= vite_client_tag %>
     <%= vite_stylesheet_tag 'application', data: { "turbo-track": "reload" } %>
     <%= vite_javascript_tag 'application.jsx' %>
+    <script>
+      // Force cache busting
+      const timestamp = new Date().getTime();
+      console.log("🔄 Cache busting timestamp:", timestamp);
+    </script>
 
     <script>
       let FF_FOUC_FIX;
@@ -36,6 +41,41 @@
   <body>
     <%#= yield %>
     <div id="root"></div>
+    <script>
+      console.log("📄 Layout: HTML loaded, root div created");
+      console.log("📄 Layout: Root element:", document.getElementById("root"));
+
+      // Check if Vite client is loaded
+      console.log("📄 Layout: Vite client loaded:", typeof window.ViteClient !== 'undefined');
+
+      // Check for any script loading errors
+      window.addEventListener('error', function(e) {
+        console.error("📄 Layout: Script error:", e.filename, e.message, e.lineno, e.colno);
+        console.error("📄 Layout: Error details:", e);
+      });
+
+      // Check for unhandled promise rejections
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error("📄 Layout: Unhandled promise rejection:", e.reason);
+      });
+
+      // Check if any scripts are loaded
+      setTimeout(() => {
+        console.log("📄 Layout: Scripts after 2s:", document.querySelectorAll('script').length);
+        console.log("📄 Layout: All scripts:", Array.from(document.querySelectorAll('script')).map(s => s.src || 'inline'));
+
+        // Check if React has rendered anything to the root
+        const rootElement = document.getElementById("root");
+        console.log("📄 Layout: Root innerHTML after 2s:", rootElement.innerHTML);
+        console.log("📄 Layout: Root children after 2s:", rootElement.children.length);
+
+        // If still empty, manually add content to test DOM manipulation
+        if (rootElement.innerHTML === '') {
+          console.log("📄 Layout: Root still empty, adding manual test content");
+          rootElement.innerHTML = '<div style="background: yellow; padding: 20px; text-align: center;"><h1>Manual DOM Test</h1><p>If you see this yellow box, DOM manipulation works but React is not rendering.</p></div>';
+        }
+      }, 2000);
+    </script>
   </body>
   <footer>
     <div id="footer"></div>

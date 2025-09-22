@@ -6,7 +6,6 @@ import FilterWithClear from "../../../shared/components/common/FilterWithClear.j
 import speciesListJson from "../../../../../config/species.json";
 import colorListJson from "../../../../../config/colors.json";
 import sortOptionsJson from "../../../../../config/sort_options.json";
-import { Species } from "../../../shared/reports/breedList.js";
 
 const Filters = ({ filters, handleFilterChange, onReset, onClearFilter }) => {
   const selectStyles = {

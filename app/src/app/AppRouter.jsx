@@ -14,10 +14,14 @@ import ComponentLoader from "../shared/components/common/ComponentLoader.jsx";
 import { useMemo, useEffect } from "react";
 
 const AppRouter = () => {
+  console.log("🛣️ AppRouter: Component rendering");
   const user = useAppSelector(state => state.auth.user);
   const notification = useAppSelector(state => state.notifications.notification);
   const dispatch = useAppDispatch();
   const location = useLocation();
+
+  console.log("👤 AppRouter: User state:", user);
+  console.log("📍 AppRouter: Current location:", location.pathname);
 
   const isDashboardPage = location.pathname === '/dashboard';
 
