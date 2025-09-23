@@ -2,7 +2,7 @@ module GenderList
   extend ActiveSupport::Concern
 
   included do
-    GENDERS = JSON.parse(File.read(Rails.root.join('app/src/lib/reports/genderList.json')))['options'].freeze
+    GENDERS = JSON.parse(File.read(Rails.root.join('app/src/shared/reports/genderList.json')))['options'].freeze
   end
 
   class_methods do

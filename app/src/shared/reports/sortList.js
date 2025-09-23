@@ -1,4 +1,4 @@
-import sortListJson from "./sortList.json" assert { type: "json" };
+import sortListJson from "../../../../config/sort_options.json" assert { type: "json" };
 
 const sortList = sortListJson;
 

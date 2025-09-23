@@ -1,4 +1,4 @@
-import stateListJson from "./stateList.json" assert { type: "json" };
+import stateListJson from "../../../../config/states.json" assert { type: "json" };
 
 const stateList = stateListJson;
 

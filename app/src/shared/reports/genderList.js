@@ -1,4 +1,4 @@
-import genderListJson from "./genderList.json" assert { type: "json" };
+import genderListJson from "../../../../config/genders.json" assert { type: "json" };
 
 const genderList = genderListJson;
 
