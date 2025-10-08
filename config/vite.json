@@ -1,14 +1,15 @@
 {
   "all": {
-    "sourceCodeDir": "app/javascript",
+    "sourceCodeDir": "app/src",
     "watchAdditionalPaths": []
   },
   "development": {
     "autoBuild": true,
     "publicOutputDir": "vite-dev",
     "host": "0.0.0.0",
-    "publicDeServerUrl": "http://localhost:3036",
-    "port": 3036
+    "publicDevServerUrl": "http://localhost:3036",
+    "port": 3036,
+    "devServerConnectTimeout": 10
   },
   "test": {
     "autoBuild": true,

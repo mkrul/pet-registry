@@ -23,7 +23,7 @@ const ReportsContainer = ({
   if (error) {
     return (
       <Notification
-        type={NotificationType.ERROR}
+        type="ERROR"
         message="An error occurred while loading reports"
         onClose={() => {}}
       />

@@ -13,12 +13,22 @@ bar = ProgressBar.new(reports.count)
 
 reports.each do |report|
   Reports::Destroy.run!(report: report)
-  bar.increment! # Increment progress for each report destroyed
+  bar.increment!
 end
+
+print('Creating seed user...')
+seed_user = User.find_or_create_by!(email: 'seed@example.com') do |user|
+  user.password = 'password123'
+  user.password_confirmation = 'password123'
+end
+puts "Seed user created: #{seed_user.email}"
+
 print('Seeding database with sample data...')
 bar = ProgressBar.new(25)
 
-report01 = CreateReport.new.call(
+report_creator = CreateReport.new(user: seed_user)
+
+report01 = report_creator.call(
   title: 'Lost Dog',
   description: "My dog got out of the yard and I can't find him. He is a Pit Bull / Boxer mix, about 50 lbs, and is very friendly.  However, he is dog aggressive / reactive.  He is wearing a blue collar with a tag that has my name and phone number on it.",
   name: 'Phantom',
@@ -43,7 +53,7 @@ report01 = CreateReport.new.call(
 )
 bar.increment!
 
-report02 = CreateReport.new.call(
+report02 = report_creator.call(
   title: '🐶 Help me find my dog!!',
   description: "My beagle mix has gone missing.  He's pretty small, brown and white, and doesn't like men.  He's wearing a rainbow colored harness.",
   name: 'Buddy',
@@ -68,7 +78,7 @@ report02 = CreateReport.new.call(
 )
 bar.increment!
 
-report03 = CreateReport.new.call(
+report03 = report_creator.call(
   title: 'Found dog in the street',
   description: "I found a dog wandering around the neighborhood.  He's a tiny little guy.  Appears to be some sort of chihuahua mix.  Medium white fur.  He is kind of timid but very sweet.",
   name: nil,
@@ -92,7 +102,7 @@ report03 = CreateReport.new.call(
 )
 bar.increment!
 
-report04 = CreateReport.new.call(
+report04 = report_creator.call(
   title: 'Golden Retriever found',
   description: "I found a golden retriever wandering around the park.  He's a big guy, very friendly.  Did not have a collar on when we found him and we're not sure if he's microchipped.",
   name: nil,
@@ -116,7 +126,7 @@ report04 = CreateReport.new.call(
 )
 bar.increment!
 
-report05 = CreateReport.new.call(
+report05 = report_creator.call(
   title: 'Lost my Siberian Husky 😢',
   description: "My dog Zara jumped the fence in our back yard while we were making dinner last night. She is a spayed Siberian Husky.",
   name: 'Zeus',
@@ -141,7 +151,7 @@ report05 = CreateReport.new.call(
 )
 bar.increment!
 
-report06 = CreateReport.new.call(
+report06 = report_creator.call(
   title: 'Find my dog please!!',
   description: "Missing dog. He is a large bully / dalmatian mix. He is very friendly and loves people. He is wearing a red collar with a tag that has my contact information on it, and he is microchipped.",
   name: 'Freckles',
@@ -165,7 +175,7 @@ report06 = CreateReport.new.call(
 )
 bar.increment!
 
-report07 = CreateReport.new.call(
+report07 = report_creator.call(
   title: 'I found this black cat',
   description: "I found a black cat wandering around the neighborhood.  She is very friendly and seems to be well taken care of.  She has no collar on.",
   name: nil,
@@ -189,7 +199,7 @@ report07 = CreateReport.new.call(
 )
 bar.increment!
 
-report08 = CreateReport.new.call(
+report08 = report_creator.call(
   title: 'Lost my cat',
   description: "My cat got out of the house and I can't find her. She is a small orange tabby cat named Melanie.  DO NOT CHASE!!!  She is very skittish and will run away from people.",
   name: 'Melanie',
@@ -213,7 +223,7 @@ report08 = CreateReport.new.call(
 )
 bar.increment!
 
-report09 = CreateReport.new.call(
+report09 = report_creator.call(
   title: 'Stray kitty',
   description: "Stray cat found by my garage last weekend. Very sweet, not sure if boy or girl.  white brown and gray, short hair length.",
   name: nil,
@@ -237,7 +247,7 @@ report09 = CreateReport.new.call(
 )
 bar.increment!
 
-report10 = CreateReport.new.call(
+report10 = report_creator.call(
   title: 'HELP!!! I lost my cat!!',
   description: "She is an outdoor cat and has been missing for a few days. She is a small black and white cat named Oreo.  She is very friendly and loves people.",
   name: 'Oreo',
@@ -261,7 +271,7 @@ report10 = CreateReport.new.call(
 )
 bar.increment!
 
-report11 = CreateReport.new.call(
+report11 = report_creator.call(
   title: 'Found beagle mix on Turner Rd',
   description: "We were driving north toward Jones road and saw a beagle wandering near the woodline.  We baited her closer to our car with some treats and took her back to our house.  She's currently chilling in the garage with our cat right now.  Please come get her!",
   name: nil,
@@ -285,7 +295,7 @@ report11 = CreateReport.new.call(
 )
 bar.increment!
 
-report12 = CreateReport.new.call(
+report12 = report_creator.call(
   title: 'Help me find Max the shepherd',
   description: "Max got out again and I can't find him! He is a mixed breed, but we think he might be a German Shepherd / Australian Shepherd mix, with maybe some pit bull.  He's about 80 lbs.  Last we saw him he wasn't wearing his collar :( but he is microchipped!",
   name: 'Max',
@@ -309,7 +319,7 @@ report12 = CreateReport.new.call(
 )
 bar.increment!
 
-report13 = CreateReport.new.call(
+report13 = report_creator.call(
   title: 'German Shepherd Mix',
   description: "Our dog got out of the yard and we can't find him. He is a German Shepherd / Labrador Retriever mix",
   name: 'Simba',
@@ -333,7 +343,7 @@ report13 = CreateReport.new.call(
 )
 bar.increment!
 
-report14 = CreateReport.new.call(
+report14 = report_creator.call(
   title: 'lost little scottie girl :(',
   description: "My furbaby Molly was last seen running down Grandview Avenue.  She is a Scottish Terrier / Schnauzer mix, about 20 lbs.  Super friendly and sweet girl, please help us find her.",
   name: 'Molly',
@@ -357,7 +367,7 @@ report14 = CreateReport.new.call(
 )
 bar.increment!
 
-report15 = CreateReport.new.call(
+report15 = report_creator.call(
   title: 'Missing grayhound mix',
   description: "My girlfriend's grayhound mix took off after a rabbit and we can't find him.  He is a grayhound / lab mix, about 70 lbs.  He will chase cats but is otherwise very friendly.",
   name: 'Tiger',
@@ -381,7 +391,7 @@ report15 = CreateReport.new.call(
 )
 bar.increment!
 
-report16 = CreateReport.new.call(
+report16 = report_creator.call(
   title: 'My Pomchi ran away',
   description: "My little dog ran away last week and we have searched all over town and can't find him.  He is a Chihuahua / Pomeranian mix and weighs about 10 lbs. Please contact me if you see him.",
   name: 'Francis',
@@ -405,7 +415,7 @@ report16 = CreateReport.new.call(
 )
 bar.increment!
 
-report17 = CreateReport.new.call(
+report17 = report_creator.call(
   title: 'Lost my pibble mix 😭😭',
   description: "My angel furbaby busted out of the house to chase after a cat and we haven't seen her since.  If you happen to find her please let us know!! She used to be a bait dog but don't let that scare you. She is very sweet and wouldn't hurt a fly!",
   name: 'Mauly',
@@ -429,7 +439,7 @@ report17 = CreateReport.new.call(
 )
 bar.increment!
 
-report18 = CreateReport.new.call(
+report18 = report_creator.call(
   title: 'Scruffy yellow dog',
   description: "Come get your dog! She's been hanging out in my shed for a few days now.  She's a scruffy little lady, yellow and brownish with some white on her face.",
   name: nil,
@@ -453,7 +463,7 @@ report18 = CreateReport.new.call(
 )
 bar.increment!
 
-report19 = CreateReport.new.call(
+report19 = report_creator.call(
   title: 'Pitty pup',
   description: "Our pit bull jumped out of my dad's truck and he ran off.  It was near the park on 5th street.  He is a big friendly goofball with all white fur and is wearing a green collar.",
   name: 'Orion',
@@ -477,7 +487,7 @@ report19 = CreateReport.new.call(
 )
 bar.increment!
 
-report20 = CreateReport.new.call(
+report20 = report_creator.call(
   title: 'A siamese cat i found',
   description: "I found a Siamese cat trying to get into the trash can by my house. She doesn't have a collar.",
   name: nil,
@@ -501,7 +511,7 @@ report20 = CreateReport.new.call(
 )
 bar.increment!
 
-report21 = CreateReport.new.call(
+report21 = report_creator.call(
   title: 'Lost cat pls help me find him',
   description: "My cat got out of the house and I can't find him. He is a long haired cat wearing a green collar with a little bell on it.",
   name: 'Bob',
@@ -525,7 +535,7 @@ report21 = CreateReport.new.call(
 )
 bar.increment!
 
-report22 = CreateReport.new.call(
+report22 = report_creator.call(
   title: 'sweet black kitty',
   description: "I have never seen this kitty before but she is very friendly and seems to be well taken care of.  She has no collar on.",
   name: nil,
@@ -549,7 +559,7 @@ report22 = CreateReport.new.call(
 )
 bar.increment!
 
-report23 = CreateReport.new.call(
+report23 = report_creator.call(
   title: 'Puppy found',
   description: "I have no idea who owns this precious baby but I hope I can find his owner soon! I found him outside of a restaraunt on Main Street. I have no idea what breed he is, maybe a husky german shepherd mix?",
   name: nil,
@@ -573,7 +583,7 @@ report23 = CreateReport.new.call(
 )
 bar.increment!
 
-report24 = CreateReport.new.call(
+report24 = report_creator.call(
   title: 'My goldie girl',
   description: "Pleease helpe me find my baby, she ran away last friday and I miss her so much.!!",
   name: 'Petunia',
@@ -597,7 +607,7 @@ report24 = CreateReport.new.call(
 )
 bar.increment!
 
-report25 = CreateReport.new.call(
+report25 = report_creator.call(
   title: 'Bo ran away!',
   description: "My dog Bo got out of the yard and I can't find him. He is a doodle wearing a blue bandana.",
   name: 'Bo',

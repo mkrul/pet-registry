@@ -1,18 +1,20 @@
 class CreateReport
-  def initialize
-    @report = Report.new
+  def initialize(user: nil)
+    @user = user
   end
 
   def call(params)
-    @report.assign_attributes(params.except(:image_url))
+    report = Report.new
+    report.assign_attributes(params.except(:image_url))
+    report.user = @user if @user
 
-    handle_image(@report, params[:image_url])
+    handle_image(report, params[:image_url])
 
-    if @report.save
-      @report
+    if report.save
+      report
     else
-      if @report.errors.any?
-        puts "Errors while creating report for '#{@report.title}': #{@report.errors.full_messages.join(', ')}"
+      if report.errors.any?
+        puts "Errors while creating report for '#{report.title}': #{report.errors.full_messages.join(', ')}"
       end
       nil
     end

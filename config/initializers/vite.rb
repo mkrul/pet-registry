@@ -3,9 +3,9 @@
 # Vite configuration for development
 if Rails.env.development?
   Rails.application.config.after_initialize do
-    # Use auto-build mode for better Docker compatibility
+    # Use Vite dev server for hot reload and faster development
     ViteRuby.configure do |config|
-      config.auto_build = true  # Use static builds instead of dev server
+      config.auto_build = true  # Use auto-build to generate manifest
     end
   end
 end

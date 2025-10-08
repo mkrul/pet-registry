@@ -2,7 +2,7 @@ module StateList
   extend ActiveSupport::Concern
 
   included do
-    STATES = JSON.parse(File.read(Rails.root.join('app/src/lib/reports/stateList.json')))['options'].freeze
+    STATES = JSON.parse(File.read(Rails.root.join('config/states.json')))['options'].freeze
   end
 
   class_methods do

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
-import AppRouter from "../../src/app/AppRouter";
+import AppRouter from "../app/AppRouter";
 
 const App = () => {
   console.log("🏠 Main.jsx: App component rendering");
