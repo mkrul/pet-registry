@@ -3,16 +3,14 @@ import formatDate from "../../../../shared/formatDate";
 
 const DateDisplay = ({ createdAt, updatedAt }) => {
   return (
-    <div className="space-y-2">
-      <div className="flex gap-8">
-        <div>
-          <label className="text-lg font-medium text-gray-900 mb-2">Posted at:</label>
-          <p className="text-md text-gray-500">{formatDate(createdAt)}</p>
-        </div>
-        <div>
-          <label className="text-lg font-medium text-gray-900 mb-2">Updated at:</label>
-          <p className="text-md text-gray-500">{formatDate(updatedAt)}</p>
-        </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div>
+        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Posted At</h4>
+        <p className="text-gray-900 font-medium">{formatDate(createdAt)}</p>
+      </div>
+      <div>
+        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Updated At</h4>
+        <p className="text-gray-900 font-medium">{formatDate(updatedAt)}</p>
       </div>
     </div>
   );

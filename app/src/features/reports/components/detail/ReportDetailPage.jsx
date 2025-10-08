@@ -107,37 +107,33 @@ const ReportDetailPage = ({ report }) => {
         </div>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="lg:flex">
-            <div className="lg:w-1/2 relative">
+          <div className="md:flex">
+            <div className="md:w-1/2 relative">
               {isImageLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-20">
                   <Spinner />
                 </div>
               )}
               <div
-                className={`relative ${ringStyle} lg:cursor-default cursor-pointer group`}
-                onClick={(e) => {
-                  if (window.innerWidth < 1080) {
-                    handleImageClick();
-                  }
-                }}
+                className={`relative ${ringStyle} cursor-pointer group`}
+                onClick={handleImageClick}
               >
                 <img
                   src={imageSrc}
                   alt={report.title}
-                  className={`w-full h-64 sm:h-80 lg:h-full lg:min-h-[600px] object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${isImageLoading ? "hidden" : "block"}`}
+                  className={`w-full h-96 md:h-full md:min-h-[600px] object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${isImageLoading ? "hidden" : "block"}`}
                   onLoad={handleImageLoad}
                   onError={handleImageError}
                 />
-                <div className="lg:hidden absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none" />
-                <div className="lg:hidden absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                  Tap to enlarge
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none" />
+                <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to enlarge
                 </div>
                 {badge}
               </div>
             </div>
 
-            <div className="lg:w-1/2 p-6 lg:p-8">
+            <div className="md:w-1/2 p-6 md:p-8">
               <div className="space-y-6">
                 <div>
                   <div className="flex items-start justify-between gap-4 mb-2">
@@ -148,13 +144,6 @@ const ReportDetailPage = ({ report }) => {
                       </span>
                     )}
                   </div>
-                  <LocationDisplay
-                    area={report.area}
-                    state={report.state}
-                    country={report.country}
-                    intersection={report.intersection}
-                    useStateAbbreviation={true}
-                  />
                 </div>
 
                 <div>
@@ -223,31 +212,31 @@ const ReportDetailPage = ({ report }) => {
                     )}
                   </div>
                 </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <LocationDisplay
-                      area={report.area}
-                      state={report.state}
-                      country={report.country}
-                      intersection={report.intersection}
-                    />
-                    <div className="mt-4">
-                      <Map
-                        initialLocation={createMapLocation(report)}
-                        readOnly={true}
-                        onLocationSelect={() => {}}
-                        initialZoom={MAP_ZOOM_LEVELS.VIEW}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-gray-200">
-                  <DateDisplay createdAt={report.createdAt} updatedAt={report.updatedAt} />
-                </div>
               </div>
+            </div>
+          </div>
+
+          <div className="p-6 md:p-8 border-t border-gray-200">
+            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
+            <div className="bg-gray-50 rounded-lg p-4">
+              <LocationDisplay
+                area={report.area}
+                state={report.state}
+                country={report.country}
+                intersection={report.intersection}
+                useStateAbbreviation={true}
+              />
+              <div className="mt-4">
+                <Map
+                  initialLocation={createMapLocation(report)}
+                  readOnly={true}
+                  onLocationSelect={() => {}}
+                  initialZoom={MAP_ZOOM_LEVELS.VIEW}
+                />
+              </div>
+            </div>
+            <div className="pt-4">
+              <DateDisplay createdAt={report.createdAt} updatedAt={report.updatedAt} />
             </div>
           </div>
         </div>
