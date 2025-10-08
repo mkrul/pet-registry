@@ -110,7 +110,7 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
             <div className="border-t border-gray-200 mt-3 pt-3">
               <div className="text-gray-500 text-md">
                 {report.description.length > 100
-                  ? `${report.description.substring(0, 160)}...`
+                  ? `${report.description.substring(0, 120)}...`
                   : report.description}
               </div>
             </div>

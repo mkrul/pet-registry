@@ -7,7 +7,6 @@
     "autoBuild": true,
     "publicOutputDir": "vite-dev",
     "host": "0.0.0.0",
-    "publicDevServerUrl": "http://localhost:3036",
     "port": 3036,
     "devServerConnectTimeout": 10
   },

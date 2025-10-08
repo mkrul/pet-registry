@@ -3,7 +3,12 @@ import RubyPlugin from 'vite-plugin-ruby'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [RubyPlugin(), react()],
+  plugins: [
+    RubyPlugin(),
+    react({
+      jsxRuntime: 'automatic'
+    })
+  ],
   server: {
     host: '0.0.0.0',
     port: 3036,
