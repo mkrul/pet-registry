@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../../store/features/reports/reportsApi.js";
-import ShowReportFormContainer from "../components/forms/ShowReportFormContainer";
+import ReportDetailPage from "../components/detail/ReportDetailPage.jsx";
 import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../store/features/notifications/notificationsSlice.js";
@@ -45,7 +45,7 @@ const ReportShowPage = () => {
 
   return (
     <div data-testid="report-show">
-      <ShowReportFormContainer report={report} errors={errors} />
+      <ReportDetailPage report={report} />
     </div>
   );
 };
