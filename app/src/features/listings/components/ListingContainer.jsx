@@ -1,10 +1,10 @@
 import React from "react";
-import Spinner from "../../../../shared/components/common/Spinner.jsx";
-import Notification from "../../../../shared/components/common/Notification.jsx";
-import { useReportsData } from "../../../../shared/hooks/useReportsData.js";
-import ReportsGrid from "./ReportsGrid";
+import Spinner from "../../../shared/components/common/Spinner.jsx";
+import Notification from "../../../shared/components/common/Notification.jsx";
+import { useReportsData } from "../../../shared/hooks/useReportsData.js";
+import ListingsGrid from "./ListingsGrid.jsx";
 
-const ReportsContainer = ({
+const ListingsContainer = ({
   query,
   filters,
   page,
@@ -31,7 +31,7 @@ const ReportsContainer = ({
   }
 
   return (
-    <ReportsGrid
+    <ListingsGrid
       reports={reports}
       currentPage={page}
       currentQuery={query}
@@ -41,4 +41,4 @@ const ReportsContainer = ({
   );
 };
 
-export default ReportsContainer;
+export default ListingsContainer;

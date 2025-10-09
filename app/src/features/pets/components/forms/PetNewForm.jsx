@@ -6,10 +6,10 @@ import {
 import { usePetForm } from "../../../../shared/hooks/usePetForm.js";
 import { usePetSubmit } from "../../../../shared/hooks/usePetSubmit.js";
 import { usePetFormSubmission } from "../../../../shared/hooks/usePetFormSubmission.js";
-import { PetBasicInfoFields } from "../common/PetBasicInfoFields";
-import { PetIdentificationFields } from "../common/PetIdentificationFields";
-import { PetColorFields } from "../common/PetColorFields";
-import { ImageUpload } from "../../../reports/components/common/ImageUpload";
+import { PetBasicInfoFields } from "../common/PetBasicInfoFields.jsx";
+import { PetIdentificationFields } from "../common/PetIdentificationFields.jsx";
+import { PetColorFields } from "../common/PetColorFields.jsx";
+import { ImageUpload } from "../../../listings/components/common/ImageUpload.jsx";
 import { SubmitButton } from "../../../../shared/components/common/SubmitButton.jsx";
 import Spinner from "../../../../shared/components/common/Spinner.jsx";
 

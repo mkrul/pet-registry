@@ -1,8 +1,8 @@
 import React from "react";
-import ReportCard from "./ReportCard";
-import Pagination from "../../../../shared/components/common/Pagination.jsx";
+import ReportCard from "./ListingCard.jsx";
+import Pagination from "../../../shared/components/common/Pagination.jsx";
 
-const ReportsGrid = ({
+const ListingsGrid = ({
   reports,
   currentPage,
   currentQuery,
@@ -32,4 +32,4 @@ const ReportsGrid = ({
   );
 };
 
-export default ReportsGrid;
+export default ListingsGrid;

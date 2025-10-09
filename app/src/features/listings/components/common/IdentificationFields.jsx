@@ -12,10 +12,10 @@ import {
   Box
 } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { getGenderOptions } from "../../../../shared/reports/genderList";
+import { getGenderOptions } from "../../../../shared/reports/genderList.js";
 import speciesListJson from "../../../../../../config/species.json";
 import BreedSearch from "../../../../shared/components/common/BreedSearch.jsx";
-import { commonInputStyles } from "../../../../shared/commonStyles";
+import { commonInputStyles } from "../../../../shared/commonStyles.js";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
 
 const IdentificationFields = ({

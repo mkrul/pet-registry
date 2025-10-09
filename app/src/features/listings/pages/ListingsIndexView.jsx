@@ -1,8 +1,8 @@
 import { useState, useCallback, useMemo } from "react";
 import { useAppSelector, useAppDispatch } from "../../../store/hooks.js";
 import { setSearchState } from "../../../store/features/search/searchSlice.js";
-import SearchTab from "../../search/components/SearchTab";
-import ReportsContainer from "../components/index/ReportsContainer";
+import SearchTab from "../../search/components/SearchTab.jsx";
+import ListingsContainer from "../components/ListingContainer.jsx";
 import { useScrollRestoration } from "../../../shared/hooks/useScrollRestoration.js";
 import { useReportsData } from "../../../shared/hooks/useReportsData.js";
 import { useSearchParamsState } from "../../../shared/hooks/useSearchParams.js";
@@ -81,7 +81,7 @@ const ReportIndexPage = () => {
         />
 
         <div>
-          <ReportsContainer
+          <ListingsContainer
             key={currentPage}
             query={activeSearch}
             filters={activeFilters}

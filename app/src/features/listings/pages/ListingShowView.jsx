@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../../store/features/reports/reportsApi.js";
-import ReportDetailPage from "../components/detail/ReportDetailPage.jsx";
+import ReportDetailsCard from "../components/ListingDetailsCard.jsx";
 import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../../../store/features/notifications/notificationsSlice.js";
 
-const ReportShowPage = () => {
+const ListingShowView = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data: report, error, isLoading } = useGetReportQuery(Number(id));
@@ -45,9 +45,9 @@ const ReportShowPage = () => {
 
   return (
     <div data-testid="report-show">
-      <ReportDetailPage report={report} />
+      <ReportDetailsCard report={report} />
     </div>
   );
 };
 
-export default ReportShowPage;
+export default ListingShowView;

@@ -1,16 +1,16 @@
 import React from 'react';
-import { usePetEdit } from '../../../shared/hooks/usePetEdit.js';
-import Notification from '../../../shared/components/common/Notification.jsx';
+import { usePetEdit } from '../../../../shared/hooks/usePetEdit.js';
+import Notification from '../../../../shared/components/common/Notification.jsx';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-import Spinner from '../../../shared/components/common/Spinner.jsx';
-import { PetBasicInfoFields } from './common/PetBasicInfoFields';
-import { PetIdentificationFields } from './common/PetIdentificationFields';
-import { PetColorFields } from './common/PetColorFields';
-import { ImageUpload } from '../../reports/components/common/ImageUpload';
+import Spinner from '../../../../shared/components/common/Spinner.jsx';
+import { PetBasicInfoFields } from '../common/PetBasicInfoFields.jsx';
+import { PetIdentificationFields } from '../common/PetIdentificationFields.jsx';
+import { PetColorFields } from '../common/PetColorFields.jsx';
+import { ImageUpload } from '../../../listings/components/common/ImageUpload.jsx';
 
 
-const PetEditView = ({
+const PetEditForm = ({
   pet,
   onBack,
   onSaveSuccess,
@@ -117,4 +117,4 @@ const PetEditView = ({
   );
 };
 
-export default PetEditView;
+export default PetEditForm;

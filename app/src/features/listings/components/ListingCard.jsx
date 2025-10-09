@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Spinner from "../../../../shared/components/common/Spinner.jsx";
-import LocationDisplay from "../../../../shared/components/common/LocationDisplay.jsx";
-import { useAppDispatch } from "../../../../store/hooks.js";
-import { setScrollPosition } from "../../../../store/features/search/searchSlice.js";
+import Spinner from "../../../shared/components/common/Spinner.jsx";
+import LocationDisplay from "../../../shared/components/common/LocationDisplay.jsx";
+import { useAppDispatch } from "../../../store/hooks.js";
+import { setScrollPosition } from "../../../store/features/search/searchSlice.js";
 
 const ReportCard = ({ report, currentPage, currentQuery }) => {
   const dispatch = useAppDispatch();

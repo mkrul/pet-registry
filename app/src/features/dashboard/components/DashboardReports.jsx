@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useUserReportsData } from '../../../shared/hooks/useUserReportsData.js';
-import ReportPreview from './ReportPreview';
-import ReportDetailView from './ReportDetailView';
-import ReportEditView from './ReportEditView';
+import ReportPreview from '../../reports/ReportPreview.jsx';
+import ReportDetailView from '../../reports/ReportDetailView.jsx';
+import ReportEditView from '../../reports/forms/ReportEditView.jsx';
 import Notification from '../../../shared/components/common/Notification.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
-import NewReportForm from '../../reports/components/forms/NewReportForm';
+import ReportNewView from '../../reports/forms/ReportNewView.jsx';
 import { useGetNewReportQuery, useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi.js';
 import Spinner from '../../../shared/components/common/Spinner.jsx';
@@ -179,7 +179,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
         notification={notification}
         onNotificationClose={handleNotificationClose}
       >
-        <NewReportForm
+        <ReportNewView
           initialData={petData ? mapPetToReportForm(petData) : undefined}
           petId={petId ? parseInt(petId) : undefined}
         />

@@ -8,7 +8,7 @@ import DashboardPets from '../components/DashboardPets';
 import DashboardProfile from '../components/DashboardProfile';
 import DashboardSettings from '../components/DashboardSettings';
 
-const DashboardPage = () => {
+const DashboardView = () => {
   const user = useAppSelector(state => state.auth.user);
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
@@ -135,4 +135,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default DashboardView;

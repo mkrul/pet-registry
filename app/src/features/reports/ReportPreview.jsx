@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemPreview from '../../../shared/components/common/ItemPreview.jsx';
-import StatusPill from '../../../shared/components/common/StatusPill.jsx';
+import ItemPreview from '../../shared/components/common/ItemPreview.jsx';
+import StatusPill from '../../shared/components/common/StatusPill.jsx';
 
 const ReportPreview = ({ report, onClick }) => {
   const getStatusPill = () => {

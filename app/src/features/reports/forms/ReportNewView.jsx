@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import {
   useGetNewReportQuery,
   useSubmitReportMutation
-} from "../../../../store/features/reports/reportsApi.js";
-import { useReportForm } from "../../../../shared/hooks/useReportForm.js";
-import { useReportSubmit } from "../../../../shared/hooks/useReportSubmit.js";
-import { useFormSubmission } from "../../../../shared/hooks/useFormSubmission.js";
-import { BasicInfoFields } from "../common/BasicInfoFields";
-import { IdentificationFields } from "../common/IdentificationFields";
-import { ColorFields } from "../common/ColorFields";
-import { ImageUpload } from "../common/ImageUpload";
-import { LocationSelect } from "../common/LocationSelect";
-import { SubmitButton } from "../../../../shared/components/common/SubmitButton.jsx";
-import Spinner from "../../../../shared/components/common/Spinner.jsx";
-import { FormPopulateButton } from "../../../../shared/components/common/FormPopulateButton.jsx";
+} from "../../../store/features/reports/reportsApi.js";
+import { useReportForm } from "../../../shared/hooks/useReportForm.js";
+import { useReportSubmit } from "../../../shared/hooks/useReportSubmit.js";
+import { useFormSubmission } from "../../../shared/hooks/useFormSubmission.js";
+import { BasicInfoFields } from "../../listings/components/common/BasicInfoFields.jsx";
+import { IdentificationFields } from "../../listings/components/common/IdentificationFields.jsx";
+import { ColorFields } from "../../listings/components/common/ColorFields.jsx";
+import { ImageUpload } from "../../listings/components/common/ImageUpload.jsx";
+import { LocationSelect } from "../../listings/components/common/LocationSelect.jsx";
+import { SubmitButton } from "../../../shared/components/common/SubmitButton.jsx";
+import Spinner from "../../../shared/components/common/Spinner.jsx";
+import { FormPopulateButton } from "../../../shared/components/common/FormPopulateButton.jsx";
 
-const NewReportForm = ({ initialData, petId }) => {
+const ReportNewForm = ({ initialData, petId }) => {
   const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
 
@@ -122,4 +122,4 @@ const NewReportForm = ({ initialData, petId }) => {
   );
 };
 
-export default NewReportForm;
+export default ReportNewForm;

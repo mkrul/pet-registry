@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, FormControl } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
-import { commonInputStyles } from "../../../../shared/commonStyles";
+import { commonInputStyles } from "../../../../shared/commonStyles.js";
 import Tip from "../../../../shared/components/common/Tip.jsx";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
 

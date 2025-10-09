@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Spinner from "../../../../shared/components/common/Spinner.jsx";
-import LocationDisplay from "../../../../shared/components/common/LocationDisplay.jsx";
-import Map from "../../../../shared/components/common/Map.jsx";
-import DateDisplay from "../common/DateDisplay.jsx";
-import { createMapLocation } from "../../../../shared/utils/mapUtils.js";
-import { MAP_ZOOM_LEVELS } from "../../../../shared/constants/map.js";
+import Spinner from "../../../shared/components/common/Spinner.jsx";
+import LocationDisplay from "../../../shared/components/common/LocationDisplay.jsx";
+import Map from "../../../shared/components/common/Map.jsx";
+import DateDisplay from "./common/DateDisplay.jsx";
+import { createMapLocation } from "../../../shared/utils/mapUtils.js";
+import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
 
-const ReportDetailPage = ({ report }) => {
+const ReportDetailsCard = ({ report }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -276,4 +276,4 @@ const ReportDetailPage = ({ report }) => {
   );
 };
 
-export default ReportDetailPage;
+export default ReportDetailsCard;

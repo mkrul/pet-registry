@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField } from "@mui/material";
-import { commonInputStyles } from "../../../../shared/commonStyles";
+import { commonInputStyles } from "../../../../shared/commonStyles.js";
 import Tip from "../../../../shared/components/common/Tip.jsx";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
 

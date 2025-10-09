@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 import Spinner from "../../../../shared/components/common/Spinner.jsx";
 import { MAP_ZOOM_LEVELS } from "../../../../shared/constants/map.js";
 import { createMapLocation } from "../../../../shared/utils/mapUtils.js";
-import { processAddress } from "../../../../shared/geocoding";
+import { processAddress } from "../../../../shared/geocoding.js";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
 import Tip from "../../../../shared/components/common/Tip.jsx";
 

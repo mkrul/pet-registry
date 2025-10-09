@@ -4,15 +4,15 @@ import Notification from '../../../shared/components/common/Notification.jsx';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import Spinner from '../../../shared/components/common/Spinner.jsx';
-import { BasicInfoFields } from '../../reports/components/common/BasicInfoFields';
-import { IdentificationFields } from '../../reports/components/common/IdentificationFields';
-import { ColorFields } from '../../reports/components/common/ColorFields';
-import { ImageUpload } from '../../reports/components/common/ImageUpload';
-import { LocationSelect } from '../../reports/components/common/LocationSelect';
-import DateDisplay from '../../reports/components/common/DateDisplay';
+import { BasicInfoFields } from '../../listings/components/common/BasicInfoFields.jsx';
+import { IdentificationFields } from '../../listings/components/common/IdentificationFields.jsx';
+import { ColorFields } from '../../listings/components/common/ColorFields.jsx';
+import { ImageUpload } from '../../listings/components/common/ImageUpload.jsx';
+import { LocationSelect } from '../../listings/components/common/LocationSelect.jsx';
+import DateDisplay from '../../listings/components/common/DateDisplay.jsx';
 import { createMapLocation } from '../../../shared/utils/mapUtils.js';
 
-const ReportEditView = ({
+const ReportEditForm = ({
   report,
   onBack,
   onSaveSuccess,
@@ -134,4 +134,4 @@ const ReportEditView = ({
   );
 };
 
-export default ReportEditView;
+export default ReportEditForm;

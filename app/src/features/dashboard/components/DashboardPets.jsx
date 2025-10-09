@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useUserPetsData } from '../../../shared/hooks/useUserPetsData.js';
 import PetPreview from '../../pets/components/PetPreview';
 import PetDetailView from '../../pets/components/PetDetailView';
-import PetEditView from '../../pets/components/PetEditView';
+import PetEditForm from '../../pets/components/forms/PetEditForm.jsx';
 import Notification from '../../../shared/components/common/Notification.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
-import NewPetForm from '../../pets/components/forms/NewPetForm';
+import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
 import { useGetNewPetQuery, useDeletePetMutation, useArchivePetMutation } from '../../../store/features/pets/petsApi.js';
 import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
 import Spinner from '../../../shared/components/common/Spinner.jsx';
@@ -167,14 +167,14 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         notification={notification}
         onNotificationClose={handleNotificationClose}
       >
-        <NewPetForm />
+        <PetNewForm />
       </FormLayout>
     );
   }
 
   if (editingPet) {
     return (
-      <PetEditView
+      <PetEditForm
         pet={editingPet}
         onBack={handleBackToPets}
         onSaveSuccess={handleEditSaveSuccess}

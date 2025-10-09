@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { FiltersProps } from "../../../../shared/types/common/Search";
-import ReportsContainer from "./ReportsContainer";
+import ListingsContainer from "./ListingsContainer";
 
 export const ReportsContent = ({
   activeSearch,
@@ -10,7 +10,7 @@ export const ReportsContent = ({
 }) => {
   return useMemo(
     () => (
-      <ReportsContainer
+      <ListingsContainer
         query={activeSearch}
         filters={activeFilters}
         page={currentPage}
