@@ -1,5 +1,5 @@
 import React from 'react';
-import PetStatusPill from './PetStatusPill';
+import StatusPill from "../../../shared/components/common/StatusPill";
 const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport }) => {
   const handleEditClick = (e) => {
     e.stopPropagation();
@@ -78,7 +78,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
                   <p className="text-gray-900 capitalize">
-                    <PetStatusPill status={pet.status} />
+                    <StatusPill status={pet.status} />
                   </p>
                 </div>
                 <div>
