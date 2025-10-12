@@ -1,6 +1,6 @@
 import { createFormData } from "../utils/formData";
 import { useDispatch } from "react-redux";
-import { setNotification } from "../../store/features/notifications/notificationsSlice.js";
+import { addNotification } from "../../store/features/notifications/notificationsSlice.js";
 
 export const useReportSubmit = ({
   submitReport
@@ -19,7 +19,7 @@ export const useReportSubmit = ({
         if (error.status === 422 && error.data) {
           const validationError = error.data;
           dispatch(
-            setNotification({
+            addNotification({
               type: "ERROR",
               message: validationError.message || "Please fix the validation errors below"
             })
@@ -29,7 +29,7 @@ export const useReportSubmit = ({
 
         // Handle other API errors
         dispatch(
-          setNotification({
+          addNotification({
             type: "ERROR",
             message: "An error occurred while creating the report. Please try again."
           })
@@ -39,7 +39,7 @@ export const useReportSubmit = ({
 
       if (response.data?.message) {
         dispatch(
-          setNotification({
+          addNotification({
             type: "SUCCESS",
             message: response.data.message
           })

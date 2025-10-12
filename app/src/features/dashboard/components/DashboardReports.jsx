@@ -4,13 +4,12 @@ import { useUserReportsData } from '../../../shared/hooks/useUserReportsData.js'
 import ReportPreview from '../../reports/ReportPreview.jsx';
 import ReportDetailView from '../../reports/ReportDetailView.jsx';
 import ReportEditView from '../../reports/forms/ReportEditView.jsx';
-import Notification from '../../../shared/components/common/Notification.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
 import ReportNewView from '../../reports/forms/ReportNewView.jsx';
 import { useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
-import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications.js';
+import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
 import FilterButtons from '../../../shared/components/common/FilterButtons.jsx';
 import EmptyState from '../../../shared/components/common/EmptyState.jsx';
@@ -50,13 +49,10 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const action = searchParams.get('action');
   const [isCreatingReport, setIsCreatingReport] = useState(action === 'create');
   const [activeFilter, setActiveFilter] = useState('active');
-  const [notification, setNotification] = useState(null);
 
   const shouldSkipDataFetch = isCreatingReport || !!editingReport;
   const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true, shouldSkipDataFetch);
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
-
-  useClearNotificationsOnUnmount(setNotification);
 
   const petId = searchParams.get('petId');
   const reportId = searchParams.get('reportId');
@@ -80,15 +76,15 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     try {
       await archiveReport(reportToArchive.id).unwrap();
       setReportToArchive(null);
-      setNotification({
+      dispatch(addNotification({
         type: "SUCCESS",
         message: 'Report archived successfully'
-      });
+      }));
     } catch (error) {
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: error.data?.message || 'Failed to archive report'
-      });
+      }));
     }
   };
 
@@ -115,17 +111,17 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
 
   const handleEditSaveSuccess = () => {
     setEditingReport(null);
-    setNotification({
+    dispatch(addNotification({
       type: "SUCCESS",
       message: 'Report updated successfully'
-    });
+    }));
   };
 
   useEffect(() => {
     if (apiNotification) {
-      setNotification(apiNotification);
+      dispatch(addNotification(apiNotification));
     }
-  }, [apiNotification]);
+  }, [apiNotification, dispatch]);
 
   useEffect(() => {
     if (shouldCreateReport) {
@@ -160,12 +156,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     }
   }, [action, isCreatingReport, refetch]);
 
-  const handleNotificationClose = () => {
-    setNotification(null);
-  };
-
-
-
   if (isCreatingReport) {
     return (
       <FormLayout
@@ -175,8 +165,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
           onClick: handleBackToReports,
           className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}
-        notification={notification}
-        onNotificationClose={handleNotificationClose}
       >
         <ReportNewView
           initialData={petData ? mapPetToReportForm(petData) : undefined}
@@ -192,8 +180,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
         report={editingReport}
         onBack={handleBackToReports}
         onSaveSuccess={handleEditSaveSuccess}
-        notification={notification}
-        onNotificationClose={handleNotificationClose}
       />
     );
   }
@@ -221,14 +207,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
         disabled={!!selectedReport}
         activeColor="bg-blue-600"
       />
-
-      {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={handleNotificationClose}
-        />
-      )}
 
       {!isLoading && selectedReport ? (
         <ReportDetailView

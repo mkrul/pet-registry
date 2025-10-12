@@ -1,4 +1,3 @@
-// Notification.jsx
 import React, { useState } from "react";
 
 const Notification = ({ type, message, onClose }) => {

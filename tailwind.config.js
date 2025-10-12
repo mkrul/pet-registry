@@ -111,10 +111,41 @@ module.exports = {
           '100%': {
             'box-shadow': '0 0 0 12px rgba(34, 197, 94, 0)'
           }
+        },
+        'slideDownBounce': {
+          '0%': {
+            transform: 'translateY(-100%)',
+            opacity: '0'
+          },
+          '60%': {
+            transform: 'translateY(10px)',
+            opacity: '1'
+          },
+          '80%': {
+            transform: 'translateY(-5px)'
+          },
+          '100%': {
+            transform: 'translateY(0)'
+          }
+        },
+        'slideUpBounce': {
+          '0%': {
+            transform: 'translateY(0)',
+            opacity: '1'
+          },
+          '20%': {
+            transform: 'translateY(-5px)'
+          },
+          '100%': {
+            transform: 'translateY(-100%)',
+            opacity: '0'
+          }
         }
       },
       animation: {
-        'glow-pulse': 'glow-pulse 1.5s ease-out infinite'
+        'glow-pulse': 'glow-pulse 1.5s ease-out infinite',
+        'slideDownBounce': 'slideDownBounce 0.6s ease-out forwards',
+        'slideUpBounce': 'slideUpBounce 0.4s ease-in forwards'
       }
     },
   },

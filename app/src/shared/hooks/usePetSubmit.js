@@ -1,6 +1,6 @@
 import { createPetFormData } from "../utils/petFormData";
 import { useDispatch } from "react-redux";
-import { setNotification } from "../../store/features/notifications/notificationsSlice.js";
+import { addNotification } from "../../store/features/notifications/notificationsSlice.js";
 
 export const usePetSubmit = ({
   submitPet
@@ -18,7 +18,7 @@ export const usePetSubmit = ({
         if (error.status === 422 && error.data) {
           const validationError = error.data;
           dispatch(
-            setNotification({
+            addNotification({
               type: "ERROR",
               message: validationError.message || "Please fix the validation errors below"
             })
@@ -27,7 +27,7 @@ export const usePetSubmit = ({
         }
 
         dispatch(
-          setNotification({
+          addNotification({
             type: "ERROR",
             message: "An error occurred while registering the pet. Please try again."
           })
@@ -37,7 +37,7 @@ export const usePetSubmit = ({
 
       if (response.data?.message) {
         dispatch(
-          setNotification({
+          addNotification({
             type: "SUCCESS",
             message: response.data.message
           })
