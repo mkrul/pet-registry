@@ -95,6 +95,8 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     setPage(1);
+    setSelectedReport(null);
+    navigate('/dashboard?section=reports');
   };
 
   const handleCreateReport = () => {
