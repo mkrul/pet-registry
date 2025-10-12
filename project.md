@@ -2,6 +2,25 @@
 
 ## Completed Tasks
 
+### 2025-10-12: Added comprehensive logging for pet registration flow
+- **Purpose**: To diagnose error notifications occurring during pet registration submissions
+- **Solution**: Added detailed console logging throughout the entire frontend submission flow and enhanced backend Rails logging with clear markers and error details
+- **Frontend logging added to**:
+  - `usePetFormSubmission.js`: Logs submission start, form data, selected image, response handling, navigation decisions, and errors
+  - `usePetSubmit.js`: Logs FormData creation, mutation calls, response handling, validation errors, and success notifications
+  - `petFormData.js`: Logs input data, data transformation, field appending, and image details
+  - `petsApi.js`: Logs API request initiation, raw server responses, response transformations, and final results
+- **Backend logging enhanced in**:
+  - `PetsController#create`: Added clear section markers, raw params inspection, current user details, success responses, validation errors with details, and full exception handling with backtraces
+  - `Pets::Create` service: Added detailed input inspection (including image presence/class), is_altered conversion tracking, pet instantiation details, validation checks before save, save failures with error details, and exception handling
+- **Files Modified**:
+  - `app/src/shared/hooks/usePetFormSubmission.js`
+  - `app/src/shared/hooks/usePetSubmit.js`
+  - `app/src/shared/utils/petFormData.js`
+  - `app/src/store/features/pets/petsApi.js`
+  - `app/controllers/api/pets_controller.rb`
+  - `app/services/pets/create.rb`
+
 ### 2025-10-12: Fixed RadioGroup null value warning
 - **Issue**: Warning appeared in console when visiting "Register new pet" page: "Warning: `value` prop on `input` should not be null"
 - **Root Cause**: The RadioGroup for "Is the pet spayed or neutered?" was using `null` as a value for the "I don't know" option, and the `isAltered` field was initialized to `null`. React doesn't accept `null` as a valid value for controlled inputs

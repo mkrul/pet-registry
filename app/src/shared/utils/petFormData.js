@@ -3,6 +3,9 @@ export const createPetFormData = (
   formData,
   selectedImage
 ) => {
+  console.log("[createPetFormData] Input formData:", formData);
+  console.log("[createPetFormData] Input selectedImage:", selectedImage);
+
   const formDataToSend = new FormData();
   const data = {
     name: formData.name,
@@ -17,12 +20,23 @@ export const createPetFormData = (
     is_altered: formData.isAltered
   };
 
+  console.log("[createPetFormData] Transformed data object:", data);
+
   Object.entries(data).forEach(([key, value]) => {
-    formDataToSend.append(key, value !== null && value !== undefined ? value.toString() : "");
+    const valueToAppend = value !== null && value !== undefined ? value.toString() : "";
+    console.log(`[createPetFormData] Appending ${key}: "${valueToAppend}"`);
+    formDataToSend.append(key, valueToAppend);
   });
 
   if (selectedImage) {
+    console.log("[createPetFormData] Appending image:", {
+      name: selectedImage.name,
+      type: selectedImage.type,
+      size: selectedImage.size
+    });
     formDataToSend.append("image", selectedImage);
+  } else {
+    console.warn("[createPetFormData] No image provided");
   }
 
   return formDataToSend;
