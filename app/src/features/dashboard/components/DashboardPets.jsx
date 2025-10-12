@@ -9,7 +9,6 @@ import ConfirmationModal from '../../../shared/components/common/ConfirmationMod
 import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
 import { useGetNewPetQuery, useDeletePetMutation, useArchivePetMutation } from '../../../store/features/pets/petsApi.js';
 import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
-import Spinner from '../../../shared/components/common/Spinner.jsx';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';

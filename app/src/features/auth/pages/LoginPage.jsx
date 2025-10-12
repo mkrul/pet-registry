@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../../store/features/auth/authApiSlice.js";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks.js";
+import { useAppDispatch } from "../../../store/hooks.js";
 import { setUser } from "../../../store/features/auth/authSlice.js";
 import { navigateToHome } from "../../../shared/utils/navigation.js";
-import Notification from "../../../shared/components/common/Notification.jsx";
-import { setNotification } from "../../../store/features/notifications/notificationsSlice.js";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");

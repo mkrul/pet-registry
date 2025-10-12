@@ -7,7 +7,6 @@ const App = () => {
   const [error, setError] = useState(null);
 
   if (error) {
-    console.error("❌ Main.jsx: Error state active:", error);
     return (
       <div className="flex justify-center items-center h-screen">
         <p className="text-red-500">{error}</p>
@@ -15,7 +14,6 @@ const App = () => {
     );
   }
 
-  console.log("🌐 Main.jsx: Rendering BrowserRouter with AppRouter");
   return (
     <BrowserRouter>
       <AppRouter />

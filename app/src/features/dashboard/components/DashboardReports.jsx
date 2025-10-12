@@ -9,7 +9,6 @@ import ConfirmationModal from '../../../shared/components/common/ConfirmationMod
 import ReportNewView from '../../reports/forms/ReportNewView.jsx';
 import { useGetNewReportQuery, useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi.js';
-import Spinner from '../../../shared/components/common/Spinner.jsx';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
