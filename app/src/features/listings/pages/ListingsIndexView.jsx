@@ -4,7 +4,6 @@ import { setSearchState } from "../../../store/features/search/searchSlice.js";
 import SearchTab from "../../search/components/SearchTab.jsx";
 import ListingsContainer from "../components/ListingContainer.jsx";
 import { useScrollRestoration } from "../../../shared/hooks/useScrollRestoration.js";
-import { useReportsData } from "../../../shared/hooks/useReportsData.js";
 import { useSearchParamsState } from "../../../shared/hooks/useSearchParams.js";
 
 const ReportIndexPage = () => {
@@ -27,8 +26,6 @@ const ReportIndexPage = () => {
     searchState.filters || initialFilters
   );
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const { reports, isLoading } = useReportsData(activeSearch, activeFilters, currentPage);
 
   useScrollRestoration();
 

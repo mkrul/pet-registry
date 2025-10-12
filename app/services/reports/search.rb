@@ -15,15 +15,6 @@ class Reports::Search < ActiveInteraction::Base
   string :breed, default: nil
 
   def execute
-    if Report.count == 0
-      return PaginatedCollection.new(
-        [],
-        total: 0,
-        page: page,
-        per_page: per_page
-      )
-    end
-
     search_options = {
       where: where_conditions,
       page: page,

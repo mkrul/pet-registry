@@ -8,6 +8,7 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def index
+      start_time = Time.current
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || Report::REPORT_INDEX_PAGE_LIMIT).to_i
 
@@ -27,10 +28,11 @@ module Api
       }
 
       result = Reports::Search.run(search_params)
+      search_time = ((Time.current - start_time) * 1000).round(2)
 
       if result.valid?
         reports = result.result
-        Rails.logger.debug "Search result: #{reports.total_entries} total entries, #{reports.to_a.length} in current page"
+        Rails.logger.info "Search completed in #{search_time}ms: #{reports.total_entries} total entries, #{reports.to_a.length} in current page"
         render json: {
           data: ActiveModelSerializers::SerializableResource.new(reports.to_a, each_serializer: ReportSerializer),
           pagination: {
