@@ -2,6 +2,13 @@
 
 ## Completed Tasks
 
+### 2025-10-12: Added populate form button for pet registration
+- **Issue**: Pet registration form lacked a dev-only feature to quickly populate the form with test data
+- **Solution**: Created `PetFormPopulateButton` component that auto-fills the form with cat data (using public/images/cat.png) including name "Whiskers", species "Cat", breed "Domestic Shorthair", colors "Orange" and "White", and a randomly generated microchip ID. The button only renders in development environment
+- **Files Modified**:
+  - `app/src/shared/components/common/PetFormPopulateButton.jsx` (created)
+  - `app/src/features/pets/components/forms/PetNewForm.jsx`
+
 ### 2025-10-12: Added loading spinner for report images
 - **Issue**: While report images were loading on the "My Reports" page, only the title text was visible with no whitespace or loading indicator, and the image container was collapsing
 - **Solution**: Updated `ItemPreview` component to use padding-bottom technique (pb-[100%]) to maintain a square aspect ratio container that never collapses. Added loading state tracking to display a centered spinner with gray background while images load. The image is absolutely positioned and fades in smoothly once loaded

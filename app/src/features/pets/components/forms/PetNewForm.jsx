@@ -10,6 +10,7 @@ import { PetIdentificationFields } from "../common/PetIdentificationFields.jsx";
 import { PetColorFields } from "../common/PetColorFields.jsx";
 import { ImageUpload } from "../../../listings/components/common/ImageUpload.jsx";
 import { SubmitButton } from "../../../../shared/components/common/SubmitButton.jsx";
+import { PetFormPopulateButton } from "../../../../shared/components/common/PetFormPopulateButton.jsx";
 
 const NewPetForm = () => {
   const [submitPet, { isLoading }] = useSubmitPetMutation();
@@ -48,6 +49,10 @@ const NewPetForm = () => {
       encType="multipart/form-data"
       noValidate
     >
+      <PetFormPopulateButton
+        setFormData={setFormData}
+        handleImageSelect={handleImageSelect}
+      />
 
       <div className="mt-[0.5rem]">
         <p className="text-md text-gray-500">
