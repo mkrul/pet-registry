@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setReports, setPerPage } from "../../store/features/reports/reportsSlice.js";
 import { useGetUserReportsQuery } from "../../store/features/reports/reportsApi.js";
 
-export const useUserReportsData = (page, filter = 'active', preloadAll = false) => {
+export const useUserReportsData = (page, filter = 'active', preloadAll = false, skip = false) => {
   const dispatch = useDispatch();
   const reports = useSelector((state) => state.reports.data);
   const perPage = useSelector((state) => state.reports.perPage);
@@ -16,7 +16,8 @@ export const useUserReportsData = (page, filter = 'active', preloadAll = false) 
       status: filter
     },
     {
-      refetchOnMountOrArgChange: false
+      refetchOnMountOrArgChange: false,
+      skip
     }
   );
 
@@ -28,7 +29,7 @@ export const useUserReportsData = (page, filter = 'active', preloadAll = false) 
     },
     {
       refetchOnMountOrArgChange: false,
-      skip: !preloadAll || filter === 'active'
+      skip: skip || !preloadAll || filter === 'active'
     }
   );
 
@@ -40,7 +41,7 @@ export const useUserReportsData = (page, filter = 'active', preloadAll = false) 
     },
     {
       refetchOnMountOrArgChange: false,
-      skip: !preloadAll || filter === 'archived'
+      skip: skip || !preloadAll || filter === 'archived'
     }
   );
 

@@ -7,7 +7,7 @@ import ReportEditView from '../../reports/forms/ReportEditView.jsx';
 import Notification from '../../../shared/components/common/Notification.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
 import ReportNewView from '../../reports/forms/ReportNewView.jsx';
-import { useGetNewReportQuery, useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
+import { useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications.js';
@@ -47,18 +47,19 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const [selectedReport, setSelectedReport] = useState(null);
   const [editingReport, setEditingReport] = useState(null);
   const [reportToArchive, setReportToArchive] = useState(null);
-  const [isCreatingReport, setIsCreatingReport] = useState(false);
+  const action = searchParams.get('action');
+  const [isCreatingReport, setIsCreatingReport] = useState(action === 'create');
   const [activeFilter, setActiveFilter] = useState('active');
   const [notification, setNotification] = useState(null);
-  const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true);
-  const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
+
+  const shouldSkipDataFetch = isCreatingReport || !!editingReport;
+  const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true, shouldSkipDataFetch);
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
 
   useClearNotificationsOnUnmount(setNotification);
 
   const petId = searchParams.get('petId');
   const reportId = searchParams.get('reportId');
-  const action = searchParams.get('action');
   const { data: petData, isLoading: isLoadingPet } = useGetPetQuery(
     petId ? parseInt(petId) : 0,
     { skip: !petId }

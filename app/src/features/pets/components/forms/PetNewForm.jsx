@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  useGetNewPetQuery,
   useSubmitPetMutation
 } from "../../../../store/features/pets/petsApi.js";
 import { usePetForm } from "../../../../shared/hooks/usePetForm.js";
@@ -11,10 +10,8 @@ import { PetIdentificationFields } from "../common/PetIdentificationFields.jsx";
 import { PetColorFields } from "../common/PetColorFields.jsx";
 import { ImageUpload } from "../../../listings/components/common/ImageUpload.jsx";
 import { SubmitButton } from "../../../../shared/components/common/SubmitButton.jsx";
-import Spinner from "../../../../shared/components/common/Spinner.jsx";
 
 const NewPetForm = () => {
-  const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [submitPet, { isLoading }] = useSubmitPetMutation();
 
   const {
@@ -42,8 +39,6 @@ const NewPetForm = () => {
     e.preventDefault();
     onSubmit(e, formData, selectedImage);
   };
-
-  if (isLoadingNewPet) return <Spinner />;
 
   return (
     <form

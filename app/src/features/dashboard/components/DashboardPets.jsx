@@ -7,7 +7,7 @@ import PetEditForm from '../../pets/components/forms/PetEditForm.jsx';
 import Notification from '../../../shared/components/common/Notification.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
 import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
-import { useGetNewPetQuery, useDeletePetMutation, useArchivePetMutation } from '../../../store/features/pets/petsApi.js';
+import { useDeletePetMutation, useArchivePetMutation } from '../../../store/features/pets/petsApi.js';
 import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications.js';
@@ -29,7 +29,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [notification, setNotification] = useState(null);
   const { pets, isLoading, isPreloading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter, true);
-  const { isLoading: isLoadingNewPet } = useGetNewPetQuery();
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
@@ -137,22 +136,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const handleNotificationClose = () => {
     setNotification(null);
   };
-
-  if (isLoadingNewPet) {
-    return (
-      <div>
-        <DashboardHeader
-          title="My Pets"
-          actionButton={{
-            label: "Register New Pet",
-            onClick: handleCreatePet,
-            className: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-          }}
-        />
-        <LoadingState className="flex justify-center items-center py-12" />
-      </div>
-    );
-  }
 
   if (isCreatingPet) {
     return (

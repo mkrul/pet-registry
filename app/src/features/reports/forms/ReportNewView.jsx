@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  useGetNewReportQuery,
   useSubmitReportMutation
 } from "../../../store/features/reports/reportsApi.js";
 import { useReportForm } from "../../../shared/hooks/useReportForm.js";
@@ -12,11 +11,9 @@ import { ColorFields } from "../../listings/components/common/ColorFields.jsx";
 import { ImageUpload } from "../../listings/components/common/ImageUpload.jsx";
 import { LocationSelect } from "../../listings/components/common/LocationSelect.jsx";
 import { SubmitButton } from "../../../shared/components/common/SubmitButton.jsx";
-import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { FormPopulateButton } from "../../../shared/components/common/FormPopulateButton.jsx";
 
 const ReportNewForm = ({ initialData, petId }) => {
-  const { isLoading: isLoadingNewReport } = useGetNewReportQuery();
   const [submitReport, { isLoading }] = useSubmitReportMutation();
 
   const {
@@ -52,8 +49,6 @@ const ReportNewForm = ({ initialData, petId }) => {
   const handleLocationUpdate = (location) => {
     handleLocationSelect(location);
   };
-
-  if (isLoadingNewReport) return <Spinner />;
 
   return (
     <form
