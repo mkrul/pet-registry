@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../store/hooks.js';
 import { setNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import DashboardOverview from '../components/DashboardOverview';
@@ -13,28 +13,30 @@ const DashboardView = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const getInitialSection = () => {
-    const section = searchParams.get('section');
+    const pathParts = location.pathname.split('/');
+    const section = pathParts[2];
     return section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section) ? section : 'overview';
   };
 
   const [activeSection, setActiveSection] = useState(getInitialSection);
 
   useEffect(() => {
-    const section = searchParams.get('section');
+    const pathParts = location.pathname.split('/');
+    const section = pathParts[2];
     if (section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section)) {
       setActiveSection(section);
     }
-  }, [searchParams]);
+  }, [location.pathname]);
 
   useEffect(() => {
     dispatch(setNotification(null));
   }, [activeSection, dispatch]);
 
   const handleSectionChange = (section) => {
-    setActiveSection(section);
-    navigate('/dashboard', { replace: true });
+    navigate(`/dashboard/${section}`);
   };
 
   const renderSection = () => {

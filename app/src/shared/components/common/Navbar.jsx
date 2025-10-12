@@ -76,7 +76,7 @@ const NavBar = () => {
               >
                 {isAuthenticated && (
                   <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                    <NavLink linkTo="/dashboard?section=reports&action=create" handler={() => setIsMenuOpen(false)}>Report a Lost Pet</NavLink>
+                    <NavLink linkTo="/dashboard/reports?action=create" handler={() => setIsMenuOpen(false)}>Report a Lost Pet</NavLink>
                   </li>
                 )}
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
@@ -108,7 +108,7 @@ const NavBar = () => {
             >
               {isAuthenticated && (
                 <li>
-                  <NavLink linkTo="/dashboard?section=reports&action=create">Report a Lost Pet</NavLink>
+                  <NavLink linkTo="/dashboard/reports?action=create">Report a Lost Pet</NavLink>
                 </li>
               )}
               <li>

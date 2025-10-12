@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUserPetsData } from '../../../shared/hooks/useUserPetsData.js';
 import PetPreview from '../../pets/components/PetPreview';
 import PetDetailView from '../../pets/components/PetDetailView';
@@ -20,13 +20,20 @@ import FormLayout from '../../../shared/components/common/FormLayout.jsx';
 
 const DashboardPets = ({ shouldCreatePet = false }) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [selectedPet, setSelectedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
   const [petToArchive, setPetToArchive] = useState(null);
-  const [isCreatingPet, setIsCreatingPet] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('all');
+  const action = searchParams.get('action');
+  const filterParam = searchParams.get('filter');
+  const [isCreatingPet, setIsCreatingPet] = useState(action === 'create');
+  const getInitialFilter = () => {
+    const validFilters = ['all', 'dog', 'cat', 'archived'];
+    return validFilters.includes(filterParam) ? filterParam : 'all';
+  };
+  const [activeFilter, setActiveFilter] = useState(getInitialFilter);
   const [notification, setNotification] = useState(null);
   const { pets, isLoading, isPreloading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter, true);
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
@@ -68,14 +75,19 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     setPage(1);
+    const params = new URLSearchParams();
+    if (filter !== 'all') {
+      params.set('filter', filter);
+    }
+    navigate(`/dashboard/pets${params.toString() ? '?' + params.toString() : ''}`);
   };
 
   const handleCreatePet = () => {
-    setIsCreatingPet(true);
+    navigate('/dashboard/pets?action=create');
   };
 
   const handleCreateReport = (pet) => {
-    navigate(`/dashboard?section=reports&action=create&petId=${pet.id}`);
+    navigate(`/dashboard/reports?action=create&petId=${pet.id}`);
   };
 
   const handleDeleteReport = async (pet) => {
@@ -97,6 +109,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   };
 
   const handleBackToPets = () => {
+    navigate('/dashboard/pets');
     setIsCreatingPet(false);
     setSelectedPet(null);
     setEditingPet(null);
@@ -117,12 +130,27 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     }
   }, [apiNotification]);
 
-
   useEffect(() => {
     if (shouldCreatePet) {
       setIsCreatingPet(true);
     }
   }, [shouldCreatePet]);
+
+  useEffect(() => {
+    if (action === 'create') {
+      setIsCreatingPet(true);
+    } else if (action !== 'create' && isCreatingPet) {
+      setIsCreatingPet(false);
+    }
+  }, [action, isCreatingPet]);
+
+  useEffect(() => {
+    const validFilters = ['all', 'dog', 'cat', 'archived'];
+    const newFilter = validFilters.includes(filterParam) ? filterParam : 'all';
+    if (newFilter !== activeFilter) {
+      setActiveFilter(newFilter);
+    }
+  }, [filterParam]);
 
   useEffect(() => {
     if (selectedPet && pets.length > 0) {

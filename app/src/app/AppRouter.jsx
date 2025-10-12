@@ -32,7 +32,14 @@ const AppRouter = () => {
 
         {/* Protected Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<DashboardView />} />
+          <Route path="/dashboard" element={<DashboardView />}>
+            <Route index element={<Navigate to="/dashboard/overview" replace />} />
+            <Route path="overview" element={null} />
+            <Route path="reports" element={null} />
+            <Route path="pets" element={null} />
+            <Route path="profile" element={null} />
+            <Route path="settings" element={null} />
+          </Route>
         </Route>
 
         {/* Fallback Route */}

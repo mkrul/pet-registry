@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 text-center">
         <div className="flex justify-center space-x-6">
           {isAuthenticated && (
-            <NavLink linkTo="/dashboard?section=reports&action=create">New Report</NavLink>
+            <NavLink linkTo="/dashboard/reports?action=create">New Report</NavLink>
           )}
           <NavLink linkTo="/reports">Search</NavLink>
           <NavLink linkTo="#">About</NavLink>

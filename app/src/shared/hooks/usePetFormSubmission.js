@@ -7,7 +7,7 @@ export const usePetFormSubmission = (handleSubmit) => {
     try {
       const response = await handleSubmit(formData, selectedImage);
       if (response?.id) {
-        navigate(`/dashboard?section=pets`);
+        navigate(`/dashboard/pets`);
       }
     } catch (error) {
       const validationError = error;

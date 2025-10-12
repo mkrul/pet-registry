@@ -2,6 +2,51 @@
 
 ## Completed Tasks
 
+### 2025-10-12: Fixed RadioGroup null value warning
+- **Issue**: Warning appeared in console when visiting "Register new pet" page: "Warning: `value` prop on `input` should not be null"
+- **Root Cause**: The RadioGroup for "Is the pet spayed or neutered?" was using `null` as a value for the "I don't know" option, and the `isAltered` field was initialized to `null`. React doesn't accept `null` as a valid value for controlled inputs
+- **Solution**: Updated RadioGroup to convert `null` to empty string for display (`formData.isAltered === null ? "" : String(formData.isAltered)`), changed radio button values from `true/false/null` to `"true"/"false"/""``, and preserved the data model by converting string values back to boolean/null in onChange handler
+- **Files Modified**:
+  - `app/src/features/pets/components/common/PetIdentificationFields.jsx`
+
+### 2025-10-12: Added filter state to dashboard URLs
+- **Issue**: Filter state (e.g., "Dogs", "Cats", "Archived" on pets; "Archived" on reports) was not reflected in URLs, making it impossible to bookmark or share filtered views, and causing filter state loss on refresh
+- **Root Cause**: Filter changes only updated local state without updating the URL query parameters
+- **Solution**:
+  - Updated both `DashboardPets` and `DashboardReports` to persist filter state in URL query parameters
+  - Filters now appear as `?filter=dog`, `?filter=archived`, etc.
+  - Filter state is preserved across navigation (e.g., viewing a report detail maintains the active filter)
+  - URLs properly restore filter state on page load or refresh
+  - Default filters ("all" for pets, "active" for reports) are not added to the URL to keep URLs clean
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+  - `app/src/features/dashboard/components/DashboardReports.jsx`
+
+### 2025-10-12: Made dashboard action URLs consistent
+- **Issue**: Inconsistent URL patterns - "Register new pet" showed `/dashboard/pets` while "Create new report" showed `/dashboard/reports?action=create`
+- **Root Cause**: `DashboardPets` was only updating local state when creating a pet, while `DashboardReports` was properly updating the URL with query parameters
+- **Solution**: Updated `DashboardPets` to match `DashboardReports` behavior by navigating to `/dashboard/pets?action=create` when creating a pet, and added useEffect to sync state with URL query parameters
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+
+### 2025-10-12: Implemented nested routing for dashboard sections
+- **Issue**: Dashboard URLs did not reflect the current section - all sections showed `/dashboard` in the URL bar instead of specific paths like `/dashboard/reports` or `/dashboard/pets`
+- **Root Cause**: Dashboard was using a single route with query parameters (`?section=reports`) for internal navigation instead of proper nested routes
+- **Solution**:
+  - Converted dashboard to use nested routes: `/dashboard/overview`, `/dashboard/reports`, `/dashboard/pets`, `/dashboard/profile`, `/dashboard/settings`
+  - Updated `DashboardView` to use URL path instead of query parameters for determining active section
+  - Updated all navigation calls throughout the app to use new URL structure
+  - Maintained backward compatibility for query parameters like `?action=create&reportId=123` which continue to work alongside the new path structure
+- **Files Modified**:
+  - `app/src/app/AppRouter.jsx`
+  - `app/src/features/dashboard/pages/DashboardView.jsx`
+  - `app/src/features/dashboard/components/DashboardReports.jsx`
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+  - `app/src/shared/hooks/usePetFormSubmission.js`
+  - `app/src/shared/hooks/useFormSubmission.js`
+  - `app/src/shared/components/common/Navbar.jsx`
+  - `app/src/shared/components/common/Footer.jsx`
+
 ### 2025-10-12: Added populate form button for pet registration
 - **Issue**: Pet registration form lacked a dev-only feature to quickly populate the form with test data
 - **Solution**: Created `PetFormPopulateButton` component that auto-fills the form with cat data (using public/images/cat.png) including name "Whiskers", species "Cat", breed "Domestic Shorthair", colors "Orange" and "White", and a randomly generated microchip ID. The button only renders in development environment

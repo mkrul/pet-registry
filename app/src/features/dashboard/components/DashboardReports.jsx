@@ -47,8 +47,13 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const [editingReport, setEditingReport] = useState(null);
   const [reportToArchive, setReportToArchive] = useState(null);
   const action = searchParams.get('action');
+  const filterParam = searchParams.get('filter');
   const [isCreatingReport, setIsCreatingReport] = useState(action === 'create');
-  const [activeFilter, setActiveFilter] = useState('active');
+  const getInitialFilter = () => {
+    const validFilters = ['active', 'archived'];
+    return validFilters.includes(filterParam) ? filterParam : 'active';
+  };
+  const [activeFilter, setActiveFilter] = useState(getInitialFilter);
 
   const shouldSkipDataFetch = isCreatingReport || !!editingReport;
   const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true, shouldSkipDataFetch);
@@ -64,12 +69,21 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
 
   const handleSelectReport = (report) => {
     setSelectedReport(report);
-    navigate(`/dashboard?section=reports&reportId=${report.id}`);
+    const params = new URLSearchParams();
+    params.set('reportId', report.id);
+    if (activeFilter !== 'active') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/reports?${params.toString()}`);
   };
 
   const handleDeselectReport = () => {
     setSelectedReport(null);
-    navigate('/dashboard?section=reports');
+    const params = new URLSearchParams();
+    if (activeFilter !== 'active') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/reports${params.toString() ? '?' + params.toString() : ''}`);
   };
 
   const handleEditReport = (report) => {
@@ -87,7 +101,11 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       await archiveReport(reportToArchive.id).unwrap();
       setReportToArchive(null);
       setSelectedReport(null);
-      navigate('/dashboard?section=reports');
+      const params = new URLSearchParams();
+      if (activeFilter !== 'active') {
+        params.set('filter', activeFilter);
+      }
+      navigate(`/dashboard/reports${params.toString() ? '?' + params.toString() : ''}`);
       dispatch(addNotification({
         type: "SUCCESS",
         message: 'Report archived successfully'
@@ -107,15 +125,24 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     setPage(1);
-    handleDeselectReport();
+    setSelectedReport(null);
+    const params = new URLSearchParams();
+    if (filter !== 'active') {
+      params.set('filter', filter);
+    }
+    navigate(`/dashboard/reports${params.toString() ? '?' + params.toString() : ''}`);
   };
 
   const handleCreateReport = () => {
-    navigate('/dashboard?section=reports&action=create');
+    navigate('/dashboard/reports?action=create');
   };
 
   const handleBackToReports = () => {
-    navigate('/dashboard?section=reports');
+    const params = new URLSearchParams();
+    if (activeFilter !== 'active') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/reports${params.toString() ? '?' + params.toString() : ''}`);
     setIsCreatingReport(false);
     setSelectedReport(null);
     setEditingReport(null);
@@ -127,7 +154,12 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
 
     if (updatedReport) {
       setSelectedReport(updatedReport);
-      navigate(`/dashboard?section=reports&reportId=${updatedReport.id}`);
+      const params = new URLSearchParams();
+      params.set('reportId', updatedReport.id);
+      if (activeFilter !== 'active') {
+        params.set('filter', activeFilter);
+      }
+      navigate(`/dashboard/reports?${params.toString()}`);
     }
 
     dispatch(addNotification({
@@ -164,7 +196,11 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
           setSelectedReport(report);
         } else if (!isLoading) {
           setSelectedReport(null);
-          navigate('/dashboard?section=reports');
+          const params = new URLSearchParams();
+          if (activeFilter !== 'active') {
+            params.set('filter', activeFilter);
+          }
+          navigate(`/dashboard/reports${params.toString() ? '?' + params.toString() : ''}`);
         }
       }
     } else {
@@ -177,6 +213,14 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       refetch();
     }
   }, [action, isCreatingReport, refetch]);
+
+  useEffect(() => {
+    const validFilters = ['active', 'archived'];
+    const newFilter = validFilters.includes(filterParam) ? filterParam : 'active';
+    if (newFilter !== activeFilter) {
+      setActiveFilter(newFilter);
+    }
+  }, [filterParam]);
 
   if (isCreatingReport) {
     return (
