@@ -62,6 +62,16 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   );
 
 
+  const handleSelectReport = (report) => {
+    setSelectedReport(report);
+    navigate(`/dashboard?section=reports&reportId=${report.id}`);
+  };
+
+  const handleDeselectReport = () => {
+    setSelectedReport(null);
+    navigate('/dashboard?section=reports');
+  };
+
   const handleEditReport = (report) => {
     setEditingReport(report);
   };
@@ -76,6 +86,8 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     try {
       await archiveReport(reportToArchive.id).unwrap();
       setReportToArchive(null);
+      setSelectedReport(null);
+      navigate('/dashboard?section=reports');
       dispatch(addNotification({
         type: "SUCCESS",
         message: 'Report archived successfully'
@@ -95,8 +107,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const handleFilterChange = (filter) => {
     setActiveFilter(filter);
     setPage(1);
-    setSelectedReport(null);
-    navigate('/dashboard?section=reports');
+    handleDeselectReport();
   };
 
   const handleCreateReport = () => {
@@ -111,8 +122,14 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     setReportToArchive(null);
   };
 
-  const handleEditSaveSuccess = () => {
+  const handleEditSaveSuccess = (updatedReport) => {
     setEditingReport(null);
+
+    if (updatedReport) {
+      setSelectedReport(updatedReport);
+      navigate(`/dashboard?section=reports&reportId=${updatedReport.id}`);
+    }
+
     dispatch(addNotification({
       type: "SUCCESS",
       message: 'Report updated successfully'
@@ -145,12 +162,15 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
         const report = reports.find(r => r.id === parseInt(reportId));
         if (report) {
           setSelectedReport(report);
+        } else if (!isLoading) {
+          setSelectedReport(null);
+          navigate('/dashboard?section=reports');
         }
-      } else if (!isLoading) {
-        setSelectedReport(null);
       }
+    } else {
+      setSelectedReport(null);
     }
-  }, [reportId, reports, isLoading]);
+  }, [reportId, reports, isLoading, navigate]);
 
   useEffect(() => {
     if (action === 'create' && !isCreatingReport) {
@@ -213,7 +233,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       {!isLoading && selectedReport ? (
         <ReportDetailView
           report={selectedReport}
-          onBack={() => setSelectedReport(null)}
+          onBack={handleDeselectReport}
           onEdit={handleEditReport}
           onDelete={handleDeleteReport}
         />
@@ -223,7 +243,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
             <ReportPreview
               key={report.id}
               report={report}
-              onClick={setSelectedReport}
+              onClick={handleSelectReport}
             />
           ))}
         </ItemGrid>

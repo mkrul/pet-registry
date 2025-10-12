@@ -42,7 +42,7 @@ const ReportEditForm = ({
     e.preventDefault();
     const result = await handleSaveChanges(e);
     if (result.success) {
-      onSaveSuccess?.();
+      onSaveSuccess?.(result.success);
     }
   };
 

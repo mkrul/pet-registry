@@ -188,6 +188,7 @@ export const LocationSelect = ({
           onLocationSelect={handleLocationSelect}
           initialLocation={currentMapLocation ? createMapLocation(currentMapLocation) : undefined}
           initialZoom={currentMapLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT}
+          readOnly={isDisabled}
         />
         {isProcessingAddress && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">

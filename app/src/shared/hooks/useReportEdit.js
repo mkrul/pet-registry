@@ -4,7 +4,7 @@ import { getColorOptions } from "../reports/colorList.js";
 import { getBreedsBySpecies } from "../reports/breedList.js";
 import { getGenderOptions } from "../reports/genderList.js";
 import { getSpeciesOptions } from "../reports/speciesList.js";
-import { transformToSnakeCase } from "../apiHelpers.js";
+import { transformToSnakeCase, transformToCamelCase } from "../apiHelpers.js";
 
 export const useReportEdit = (report) => {
   const [formData, setFormData] = useState(report);
@@ -113,7 +113,8 @@ export const useReportEdit = (report) => {
         data: formDataToSend
       }).unwrap();
       setIsSaving(false);
-      return { success: response };
+      const transformedReport = transformToCamelCase(response);
+      return { success: transformedReport };
     } catch (error) {
       setIsSaving(false);
       return { error: error.data?.message || "Failed to update report" };
