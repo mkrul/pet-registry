@@ -2,6 +2,12 @@
 
 ## Completed Tasks
 
+### 2025-10-12: Added loading spinner for report images
+- **Issue**: While report images were loading on the "My Reports" page, only the title text was visible with no whitespace or loading indicator, and the image container was collapsing
+- **Solution**: Updated `ItemPreview` component to use padding-bottom technique (pb-[100%]) to maintain a square aspect ratio container that never collapses. Added loading state tracking to display a centered spinner with gray background while images load. The image is absolutely positioned and fades in smoothly once loaded
+- **Files Modified**:
+  - `app/src/shared/components/common/ItemPreview.jsx`
+
 ### 2025-10-12: Disabled map interaction during report submission
 - **Issue**: Users could interact with the map while a report was being submitted or while processing address data
 - **Solution**: Updated `LocationSelect` to pass `readOnly={isDisabled}` to the `Map` component, which disables map clicks when `isLoading` or `isProcessingAddress` is true
