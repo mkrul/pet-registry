@@ -126,7 +126,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     }
   }, [apiNotification]);
 
-
   useEffect(() => {
     if (shouldCreateReport) {
       setIsCreatingReport(true);

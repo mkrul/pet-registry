@@ -13,7 +13,13 @@ const DashboardView = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState('overview');
+
+  const getInitialSection = () => {
+    const section = searchParams.get('section');
+    return section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section) ? section : 'overview';
+  };
+
+  const [activeSection, setActiveSection] = useState(getInitialSection);
 
   useEffect(() => {
     const section = searchParams.get('section');
