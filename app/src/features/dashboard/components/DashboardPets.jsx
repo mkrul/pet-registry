@@ -234,7 +234,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
           description={
             activeFilter === 'archived'
               ? 'You haven\'t archived any pets yet.'
-              : 'Register your first pet to get started.'
+              : 'Register your pet to get started.'
           }
           actionButton={
             activeFilter !== 'archived'

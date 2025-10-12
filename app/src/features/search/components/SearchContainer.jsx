@@ -111,11 +111,11 @@ const SearchContainer = ({ onSearchComplete }) => {
         >
           <ul>
             <li className="mb-1">
-              <li className="mb-1">
-                <Tip emoji="🔍" showTipLabel={false}>
-                  Adding filters can improve or narrow down your search.
-                </Tip>
-              </li>
+              <Tip emoji="🔍" showTipLabel={false}>
+                Adding filters can improve or narrow down your search.
+              </Tip>
+            </li>
+            <li className="mb-1">
               <Tip emoji="🔍" showTipLabel={false}>
                 Double check your spelling and use simple keywords
               </Tip>

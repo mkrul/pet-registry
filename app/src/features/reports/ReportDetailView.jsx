@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { truncate } from 'lodash';
+import Spinner from '../../shared/components/common/Spinner.jsx';
 
 const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
+
   const handleEditClick = (e) => {
     e.stopPropagation();
     onEdit?.(report);
@@ -10,6 +15,16 @@ const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
     e.stopPropagation();
     onDelete?.(report);
   };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+  };
+
+  const handleImageError = () => {
+    setImageLoading(false);
+    setImageError(true);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -26,11 +41,18 @@ const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
 
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
         <div className="md:flex">
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 relative">
+            {imageLoading && !imageError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                <Spinner size={40} inline={true} bgFaded={false} />
+              </div>
+            )}
             <img
               src={report.image?.variantUrl || "/images/placeholder.png"}
               alt={report.title}
-              className={`w-full h-64 md:h-full object-cover ${report.status === 'archived' ? 'grayscale' : ''}`}
+              className={`w-full h-64 md:h-full object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
             />
           </div>
           <div className="md:w-1/2 p-6">
@@ -71,25 +93,16 @@ const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
             <div className="space-y-4">
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-1">Description</h4>
-                <p className="text-gray-900">{report.description}</p>
+                <p className="text-gray-900">{truncate(report.description, { length: 200 })}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Species</h4>
-                  <p className="text-gray-900 capitalize">{report.species}</p>
-                </div>
-                <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
                   <p className="text-gray-900">{report.breed1}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Gender</h4>
-                  <p className="text-gray-900 capitalize">{report.gender || 'Unknown'}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Name</h4>
-                  <p className="text-gray-900">{report.name || 'Unknown'}</p>
+                  {report.breed2 && (
+                    <p className="text-gray-900">{report.breed2}</p>
+                  )}
                 </div>
               </div>
 
