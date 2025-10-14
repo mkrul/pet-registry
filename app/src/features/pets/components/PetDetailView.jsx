@@ -21,6 +21,16 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
     onDeleteReport?.(pet);
   };
 
+  const getStatusPill = () => {
+    if (pet.status === 'archived') {
+      return <StatusPill status="Archived" variant="default" />;
+    }
+    if (pet.status === 'missing') {
+      return <StatusPill status="Missing" variant="error" />;
+    }
+    return <StatusPill status="Home" variant="success" />;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -41,7 +51,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
             <img
               src={pet.image?.variantUrl || "/images/placeholder.png"}
               alt={pet.name}
-              className="w-full h-64 md:h-full object-cover"
+              className={`w-full h-64 md:h-full object-cover ${pet.status === 'archived' ? 'grayscale' : ''}`}
             />
           </div>
           <div className="md:w-1/2 p-6 flex flex-col">
@@ -78,7 +88,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
                   <p className="text-gray-900 capitalize">
-                    <StatusPill status={pet.status} />
+                    {getStatusPill()}
                   </p>
                 </div>
                 <div>
@@ -86,7 +96,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                   <p className="text-gray-900 capitalize">{pet.species}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breeds</h4>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
                   <p className="text-gray-900 truncate">{pet.breed1}</p>
                   {pet.breed2 && (
                     <p className="text-gray-900 truncate">{pet.breed2}</p>
@@ -113,26 +123,31 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
             </div>
 
             <div className="mt-4">
-              {pet.status === 'home' && onCreateReport && (
-                <div>
-                  <button
-                    onClick={handleCreateReportClick}
-                    className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    🔍 My pet is missing! Create a report
-                  </button>
-                </div>
+              {pet.status !== 'archived' && (
+                <>
+                  {pet.status === 'home' && onCreateReport && (
+                    <div>
+                      <button
+                        onClick={handleCreateReportClick}
+                        className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        🔍 My pet is missing! Create a report
+                      </button>
+                    </div>
+                  )}
+                  {pet.status === 'missing' && (
+                    <div>
+                      <button
+                        onClick={handleDeleteReportClick}
+                        className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        🎉 My pet was found! Delete this report.
+                      </button>
+                    </div>
+                  )}
+                </>
               )}
-              {pet.status === 'missing' && (
-                <div>
-                  <button
-                    onClick={handleDeleteReportClick}
-                    className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    🎉 My pet was found! Delete this report.
-                  </button>
-                </div>
-              )}
+
             </div>
           </div>
         </div>

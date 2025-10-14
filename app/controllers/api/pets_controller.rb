@@ -149,12 +149,12 @@ module Api
         return
       end
 
-      if @pet.archived_at.present?
+      if @pet.status == Pet::STATUS_ARCHIVED
         render json: { message: "Pet is already archived" }, status: :unprocessable_entity
         return
       end
 
-      @pet.update!(archived_at: Time.current)
+      @pet.update!(archived_at: Time.current, status: Pet::STATUS_ARCHIVED)
 
       render json: { message: "Pet archived successfully" }, status: :ok
     rescue StandardError => e

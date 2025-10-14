@@ -1,6 +1,6 @@
 class PetSerializer < ActiveModel::Serializer
   attributes :id, :name, :species, :breed_1, :breed_2,
-             :color_1, :color_2, :color_3, :gender, :image, :is_altered,
+             :color_1, :color_2, :color_3, :gender, :image, :is_altered, :status,
              :microchip_id, :report_id, :status, :created_at, :updated_at, :archived_at
 
   def attributes(*args)
@@ -34,7 +34,7 @@ class PetSerializer < ActiveModel::Serializer
   end
 
   def status
-    object.missing? ? 'missing' : 'home'
+    object.status
   end
 
   def image

@@ -7,12 +7,17 @@ class Report < ApplicationRecord
   include ReportValidations
   include ReportSearchable
   include ReportNormalizations
+
+
+  STATUS_ACTIVE = 'active'.freeze
+  STATUS_ARCHIVED = 'archived'.freeze
+
   has_one_attached :image, service: :cloudinary_reports, dependent: :destroy
 
   belongs_to :user
   has_one :pet, dependent: :nullify
 
-  enum :status, { active: 'active', archived: 'archived' }
+  enum :status, { active: STATUS_ACTIVE, archived: STATUS_ARCHIVED }
 
   after_update :update_pet_status_on_archive, if: :saved_change_to_status?
   after_destroy :update_pet_status_on_destroy

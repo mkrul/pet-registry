@@ -16,6 +16,7 @@ module Pets
     string :microchip_id, default: nil
     file :image, default: nil
     boolean :is_altered, default: nil
+    string :status, default: Pet::STATUS_HOME
 
   def execute
     Rails.logger.info("=" * 80)
