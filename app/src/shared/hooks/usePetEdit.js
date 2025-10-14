@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useUpdatePetMutation } from "../../store/features/pets/petsApi.js";
+import { addNotification } from "../../store/features/notifications/notificationsSlice.js";
 import { getColorOptions } from "../reports/colorList";
 import { getBreedsBySpecies } from "../reports/breedList";
 import { getGenderOptions } from "../reports/genderList";
@@ -7,6 +9,7 @@ import { getSpeciesOptions } from "../reports/speciesList";
 import { transformToSnakeCase } from "../apiHelpers";
 
 export const usePetEdit = (pet) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState(pet);
 
   useEffect(() => {
@@ -107,9 +110,17 @@ export const usePetEdit = (pet) => {
         data: formDataToSend
       }).unwrap();
       setIsSaving(false);
+      dispatch(addNotification({
+        type: "SUCCESS",
+        message: response.message || "Pet updated successfully"
+      }));
       return { success: response };
     } catch (error) {
       setIsSaving(false);
+      dispatch(addNotification({
+        type: "ERROR",
+        message: error.data?.message || "Failed to update pet"
+      }));
       return { error: error.data?.message || "Failed to update pet" };
     }
   };

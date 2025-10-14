@@ -140,3 +140,72 @@
 - **Files Modified**:
   - `app/src/features/dashboard/components/DashboardReports.jsx`
 
+### 2025-10-14: Fixed map street tiles not displaying
+- **Issue**: Maps were not displaying street tiles, only showing location markers (orangeish triangles with house numbers). This issue was particularly noticeable when creating a report via "Create a lost pet report" button
+- **Root Cause**: Multiple URL typos throughout the codebase - used `https:/` instead of `https://` (missing one slash) - affecting both map tiles and geocoding/location services (OpenStreetMap Nominatim API and Overpass API)
+- **Solution**: Corrected all URL typos across multiple files:
+  - Map tiles: Fixed TileLayer URL and attribution link in Map component
+  - Address search: Fixed Nominatim search API URL in LocationSelect component
+  - Geocoding services: Fixed all Nominatim reverse geocoding URLs in locationUtils.js and geocoding.js (7 instances total)
+  - Overpass API: Fixed street intersection lookup URLs in locationUtils.js and geocoding.js (4 instances total)
+- **Files Modified**:
+  - `app/src/shared/components/common/Map.jsx`
+  - `app/src/features/listings/components/common/LocationSelect.jsx`
+  - `app/src/shared/utils/locationUtils.js`
+  - `app/src/shared/geocoding.js`
+
+### 2025-10-14: Fixed pet image copy error in Reports::CopyFromPet
+- **Issue**: Error "Failed to copy pet image: undefined local variable or method `report'" when creating a report from a pet
+- **Root Cause**: Typo in the error handling code - referenced undefined variable `report` instead of `new_report`
+- **Solution**: Changed `errors.merge!(report.errors)` to `errors.merge!(new_report.errors)` on line 22
+- **Files Modified**:
+  - `app/services/reports/copy_from_pet.rb`
+
+### 2025-10-14: Fixed notification not displaying when deleting report from pet detail view
+- **Issue**: When deleting a lost pet report via the "Delete Report" button from the pet detail view, the success notification "Report deleted successfully. Pet status updated to home" was not displaying as a toast
+- **Root Cause**: The Notification component was only rendered when viewing the pets list, not when viewing a specific pet's detail. When `selectedPet` was truthy, the notification component wasn't included in the rendered output
+- **Solution**: Moved the Notification component into each conditional rendering branch (pet detail view, pets list, and empty state) so it displays regardless of which view is active. Wrapped each branch in a React fragment to group the notification with the view content
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+
+### 2025-10-14: Fixed pet status not updating to "missing" after creating a report
+- **Issue**: After creating a report for a pet, the status pill on the pet didn't display "missing" until a hard page refresh
+- **Root Cause**: The `Pets::Fetch` service query wasn't eager-loading the `report` association. When the PetSerializer computed the status by checking `object.missing?` (which calls `report.present? && report.active?`), it would use stale cached data or trigger N+1 queries, resulting in incorrect status computation
+- **Solution**: Added `.includes(:report)` to the pets query in both the archived and active branches of `Pets::Fetch` service, ensuring the report association is eager-loaded and the status is computed correctly from fresh database data
+- **Files Modified**:
+  - `app/services/pets/fetch.rb`
+
+### 2025-10-14: Fixed "Report deleted successfully" notification not displaying
+- **Issue**: When deleting a report via the "🎉 My pet was found! Delete this report." button from pet detail view, the success notification was not displayed as a toast
+- **Root Cause**: The `handleDeleteReport` function was calling `await refetch()` after deleting the report, which set `isLoading` to true and caused the pet detail view (including the notification component) to unmount and be replaced with a loading spinner. The notification was set after the refetch completed, but the unmount/remount cycle prevented it from displaying properly
+- **Solution**: Removed the explicit `refetch()` call from `handleDeleteReport`. The `deleteReport` mutation already invalidates the Pets cache tags, which triggers RTK Query's automatic refetch without setting `isLoading` to true. This allows the notification to display immediately while the data updates in the background
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+
+### 2025-10-14: Converted all notifications to use toast notification system
+- **Issue**: The app had two notification systems running in parallel - toast notifications (using `addNotification` and displayed via `ToastManager`) and static notifications (using `setNotification` and displayed via local `Notification` component). Static notifications were not displaying properly throughout the app
+- **Root Cause**: Many components and hooks were still using the old `setNotification` action which sets `state.notification` (singular) instead of `addNotification` which adds to `state.notifications` (plural). The `ToastManager` only reads from `state.notifications`, so notifications set with `setNotification` were never displayed as toasts
+- **Solution**:
+  - Converted all uses of `setNotification` to `addNotification` throughout the app
+  - Removed static `Notification` component usage from components and replaced with toast notifications
+  - Deleted obsolete notification cleanup hooks (`useNotificationCleanup.js` and `useAutoClearNotifications.js`)
+  - Removed unused notification props from `FormLayout` component
+  - Removed redundant error notification from `ListingContainer` (errors are now handled by toast notifications in `useReportsData`)
+  - Removed `apiNotification` handling from dashboard components as notifications are now dispatched directly from hooks
+- **Files Modified**:
+  - `app/src/features/dashboard/pages/DashboardView.jsx` - Removed `setNotification(null)` call
+  - `app/src/shared/hooks/useUserReportsData.js` - Converted to use `addNotification`, removed local notification state
+  - `app/src/features/listings/pages/ListingShowView.jsx` - Changed `setNotification` to `addNotification`
+  - `app/src/store/features/auth/authApiSlice.js` - Changed `setNotification` to `addNotification`
+  - `app/src/shared/hooks/useUserPetsData.js` - Converted to use `addNotification`, removed local notification state
+  - `app/src/shared/hooks/useReportsData.js` - Converted to use `addNotification`, removed local notification state
+  - `app/src/shared/components/common/MapContainer.jsx` - Converted to dispatch toast notifications instead of using local static notifications
+  - `app/src/features/auth/pages/SignUpPage.jsx` - Converted to use toast notifications, removed local notification state
+  - `app/src/shared/components/common/FormLayout.jsx` - Removed unused notification props
+  - `app/src/features/listings/components/ListingContainer.jsx` - Removed redundant error notification display
+  - `app/src/features/dashboard/components/DashboardPets.jsx` - Removed apiNotification handling
+  - `app/src/features/dashboard/components/DashboardReports.jsx` - Removed apiNotification handling
+- **Files Deleted**:
+  - `app/src/shared/hooks/useNotificationCleanup.js`
+  - `app/src/shared/hooks/useAutoClearNotifications.js`
+

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useSignUpMutation } from "../../../store/features/auth/authApiSlice.js";
-import Notification from "../../../shared/components/common/Notification.jsx";
+import { addNotification } from "../../../store/features/notifications/notificationsSlice.js";
+
 const SignUpPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signUp] = useSignUpMutation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     passwordConfirmation: ""
   });
-  const [notification, setNotification] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,13 +23,12 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setNotification(null);
 
     if (formData.password !== formData.passwordConfirmation) {
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: "Passwords do not match"
-      });
+      }));
       return;
     }
 
@@ -42,10 +43,10 @@ const SignUpPage = () => {
       navigate("/");
     } catch (err) {
       const error = err;
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: error.data?.message
-      });
+      }));
     }
   };
 
@@ -60,14 +61,6 @@ const SignUpPage = () => {
           After creating an account, please check your email for a confirmation link. This is
           required to activate your new account.
         </p>
-
-        {notification && (
-          <Notification
-            type={notification.type}
-            message={notification.message}
-            onClose={() => setNotification(null)}
-          />
-        )}
 
         <form onSubmit={handleSubmit} className="mt-4">
           <input

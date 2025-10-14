@@ -4,13 +4,12 @@ import { useUserPetsData } from '../../../shared/hooks/useUserPetsData.js';
 import PetPreview from '../../pets/components/PetPreview';
 import PetDetailView from '../../pets/components/PetDetailView';
 import PetEditForm from '../../pets/components/forms/PetEditForm.jsx';
-import Notification from '../../../shared/components/common/Notification.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
 import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
 import { useDeletePetMutation, useArchivePetMutation } from '../../../store/features/pets/petsApi.js';
 import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
-import { useClearNotificationsOnUnmount } from '../../../shared/hooks/useAutoClearNotifications.js';
+import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
 import FilterButtons from '../../../shared/components/common/FilterButtons.jsx';
 import EmptyState from '../../../shared/components/common/EmptyState.jsx';
@@ -34,13 +33,10 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     return validFilters.includes(filterParam) ? filterParam : 'all';
   };
   const [activeFilter, setActiveFilter] = useState(getInitialFilter);
-  const [notification, setNotification] = useState(null);
-  const { pets, isLoading, isPreloading, notification: apiNotification, refetch } = useUserPetsData(page, activeFilter, true);
+  const { pets, isLoading, isPreloading } = useUserPetsData(page, activeFilter, true);
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
-
-  useClearNotificationsOnUnmount(setNotification);
 
   const handleEditPet = (pet) => {
     setEditingPet(pet);
@@ -56,15 +52,15 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     try {
       await archivePet(petToArchive.id).unwrap();
       setPetToArchive(null);
-      setNotification({
+      dispatch(addNotification({
         type: "SUCCESS",
         message: 'Pet archived successfully'
-      });
+      }));
     } catch (error) {
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: error.data?.message || 'Failed to archive pet'
-      });
+      }));
     }
   };
 
@@ -95,16 +91,15 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
 
     try {
       await deleteReport(pet.reportId).unwrap();
-      await refetch();
-      setNotification({
+      dispatch(addNotification({
         type: "SUCCESS",
         message: 'Report deleted successfully. Pet status updated to home.'
-      });
+      }));
     } catch (error) {
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: error.data?.message || 'Failed to delete report'
-      });
+      }));
     }
   };
 
@@ -118,17 +113,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
 
   const handleEditSaveSuccess = () => {
     setEditingPet(null);
-    setNotification({
-      type: "SUCCESS",
-      message: 'Pet updated successfully'
-    });
   };
-
-  useEffect(() => {
-    if (apiNotification) {
-      setNotification(apiNotification);
-    }
-  }, [apiNotification]);
 
   useEffect(() => {
     if (shouldCreatePet) {
@@ -161,10 +146,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     }
   }, [pets, selectedPet]);
 
-  const handleNotificationClose = () => {
-    setNotification(null);
-  };
-
   if (isCreatingPet) {
     return (
       <FormLayout
@@ -174,8 +155,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
           onClick: handleBackToPets,
           className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}
-        notification={notification}
-        onNotificationClose={handleNotificationClose}
       >
         <PetNewForm />
       </FormLayout>
@@ -188,8 +167,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         pet={editingPet}
         onBack={handleBackToPets}
         onSaveSuccess={handleEditSaveSuccess}
-        notification={notification}
-        onNotificationClose={handleNotificationClose}
       />
     );
   }
@@ -219,14 +196,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         disabled={!!selectedPet}
         activeColor="bg-green-600"
       />
-
-      {notification && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={handleNotificationClose}
-        />
-      )}
 
       {(isLoading || isPreloading) && (
         <LoadingState className="flex justify-center items-center py-12" />

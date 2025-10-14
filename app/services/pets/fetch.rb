@@ -12,11 +12,11 @@ class Pets::Fetch < ActiveInteraction::Base
   def execute
     pets_query = if archived
                    Pet.where(user_id: user_id, archived_at: ..Time.current)
-                      .includes(:image_attachment)
+                      .includes(:image_attachment, :report)
                       .order(created_at: :desc)
                  else
                    Pet.active.where(user_id: user_id)
-                      .includes(:image_attachment)
+                      .includes(:image_attachment, :report)
                       .order(created_at: :desc)
                  end
 

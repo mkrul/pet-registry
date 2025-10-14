@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useGetUserPetsQuery } from '../../store/features/pets/petsApi.js';
+import { addNotification } from '../../store/features/notifications/notificationsSlice.js';
 
 export const useUserPetsData = (page, filter, preloadAll = false) => {
-  const [notification, setNotification] = useState(null);
+  const dispatch = useDispatch();
 
   const speciesFilter = filter === 'all' || filter === 'archived' ? undefined : filter;
   const archivedFilter = filter === 'archived';
@@ -56,14 +58,12 @@ export const useUserPetsData = (page, filter, preloadAll = false) => {
 
   useEffect(() => {
     if (error) {
-      setNotification({
-        type: 'error',
+      dispatch(addNotification({
+        type: 'ERROR',
         message: 'Failed to load pets. Please try again.'
-      });
-    } else {
-      setNotification(null);
+      }));
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   const isPreloading = preloadAll && (isLoadingAll || isLoadingDogs || isLoadingCats || isLoadingArchived);
 
@@ -71,7 +71,6 @@ export const useUserPetsData = (page, filter, preloadAll = false) => {
     pets: data?.data || [],
     isLoading,
     isPreloading,
-    notification,
     refetch
   };
 };

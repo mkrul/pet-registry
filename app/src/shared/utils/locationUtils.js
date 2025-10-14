@@ -5,7 +5,7 @@ export const isUSLocation = (country) => {
 export const findNearestArea = async (lat, lng, onNotification) => {
   try {
     const response = await fetch(
-      `https:/nominatim.openstreetmap.org/reverse?` +
+      `https://nominatim.openstreetmap.org/reverse?` +
         `format=json&` +
         `lat=${lat}&` +
         `lon=${lng}&` +
@@ -33,7 +33,7 @@ export const findNearestArea = async (lat, lng, onNotification) => {
       }
 
       const widerResponse = await fetch(
-        `https:/nominatim.openstreetmap.org/reverse?` +
+        `https://nominatim.openstreetmap.org/reverse?` +
           `format=json&` +
           `lat=${lat}&` +
           `lon=${lng}&` +
@@ -75,7 +75,7 @@ export const findNearestArea = async (lat, lng, onNotification) => {
 export const findNearbyStreets = async (lat, lng) => {
   try {
     const mainResponse = await fetch(
-      `https:/nominatim.openstreetmap.org/reverse?` +
+      `https://nominatim.openstreetmap.org/reverse?` +
         `format=json&` +
         `lat=${lat}&` +
         `lon=${lng}&` +
@@ -102,7 +102,7 @@ export const findNearbyStreets = async (lat, lng) => {
     `;
 
     const overpassResponse = await fetch(
-      `https:/overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
+      `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
     );
 
     const overpassData = await overpassResponse.json();
@@ -118,7 +118,7 @@ export const findNearbyStreets = async (lat, lng) => {
     if (roads.length === 0) {
       const widerQuery = query.replace(`${radius}`, "200");
       const widerResponse = await fetch(
-        `https:/overpass-api.de/api/interpreter?data=${encodeURIComponent(widerQuery)}`
+        `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(widerQuery)}`
       );
       const widerData = await widerResponse.json();
 

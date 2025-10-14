@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../../store/features/reports/reportsApi.js";
 import ReportDetailsCard from "../components/ListingDetailsCard.jsx";
 import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { useDispatch } from "react-redux";
-import { setNotification } from "../../../store/features/notifications/notificationsSlice.js";
+import { addNotification } from "../../../store/features/notifications/notificationsSlice.js";
 
 const ListingShowView = () => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ const ListingShowView = () => {
     if (error && "data" in error) {
       const apiError = error;
       dispatch(
-        setNotification({
+        addNotification({
           type: "ERROR",
           message: apiError.data.message
         })

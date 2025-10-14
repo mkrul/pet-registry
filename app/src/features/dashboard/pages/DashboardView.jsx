@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../../../store/hooks.js';
-import { setNotification } from '../../../store/features/notifications/notificationsSlice.js';
+import { useAppSelector } from '../../../store/hooks.js';
 import DashboardOverview from '../components/DashboardOverview';
 import DashboardReports from '../components/DashboardReports';
 import DashboardPets from '../components/DashboardPets';
@@ -10,7 +9,6 @@ import DashboardSettings from '../components/DashboardSettings';
 
 const DashboardView = () => {
   const user = useAppSelector(state => state.auth.user);
-  const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,10 +28,6 @@ const DashboardView = () => {
       setActiveSection(section);
     }
   }, [location.pathname]);
-
-  useEffect(() => {
-    dispatch(setNotification(null));
-  }, [activeSection, dispatch]);
 
   const handleSectionChange = (section) => {
     navigate(`/dashboard/${section}`);

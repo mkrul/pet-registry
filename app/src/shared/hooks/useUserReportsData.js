@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setReports, setPerPage } from "../../store/features/reports/reportsSlice.js";
 import { useGetUserReportsQuery } from "../../store/features/reports/reportsApi.js";
+import { addNotification } from "../../store/features/notifications/notificationsSlice.js";
 
 export const useUserReportsData = (page, filter = 'active', preloadAll = false, skip = false) => {
   const dispatch = useDispatch();
   const reports = useSelector((state) => state.reports.data);
   const perPage = useSelector((state) => state.reports.perPage);
-  const [notification, setNotification] = useState(null);
 
   const { data, error, isLoading, refetch } = useGetUserReportsQuery(
     {
@@ -52,20 +52,18 @@ export const useUserReportsData = (page, filter = 'active', preloadAll = false, 
       if (data.pagination?.per_page && data.pagination.per_page !== perPage) {
         dispatch(setPerPage(data.pagination.per_page));
       }
-
-      setNotification(null);
     }
   }, [data, dispatch, perPage]);
 
   useEffect(() => {
     if (error && "data" in error) {
       const apiError = error;
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: apiError.data?.message
-      });
+      }));
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   const isPreloading = preloadAll && (isLoadingActive || isLoadingArchived);
 
@@ -76,8 +74,6 @@ export const useUserReportsData = (page, filter = 'active', preloadAll = false, 
     isLoading,
     isPreloading,
     error,
-    notification,
-    setNotification,
     refetch
   };
 };

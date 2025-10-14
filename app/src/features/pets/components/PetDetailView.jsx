@@ -96,18 +96,6 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Gender</h4>
                   <p className="text-gray-900 capitalize">{pet.gender || 'Unknown'}</p>
                 </div>
-                {pet.microchipId && (
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 mb-1">Microchip ID</h4>
-                    <p className="text-gray-900 truncate">{pet.microchipId}</p>
-                  </div>
-                )}
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Spayed/Neutered</h4>
-                  <p className="text-gray-900">
-                    {pet.isAltered === true ? 'Yes' : pet.isAltered === false ? 'No' : 'Unknown'}
-                  </p>
-                </div>
               </div>
 
               <div>
@@ -126,20 +114,24 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
 
             <div className="mt-4">
               {pet.status === 'home' && onCreateReport && (
-                <button
-                  onClick={handleCreateReportClick}
-                  className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Create a lost pet report
-                </button>
+                <div>
+                  <button
+                    onClick={handleCreateReportClick}
+                    className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    🔍 My pet is missing! Create a report
+                  </button>
+                </div>
               )}
               {pet.status === 'missing' && (
-                <button
-                  onClick={handleDeleteReportClick}
-                  className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
-                >
-                  Delete lost pet report
-                </button>
+                <div>
+                  <button
+                    onClick={handleDeleteReportClick}
+                    className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    🎉 My pet was found! Delete this report.
+                  </button>
+                </div>
               )}
             </div>
           </div>

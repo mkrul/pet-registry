@@ -19,7 +19,7 @@ module Reports
         update_pet
         new_report
       else
-        errors.merge!(report.errors)
+        errors.merge!(new_report.errors)
         nil
       end
     rescue => e

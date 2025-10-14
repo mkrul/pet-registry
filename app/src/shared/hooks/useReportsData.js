@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setReports, setPerPage } from "../../store/features/reports/reportsSlice.js";
 import { useGetReportsQuery } from "../../store/features/reports/reportsApi.js";
+import { addNotification } from "../../store/features/notifications/notificationsSlice.js";
 import environment from "../../config/environment.js";
 
 export const useReportsData = (query, filters, page) => {
   const dispatch = useDispatch();
   const reports = useSelector((state) => state.reports.data);
   const perPage = useSelector((state) => state.reports.perPage);
-  const [notification, setNotification] = useState(null);
 
   const { data, error, isLoading, refetch } = useGetReportsQuery(
     {
@@ -26,18 +26,15 @@ export const useReportsData = (query, filters, page) => {
     if (data?.data) {
       dispatch(setReports(data.data));
 
-      // Update perPage from backend response if available
       if (data.pagination?.per_page && data.pagination.per_page !== perPage) {
         dispatch(setPerPage(data.pagination.per_page));
       }
 
       if (data.message) {
-        setNotification({
+        dispatch(addNotification({
           type: "INFO",
           message: data.message
-        });
-      } else {
-        setNotification(null);
+        }));
       }
     }
   }, [data, dispatch, perPage]);
@@ -45,20 +42,18 @@ export const useReportsData = (query, filters, page) => {
   useEffect(() => {
     if (error && "data" in error) {
       const apiError = error;
-      setNotification({
+      dispatch(addNotification({
         type: "ERROR",
         message: apiError.data?.message
-      });
+      }));
     }
-  }, [error]);
+  }, [error, dispatch]);
 
   return {
     reports: data?.data || [],
     data,
     isLoading,
     error,
-    notification,
-    setNotification,
     refetch
   };
 };

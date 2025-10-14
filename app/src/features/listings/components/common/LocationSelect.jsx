@@ -41,7 +41,7 @@ export const LocationSelect = ({
 
         try {
           const response = await fetch(
-            `https:/nominatim.openstreetmap.org/search?` +
+            `https://nominatim.openstreetmap.org/search?` +
               `format=json&` +
               `q=${encodeURIComponent(input)}` +
               `&countrycodes=us` +

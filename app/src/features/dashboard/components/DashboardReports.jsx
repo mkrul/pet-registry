@@ -56,7 +56,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const [activeFilter, setActiveFilter] = useState(getInitialFilter);
 
   const shouldSkipDataFetch = isCreatingReport || !!editingReport;
-  const { reports, isLoading, isPreloading, notification: apiNotification, refetch } = useUserReportsData(page, activeFilter, true, shouldSkipDataFetch);
+  const { reports, isLoading, isPreloading, refetch } = useUserReportsData(page, activeFilter, true, shouldSkipDataFetch);
   const [archiveReport, { isLoading: isArchiving }] = useArchiveReportMutation();
 
   const petId = searchParams.get('petId');
@@ -167,12 +167,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       message: 'Report updated successfully'
     }));
   };
-
-  useEffect(() => {
-    if (apiNotification) {
-      dispatch(addNotification(apiNotification));
-    }
-  }, [apiNotification, dispatch]);
 
   useEffect(() => {
     if (shouldCreateReport) {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { usePetEdit } from '../../../../shared/hooks/usePetEdit.js';
-import Notification from '../../../../shared/components/common/Notification.jsx';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import Spinner from '../../../../shared/components/common/Spinner.jsx';
@@ -13,9 +12,7 @@ import { ImageUpload } from '../../../listings/components/common/ImageUpload.jsx
 const PetEditForm = ({
   pet,
   onBack,
-  onSaveSuccess,
-  notification,
-  onNotificationClose
+  onSaveSuccess
 }) => {
   const {
     formData,
@@ -72,14 +69,6 @@ const PetEditForm = ({
           </button>
         </div>
       </div>
-
-      {notification && onNotificationClose && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={onNotificationClose}
-        />
-      )}
 
       <div className="w-full mx-auto px-2">
         <form id="edit-pet-form" className="space-y-4">

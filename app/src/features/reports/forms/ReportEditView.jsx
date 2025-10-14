@@ -1,6 +1,5 @@
 import React from 'react';
 import { useReportEdit } from '../../../shared/hooks/useReportEdit.js';
-import Notification from '../../../shared/components/common/Notification.jsx';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import Spinner from '../../../shared/components/common/Spinner.jsx';
@@ -15,9 +14,7 @@ import { createMapLocation } from '../../../shared/utils/mapUtils.js';
 const ReportEditForm = ({
   report,
   onBack,
-  onSaveSuccess,
-  notification,
-  onNotificationClose
+  onSaveSuccess
 }) => {
   const {
     formData,

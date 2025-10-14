@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser, clearUser, setLoading, setError, updateLastActivity } from "./authSlice";
-import { setNotification } from "../notifications/notificationsSlice";
+import { addNotification } from "../notifications/notificationsSlice";
 
 export const authApiSlice = createApi({
   reducerPath: "authApi",
@@ -32,7 +32,7 @@ export const authApiSlice = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data.user));
           dispatch(
-            setNotification({
+            addNotification({
               type: "SUCCESS",
               message: data.message || "Logged in successfully"
             })
@@ -42,7 +42,7 @@ export const authApiSlice = createApi({
           dispatch(setError(errorMessage));
           dispatch(clearUser());
           dispatch(
-            setNotification({
+            addNotification({
               type: "ERROR",
               message: errorMessage
             })
