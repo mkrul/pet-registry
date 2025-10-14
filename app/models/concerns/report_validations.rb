@@ -32,7 +32,7 @@ module ReportValidations
       inclusion: { in: %w[dog cat], message: "must be either dog or cat" }
 
     validates :microchip_id,
-      uniqueness: { allow_nil: true, message: "is already registered" },
+      uniqueness: { allow_nil: true, message: "is already registered", conditions: -> { where.not(status: 'archived') } },
       length: { maximum: 35, message: "must be 35 characters or less" },
       format: { with: /\A[A-Za-z0-9\-]+\z/, message: "can only contain letters, numbers, and hyphens" },
       allow_blank: true,

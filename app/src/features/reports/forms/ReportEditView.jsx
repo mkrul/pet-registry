@@ -74,14 +74,6 @@ const ReportEditForm = ({
         </div>
       </div>
 
-      {notification && onNotificationClose && (
-        <Notification
-          type={notification.type}
-          message={notification.message}
-          onClose={onNotificationClose}
-        />
-      )}
-
       <div className="w-full mx-auto px-2">
         <form id="edit-report-form" className="space-y-4">
           <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
