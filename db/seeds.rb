@@ -543,7 +543,7 @@ if Rails.env.development?
     status: 'active',
     species: 'cat',
     gender: nil,
-    breed_1: 'Domestic Short Hair',
+    breed_1: 'Domestic Shorthair',
     breed_2: nil,
     color_1: 'black',
     color_2: nil,

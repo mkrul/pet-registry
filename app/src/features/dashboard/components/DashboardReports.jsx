@@ -223,6 +223,21 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   }, [filterParam]);
 
   if (isCreatingReport) {
+    if (petId && isLoadingPet) {
+      return (
+        <FormLayout
+          title="Create New Report"
+          backButton={{
+            label: "Back to Reports",
+            onClick: handleBackToReports,
+            className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+          }}
+        >
+          <LoadingState className="flex justify-center items-center py-12" />
+        </FormLayout>
+      );
+    }
+
     return (
       <FormLayout
         title="Create New Report"

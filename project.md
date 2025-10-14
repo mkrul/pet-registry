@@ -121,3 +121,22 @@
 - **Files Modified**:
   - `app/src/features/dashboard/components/DashboardReports.jsx`
 
+### 2025-10-14: Fixed pet data pre-population in report creation form
+- **Issue**: When clicking "Create a lost pet report" for a pet, the report form was not pre-populated with pet data even though the mapping logic existed
+- **Root Cause**: The form was rendering before pet data finished loading. The `useReportForm` hook initialized with `undefined` initialData, and didn't update when pet data arrived
+- **Solution**: Added loading state check in `DashboardReports.jsx` - when creating a report from a pet (`petId` is present), the form now waits for pet data to load before rendering. A loading spinner is displayed while fetching pet data
+- **Pre-population Mapping**: Pet fields map to report fields as follows:
+  - `name` → `name`
+  - `microchipId` → `microchipId`
+  - `species` → `species`
+  - `breed1` → `breed1`
+  - `breed2` → `breed2`
+  - `gender` → `gender`
+  - `isAltered` → `isAltered`
+  - `color1` → `color1`
+  - `color2` → `color2`
+  - `color3` → `color3`
+  - `image` → `image` (including all image URLs)
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardReports.jsx`
+
