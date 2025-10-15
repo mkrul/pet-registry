@@ -10,11 +10,19 @@ export const MapEvents = ({
   onLocationSelect,
   initialLocation,
   readOnly,
-  initialZoom
+  initialZoom,
+  onProcessingStateChange
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [hasSetInitialView, setHasSetInitialView] = useState(false);
+
+  // Notify parent component when processing state changes
+  useEffect(() => {
+    if (onProcessingStateChange) {
+      onProcessingStateChange(isProcessing);
+    }
+  }, [isProcessing, onProcessingStateChange]);
 
   useEffect(() => {
     if (initialLocation?.latitude && initialLocation?.longitude) {

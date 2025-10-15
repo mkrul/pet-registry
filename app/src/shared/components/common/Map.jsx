@@ -9,7 +9,8 @@ export const Map = ({
   onLocationSelect,
   initialLocation,
   readOnly,
-  initialZoom
+  initialZoom,
+  onProcessingStateChange
 }) => {
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
@@ -27,6 +28,7 @@ export const Map = ({
           initialLocation={initialLocation}
           readOnly={readOnly}
           initialZoom={initialZoom}
+          onProcessingStateChange={onProcessingStateChange}
         />
       </LeafletMapContainer>
     </div>

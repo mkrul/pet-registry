@@ -255,3 +255,80 @@
   - `app/services/reports/create.rb`
   - `app/controllers/api/sessions_controller.rb`
 
+### 2025-10-15: Implemented form disabling during location processing
+- **Issue**: When creating or editing reports, users could interact with other form fields while OpenStreetMap was processing location requests (clicking map or entering address), potentially causing data inconsistency or user confusion
+- **Solution**: Implemented comprehensive form disabling mechanism that prevents interaction with all form components during location processing:
+  - **LocationSelect Component**: Added `onProcessingStateChange` callback prop to notify parent components when location processing starts/stops
+  - **ReportNewView**: Added `isProcessingLocation` state that combines with `isLoading` to create `isFormDisabled` state
+  - **ReportEditView**: Added `isProcessingLocation` state that combines with `isSaving` to create `isFormDisabled` state
+  - **Form Components**: Updated all form components to respect the combined disabled state:
+    - `BasicInfoFields`: Uses `readOnly={isFormDisabled}` for all text inputs
+    - `IdentificationFields`: Uses `isLoading={isFormDisabled}` for all form controls
+    - `ColorFields`: Uses `isLoading={isFormDisabled}` for all color selectors
+    - `ImageUpload`: Uses `disabled={isFormDisabled}` for file input and upload button
+- **User Experience**: Users can no longer interact with form fields while location data is being processed, preventing data conflicts and providing clear visual feedback that the system is working
+- **Files Modified**:
+  - `app/src/features/listings/components/common/LocationSelect.jsx`
+  - `app/src/features/reports/forms/ReportNewView.jsx`
+  - `app/src/features/reports/forms/ReportEditView.jsx`
+
+### 2025-10-15: Fixed form disabling for map click location processing
+- **Issue**: Form disabling only worked when entering an address in the location input bar, but not when clicking on the map to drop a pin. Users could still interact with form fields while the map was processing location data from clicks
+- **Root Cause**: The `MapEvents` component had its own `isProcessing` state for map clicks, but this state wasn't communicated back to the `LocationSelect` component, so the form remained enabled during map click processing
+- **Solution**: Extended the processing state communication chain to include map click processing:
+  - **MapEvents Component**: Added `onProcessingStateChange` prop to communicate processing state to parent
+  - **Map Component**: Added `onProcessingStateChange` prop to pass through to MapEvents
+  - **LocationSelect Component**: Added `isProcessingMap` state and `handleMapProcessingStateChange` handler to track map processing state
+  - **Combined Processing State**: Updated `isDisabled` to include both `isProcessingAddress` and `isProcessingMap`
+  - **Parent Notification**: Updated the effect to notify parent components when either processing state changes
+  - **Visual Feedback**: Updated spinner overlay to show during both address and map processing
+- **User Experience**: Now both address input and map click processing disable the entire form consistently, providing uniform behavior regardless of how the user selects a location
+- **Files Modified**:
+  - `app/src/shared/components/common/MapEvents.jsx`
+  - `app/src/shared/components/common/Map.jsx`
+  - `app/src/features/listings/components/common/LocationSelect.jsx`
+
+### 2025-10-15: Fixed radio group disabling during location processing
+- **Issue**: The "Is the animal spayed or neutered?" radio group was not being disabled during location processing, allowing users to change the selection while the map was processing location data
+- **Root Cause**: The `RadioGroup` component in `IdentificationFields` was missing the `disabled` prop, and the individual `Radio` components within `FormControlLabel` were also not disabled
+- **Solution**: Added proper disabled state to the radio group:
+  - **RadioGroup**: Added `disabled={isLoading}` prop to disable the entire group
+  - **Individual Radio Components**: Added `disabled={isLoading}` prop to each `Radio` component within `FormControlLabel`
+- **User Experience**: Users can no longer change the spay/neuter status while location processing is active, maintaining consistent form disabling behavior across all form elements
+- **Files Modified**:
+  - `app/src/features/listings/components/common/IdentificationFields.jsx`
+
+### 2025-10-15: Fixed navigation after deleting report from pet detail view
+- **Issue**: When clicking "My pet was found! Delete this report" from a pet detail view, users remained on the pet detail view instead of being redirected back to the "My Pets" list
+- **Root Cause**: The `handleDeleteReport` function in `DashboardPets` only deleted the report and showed a success notification, but didn't clear the `selectedPet` state or navigate back to the pets list
+- **Solution**: Updated `handleDeleteReport` to navigate back to the pets list after successful report deletion:
+  - **Clear Selected Pet**: Added `setSelectedPet(null)` to clear the selected pet state
+  - **Navigate to Pets List**: Added `navigate('/dashboard/pets')` to redirect users back to the pets list
+  - **Maintain Success Flow**: Kept the success notification to inform users that the report was deleted and pet status was updated
+- **User Experience**: Users are now automatically redirected to the "My Pets" list after successfully deleting a report, providing a smooth workflow when marking a pet as found
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+
+### 2025-10-15: Fixed pet status not updating after creating or deleting report
+- **Issue**: Pet status pill wasn't updating immediately after report operations:
+  - When clicking "My pet is missing!" and creating a report, the status remained "Home" instead of updating to "Missing"
+  - When clicking "My pet was found! Delete this report", the status remained "Missing" instead of updating to "Home"
+  - Both required a hard page refresh to show the correct status
+- **Root Cause**: While the mutations properly invalidated the Pets cache tags, the `DashboardPets` component wasn't refetching the pet data after these operations, causing stale data to be displayed
+- **Solution**: Added manual refetch mechanisms to ensure fresh pet data:
+  - **Direct Query Access**: Added `useGetUserPetsQuery` import to get direct access to the refetch function
+  - **Component Mount Refetch**: Added `refetchPets()` call in useEffect to refetch pet data when the component mounts (handles navigation back from report creation)
+  - **Delete Report Refetch**: Added `await refetchPets()` in `handleDeleteReport` before navigation to ensure fresh data is loaded
+  - **Cache Invalidation**: Maintained existing cache invalidation in mutations for automatic updates
+- **User Experience**: Pet status now updates immediately after both creating and deleting reports, showing the correct status ("Missing" or "Home") without requiring a hard refresh
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+
+### 2025-10-15: Fixed variable declaration order error in ReportEditView
+- **Issue**: When clicking the edit button (pencil and paper icon) to edit a report, the application crashed with error: "ReferenceError: can't access lexical declaration 'isSaving' before initialization"
+- **Root Cause**: The `isFormDisabled` variable was declared before the `useReportEdit` hook that provides the `isSaving` variable it depends on, causing a temporal dead zone error
+- **Solution**: Moved the `isFormDisabled` declaration to after the `useReportEdit` hook call, ensuring all dependencies are available before use
+- **User Experience**: Users can now successfully click the edit button to edit reports without encountering a crash
+- **Files Modified**:
+  - `app/src/features/reports/forms/ReportEditView.jsx`
+

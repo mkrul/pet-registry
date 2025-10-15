@@ -124,7 +124,7 @@ const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
               </div>
 
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-1">Last seen at</h4>
+                <h4 className="text-sm font-medium text-gray-500 mb-1">Last seen:</h4>
                 <p className="text-gray-900">
                   {[report.area, report.state, report.country]
                     .filter(Boolean)

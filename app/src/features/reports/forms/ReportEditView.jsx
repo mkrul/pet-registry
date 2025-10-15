@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useReportEdit } from '../../../shared/hooks/useReportEdit.js';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +16,8 @@ const ReportEditForm = ({
   onBack,
   onSaveSuccess
 }) => {
+  const [isProcessingLocation, setIsProcessingLocation] = useState(false);
+
   const {
     formData,
     isSaving,
@@ -35,12 +37,18 @@ const ReportEditForm = ({
     getFilteredColorOptions
   } = useReportEdit(report);
 
+  const isFormDisabled = isSaving || isProcessingLocation;
+
   const handleSave = async (e) => {
     e.preventDefault();
     const result = await handleSaveChanges(e);
     if (result.success) {
       onSaveSuccess?.(result.success);
     }
+  };
+
+  const handleLocationProcessingStateChange = (isProcessing) => {
+    setIsProcessingLocation(isProcessing);
   };
 
   return (
@@ -76,12 +84,12 @@ const ReportEditForm = ({
 
       <div className="w-full mx-auto px-2">
         <form id="edit-report-form" className="space-y-4">
-          <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
+          <BasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isFormDisabled} />
 
           <ImageUpload
             onFileChange={handleFileChange}
             preview={imageSrc}
-            disabled={isSaving}
+            disabled={isFormDisabled}
             onImageLoad={handleImageLoad}
             onImageError={handleImageError}
             required={false}
@@ -90,13 +98,13 @@ const ReportEditForm = ({
           <IdentificationFields
             formData={formData}
             onInputChange={handleInputChange}
-            isLoading={isSaving}
+            isLoading={isFormDisabled}
             error=""
           />
 
           <ColorFields
             formData={formData}
-            isLoading={isSaving}
+            isLoading={isFormDisabled}
             handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
             handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
             handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
@@ -114,6 +122,7 @@ const ReportEditForm = ({
             })}
             isLoading={isSaving}
             required={false}
+            onProcessingStateChange={handleLocationProcessingStateChange}
           />
 
           <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />

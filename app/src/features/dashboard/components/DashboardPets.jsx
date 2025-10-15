@@ -6,7 +6,7 @@ import PetDetailView from '../../pets/components/PetDetailView';
 import PetEditForm from '../../pets/components/forms/PetEditForm.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
 import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
-import { useDeletePetMutation, useArchivePetMutation } from '../../../store/features/pets/petsApi.js';
+import { useDeletePetMutation, useArchivePetMutation, useGetUserPetsQuery } from '../../../store/features/pets/petsApi.js';
 import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
@@ -34,6 +34,17 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   };
   const [activeFilter, setActiveFilter] = useState(getInitialFilter);
   const { pets, isLoading, isPreloading } = useUserPetsData(page, activeFilter, true);
+
+  // Get refetch function for manual data refresh
+  const speciesFilter = activeFilter === 'all' || activeFilter === 'archived' ? undefined : activeFilter;
+  const archivedFilter = activeFilter === 'archived';
+  const { refetch: refetchPets } = useGetUserPetsQuery({
+    page,
+    items: 21,
+    species: speciesFilter,
+    archived: archivedFilter
+  });
+
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
@@ -95,6 +106,11 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         type: "SUCCESS",
         message: 'Report deleted successfully. Pet status updated to home.'
       }));
+      // Refetch pets to ensure fresh data with updated status
+      await refetchPets();
+      // Navigate back to pets list after successful deletion
+      setSelectedPet(null);
+      navigate('/dashboard/pets');
     } catch (error) {
       dispatch(addNotification({
         type: "ERROR",
@@ -145,6 +161,11 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       }
     }
   }, [pets, selectedPet]);
+
+  // Refetch pet data when component mounts to ensure fresh data after report creation
+  useEffect(() => {
+    refetchPets();
+  }, [refetchPets]);
 
   if (isCreatingPet) {
     return (

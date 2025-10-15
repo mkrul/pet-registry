@@ -19,7 +19,8 @@ export const LocationSelect = ({
   initialLocation,
   isLoading,
   error,
-  required = true
+  required = true,
+  onProcessingStateChange
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
@@ -36,7 +37,15 @@ export const LocationSelect = ({
   const [suggestions, setSuggestions] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isProcessingAddress, setIsProcessingAddress] = useState(false);
-  const isDisabled = isLoading || isProcessingAddress;
+  const [isProcessingMap, setIsProcessingMap] = useState(false);
+  const isDisabled = isLoading || isProcessingAddress || isProcessingMap;
+
+  // Notify parent component when processing state changes
+  React.useEffect(() => {
+    if (onProcessingStateChange) {
+      onProcessingStateChange(isProcessingAddress || isProcessingMap);
+    }
+  }, [isProcessingAddress, isProcessingMap, onProcessingStateChange]);
 
   const fetchAddressSuggestions = React.useMemo(
     () =>
@@ -87,6 +96,10 @@ export const LocationSelect = ({
     setCurrentMapLocation(location);
     onLocationSelect(location);
   }, [onLocationSelect]);
+
+  const handleMapProcessingStateChange = useCallback((isProcessing) => {
+    setIsProcessingMap(isProcessing);
+  }, []);
 
   useLayoutEffect(() => {
     if (initialLocation) {
@@ -211,8 +224,9 @@ export const LocationSelect = ({
           initialLocation={mapLocation}
           initialZoom={mapZoom}
           readOnly={isDisabled}
+          onProcessingStateChange={handleMapProcessingStateChange}
         />
-        {isProcessingAddress && (
+        {(isProcessingAddress || isProcessingMap) && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
             <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
           </div>

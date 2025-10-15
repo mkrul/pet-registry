@@ -15,6 +15,7 @@ import { FormPopulateButton } from "../../../shared/components/common/FormPopula
 
 const ReportNewForm = ({ initialData, petId }) => {
   const [submitReport, { isLoading }] = useSubmitReportMutation();
+  const [isProcessingLocation, setIsProcessingLocation] = useState(false);
 
   const {
     formData,
@@ -50,6 +51,12 @@ const ReportNewForm = ({ initialData, petId }) => {
     handleLocationSelect(location);
   };
 
+  const handleLocationProcessingStateChange = (isProcessing) => {
+    setIsProcessingLocation(isProcessing);
+  };
+
+  const isFormDisabled = isLoading || isProcessingLocation;
+
   return (
     <form
       className="space-y-6"
@@ -73,6 +80,7 @@ const ReportNewForm = ({ initialData, petId }) => {
       <BasicInfoFields
         formData={formData}
         onInputChange={handleInputChange}
+        readOnly={isFormDisabled}
         error={""}
         descriptionError={""}
       />
@@ -80,7 +88,7 @@ const ReportNewForm = ({ initialData, petId }) => {
       <IdentificationFields
         formData={formData}
         onInputChange={handleInputChange}
-        isLoading={isLoading}
+        isLoading={isFormDisabled}
         error={""}
         breedError={""}
         alteredError={""}
@@ -89,7 +97,7 @@ const ReportNewForm = ({ initialData, petId }) => {
 
       <ColorFields
         formData={formData}
-        isLoading={isLoading}
+        isLoading={isFormDisabled}
         handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
         handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
         handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
@@ -99,7 +107,7 @@ const ReportNewForm = ({ initialData, petId }) => {
       <ImageUpload
         onImageSelect={handleImageSelect}
         preview={imagePreview}
-        disabled={isLoading}
+        disabled={isFormDisabled}
         onImageLoad={handleImageLoad}
         onImageError={handleImageError}
         error={""}
@@ -110,6 +118,7 @@ const ReportNewForm = ({ initialData, petId }) => {
         initialLocation={getInitialLocation()}
         isLoading={isLoading}
         error={""}
+        onProcessingStateChange={handleLocationProcessingStateChange}
       />
 
       <SubmitButton isLoading={isLoading} />

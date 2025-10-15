@@ -148,10 +148,11 @@ const IdentificationFields = ({
                 target: { name: "isAltered", value }
               });
             }}
+            disabled={isLoading}
           >
-            <FormControlLabel value={true} control={<Radio />} label="Yes" />
-            <FormControlLabel value={false} control={<Radio />} label="No" />
-            <FormControlLabel value="" control={<Radio />} label="I don't know" />
+            <FormControlLabel value={true} control={<Radio disabled={isLoading} />} label="Yes" />
+            <FormControlLabel value={false} control={<Radio disabled={isLoading} />} label="No" />
+            <FormControlLabel value="" control={<Radio disabled={isLoading} />} label="I don't know" />
           </RadioGroup>
           <FormFieldError error={alteredError} />
         </div>
