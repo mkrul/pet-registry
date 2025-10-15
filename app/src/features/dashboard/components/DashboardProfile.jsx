@@ -1,6 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useUpdateUserMutation } from '../../../store/features/auth/authApiSlice';
+import { normalizePhoneNumber, formatPhoneNumber, isValidPhoneNumber } from '../../../shared/utils/phoneUtils';
 
 const DashboardProfile = ({ user }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || '');
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = async () => {
+    try {
+      const normalizedPhone = normalizePhoneNumber(phoneNumber);
+      if (normalizedPhone && !isValidPhoneNumber(normalizedPhone)) {
+        alert('Please enter a valid 10-digit phone number');
+        return;
+      }
+      await updateUser({ phone_number: normalizedPhone }).unwrap();
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+    }
+  };
+
+  const handleCancelClick = () => {
+    setPhoneNumber(user?.phone_number || '');
+    setIsEditing(false);
+  };
+
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Allow only digits, spaces, parentheses, hyphens, and plus sign
+    const cleaned = value.replace(/[^\d\s\(\)\-\+]/g, '');
+    setPhoneNumber(cleaned);
+  };
+
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile</h2>
@@ -41,6 +77,24 @@ const DashboardProfile = ({ user }) => {
             </div>
 
             <div>
+              <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+              {isEditing ? (
+                <input
+                  id="phone-number"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={handlePhoneChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="(555) 123-4567"
+                />
+              ) : (
+                <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
+                  {user?.phone_number ? formatPhoneNumber(user.phone_number) : 'Unknown'}
+                </div>
+              )}
+            </div>
+
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Member Since</label>
               <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
                 {user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', {
@@ -63,12 +117,36 @@ const DashboardProfile = ({ user }) => {
 
           <div className="mt-8 pt-6 border-t border-gray-200">
             <div className="flex space-x-4">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                Edit Profile
-              </button>
-              <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                Change Password
-              </button>
+              {isEditing ? (
+                <>
+                  <button
+                    onClick={handleSaveClick}
+                    disabled={isLoading}
+                    className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  >
+                    {isLoading ? 'Saving...' : 'Save'}
+                  </button>
+                  <button
+                    onClick={handleCancelClick}
+                    disabled={isLoading}
+                    className="bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={handleEditClick}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  >
+                    Edit Profile
+                  </button>
+                  <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                    Change Password
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

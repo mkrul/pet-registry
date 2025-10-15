@@ -32,10 +32,32 @@ module Api
       render json: { error: 'Registration failed' }, status: :internal_server_error
     end
 
+    def update
+      user = current_user
+
+      if user.update(update_params)
+        render json: {
+          message: 'Profile updated successfully.',
+          user: user.as_json(only: [:id, :email, :phone_number, :created_at])
+        }, status: :ok
+      else
+        render json: {
+          message: "Update failed.",
+          errors: user.errors.full_messages
+        }, status: :unprocessable_entity
+      end
+    rescue => e
+      render json: { error: 'Update failed' }, status: :internal_server_error
+    end
+
     private
 
     def sign_up_params
       params.require(:user).permit(:email, :password, :password_confirmation)
+    end
+
+    def update_params
+      params.require(:user).permit(:phone_number)
     end
 
     def warden

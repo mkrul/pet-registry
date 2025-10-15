@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     # Custom auth routes
     post '/sign_up', to: 'registrations#create'
+    patch '/profile', to: 'registrations#update'
     post '/login', to: 'sessions#create'
     get '/current_user', to: 'sessions#show'
     delete '/logout', to: 'sessions#destroy'

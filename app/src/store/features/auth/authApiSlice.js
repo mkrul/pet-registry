@@ -120,6 +120,37 @@ export const authApiSlice = createApi({
       async onQueryStarted(_, { dispatch }) {
         dispatch(updateLastActivity());
       }
+    }),
+    updateUser: builder.mutation({
+      query: (userData) => ({
+        url: "/profile",
+        method: "PATCH",
+        body: { user: userData },
+        credentials: "include"
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data?.user) {
+            dispatch(setUser(data.user));
+          }
+          dispatch(
+            addNotification({
+              type: "SUCCESS",
+              message: data.message || "Profile updated successfully"
+            })
+          );
+        } catch (err) {
+          const errorMessage = err?.error?.data?.error || err?.error?.data?.message || "Update failed";
+          dispatch(
+            addNotification({
+              type: "ERROR",
+              message: errorMessage
+            })
+          );
+          throw err;
+        }
+      }
     })
   })
 });
@@ -129,5 +160,6 @@ export const {
   useLogoutMutation,
   useGetCurrentUserQuery,
   useSignUpMutation,
-  usePollSessionMutation
+  usePollSessionMutation,
+  useUpdateUserMutation
 } = authApiSlice;
