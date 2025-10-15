@@ -27,14 +27,11 @@ class Reports::Search < ActiveInteraction::Base
 
       cleaned_search_query = remove_species_keywords_from_query(search_query)
       cleaned_search_query = remove_gender_keywords_from_query(cleaned_search_query)
-      Rails.logger.debug "Original query: '#{search_query}', cleaned query: '#{cleaned_search_query}'"
 
       if cleaned_search_query.blank?
-        Rails.logger.debug "Cleaned query is empty, using match_all query with filters"
         elasticsearch_search_all(search_options)
       else
         is_breed_search = contains_breed_terms?(cleaned_search_query)
-        Rails.logger.debug "Cleaned search query: '#{cleaned_search_query}', is_breed_search: #{is_breed_search}"
 
         if is_breed_search
           elasticsearch_search(cleaned_search_query, search_options, breed_search: true)
@@ -56,7 +53,6 @@ class Reports::Search < ActiveInteraction::Base
 
     if target_species.present?
       conditions[:species] = target_species
-      Rails.logger.debug "Species filter applied: #{target_species}"
     end
 
     if country.present?
@@ -86,7 +82,6 @@ class Reports::Search < ActiveInteraction::Base
           { gender: "" }
         ]
       }
-      Rails.logger.debug "Gender filter applied: #{target_gender} (including nil/unknown)"
     end
 
     if color.present?
@@ -115,7 +110,6 @@ class Reports::Search < ActiveInteraction::Base
       conditions[:_and].concat(filters)
     end
 
-    Rails.logger.debug "Where conditions: #{conditions.inspect}"
     conditions
   end
 
@@ -137,17 +131,14 @@ class Reports::Search < ActiveInteraction::Base
 
     cat_keywords = %w[cat cats kitty kitten kittens feline]
     if cat_keywords.any? { |keyword| search_query.include?(keyword) }
-      Rails.logger.debug "Detected cat species from query: '#{search_query}'"
       return 'cat'
     end
 
     dog_keywords = %w[dog dogs doggie doggy doggies puppy puppies canine]
     if dog_keywords.any? { |keyword| search_query.include?(keyword) }
-      Rails.logger.debug "Detected dog species from query: '#{search_query}'"
       return 'dog'
     end
 
-    Rails.logger.debug "No species detected from query: '#{search_query}'"
     nil
   end
 
@@ -158,17 +149,14 @@ class Reports::Search < ActiveInteraction::Base
 
     male_keywords = %w[male boy]
     if male_keywords.any? { |keyword| search_query.include?(keyword) }
-      Rails.logger.debug "Detected male gender from query: '#{search_query}'"
       return 'male'
     end
 
     female_keywords = %w[female girl]
     if female_keywords.any? { |keyword| search_query.include?(keyword) }
-      Rails.logger.debug "Detected female gender from query: '#{search_query}'"
       return 'female'
     end
 
-    Rails.logger.debug "No gender detected from query: '#{search_query}'"
     nil
   end
 
@@ -238,7 +226,6 @@ class Reports::Search < ActiveInteraction::Base
   def build_elasticsearch_filters(conditions)
     filters = []
 
-    Rails.logger.debug "Building Elasticsearch filters from: #{conditions.inspect}"
 
     filterable_fields = %w[status species gender country state area]
 
@@ -277,7 +264,6 @@ class Reports::Search < ActiveInteraction::Base
       end
     end
 
-    Rails.logger.debug "Built Elasticsearch filters: #{filters.inspect}"
     filters
   end
 
@@ -369,7 +355,6 @@ class Reports::Search < ActiveInteraction::Base
     client = elasticsearch_client
     index_name = "reports_#{Rails.env}"
 
-    Rails.logger.debug "Elasticsearch query: #{es_query.to_json}"
 
     response = client.search(
       index: index_name,

@@ -9,8 +9,6 @@ import searchReducer from "./features/search/searchSlice.js";
 import notificationsReducer from "./features/notifications/notificationsSlice.js";
 import loadingReducer from "./features/loading/loadingSlice.js";
 
-console.log("🏪 Store: Configuring Redux store");
-
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -26,6 +24,4 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(authApiSlice.middleware).concat(reportsApi.middleware).concat(petsApi.middleware)
 });
-
-console.log("✅ Store: Redux store configured successfully");
 

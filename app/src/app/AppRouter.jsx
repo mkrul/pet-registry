@@ -13,12 +13,8 @@ import ComponentLoader from "../shared/components/common/ComponentLoader.jsx";
 import { useMemo } from "react";
 
 const AppRouter = () => {
-  console.log("🛣️ AppRouter: Component rendering");
   const user = useAppSelector(state => state.auth.user);
   const location = useLocation();
-
-  console.log("👤 AppRouter: User state:", user);
-  console.log("📍 AppRouter: Current location:", location.pathname);
 
 
   const routesComponent = useMemo(

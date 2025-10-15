@@ -7,14 +7,10 @@ import { useScrollRestoration } from "../../../shared/hooks/useScrollRestoration
 import { useSearchParamsState } from "../../../shared/hooks/useSearchParams.js";
 
 const ReportIndexPage = () => {
-  console.log("📊 ReportIndexPage: Component rendering");
   const dispatch = useAppDispatch();
   const { searchParams, updateSearchParams, getInitialFilters } = useSearchParamsState();
   const searchState = useAppSelector(state => state.search);
   const initialFilters = useMemo(() => getInitialFilters(), [searchParams]);
-
-  console.log("📊 ReportIndexPage: Search state:", searchState);
-  console.log("📊 ReportIndexPage: Initial filters:", initialFilters);
 
   const [activeSearch, setActiveSearch] = useState(
     searchState.query || searchParams.get("query") || ""

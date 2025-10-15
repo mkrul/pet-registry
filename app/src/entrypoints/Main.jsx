@@ -3,7 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 import AppRouter from "../app/AppRouter";
 
 const App = () => {
-  console.log("🏠 Main.jsx: App component rendering");
   const [error, setError] = useState(null);
 
   if (error) {

@@ -235,3 +235,23 @@
 - **Files Modified**:
   - `app/src/store/features/reports/reportsApi.js`
 
+### 2025-10-15: Removed all debugging-related console.log and Rails.logger calls
+- **Purpose**: Clean up the codebase by removing all debugging statements that were added for troubleshooting pet registration flow
+- **Solution**: Systematically removed all debugging statements from:
+  - **Frontend**: No console.log statements were found (already clean)
+  - **Backend**: Removed Rails.logger debugging statements from:
+    - `PetsController#create`: Removed detailed logging of params, user info, success/error states, and exception handling
+    - `Pets::Create` service: Removed logging of input inspection, image details, validation checks, save operations, and error handling
+    - `ReportsController#create`: Removed validation error logging
+    - `Reports::Search` service: Removed 15 debug statements covering query processing, filter building, species/gender detection, and Elasticsearch operations
+    - `Reports::Create` service: Removed input logging, save operation logging, and error logging
+    - `SessionsController`: Removed session clearing logging and error logging
+- **Preserved**: Legitimate configuration logging in initializers and test setup logging in spec files
+- **Files Modified**:
+  - `app/controllers/api/pets_controller.rb`
+  - `app/services/pets/create.rb`
+  - `app/controllers/api/reports_controller.rb`
+  - `app/services/reports/search.rb`
+  - `app/services/reports/create.rb`
+  - `app/controllers/api/sessions_controller.rb`
+

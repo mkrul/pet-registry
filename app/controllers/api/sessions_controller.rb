@@ -101,15 +101,12 @@ module Api
     end
 
     def clear_user_session
-      Rails.logger.info "Clearing user session..."
-      Rails.logger.info "Before clear - Remember token: #{current_user&.remember_token.inspect}"
       current_user.forget_me! if current_user.respond_to?(:forget_me!)
       cookies.delete(:remember_user_token, cookie_options)
       sign_out(:user)
       reset_session
       warden.logout
       current_user&.update_column(:remember_token, nil) if current_user
-      Rails.logger.info "After clear - Remember token: #{current_user&.remember_token.inspect}"
     end
 
     def set_remember_token(user)
@@ -146,8 +143,6 @@ module Api
     end
 
     def log_error(error)
-      Rails.logger.error "#{controller_name} error: #{error.message}"
-      Rails.logger.error error.backtrace.join("\n")
     end
 
     def sign_in_params

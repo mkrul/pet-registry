@@ -65,40 +65,20 @@ module Api
     def edit; end
 
   def create
-    Rails.logger.info("=" * 80)
-    Rails.logger.info("PetsController#create called")
-    Rails.logger.info("Raw params: #{params.inspect}")
-    Rails.logger.info("Permitted pet_params: #{pet_params.inspect}")
-    Rails.logger.info("Current user: #{current_user.inspect}")
-    Rails.logger.info("=" * 80)
-
     outcome = Pets::Create.run(pet_params.merge(user_id: current_user.id))
 
     if outcome.valid?
-      Rails.logger.info("Pet created successfully: #{outcome.result.inspect}")
       serialized_pet = PetSerializer.new(outcome.result).as_json
-      Rails.logger.info("Serialized pet response: #{serialized_pet.inspect}")
       render json: serialized_pet.merge(
         message: "Pet registered successfully"
       ), status: :created
     else
-      Rails.logger.error("=" * 80)
-      Rails.logger.error("Pet creation failed!")
-      Rails.logger.error("Validation errors: #{outcome.errors.full_messages}")
-      Rails.logger.error("Outcome details: #{outcome.errors.details}")
-      Rails.logger.error("=" * 80)
       render json: {
         errors: outcome.errors.full_messages,
         message: outcome.errors.full_messages.join(", ")
       }, status: :unprocessable_entity
     end
   rescue StandardError => e
-    Rails.logger.error("=" * 80)
-    Rails.logger.error("Unexpected error in PetsController#create:")
-    Rails.logger.error("Error class: #{e.class}")
-    Rails.logger.error("Error message: #{e.message}")
-    Rails.logger.error("Backtrace: #{e.backtrace.join("\n")}")
-    Rails.logger.error("=" * 80)
     render json: {
       errors: ["An unexpected error occurred"],
       message: e.message

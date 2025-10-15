@@ -32,7 +32,6 @@ module Api
 
       if result.valid?
         reports = result.result
-        Rails.logger.info "Search completed in #{search_time}ms: #{reports.total_entries} total entries, #{reports.to_a.length} in current page"
         render json: {
           data: ActiveModelSerializers::SerializableResource.new(reports.to_a, each_serializer: ReportSerializer),
           pagination: {
@@ -85,8 +84,6 @@ module Api
     def edit; end
 
     def create
-      Rails.logger.info("Create params received: #{report_params.inspect}")
-
       if report_params[:pet_id].present?
         pet = Pet.find_by(id: report_params[:pet_id], user_id: current_user.id)
         if pet&.image&.attached?
@@ -105,7 +102,6 @@ module Api
           message: "Report created successfully"
         ), status: :created
       else
-        Rails.logger.error("Validation failed: #{outcome.errors.full_messages}")
         render json: {
           errors: outcome.errors.full_messages,
           message: outcome.errors.full_messages.join(", ")

@@ -81,7 +81,6 @@ export const petsApi = createApi({
     }),
     submitPet: build.mutation({
       query: formData => {
-        console.log("[petsApi.submitPet] Sending POST request to /api/pets");
         return {
           url: "pets",
           method: "POST",
@@ -91,9 +90,7 @@ export const petsApi = createApi({
       transformResponse: (
         response
       ) => {
-        console.log("[petsApi.submitPet] Raw response from server:", response);
         const transformedPet = transformToCamelCase(response);
-        console.log("[petsApi.submitPet] Transformed response:", transformedPet);
 
         const result = {
           ...transformedPet,
@@ -102,7 +99,6 @@ export const petsApi = createApi({
           id: response.id,
           data: transformedPet
         };
-        console.log("[petsApi.submitPet] Final result to return:", result);
         return result;
       },
       invalidatesTags: ["Pets"]

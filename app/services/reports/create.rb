@@ -26,7 +26,6 @@ module Reports
     boolean :is_altered, default: nil
 
     def execute
-      Rails.logger.info("Create service inputs: #{inputs.inspect}")
 
       # Convert string inputs to appropriate types
       processed_inputs = inputs.to_h.dup
@@ -37,15 +36,12 @@ module Reports
                                      end
 
       report = Report.new(processed_inputs.merge(status: 'active'))
-      Rails.logger.info("Report before save: #{report.attributes.inspect}")
 
       unless report.save
-        Rails.logger.error("Report save failed: #{report.errors.full_messages}")
         errors.merge!(report.errors)
         return nil
       end
 
-      Rails.logger.info("Report after save: #{report.attributes.inspect}")
       report
     end
   end
