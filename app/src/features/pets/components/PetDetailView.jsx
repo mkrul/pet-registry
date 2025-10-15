@@ -1,7 +1,7 @@
 import React from 'react';
 import StatusPill from "../../../shared/components/common/StatusPill";
 
-const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport }) => {
+const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport, showSuccessPulse = false }) => {
   const handleEditClick = (e) => {
     e.stopPropagation();
     onEdit?.(pet);
@@ -46,7 +46,11 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
         </button>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden relative">
+      <div className={`bg-white border rounded-lg overflow-hidden relative transition-all duration-300 ${
+        showSuccessPulse
+          ? 'border-green-500 shadow-lg shadow-green-500/50 animate-pulse'
+          : 'border-gray-200'
+      }`}>
         <div className="md:flex">
           <div className="md:w-1/2">
             <img

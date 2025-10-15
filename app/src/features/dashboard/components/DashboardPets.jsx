@@ -25,6 +25,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [selectedPet, setSelectedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
   const [petToArchive, setPetToArchive] = useState(null);
+  const [showSuccessPulse, setShowSuccessPulse] = useState(false);
   const action = searchParams.get('action');
   const filterParam = searchParams.get('filter');
   const [isCreatingPet, setIsCreatingPet] = useState(action === 'create');
@@ -108,9 +109,12 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       }));
       // Refetch pets to ensure fresh data with updated status
       await refetchPets();
-      // Navigate back to pets list after successful deletion
-      setSelectedPet(null);
-      navigate('/dashboard/pets');
+      // Show success pulse animation
+      setShowSuccessPulse(true);
+      // Hide pulse after 2 seconds
+      setTimeout(() => {
+        setShowSuccessPulse(false);
+      }, 2000);
     } catch (error) {
       dispatch(addNotification({
         type: "ERROR",
@@ -166,6 +170,12 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   useEffect(() => {
     refetchPets();
   }, [refetchPets]);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   if (isCreatingPet) {
     return (
@@ -230,6 +240,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
           onDelete={handleArchivePet}
           onCreateReport={handleCreateReport}
           onDeleteReport={handleDeleteReport}
+          showSuccessPulse={showSuccessPulse}
         />
       ) : !isLoading && !isPreloading && pets.length > 0 ? (
         <ItemGrid>

@@ -29,6 +29,16 @@ const DashboardView = () => {
     }
   }, [location.pathname]);
 
+  // Scroll to top when active section changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeSection]);
+
+  // Scroll to top when component mounts (handles direct URL navigation)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleSectionChange = (section) => {
     navigate(`/dashboard/${section}`);
   };

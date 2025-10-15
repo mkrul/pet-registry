@@ -332,3 +332,29 @@
 - **Files Modified**:
   - `app/src/features/reports/forms/ReportEditView.jsx`
 
+### 2025-10-15: Improved UX for deleting report from pet detail view
+- **Issue**: When clicking "My pet was found! Delete this report" from the pet detail view, users were navigated back to the pets list, requiring them to click on their pet again to see the updated status
+- **Solution**: Updated the delete report flow to keep users on the pet detail view with visual feedback:
+  - **Stay on Detail View**: Removed navigation from `handleDeleteReport` - users remain on the pet detail view
+  - **Visual Success Feedback**: Added green pulse animation on the pet detail card for 1 second after successful report deletion
+  - **Pulse Animation**: The card border changes to green (`border-green-500`) with a green shadow (`shadow-green-500/50`) and pulses using Tailwind's `animate-pulse` class
+  - **Auto-dismiss**: Pulse animation automatically disappears after 1 second
+  - **Updated Status**: Pet status updates immediately from "Missing" to "Home" with the refreshed data
+- **User Experience**: Users can now see the immediate result of marking their pet as found without losing context, with clear visual feedback that the operation succeeded
+- **Files Modified**:
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+  - `app/src/features/pets/components/PetDetailView.jsx`
+
+### 2025-10-15: Added scroll-to-top behavior for all dashboard pages
+- **Issue**: When users perform actions that redirect them to different dashboard pages, they sometimes arrive at a scrolled position instead of at the top of the page, creating a disorienting experience
+- **Solution**: Added comprehensive scroll-to-top behavior across all dashboard components:
+  - **DashboardView**: Added scroll-to-top on section changes and component mount to handle tab navigation and direct URL access
+  - **DashboardPets**: Added scroll-to-top on component mount to handle navigation from other parts of the app
+  - **DashboardReports**: Added scroll-to-top on component mount to handle navigation from other parts of the app
+  - **Consistent Behavior**: All dashboard pages now start at the top regardless of how users arrive at them
+- **User Experience**: Users now consistently arrive at the top of dashboard pages, providing a predictable and professional navigation experience
+- **Files Modified**:
+  - `app/src/features/dashboard/pages/DashboardView.jsx`
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+  - `app/src/features/dashboard/components/DashboardReports.jsx`
+
