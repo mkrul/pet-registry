@@ -228,3 +228,10 @@
   - `app/models/pet.rb`
   - `app/models/report.rb`
 
+### 2025-10-15: Fixed pet status not updating immediately in UI after creating reports
+- **Issue**: After marking a pet as missing (creating a report), the Pet Detail View and Pet Preview didn't show the updated "Missing" status until a hard page refresh, even though the backend was correctly updating the pet status
+- **Root Cause**: The `submitReport` mutation in RTK Query was only invalidating general pet list cache tags (`{ type: "Pets", id: "LIST" }` and `{ type: "Pets", id: "USER_LIST" }`) but not the specific pet's individual tag (`{ type: "Pets", id: petId }`). This meant the individual pet data in the cache wasn't being invalidated and refetched
+- **Solution**: Updated the `submitReport` mutation's `invalidatesTags` to be a function that dynamically checks if a `petId` was provided in the form data. When `petId` is present, it now also invalidates the specific pet's individual tag, ensuring immediate cache invalidation and UI updates
+- **Files Modified**:
+  - `app/src/store/features/reports/reportsApi.js`
+
