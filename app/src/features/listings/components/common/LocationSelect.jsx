@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useCallback, useMemo } from "react";
 import Map from "../../../../shared/components/common/Map.jsx";
+
+// Memoized Map component to prevent unnecessary re-renders
+const MemoizedMap = React.memo(Map);
+
 import LocationDisplay from "../../../../shared/components/common/LocationDisplay.jsx";
 import { Autocomplete, TextField } from "@mui/material";
 import { debounce } from "lodash";
@@ -66,7 +70,7 @@ export const LocationSelect = ({
     }
   }, [searchInput, fetchAddressSuggestions]);
 
-  const handleLocationSelect = (location) => {
+  const handleLocationSelect = useCallback((location) => {
     if (location.country !== "United States") {
       onLocationSelect({
         ...location,
@@ -82,21 +86,22 @@ export const LocationSelect = ({
     });
     setCurrentMapLocation(location);
     onLocationSelect(location);
-  };
+  }, [onLocationSelect]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (initialLocation) {
-      setSelectedLocation({
+      const locationData = {
         area: initialLocation.area || "",
         state: initialLocation.state || "",
         country: initialLocation.country || "",
         intersection: initialLocation.intersection || ""
-      });
+      };
+      setSelectedLocation(locationData);
       setCurrentMapLocation(initialLocation);
     }
   }, [initialLocation]);
 
-  const handleAddressSelect = async (_, value) => {
+  const handleAddressSelect = useCallback(async (_, value) => {
     if (value) {
       const lat = parseFloat(value.lat);
       const lng = parseFloat(value.lon);
@@ -122,14 +127,26 @@ export const LocationSelect = ({
           setCurrentMapLocation(locationData);
         }
         setSelectedAddress(null);
-        setSearchInput("");
+        // Clear searchInput after processing is complete to avoid setState during render
+        setTimeout(() => setSearchInput(""), 0);
       } catch (error) {
         console.error("Error handling location:", error);
       } finally {
         setIsProcessingAddress(false);
       }
     }
-  };
+  }, [onLocationSelect]);
+
+  // Memoize expensive computations
+  const mapLocation = useMemo(() =>
+    currentMapLocation ? createMapLocation(currentMapLocation) : undefined,
+    [currentMapLocation]
+  );
+
+  const mapZoom = useMemo(() =>
+    currentMapLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT,
+    [currentMapLocation]
+  );
 
   return (
     <div className="space-y-2">
@@ -154,7 +171,12 @@ export const LocationSelect = ({
           filterOptions={x => x}
           value={selectedAddress}
           onChange={handleAddressSelect}
-          onInputChange={(_, value) => setSearchInput(value)}
+          onInputChange={useCallback((_, value) => {
+            // Don't update searchInput during processing to avoid setState during render
+            if (!isProcessingAddress) {
+              setSearchInput(value);
+            }
+          }, [isProcessingAddress])}
           renderInput={params => (
             <TextField
               {...params}
@@ -184,10 +206,10 @@ export const LocationSelect = ({
       </div>
       <FormFieldError error={error} />
       <div className="relative mt-1">
-        <Map
+        <MemoizedMap
           onLocationSelect={handleLocationSelect}
-          initialLocation={currentMapLocation ? createMapLocation(currentMapLocation) : undefined}
-          initialZoom={currentMapLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT}
+          initialLocation={mapLocation}
+          initialZoom={mapZoom}
           readOnly={isDisabled}
         />
         {isProcessingAddress && (

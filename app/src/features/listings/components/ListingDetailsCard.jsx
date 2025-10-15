@@ -163,16 +163,12 @@ const ReportDetailsCard = ({ report }) => {
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Primary Breed</h4>
+                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Breed</h4>
                     <p className="text-gray-900 font-medium">{report.breed1}</p>
-                  </div>
-
-                  {report.breed2 && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Secondary Breed</h4>
+                    {report.breed2 && (
                       <p className="text-gray-900 font-medium">{report.breed2}</p>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
@@ -186,31 +182,31 @@ const ReportDetailsCard = ({ report }) => {
                     </p>
                   </div>
 
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Colors</h4>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                        {report.color1}
+                      </span>
+                      {report.color2 && (
+                        <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                          {report.color2}
+                        </span>
+                      )}
+                      {report.color3 && (
+                        <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                          {report.color3}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
                   {report.microchipId && (
                     <div className="sm:col-span-2">
                       <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
                       <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
                     </div>
                   )}
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Colors</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                      {report.color1}
-                    </span>
-                    {report.color2 && (
-                      <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                        {report.color2}
-                      </span>
-                    )}
-                    {report.color3 && (
-                      <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                        {report.color3}
-                      </span>
-                    )}
-                  </div>
                 </div>
               </div>
             </div>

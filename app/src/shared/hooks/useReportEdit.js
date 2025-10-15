@@ -97,8 +97,14 @@ export const useReportEdit = (report) => {
     const formDataToSend = new FormData();
     const snakeCaseData = transformToSnakeCase(formData);
 
+    // Fields that should not be sent to the API (system-generated or read-only)
+    const excludedFields = [
+      "id", "image", "created_at", "updated_at",
+      "recently_updated", "recently_created", "user_id"
+    ];
+
     Object.entries(snakeCaseData).forEach(([key, value]) => {
-      if (value !== null && value !== undefined && key !== "image") {
+      if (value !== null && value !== undefined && !excludedFields.includes(key)) {
         formDataToSend.append(key, value.toString());
       }
     });

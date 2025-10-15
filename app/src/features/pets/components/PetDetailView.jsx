@@ -1,5 +1,6 @@
 import React from 'react';
 import StatusPill from "../../../shared/components/common/StatusPill";
+
 const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport }) => {
   const handleEditClick = (e) => {
     e.stopPropagation();
@@ -106,6 +107,20 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Gender</h4>
                   <p className="text-gray-900 capitalize">{pet.gender || 'Unknown'}</p>
                 </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Colors</h4>
+                  <p className="text-gray-900 truncate">{pet.color1}</p>
+                  {pet.color2 && (
+                    <p className="text-gray-900 truncate">{pet.color2}</p>
+                  )}
+                  {pet.color3 && (
+                    <p className="text-gray-900 truncate">{pet.color3}</p>
+                  )}
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Microchip ID</h4>
+                  <p className="text-gray-900 truncate">{pet.microchipId || 'Unknown'}</p>
+                </div>
               </div>
 
               <div>
@@ -131,7 +146,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                         onClick={handleCreateReportClick}
                         className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
                       >
-                        🔍 My pet is missing! Create a report
+                        <span className="mr-1">🔍</span> My pet is missing! Create a new report.
                       </button>
                     </div>
                   )}
@@ -139,9 +154,9 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                     <div>
                       <button
                         onClick={handleDeleteReportClick}
-                        className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                        className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
                       >
-                        🎉 My pet was found! Delete this report.
+                        <span className="mr-1">🎉</span> My pet was found! Delete this report.
                       </button>
                     </div>
                   )}

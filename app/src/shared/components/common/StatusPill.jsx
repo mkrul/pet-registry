@@ -41,7 +41,7 @@ const StatusPill = ({
   };
 
   return (
-    <span className={`px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1 ${getVariantClasses()}`}>
+    <span className={`px-2 py-1 text-xs font-medium rounded-full inline-flex items-center gap-1 ${getVariantClasses()}`}>
       {getStatusIcon()}
       {status}
     </span>

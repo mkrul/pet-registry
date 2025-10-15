@@ -209,3 +209,22 @@
   - `app/src/shared/hooks/useNotificationCleanup.js`
   - `app/src/shared/hooks/useAutoClearNotifications.js`
 
+### 2025-10-15: Fixed 422 error when editing reports
+- **Issue**: Report edit operations were failing with a 422 Unprocessable Content error. The frontend was successfully submitting the form data, but the backend was rejecting the request
+- **Root Cause**: The `Reports::Update` service was missing the `status` parameter definition. When the frontend sent the status field (which was permitted in the controller's `report_params`), ActiveInteraction rejected it as an invalid input parameter, causing the service outcome to be marked as invalid
+- **Solution**: Added `string :status, default: nil` to the input parameters in the `Reports::Update` service, and added `status: status` to the `update_report_attributes` method to include the status field in the update operation
+- **Files Modified**:
+  - `app/services/reports/update.rb`
+
+### 2025-10-15: Fixed pet status not updating when creating/deleting reports
+- **Issue**: After marking a pet as missing (creating a report), the Pet Detail View and Pet Preview still showed status as "Home" and displayed the "My pet is missing! Create a new report" button instead of showing "Missing" status and the "My pet was found! Delete this report" button
+- **Root Cause**: When creating a report from a pet, the `Reports::CopyFromPet` service only updated the `report_id` on the pet but didn't update the pet's status to 'missing'. Additionally, when reports were destroyed or archived, the pet status wasn't being reset to 'home'
+- **Solution**:
+  - Updated `Reports::CopyFromPet` service to set pet status to 'missing' when associating a pet with a report
+  - Added callback to Pet model to automatically update status when `report_id` changes (sets to 'missing' when report_id is present, 'home' when null)
+  - Updated Report model callbacks to set pet status back to 'home' when report is destroyed or archived
+- **Files Modified**:
+  - `app/services/reports/copy_from_pet.rb`
+  - `app/models/pet.rb`
+  - `app/models/report.rb`
+

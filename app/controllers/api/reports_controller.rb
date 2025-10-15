@@ -249,7 +249,8 @@ module Api
         :intersection,
         :image,
         :is_altered,
-        :pet_id
+        :pet_id,
+        :status
       )
     end
 

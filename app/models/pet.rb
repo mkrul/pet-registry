@@ -18,6 +18,8 @@ class Pet < ApplicationRecord
   scope :by_species, ->(species) { where(species: species) }
   enum :status, { home: STATUS_HOME, missing: STATUS_MISSING, archived: STATUS_ARCHIVED }
 
+  after_update :update_status_based_on_report, if: :saved_change_to_report_id?
+
   def soft_delete!
     update!(archived_at: Time.current)
   end
@@ -32,6 +34,16 @@ class Pet < ApplicationRecord
 
   def home?
     status == STATUS_HOME
+  end
+
+  private
+
+  def update_status_based_on_report
+    if report_id.present? && status != STATUS_MISSING
+      update_column(:status, STATUS_MISSING)
+    elsif report_id.nil? && status == STATUS_MISSING
+      update_column(:status, STATUS_HOME)
+    end
   end
 
 end

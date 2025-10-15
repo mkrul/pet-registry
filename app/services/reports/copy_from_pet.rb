@@ -34,7 +34,7 @@ module Reports
     end
 
     def update_pet
-      pet.update(report_id: new_report.id)
+      pet.update(report_id: new_report.id, status: Pet::STATUS_MISSING)
     end
 
     def pet_has_image

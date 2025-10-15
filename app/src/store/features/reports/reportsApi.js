@@ -145,12 +145,22 @@ export const reportsApi = createApi({
           data: transformedReport
         };
       },
-      invalidatesTags: [
-        { type: "Reports", id: "LIST" },
-        { type: "Reports", id: "USER_LIST" },
-        { type: "Pets", id: "LIST" },
-        { type: "Pets", id: "USER_LIST" }
-      ]
+      invalidatesTags: (result, error, arg) => {
+        const tags = [
+          { type: "Reports", id: "LIST" },
+          { type: "Reports", id: "USER_LIST" },
+          { type: "Pets", id: "LIST" },
+          { type: "Pets", id: "USER_LIST" }
+        ];
+        
+        // If petId was provided in the form data, also invalidate that specific pet
+        const petId = arg.get("pet_id");
+        if (petId) {
+          tags.push({ type: "Pets", id: petId });
+        }
+        
+        return tags;
+      }
     }),
     getNewReport: build.query({
       query: () => "reports/new",

@@ -34,13 +34,13 @@ class Report < ApplicationRecord
 
   def update_pet_status_on_archive
     if archived? && pet.present?
-      pet.update!(report_id: nil)
+      pet.update!(report_id: nil, status: Pet::STATUS_HOME)
     end
   end
 
   def update_pet_status_on_destroy
     if pet.present?
-      pet.update!(report_id: nil)
+      pet.update!(report_id: nil, status: Pet::STATUS_HOME)
     end
   end
 end
