@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { truncate } from 'lodash';
 import Spinner from '../../shared/components/common/Spinner.jsx';
 import StatusPill from '../../shared/components/common/StatusPill.jsx';
+import useFlyerGeneration from "../../shared/hooks/useFlyerGeneration";
+import FlyerGenerationModal from "../../shared/components/common/FlyerGenerationModal";
+import LostPetFlyer from "../../shared/components/common/LostPetFlyer";
 
-const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
+const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
+  const { isModalOpen, openModal, closeModal, handleGenerateFlyer, flyerRef, rewardAmount, additionalNotes } = useFlyerGeneration();
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
 
@@ -92,7 +96,7 @@ const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 mb-4">
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-1">Description</h4>
                 <p className="text-gray-900">{truncate(report.description, { length: 200 })}</p>
@@ -145,8 +149,36 @@ const ReportDetailView = ({ report, onBack, onEdit, onDelete }) => {
                 </p>
               </div>
             </div>
+
+            {report.status === 'active' && (
+              <div className="mt-4">
+                <button
+                  onClick={openModal}
+                  className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                >
+                  <span className="mr-1">📄</span> Generate Lost Pet Flyer
+                </button>
+              </div>
+            )}
           </div>
         </div>
+      </div>
+
+      <FlyerGenerationModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={handleGenerateFlyer}
+      />
+
+      <div style={{ display: 'none' }}>
+        <LostPetFlyer
+          ref={flyerRef}
+          pet={null}
+          report={report}
+          user={user}
+          rewardAmount={rewardAmount}
+          additionalNotes={additionalNotes}
+        />
       </div>
     </div>
   );

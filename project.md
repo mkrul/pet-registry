@@ -358,3 +358,43 @@
   - `app/src/features/dashboard/components/DashboardPets.jsx`
   - `app/src/features/dashboard/components/DashboardReports.jsx`
 
+### 2025-10-15: Implemented PDF flyer generation for missing pets
+- **Purpose**: Enable users to quickly generate and print professional missing pet flyers to help find their lost pets
+- **Solution**: Added comprehensive PDF flyer generation system with modal-based workflow:
+  - **Backend**: Updated `UserSerializer` to expose `email` and `phone_number` attributes with camelCase transformation for contact information on flyers
+  - **PDF Library**: Installed `react-to-print` package (v3.2.0) for client-side PDF generation
+  - **Modal Component**: Created `FlyerGenerationModal` with optional reward amount and additional notes inputs, following existing modal patterns
+  - **Flyer Component**: Created `LostPetFlyer` print-optimized React component with:
+    - Large "MISSING" header with red accent color
+    - Prominent pet image display
+    - Complete pet details (name, species, breed, colors, gender, spay/neuter status)
+    - Description and last seen location (for reports)
+    - Optional reward amount in highlighted red section
+    - Optional additional notes section
+    - Contact information (phone and/or email based on availability)
+    - Professional 8.5" x 11" layout with print-friendly styling
+  - **Custom Hook**: Created `useFlyerGeneration` hook to manage modal state and integrate with react-to-print
+  - **Pet Detail View**: Added "Generate Lost Pet Flyer" button visible when pet status is "missing"
+  - **Report Detail View**: Added "Generate Lost Pet Flyer" button visible for active reports
+  - **User Data Flow**: Updated `DashboardPets` and `DashboardReports` to fetch and pass user data from Redux auth state
+- **User Workflow**:
+  1. User clicks "Generate Lost Pet Flyer" button on missing pet or active report
+  2. Modal prompts for optional reward amount and additional notes
+  3. User confirms and browser print dialog opens automatically
+  4. User can print to PDF or physical printer
+- **Contact Information Logic**:
+  - Shows phone number if present
+  - Shows email if phone not present
+  - Shows both if both are present
+- **Files Created**:
+  - `app/src/shared/components/common/FlyerGenerationModal.jsx`
+  - `app/src/shared/components/common/LostPetFlyer.jsx`
+  - `app/src/shared/hooks/useFlyerGeneration.js`
+- **Files Modified**:
+  - `app/serializers/user_serializer.rb`
+  - `app/src/features/pets/components/PetDetailView.jsx`
+  - `app/src/features/reports/ReportDetailView.jsx`
+  - `app/src/features/dashboard/components/DashboardPets.jsx`
+  - `app/src/features/dashboard/components/DashboardReports.jsx`
+  - `package.json` (added react-to-print dependency)
+

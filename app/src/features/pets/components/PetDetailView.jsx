@@ -1,7 +1,11 @@
 import React from 'react';
 import StatusPill from "../../../shared/components/common/StatusPill";
+import useFlyerGeneration from "../../../shared/hooks/useFlyerGeneration";
+import FlyerGenerationModal from "../../../shared/components/common/FlyerGenerationModal";
+import LostPetFlyer from "../../../shared/components/common/LostPetFlyer";
 
-const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport, showSuccessPulse = false }) => {
+const PetDetailView = ({ pet, user, onBack, onEdit, onDelete, onCreateReport, onDeleteReport, showSuccessPulse = false }) => {
+  const { isModalOpen, openModal, closeModal, handleGenerateFlyer, flyerRef, rewardAmount, additionalNotes } = useFlyerGeneration();
   const handleEditClick = (e) => {
     e.stopPropagation();
     onEdit?.(pet);
@@ -141,7 +145,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
               </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 space-y-2">
               {pet.status !== 'archived' && (
                 <>
                   {pet.status === 'home' && onCreateReport && (
@@ -155,14 +159,24 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                     </div>
                   )}
                   {pet.status === 'missing' && (
-                    <div>
-                      <button
-                        onClick={handleDeleteReportClick}
-                        className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
-                      >
-                        <span className="mr-1">🎉</span> My pet was found! Delete this report.
-                      </button>
-                    </div>
+                    <>
+                      <div>
+                        <button
+                          onClick={openModal}
+                          className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <span className="mr-1">📄</span> Generate Lost Pet Flyer
+                        </button>
+                      </div>
+                      <div>
+                        <button
+                          onClick={handleDeleteReportClick}
+                          className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <span className="mr-1">🎉</span> My pet was found! Delete this report.
+                        </button>
+                      </div>
+                    </>
                   )}
                 </>
               )}
@@ -170,6 +184,23 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
             </div>
           </div>
         </div>
+      </div>
+
+      <FlyerGenerationModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={handleGenerateFlyer}
+      />
+
+      <div style={{ display: 'none' }}>
+        <LostPetFlyer
+          ref={flyerRef}
+          pet={pet}
+          report={null}
+          user={user}
+          rewardAmount={rewardAmount}
+          additionalNotes={additionalNotes}
+        />
       </div>
     </div>
   );

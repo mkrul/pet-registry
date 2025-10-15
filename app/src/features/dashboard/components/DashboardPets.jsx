@@ -8,7 +8,7 @@ import ConfirmationModal from '../../../shared/components/common/ConfirmationMod
 import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
 import { useDeletePetMutation, useArchivePetMutation, useGetUserPetsQuery } from '../../../store/features/pets/petsApi.js';
 import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
-import { useAppDispatch } from '../../../store/hooks.js';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks.js';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
 import FilterButtons from '../../../shared/components/common/FilterButtons.jsx';
@@ -21,6 +21,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.auth.user);
   const [page, setPage] = useState(1);
   const [selectedPet, setSelectedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
@@ -235,6 +236,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       {!isLoading && !isPreloading && selectedPet ? (
         <PetDetailView
           pet={selectedPet}
+          user={user}
           onBack={() => setSelectedPet(null)}
           onEdit={handleEditPet}
           onDelete={handleArchivePet}

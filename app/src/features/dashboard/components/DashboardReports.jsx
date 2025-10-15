@@ -8,7 +8,7 @@ import ConfirmationModal from '../../../shared/components/common/ConfirmationMod
 import ReportNewView from '../../reports/forms/ReportNewView.jsx';
 import { useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi.js';
-import { useAppDispatch } from '../../../store/hooks.js';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks.js';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
 import FilterButtons from '../../../shared/components/common/FilterButtons.jsx';
@@ -42,6 +42,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.auth.user);
   const [page, setPage] = useState(1);
   const [selectedReport, setSelectedReport] = useState(null);
   const [editingReport, setEditingReport] = useState(null);
@@ -291,6 +292,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       {!isLoading && selectedReport ? (
         <ReportDetailView
           report={selectedReport}
+          user={user}
           onBack={handleDeselectReport}
           onEdit={handleEditReport}
           onDelete={handleDeleteReport}
