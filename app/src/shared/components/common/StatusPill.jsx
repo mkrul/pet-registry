@@ -1,10 +1,26 @@
 import React from 'react';
+import { Home, Warning, CheckCircle, Archive } from '@mui/icons-material';
 
 const StatusPill = ({
   status,
   variant = 'default',
   customColors
 }) => {
+  const getStatusIcon = () => {
+    switch (status?.toLowerCase()) {
+      case 'home':
+        return <Home sx={{ fontSize: 14 }} />;
+      case 'missing':
+        return <Warning sx={{ fontSize: 14 }} />;
+      case 'active':
+        return <CheckCircle sx={{ fontSize: 14 }} />;
+      case 'archived':
+        return <Archive sx={{ fontSize: 14 }} />;
+      default:
+        return null;
+    }
+  };
+
   const getVariantClasses = () => {
     if (customColors) {
       return `${customColors.bg} ${customColors.text}`;
@@ -25,7 +41,8 @@ const StatusPill = ({
   };
 
   return (
-    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getVariantClasses()}`}>
+    <span className={`px-2 py-1 text-xs font-medium rounded-full flex items-center gap-1 ${getVariantClasses()}`}>
+      {getStatusIcon()}
       {status}
     </span>
   );
