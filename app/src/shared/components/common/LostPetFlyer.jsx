@@ -1,22 +1,35 @@
 import React from 'react';
+import { formatPhoneNumber } from '../../utils/phoneUtils';
 
-const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, additionalNotes }, ref) => {
+const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, customDescription }, ref) => {
   const data = report || pet;
-  const lastSeenLocation = report
-    ? [report.area, report.state, report.country].filter(Boolean).join(', ')
-    : 'Location unknown';
 
-  const description = report?.description || `Please help us find our beloved ${data.species}!`;
+  const description = customDescription || data?.description || `Please help us find our beloved ${data.species}!`;
 
-  const getSpayNeuterText = () => {
-    if (data.isAltered === true) return 'Spayed/Neutered: Yes';
-    if (data.isAltered === false) return 'Spayed/Neutered: No';
-    return 'Spayed/Neutered: Unknown';
+  const getSubtitle = () => {
+    const parts = [];
+
+    if (data.gender) {
+      parts.push(data.gender);
+    }
+
+    const breed = data.breed1 + (data.breed2 ? ` / ${data.breed2}` : '');
+    parts.push(breed);
+
+    if (data.gender && data.isAltered === true) {
+      const alteredText = data.gender.toLowerCase() === 'male' ? 'neutered' : 'spayed';
+      parts.push(`(${alteredText})`);
+    }
+
+    return parts.join(' ');
   };
 
-  const contactInfo = [];
-  if (user?.phoneNumber) contactInfo.push(`${user.phoneNumber}`);
-  if (user?.email) contactInfo.push(`${user.email}`);
+  const getContactInfo = () => {
+    const parts = [];
+    if (user?.email) parts.push(user.email);
+    if (user?.phoneNumber) parts.push(formatPhoneNumber(user.phoneNumber));
+    return parts.join(' | ');
+  };
 
   const colors = [data.color1, data.color2, data.color3].filter(Boolean);
 
@@ -33,15 +46,22 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, additi
               print-color-adjust: exact;
               -webkit-print-color-adjust: exact;
             }
+            .print-flyer {
+              page-break-after: avoid;
+              page-break-inside: avoid;
+            }
           }
           .print-flyer {
             width: 8.5in;
-            min-height: 11in;
+            height: 11in;
+            max-height: 11in;
             background: white;
-            padding: 0.5in;
+            padding: 0.3in;
             font-family: Arial, sans-serif;
             color: #000;
-            page-break-after: always;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
           }
           .print-flyer * {
             box-sizing: border-box;
@@ -49,17 +69,27 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, additi
         `}
       </style>
 
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'center', flex: '0 0 auto' }}>
         <h1 style={{
           fontSize: '130px',
           fontWeight: 'bold',
+          marginTop: '-50px',
           marginBottom: '-20px',
           textTransform: 'uppercase',
           letterSpacing: '4px',
           color: '#DC2626'
         }}>
-          {data.status === 'missing' ? 'LOST' : 'FOUND'} {data.species}
+          LOST {data.species}
         </h1>
+        <h2 style={{
+          fontSize: '28px',
+          fontWeight: 'normal',
+          textAlign: 'center',
+          margin: '0 0 20px 0',
+          color: '#333'
+        }}>
+          {getSubtitle()}
+        </h2>
         <h3 style={{
           fontSize: '24px',
           fontWeight: 'bold',
@@ -75,37 +105,29 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, additi
           lineHeight: '1.8',
           marginBottom: '20px'
         }}>
-          {contactInfo.map((info, index) => (
-            <p key={index} style={{ margin: '0', fontWeight: 'bold' }}>
-              {info}
-            </p>
-          ))}
-          {contactInfo.length === 0 && (
-            <p style={{ margin: '0', fontWeight: 'bold' }}>
-              Contact information not available
-            </p>
-          )}
+          <p style={{ margin: '0', fontWeight: 'bold' }}>
+            {getContactInfo() || 'Contact information not available'}
+          </p>
         </div>
       </div>
 
-      <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '10px', flex: '0 0 auto' }}>
         {data.image?.url ? (
           <img
             src={data.image.url}
             alt={data.name}
             style={{
-              maxWidth: '100%',
-              maxHeight: '400px',
-              width: 'auto',
-              height: 'auto',
+              width: '400px',
+              height: '400px',
+              objectFit: 'cover',
               border: '3px solid #000',
               display: 'block',
-              margin: '0 auto'
+              margin: '0 auto 30px auto'
             }}
           />
         ) : (
           <div style={{
-            width: '100%',
+            width: '400px',
             height: '400px',
             border: '3px solid #000',
             display: 'flex',
@@ -113,77 +135,30 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, additi
             justifyContent: 'center',
             background: '#f5f5f5',
             fontSize: '24px',
-            color: '#666'
+            color: '#666',
+            margin: '0 auto 30px auto'
           }}>
           </div>
         )}
       </div>
 
-      <div style={{ marginBottom: '30px' }}>
-        <div style={{
-          fontSize: '18px',
-          lineHeight: '1.8',
-          marginBottom: '15px'
-        }}>
-          <div style={{
-            display: 'flex',
-            gap: '40px',
-            marginTop: '10px'
-          }}>
-            <div style={{ flex: '1' }}>
-              <p style={{ margin: '8px 0' }}>
-                <strong>Breed:</strong> {data.breed1}{data.breed2 ? ` / ${data.breed2}` : ''}
-              </p>
-              {colors.length > 0 && (
-                <p style={{ margin: '8px 0' }}>
-                  <strong>Color(s):</strong> {colors.join(', ')}
-                </p>
-              )}
-            </div>
-
-            <div style={{ flex: '1' }}>
-              {data.gender && (
-                <p style={{ margin: '8px 0' }}>
-                  <strong>Gender:</strong> {data.gender}
-                </p>
-              )}
-              <p style={{ margin: '8px 0' }}>
-                <strong>{getSpayNeuterText()}</strong>
-              </p>
-            </div>
-          </div>
-
-          {report && (
-            <p style={{ margin: '8px 0', marginTop: '10px' }}>
-              <strong>Last Seen:</strong> {lastSeenLocation}
-            </p>
-          )}
-        </div>
-
+      <div style={{ flex: '1 1 auto', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
         {description && (
           <div style={{
             padding: '15px',
             background: '#f9f9f9',
             border: '2px solid #000',
-            marginBottom: '15px'
+            marginBottom: '15px',
+            flex: '0 1 auto'
           }}>
             <div style={{
               fontSize: '16px',
               lineHeight: '1.6',
               margin: '0'
             }}>
-              <p style={{ margin: '0 0 10px 0' }}>
+              <p style={{ margin: '0' }}>
                 {description}
               </p>
-              { additionalNotes && (
-                <p style={{
-                  fontSize: '16px',
-                  lineHeight: '1.6',
-                  margin: '0'
-                }}>
-                  {additionalNotes}
-                </p>
-              )}
             </div>
           </div>
         )}
@@ -191,14 +166,13 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, additi
         {rewardAmount && (
           <div style={{
             textAlign: 'center',
-            padding: '20px',
-            background: '#DC2626',
-            color: 'white',
-            marginBottom: '20px',
-            border: '3px solid #000'
+            padding: '10px',
+            color: 'BLACK',
+            flex: '0 0 auto',
+            marginTop: 'auto'
           }}>
             <p style={{
-              fontSize: '36px',
+              fontSize: '66px',
               fontWeight: 'bold',
               margin: '0'
             }}>

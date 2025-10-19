@@ -137,7 +137,7 @@ module Api
 
     def success_response(user)
       {
-        user: user.as_json(only: [:id, :email, :phone_number, :created_at]),
+        user: UserSerializer.new(user).as_json,
         message: 'Logged in successfully'
       }
     end

@@ -38,7 +38,7 @@ module Api
       if user.update(update_params)
         render json: {
           message: 'Profile updated successfully.',
-          user: user.as_json(only: [:id, :email, :phone_number, :created_at])
+          user: UserSerializer.new(user).as_json
         }, status: :ok
       else
         render json: {

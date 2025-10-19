@@ -236,7 +236,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       {!isLoading && !isPreloading && selectedPet ? (
         <PetDetailView
           pet={selectedPet}
-          user={user}
           onBack={() => setSelectedPet(null)}
           onEdit={handleEditPet}
           onDelete={handleArchivePet}
