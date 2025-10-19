@@ -1,10 +1,15 @@
 import React from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 import { formatPhoneNumber } from '../../utils/phoneUtils';
 
 const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, customDescription }, ref) => {
   const data = report || pet;
 
   const description = customDescription || data?.description || `Please help us find our beloved ${data.species}!`;
+
+  const reportUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/reports/${data.id}`
+    : `https://lostpetsregistry.com/reports/${data.id}`;
 
   const getSubtitle = () => {
     const parts = [];
@@ -97,8 +102,26 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, custom
           margin: '0',
           textTransform: 'uppercase'
         }}>
-          If Found, Please Contact:
+          Lost Pets Registry
         </h3>
+        <h4 style={{
+          fontSize: '18px',
+          fontWeight: 'normal',
+          textAlign: 'center',
+          margin: '0 0 10px 0',
+          color: '#666'
+        }}>
+          www.lostpetsregistry.com
+        </h4>
+        <h5 style={{
+          fontSize: '20px',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          margin: '0',
+          textTransform: 'uppercase'
+        }}>
+          If Found, Please Contact:
+        </h5>
         <div style={{
           fontSize: '20px',
           textAlign: 'center',
@@ -149,15 +172,41 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, custom
             background: '#f9f9f9',
             border: '2px solid #000',
             marginBottom: '15px',
-            flex: '0 1 auto'
+            flex: '0 1 auto',
+            display: 'flex',
+            gap: '15px',
+            alignItems: 'flex-start'
           }}>
             <div style={{
               fontSize: '16px',
               lineHeight: '1.6',
-              margin: '0'
+              margin: '0',
+              flex: '1'
             }}>
               <p style={{ margin: '0' }}>
                 {description}
+              </p>
+            </div>
+            <div style={{
+              flex: '0 0 auto',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <QRCodeSVG
+                value={reportUrl}
+                size={120}
+                level="H"
+                includeMargin={false}
+              />
+              <p style={{
+                fontSize: '10px',
+                margin: '0',
+                textAlign: 'center',
+                fontWeight: 'bold'
+              }}>
+                Scan for details
               </p>
             </div>
           </div>

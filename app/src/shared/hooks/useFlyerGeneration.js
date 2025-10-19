@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
-const useFlyerGeneration = () => {
+const useFlyerGeneration = (reportId) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [rewardAmount, setRewardAmount] = useState('');
@@ -10,7 +10,7 @@ const useFlyerGeneration = () => {
 
   const handlePrint = useReactToPrint({
     contentRef: flyerRef,
-    documentTitle: 'Lost Pet Flyer',
+    documentTitle: `Lost Pets Registry - https://www.lostpetsregistry.com/reports/${reportId}`,
   });
 
   const openModal = useCallback(() => {
