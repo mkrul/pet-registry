@@ -10,6 +10,7 @@ import { ImageUpload } from '../../listings/components/common/ImageUpload.jsx';
 import { LocationSelect } from '../../listings/components/common/LocationSelect.jsx';
 import DateDisplay from '../../listings/components/common/DateDisplay.jsx';
 import { createMapLocation } from '../../../shared/utils/mapUtils.js';
+import AssociatedRecordUpdateModal from '../../../shared/components/common/AssociatedRecordUpdateModal.jsx';
 
 const ReportEditForm = ({
   report,
@@ -34,7 +35,10 @@ const ReportEditForm = ({
     handleSaveChanges,
     handleLocationSelect,
     getFilteredBreedOptions,
-    getFilteredColorOptions
+    getFilteredColorOptions,
+    showConfirmModal,
+    handleConfirmSave,
+    handleCancelSave
   } = useReportEdit(report);
 
   const isFormDisabled = isSaving || isProcessingLocation;
@@ -42,6 +46,13 @@ const ReportEditForm = ({
   const handleSave = async (e) => {
     e.preventDefault();
     const result = await handleSaveChanges(e);
+    if (result.success) {
+      onSaveSuccess?.(result.success);
+    }
+  };
+
+  const handleConfirmAndSave = async () => {
+    const result = await handleConfirmSave();
     if (result.success) {
       onSaveSuccess?.(result.success);
     }
@@ -128,6 +139,14 @@ const ReportEditForm = ({
           <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />
         </form>
       </div>
+
+      <AssociatedRecordUpdateModal
+        isOpen={showConfirmModal}
+        onClose={handleCancelSave}
+        onConfirm={handleConfirmAndSave}
+        recordType="report"
+        isLoading={isSaving}
+      />
     </div>
   );
 };

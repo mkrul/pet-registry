@@ -22,6 +22,7 @@ class Pets::Update < ActiveInteraction::Base
 
       if update_pet_attributes
         attach_new_image if image.present?
+        update_associated_report if pet.report.present?
         pet
       else
         errors.merge!(pet.errors)
@@ -44,6 +45,24 @@ class Pets::Update < ActiveInteraction::Base
       gender: gender,
       microchip_id: microchip_id,
       is_altered: is_altered
+    )
+  end
+
+  def update_associated_report
+    report = pet.report
+    return unless report
+
+    report.update(
+      name: name || report.name,
+      species: species&.downcase || report.species,
+      breed_1: breed_1 || report.breed_1,
+      breed_2: breed_2 || report.breed_2,
+      color_1: color_1&.downcase || report.color_1,
+      color_2: color_2&.downcase || report.color_2,
+      color_3: color_3&.downcase || report.color_3,
+      gender: gender || report.gender,
+      microchip_id: microchip_id || report.microchip_id,
+      is_altered: is_altered.nil? ? report.is_altered : is_altered
     )
   end
 

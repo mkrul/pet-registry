@@ -17,6 +17,7 @@ export const useReportEdit = (report) => {
   const [newImageFile, setNewImageFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
   const [isSaving, setIsSaving] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const [updateReport] = useUpdateReportMutation();
 
@@ -90,14 +91,26 @@ export const useReportEdit = (report) => {
     setFormData(prev => ({ ...prev, ...location }));
   };
 
+  const hasAssociatedPet = report.petId !== null && report.petId !== undefined;
+
   const handleSaveChanges = async (e) => {
     e.preventDefault();
+
+    if (hasAssociatedPet) {
+      setShowConfirmModal(true);
+      return { pending: true };
+    }
+
+    return await performSave();
+  };
+
+  const performSave = async () => {
     setIsSaving(true);
+    setShowConfirmModal(false);
 
     const formDataToSend = new FormData();
     const snakeCaseData = transformToSnakeCase(formData);
 
-    // Fields that should not be sent to the API (system-generated or read-only)
     const excludedFields = [
       "id", "image", "created_at", "updated_at",
       "recently_updated", "recently_created", "user_id"
@@ -127,6 +140,14 @@ export const useReportEdit = (report) => {
     }
   };
 
+  const handleConfirmSave = async () => {
+    return await performSave();
+  };
+
+  const handleCancelSave = () => {
+    setShowConfirmModal(false);
+  };
+
   return {
     formData,
     isSaving,
@@ -143,6 +164,10 @@ export const useReportEdit = (report) => {
     handleSaveChanges,
     handleLocationSelect,
     getFilteredBreedOptions,
-    getFilteredColorOptions
+    getFilteredColorOptions,
+    showConfirmModal,
+    handleConfirmSave,
+    handleCancelSave,
+    hasAssociatedPet
   };
 };

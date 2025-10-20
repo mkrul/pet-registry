@@ -78,7 +78,7 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, custom
         <h1 style={{
           fontSize: '130px',
           fontWeight: 'bold',
-          marginTop: '-50px',
+          marginTop: '-30px',
           marginBottom: '-20px',
           textTransform: 'uppercase',
           letterSpacing: '4px',
@@ -95,24 +95,6 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, custom
         }}>
           {getSubtitle()}
         </h2>
-        <h3 style={{
-          fontSize: '24px',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          margin: '0',
-          textTransform: 'uppercase'
-        }}>
-          Lost Pets Registry
-        </h3>
-        <h4 style={{
-          fontSize: '18px',
-          fontWeight: 'normal',
-          textAlign: 'center',
-          margin: '0 0 10px 0',
-          color: '#666'
-        }}>
-          www.lostpetsregistry.com
-        </h4>
         <h5 style={{
           fontSize: '20px',
           fontWeight: 'bold',

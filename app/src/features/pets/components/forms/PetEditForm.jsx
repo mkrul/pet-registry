@@ -7,6 +7,7 @@ import { PetBasicInfoFields } from '../common/PetBasicInfoFields.jsx';
 import { PetIdentificationFields } from '../common/PetIdentificationFields.jsx';
 import { PetColorFields } from '../common/PetColorFields.jsx';
 import { ImageUpload } from '../../../listings/components/common/ImageUpload.jsx';
+import AssociatedRecordUpdateModal from '../../../../shared/components/common/AssociatedRecordUpdateModal.jsx';
 
 
 const PetEditForm = ({
@@ -28,12 +29,22 @@ const PetEditForm = ({
     handleImageError,
     handleSaveChanges,
     getFilteredBreedOptions,
-    getFilteredColorOptions
+    getFilteredColorOptions,
+    showConfirmModal,
+    handleConfirmSave,
+    handleCancelSave
   } = usePetEdit(pet);
 
   const handleSave = async (e) => {
     e.preventDefault();
     const result = await handleSaveChanges(e);
+    if (result.success) {
+      onSaveSuccess?.();
+    }
+  };
+
+  const handleConfirmAndSave = async () => {
+    const result = await handleConfirmSave();
     if (result.success) {
       onSaveSuccess?.();
     }
@@ -102,6 +113,14 @@ const PetEditForm = ({
           />
         </form>
       </div>
+
+      <AssociatedRecordUpdateModal
+        isOpen={showConfirmModal}
+        onClose={handleCancelSave}
+        onConfirm={handleConfirmAndSave}
+        recordType="pet"
+        isLoading={isSaving}
+      />
     </div>
   );
 };

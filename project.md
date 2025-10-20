@@ -398,3 +398,47 @@
   - `app/src/features/dashboard/components/DashboardReports.jsx`
   - `package.json` (added react-to-print dependency)
 
+### 2025-10-20: Added confirmation modals for updating associated pet/report records
+- **Purpose**: Inform users when updating a pet or report will also update its associated record, providing transparency and preventing unexpected data changes
+- **Solution**: Implemented comprehensive confirmation modal system for both pet and report updates:
+  - **Modal Component**: Created `AssociatedRecordUpdateModal` that displays before saving when an associated record exists
+  - **Pet Updates**:
+    - Modified `usePetEdit` hook to detect if pet has an associated report (`reportId` present)
+    - When saving a pet with an associated report, modal appears explaining that the report will be updated with the same information
+    - Updated `PetEditForm` to integrate the confirmation modal
+    - Backend service `Pets::Update` now syncs data to associated report (name, species, breeds, colors, gender, microchip ID, spay/neuter status)
+  - **Report Updates**:
+    - Modified `useReportEdit` hook to detect if report has an associated pet (`petId` present)
+    - When saving a report with an associated pet, modal appears explaining that the pet will be updated with the same information
+    - Updated `ReportEditView` to integrate the confirmation modal
+    - Backend service `Reports::Update` now syncs data to associated pet (name, species, breeds, colors, gender, microchip ID, spay/neuter status)
+  - **Modal Features**:
+    - Shows only when an associated record exists
+    - Clearly explains which fields will be synced
+    - Provides "Cancel" and "Save Both" options
+    - Displays loading state during save operation
+    - Accessible with keyboard navigation (ESC to close)
+  - **Data Synchronization**:
+    - Synced fields: name, species, breed_1, breed_2, color_1, color_2, color_3, gender, microchip_id, is_altered
+    - Uses fallback logic to preserve existing data if new values are nil
+    - Executed within database transaction for consistency
+  - **Backend Updates**:
+    - Added `update_associated_report` method to `Pets::Update` service
+    - Added `update_associated_pet` method to `Reports::Update` service
+    - Updated `ReportSerializer` to include `pet_id` attribute for frontend detection
+- **User Workflow**:
+  1. User edits pet or report and clicks green "Save" button
+  2. If associated record exists, confirmation modal appears
+  3. User can cancel or confirm to save both records
+  4. Data is saved to both records simultaneously
+- **Files Created**:
+  - `app/src/shared/components/common/AssociatedRecordUpdateModal.jsx`
+- **Files Modified**:
+  - `app/src/shared/hooks/usePetEdit.js`
+  - `app/src/features/pets/components/forms/PetEditForm.jsx`
+  - `app/src/shared/hooks/useReportEdit.js`
+  - `app/src/features/reports/forms/ReportEditView.jsx`
+  - `app/services/pets/update.rb`
+  - `app/services/reports/update.rb`
+  - `app/serializers/report_serializer.rb`
+
