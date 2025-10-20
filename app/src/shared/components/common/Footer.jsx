@@ -12,7 +12,7 @@ const Footer = () => {
             <NavLink linkTo="/dashboard/reports?action=create">New Report</NavLink>
           )}
           <NavLink linkTo="/reports">Search</NavLink>
-          <NavLink linkTo="#">About</NavLink>
+          <NavLink linkTo="/about">About</NavLink>
           <NavLink linkTo="#">Contact</NavLink>
         </div>
         <div className="mt-4 text-sm text-gray-500">

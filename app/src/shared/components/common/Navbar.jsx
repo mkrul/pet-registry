@@ -83,7 +83,7 @@ const NavBar = () => {
                   <NavLink linkTo="/reports" handler={() => setIsMenuOpen(false)}>Search</NavLink>
                 </li>
                 <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
-                  <NavLink linkTo="#" handler={() => setIsMenuOpen(false)}>About</NavLink>
+                  <NavLink linkTo="/about" handler={() => setIsMenuOpen(false)}>About</NavLink>
                 </li>
               </ul>
             </div>
@@ -115,7 +115,7 @@ const NavBar = () => {
                 <NavLink linkTo="/reports">Search</NavLink>
               </li>
               <li>
-                <NavLink linkTo="#">About</NavLink>
+                <NavLink linkTo="/about">About</NavLink>
               </li>
               {!isAuthenticated && (
                 <li>
