@@ -1,6 +1,14 @@
 module ReportValidations
   extend ActiveSupport::Concern
 
+
+  # We want the ability to add an "event" to a report.  We'll need to have a new db table called events.  One report should have many events.  In this case the events will be of type
+  # Events::Reports::Tip
+
+  # Any user should be able to click on a report and view it (http://localhost:3000/reports/85?query=&page=1), then click a button to add an event for the report.  Eventually we might use report events to track other things, but for now we want to allow users to submit a tip as a report event that shows where the animal was last seen.
+
+  # The Report::Event tips shoould display on the map.
+
   included do
     validates :title,
             presence: { message: "cannot be blank" },
