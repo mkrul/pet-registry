@@ -267,9 +267,6 @@ const ReportDetailPage = ({ report }) => {
             className="max-h-full max-w-full object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <div className="absolute bottom-4 left-0 right-0 text-center text-white text-sm bg-black bg-opacity-50 py-2">
-            {report.title}
-          </div>
         </div>
       )}
     </div>

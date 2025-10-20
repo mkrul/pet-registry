@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import { useGetReportQuery } from "../../../store/features/reports/reportsApi.js";
-import ReportDetailsCard from "../components/ListingDetailsCard.jsx";
+import ListingDetailsCard from "../components/ListingDetailsCard.jsx";
 import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { useDispatch } from "react-redux";
 import { addNotification } from "../../../store/features/notifications/notificationsSlice.js";
@@ -45,7 +45,7 @@ const ListingShowView = () => {
 
   return (
     <div data-testid="report-show">
-      <ReportDetailsCard report={report} />
+      <ListingDetailsCard report={report} />
     </div>
   );
 };

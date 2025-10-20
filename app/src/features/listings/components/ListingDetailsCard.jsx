@@ -7,7 +7,7 @@ import DateDisplay from "./common/DateDisplay.jsx";
 import { createMapLocation } from "../../../shared/utils/mapUtils.js";
 import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
 
-const ReportDetailsCard = ({ report }) => {
+const ListingDetailsCard = ({ report }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -272,4 +272,4 @@ const ReportDetailsCard = ({ report }) => {
   );
 };
 
-export default ReportDetailsCard;
+export default ListingDetailsCard;
