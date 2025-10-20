@@ -348,7 +348,10 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
         onClose={handleCancelArchive}
         onConfirm={handleConfirmArchive}
         title="Archive Report"
-        message={`Are you sure you want to archive "${reportToArchive?.title}"? This report will no longer be visible to others in search results.`}
+        message={reportToArchive?.petId
+          ? `Are you sure you want to archive "${reportToArchive?.title}"? This report will no longer be visible to others in search results, and the associated pet will be marked as "Home".`
+          : `Are you sure you want to archive "${reportToArchive?.title}"? This report will no longer be visible to others in search results.`
+        }
         confirmText="Archive"
         cancelText="Cancel"
         isLoading={isArchiving}
