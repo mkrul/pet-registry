@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { truncate } from 'lodash';
 import Spinner from '../../shared/components/common/Spinner.jsx';
 import StatusPill from '../../shared/components/common/StatusPill.jsx';
@@ -10,6 +10,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
   const { isModalOpen, isGenerating, openModal, closeModal, handleGenerateFlyer, flyerRef, rewardAmount, customDescription } = useFlyerGeneration(report.id);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
 
   const handleEditClick = (e) => {
     e.stopPropagation();
@@ -29,6 +30,36 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
     setImageLoading(false);
     setImageError(true);
   };
+
+  const handleImageClick = () => {
+    setIsImageModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsImageModalOpen(false);
+  };
+
+  const handleModalKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      setIsImageModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isImageModalOpen) {
+      document.body.style.overflow = 'hidden';
+      const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+          setIsImageModalOpen(false);
+        }
+      };
+      document.addEventListener('keydown', handleEscape);
+      return () => {
+        document.body.style.overflow = 'unset';
+        document.removeEventListener('keydown', handleEscape);
+      };
+    }
+  }, [isImageModalOpen]);
 
   const getStatusPill = () => {
     if (report.status === 'archived') {
@@ -55,17 +86,26 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
         <div className="md:flex">
           <div className="md:w-1/2 relative">
             {imageLoading && !imageError && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-20">
                 <Spinner size={40} inline={true} bgFaded={false} />
               </div>
             )}
-            <img
-              src={report.image?.variantUrl || "/images/placeholder.png"}
-              alt={report.title}
-              className={`w-full h-64 md:h-full object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-              onLoad={handleImageLoad}
-              onError={handleImageError}
-            />
+            <div
+              className="relative cursor-pointer group"
+              onClick={handleImageClick}
+            >
+              <img
+                src={report.image?.variantUrl || "/images/placeholder.png"}
+                alt={report.title}
+                className={`w-full h-64 md:h-full object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${imageLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+              />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none" />
+              <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                Click to enlarge
+              </div>
+            </div>
           </div>
           <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
@@ -179,6 +219,37 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
           customDescription={customDescription}
         />
       </div>
+
+      {isImageModalOpen && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-90 p-4"
+          onClick={handleCloseModal}
+          onKeyDown={handleModalKeyDown}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Full size image view"
+          tabIndex={-1}
+        >
+          <button
+            onClick={handleCloseModal}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10"
+            aria-label="Close full size image"
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <img
+            src={report.image?.variantUrl || "/images/placeholder.png"}
+            alt={report.title}
+            className="max-h-full max-w-full object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <div className="absolute bottom-4 left-0 right-0 text-center text-white text-sm bg-black bg-opacity-50 py-2">
+            {report.title}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
