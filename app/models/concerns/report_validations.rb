@@ -9,7 +9,7 @@ module ReportValidations
     validates :name,
       presence: { message: "cannot be blank" },
       length: { maximum: 30, message: "must be 30 characters or less" },
-      format: { with: /\A[a-zA-Z0-9\s\-]+\z/, message: "can only contain letters, numbers, spaces, and hyphens" },
+      format: { with: /\A[a-zA-Z0-9\s\-\.]+\z/, message: "can only contain letters, numbers, spaces, hyphens, and periods" },
       allow_blank: true,
       allow_nil: true
 

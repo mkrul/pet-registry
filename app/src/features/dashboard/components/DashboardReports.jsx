@@ -189,6 +189,15 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   }, [action, isCreatingReport]);
 
   useEffect(() => {
+    if (selectedReport && reports.length > 0) {
+      const updatedReport = reports.find((r) => r.id === selectedReport.id);
+      if (updatedReport) {
+        setSelectedReport(updatedReport);
+      }
+    }
+  }, [reports, selectedReport]);
+
+  useEffect(() => {
     if (reportId) {
       if (reports.length > 0) {
         const report = reports.find(r => r.id === parseInt(reportId));

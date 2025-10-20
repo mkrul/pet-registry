@@ -442,3 +442,32 @@
   - `app/services/reports/update.rb`
   - `app/serializers/report_serializer.rb`
 
+### 2025-10-20: Updated name validation to allow periods and hyphens
+- **Purpose**: Allow more flexible pet and report names that can include periods and hyphens for better user experience
+- **Solution**: Updated validation rules for both pet and report name fields:
+  - **Pet Names**: Updated regex from `/\A[a-zA-Z0-9\s\-]+\z/` to `/\A[a-zA-Z0-9\s\-\.]+\z/` to allow periods
+  - **Report Names**: Updated regex from `/\A[a-zA-Z0-9\s\-]+\z/` to `/\A[a-zA-Z0-9\s\-\.]+\z/` to allow periods
+  - **Error Messages**: Updated validation messages to reflect new allowed characters: "can only contain letters, numbers, spaces, hyphens, and periods"
+  - **Test Coverage**: Added test case to verify names with periods and hyphens are valid (e.g., "Mr. Fluffy-Paws")
+- **Allowed Characters**: Letters (a-z, A-Z), numbers (0-9), spaces, hyphens (-), and periods (.)
+- **Files Modified**:
+  - `app/models/concerns/pet_validations.rb`
+  - `app/models/concerns/report_validations.rb`
+  - `spec/models/report_spec.rb`
+
+### 2025-10-20: Fixed state synchronization between pet and report updates
+- **Issue**: When updating a pet's name and then viewing the associated report detail view, the report still showed the old pet name until a hard page refresh. The state wasn't properly synchronized between pet and report caches in RTK Query
+- **Root Cause**: Two issues were preventing proper state synchronization:
+  1. RTK Query cache invalidation was not coordinated between pets and reports - when a pet was updated, only Pets cache tags were invalidated, not Reports cache tags
+  2. `DashboardReports` component lacked the same state update pattern as `DashboardPets` - it didn't update `selectedReport` when the `reports` array refreshed from cache invalidation
+- **Solution**:
+  - **Cache Invalidation**: Updated both `updatePet` and `updateReport` mutations to invalidate both Pets and Reports cache tags, ensuring cross-cache synchronization
+  - **State Update Pattern**: Added useEffect to `DashboardReports` (matching the pattern in `DashboardPets`) that updates `selectedReport` whenever the `reports` array changes, ensuring the detail view always shows fresh data
+  - **Tag Types**: Added "Reports" to petsApi tagTypes for proper cross-cache invalidation
+  - **Cache Tags Invalidated**: Both mutations now invalidate `LIST` and `USER_LIST` tags for both Pets and Reports
+- **User Experience**: Pet and report data now stay synchronized across all views without requiring hard refreshes. When a pet name is updated, the associated report immediately reflects the new name in the report detail view
+- **Files Modified**:
+  - `app/src/store/features/pets/petsApi.js`
+  - `app/src/store/features/reports/reportsApi.js`
+  - `app/src/features/dashboard/components/DashboardReports.jsx`
+

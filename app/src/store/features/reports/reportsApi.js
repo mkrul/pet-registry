@@ -100,7 +100,10 @@ export const reportsApi = createApi({
       }),
       invalidatesTags: (result, error, { id }) => [
         { type: "Reports", id },
-        { type: "Reports", id: "LIST" }
+        { type: "Reports", id: "LIST" },
+        { type: "Reports", id: "USER_LIST" },
+        { type: "Pets", id: "LIST" },
+        { type: "Pets", id: "USER_LIST" }
       ]
     }),
     archiveReport: build.mutation({
@@ -152,13 +155,13 @@ export const reportsApi = createApi({
           { type: "Pets", id: "LIST" },
           { type: "Pets", id: "USER_LIST" }
         ];
-        
+
         // If petId was provided in the form data, also invalidate that specific pet
         const petId = arg.get("pet_id");
         if (petId) {
           tags.push({ type: "Pets", id: petId });
         }
-        
+
         return tags;
       }
     }),

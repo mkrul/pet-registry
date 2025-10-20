@@ -97,10 +97,6 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Species</h4>
-                  <p className="text-gray-900 capitalize">{pet.species}</p>
-                </div>
-                <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
                   <p className="text-gray-900 truncate">{pet.breed1}</p>
                   {pet.breed2 && (
@@ -112,14 +108,8 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                   <p className="text-gray-900 capitalize">{pet.gender || 'Unknown'}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Colors</h4>
-                  <p className="text-gray-900 truncate">{pet.color1}</p>
-                  {pet.color2 && (
-                    <p className="text-gray-900 truncate">{pet.color2}</p>
-                  )}
-                  {pet.color3 && (
-                    <p className="text-gray-900 truncate">{pet.color3}</p>
-                  )}
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Spayed/Neutered</h4>
+                  <p className="text-gray-900 truncate">{pet.isAltered ? 'Yes' : 'No'}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Microchip ID</h4>

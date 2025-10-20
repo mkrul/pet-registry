@@ -67,7 +67,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
               onError={handleImageError}
             />
           </div>
-          <div className="md:w-1/2 p-6">
+          <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-2xl font-bold text-gray-900 truncate flex-1 mr-4">{report.title}</h3>
               <div className="flex space-x-2">
@@ -96,11 +96,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
               </div>
             </div>
 
-            <div className="space-y-4 mb-4">
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-1">Description</h4>
-                <p className="text-gray-900">{truncate(report.description, { length: 200 })}</p>
-              </div>
+            <div className="space-y-4 flex-1">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
@@ -113,17 +109,18 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
                   <p className="text-gray-900">{report.name || 'Unknown'}</p>
                 </div>
               </div>
+
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Species</h4>
-                  <p className="text-gray-900 capitalize">{report.species}</p>
-                </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
                   <p className="text-gray-900">{report.breed1}</p>
                   {report.breed2 && (
                     <p className="text-gray-900">{report.breed2}</p>
                   )}
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-gray-500 mb-1">Spayed/Neutered</h4>
+                  <p className="text-gray-900 truncate">{report.isAltered ? 'Yes' : 'No'}</p>
                 </div>
               </div>
 

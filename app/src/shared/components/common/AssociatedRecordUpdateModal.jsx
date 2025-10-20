@@ -37,7 +37,7 @@ const AssociatedRecordUpdateModal = ({
   const associatedType = isPet ? 'report' : 'pet';
 
   const title = `Update Associated ${associatedType === 'report' ? 'Report' : 'Pet'}?`;
-  const message = `This ${recordType} has an active ${associatedType} associated with it. Saving these changes will also update the ${associatedType} with the same information (name, species, breed, colors, gender, microchip ID, and spay/neuter status).`;
+  const message = `This ${recordType} has an active ${associatedType} associated with it. Saving these changes will also update the ${associatedType} with the same information (name, species, breed, etc).`;
 
   return (
     <div

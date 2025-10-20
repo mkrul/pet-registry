@@ -40,7 +40,7 @@ const useFlyerGeneration = (reportId) => {
           console.log('Print dialog closed');
 
           const elapsed = Date.now() - startTime;
-          const minimumWait = 3000;
+          const minimumWait = 1000;
           const remainingTime = Math.max(0, minimumWait - elapsed);
 
           await new Promise(resolve => setTimeout(resolve, remainingTime));
@@ -51,7 +51,7 @@ const useFlyerGeneration = (reportId) => {
         } catch (error) {
           console.error('Error calling handlePrint:', error);
           const elapsed = Date.now() - startTime;
-          const minimumWait = 3000;
+          const minimumWait = 1000;
           const remainingTime = Math.max(0, minimumWait - elapsed);
 
           await new Promise(resolve => setTimeout(resolve, remainingTime));
@@ -59,7 +59,7 @@ const useFlyerGeneration = (reportId) => {
         }
       } else {
         console.error('Flyer ref is not available');
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         setIsGenerating(false);
       }
     }, 100);

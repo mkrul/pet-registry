@@ -7,7 +7,7 @@ export const petsApi = createApi({
     baseUrl: "/api/",
     credentials: "same-origin"
   }),
-  tagTypes: ["Pets"],
+  tagTypes: ["Pets", "Reports"],
   endpoints: build => ({
     getPet: build.query({
       query: id => `pets/${id}`,
@@ -54,7 +54,10 @@ export const petsApi = createApi({
       }),
       invalidatesTags: (result, error, { id }) => [
         { type: "Pets", id },
-        { type: "Pets", id: "LIST" }
+        { type: "Pets", id: "LIST" },
+        { type: "Pets", id: "USER_LIST" },
+        { type: "Reports", id: "LIST" },
+        { type: "Reports", id: "USER_LIST" }
       ]
     }),
     deletePet: build.mutation({

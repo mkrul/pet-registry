@@ -125,7 +125,14 @@ RSpec.describe Report, type: :model do
     it 'is invalid' do
       report = FactoryBot.build(:report, name: 'John@Doe')
       expect(report.valid?).to be false
-      expect(report.errors[:name]).to include("Name can only contain letters, numbers, spaces, and hyphens")
+      expect(report.errors[:name]).to include("can only contain letters, numbers, spaces, hyphens, and periods")
+    end
+  end
+
+  context 'when name contains periods and hyphens' do
+    it 'is valid' do
+      report = FactoryBot.build(:report, name: 'Mr. Fluffy-Paws')
+      expect(report.valid?).to be true
     end
   end
 
