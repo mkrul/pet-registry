@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Box, Typography, Grid, Divider, Button } from "@mui/material";
+import { Container, Box, Typography, Grid2, Divider, Button } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
@@ -15,42 +15,146 @@ const AboutPage = () => {
       <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
         <Box sx={{ mb: 10 }}>
           <Typography
-            variant="h2"
+            variant="h1"
             component="h1"
             gutterBottom
             sx={{
               fontWeight: 700,
               letterSpacing: "-0.02em",
-              fontSize: { xs: "2.5rem", md: "3.5rem" },
-              mb: 3
+              fontSize: { xs: "3rem", md: "3rem" },
+              mb: 2,
+              textAlign: "center"
             }}
           >
-            Why build a lost pet registry?
+            Did you know?
           </Typography>
         </Box>
 
-        <Box sx={{
-          mb: 10,
-          borderLeft: "4px solid",
-          borderColor: "error.main",
-          pl: 4,
-          py: 2
-        }}>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.0625rem", lineHeight: 1.8, color: "text.secondary" }}>
-            Most shelters operate on a <strong>stray hold period</strong> of just 3-7 days, depending on local laws. During this brief window, shelters are required to hold found animals to give owners a chance to reclaim them. But here's the heartbreaking reality: after the stray hold expires, animals become available for adoption or can be transferred to rescue organizations.
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.0625rem", lineHeight: 1.8, color: "text.secondary" }}>
-            Once an animal enters the <strong>shelter and rescue pipeline</strong>, they can be moved across city lines, county borders, or even state boundaries. A pet picked up in one location might end up hundreds of miles away within weeks. Without a unified national database, owners searching in their local area may never find their beloved companion, even when they're actively looking.
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.0625rem", lineHeight: 1.8, color: "text.secondary" }}>
-            <strong>There is no centralized system</strong> to track animals across shelters, rescues, and jurisdictions. Each organization maintains its own records, websites, and databases. A family frantically calling their local shelter may not know their pet was transferred to a rescue three counties away or adopted out to a new family before they could be located.
-          </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.0625rem", lineHeight: 1.8, color: "text.secondary" }}>
-            This is why the <strong>Lost Pets Registry</strong> exists.
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: "1.0625rem", lineHeight: 1.8, color: "text.secondary" }}>
-            We are a <strong>centralized platform</strong> where anyone can post and search for lost or found pets across the United States. Whether your pet was found by a neighbor, picked up by animal control, or spotted in another city, the <strong>Lost Pets Registry</strong> gives you a fighting chance to find them.
-          </Typography>
+        <Box sx={{ mb: 16 }}>
+          <Grid2 container spacing={8} alignItems="center" sx={{ mb: 12 }}>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <Box
+                component="img"
+                src="/images/cat.png"
+                alt="Lost pet in shelter"
+                sx={{
+                  width: "100%",
+                  height: { xs: "300px", md: "400px" },
+                  objectFit: "cover",
+                  borderRadius: 2,
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)"
+                }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+            <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 700,
+                  mb: 4,
+                  fontSize: { xs: "1.75rem", md: "1.5rem" },
+                  lineHeight: 1.3,
+                  color: "#777777"
+                }}
+              >
+                The stray hold period at most animal shelters is just <strong>3 to 7 days</strong>.
+              </Typography>
+              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 2 }}>
+                During this window, shelters are required to hold stray animals in order to give their owners a chance to reclaim them.
+              </Typography>
+              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 4 }}>
+                After the stray hold expires, the chances of being reunited with your pet diminish significantly.  In order to make room for more intakes, animals are either adopted out, euthanized, or transferred to other shelters or rescue organizations.
+              </Typography>
+            </Grid2>
+          </Grid2>
+
+          <Grid2 container spacing={8} alignItems="center" sx={{ mb: 12 }}>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontWeight: 700,
+                  mb: 4,
+                  fontSize: { xs: "1.75rem", md: "1.5rem" },
+                  lineHeight: 1.3,
+                  color: "#1a1a1a"
+                }}
+              >
+                The Problem Gets Worse
+              </Typography>
+              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 4 }}>
+                Once an animal enters the <strong>shelter and rescue pipeline</strong>, they can be moved across city lines, county borders, or even state boundaries. A pet picked up in one location might end up hundreds of miles away within weeks. Without a unified national database, owners searching in their local area may never find their beloved companion, even when they're actively looking.
+              </Typography>
+              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 4 }}>
+                <strong>There is no centralized system</strong> to track animals across shelters, rescues, and jurisdictions. Each organization maintains its own records, websites, and databases. A family frantically calling their local shelter may not know their pet was transferred to a rescue three counties away or adopted out to a new family before they could be located.
+              </Typography>
+              <Box sx={{
+                p: 4,
+                bgcolor: "#fef2f2",
+                borderRadius: 2,
+                borderLeft: "4px solid #ef4444"
+              }}>
+                <Typography variant="body1" sx={{ fontWeight: 600, color: "#991b1b", fontSize: "1.125rem" }}>
+                  "The longer you wait, the harder it becomes to find them."
+                </Typography>
+              </Box>
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <Box
+                component="img"
+                src="/images/golden-retriever.png"
+                alt="Lost pet in shelter system"
+                sx={{
+                  width: "100%",
+                  height: { xs: "300px", md: "400px" },
+                  objectFit: "cover",
+                  borderRadius: 2,
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.12)"
+                }}
+              />
+            </Grid2>
+          </Grid2>
+
+          <Box sx={{
+            bgcolor: "#1a1a1a",
+            color: "white",
+            p: { xs: 6, md: 8 },
+            borderRadius: 3,
+            position: "relative",
+            overflow: "hidden"
+          }}>
+            <Box sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "6px",
+              height: "100%",
+              bgcolor: "#ef4444"
+            }} />
+
+            <Box sx={{
+              my: 6,
+              py: 6,
+              borderTop: "1px solid rgba(255,255,255,0.2)",
+              borderBottom: "1px solid rgba(255,255,255,0.2)",
+              textAlign: "center"
+            }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  fontSize: { xs: "1.5rem", md: "2rem" },
+                  mb: 2
+                }}
+              >
+                This is why the Lost Pets Registry exists.
+              </Typography>
+            </Box>
+
+            <Typography variant="body1" sx={{ fontSize: "1.125rem", lineHeight: 1.9, opacity: 0.95, textAlign: "center" }}>
+              We are a <strong>centralized platform</strong> where anyone can post and search for lost or found pets across the United States. Whether your pet was found by a neighbor, picked up by animal control, or spotted in another city, the <strong>Lost Pets Registry</strong> gives you a fighting chance to find them.
+            </Typography>
+          </Box>
         </Box>
 
         <Box sx={{ mb: 10 }}>
@@ -230,8 +334,8 @@ const AboutPage = () => {
           <Typography variant="body1" paragraph sx={{ fontSize: "1.0625rem", lineHeight: 1.8, mb: 5, color: "text.secondary" }}>
             There are many ways you can help make a difference in the lives of lost pets and their families
           </Typography>
-          <Grid container spacing={4}>
-            <Grid item xs={6} sm={3}>
+          <Grid2 container spacing={4}>
+            <Grid2 xs={6} sm={3}>
               <Box>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                   Report
@@ -240,8 +344,8 @@ const AboutPage = () => {
                   Found a stray? File a report to help them get home
                 </Typography>
               </Box>
-            </Grid>
-            <Grid item xs={6} sm={3}>
+            </Grid2>
+            <Grid2 xs={6} sm={3}>
               <Box>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                   Share
@@ -250,8 +354,8 @@ const AboutPage = () => {
                   Spread the word about our platform
                 </Typography>
               </Box>
-            </Grid>
-            <Grid item xs={6} sm={3}>
+            </Grid2>
+            <Grid2 xs={6} sm={3}>
               <Box>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                   Search
@@ -260,8 +364,8 @@ const AboutPage = () => {
                   Check reports regularly in your area
                 </Typography>
               </Box>
-            </Grid>
-            <Grid item xs={6} sm={3}>
+            </Grid2>
+            <Grid2 xs={6} sm={3}>
               <Box>
                 <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
                   Donate
@@ -270,8 +374,8 @@ const AboutPage = () => {
                   Help keep this service free for everyone
                 </Typography>
               </Box>
-            </Grid>
-          </Grid>
+            </Grid2>
+          </Grid2>
         </Box>
 
         <Divider sx={{ mb: 8 }} />
