@@ -12,7 +12,11 @@
     - The absence of a national database for tracking lost pets
     - How pets can be transferred, adopted, or moved hundreds of miles away before owners find them
     - Emphasized why Lost Pets Registry provides a crucial centralized solution
-  - "How It Works" section with 3-step process (Report → Search → Connect)
+  - **"How It Works" section** with proactive 3-step process:
+    - 1. Add Your Pets: Create account and add pets to database preemptively
+    - 2. Report If Lost: One-click reporting from dashboard if pet goes missing
+    - 3. Create Flyers: Generate printable flyers instantly with pet's photo and details
+    - Includes pro tip encouraging users to add pets before they go missing
   - Key Features section highlighting location-based search, photo uploads, report management, and filters
   - Community section emphasizing volunteer-driven platform and solidarity messaging
   - Get Involved section with calls to action
