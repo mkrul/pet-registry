@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useUpdateUserMutation, useChangePasswordMutation } from '../../../store/features/auth/authApiSlice';
 import { normalizePhoneNumber, formatPhoneNumber, isValidPhoneNumber } from '../../../shared/utils/phoneUtils';
+import { useAppDispatch } from '../../../store/hooks';
+import { addNotification } from '../../../store/features/notifications/notificationsSlice';
 
 const DashboardProfile = ({ user }) => {
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || '');
   const [email, setEmail] = useState(user?.email || '');
@@ -24,14 +27,20 @@ const DashboardProfile = ({ user }) => {
     try {
       const normalizedPhone = normalizePhoneNumber(phoneNumber);
       if (normalizedPhone && !isValidPhoneNumber(normalizedPhone)) {
-        alert('Please enter a valid 10-digit phone number');
+        dispatch(addNotification({
+          type: "ERROR",
+          message: "Please enter a valid 10-digit phone number"
+        }));
         return;
       }
 
       // Basic email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (email && !emailRegex.test(email)) {
-        alert('Please enter a valid email address');
+        dispatch(addNotification({
+          type: "ERROR",
+          message: "Please enter a valid email address"
+        }));
         return;
       }
 
@@ -76,12 +85,18 @@ const DashboardProfile = ({ user }) => {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      alert('New passwords do not match');
+      dispatch(addNotification({
+        type: "ERROR",
+        message: "New passwords do not match"
+      }));
       return;
     }
 
-    if (newPassword.length < 6) {
-      alert('Password must be at least 6 characters long');
+    if (newPassword.length < 8 || newPassword.length > 20) {
+      dispatch(addNotification({
+        type: "ERROR",
+        message: "Password must be between 8 and 20 characters long"
+      }));
       return;
     }
 
@@ -279,7 +294,6 @@ const DashboardProfile = ({ user }) => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter new password"
                     required
-                    minLength={6}
                   />
                 </div>
 
@@ -295,7 +309,6 @@ const DashboardProfile = ({ user }) => {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Confirm new password"
                     required
-                    minLength={6}
                   />
                 </div>
               </div>

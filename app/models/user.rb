@@ -13,6 +13,7 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: false
   validates :phone_number, format: { with: /\A\d{10}\z/, message: "must be 10 digits" }, allow_blank: true
   validates :display_name, length: { maximum: 50 }, allow_blank: true
+  validates :password, length: { in: 8..20, message: "must be between 8 and 20 characters" }, allow_blank: true
 
   # Remove password confirmation requirement if not needed
   # or ensure it's properly handled in the test

@@ -50,6 +50,8 @@ const ToastNotification = ({ id, type, message, onDismiss }) => {
     <div
       className={`${typeStyles[type]} border-l-4 px-6 py-4 rounded-r-lg shadow-lg flex justify-between items-center min-w-[320px] max-w-md ${getAnimationClass()}`}
       role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
       onClick={handleDismiss}
       style={{ cursor: "pointer" }}
     >

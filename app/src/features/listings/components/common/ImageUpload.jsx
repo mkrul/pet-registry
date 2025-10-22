@@ -4,6 +4,8 @@ import { CloudUpload } from "@mui/icons-material";
 import { commonInputStyles } from "../../../../shared/commonStyles.js";
 import Tip from "../../../../shared/components/common/Tip.jsx";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
+import { useAppDispatch } from "../../../../store/hooks";
+import { addNotification } from "../../../../store/features/notifications/notificationsSlice";
 
 export const ImageUpload = ({
   onImageSelect,
@@ -15,18 +17,25 @@ export const ImageUpload = ({
   error,
   required = true
 }) => {
+  const dispatch = useAppDispatch();
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
 
       if (file.size > 5 * 1024 * 1024) {
-        alert("File size exceeds 5MB.");
+        dispatch(addNotification({
+          type: "ERROR",
+          message: "File size exceeds 5MB."
+        }));
         return;
       }
 
       const validTypes = ["image/jpeg", "image/png", "image/gif"];
       if (!validTypes.includes(file.type)) {
-        alert("Unsupported file type. Please upload a JPEG, PNG, or GIF image.");
+        dispatch(addNotification({
+          type: "ERROR",
+          message: "Unsupported file type. Please upload a JPEG, PNG, or GIF image."
+        }));
         return;
       }
 
