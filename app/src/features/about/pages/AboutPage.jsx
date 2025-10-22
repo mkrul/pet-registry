@@ -114,8 +114,8 @@ const AboutPage = () => {
 
         <Box sx={{ mb: 9 }}>
           <Typography
-            variant="h3"
-            component="h3"
+            variant="h2"
+            component="h2"
             gutterBottom
             color="#333333"
             sx={{
@@ -182,8 +182,8 @@ const AboutPage = () => {
         <Divider sx={{ mb: 8 }} />
 
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h3"
-            component="h3"
+          <Typography variant="h2"
+            component="h2"
             gutterBottom
             color="#333333"
             sx={{
@@ -193,7 +193,7 @@ const AboutPage = () => {
               mb: 3,
               textAlign: "center"
             }} >
-            Wanna know the best part?
+            Want to know the best part?
           </Typography>
           <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
             It's private, easy to use, and completely <strong>free</strong>.
