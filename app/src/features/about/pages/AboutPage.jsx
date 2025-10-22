@@ -218,6 +218,30 @@ const AboutPage = () => {
                 Sign Up Today
               </Box>
             </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              sx={{
+                color: "info.main",
+                "&:hover": {
+                  color: "info.medium"
+                },
+                px: 4,
+                py: 1.5,
+                fontSize: "1.125rem",
+                lineHeight: 1.8,
+                textTransform: "none",
+                fontWeight: 500,
+                borderRadius: 1
+              }}
+              href="https://www.lostpetsregistry.org/donate"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Box component="span">
+                Donate
+              </Box>
+            </Button>
           </Box>
         </Box>
       </Container>

@@ -6,6 +6,7 @@ const DashboardProfile = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || '');
   const [email, setEmail] = useState(user?.email || '');
+  const [displayName, setDisplayName] = useState(user?.display_name || '');
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const handleEditClick = () => {
@@ -29,7 +30,8 @@ const DashboardProfile = ({ user }) => {
 
       await updateUser({
         phone_number: normalizedPhone,
-        email: email
+        email: email,
+        display_name: displayName
       }).unwrap();
       setIsEditing(false);
     } catch (error) {
@@ -40,6 +42,7 @@ const DashboardProfile = ({ user }) => {
   const handleCancelClick = () => {
     setPhoneNumber(user?.phone_number || '');
     setEmail(user?.email || '');
+    setDisplayName(user?.display_name || '');
     setIsEditing(false);
   };
 
@@ -52,6 +55,10 @@ const DashboardProfile = ({ user }) => {
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+  };
+
+  const handleDisplayNameChange = (e) => {
+    setDisplayName(e.target.value);
   };
 
   return (
@@ -88,7 +95,25 @@ const DashboardProfile = ({ user }) => {
                 />
               ) : (
                 <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
-                  {user?.email || 'Unknown'}
+                  {user?.email || 'None'}
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="display-name" className="block text-sm font-medium text-gray-700 mb-2">Display Name</label>
+              {isEditing ? (
+                <input
+                  id="display-name"
+                  type="text"
+                  value={displayName}
+                  onChange={handleDisplayNameChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your display name"
+                />
+              ) : (
+                <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
+                  {user?.displayName || 'None'}
                 </div>
               )}
             </div>
@@ -102,11 +127,11 @@ const DashboardProfile = ({ user }) => {
                   value={phoneNumber}
                   onChange={handlePhoneChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="(555) 123-4567"
+                  placeholder={user?.phoneNumber ? formatPhoneNumber(user.phoneNumber) : "(XXX) XXX-XXXX"}
                 />
               ) : (
                 <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
-                  {user?.phone_number ? formatPhoneNumber(user.phone_number) : 'Unknown'}
+                  {user?.phoneNumber ? formatPhoneNumber(user.phoneNumber) : 'None'}
                 </div>
               )}
             </div>
@@ -114,11 +139,11 @@ const DashboardProfile = ({ user }) => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Member Since</label>
               <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
-                {user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', {
+                {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
-                }) : 'Unknown'}
+                }) : 'None'}
               </div>
             </div>
 

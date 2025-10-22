@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UserSerializer < ActiveModel::Serializer
-  attributes :email, :phone_number, :member_since, :created_at
+  attributes :email, :phone_number, :display_name, :member_since, :created_at
 
   def attributes(*args)
     data = super
