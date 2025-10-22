@@ -148,8 +148,8 @@ const ListingDetailsCard = ({ report }) => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-                  <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{report.description}</p>
+                  <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Description</h4>
+                  <p className="text-gray-900 font-medium">{report.description}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -210,30 +210,17 @@ const ListingDetailsCard = ({ report }) => {
                   )}
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="p-6 md:p-8 border-t border-gray-200">
-            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <LocationDisplay
-                area={report.area}
-                state={report.state}
-                country={report.country}
-                intersection={report.intersection}
-                useStateAbbreviation={true}
-              />
               <div className="mt-4">
-                <Map
-                  initialLocation={createMapLocation(report)}
-                  readOnly={true}
-                  onLocationSelect={() => {}}
-                  initialZoom={MAP_ZOOM_LEVELS.VIEW}
+                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Location Details</h4>
+                <LocationDisplay
+                  textStyle="font-medium text-black"
+                  area={report.area}
+                  state={report.state}
+                  country={report.country}
+                  intersection={report.intersection}
+                  useStateAbbreviation={true}
                 />
               </div>
-            </div>
-            <div className="pt-4">
-              <DateDisplay createdAt={report.createdAt} updatedAt={report.updatedAt} />
             </div>
           </div>
         </div>
