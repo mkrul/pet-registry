@@ -50,6 +50,37 @@ module Api
       render json: { error: 'Update failed' }, status: :internal_server_error
     end
 
+    def change_password
+      user = current_user
+
+      if user.valid_password?(password_params[:current_password])
+        # Update only the password fields without affecting other attributes
+        user.password = password_params[:password]
+        user.password_confirmation = password_params[:password_confirmation]
+
+        if user.save
+          # Re-sign in the user to maintain their session after password change
+          sign_in(user, bypass: true)
+          render json: {
+            message: 'Password changed successfully.',
+            user: UserSerializer.new(user).as_json
+          }, status: :ok
+        else
+          render json: {
+            message: "Password change failed.",
+            errors: user.errors.full_messages
+          }, status: :unprocessable_entity
+        end
+      else
+        render json: {
+          message: "Current password is incorrect.",
+          errors: ["Current password is incorrect"]
+        }, status: :unprocessable_entity
+      end
+    rescue => e
+      render json: { error: 'Password change failed' }, status: :internal_server_error
+    end
+
     private
 
     def sign_up_params
@@ -58,6 +89,10 @@ module Api
 
     def update_params
       params.require(:user).permit(:phone_number, :email, :display_name)
+    end
+
+    def password_params
+      params.require(:user).permit(:current_password, :password, :password_confirmation)
     end
 
     def warden

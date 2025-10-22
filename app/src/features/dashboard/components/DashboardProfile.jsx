@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUpdateUserMutation } from '../../../store/features/auth/authApiSlice';
+import { useUpdateUserMutation, useChangePasswordMutation } from '../../../store/features/auth/authApiSlice';
 import { normalizePhoneNumber, formatPhoneNumber, isValidPhoneNumber } from '../../../shared/utils/phoneUtils';
 
 const DashboardProfile = ({ user }) => {
@@ -8,6 +8,13 @@ const DashboardProfile = ({ user }) => {
   const [email, setEmail] = useState(user?.email || '');
   const [displayName, setDisplayName] = useState(user?.display_name || '');
   const [updateUser, { isLoading }] = useUpdateUserMutation();
+
+  // Password change state
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changePassword, { isLoading: isChangingPassword }] = useChangePasswordMutation();
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -59,6 +66,46 @@ const DashboardProfile = ({ user }) => {
 
   const handleDisplayNameChange = (e) => {
     setDisplayName(e.target.value);
+  };
+
+  const handlePasswordChangeClick = () => {
+    setShowPasswordModal(true);
+  };
+
+  const handlePasswordChangeSubmit = async (e) => {
+    e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+      alert('New passwords do not match');
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      alert('Password must be at least 6 characters long');
+      return;
+    }
+
+    try {
+      await changePassword({
+        current_password: currentPassword,
+        password: newPassword,
+        password_confirmation: confirmPassword
+      }).unwrap();
+
+      setShowPasswordModal(false);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      console.error('Failed to change password:', error);
+    }
+  };
+
+  const handlePasswordChangeCancel = () => {
+    setShowPasswordModal(false);
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
   };
 
   return (
@@ -184,7 +231,10 @@ const DashboardProfile = ({ user }) => {
                   >
                     Edit Profile
                   </button>
-                  <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                  <button
+                    onClick={handlePasswordChangeClick}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  >
                     Change Password
                   </button>
                 </>
@@ -193,6 +243,83 @@ const DashboardProfile = ({ user }) => {
           </div>
         </div>
       </div>
+
+      {/* Password Change Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Change Password</h3>
+            <form onSubmit={handlePasswordChangeSubmit}>
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="current-password" className="block text-sm font-medium text-gray-700 mb-1">
+                    Current Password
+                  </label>
+                  <input
+                    id="current-password"
+                    type="password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter current password"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 mb-1">
+                    New Password
+                  </label>
+                  <input
+                    id="new-password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter new password"
+                    required
+                    minLength={6}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
+                    Confirm New Password
+                  </label>
+                  <input
+                    id="confirm-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Confirm new password"
+                    required
+                    minLength={6}
+                  />
+                </div>
+              </div>
+
+              <div className="flex space-x-3 mt-6">
+                <button
+                  type="submit"
+                  disabled={isChangingPassword}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  {isChangingPassword ? 'Changing...' : 'Change Password'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handlePasswordChangeCancel}
+                  disabled={isChangingPassword}
+                  className="bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

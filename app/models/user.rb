@@ -7,8 +7,12 @@ class User < ApplicationRecord
   has_many :pets, dependent: :destroy
 
   # Add case-insensitive email validation
-  before_validation :downcase_email, :normalize_phone_number
+  before_validation :downcase_email
+  before_validation :normalize_phone_number
+  before_save :normalize_blank_fields
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: false
   validates :phone_number, format: { with: /\A\d{10}\z/, message: "must be 10 digits" }, allow_blank: true
+  validates :display_name, presence: true, length: { maximum: 50 }, allow_blank: true
 
   # Remove password confirmation requirement if not needed
   # or ensure it's properly handled in the test
@@ -20,11 +24,6 @@ class User < ApplicationRecord
     else
       where(conditions.to_h).first
     end
-  end
-
-  def formatted_phone_number
-    return nil if phone_number.blank?
-    "(#{phone_number[0..2]}) #{phone_number[3..5]}-#{phone_number[6..9]}"
   end
 
   private
@@ -45,5 +44,11 @@ class User < ApplicationRecord
     end
 
     self.phone_number = digits_only
+  end
+
+  def normalize_blank_fields
+    # Convert blank strings to nil for phone_number and display_name
+    self.phone_number = nil if phone_number.blank?
+    self.display_name = nil if display_name.blank?
   end
 end

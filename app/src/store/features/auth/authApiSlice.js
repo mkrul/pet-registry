@@ -151,6 +151,37 @@ export const authApiSlice = createApi({
           throw err;
         }
       }
+    }),
+    changePassword: builder.mutation({
+      query: (passwordData) => ({
+        url: "/change_password",
+        method: "PATCH",
+        body: { user: passwordData },
+        credentials: "include"
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data?.user) {
+            dispatch(setUser(data.user));
+          }
+          dispatch(
+            addNotification({
+              type: "SUCCESS",
+              message: data.message || "Password changed successfully"
+            })
+          );
+        } catch (err) {
+          const errorMessage = err?.error?.data?.error || err?.error?.data?.message || "Password change failed";
+          dispatch(
+            addNotification({
+              type: "ERROR",
+              message: errorMessage
+            })
+          );
+          throw err;
+        }
+      }
     })
   })
 });
@@ -161,5 +192,6 @@ export const {
   useGetCurrentUserQuery,
   useSignUpMutation,
   usePollSessionMutation,
-  useUpdateUserMutation
+  useUpdateUserMutation,
+  useChangePasswordMutation
 } = authApiSlice;
