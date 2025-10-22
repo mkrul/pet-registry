@@ -12,7 +12,7 @@ class User < ApplicationRecord
   before_save :normalize_blank_fields
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: false
   validates :phone_number, format: { with: /\A\d{10}\z/, message: "must be 10 digits" }, allow_blank: true
-  validates :display_name, presence: true, length: { maximum: 50 }, allow_blank: true
+  validates :display_name, length: { maximum: 50 }, allow_blank: true
 
   # Remove password confirmation requirement if not needed
   # or ensure it's properly handled in the test
@@ -43,7 +43,8 @@ class User < ApplicationRecord
       digits_only = digits_only[1..-1]
     end
 
-    self.phone_number = digits_only
+    # Only set if we have exactly 10 digits, otherwise set to nil
+    self.phone_number = digits_only.length == 10 ? digits_only : nil
   end
 
   def normalize_blank_fields

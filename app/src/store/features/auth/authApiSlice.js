@@ -162,15 +162,18 @@ export const authApiSlice = createApi({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          if (data?.user) {
-            dispatch(setUser(data.user));
-          }
           dispatch(
             addNotification({
               type: "SUCCESS",
               message: data.message || "Password changed successfully"
             })
           );
+          // Clear user state and redirect after showing notification
+          dispatch(clearUser());
+          // Show notification first, then redirect
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 2000);
         } catch (err) {
           const errorMessage = err?.error?.data?.error || err?.error?.data?.message || "Password change failed";
           dispatch(

@@ -59,11 +59,12 @@ module Api
         user.password_confirmation = password_params[:password_confirmation]
 
         if user.save
-          # Re-sign in the user to maintain their session after password change
-          sign_in(user, bypass: true)
+          # Clear the session immediately to prevent additional API calls
+          sign_out(:user)
+          reset_session
+
           render json: {
-            message: 'Password changed successfully.',
-            user: UserSerializer.new(user).as_json
+            message: 'Password changed successfully.'
           }, status: :ok
         else
           render json: {
