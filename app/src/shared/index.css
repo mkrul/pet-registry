@@ -12,6 +12,11 @@ html, body, #root {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark mode support */
+.dark body {
+  background-color: #111827;
+}
+
 .MuiModal-root {
   overflow-y: auto !important;
 }

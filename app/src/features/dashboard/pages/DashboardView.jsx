@@ -61,24 +61,24 @@ const DashboardView = () => {
   };
 
   return (
-    <div className="min-h-screen bg-page">
+    <div className="min-h-screen bg-page dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">User Dashboard</h1>
-          <p className="mt-2 text-gray-600">Welcome back, {user?.displayName || user?.email}!</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">User Dashboard</h1>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">Welcome back, {user?.displayName || user?.email}!</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           <nav className="lg:w-64 flex-shrink-0">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
               <ul className="space-y-2">
                 <li>
                   <button
                     onClick={() => handleSectionChange('overview')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'overview'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
                     Overview
@@ -89,8 +89,8 @@ const DashboardView = () => {
                     onClick={() => handleSectionChange('reports')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'reports'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
                     My Reports
@@ -101,8 +101,8 @@ const DashboardView = () => {
                     onClick={() => handleSectionChange('pets')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'pets'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
                     My Pets
@@ -113,8 +113,8 @@ const DashboardView = () => {
                     onClick={() => handleSectionChange('profile')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'profile'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
                     Profile
@@ -125,8 +125,8 @@ const DashboardView = () => {
                     onClick={() => handleSectionChange('settings')}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeSection === 'settings'
-                        ? 'bg-blue-100 text-blue-700'
-                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
                     Settings
@@ -137,7 +137,7 @@ const DashboardView = () => {
           </nav>
 
           <main className="flex-1">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
               {renderSection()}
             </div>
           </main>

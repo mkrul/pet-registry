@@ -49,11 +49,11 @@ const AppRouter = () => {
   );
 
   return (
-    <div className="min-h-screen bg-page flex flex-col">
+    <div className="min-h-screen bg-page dark:bg-gray-900 flex flex-col">
       <ScrollToTop />
       <ToastManager />
       <NavBar />
-      <div className="flex-grow bg-page">
+      <div className="flex-grow bg-page dark:bg-gray-900">
         <ComponentLoader>{routesComponent}</ComponentLoader>
       </div>
       <Footer />

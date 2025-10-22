@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "../app/AppRouter";
+import { ThemeProvider } from "../shared/contexts/ThemeContext";
 
 const App = () => {
   const [error, setError] = useState(null);
@@ -15,7 +16,9 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <AppRouter />
+      <ThemeProvider>
+        <AppRouter />
+      </ThemeProvider>
     </BrowserRouter>
   );
 };
