@@ -27,6 +27,12 @@ Rails.application.routes.draw do
       member do
         patch :archive
       end
+      resources :events, only: [:index, :create], controller: 'events' do
+        collection do
+          post :create_tip
+          get :index_tips
+        end
+      end
     end
 
     resources :pets do

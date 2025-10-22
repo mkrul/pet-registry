@@ -20,7 +20,9 @@ export const LocationSelect = ({
   isLoading,
   error,
   required = true,
-  onProcessingStateChange
+  onProcessingStateChange,
+  showTip = true,
+  labelStyle = "default"
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
@@ -161,12 +163,21 @@ export const LocationSelect = ({
     [currentMapLocation]
   );
 
+  const getLabelClassName = () => {
+    if (labelStyle === "microchip") {
+      return "text-lg font-medium text-gray-900";
+    }
+    return "text-lg font-medium text-gray-900 mb-2";
+  };
+
   return (
     <div className="space-y-2">
-      <label className="text-lg font-medium text-gray-900 mb-2">Location:</label>
-      <Tip>
-        Click on the map or enter the address where the animal was last seen. This address will remain private and the report will only show the general area or nearest intersection.
-      </Tip>
+      <label className={getLabelClassName()}>Location:</label>
+      {showTip && (
+        <Tip>
+          Click on the map or enter the address where the animal was last seen. This address will remain private and the report will only show the general area or nearest intersection.
+        </Tip>
+      )}
       {selectedLocation && (
         <LocationDisplay
           area={selectedLocation.area}

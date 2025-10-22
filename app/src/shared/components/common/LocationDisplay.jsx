@@ -18,8 +18,8 @@ const LocationDisplay = ({
       const stateDisplay = useStateAbbreviation ? getStateAbbreviation(state) : state;
       return (
         <>
-          {intersection && intersection !== "" && <p>Last seen near {intersection} in {area}, {stateDisplay}</p>}
-          {intersection === "" && <p>Last seen in {area}, {stateDisplay}</p>}
+          {intersection && intersection !== "" && <p>Went missing near {intersection} in {area}, {stateDisplay}</p>}
+          {intersection === "" && <p>Went missing in {area}, {stateDisplay}</p>}
         </>
       );
     }

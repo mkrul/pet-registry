@@ -4,6 +4,7 @@ import Spinner from "../../../shared/components/common/Spinner.jsx";
 import LocationDisplay from "../../../shared/components/common/LocationDisplay.jsx";
 import Map from "../../../shared/components/common/Map.jsx";
 import DateDisplay from "./common/DateDisplay.jsx";
+import TipsSection from "../../tips/components/TipsSection.jsx";
 import { createMapLocation } from "../../../shared/utils/mapUtils.js";
 import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
 
@@ -235,6 +236,10 @@ const ListingDetailsCard = ({ report }) => {
               <DateDisplay createdAt={report.createdAt} updatedAt={report.updatedAt} />
             </div>
           </div>
+        </div>
+
+        <div className="mt-8">
+          <TipsSection reportId={report.id} />
         </div>
       </div>
 

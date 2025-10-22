@@ -2,6 +2,81 @@
 
 ## Completed Tasks
 
+### Event Infrastructure Implementation (October 22, 2025)
+- Created polymorphic events system for tracking events related to reports and other resources
+- **Database Layer:**
+  - Created `events` table migration with:
+    - `category` field to store event type (e.g., "report_tip")
+    - Polymorphic `eventable_type` and `eventable_id` fields for flexible association
+    - `user_id` foreign key to track event creator
+    - `data` jsonb field to store event-specific data (message, location, etc.)
+    - Indexes on category, user_id, and polymorphic fields for performance
+- **Model Layer:**
+  - Created `Event` model with polymorphic `eventable` association and `user` association
+  - Added data validation to ensure data field is always a hash
+  - Created `Events::Report::Tip` concern in `/app/models/concerns/events/report/tip.rb`:
+    - Defines CATEGORY constant for "report_tip" events
+    - Validates that message is present in data for tip events
+    - Provides helper methods to access data fields (message, area, state, country, latitude, longitude)
+    - Includes class method `create_tip` for convenient tip creation
+  - Updated `Report` model with:
+    - `has_many :events` polymorphic association
+    - `has_many :tips` convenience association filtered by report_tip category
+  - Updated `User` model with `has_many :events` association
+- **Service Layer:**
+  - Created `Events::Create` service in `/app/services/events/create.rb`
+  - Uses ActiveInteraction pattern consistent with existing services
+  - Accepts eventable, user, category, and data parameters
+  - Returns created event or nil with merged validation errors
+- **Design Decisions:**
+  - Used simple polymorphic approach without STI for flexibility
+  - JSON data field allows different event types to store custom data
+  - Tips are always attributed to users via required user_id
+  - Public visibility (no access control at model layer)
+  - Infrastructure ready for future event types (sightings, status changes, etc.)
+
+### Tip Functionality Implementation (October 22, 2025)
+- **Backend API:**
+  - Created `Api::EventsController` in `/app/controllers/api/events_controller.rb`:
+    - `create_tip` action for submitting tips with message and optional location data
+    - `index_tips` action for retrieving all tips for a report
+    - Proper authentication and validation using existing `Events::Create` service
+    - Returns structured JSON responses with tip data and user information
+  - Added nested routes in `/config/routes.rb`:
+    - `POST /api/reports/:report_id/events/create_tip` - Submit a tip
+    - `GET /api/reports/:report_id/events/index_tips` - Get all tips for a report
+- **Frontend Components:**
+  - Created `TipsSection` component in `/app/src/features/tips/components/TipsSection.jsx`:
+    - Main container that shows tip list and form
+    - Handles authentication state (shows sign-in prompt for non-authenticated users)
+    - Manages form visibility state
+  - Created `TipList` component in `/app/src/features/tips/components/TipList.jsx`:
+    - Displays all tips for a report with user attribution and timestamps
+    - Shows location information when available
+    - Handles loading and error states
+    - Empty state with encouraging message
+  - Created `TipForm` component in `/app/src/features/tips/components/TipForm.jsx`:
+    - Form for submitting tips with message (required) and optional location fields
+    - Includes area, state, country, latitude, longitude fields
+    - Form validation and error handling
+    - Success feedback and form reset
+- **Redux Integration:**
+  - Created `tipsApi` slice in `/app/src/store/features/tips/tipsApi.js`:
+    - `useGetTipsQuery` hook for fetching tips
+    - `useCreateTipMutation` hook for submitting tips
+    - Proper cache invalidation and tag management
+  - Updated Redux store configuration to include tips API
+- **Integration:**
+  - Integrated `TipsSection` into `ListingDetailsCard` component
+  - Tips section appears below the main report details on report viewing pages
+  - Maintains existing design patterns and styling consistency
+- **User Experience:**
+  - Authenticated users can submit tips with optional location data
+  - Non-authenticated users see sign-in prompt
+  - Tips are displayed with user attribution and timestamps
+  - Form validation ensures required message field is provided
+  - Success/error notifications provide user feedback
+
 ### About Page Implementation (October 20, 2025)
 - Created `/app/src/features/about/pages/AboutPage.jsx` with comprehensive content including:
   - Hero section with warm, community-focused messaging
