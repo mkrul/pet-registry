@@ -57,7 +57,7 @@ module Api
     end
 
     def update_params
-      params.require(:user).permit(:phone_number)
+      params.require(:user).permit(:phone_number, :email)
     end
 
     def warden

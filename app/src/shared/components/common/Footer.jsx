@@ -16,11 +16,11 @@ const Footer = () => {
           <NavLink linkTo="#">Contact</NavLink>
         </div>
         <div className="mt-4 text-sm text-gray-500">
-          <p>&copy; {currentYear} Lost Pets Registry. All rights reserved. 🇵🇸 Free Palestine.</p>
+          <p>&copy; {currentYear} Lost Pets Registry. All rights reserved.</p>
         </div>
 
         <div className="mt-4 text-sm text-gray-500">
-          This project runs on the generosity of others. Please consider donating to support its continued development.
+          This project runs on the generosity of others. Please consider donating to help lost pets find their way home.
         </div>
       </div>
     </div>

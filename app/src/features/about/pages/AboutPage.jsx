@@ -4,7 +4,6 @@ import { Container, Box, Typography, Grid2, Divider, Button } from "@mui/materia
 import StorageIcon from "@mui/icons-material/Storage";
 import SecurityIcon from "@mui/icons-material/Security";
 import GroupIcon from "@mui/icons-material/Group";
-import SearchIcon from "@mui/icons-material/Search";
 
 const AboutPage = () => {
   return (
@@ -83,13 +82,13 @@ const AboutPage = () => {
                     color: "#555555"
                   }}
                 >
-                  Only 17-19% of lost pets are ever reunited with their owners.
+                  Only 17-19% of lost pets are ever reunited with their owners. <sup><a href="https://www.humananimalsupportservices.org/blog/barriers-to-reclaim/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 2 }}>
                   Animals that are adopted out or transferred may be moved <strong>hundreds of miles away</strong>, across city lines, county borders, or state boundaries.
                 </Typography>
                   <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 4 }}>
-                    Someone who is frantically calling their local shelter may not realize that their pet was transferred to a rescue on the other side of the country. Of those pets who are located, reclaim fees, implicit biases, and other barriers can make it  difficult to get them back.<sup><a href="https://www.humananimalsupportservices.org/blog/barriers-to-reclaim/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
+                    Someone who is frantically calling their local shelter may not realize that their pet was transferred to a rescue on the other side of the country. Of those pets who are located, reclaim fees, implicit biases, and other barriers can make it difficult to get them back.{" "}<sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                   </Typography>
               </Box>
             </Grid2>
@@ -189,9 +188,7 @@ const AboutPage = () => {
             sx={{
               fontWeight: 700,
               letterSpacing: "-0.02em",
-              fontSize: { xs: "2rem", md: "2rem" },
-              mb: 3,
-              textAlign: "center"
+              fontSize: { xs: "2rem", md: "2rem" }
             }} >
             Want to know the best part?
           </Typography>

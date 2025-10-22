@@ -5,6 +5,7 @@ import { normalizePhoneNumber, formatPhoneNumber, isValidPhoneNumber } from '../
 const DashboardProfile = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || '');
+  const [email, setEmail] = useState(user?.email || '');
   const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const handleEditClick = () => {
@@ -18,7 +19,18 @@ const DashboardProfile = ({ user }) => {
         alert('Please enter a valid 10-digit phone number');
         return;
       }
-      await updateUser({ phone_number: normalizedPhone }).unwrap();
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email && !emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+      }
+
+      await updateUser({
+        phone_number: normalizedPhone,
+        email: email
+      }).unwrap();
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update profile:', error);
@@ -27,6 +39,7 @@ const DashboardProfile = ({ user }) => {
 
   const handleCancelClick = () => {
     setPhoneNumber(user?.phone_number || '');
+    setEmail(user?.email || '');
     setIsEditing(false);
   };
 
@@ -35,6 +48,10 @@ const DashboardProfile = ({ user }) => {
     // Allow only digits, spaces, parentheses, hyphens, and plus sign
     const cleaned = value.replace(/[^\d\s\(\)\-\+]/g, '');
     setPhoneNumber(cleaned);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   return (
@@ -59,21 +76,21 @@ const DashboardProfile = ({ user }) => {
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-              <div className="relative">
+              <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              {isEditing ? (
                 <input
+                  id="email-address"
                   type="email"
-                  value={user?.email || ''}
-                  readOnly
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500"
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your email address"
                 />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
+              ) : (
+                <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
+                  {user?.email || 'Unknown'}
                 </div>
-              </div>
-              <p className="mt-1 text-xs text-gray-500">Email address cannot be changed</p>
+              )}
             </div>
 
             <div>
