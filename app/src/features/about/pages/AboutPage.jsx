@@ -122,6 +122,7 @@ const AboutPage = () => {
               fontWeight: 700,
               letterSpacing: "-0.02em",
               fontSize: { xs: "2rem", md: "2rem" },
+              lineHeight: 1.5,
               mb: 3,
               textAlign: "center"
             }} >
@@ -216,7 +217,7 @@ const AboutPage = () => {
                 borderRadius: 1
               }}
             >
-              <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+              <Box component="span">
                 Sign Up Today
               </Box>
             </Button>

@@ -11,6 +11,7 @@ import AboutPage from "../features/about/pages/AboutPage.jsx";
 import { useAppSelector } from "../store/hooks.js";
 import ToastManager from "../shared/components/common/ToastManager.jsx";
 import ComponentLoader from "../shared/components/common/ComponentLoader.jsx";
+import ScrollToTop from "../shared/components/common/ScrollToTop.jsx";
 import { useMemo } from "react";
 
 const AppRouter = () => {
@@ -49,6 +50,7 @@ const AppRouter = () => {
 
   return (
     <div className="min-h-screen bg-page flex flex-col">
+      <ScrollToTop />
       <ToastManager />
       <NavBar />
       <div className="flex-grow bg-page">
