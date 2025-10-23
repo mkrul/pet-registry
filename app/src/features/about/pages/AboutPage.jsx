@@ -105,24 +105,35 @@ const AboutPage = () => {
           </Grid2>
         </Box>
 
-        <Divider sx={{ mb: 8 }} />
-
-        <Box sx={{ mb: 7 }}>
-          <Typography
-            variant="h2"
-            component="h2"
-            gutterBottom
-            color="#333333"
-            sx={{
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              fontSize: { xs: "2rem", md: "2rem" },
-              lineHeight: 1.5,
-              mb: 3,
-              textAlign: "center"
-            }} >
-            A Solution for Lost Pet Reunification
-          </Typography>
+        <Box sx={{
+          mb: 9,
+          backgroundColor: "#e8f4fd",
+          borderRadius: 0,
+          p: { xs: 3, md: 8 },
+          border: "none",
+          width: "100vw",
+          position: "relative",
+          left: "50%",
+          right: "50%",
+          marginLeft: "-50vw",
+          marginRight: "-50vw"
+        }}>
+          <Box sx={{ maxWidth: "800px", mx: "auto" }}>
+            <Typography
+              variant="h2"
+              component="h2"
+              gutterBottom
+              color="#333333"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                fontSize: { xs: "2rem", md: "2rem" },
+                lineHeight: 1.5,
+                mb: 3,
+                textAlign: "center"
+              }} >
+              A Solution for Lost Pet Reunification
+            </Typography>
           <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 6 }}>
             Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
             We do this by offering a platform that is:
@@ -159,7 +170,7 @@ const AboutPage = () => {
             <Divider sx={{ my: 4 }} />
           </Box>
 
-          <Box sx={{ mb: 5 }}>
+          <Box sx={{ mb: 0 }}>
             <Box sx={{ display: "flex", gap: 3 }}>
               <GroupIcon sx={{ fontSize: 40, color: "warning.dark", flexShrink: 0 }} />
               <Box>
@@ -172,9 +183,8 @@ const AboutPage = () => {
               </Box>
             </Box>
           </Box>
+          </Box>
         </Box>
-
-        <Divider sx={{ mb: 8 }} />
 
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="h2"
