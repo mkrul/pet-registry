@@ -147,7 +147,7 @@ const AboutPage = () => {
                   Centralized
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  We provide a single, searchable database where information about lost pets and their whereabouts are easily accessible to <strong>everyone</strong>.
+                  We manage a single, searchable database where lost pets and their whereabouts are <strong>easily accessible</strong>, giving them a better chance of being found.
                 </Typography>
               </Box>
             </Box>
@@ -162,8 +162,8 @@ const AboutPage = () => {
                   Proactive
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  By registering your pets <strong>before</strong> they go missing, you can be prepared when the worst happens.
-                  Quickly make a report, print flyers, and access other helpful features with a few clicks.
+                  By registering your pets <i>before</i> they go missing, <strong>you can be prepared</strong> when the worst happens.
+                  Make a report, print out flyers, and access other features with a few clicks.
                 </Typography>
               </Box>
             </Box>
@@ -178,7 +178,7 @@ const AboutPage = () => {
                   Community-Driven
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  We connect pet owners, good samaritans, animal shelters, and rescue organizations in a unified effort to bring lost pets home and increase reunification rates.
+                  We connect pet owners, good samaritans, animal shelters, and rescue organizations in a <strong>unified effort</strong> to bring lost pets home and increase reunification rates.
                 </Typography>
               </Box>
             </Box>
@@ -200,9 +200,12 @@ const AboutPage = () => {
             The best part?
           </Typography>
           <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
-            It's privacy focused, easy to use, and completely <strong>free</strong>.
+            It's privacy focused, easy to use, and completely <strong>free</strong>.<br />
+            We'll always keep your information private and <strong>never</strong> sell it to third parties.
           </Typography>
-
+          <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
+            Your pet's <strong>safety</strong> and your <strong>peace of mind</strong> are important. Sign up now to get started, or consider donating if you want to support our work.
+          </Typography>
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
             <Button
               component={Link}
@@ -223,7 +226,7 @@ const AboutPage = () => {
               }}
             >
               <Box component="span">
-                Sign Up Today
+                Sign Up
               </Box>
             </Button>
             <Button

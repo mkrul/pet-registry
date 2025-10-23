@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-4 text-sm text-gray-500">
-          This project runs on the generosity of others. Please consider donating to help lost pets find their way home.
+          This project runs on the generosity of others. Please consider donating to help support our work.
         </div>
       </div>
     </div>
