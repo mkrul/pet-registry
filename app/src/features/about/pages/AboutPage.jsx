@@ -57,11 +57,9 @@ const AboutPage = () => {
               >
                 The stray hold period at most animal shelters is just <strong>3 to 7 days</strong>.
               </Typography>
-              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 2 }}>
+              <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
                 Shelters are required to hold stray animals for a certain period of time in order to give their owners a chance to reclaim them.
-              </Typography>
-              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 4 }}>
-                After the stray hold expires, the chances of reuniting a lost pet with its family diminish <strong>significantly</strong>.  In order to make room for more intakes, animals are either adopted out, euthanized, or transferred to other shelters or rescue organizations.
+                But after the stray hold expires, the chances of reuniting a lost pet with its family diminish <strong>significantly</strong>.
               </Typography>
               </Box>
             </Grid2>
@@ -84,12 +82,10 @@ const AboutPage = () => {
                 >
                   Only 17-19% of lost pets are ever reunited with their owners. <sup><a href="https://www.humananimalsupportservices.org/blog/barriers-to-reclaim/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
                 </Typography>
-                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 2 }}>
-                  Animals that are adopted out or transferred may be moved <strong>hundreds of miles away</strong>, across city lines, county borders, or state boundaries.
+                <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
+                  Animals that are adopted out or transferred to other organizations may be transported <strong>hundreds of miles away</strong>.
+                  If a pet is lucky enough to be located by their owner, reclaim fees, implicit biases, and other barriers can make it difficult to get them back.{" "}<sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                 </Typography>
-                  <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 4 }}>
-                    Someone who is frantically calling their local shelter may not realize that their pet was transferred to a rescue on the other side of the country. Of those pets who are located, reclaim fees, implicit biases, and other barriers can make it difficult to get them back.{" "}<sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
-                  </Typography>
               </Box>
             </Grid2>
             <Grid2 size={{ xs: 12, md: 6 }}>
@@ -111,7 +107,7 @@ const AboutPage = () => {
 
         <Divider sx={{ mb: 8 }} />
 
-        <Box sx={{ mb: 9 }}>
+        <Box sx={{ mb: 7 }}>
           <Typography
             variant="h2"
             component="h2"
@@ -127,7 +123,7 @@ const AboutPage = () => {
             }} >
             A Solution for Lost Pet Reunification
           </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
+          <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 6 }}>
             Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
             We do this by offering a platform that is:
           </Typography>
@@ -136,10 +132,10 @@ const AboutPage = () => {
             <Box sx={{ display: "flex", gap: 3, mb: 2 }}>
               <StorageIcon sx={{ fontSize: 40, color: "info.dark", flexShrink: 0 }} />
               <Box>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "info.dark" }}>
+                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "info.dark" }}>
                   Centralized
                 </Typography>
-                <Typography variant="body1" sx={{ color: "text.secondary", fontSize: "1.0625rem", lineHeight: 1.7 }}>
+                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
                   We provide a single, searchable database where information about lost pets and their whereabouts are easily accessible to <strong>everyone</strong>.
                 </Typography>
               </Box>
@@ -151,10 +147,10 @@ const AboutPage = () => {
             <Box sx={{ display: "flex", gap: 3, mb: 2 }}>
               <SecurityIcon sx={{ fontSize: 40, color: "success.dark", flexShrink: 0 }} />
               <Box>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "success.dark" }}>
+                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "success.dark" }}>
                   Proactive
                 </Typography>
-                <Typography variant="body1" sx={{ color: "text.secondary", fontSize: "1.0625rem", lineHeight: 1.7 }}>
+                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
                   By registering your pets <strong>before</strong> they go missing, you can be prepared when the worst happens.
                   Quickly make a report, print flyers, and access other helpful features with a few clicks.
                 </Typography>
@@ -167,11 +163,11 @@ const AboutPage = () => {
             <Box sx={{ display: "flex", gap: 3 }}>
               <GroupIcon sx={{ fontSize: 40, color: "warning.dark", flexShrink: 0 }} />
               <Box>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "warning.dark" }}>
+                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "warning.dark" }}>
                   Community-Driven
                 </Typography>
-                <Typography variant="body1" sx={{ color: "text.secondary", fontSize: "1.0625rem", lineHeight: 1.7 }}>
-                  Our platform connects pet owners, good samaritans, animal shelters, and rescue organizations in a unified effort to bring lost pets home and increase reunification rates.
+                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
+                  We connect pet owners, good samaritans, animal shelters, and rescue organizations in a unified effort to bring lost pets home and increase reunification rates.
                 </Typography>
               </Box>
             </Box>
@@ -188,13 +184,15 @@ const AboutPage = () => {
             sx={{
               fontWeight: 700,
               letterSpacing: "-0.02em",
-              fontSize: { xs: "2rem", md: "2rem" }
+              fontSize: { xs: "2rem", md: "2rem" },
+              mb: 3
             }} >
-            Want to know the best part?
+            The best part?
           </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
-            It's private, easy to use, and completely <strong>free</strong>.
+          <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
+            It's privacy focused, easy to use, and completely <strong>free</strong>.
           </Typography>
+
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
             <Button
               component={Link}
