@@ -63,17 +63,22 @@ const TipForm = ({ reportId, onSuccess }) => {
       return;
     }
 
+    const tipPayload = {
+      reportId,
+      message: formData.message,
+      area: formData.area,
+      state: formData.state,
+      country: formData.country,
+      latitude: formData.latitude,
+      longitude: formData.longitude,
+      external_links: formData.external_links.filter(link => link.trim() !== '')
+    };
+
+    console.log('TipForm: Submitting tip with payload:', tipPayload);
+
     try {
-      const result = await createTip({
-        reportId,
-        message: formData.message,
-        area: formData.area,
-        state: formData.state,
-        country: formData.country,
-        latitude: formData.latitude,
-        longitude: formData.longitude,
-        external_links: formData.external_links.filter(link => link.trim() !== '')
-      }).unwrap();
+      const result = await createTip(tipPayload).unwrap();
+      console.log('TipForm: Tip submitted successfully:', result);
 
       dispatch(addNotification({
         type: 'SUCCESS',
@@ -95,6 +100,8 @@ const TipForm = ({ reportId, onSuccess }) => {
         onSuccess();
       }
     } catch (error) {
+      console.error('TipForm: Error submitting tip:', error);
+      console.error('TipForm: Error details:', error.data);
       dispatch(addNotification({
         type: 'ERROR',
         message: error.data?.message || 'Failed to submit tip'
@@ -140,7 +147,7 @@ const TipForm = ({ reportId, onSuccess }) => {
             />
               <div className="mt-8">
               <label className="text-lg font-medium text-gray-900">
-                External Links (optional)
+                External Links (optional):
               </label>
               <p className="text-sm text-gray-500 mb-3">
                 Add up to 3 links to social media posts, news articles, or other relevant information.
