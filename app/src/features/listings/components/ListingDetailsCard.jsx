@@ -89,21 +89,21 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="md:flex">
-            <div className="md:w-1/2 relative">
+          <div className="md:flex md:min-h-[400px]">
+            <div className="md:w-1/2 relative md:flex md:items-stretch">
               {isImageLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-20">
                   <Spinner />
                 </div>
               )}
               <div
-                className={`relative ${ringStyle} cursor-pointer group`}
+                className={`relative w-full ${ringStyle} cursor-pointer group`}
                 onClick={handleImageClick}
               >
                 <img
                   src={imageSrc}
                   alt={report.title}
-                  className={`w-full h-96 md:h-full md:min-h-[600px] object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${isImageLoading ? "hidden" : "block"}`}
+                  className={`w-full h-64 md:h-full md:min-h-[350px] sm:min-h-[400px] xs:min-h-[300px] object-cover ${report.status === 'archived' ? 'grayscale' : ''} ${isImageLoading ? "hidden" : "block"}`}
                   onLoad={handleImageLoad}
                   onError={handleImageError}
                 />
@@ -115,11 +115,11 @@ const ListingDetailsCard = ({ report }) => {
               </div>
             </div>
 
-            <div className="md:w-1/2 p-6 md:p-8">
-              <div className="space-y-6">
+            <div className="md:w-1/2 p-6 md:p-8 flex flex-col">
+              <div className="space-y-4">
                 <div>
                   <div className="flex items-start justify-between gap-4 mb-2">
-                    <h1 className="text-3xl font-bold text-gray-900">{report.title}</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">{report.title}</h1>
                     {report.status === 'archived' && (
                       <span className="px-3 py-1 text-sm font-medium bg-gray-100 text-gray-600 rounded-full flex-shrink-0">
                         Archived
@@ -128,54 +128,20 @@ const ListingDetailsCard = ({ report }) => {
                   </div>
                 </div>
 
+                {(report.name || report.species) && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                    {report.name && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Name</h4>
+                        <p className="text-gray-900 font-medium">{report.name}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div>
                   <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Description</h4>
                   <p className="text-gray-900 font-medium">{report.description}</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {report.name && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Name</h4>
-                      <p className="text-gray-900 font-medium">{report.name}</p>
-                    </div>
-                  )}
-
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Species</h4>
-                    <p className="text-gray-900 font-medium capitalize">{report.species}</p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Breed</h4>
-                    <p className="text-gray-900 font-medium">{report.breed1}</p>
-                    {report.breed2 && (
-                      <p className="text-gray-900 font-medium">{report.breed2}</p>
-                    )}
-                  </div>
-
-                  {report.gender && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
-                      <p className="text-gray-900 font-medium capitalize">{report.gender}</p>
-                    </div>
-                  )}
-
-                  {report.isAltered !== null && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
-                      <p className="text-gray-900 font-medium">
-                        {report.isAltered ? "Yes" : "No"}
-                      </p>
-                    </div>
-                  )}
-
-                  {report.microchipId && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
-                      <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -183,15 +149,50 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
-          <LocationDisplay
-            textStyle="font-medium text-black"
-            area={report.area}
-            state={report.state}
-            country={report.country}
-            intersection={report.intersection}
-            useStateAbbreviation={true}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Breed</h4>
+              <p className="text-gray-900 font-medium">{report.breed1}</p>
+              {report.breed2 && (
+                <p className="text-gray-900 font-medium">{report.breed2}</p>
+              )}
+            </div>
+
+            {report.gender && (
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
+                <p className="text-gray-900 font-medium capitalize">{report.gender}</p>
+              </div>
+            )}
+
+            {report.isAltered !== null && (
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
+                <p className="text-gray-900 font-medium">
+                  {report.isAltered ? "Yes" : "No"}
+                </p>
+              </div>
+            )}
+
+            {report.microchipId && (
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
+                <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="border-t border-gray-200 pt-6">
+            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
+            <LocationDisplay
+              textStyle="font-medium text-black"
+              area={report.area}
+              state={report.state}
+              country={report.country}
+              intersection={report.intersection}
+              useStateAbbreviation={true}
+            />
+          </div>
         </div>
 
         <div className="mt-8">
