@@ -6,21 +6,19 @@ const LocationDisplay = ({
   textStyle = "text-gray-500",
   intersection,
   displayTip,
-  useStateAbbreviation = false
+  useStateAbbreviation = false,
+  showReportedMissing = false
 }) => {
-  const locationParts = [area, state, "United States", intersection].filter(Boolean);
-
-  if (locationParts.length === 0) {
-    return null;
-  }
-
   const locationString = () => {
     if (area && state) {
       const stateDisplay = useStateAbbreviation ? getStateAbbreviation(state) : state;
-      if (intersection && intersection !== "") {
-        return <p>Reported missing near {intersection} in {area}, {stateDisplay}</p>;
+      if (showReportedMissing) {
+        if (intersection && intersection !== "") {
+          return <p>{intersection} in {area}, {stateDisplay}</p>;
+        }
+        return <p>{area}, {stateDisplay}</p>;
       }
-      return <p>Reported missing in {area}, {stateDisplay}</p>;
+      return <p>{intersection && intersection !== "" ? `${intersection} in ` : ''}{area}, {stateDisplay}</p>;
     }
     return null;
   };

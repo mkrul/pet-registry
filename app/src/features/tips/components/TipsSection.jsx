@@ -6,6 +6,7 @@ import TipList from './TipList.jsx';
 
 const TipsSection = ({ reportId }) => {
   const [showTipForm, setShowTipForm] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const user = useAppSelector(state => state.auth.user);
   const { data: tipsData, isLoading } = useGetTipsQuery(reportId);
 
@@ -13,14 +14,40 @@ const TipsSection = ({ reportId }) => {
     setShowTipForm(false);
   };
 
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   // Don't show the section if there are no tips and user is not authenticated
   if (!isLoading && (!tipsData?.tips || tipsData.tips.length === 0) && !user) {
     return null;
   }
 
+  const tips = tipsData?.tips || [];
+
   return (
     <div className="space-y-6">
-      <TipList reportId={reportId} />
+      <div className="bg-white rounded-lg border border-gray-200">
+        <button
+          onClick={toggleCollapse}
+          className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        >
+          <h3 className="text-lg font-semibold text-gray-900">Tips ({tips.length})</h3>
+          <svg
+            className={`w-5 h-5 text-gray-500 transition-transform ${isCollapsed ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        {!isCollapsed && (
+          <div className="px-6 pb-6">
+            <TipList reportId={reportId} />
+          </div>
+        )}
+      </div>
 
       {user && (
         showTipForm ? (

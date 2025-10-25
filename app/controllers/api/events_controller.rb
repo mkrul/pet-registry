@@ -30,6 +30,7 @@ module Api
             country: outcome.result.country,
             latitude: outcome.result.latitude,
             longitude: outcome.result.longitude,
+            intersection: outcome.result.intersection,
             external_links: outcome.result.external_links,
             created_at: outcome.result.created_at,
             user: {
@@ -68,6 +69,7 @@ module Api
             country: tip.country,
             latitude: tip.latitude,
             longitude: tip.longitude,
+            intersection: tip.intersection,
             external_links: tip.external_links,
             created_at: tip.created_at,
             user: {

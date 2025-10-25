@@ -35,11 +35,7 @@ const TipList = ({ reportId }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Tips ({tips.length})
-      </h3>
-
+    <div>
       <div className="space-y-4">
         {tips.map((tip) => (
           <div key={tip.id} className="border border-gray-200 rounded-lg p-4">

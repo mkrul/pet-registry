@@ -51,6 +51,10 @@ module Events
         data['longitude']
       end
 
+      def intersection
+        data['intersection']
+      end
+
       def external_links
         data['external_links'] || []
       end

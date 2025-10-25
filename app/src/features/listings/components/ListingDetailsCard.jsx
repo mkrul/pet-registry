@@ -5,10 +5,13 @@ import LocationDisplay from "../../../shared/components/common/LocationDisplay.j
 import Map from "../../../shared/components/common/Map.jsx";
 import DateDisplay from "./common/DateDisplay.jsx";
 import TipsSection from "../../tips/components/TipsSection.jsx";
+import { useGetTipsQuery } from "../../../store/features/tips/tipsApi.js";
 import { createMapLocation } from "../../../shared/utils/mapUtils.js";
 import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
 
 const ListingDetailsCard = ({ report }) => {
+  const { data: tipsData } = useGetTipsQuery(report.id);
+  const tips = tipsData?.tips || [];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -89,7 +92,7 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="md:flex md:min-h-[400px]">
+          <div className="md:flex">
             <div className="md:w-1/2 relative md:flex md:items-stretch">
               {isImageLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-20">
@@ -143,49 +146,59 @@ const ListingDetailsCard = ({ report }) => {
                   <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Description</h4>
                   <p className="text-gray-900 font-medium">{report.description}</p>
                 </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Breed</h4>
+                    <p className="text-gray-900 font-medium">{report.breed1}</p>
+                    {report.breed2 && (
+                      <p className="text-gray-900 font-medium">{report.breed2}</p>
+                    )}
+                  </div>
+
+                  {report.gender && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
+                      <p className="text-gray-900 font-medium capitalize">{report.gender}</p>
+                    </div>
+                  )}
+
+                  {report.isAltered !== null && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
+                      <p className="text-gray-900 font-medium">
+                        {report.isAltered ? "Yes" : "No"}
+                      </p>
+                    </div>
+                  )}
+
+                  {report.microchipId && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
+                      <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-            <div>
-              <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Breed</h4>
-              <p className="text-gray-900 font-medium">{report.breed1}</p>
-              {report.breed2 && (
-                <p className="text-gray-900 font-medium">{report.breed2}</p>
-              )}
-            </div>
-
-            {report.gender && (
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
-                <p className="text-gray-900 font-medium capitalize">{report.gender}</p>
-              </div>
-            )}
-
-            {report.isAltered !== null && (
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
-                <p className="text-gray-900 font-medium">
-                  {report.isAltered ? "Yes" : "No"}
-                </p>
-              </div>
-            )}
-
-            {report.microchipId && (
-              <div>
-                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
-                <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="border-t border-gray-200 pt-6">
-            <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
+          <div className="space-y-3">
             <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
-              <DateDisplay createdAt={report.createdAt} />
+              <div className="text-sm text-gray-600 whitespace-nowrap">
+                {new Date(report.createdAt).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric"
+                })}, {new Date(report.createdAt).toLocaleTimeString(undefined, {
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true
+                })}
+              </div>
               <LocationDisplay
                 textStyle="font-medium text-black"
                 area={report.area}
@@ -193,8 +206,40 @@ const ListingDetailsCard = ({ report }) => {
                 country={report.country}
                 intersection={report.intersection}
                 useStateAbbreviation={true}
+                showReportedMissing={true}
               />
             </div>
+
+            {tips.map((tip) => (
+              <div key={tip.id} className="grid grid-cols-[auto_1fr] gap-4 items-center border-t border-gray-200 pt-3">
+                <div className="text-sm text-gray-600 whitespace-nowrap">
+                  {(tip.createdAt || tip.created_at) ? (
+                    <>
+                      {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric"
+                      })}, {new Date(tip.createdAt || tip.created_at).toLocaleTimeString(undefined, {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: true
+                      })}
+                    </>
+                  ) : (
+                    '—'
+                  )}
+                </div>
+                <LocationDisplay
+                  textStyle="font-medium text-black"
+                  area={tip.area}
+                  state={tip.state}
+                  country={tip.country}
+                  intersection={tip.intersection}
+                  useStateAbbreviation={true}
+                  showReportedMissing={true}
+                />
+              </div>
+            ))}
           </div>
         </div>
 

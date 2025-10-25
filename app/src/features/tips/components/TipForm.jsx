@@ -71,6 +71,7 @@ const TipForm = ({ reportId, onSuccess }) => {
       country: formData.country,
       latitude: formData.latitude,
       longitude: formData.longitude,
+      intersection: formData.intersection,
       external_links: formData.external_links.filter(link => link.trim() !== '')
     };
 
