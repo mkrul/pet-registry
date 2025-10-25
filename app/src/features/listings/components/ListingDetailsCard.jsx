@@ -153,10 +153,12 @@ const ListingDetailsCard = ({ report }) => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Name</h4>
-                    <p className="text-gray-900 font-medium">{report.name || "Unknown"}</p>
-                  </div>
+                  {report.name && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Name</h4>
+                      <p className="text-gray-900 font-medium">{report.name}</p>
+                    </div>
+                  )}
 
                   <div>
                     <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Species</h4>
@@ -171,46 +173,31 @@ const ListingDetailsCard = ({ report }) => {
                     )}
                   </div>
 
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
-                    <p className="text-gray-900 font-medium capitalize">{report.gender || "Unknown"}</p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
-                    <p className="text-gray-900 font-medium">
-                      {report.isAltered === true ? "Yes" : report.isAltered === false ? "No" : "Unknown"}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Colors</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                        {report.color1}
-                      </span>
-                      {report.color2 && (
-                        <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                          {report.color2}
-                        </span>
-                      )}
-                      {report.color3 && (
-                        <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
-                          {report.color3}
-                        </span>
-                      )}
+                  {report.gender && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
+                      <p className="text-gray-900 font-medium capitalize">{report.gender}</p>
                     </div>
-                  </div>
+                  )}
+
+                  {report.isAltered !== null && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
+                      <p className="text-gray-900 font-medium">
+                        {report.isAltered ? "Yes" : "No"}
+                      </p>
+                    </div>
+                  )}
 
                   {report.microchipId && (
-                    <div className="sm:col-span-2">
+                    <div>
                       <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
                       <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
                     </div>
                   )}
                 </div>
               </div>
-              <div className="mt-4">
+              <div className="mt-6">
                 <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Location Details</h4>
                 <LocationDisplay
                   textStyle="font-medium text-black"
