@@ -35,27 +35,8 @@ const ListingDetailsCard = ({ report }) => {
   };
 
   const getReportStatusDisplay = (report) => {
-    const ringStyle = report.recentlyCreated
-      ? "ring-4 ring-blue-500 rounded-lg"
-      : report.recentlyUpdated
-        ? "ring-4 ring-green-500 rounded-lg"
-        : "";
-
-    const badge = report.recentlyCreated ? (
-      <span
-        className="absolute bottom-0 right-0 z-10 bg-blue-500 text-blue-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md"
-        aria-label="Report created within the last hour"
-      >
-        NEW
-      </span>
-    ) : report.recentlyUpdated ? (
-      <span
-        className="absolute bottom-0 right-0 z-10 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md"
-        aria-label="Report updated within the last two days"
-      >
-        UPDATED
-      </span>
-    ) : null;
+    const ringStyle = "";
+    const badge = null;
 
     return { ringStyle, badge };
   };
@@ -197,19 +178,20 @@ const ListingDetailsCard = ({ report }) => {
                   )}
                 </div>
               </div>
-              <div className="mt-6">
-                <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Location Details</h4>
-                <LocationDisplay
-                  textStyle="font-medium text-black"
-                  area={report.area}
-                  state={report.state}
-                  country={report.country}
-                  intersection={report.intersection}
-                  useStateAbbreviation={true}
-                />
-              </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
+          <LocationDisplay
+            textStyle="font-medium text-black"
+            area={report.area}
+            state={report.state}
+            country={report.country}
+            intersection={report.intersection}
+            useStateAbbreviation={true}
+          />
         </div>
 
         <div className="mt-8">
