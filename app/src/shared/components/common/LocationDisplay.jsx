@@ -17,12 +17,10 @@ const LocationDisplay = ({
   const locationString = () => {
     if (area && state) {
       const stateDisplay = useStateAbbreviation ? getStateAbbreviation(state) : state;
-      return (
-        <>
-          {intersection && intersection !== "" && <p>{intersection} in {area}, {stateDisplay}</p>}
-          {intersection === "" && <p>First reported missing in {area}, {stateDisplay}</p>}
-        </>
-      );
+      if (intersection && intersection !== "") {
+        return <p>{intersection} in {area}, {stateDisplay}</p>;
+      }
+      return <p>First reported missing in {area}, {stateDisplay}</p>;
     }
     return null;
   };
