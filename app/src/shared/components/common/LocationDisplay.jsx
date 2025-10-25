@@ -18,15 +18,15 @@ const LocationDisplay = ({
     if (area && state) {
       const stateDisplay = useStateAbbreviation ? getStateAbbreviation(state) : state;
       if (intersection && intersection !== "") {
-        return <p>{intersection} in {area}, {stateDisplay}</p>;
+        return <p>Reported missing near {intersection} in {area}, {stateDisplay}</p>;
       }
-      return <p>First reported missing in {area}, {stateDisplay}</p>;
+      return <p>Reported missing in {area}, {stateDisplay}</p>;
     }
     return null;
   };
 
   return (
-    <div className={`${textStyle} mt-2`}>
+    <div className={`${textStyle}`}>
       {locationString()}
     </div>
   );

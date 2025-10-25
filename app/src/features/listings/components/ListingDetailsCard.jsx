@@ -184,14 +184,17 @@ const ListingDetailsCard = ({ report }) => {
 
           <div className="border-t border-gray-200 pt-6">
             <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
-            <LocationDisplay
-              textStyle="font-medium text-black"
-              area={report.area}
-              state={report.state}
-              country={report.country}
-              intersection={report.intersection}
-              useStateAbbreviation={true}
-            />
+            <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
+              <DateDisplay createdAt={report.createdAt} />
+              <LocationDisplay
+                textStyle="font-medium text-black"
+                area={report.area}
+                state={report.state}
+                country={report.country}
+                intersection={report.intersection}
+                useStateAbbreviation={true}
+              />
+            </div>
           </div>
         </div>
 
