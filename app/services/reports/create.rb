@@ -35,6 +35,16 @@ module Reports
                                      else nil
                                      end
 
+      # Apply privacy offset to coordinates
+      if processed_inputs[:latitude] && processed_inputs[:longitude]
+        offset_coords = apply_privacy_offset(
+          processed_inputs[:latitude].to_f,
+          processed_inputs[:longitude].to_f
+        )
+        processed_inputs[:latitude] = offset_coords[:latitude]
+        processed_inputs[:longitude] = offset_coords[:longitude]
+      end
+
       report = Report.new(processed_inputs.merge(status: 'active'))
 
       unless report.save
@@ -43,6 +53,20 @@ module Reports
       end
 
       report
+    end
+
+    private
+
+    def apply_privacy_offset(lat, lng)
+      privacy_offset = 0.0025
+      offset_lat = lat + (rand - 0.5) * privacy_offset
+      offset_lng = lng + (rand - 0.5) * privacy_offset
+
+      Rails.logger.info "[PRIVACY] Original coordinates: #{lat}, #{lng}"
+      Rails.logger.info "[PRIVACY] Privacy offset applied: #{offset_lat}, #{offset_lng}"
+      Rails.logger.info "[PRIVACY] Offset amount: lat #{(offset_lat - lat).round(6)}, lng #{(offset_lng - lng).round(6)}"
+
+      { latitude: offset_lat, longitude: offset_lng }
     end
   end
 end

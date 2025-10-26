@@ -43,6 +43,16 @@ class Reports::Update < ActiveInteraction::Base
   private
 
   def update_report_attributes
+    # Apply privacy offset to coordinates if they're being updated
+    processed_latitude = latitude
+    processed_longitude = longitude
+
+    if latitude && longitude
+      offset_coords = apply_privacy_offset(latitude.to_f, longitude.to_f)
+      processed_latitude = offset_coords[:latitude]
+      processed_longitude = offset_coords[:longitude]
+    end
+
     report.update(
       title: title,
       description: description,
@@ -58,12 +68,24 @@ class Reports::Update < ActiveInteraction::Base
       area: area,
       state: state,
       country: country,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: processed_latitude,
+      longitude: processed_longitude,
       intersection: intersection,
       is_altered: is_altered,
       status: status
     )
+  end
+
+  def apply_privacy_offset(lat, lng)
+    privacy_offset = 0.0025
+    offset_lat = lat + (rand - 0.5) * privacy_offset
+    offset_lng = lng + (rand - 0.5) * privacy_offset
+
+    Rails.logger.info "[PRIVACY] Original coordinates: #{lat}, #{lng}"
+    Rails.logger.info "[PRIVACY] Privacy offset applied: #{offset_lat}, #{offset_lng}"
+    Rails.logger.info "[PRIVACY] Offset amount: lat #{(offset_lat - lat).round(6)}, lng #{(offset_lng - lng).round(6)}"
+
+    { latitude: offset_lat, longitude: offset_lng }
   end
 
   def update_associated_pet

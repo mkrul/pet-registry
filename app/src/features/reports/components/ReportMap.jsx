@@ -4,13 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "../../../shared/utils/leafletSetup";
 import { processAddress } from "../../../shared/geocoding";
 import Spinner from "../../../shared/components/common/Spinner";
-import { DEFAULT_MAP_CENTER } from "../../../shared/constants/map";
-
-const REPORT_ZOOM_LEVELS = {
-  EDIT: 17,
-  VIEW: 17,
-  DEFAULT: 4
-};
+import { DEFAULT_MAP_CENTER, REPORT_ZOOM_LEVELS } from "../../../shared/constants/map";
 
 const MapView = ({ initialLocation, initialZoom, hasSetInitialView, setHasSetInitialView }) => {
   const map = useMap();
@@ -68,7 +62,6 @@ const MapEvents = ({
 
   useEffect(() => {
     if (showInitialMarker && initialLocation?.latitude && initialLocation?.longitude) {
-      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
       const currentZoom = map.getZoom();
       const targetZoom = Math.max(currentZoom, REPORT_ZOOM_LEVELS.EDIT);
       map.setView([initialLocation.latitude, initialLocation.longitude], targetZoom);

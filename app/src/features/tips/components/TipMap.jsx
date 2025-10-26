@@ -67,7 +67,6 @@ const MapEvents = ({
 
   useEffect(() => {
     if (showInitialMarker && initialLocation?.latitude && initialLocation?.longitude) {
-      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
       const currentZoom = map.getZoom();
       const targetZoom = Math.max(currentZoom, TIP_ZOOM_LEVELS.FORM);
       map.setView([initialLocation.latitude, initialLocation.longitude], targetZoom);

@@ -8,12 +8,7 @@ import { createMapLocation } from "../../../shared/utils/mapUtils";
 import { processAddress } from "../../../shared/geocoding";
 import { FormFieldError } from "../../../shared/components/common/FormFieldError";
 import Tip from "../../../shared/components/common/Tip";
-
-const REPORT_ZOOM_LEVELS = {
-  EDIT: 17,
-  VIEW: 17,
-  DEFAULT: 4
-};
+import { REPORT_ZOOM_LEVELS } from "../../../shared/constants/map";
 
 const MemoizedReportMap = React.memo(ReportMap);
 
