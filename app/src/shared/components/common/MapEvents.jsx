@@ -25,12 +25,6 @@ export const MapEvents = ({
     }
   }, [isProcessing, onProcessingStateChange]);
 
-  useEffect(() => {
-    if (showInitialMarker && initialLocation?.latitude && initialLocation?.longitude) {
-      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
-    }
-  }, [initialLocation?.latitude, initialLocation?.longitude, showInitialMarker]);
-
   const map = useMapEvents({
     click: async e => {
       if (!readOnly) {
@@ -38,6 +32,15 @@ export const MapEvents = ({
       }
     }
   });
+
+  useEffect(() => {
+    if (showInitialMarker && initialLocation?.latitude && initialLocation?.longitude) {
+      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
+      const currentZoom = map.getZoom();
+      const targetZoom = Math.max(currentZoom, MAP_ZOOM_LEVELS.EDIT);
+      map.setView([initialLocation.latitude, initialLocation.longitude], targetZoom);
+    }
+  }, [initialLocation?.latitude, initialLocation?.longitude, showInitialMarker, map]);
 
   const handleLocationSelect = async (lat, lng, skipLocationFetch = false) => {
     if (isProcessing) return;
