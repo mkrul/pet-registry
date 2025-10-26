@@ -210,7 +210,7 @@ const ListingDetailsCard = ({ report }) => {
               />
             </div>
 
-            {tips.map((tip) => (
+            {tips.slice().reverse().map((tip) => (
               <div key={tip.id} className="grid grid-cols-[auto_1fr] gap-4 items-center border-t border-gray-200 pt-3">
                 <div className="text-sm text-gray-600 whitespace-nowrap">
                   {(tip.createdAt || tip.created_at) ? (
