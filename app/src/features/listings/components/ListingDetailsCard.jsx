@@ -8,6 +8,7 @@ import TipsSection from "../../tips/components/TipsSection.jsx";
 import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
 import { createMapLocation } from "../../../shared/utils/mapUtils.js";
 import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
+import { Place } from "@mui/icons-material";
 
 const ListingDetailsCard = ({ report }) => {
   const { data: tipsData } = useGetAllTipsQuery(report.id);
@@ -185,7 +186,12 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-5">Location Details</h4>
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Location Details</h4>
+          <div className="flex items-start gap-2 mb-5">
+            <p className="text-sm text-gray-600 mt-2">
+              The information below lists the original report location and any subsequent sightings reported by community members.
+            </p>
+          </div>
           <div className="space-y-3">
             <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
               <div className="text-sm text-gray-600 whitespace-nowrap">
