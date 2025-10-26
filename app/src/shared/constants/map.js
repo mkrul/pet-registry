@@ -3,7 +3,8 @@ export const MAP_ZOOM_LEVELS = {
   VIEW: 17,
   NEW: 4,
   DEFAULT: 4,
-  PIN_DROP: 8
+  PIN_DROP: 8,
+  TIP_FORM: 15
 };
 
 export const DEFAULT_MAP_CENTER = {

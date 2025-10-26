@@ -1,12 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import { useCreateTipMutation } from '../../../store/features/tips/tipsApi.js';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useCreateTipMutation, useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import { LocationSelect } from '../../listings/components/common/LocationSelect.jsx';
 import { createMapLocation } from '../../../shared/utils/mapUtils.js';
+import { MAP_ZOOM_LEVELS } from '../../../shared/constants/map.js';
 
 const TipForm = ({ reportId, onSuccess }) => {
   const [createTip, { isLoading }] = useCreateTipMutation();
+  const { data: lastLocationData } = useGetLastLocationQuery(reportId);
   const dispatch = useAppDispatch();
   const [isProcessingLocation, setIsProcessingLocation] = useState(false);
 
@@ -63,6 +65,14 @@ const TipForm = ({ reportId, onSuccess }) => {
       return;
     }
 
+    if (!formData.latitude || !formData.longitude) {
+      dispatch(addNotification({
+        type: 'ERROR',
+        message: 'Please select a location on the map or enter an address'
+      }));
+      return;
+    }
+
     const tipPayload = {
       reportId,
       message: formData.message,
@@ -113,6 +123,7 @@ const TipForm = ({ reportId, onSuccess }) => {
   const isFormDisabled = isLoading || isProcessingLocation;
 
   const getInitialLocation = () => {
+    // First check if we have form data (user has already selected a location)
     if (formData.latitude && formData.longitude) {
       return createMapLocation({
         latitude: parseFloat(formData.latitude),
@@ -123,6 +134,19 @@ const TipForm = ({ reportId, onSuccess }) => {
         intersection: formData.intersection
       });
     }
+
+    // If no form data, use the last location from events or report
+    if (lastLocationData?.latitude && lastLocationData?.longitude) {
+      return createMapLocation({
+        latitude: parseFloat(lastLocationData.latitude),
+        longitude: parseFloat(lastLocationData.longitude),
+        area: lastLocationData.area,
+        state: lastLocationData.state,
+        country: lastLocationData.country,
+        intersection: lastLocationData.intersection
+      });
+    }
+
     return null;
   };
 
@@ -174,10 +198,12 @@ const TipForm = ({ reportId, onSuccess }) => {
               onLocationSelect={handleLocationSelect}
               initialLocation={getInitialLocation()}
               isLoading={isFormDisabled}
-              required={false}
+              required={true}
               onProcessingStateChange={handleLocationProcessingStateChange}
               showTip={false}
               labelStyle="microchip"
+              initialZoom={MAP_ZOOM_LEVELS.TIP_FORM}
+              showInitialMarker={false}
             />
           </div>
         </div>

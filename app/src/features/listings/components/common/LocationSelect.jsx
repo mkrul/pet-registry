@@ -22,7 +22,9 @@ export const LocationSelect = ({
   required = true,
   onProcessingStateChange,
   showTip = true,
-  labelStyle = "default"
+  labelStyle = "default",
+  initialZoom,
+  showInitialMarker = true
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
@@ -40,6 +42,7 @@ export const LocationSelect = ({
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isProcessingAddress, setIsProcessingAddress] = useState(false);
   const [isProcessingMap, setIsProcessingMap] = useState(false);
+  const [hasLocationError, setHasLocationError] = useState(false);
   const isDisabled = isLoading || isProcessingAddress || isProcessingMap;
 
   // Notify parent component when processing state changes
@@ -48,6 +51,14 @@ export const LocationSelect = ({
       onProcessingStateChange(isProcessingAddress || isProcessingMap);
     }
   }, [isProcessingAddress, isProcessingMap, onProcessingStateChange]);
+
+  React.useEffect(() => {
+    if (required && !currentMapLocation && !initialLocation) {
+      setHasLocationError(true);
+    } else {
+      setHasLocationError(false);
+    }
+  }, [required, currentMapLocation, initialLocation]);
 
   const fetchAddressSuggestions = React.useMemo(
     () =>
@@ -96,6 +107,7 @@ export const LocationSelect = ({
       intersection: location.intersection
     });
     setCurrentMapLocation(location);
+    setHasLocationError(false);
     onLocationSelect(location);
   }, [onLocationSelect]);
 
@@ -112,9 +124,11 @@ export const LocationSelect = ({
         intersection: initialLocation.intersection || ""
       };
       setSelectedLocation(locationData);
-      setCurrentMapLocation(initialLocation);
+      if (showInitialMarker) {
+        setCurrentMapLocation(initialLocation);
+      }
     }
-  }, [initialLocation]);
+  }, [initialLocation, showInitialMarker]);
 
   const handleAddressSelect = useCallback(async (_, value) => {
     if (value) {
@@ -138,6 +152,7 @@ export const LocationSelect = ({
             country: locationData.country,
             intersection: locationData.intersection
           });
+          setHasLocationError(false);
           onLocationSelect(locationData);
           setCurrentMapLocation(locationData);
         }
@@ -153,15 +168,22 @@ export const LocationSelect = ({
   }, [onLocationSelect]);
 
   // Memoize expensive computations
-  const mapLocation = useMemo(() =>
-    currentMapLocation ? createMapLocation(currentMapLocation) : undefined,
-    [currentMapLocation]
-  );
+  const mapLocation = useMemo(() => {
+    if (currentMapLocation) {
+      return createMapLocation(currentMapLocation);
+    }
+    if (initialLocation && !showInitialMarker) {
+      return createMapLocation(initialLocation);
+    }
+    return undefined;
+  }, [currentMapLocation, initialLocation, showInitialMarker]);
 
-  const mapZoom = useMemo(() =>
-    currentMapLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT,
-    [currentMapLocation]
-  );
+  const mapZoom = useMemo(() => {
+    if (initialZoom) {
+      return initialZoom;
+    }
+    return currentMapLocation ? MAP_ZOOM_LEVELS.EDIT : MAP_ZOOM_LEVELS.DEFAULT;
+  }, [currentMapLocation, initialZoom]);
 
   const getLabelClassName = () => {
     if (labelStyle === "microchip") {
@@ -206,7 +228,7 @@ export const LocationSelect = ({
               {...params}
               aria-label="Enter an address"
               placeholder="Enter an address"
-              required={required}
+              required={false}
               error={!!error}
               sx={{
                 backgroundColor: "white",
@@ -228,7 +250,7 @@ export const LocationSelect = ({
           disabled={isDisabled}
         />
       </div>
-      <FormFieldError error={error} />
+      <FormFieldError error={error || (hasLocationError ? "Please select a location on the map or enter an address" : null)} />
       <div className="relative mt-1">
         <MemoizedMap
           onLocationSelect={handleLocationSelect}
@@ -236,6 +258,7 @@ export const LocationSelect = ({
           initialZoom={mapZoom}
           readOnly={isDisabled}
           onProcessingStateChange={handleMapProcessingStateChange}
+          showInitialMarker={showInitialMarker}
         />
         {(isProcessingAddress || isProcessingMap) && (
           <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">

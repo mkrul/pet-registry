@@ -14,6 +14,12 @@ export const tipsApi = createApi({
         { type: "Tips", id: `LIST-${reportId}` }
       ]
     }),
+    getLastLocation: builder.query({
+      query: (reportId) => `reports/${reportId}/events/last_location`,
+      providesTags: (result, error, reportId) => [
+        { type: "Tips", id: `LAST_LOCATION-${reportId}` }
+      ]
+    }),
     createTip: builder.mutation({
       query: ({ reportId, ...tipData }) => ({
         url: `reports/${reportId}/events/create_tip`,
@@ -21,7 +27,8 @@ export const tipsApi = createApi({
         body: tipData
       }),
       invalidatesTags: (result, error, { reportId }) => [
-        { type: "Tips", id: `LIST-${reportId}` }
+        { type: "Tips", id: `LIST-${reportId}` },
+        { type: "Tips", id: `LAST_LOCATION-${reportId}` }
       ]
     })
   })
@@ -29,5 +36,6 @@ export const tipsApi = createApi({
 
 export const {
   useGetTipsQuery,
+  useGetLastLocationQuery,
   useCreateTipMutation
 } = tipsApi;

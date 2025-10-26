@@ -2,7 +2,7 @@
 
 module Api
   class EventsController < ApplicationController
-    before_action :set_report, only: [:create_tip, :index_tips]
+    before_action :set_report, only: [:create_tip, :index_tips, :last_location]
     before_action :authenticate_user!, only: [:create_tip]
     skip_before_action :verify_authenticity_token
 
@@ -79,6 +79,40 @@ module Api
           }
         end
       }, status: :ok
+    end
+
+    def last_location
+      # Find the most recent event with location data
+      recent_event = @report.tips
+        .where("data->>'latitude' IS NOT NULL AND data->>'longitude' IS NOT NULL")
+        .where("data->>'latitude' != '' AND data->>'longitude' != ''")
+        .order(created_at: :desc)
+        .first
+
+      if recent_event
+        render json: {
+          latitude: recent_event.latitude,
+          longitude: recent_event.longitude,
+          area: recent_event.area,
+          state: recent_event.state,
+          country: recent_event.country,
+          intersection: recent_event.intersection,
+          source: 'event'
+        }, status: :ok
+      elsif @report.latitude.present? && @report.longitude.present?
+        # Fall back to report location if no events have location data
+        render json: {
+          latitude: @report.latitude,
+          longitude: @report.longitude,
+          area: @report.area,
+          state: @report.state,
+          country: @report.country,
+          intersection: @report.intersection,
+          source: 'report'
+        }, status: :ok
+      else
+        render json: { message: 'No location data available' }, status: :not_found
+      end
     end
 
     private

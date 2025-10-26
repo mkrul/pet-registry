@@ -6,7 +6,7 @@ import TipList from './TipList.jsx';
 
 const TipsSection = ({ reportId }) => {
   const [showTipForm, setShowTipForm] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const user = useAppSelector(state => state.auth.user);
   const { data: tipsData, isLoading } = useGetTipsQuery(reportId);
 

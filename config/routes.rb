@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         collection do
           post :create_tip
           get :index_tips
+          get :last_location
         end
       end
     end

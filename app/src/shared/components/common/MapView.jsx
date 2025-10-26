@@ -12,17 +12,16 @@ export const MapView = ({
   const map = useMap();
 
   useEffect(() => {
-    if (initialLocation?.latitude && initialLocation?.longitude) {
-      map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
-        animate: true
-      });
-      if (!hasSetInitialView) {
-        setHasSetInitialView(true);
+    if (!hasSetInitialView) {
+      if (initialLocation?.latitude && initialLocation?.longitude) {
+        map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
+          animate: true
+        });
+      } else {
+        map.setView([DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude], initialZoom, {
+          animate: true
+        });
       }
-    } else if (!hasSetInitialView) {
-      map.setView([DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude], initialZoom, {
-        animate: true
-      });
       setHasSetInitialView(true);
     }
   }, [
