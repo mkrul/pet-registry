@@ -7,7 +7,7 @@ import { BasicInfoFields } from '../../listings/components/common/BasicInfoField
 import { IdentificationFields } from '../../listings/components/common/IdentificationFields.jsx';
 import { ColorFields } from '../../listings/components/common/ColorFields.jsx';
 import { ImageUpload } from '../../listings/components/common/ImageUpload.jsx';
-import { LocationSelect } from '../../listings/components/common/LocationSelect.jsx';
+import { ReportLocationSelect } from '../components/ReportLocationSelect.jsx';
 import DateDisplay from '../../listings/components/common/DateDisplay.jsx';
 import { createMapLocation } from '../../../shared/utils/mapUtils.js';
 import AssociatedRecordUpdateModal from '../../../shared/components/common/AssociatedRecordUpdateModal.jsx';
@@ -121,7 +121,7 @@ const ReportEditForm = ({
             handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
           />
 
-          <LocationSelect
+          <ReportLocationSelect
             onLocationSelect={handleLocationSelect}
             initialLocation={createMapLocation({
               latitude: formData.latitude ?? 0,

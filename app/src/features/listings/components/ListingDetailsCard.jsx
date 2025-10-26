@@ -2,13 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Spinner from "../../../shared/components/common/Spinner.jsx";
 import LocationDisplay from "../../../shared/components/common/LocationDisplay.jsx";
-import Map from "../../../shared/components/common/Map.jsx";
 import DateDisplay from "./common/DateDisplay.jsx";
 import TipsSection from "../../tips/components/TipsSection.jsx";
 import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
-import { createMapLocation } from "../../../shared/utils/mapUtils.js";
-import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
-import { Place } from "@mui/icons-material";
 
 const ListingDetailsCard = ({ report }) => {
   const { data: tipsData } = useGetAllTipsQuery(report.id);

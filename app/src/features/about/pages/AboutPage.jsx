@@ -57,7 +57,7 @@ const AboutPage = () => {
               >
                 The stray hold period at most animal shelters is just <strong>3 to 7 days</strong>.
               </Typography>
-              <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
+              <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
                 Shelters are required to hold stray animals for a certain period of time in order to give their owners a chance to reclaim them.
                 But after the stray hold expires, the chances of reuniting a lost pet with its family diminish <strong>significantly</strong>.
               </Typography>
@@ -82,7 +82,7 @@ const AboutPage = () => {
                 >
                   Only 17-19% of lost pets are ever reunited with their owners. <sup><a href="https://www.humananimalsupportservices.org/blog/barriers-to-reclaim/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
                 </Typography>
-                <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
+                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
                   Animals that are adopted out or transferred to other organizations may be transported <strong>hundreds of miles away</strong>.
                   If a pet is lucky enough to be located by their owner, reclaim fees, implicit biases, and other barriers can make it difficult to get them back.{" "}<sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                 </Typography>
@@ -195,16 +195,20 @@ const AboutPage = () => {
               fontWeight: 700,
               letterSpacing: "-0.02em",
               fontSize: { xs: "2rem", md: "2rem" },
-              mb: 3
+              mb: 2
             }} >
             The best part?
           </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
-            It's privacy focused, easy to use, and completely <strong>free</strong>.<br />
-            We'll always keep your information private and <strong>never</strong> sell it to third parties.
+          <Typography
+          variant="body1" paragraph sx={{ fontWeight: 500,
+            mb: 4,
+            fontSize: { xs: "1.3rem", md: "1.3rem", padding: "0 1.75rem" },
+            lineHeight: 1.5,
+            color: "#555555" }}>
+            It's private, easy to use, and completely <strong>free</strong>.<br />
           </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
-            Your pet's <strong>safety</strong> and your <strong>peace of mind</strong> are important. Sign up now to get started, or consider donating if you want to support our work.
+          <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
+            Your pet's safety and your peace of mind are important. <br />Sign up now to get started, or consider donating if you want to support our work.
           </Typography>
           <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
             <Button

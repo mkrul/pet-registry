@@ -2,9 +2,10 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useCreateTipMutation, useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
 import { useAppDispatch } from '../../../store/hooks.js';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
-import { LocationSelect } from '../../listings/components/common/LocationSelect.jsx';
+import { TipLocationSelect } from './TipLocationSelect.jsx';
 import { createMapLocation } from '../../../shared/utils/mapUtils.js';
-import { MAP_ZOOM_LEVELS } from '../../../shared/constants/map.js';
+
+const TIP_ZOOM_LEVEL = 15;
 
 const TipForm = ({ reportId, onSuccess }) => {
   const [createTip, { isLoading }] = useCreateTipMutation();
@@ -194,7 +195,7 @@ const TipForm = ({ reportId, onSuccess }) => {
 
           {/* Right column - Location */}
           <div>
-            <LocationSelect
+            <TipLocationSelect
               onLocationSelect={handleLocationSelect}
               initialLocation={getInitialLocation()}
               isLoading={isFormDisabled}
@@ -202,7 +203,7 @@ const TipForm = ({ reportId, onSuccess }) => {
               onProcessingStateChange={handleLocationProcessingStateChange}
               showTip={false}
               labelStyle="microchip"
-              initialZoom={MAP_ZOOM_LEVELS.TIP_FORM}
+              initialZoom={TIP_ZOOM_LEVEL}
               showInitialMarker={false}
             />
           </div>

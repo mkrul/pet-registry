@@ -9,7 +9,7 @@ import { BasicInfoFields } from "../../listings/components/common/BasicInfoField
 import { IdentificationFields } from "../../listings/components/common/IdentificationFields.jsx";
 import { ColorFields } from "../../listings/components/common/ColorFields.jsx";
 import { ImageUpload } from "../../listings/components/common/ImageUpload.jsx";
-import { LocationSelect } from "../../listings/components/common/LocationSelect.jsx";
+import { ReportLocationSelect } from "../components/ReportLocationSelect.jsx";
 import { SubmitButton } from "../../../shared/components/common/SubmitButton.jsx";
 import { FormPopulateButton } from "../../../shared/components/common/FormPopulateButton.jsx";
 
@@ -113,7 +113,7 @@ const ReportNewForm = ({ initialData, petId }) => {
         error={""}
       />
 
-      <LocationSelect
+      <ReportLocationSelect
         onLocationSelect={handleLocationUpdate}
         initialLocation={getInitialLocation()}
         isLoading={isLoading}
