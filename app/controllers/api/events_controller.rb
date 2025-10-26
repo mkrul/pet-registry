@@ -2,7 +2,7 @@
 
 module Api
   class EventsController < ApplicationController
-    before_action :set_report, only: [:create_tip, :index_tips, :last_location]
+    before_action :set_report, only: [:create_tip, :index_tips, :all_tips, :last_location]
     before_action :authenticate_user!, only: [:create_tip]
     skip_before_action :verify_authenticity_token
 
@@ -57,6 +57,51 @@ module Api
     end
 
     def index_tips
+      page = (params[:page] || 1).to_i
+      per_page = (params[:per_page] || 5).to_i
+
+      tips_query = @report.tips.includes(:user).order(created_at: :desc)
+      total_count = tips_query.count
+      offset = (page - 1) * per_page
+      tips = tips_query.limit(per_page).offset(offset)
+
+      paginated_tips = PaginatedCollection.new(
+        tips.to_a,
+        total: total_count,
+        page: page,
+        per_page: per_page
+      )
+
+      render json: {
+        tips: paginated_tips.map do |tip|
+          {
+            id: tip.id,
+            message: tip.message,
+            area: tip.area,
+            state: tip.state,
+            country: tip.country,
+            latitude: tip.latitude,
+            longitude: tip.longitude,
+            intersection: tip.intersection,
+            external_links: tip.external_links,
+            created_at: tip.created_at,
+            user: {
+              id: tip.user.id,
+              display_name: tip.user.display_name || tip.user.email
+            }
+          }
+        end,
+        pagination: {
+          pages: paginated_tips.total_pages,
+          count: paginated_tips.total_entries,
+          page: paginated_tips.current_page,
+          items: paginated_tips.per_page,
+          per_page: per_page
+        }
+      }, status: :ok
+    end
+
+    def all_tips
       tips = @report.tips.includes(:user).order(created_at: :desc)
 
       render json: {

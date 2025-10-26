@@ -1,37 +1,16 @@
 import React from 'react';
-import { useGetTipsQuery } from '../../../store/features/tips/tipsApi.js';
 import DateDisplay from '../../listings/components/common/DateDisplay.jsx';
+import Pagination from '../../../shared/components/common/Pagination.jsx';
 
-const TipList = ({ reportId }) => {
-  const { data: tipsData, isLoading, error } = useGetTipsQuery(reportId);
-
-  if (isLoading) {
-    return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tips</h3>
-        <div className="flex justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Tips</h3>
-        <div className="text-red-600 text-center py-4">
-          Failed to load tips. Please try again.
-        </div>
-      </div>
-    );
-  }
-
+const TipList = ({ reportId, tipsData, pagination, onPageChange }) => {
   const tips = tipsData?.tips || [];
 
-  // Don't render anything if there are no tips
   if (tips.length === 0) {
-    return null;
+    return (
+      <div className="text-center py-8 text-gray-500">
+        No tips have been submitted yet.
+      </div>
+    );
   }
 
   return (
@@ -86,6 +65,13 @@ const TipList = ({ reportId }) => {
           </div>
         ))}
       </div>
+      {pagination && pagination.pages > 1 && onPageChange && (
+        <Pagination
+          currentPage={pagination.page}
+          totalPages={pagination.pages}
+          onPageChange={onPageChange}
+        />
+      )}
     </div>
   );
 };

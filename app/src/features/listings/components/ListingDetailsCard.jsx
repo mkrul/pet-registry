@@ -5,12 +5,12 @@ import LocationDisplay from "../../../shared/components/common/LocationDisplay.j
 import Map from "../../../shared/components/common/Map.jsx";
 import DateDisplay from "./common/DateDisplay.jsx";
 import TipsSection from "../../tips/components/TipsSection.jsx";
-import { useGetTipsQuery } from "../../../store/features/tips/tipsApi.js";
+import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
 import { createMapLocation } from "../../../shared/utils/mapUtils.js";
 import { MAP_ZOOM_LEVELS } from "../../../shared/constants/map.js";
 
 const ListingDetailsCard = ({ report }) => {
-  const { data: tipsData } = useGetTipsQuery(report.id);
+  const { data: tipsData } = useGetAllTipsQuery(report.id);
   const tips = tipsData?.tips || [];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -210,7 +210,11 @@ const ListingDetailsCard = ({ report }) => {
               />
             </div>
 
-            {tips.slice().reverse().map((tip) => (
+            {tips
+              .filter(tip => tip.area || tip.state || tip.country || tip.intersection)
+              .slice()
+              .reverse()
+              .map((tip) => (
               <div key={tip.id} className="grid grid-cols-[auto_1fr] gap-4 items-center border-t border-gray-200 pt-3">
                 <div className="text-sm text-gray-600 whitespace-nowrap">
                   {(tip.createdAt || tip.created_at) ? (
@@ -244,7 +248,7 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-8">
-          <TipsSection reportId={report.id} />
+          <TipsSection reportId={report.id} report={report} />
         </div>
       </div>
 
