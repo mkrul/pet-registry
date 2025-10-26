@@ -185,7 +185,7 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Location Details</h4>
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-5">Location Details</h4>
           <div className="space-y-3">
             <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
               <div className="text-sm text-gray-600 whitespace-nowrap">

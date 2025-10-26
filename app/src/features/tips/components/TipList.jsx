@@ -64,13 +64,6 @@ const TipList = ({ reportId }) => {
               </div>
             )}
 
-            {tip.latitude && tip.longitude && (
-              <div className="text-sm text-gray-500">
-                <span className="font-medium">Coordinates:</span>{' '}
-                {tip.latitude}, {tip.longitude}
-              </div>
-            )}
-
             {tip.external_links && tip.external_links.length > 0 && (
               <div className="mt-3">
                 <span className="text-sm font-medium text-gray-700">Links:</span>
