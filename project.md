@@ -160,3 +160,12 @@
   - `/app/src/features/tips/components/TipLocationSelect.jsx`
 - **Result:** Location input fields no longer trigger password manager dropdowns, improving user experience
 
+### Pet Archive Redirect Fix (January 2, 2025)
+- **Problem:** After archiving a pet, users remained on the current page instead of being redirected to the My Pets page
+- **Solution Implemented:**
+  - Added `navigate('/dashboard/pets')` to the `handleConfirmArchive` function in `DashboardPets.jsx`
+  - Redirect occurs after successful pet archiving and success notification
+- **File Updated:**
+  - `/app/src/features/dashboard/components/DashboardPets.jsx`
+- **Result:** Users are now automatically redirected to the My Pets page after successfully archiving a pet, providing better UX flow
+

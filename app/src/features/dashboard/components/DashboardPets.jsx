@@ -89,6 +89,8 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         type: "SUCCESS",
         message: 'Pet archived successfully'
       }));
+      // Redirect to My Pets page after successful archiving
+      navigate('/dashboard/pets');
     } catch (error) {
       dispatch(addNotification({
         type: "ERROR",
