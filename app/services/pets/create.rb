@@ -33,6 +33,8 @@ module Pets
       return nil
     end
 
+    Event.create_pet_created(eventable: pet, user: User.find(user_id))
+
     pet
   rescue StandardError => e
     raise

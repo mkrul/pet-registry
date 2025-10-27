@@ -23,6 +23,7 @@ class Pets::Update < ActiveInteraction::Base
       if update_pet_attributes
         attach_new_image if image.present?
         update_associated_report if pet.report.present?
+        Event.create_pet_updated(eventable: pet, user: pet.user)
         pet
       else
         errors.merge!(pet.errors)

@@ -18,6 +18,12 @@ const DashboardOverview = ({ onNavigate }) => {
         return 'Updated a report';
       case 'report_archived':
         return 'Archived a report';
+      case 'pet_created':
+        return 'Registered a pet';
+      case 'pet_updated':
+        return 'Updated a pet';
+      case 'pet_archived':
+        return 'Archived a pet';
       default:
         return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
@@ -49,6 +55,24 @@ const DashboardOverview = ({ onNavigate }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8l6 6 6-6" />
           </svg>
         );
+      case 'pet_created':
+        return (
+          <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        );
+      case 'pet_updated':
+        return (
+          <svg className="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+        );
+      case 'pet_archived':
+        return (
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        );
       default:
         return (
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,7 +102,7 @@ const DashboardOverview = ({ onNavigate }) => {
       case 'Report':
         return `/reports/${eventableSummary.id}?query=&page=1`;
       case 'Pet':
-        return `/pets/${eventableSummary.id}`;
+        return `/dashboard/pets?petId=${eventableSummary.id}`;
       default:
         return null;
     }

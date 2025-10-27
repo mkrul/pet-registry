@@ -7,7 +7,7 @@ export const petsApi = createApi({
     baseUrl: "/api/",
     credentials: "same-origin"
   }),
-  tagTypes: ["Pets", "Reports"],
+  tagTypes: ["Pets", "Reports", "Events"],
   endpoints: build => ({
     getPet: build.query({
       query: id => `pets/${id}`,
@@ -57,7 +57,8 @@ export const petsApi = createApi({
         { type: "Pets", id: "LIST" },
         { type: "Pets", id: "USER_LIST" },
         { type: "Reports", id: "LIST" },
-        { type: "Reports", id: "USER_LIST" }
+        { type: "Reports", id: "USER_LIST" },
+        { type: "Events", id: "LIST" }
       ]
     }),
     deletePet: build.mutation({
@@ -68,7 +69,8 @@ export const petsApi = createApi({
       invalidatesTags: (result, error, id) => [
         { type: "Pets", id },
         { type: "Pets", id: "LIST" },
-        { type: "Pets", id: "USER_LIST" }
+        { type: "Pets", id: "USER_LIST" },
+        { type: "Events", id: "LIST" }
       ]
     }),
     archivePet: build.mutation({
@@ -79,7 +81,8 @@ export const petsApi = createApi({
       invalidatesTags: (result, error, id) => [
         { type: "Pets", id },
         { type: "Pets", id: "LIST" },
-        { type: "Pets", id: "USER_LIST" }
+        { type: "Pets", id: "USER_LIST" },
+        { type: "Events", id: "LIST" }
       ]
     }),
     submitPet: build.mutation({
@@ -104,7 +107,7 @@ export const petsApi = createApi({
         };
         return result;
       },
-      invalidatesTags: ["Pets"]
+      invalidatesTags: ["Pets", "Events"]
     }),
     getNewPet: build.query({
       query: () => "pets/new",

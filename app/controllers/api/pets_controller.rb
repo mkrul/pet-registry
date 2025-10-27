@@ -135,6 +135,7 @@ module Api
       end
 
       @pet.update!(archived_at: Time.current, status: Pet::STATUS_ARCHIVED)
+      Event.create_pet_archived(eventable: @pet, user: current_user)
 
       render json: { message: "Pet archived successfully" }, status: :ok
     rescue StandardError => e

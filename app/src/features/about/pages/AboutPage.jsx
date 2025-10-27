@@ -83,7 +83,7 @@ const AboutPage = () => {
                   Only 17-19% of lost pets are ever reunited with their owners. <sup><a href="https://www.humananimalsupportservices.org/blog/barriers-to-reclaim/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
                 </Typography>
                 <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  Animals that are adopted out or transferred to other organizations may be transported <strong>hundreds of miles away</strong>.
+                  After the stray hold expires, animals may be adopted out or transferred to other organizations, sometimes <strong>hundreds of miles away</strong>.
                   If a pet is lucky enough to be located by their owner, reclaim fees, implicit biases, and other barriers can make it difficult to get them back.{" "}<sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                 </Typography>
               </Box>

@@ -3,6 +3,9 @@ class Event < ApplicationRecord
   include Events::Report::Create
   include Events::Report::Update
   include Events::Report::Archive
+  include Events::Pet::Create
+  include Events::Pet::Update
+  include Events::Pet::Archive
 
   belongs_to :eventable, polymorphic: true
   belongs_to :user
