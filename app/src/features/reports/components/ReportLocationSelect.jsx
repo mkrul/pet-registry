@@ -152,6 +152,7 @@ export const ReportLocationSelect = ({
           setHasLocationError(false);
           onLocationSelect(locationData);
           setCurrentMapLocation(locationData);
+          console.log('[DEBUG] Address selected, setting currentMapLocation:', locationData);
         }
         setSelectedAddress(null);
         setTimeout(() => setSearchInput(""), 0);
@@ -165,7 +166,9 @@ export const ReportLocationSelect = ({
 
   const mapLocation = useMemo(() => {
     if (currentMapLocation) {
-      return createMapLocation(currentMapLocation);
+      const location = createMapLocation(currentMapLocation);
+      console.log('[DEBUG] mapLocation created from currentMapLocation:', location);
+      return location;
     }
     if (initialLocation && !showInitialMarker) {
       return createMapLocation(initialLocation);
@@ -246,10 +249,12 @@ export const ReportLocationSelect = ({
       </div>
       <FormFieldError error={error || (hasLocationError ? "Please select a location on the map or enter an address" : null)} />
       <div className="relative mt-1">
-        <MemoizedReportMap
+        {console.log('[DEBUG] Rendering ReportMap with:', { mapLocation, showPin: !!currentMapLocation, currentMapLocation })}
+        <ReportMap
           onLocationSelect={handleLocationSelect}
           initialLocation={mapLocation}
           initialZoom={mapZoom}
+          showPin={!!currentMapLocation}
           readOnly={isDisabled}
           onProcessingStateChange={handleMapProcessingStateChange}
           showInitialMarker={showInitialMarker}

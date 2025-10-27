@@ -40,8 +40,10 @@ const MapEvents = ({
   readOnly,
   initialZoom,
   onProcessingStateChange,
-  showInitialMarker
+  showInitialMarker,
+  showPin = false
 }) => {
+  console.log('[DEBUG] ReportMap MapEvents received props:', { showPin, initialLocation, showInitialMarker });
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [hasSetInitialView, setHasSetInitialView] = useState(false);
@@ -67,6 +69,16 @@ const MapEvents = ({
       map.setView([initialLocation.latitude, initialLocation.longitude], targetZoom);
     }
   }, [initialLocation?.latitude, initialLocation?.longitude, showInitialMarker, map]);
+
+  useEffect(() => {
+    if (showPin && initialLocation?.latitude && initialLocation?.longitude) {
+      console.log('[DEBUG] Setting pin from showPin and initialLocation:', initialLocation);
+      setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
+      const currentZoom = map.getZoom();
+      const targetZoom = Math.max(currentZoom, REPORT_ZOOM_LEVELS.EDIT);
+      map.setView([initialLocation.latitude, initialLocation.longitude], targetZoom);
+    }
+  }, [showPin, initialLocation?.latitude, initialLocation?.longitude, map]);
 
   const handleLocationSelect = async (lat, lng) => {
     if (isProcessing) return;
@@ -117,8 +129,10 @@ export const ReportMap = ({
   readOnly,
   initialZoom,
   onProcessingStateChange,
-  showInitialMarker = true
+  showInitialMarker = true,
+  showPin = false
 }) => {
+  console.log('[DEBUG] ReportMap received props:', { showPin, initialLocation, showInitialMarker });
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
       <LeafletMapContainer
@@ -137,6 +151,7 @@ export const ReportMap = ({
           initialZoom={initialZoom}
           onProcessingStateChange={onProcessingStateChange}
           showInitialMarker={showInitialMarker}
+          showPin={showPin}
         />
       </LeafletMapContainer>
     </div>
