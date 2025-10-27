@@ -69,7 +69,7 @@ const TipForm = ({ reportId, onSuccess }) => {
     if (!formData.latitude || !formData.longitude) {
       dispatch(addNotification({
         type: 'ERROR',
-        message: 'Please select a location on the map or enter an address'
+        message: 'Please select a location on the map or type the address '
       }));
       return;
     }

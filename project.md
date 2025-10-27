@@ -146,3 +146,17 @@
 - Content emphasizes warm, community-focused tone with emphasis on helping pets reunite with families
 - Red-highlighted warning section draws attention to the time-sensitive nature of lost pet situations
 
+### Address Input Autofill Fix (January 2, 2025)
+- **Problem:** Address input fields were triggering browser password managers and autofill suggestions, creating poor UX
+- **Root Cause:** TextField components used "address" in aria-label and placeholder, which browsers associate with saved addresses
+- **Solution Implemented:**
+  - Changed `aria-label` from "Enter an address" to "Enter a location"
+  - Changed `placeholder` from "Enter an address" to "Enter a location"
+  - Added `name="location-search"` to provide specific field identification
+  - Added `autoComplete="off"` to disable browser autofill
+- **Files Updated:**
+  - `/app/src/features/reports/components/ReportLocationSelect.jsx`
+  - `/app/src/features/listings/components/common/LocationSelect.jsx`
+  - `/app/src/features/tips/components/TipLocationSelect.jsx`
+- **Result:** Location input fields no longer trigger password manager dropdowns, improving user experience
+

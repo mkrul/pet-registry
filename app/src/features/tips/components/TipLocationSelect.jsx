@@ -196,7 +196,7 @@ export const TipLocationSelect = ({
       <label className={getLabelClassName()}>Location:</label>
       {showTip && (
         <Tip>
-          Click on the map or enter the address where the animal was last seen. To protect your privacy, the published report will only list the general area or nearest intersection.
+          Click on the map or type the address where the animal was last seen. To protect your privacy, the published report will only list the general area or nearest intersection.
         </Tip>
       )}
       {selectedLocation && (
@@ -224,8 +224,10 @@ export const TipLocationSelect = ({
           renderInput={params => (
             <TextField
               {...params}
-              aria-label="Enter an address"
-              placeholder="Enter an address"
+              aria-label="Enter a location"
+              placeholder="Enter a location"
+              name="location-search"
+              autoComplete="off"
               required={false}
               error={!!error}
               sx={{
@@ -248,7 +250,7 @@ export const TipLocationSelect = ({
           disabled={isDisabled}
         />
       </div>
-      <FormFieldError error={error || (hasLocationError ? "Please select a location on the map or enter an address" : null)} />
+      <FormFieldError error={error || (hasLocationError ? "Please select a location on the map or type the address " : null)} />
       <div className="relative mt-1">
         <MemoizedTipMap
           onLocationSelect={handleLocationSelect}
