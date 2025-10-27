@@ -52,6 +52,8 @@ module Reports
         return nil
       end
 
+      Event.create_report_created(eventable: report, user: User.find(user_id))
+
       report
     end
 

@@ -143,6 +143,7 @@ module Api
       end
 
       @report.update!(status: "archived", archived_at: Time.current)
+      Event.create_report_archived(eventable: @report, user: current_user)
 
       render json: { message: "Report archived successfully" }, status: :ok
     rescue StandardError => e

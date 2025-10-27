@@ -29,6 +29,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [showSuccessPulse, setShowSuccessPulse] = useState(false);
   const action = searchParams.get('action');
   const filterParam = searchParams.get('filter');
+  const petIdParam = searchParams.get('petId');
   const [isCreatingPet, setIsCreatingPet] = useState(action === 'create');
   const getInitialFilter = () => {
     const validFilters = ['all', 'dog', 'cat', 'archived'];
@@ -50,6 +51,25 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
+
+  const handleSelectPet = (pet) => {
+    setSelectedPet(pet);
+    const params = new URLSearchParams();
+    params.set('petId', pet.id);
+    if (activeFilter !== 'all') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/pets?${params.toString()}`);
+  };
+
+  const handleDeselectPet = () => {
+    setSelectedPet(null);
+    const params = new URLSearchParams();
+    if (activeFilter !== 'all') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/pets${params.toString() ? '?' + params.toString() : ''}`);
+  };
 
   const handleEditPet = (pet) => {
     setEditingPet(pet);
@@ -125,7 +145,11 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   };
 
   const handleBackToPets = () => {
-    navigate('/dashboard/pets');
+    const params = new URLSearchParams();
+    if (activeFilter !== 'all') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/pets${params.toString() ? '?' + params.toString() : ''}`);
     setIsCreatingPet(false);
     setSelectedPet(null);
     setEditingPet(null);
@@ -157,6 +181,17 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       setActiveFilter(newFilter);
     }
   }, [filterParam]);
+
+  useEffect(() => {
+    if (petIdParam && pets.length > 0) {
+      const pet = pets.find((p) => p.id === parseInt(petIdParam));
+      if (pet && (!selectedPet || selectedPet.id !== pet.id)) {
+        setSelectedPet(pet);
+      }
+    } else if (!petIdParam && selectedPet) {
+      setSelectedPet(null);
+    }
+  }, [petIdParam, pets, selectedPet]);
 
   useEffect(() => {
     if (selectedPet && pets.length > 0) {
@@ -236,7 +271,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       {!isLoading && !isPreloading && selectedPet ? (
         <PetDetailView
           pet={selectedPet}
-          onBack={() => setSelectedPet(null)}
+          onBack={handleDeselectPet}
           onEdit={handleEditPet}
           onDelete={handleArchivePet}
           onCreateReport={handleCreateReport}
@@ -249,7 +284,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
             <PetPreview
               key={pet.id}
               pet={pet}
-              onClick={setSelectedPet}
+              onClick={handleSelectPet}
             />
           ))}
         </ItemGrid>

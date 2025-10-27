@@ -1,5 +1,8 @@
 class Event < ApplicationRecord
   include Events::Report::Tip
+  include Events::Report::Create
+  include Events::Report::Update
+  include Events::Report::Archive
 
   belongs_to :eventable, polymorphic: true
   belongs_to :user

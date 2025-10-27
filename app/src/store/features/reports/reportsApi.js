@@ -8,7 +8,7 @@ export const reportsApi = createApi({
     baseUrl: "/api/",
     credentials: "same-origin"
   }),
-  tagTypes: ["Reports", "Pets"],
+  tagTypes: ["Reports", "Pets", "Events"],
   endpoints: build => ({
     getReport: build.query({
       query: id => `reports/${id}`,
@@ -103,7 +103,8 @@ export const reportsApi = createApi({
         { type: "Reports", id: "LIST" },
         { type: "Reports", id: "USER_LIST" },
         { type: "Pets", id: "LIST" },
-        { type: "Pets", id: "USER_LIST" }
+        { type: "Pets", id: "USER_LIST" },
+        { type: "Events", id: "LIST" }
       ]
     }),
     archiveReport: build.mutation({
@@ -114,7 +115,8 @@ export const reportsApi = createApi({
       invalidatesTags: (result, error, id) => [
         { type: "Reports", id },
         { type: "Reports", id: "LIST" },
-        { type: "Reports", id: "USER_LIST" }
+        { type: "Reports", id: "USER_LIST" },
+        { type: "Events", id: "LIST" }
       ]
     }),
     deleteReport: build.mutation({
@@ -153,7 +155,8 @@ export const reportsApi = createApi({
           { type: "Reports", id: "LIST" },
           { type: "Reports", id: "USER_LIST" },
           { type: "Pets", id: "LIST" },
-          { type: "Pets", id: "USER_LIST" }
+          { type: "Pets", id: "USER_LIST" },
+          { type: "Events", id: "LIST" }
         ];
 
         // If petId was provided in the form data, also invalidate that specific pet

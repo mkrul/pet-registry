@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
     get 'users/reports', to: 'reports#user_reports'
     get 'users/pets', to: 'pets#user_pets'
+    get 'users/events', to: 'events#user_events'
 
     resource :session, only: [:create, :show, :destroy]
     get 'user_info', to: 'sessions#user_info'

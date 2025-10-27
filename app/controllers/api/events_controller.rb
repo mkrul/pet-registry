@@ -3,7 +3,7 @@
 module Api
   class EventsController < ApplicationController
     before_action :set_report, only: [:create_tip, :index_tips, :all_tips, :last_location]
-    before_action :authenticate_user!, only: [:create_tip]
+    before_action :authenticate_user!, only: [:create_tip, :user_events]
     skip_before_action :verify_authenticity_token
 
     def create_tip
@@ -158,6 +158,47 @@ module Api
       else
         render json: { message: 'No location data available' }, status: :not_found
       end
+    end
+
+    def user_events
+      page = (params[:page] || 1).to_i
+      per_page = 5
+
+      events_query = current_user.events
+        .includes(:eventable)
+        .order(created_at: :desc)
+
+      total_count = events_query.count
+      offset = (page - 1) * per_page
+      events = events_query.limit(per_page).offset(offset)
+
+      paginated_events = PaginatedCollection.new(
+        events.to_a,
+        total: total_count,
+        page: page,
+        per_page: per_page
+      )
+
+      render json: {
+        events: ActiveModelSerializers::SerializableResource.new(
+          paginated_events.to_a,
+          each_serializer: EventSerializer
+        ),
+        pagination: {
+          pages: paginated_events.total_pages,
+          count: paginated_events.total_entries,
+          page: paginated_events.current_page,
+          items: paginated_events.per_page,
+          per_page: per_page
+        }
+      }, status: :ok
+    rescue StandardError => e
+      Rails.logger.error "EventsController#user_events: Exception raised: #{e.class} - #{e.message}"
+      Rails.logger.error "EventsController#user_events: Backtrace: #{e.backtrace.first(10).join("\n")}"
+      render json: {
+        error: "Internal server error",
+        message: e.message
+      }, status: :internal_server_error
     end
 
     private

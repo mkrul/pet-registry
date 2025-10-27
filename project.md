@@ -77,6 +77,49 @@
   - Form validation ensures required message field is provided
   - Success/error notifications provide user feedback
 
+### Report Events Tracking Implementation (October 27, 2025)
+- **Backend Event Categories:**
+  - Created `Events::Report::Create` concern for "report_created" events
+  - Created `Events::Report::Update` concern for "report_updated" events
+  - Created `Events::Report::Archive` concern for "report_archived" events
+  - Updated `Event` model to include all new concerns
+  - Each concern follows existing pattern with CATEGORY constant and helper methods
+- **Service Integration:**
+  - Added event creation to `Reports::Create` service after successful report creation
+  - Added event creation to `Reports::Update` service after successful report updates
+  - Added event creation to `ReportsController#archive` action after successful archiving
+  - Events store minimal data (title, species) for context without sensitive information
+- **Frontend Display:**
+  - Updated `DashboardOverview` component to format new event categories
+  - Added appropriate icons and colors for each event type:
+    - Created: Green plus icon
+    - Updated: Yellow edit icon
+    - Archived: Gray down arrow icon
+  - Events display with readable descriptions and proper context
+
+### Dashboard Recent Activity Implementation (October 27, 2025)
+- **Backend API:**
+  - Added `user_events` action to `EventsController` for fetching paginated user events
+  - Created `EventSerializer` to format event data with eventable summary information
+  - Added `GET /api/users/events` route with pagination support (5 events per page)
+  - Events ordered by `created_at DESC` to show most recent first
+  - Eager loading of eventable associations to prevent N+1 queries
+- **Frontend Integration:**
+  - Created `eventsApi` RTK Query slice with `getUserEvents` endpoint
+  - Updated Redux store configuration to include events API
+  - Transformed `DashboardOverview` component from placeholder to functional component
+  - Displays paginated events with event type, timestamp, and eventable context
+  - Added event category formatting (e.g., "report_tip" → "Submitted a tip")
+  - Shows eventable information (e.g., "for Lost Dog Report (active)")
+  - Includes loading states, error handling, and empty state
+  - Pagination component for navigating through event history
+- **User Experience:**
+  - Recent Activity section shows user's most recent 5 events per page
+  - Events display with appropriate icons and readable descriptions
+  - Context information shows which report or pet the event relates to
+  - Clean, consistent design matching existing dashboard patterns
+  - Encourages user engagement by showing their activity history
+
 ### About Page Implementation (October 20, 2025)
 - Created `/app/src/features/about/pages/AboutPage.jsx` with comprehensive content including:
   - Hero section with warm, community-focused messaging

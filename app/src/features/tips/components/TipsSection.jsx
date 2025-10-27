@@ -16,6 +16,7 @@ const TipsSection = ({ reportId, report }) => {
   });
 
   const isOwner = user && report && user.id === report.userId;
+  const isArchived = report && report.status === 'archived';
 
   const handleTipSuccess = () => {
     setShowTipForm(false);
@@ -64,7 +65,7 @@ const TipsSection = ({ reportId, report }) => {
         </div>
       )}
 
-      {user && (
+      {user && !isArchived && (
         showTipForm ? (
           <TipForm
             reportId={reportId}
