@@ -200,3 +200,41 @@
   - `/app/src/features/reports/ReportDetailView.jsx`
 - **Result:** Archived pets and reports no longer show edit/archive buttons, providing clearer UI state indication and preventing user confusion
 
+### User Settings Infrastructure Implementation (October 27, 2025)
+- **Database Layer:**
+  - Created migration to add `settings` JSONB column to users table
+  - Set default values: `email_notifications: true`, `allow_contact: true`, `dark_mode: false`
+  - Added GIN index on settings column for efficient querying
+  - All existing users automatically receive default settings values
+- **Model Layer:**
+  - Updated `User` model with settings validation
+  - Added `settings_structure` validation method to ensure settings is a hash with valid keys and boolean values
+  - Valid settings keys: `email_notifications`, `allow_contact`, `dark_mode`
+- **API Layer:**
+  - Added `update_settings` action to `RegistrationsController`
+  - Created `PATCH /api/settings` endpoint for updating user settings
+  - Settings updates return updated user object via `UserSerializer`
+  - Proper error handling and validation messages
+- **Serializer:**
+  - Updated `UserSerializer` to include settings in user data
+  - Settings automatically transformed to camelCase format for frontend consumption
+- **Frontend Redux:**
+  - Added `updateSettings` mutation to `authApiSlice`
+  - Mutation updates Redux user state upon successful settings update
+  - Automatic success/error notifications via existing notification system
+  - Exported `useUpdateSettingsMutation` hook for component usage
+- **Dashboard Settings UI:**
+  - Updated `DashboardSettings` component to fetch and persist settings
+  - Component reads current settings from Redux user state
+  - Toggles for email notifications, allow contact, and dark mode
+  - "Save Settings" button persists changes to backend and updates Redux state
+  - "Reset to Defaults" button restores default values (email_notifications: true, allow_contact: true)
+  - Loading states and disabled buttons during save operations
+  - Dark mode toggle continues to work with existing `useTheme` hook while also being persisted to database
+- **User Experience:**
+  - New users automatically get default settings on account creation
+  - Settings are immediately available in user state after login
+  - Changes persist across sessions and devices
+  - Clear feedback via notifications on save success/failure
+  - Settings page maintains existing styling and accessibility standards
+

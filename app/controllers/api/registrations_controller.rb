@@ -54,12 +54,10 @@ module Api
       user = current_user
 
       if user.valid_password?(password_params[:current_password])
-        # Update only the password fields without affecting other attributes
         user.password = password_params[:password]
         user.password_confirmation = password_params[:password_confirmation]
 
         if user.save
-          # Clear the session immediately to prevent additional API calls
           sign_out(:user)
           reset_session
 
@@ -82,6 +80,24 @@ module Api
       render json: { error: 'Password change failed' }, status: :internal_server_error
     end
 
+    def update_settings
+      user = current_user
+
+      if user.update(settings_params)
+        render json: {
+          message: 'Settings updated successfully.',
+          user: UserSerializer.new(user).as_json
+        }, status: :ok
+      else
+        render json: {
+          message: "Settings update failed.",
+          errors: user.errors.full_messages
+        }, status: :unprocessable_entity
+      end
+    rescue => e
+      render json: { error: 'Settings update failed' }, status: :internal_server_error
+    end
+
     private
 
     def sign_up_params
@@ -94,6 +110,10 @@ module Api
 
     def password_params
       params.require(:user).permit(:current_password, :password, :password_confirmation)
+    end
+
+    def settings_params
+      params.require(:user).permit(settings: [:email_notifications, :allow_contact, :dark_mode])
     end
 
     def warden

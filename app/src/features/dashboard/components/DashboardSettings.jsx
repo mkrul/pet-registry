@@ -1,12 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useTheme } from '../../../shared/hooks/useTheme';
+import { useUpdateSettingsMutation } from '../../../store/features/auth/authApiSlice';
 
 const DashboardSettings = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
+  const user = useSelector((state) => state.auth.user);
+  const [updateSettings, { isLoading }] = useUpdateSettingsMutation();
+
   const [emailNotifications, setEmailNotifications] = useState(true);
-  const [smsNotifications, setSmsNotifications] = useState(true);
-  const [publicProfile, setPublicProfile] = useState(false);
   const [allowContact, setAllowContact] = useState(true);
+
+  useEffect(() => {
+    if (user?.settings) {
+      setEmailNotifications(user.settings.emailNotifications ?? true);
+      setAllowContact(user.settings.allowContact ?? true);
+    }
+  }, [user]);
+
+  const handleSaveSettings = async () => {
+    try {
+      await updateSettings({
+        email_notifications: emailNotifications,
+        allow_contact: allowContact,
+        dark_mode: isDarkMode
+      }).unwrap();
+    } catch (err) {
+    }
+  };
+
+  const handleResetToDefaults = async () => {
+    try {
+      setEmailNotifications(true);
+      setAllowContact(true);
+      await updateSettings({
+        email_notifications: true,
+        allow_contact: true,
+        dark_mode: isDarkMode
+      }).unwrap();
+    } catch (err) {
+    }
+  };
 
   return (
     <div>
@@ -88,10 +122,18 @@ const DashboardSettings = () => {
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Account Actions</h3>
           <div className="space-y-4">
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-              Save Settings
+            <button
+              onClick={handleSaveSettings}
+              disabled={isLoading}
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              {isLoading ? 'Saving...' : 'Save Settings'}
             </button>
-            <button className="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            <button
+              onClick={handleResetToDefaults}
+              disabled={isLoading}
+              className="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:bg-gray-300 dark:disabled:bg-gray-800 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            >
               Reset to Defaults
             </button>
           </div>

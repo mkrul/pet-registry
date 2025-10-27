@@ -14,6 +14,9 @@ class User < ApplicationRecord
   validates :display_name, length: { maximum: 50 }, allow_blank: true
   validates :password, length: { in: 8..20, message: "must be between 8 and 20 characters" }, allow_blank: true
 
+  validates :settings, presence: true
+  validate :settings_structure
+
   # Remove password confirmation requirement if not needed
   # or ensure it's properly handled in the test
 
@@ -34,7 +37,28 @@ class User < ApplicationRecord
 
 
   def normalize_blank_fields
-    # Convert blank strings to nil for display_name
     self.display_name = nil if display_name.blank?
+  end
+
+  def settings_structure
+    return if settings.blank?
+
+    unless settings.is_a?(Hash)
+      errors.add(:settings, "must be a hash")
+      return
+    end
+
+    valid_keys = %w[email_notifications allow_contact dark_mode]
+    settings.each_key do |key|
+      unless valid_keys.include?(key.to_s)
+        errors.add(:settings, "contains invalid key: #{key}")
+      end
+    end
+
+    settings.each do |key, value|
+      unless [true, false].include?(value)
+        errors.add(:settings, "#{key} must be a boolean")
+      end
+    end
   end
 end
