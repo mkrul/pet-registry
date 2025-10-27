@@ -169,3 +169,34 @@
   - `/app/src/features/dashboard/components/DashboardPets.jsx`
 - **Result:** Users are now automatically redirected to the My Pets page after successfully archiving a pet, providing better UX flow
 
+### Pet Creation Scroll Fix (January 2, 2025)
+- **Problem:** When creating a new pet and being redirected back to `/dashboard/pets`, the screen was positioned toward the bottom instead of the top
+- **Root Cause:** Scroll-to-top logic only ran on component mount, but when navigating back from pet creation, the component was already mounted
+- **Solution Implemented:**
+  - Added additional `useEffect` that triggers scroll-to-top when `isCreatingPet` changes from true to false
+  - This ensures the page scrolls to top when returning from pet creation or editing
+- **File Updated:**
+  - `/app/src/features/dashboard/components/DashboardPets.jsx`
+- **Result:** Users now see the top of the My Pets page when returning from pet creation, providing better UX
+
+### Report Creation Scroll Fix (January 2, 2025)
+- **Problem:** When creating a new report and being redirected back to `/dashboard/reports`, the screen was positioned toward the bottom instead of the top
+- **Root Cause:** Same issue as pet creation - scroll-to-top logic only ran on component mount, but when navigating back from report creation, the component was already mounted
+- **Solution Implemented:**
+  - Added additional `useEffect` that triggers scroll-to-top when `isCreatingReport` changes from true to false
+  - This ensures the page scrolls to top when returning from report creation or editing
+- **File Updated:**
+  - `/app/src/features/dashboard/components/DashboardReports.jsx`
+- **Result:** Users now see the top of the My Reports page when returning from report creation, providing consistent UX across both dashboard sections
+
+### Hide Archived Item Action Buttons (January 2, 2025)
+- **Problem:** Edit (pencil) and archive (trash can) icons were still visible for pets and reports with "archived" status, which could confuse users
+- **Solution Implemented:**
+  - Added conditional rendering to hide edit and archive buttons when status is "archived"
+  - For pets: `{onEdit && pet.status !== 'archived' && (...)}`
+  - For reports: `{onEdit && report.status !== 'archived' && (...)}`
+- **Files Updated:**
+  - `/app/src/features/pets/components/PetDetailView.jsx`
+  - `/app/src/features/reports/ReportDetailView.jsx`
+- **Result:** Archived pets and reports no longer show edit/archive buttons, providing clearer UI state indication and preventing user confusion
+

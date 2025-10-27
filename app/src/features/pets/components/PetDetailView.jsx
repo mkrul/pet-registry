@@ -63,7 +63,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-2xl font-bold text-gray-900 truncate flex-1 mr-4">{pet.name}</h3>
               <div className="flex space-x-2">
-                {onEdit && (
+                {onEdit && pet.status !== 'archived' && (
                   <button
                     onClick={handleEditClick}
                     className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
@@ -74,7 +74,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                     </svg>
                   </button>
                 )}
-                {onDelete && (
+                {onDelete && pet.status !== 'archived' && (
                   <button
                     onClick={handleDeleteClick}
                     className="p-2 bg-gray-100 hover:bg-red-100 rounded-full transition-colors"

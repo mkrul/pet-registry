@@ -180,6 +180,13 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Scroll to top when returning from report creation (when isCreatingReport changes from true to false)
+  useEffect(() => {
+    if (!isCreatingReport && !editingReport) {
+      window.scrollTo(0, 0);
+    }
+  }, [isCreatingReport, editingReport]);
+
   useEffect(() => {
     if (action === 'create') {
       setIsCreatingReport(true);

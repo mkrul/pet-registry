@@ -111,7 +111,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-2xl font-bold text-gray-900 truncate flex-1 mr-4">{report.title}</h3>
               <div className="flex space-x-2">
-                {onEdit && (
+                {onEdit && report.status !== 'archived' && (
                   <button
                     onClick={handleEditClick}
                     className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
@@ -122,7 +122,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
                     </svg>
                   </button>
                 )}
-                {onDelete && (
+                {onDelete && report.status !== 'archived' && (
                   <button
                     onClick={handleDeleteClick}
                     className="p-2 bg-gray-100 hover:bg-red-100 rounded-full transition-colors"

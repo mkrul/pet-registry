@@ -209,10 +209,17 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     refetchPets();
   }, [refetchPets]);
 
-  // Scroll to top when component mounts
+  // Scroll to top when component mounts or when returning from pet creation
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Scroll to top when returning from pet creation (when isCreatingPet changes from true to false)
+  useEffect(() => {
+    if (!isCreatingPet && !editingPet) {
+      window.scrollTo(0, 0);
+    }
+  }, [isCreatingPet, editingPet]);
 
 
   if (isCreatingPet) {
