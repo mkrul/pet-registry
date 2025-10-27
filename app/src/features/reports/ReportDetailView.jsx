@@ -7,7 +7,7 @@ import FlyerGenerationModal from "../../shared/components/common/FlyerGeneration
 import LostPetFlyer from "../../shared/components/common/LostPetFlyer";
 
 const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
-  const { isModalOpen, isGenerating, openModal, closeModal, handleGenerateFlyer, flyerRef, rewardAmount, customDescription } = useFlyerGeneration(report.id);
+  const { isModalOpen, isGenerating, openModal, closeModal, handleGenerateFlyer, flyerRef, rewardAmount, customDescription, phoneNumber } = useFlyerGeneration(report.id);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -217,6 +217,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
           user={user}
           rewardAmount={rewardAmount}
           customDescription={customDescription}
+          phoneNumber={phoneNumber}
         />
       </div>
 

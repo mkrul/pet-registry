@@ -6,6 +6,7 @@ const useFlyerGeneration = (reportId) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [rewardAmount, setRewardAmount] = useState('');
   const [customDescription, setCustomDescription] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const flyerRef = useRef(null);
 
   const handlePrint = useReactToPrint({
@@ -24,10 +25,11 @@ const useFlyerGeneration = (reportId) => {
     }
   }, [isGenerating]);
 
-  const handleGenerateFlyer = useCallback(({ rewardAmount: reward, description: customDesc }) => {
-    console.log('handleGenerateFlyer called with:', { reward, customDesc });
+  const handleGenerateFlyer = useCallback(({ rewardAmount: reward, description: customDesc, phoneNumber: phone }) => {
+    console.log('handleGenerateFlyer called with:', { reward, customDesc, phone });
     setRewardAmount(reward);
     setCustomDescription(customDesc);
+    setPhoneNumber(phone);
     setIsGenerating(true);
 
     setTimeout(async () => {
@@ -47,6 +49,7 @@ const useFlyerGeneration = (reportId) => {
 
           setRewardAmount('');
           setCustomDescription('');
+          setPhoneNumber('');
           setIsGenerating(false);
         } catch (error) {
           console.error('Error calling handlePrint:', error);
@@ -74,6 +77,7 @@ const useFlyerGeneration = (reportId) => {
     flyerRef,
     rewardAmount,
     customDescription,
+    phoneNumber,
   };
 };
 

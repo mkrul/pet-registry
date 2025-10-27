@@ -2,7 +2,7 @@ import React from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { formatPhoneNumber } from '../../utils/phoneUtils';
 
-const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, customDescription }, ref) => {
+const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, customDescription, phoneNumber }, ref) => {
   const data = report || pet;
 
   const description = customDescription || data?.description || `Please help us find our beloved ${data.species}!`;
@@ -32,7 +32,7 @@ const LostPetFlyer = React.forwardRef(({ pet, report, user, rewardAmount, custom
   const getContactInfo = () => {
     const parts = [];
     if (user?.email) parts.push(user.email);
-    if (user?.phoneNumber) parts.push(formatPhoneNumber(user.phoneNumber));
+    if (phoneNumber) parts.push(formatPhoneNumber(phoneNumber));
     return parts.join(' | ');
   };
 

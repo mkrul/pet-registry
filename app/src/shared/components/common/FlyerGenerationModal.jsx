@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { formatPhoneNumber, isValidPhoneNumber } from '../../utils/phoneUtils';
 
 const FlyerGenerationModal = ({
   isOpen,
@@ -9,6 +10,7 @@ const FlyerGenerationModal = ({
 }) => {
   const [rewardAmount, setRewardAmount] = useState('');
   const [description, setDescription] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -32,6 +34,7 @@ const FlyerGenerationModal = ({
     if (!isOpen) {
       setRewardAmount('');
       setDescription('');
+      setPhoneNumber('');
     } else {
       setDescription(initialDescription);
     }
@@ -45,8 +48,15 @@ const FlyerGenerationModal = ({
     }
   };
 
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    // Allow only digits, spaces, parentheses, hyphens, and plus sign
+    const cleaned = value.replace(/[^\d\s\(\)\-\+]/g, '');
+    setPhoneNumber(cleaned);
+  };
+
   const handleConfirm = () => {
-    onConfirm({ rewardAmount, description });
+    onConfirm({ rewardAmount, description, phoneNumber });
   };
 
   return (
@@ -74,6 +84,21 @@ const FlyerGenerationModal = ({
               onChange={(e) => setRewardAmount(e.target.value)}
               placeholder="e.g., $500"
               maxLength={10}
+              disabled={isLoading}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700 mb-2">
+              Phone Number (Optional)
+            </label>
+            <input
+              id="phone-number"
+              type="tel"
+              value={phoneNumber}
+              onChange={handlePhoneChange}
+              placeholder="(XXX) XXX-XXXX"
               disabled={isLoading}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100"
             />

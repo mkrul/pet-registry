@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useUpdateUserMutation, useChangePasswordMutation } from '../../../store/features/auth/authApiSlice';
-import { normalizePhoneNumber, formatPhoneNumber, isValidPhoneNumber } from '../../../shared/utils/phoneUtils';
 import { useAppDispatch } from '../../../store/hooks';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice';
 
 const DashboardProfile = ({ user }) => {
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(user?.phone_number || '');
   const [email, setEmail] = useState(user?.email || '');
   const [displayName, setDisplayName] = useState(user?.display_name || '');
   const [updateUser, { isLoading }] = useUpdateUserMutation();
@@ -25,15 +23,6 @@ const DashboardProfile = ({ user }) => {
 
   const handleSaveClick = async () => {
     try {
-      const normalizedPhone = normalizePhoneNumber(phoneNumber);
-      if (normalizedPhone && !isValidPhoneNumber(normalizedPhone)) {
-        dispatch(addNotification({
-          type: "ERROR",
-          message: "Please enter a valid 10-digit phone number"
-        }));
-        return;
-      }
-
       // Basic email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (email && !emailRegex.test(email)) {
@@ -45,7 +34,6 @@ const DashboardProfile = ({ user }) => {
       }
 
       await updateUser({
-        phone_number: normalizedPhone,
         email: email,
         display_name: displayName
       }).unwrap();
@@ -56,18 +44,11 @@ const DashboardProfile = ({ user }) => {
   };
 
   const handleCancelClick = () => {
-    setPhoneNumber(user?.phone_number || '');
     setEmail(user?.email || '');
     setDisplayName(user?.display_name || '');
     setIsEditing(false);
   };
 
-  const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    // Allow only digits, spaces, parentheses, hyphens, and plus sign
-    const cleaned = value.replace(/[^\d\s\(\)\-\+]/g, '');
-    setPhoneNumber(cleaned);
-  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -180,23 +161,6 @@ const DashboardProfile = ({ user }) => {
               )}
             </div>
 
-            <div>
-              <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-              {isEditing ? (
-                <input
-                  id="phone-number"
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={handlePhoneChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder={user?.phoneNumber ? formatPhoneNumber(user.phoneNumber) : "(XXX) XXX-XXXX"}
-                />
-              ) : (
-                <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-500">
-                  {user?.phoneNumber ? formatPhoneNumber(user.phoneNumber) : 'None'}
-                </div>
-              )}
-            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Member Since</label>
