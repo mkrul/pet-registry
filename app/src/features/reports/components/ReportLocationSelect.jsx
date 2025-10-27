@@ -123,6 +123,8 @@ export const ReportLocationSelect = ({
       setSelectedLocation(locationData);
       if (showInitialMarker) {
         setCurrentMapLocation(initialLocation);
+      } else {
+        setCurrentMapLocation(null);
       }
     }
   }, [initialLocation, showInitialMarker]);
@@ -180,8 +182,8 @@ export const ReportLocationSelect = ({
     if (initialZoom) {
       return initialZoom;
     }
-    return currentMapLocation ? REPORT_ZOOM_LEVELS.EDIT : REPORT_ZOOM_LEVELS.DEFAULT;
-  }, [currentMapLocation, initialZoom]);
+    return (currentMapLocation || (initialLocation && !showInitialMarker)) ? REPORT_ZOOM_LEVELS.EDIT : REPORT_ZOOM_LEVELS.DEFAULT;
+  }, [currentMapLocation, initialLocation, showInitialMarker, initialZoom]);
 
   const getLabelClassName = () => {
     if (labelStyle === "microchip") {

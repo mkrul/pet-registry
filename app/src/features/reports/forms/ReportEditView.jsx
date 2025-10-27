@@ -134,6 +134,7 @@ const ReportEditForm = ({
             isLoading={isSaving}
             required={false}
             onProcessingStateChange={handleLocationProcessingStateChange}
+            showInitialMarker={false}
           />
 
           <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />
