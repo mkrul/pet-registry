@@ -128,6 +128,7 @@ const AboutPage = () => {
                   width: "100%",
                   height: { xs: "350px", md: "100%" },
                   objectFit: "cover",
+                  objectPosition: "80% 0%",
                   display: "block"
                 }}
               />
