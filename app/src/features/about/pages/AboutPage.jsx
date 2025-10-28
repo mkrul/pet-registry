@@ -138,11 +138,12 @@ const AboutPage = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 height: "100%",
-                p: { xs: 4, lg: 6 },
+                py: { xs: 8, lg: 6 },
+                px: { xs: 4, lg: 6 },
                 bgcolor: "#f8f9fa",
                 position: "relative"
               }}>
-                  <Box sx={{ mb: 5 }}>
+                  <Box sx={{ mb: 5, textAlign: { xs: "center", lg: "left" } }}>
                     <Typography
                       variant="h2"
                       component="h2"
@@ -159,7 +160,8 @@ const AboutPage = () => {
                           content: '""',
                           position: "absolute",
                           bottom: "-24px",
-                          left: 0,
+                          left: { xs: "50%", lg: "0" },
+                          transform: { xs: "translateX(-50%)", lg: "none" },
                           width: "60px",
                           height: "3px",
                           backgroundColor: "#3498db",
@@ -174,14 +176,16 @@ const AboutPage = () => {
                       color: "#5a6c7d",
                       mb: 0,
                       mt: 6,
-                      fontWeight: 500
+                      fontWeight: 500,
+                      maxWidth: { xs: "800px", lg: "none" },
+                      mx: { xs: "auto", lg: "0" }
                     }}>
                       Our mission is to improve reunification rates and give families and their pets the happy endings they deserve
                       by offering a platform that is:
                     </Typography>
                   </Box>
 
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <Box sx={{ display: "flex", flexDirection: "column", gap: 4, alignItems: { xs: "center", lg: "stretch" } }}>
                     <Box sx={{
                       display: "flex",
                       alignItems: "flex-start",
@@ -192,6 +196,8 @@ const AboutPage = () => {
                       boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
                       border: "1px solid #e9ecef",
                       transition: "all 0.3s ease",
+                      maxWidth: { xs: "800px", lg: "none" },
+                      width: "100%",
                       "&:hover": {
                         boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                         transform: "translateY(-2px)"
@@ -238,6 +244,8 @@ const AboutPage = () => {
                       boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
                       border: "1px solid #e9ecef",
                       transition: "all 0.3s ease",
+                      maxWidth: { xs: "800px", lg: "none" },
+                      width: "100%",
                       "&:hover": {
                         boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                         transform: "translateY(-2px)"
@@ -285,6 +293,8 @@ const AboutPage = () => {
                       boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
                       border: "1px solid #e9ecef",
                       transition: "all 0.3s ease",
+                      maxWidth: { xs: "800px", lg: "none" },
+                      width: "100%",
                       "&:hover": {
                         boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                         transform: "translateY(-2px)"
