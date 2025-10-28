@@ -72,21 +72,7 @@ const AboutPage = () => {
         <Box sx={{ mb: 8 }}>
           <Grid2 container spacing={6} sx={{ mb: 8, alignItems: "center" }}>
             <Grid2 size={{ xs: 12, md: 6 }}>
-              <Box
-                component="img"
-                src="/images/cat.png"
-                alt="Lost pet in shelter"
-                sx={{
-                  width: "100%",
-                  height: { xs: "300px", md: "380px" },
-                  objectFit: "cover",
-                  borderRadius: 3,
-                  boxShadow: "0 12px 40px rgba(0,0,0,0.15)"
-                }}
-              />
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6 }}>
-              <Box sx={{ p: { xs: 2, md: 4 } }}>
+              <Box sx={{ p: { xs: 2, md: 1 } }}>
                 <Box sx={{ mb: 4 }}>
                   <Typography
                     variant="h2"
@@ -118,18 +104,46 @@ const AboutPage = () => {
                   lineHeight: 1.7,
                   color: "text.secondary"
                 }}>
-                  Shelters are required to hold lost pets for a short period so that their owners have time to reclaim them.
+                  Shelters are required to hold lost pets for a short period so that their owners have a chance to reclaim them.
                   But once that time is up, a reunion becomes far less likely.
                 </Typography>
               </Box>
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <Box
+                component="img"
+                src="/images/cat.png"
+                alt="Lost pet in shelter"
+                sx={{
+                  width: "100%",
+                  height: { xs: "300px", md: "380px" },
+                  objectFit: "cover",
+                  borderRadius: 3,
+                  boxShadow: "0 12px 40px rgba(0,0,0,0.15)"
+                }}
+              />
             </Grid2>
           </Grid2>
         </Box>
 
         <Box sx={{ mb: 9 }}>
           <Grid2 container spacing={6} sx={{ alignItems: "center" }}>
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 2, md: 1 } }}>
-              <Box sx={{ p: { xs: 2, md: 4 } }}>
+            <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 1, md: 1 } }}>
+              <Box
+                component="img"
+                src="/images/golden-retriever.png"
+                alt="A golden retriever dog"
+                sx={{
+                  width: "100%",
+                  height: { xs: "300px", md: "380px" },
+                  objectFit: "cover",
+                  borderRadius: 3,
+                  boxShadow: "0 12px 40px rgba(0,0,0,0.15)"
+                }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 2, md: 2 } }}>
+              <Box sx={{ p: { xs: 2, md: 1 } }}>
                 <Box sx={{ mb: 4 }}>
                   <Typography
                     variant="h2"
@@ -174,20 +188,6 @@ const AboutPage = () => {
                   <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                 </Typography>
               </Box>
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 1, md: 2 } }}>
-              <Box
-                component="img"
-                src="/images/golden-retriever.png"
-                alt="A golden retriever dog"
-                sx={{
-                  width: "100%",
-                  height: { xs: "300px", md: "380px" },
-                  objectFit: "cover",
-                  borderRadius: 3,
-                  boxShadow: "0 12px 40px rgba(0,0,0,0.15)"
-                }}
-              />
             </Grid2>
           </Grid2>
         </Box>
@@ -238,9 +238,8 @@ const AboutPage = () => {
                       color="#2c3e50"
                       sx={{
                         fontWeight: 800,
-                        letterSpacing: "-0.03em",
                         fontSize: { xs: "1.875rem", lg: "2.25rem" },
-                        lineHeight: 1.2,
+                        lineHeight: 1.3,
                         mb: 3,
                         position: "relative",
                         "&::after": {
@@ -426,17 +425,17 @@ const AboutPage = () => {
         <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, py: { xs: 4, md: 5 }, paddingBottom: { xs: 11, md: 8 } }}>
           <Typography variant="h3" component="h2" gutterBottom color="#2c3e50" sx={{
             fontWeight: 700,
-            fontSize: { xs: "1.75rem", md: "1.75rem" },
+            fontSize: { xs: "1.75rem", sm: "1.75rem", md: "2rem" },
             mb: 3,
             lineHeight: 1.3,
             maxWidth: { xs: "600px", lg: "none" },
-            px: { xs: 1, lg: 12 },
+            px: { xs: 1.75, sm: 4, md: 8, lg: 15 },
             mx: "auto"
           }}>
-            Your pet's safety matters, and so does your peace of mind.
+            Their safety matters — and so does your peace of mind.
           </Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.25rem", md: "1.375rem" },
+            fontSize: { xs: "1.15rem", md: "1.275rem" },
             lineHeight: 1.5,
             fontWeight: 500,
             color: "text.secondary",
@@ -446,7 +445,7 @@ const AboutPage = () => {
             mx: "auto",
             px: { xs: 4, sm: 2, lg: 0 }
           }}>
-            Getting started is fast, easy, and completely <strong>free</strong>.
+            Registering your pet is fast, easy, and completely <strong>free</strong>.
           </Typography>
           <Button
             component={Link}
