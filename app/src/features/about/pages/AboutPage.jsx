@@ -109,7 +109,6 @@ const AboutPage = () => {
           mb: 9,
           backgroundColor: "white",
           borderRadius: 0,
-          p: 0,
           border: "none",
           width: "100vw",
           position: "relative",
@@ -118,7 +117,7 @@ const AboutPage = () => {
           marginLeft: "-50vw",
           marginRight: "-50vw"
         }}>
-          <Grid2 container spacing={0} sx={{ alignItems: "stretch", minHeight: { xs: "auto", md: "600px" } }}>
+          <Grid2 container spacing={0} sx={{ alignItems: "stretch", minHeight: { xs: "auto", md: "900px" } }}>
             <Grid2 size={{ xs: 12, md: 6 }} sx={{ p: 0 }}>
               <Box
                 component="img"
@@ -139,7 +138,7 @@ const AboutPage = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 height: "100%",
-                p: { xs: 4, md: 12 },
+                p: { xs: 4, md: 6 },
                 bgcolor: "#f8f9fa",
                 position: "relative"
               }}>
@@ -174,7 +173,7 @@ const AboutPage = () => {
                       lineHeight: 1.7,
                       color: "#5a6c7d",
                       mb: 0,
-                      mt: 5,
+                      mt: 6,
                       fontWeight: 500
                     }}>
                       Our mission is to improve reunification rates and give families and their pets the happy endings they deserve
