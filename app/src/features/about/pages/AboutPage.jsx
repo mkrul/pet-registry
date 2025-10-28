@@ -138,7 +138,7 @@ const AboutPage = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 minHeight: { lg: "600px" },
-                py: { xs: 8, lg: 6 },
+                py: { xs: 8, lg: 10 },
                 px: { xs: 4, lg: 6 },
                 bgcolor: "#f8f9fa",
                 position: "relative"
