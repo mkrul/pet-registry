@@ -8,34 +8,70 @@ import GroupIcon from "@mui/icons-material/Group";
 const AboutPage = () => {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "white" }}>
-      <Container maxWidth="md" sx={{ py: { xs: 10, md: 10 } }}>
-        <Box sx={{ mb: 8, textAlign: "center" }}>
+      <Box sx={{
+        width: "100vw",
+        position: "relative",
+        left: "50%",
+        right: "50%",
+        marginLeft: "-50vw",
+        marginRight: "-50vw",
+        minHeight: { xs: "60vh", md: "70vh" },
+        backgroundImage: "url('/images/cat-black-and-white.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: { xs: "center center", md: "10% 44%" },
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        mb: 8
+      }}>
+        <Box sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          zIndex: 1
+        }} />
+        <Box sx={{
+          position: "relative",
+          zIndex: 2,
+          textAlign: "right",
+          px: { xs: 3, md: 12 },
+          maxWidth: "900px",
+          ml: "auto"
+        }}>
           <Typography
             variant="h1"
             component="h1"
             gutterBottom
-            color="#2c3e50"
             sx={{
-              fontWeight: 800,
-              letterSpacing: "-0.03em",
-              fontSize: { xs: "2.5rem", md: "3rem" },
+              fontWeight: 400,
+              fontSize: { xs: "1.75rem", md: "2.75rem" },
               mb: 3,
-              lineHeight: 1.1
+              lineHeight: 1.25,
+              letterSpacing: "0.125px",
+              color: "white",
+              textShadow: "0 2px 4px rgba(0,0,0,0.3)"
             }}
           >
-            The Reality of Lost Pets
+            <strong>10 million pets</strong> are lost or stolen in the United States each year.
           </Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.125rem", md: "1.25rem" },
-            fontWeight: 500,
-            color: "text.secondary",
-            maxWidth: "600px",
-            mx: "auto",
-            lineHeight: 1.6
+            fontSize: { xs: "1.125rem", sm: "1.25rem", md: "1.375rem" },
+            fontWeight: 300,
+            lineHeight: 1.8,
+            letterSpacing: "0.35px",
+            color: "rgba(255, 255, 255, 0.95)",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}>
-            Every year, millions of pets go missing, and very few of them are ever reunited with their families. The statistics are heartbreaking.
+            Very few of them are ever reunited with their families.
           </Typography>
         </Box>
+      </Box>
+
+      <Container maxWidth="md" sx={{ py: 0 }}>
 
         <Box sx={{ mb: 8 }}>
           <Grid2 container spacing={6} sx={{ mb: 8, alignItems: "center" }}>
@@ -391,7 +427,7 @@ const AboutPage = () => {
             </Grid2>
         </Box>
 
-        <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, px: 0 }}>
+        <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, py: 12 }}>
           <Typography variant="h3" component="h2" gutterBottom color="#2c3e50" sx={{
             fontWeight: 700,
             fontSize: { xs: "1.75rem", md: "1.75rem" },
@@ -430,7 +466,8 @@ const AboutPage = () => {
               fontSize: "1.125rem",
               textTransform: "none",
               fontWeight: 600,
-              borderRadius: 2
+              borderRadius: 2,
+              mb: 4
             }}
           >
             Sign Up Today

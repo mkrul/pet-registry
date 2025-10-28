@@ -5,7 +5,7 @@ const Footer = () => {
   const isAuthenticated = useSelector((state) => !!state.auth.user);
 
   return (
-    <div className="bg-base-200 py-12" role="contentinfo" data-testid="footer">
+    <div className="bg-page py-12" role="contentinfo" data-testid="footer">
       <div className="container mx-auto px-4 text-center">
         <div className="flex justify-center space-x-6 pb-3">
           {isAuthenticated && (
