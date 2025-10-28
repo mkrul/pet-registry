@@ -117,28 +117,28 @@ const AboutPage = () => {
           marginLeft: "-50vw",
           marginRight: "-50vw"
         }}>
-          <Grid2 container spacing={0} sx={{ alignItems: "stretch", minHeight: { xs: "auto", md: "900px" } }}>
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ p: 0 }}>
+          <Grid2 container spacing={0} sx={{ alignItems: "stretch", minHeight: { xs: "auto", lg: "900px" } }}>
+            <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0 }}>
               <Box
                 component="img"
                 src="/images/woman-and-puppy.jpg"
                 alt="Woman with puppy"
                 sx={{
                   width: "100%",
-                  height: { xs: "350px", md: "100%" },
+                  height: { xs: "350px", lg: "100%" },
                   objectFit: "cover",
-                  objectPosition: "80% 0%",
+                  objectPosition: { lg: "80% 0%" },
                   display: "block"
                 }}
               />
             </Grid2>
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ p: 0 }}>
+            <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0 }}>
               <Box sx={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 height: "100%",
-                p: { xs: 4, md: 6 },
+                p: { xs: 4, lg: 6 },
                 bgcolor: "#f8f9fa",
                 position: "relative"
               }}>
@@ -151,7 +151,7 @@ const AboutPage = () => {
                       sx={{
                         fontWeight: 800,
                         letterSpacing: "-0.03em",
-                        fontSize: { xs: "1.875rem", md: "2.25rem" },
+                        fontSize: { xs: "1.875rem", lg: "2.25rem" },
                         lineHeight: 1.2,
                         mb: 3,
                         position: "relative",
