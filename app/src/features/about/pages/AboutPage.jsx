@@ -427,7 +427,7 @@ const AboutPage = () => {
             </Grid2>
         </Box>
 
-        <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, py: 12 }}>
+        <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, py: { xs: 4, md: 5 }, paddingBottom: { xs: 11, md: 8 } }}>
           <Typography variant="h3" component="h2" gutterBottom color="#2c3e50" sx={{
             fontWeight: 700,
             fontSize: { xs: "1.75rem", md: "1.75rem" },
@@ -467,7 +467,7 @@ const AboutPage = () => {
               textTransform: "none",
               fontWeight: 600,
               borderRadius: 2,
-              mb: 4
+              mb: { xs: 1, md: 4 }
             }}
           >
             Sign Up Today
