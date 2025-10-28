@@ -109,7 +109,7 @@ const AboutPage = () => {
           mb: 9,
           backgroundColor: "white",
           borderRadius: 0,
-          p: { xs: 3, md: 8 },
+          p: 0,
           border: "none",
           width: "100vw",
           position: "relative",
@@ -118,30 +118,30 @@ const AboutPage = () => {
           marginLeft: "-50vw",
           marginRight: "-50vw"
         }}>
-          <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
-            <Grid2 container spacing={0} sx={{ alignItems: "stretch" }}>
-              <Grid2 size={{ xs: 12, md: 6 }}>
-                <Box
-                  component="img"
-                  src="/images/woman-and-puppy.jpg"
-                  alt="Woman with puppy"
-                  sx={{
-                    width: "100%",
-                    height: { xs: "350px", md: "100%" },
-                    objectFit: "cover"
-                  }}
-                />
-              </Grid2>
-              <Grid2 size={{ xs: 12, md: 6 }}>
-                <Box sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  height: "100%",
-                  p: { xs: 4, md: 8 },
-                  bgcolor: "#f8f9fa",
-                  position: "relative"
-                }}>
+          <Grid2 container spacing={0} sx={{ alignItems: "stretch", minHeight: { xs: "auto", md: "600px" } }}>
+            <Grid2 size={{ xs: 12, md: 6 }} sx={{ p: 0 }}>
+              <Box
+                component="img"
+                src="/images/woman-and-puppy.jpg"
+                alt="Woman with puppy"
+                sx={{
+                  width: "100%",
+                  height: { xs: "350px", md: "100%" },
+                  objectFit: "cover",
+                  display: "block"
+                }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }} sx={{ p: 0 }}>
+              <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                height: "100%",
+                p: { xs: 4, md: 12 },
+                bgcolor: "#f8f9fa",
+                position: "relative"
+              }}>
                   <Box sx={{ mb: 5 }}>
                     <Typography
                       variant="h2"
@@ -158,10 +158,10 @@ const AboutPage = () => {
                         "&::after": {
                           content: '""',
                           position: "absolute",
-                          bottom: "-8px",
+                          bottom: "-24px",
                           left: 0,
                           width: "60px",
-                          height: "4px",
+                          height: "3px",
                           backgroundColor: "#3498db",
                           borderRadius: "2px"
                         }
@@ -169,14 +169,15 @@ const AboutPage = () => {
                       The Future of Lost Pet Reunification
                     </Typography>
                     <Typography variant="body1" paragraph sx={{
-                      fontSize: "1.25rem",
+                      fontSize: "1.15rem",
                       lineHeight: 1.7,
                       color: "#5a6c7d",
                       mb: 0,
+                      mt: 5,
                       fontWeight: 500
                     }}>
-                      Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
-                      We do this by offering a platform that is:
+                      Our mission is to improve reunification rates and give families and their pets the happy endings they deserve
+                      by offering a platform that is:
                     </Typography>
                   </Box>
 
@@ -222,7 +223,7 @@ const AboutPage = () => {
                           color: "#495057",
                           mb: 0
                         }}>
-                          We manage a single, searchable database where lost pets and their whereabouts are <strong>easily accessible</strong>, giving them a better chance of being found.
+                          A nationwide network that puts real-time data about lost pets within reach, improving their chances of being found.
                         </Typography>
                       </Box>
                     </Box>
@@ -268,8 +269,8 @@ const AboutPage = () => {
                           color: "#495057",
                           mb: 0
                         }}>
-                          By registering your pets <i>before</i> they go missing, <strong>you can be prepared</strong> when the worst happens.
-                          Make a report, print out flyers, and access other features with a few clicks.
+                          By registering pets <i>before</i> they go missing, owners can
+                          be prepared to act quickly when the unexpected occurs.
                         </Typography>
                       </Box>
                     </Box>
@@ -315,7 +316,7 @@ const AboutPage = () => {
                           color: "#495057",
                           mb: 0
                         }}>
-                          We connect pet owners, good samaritans, animal shelters, and rescue organizations in a <strong>unified effort</strong> to bring lost pets home and increase reunification rates.
+                          We connect pet owners, neighbors, and animal welfare professionals in a unified effort to bring lost pets home.
                         </Typography>
                       </Box>
                     </Box>
@@ -323,7 +324,6 @@ const AboutPage = () => {
                 </Box>
               </Grid2>
             </Grid2>
-          </Box>
         </Box>
 
         <Box sx={{ textAlign: "center" }}>
