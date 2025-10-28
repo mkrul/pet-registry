@@ -117,7 +117,7 @@ const AboutPage = () => {
           marginLeft: "-50vw",
           marginRight: "-50vw"
         }}>
-          <Grid2 container spacing={0} sx={{ alignItems: "stretch", minHeight: { xs: "auto", lg: "900px" } }}>
+          <Grid2 container spacing={0} sx={{ alignItems: "stretch" }}>
             <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0 }}>
               <Box
                 component="img"
@@ -137,7 +137,7 @@ const AboutPage = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                height: "100%",
+                minHeight: { lg: "600px" },
                 py: { xs: 8, lg: 6 },
                 px: { xs: 4, lg: 6 },
                 bgcolor: "#f8f9fa",
