@@ -336,78 +336,50 @@ const AboutPage = () => {
             </Grid2>
         </Box>
 
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h2"
-            component="h2"
-            gutterBottom
-            color="#333333"
-            sx={{
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              fontSize: { xs: "2rem", md: "2rem" },
-              mb: 2
-            }} >
-            The best part?
+        <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, px: 0 }}>
+          <Typography variant="h3" component="h2" gutterBottom color="#2c3e50" sx={{
+            fontWeight: 700,
+            fontSize: { xs: "1.75rem", md: "1.75rem" },
+            mb: 3,
+            lineHeight: 1.3,
+            maxWidth: { xs: "600px", lg: "none" },
+            px: { xs: 1, lg: 12 },
+            mx: "auto"
+          }}>
+            Your pet's safety matters, and so does your peace of mind.
           </Typography>
-          <Typography
-          variant="body1" paragraph sx={{ fontWeight: 500,
-            mb: 4,
-            fontSize: { xs: "1.3rem", md: "1.3rem", padding: "0 1.75rem" },
+          <Typography variant="h4" component="p" sx={{
+            fontSize: { xs: "1.25rem", md: "1.375rem" },
             lineHeight: 1.5,
-            color: "#555555" }}>
-            It's private, easy to use, and completely <strong>free</strong>.<br />
+            fontWeight: 500,
+            color: "text.secondary",
+            mb: 6,
+            pt: 1,
+            maxWidth: { xs: "550px", lg: "none" },
+            mx: "auto",
+            px: { xs: 4, sm: 2, lg: 0 }
+          }}>
+            Getting started is fast, easy, and completely <strong>free</strong>.
           </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.8, color: "text.secondary", mb: 5 }}>
-            Your pet's safety and your peace of mind are important. <br />Sign up now to get started, or consider donating if you want to support our work.
-          </Typography>
-          <Box sx={{ display: "flex", gap: 2, justifyContent: "center", flexWrap: "wrap" }}>
-            <Button
-              component={Link}
-              to="/signup"
-              variant="contained"
-              size="large"
-              sx={{
-                bgcolor: "info.main",
-                color: "white",
-                "&:hover": { bgcolor: "info.dark" },
-                px: 4,
-                py: 1.5,
-                fontSize: "1.125rem",
-                lineHeight: 1.8,
-                textTransform: "none",
-                fontWeight: 500,
-                borderRadius: 1
-              }}
-            >
-              <Box component="span">
-                Sign Up
-              </Box>
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              sx={{
-                color: "info.main",
-                "&:hover": {
-                  color: "info.medium"
-                },
-                px: 4,
-                py: 1.5,
-                fontSize: "1.125rem",
-                lineHeight: 1.8,
-                textTransform: "none",
-                fontWeight: 500,
-                borderRadius: 1
-              }}
-              href="https://www.lostpetsregistry.org/donate"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Box component="span">
-                Donate
-              </Box>
-            </Button>
-          </Box>
+          <Button
+            component={Link}
+            to="/signup"
+            variant="contained"
+            size="large"
+            sx={{
+              bgcolor: "info.main",
+              color: "white",
+              "&:hover": { bgcolor: "info.dark" },
+              px: 6,
+              py: 2,
+              fontSize: "1.125rem",
+              textTransform: "none",
+              fontWeight: 600,
+              borderRadius: 2
+            }}
+          >
+            Sign Up Today
+          </Button>
         </Box>
       </Container>
     </Box>
