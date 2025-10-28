@@ -16,9 +16,9 @@ const AboutPage = () => {
         marginLeft: "-50vw",
         marginRight: "-50vw",
         minHeight: { xs: "60vh", md: "70vh" },
-        backgroundImage: "url('/images/cat-black-and-white.jpg')",
+        backgroundImage: "url('/images/stray-cat-black-and-white.jpg')",
         backgroundSize: "cover",
-        backgroundPosition: { xs: "center center", md: "10% 44%" },
+        backgroundPosition: { xs: "center center", md: "0% 47%" },
         backgroundRepeat: "no-repeat",
         display: "flex",
         alignItems: "center",
@@ -37,37 +37,32 @@ const AboutPage = () => {
         <Box sx={{
           position: "relative",
           zIndex: 2,
-          textAlign: { xs: "center", md: "right" },
+          textAlign: { xs: "center", xl: "right" },
           px: { xs: 3, md: 12 },
-          maxWidth: "900px",
-          ml: { xs: "auto", md: "auto" },
-          mr: { xs: "auto", md: 0 }
+          maxWidth: "950px",
+          ml: "auto",
+          mr: { xs: "auto", xl: 0 }
         }}>
-          <Typography
-            variant="h1"
-            component="h1"
-            gutterBottom
-            sx={{
-              fontWeight: 400,
-              fontSize: { xs: "2.25rem", sm: "2.5rem", md: "2.75rem" },
-              mb: 3,
-              lineHeight: 1.25,
-              letterSpacing: "0.125px",
-              color: "white",
-              textShadow: "0 2px 4px rgba(0,0,0,0.3)"
-            }}
-          >
-            <strong>10 million pets</strong> are lost or stolen in the United States each year.
-          </Typography>
+          <Typography variant="h1" component="h1" gutterBottom sx={{
+            fontWeight: 400,
+            fontSize: { xs: "1.75rem", sm: "2.15rem", md: "2.75rem", lg: "3.25rem" },
+            mb: 3,
+            px: { xs: 1, sm: 4, lg: 0 },
+            lineHeight: 1.25,
+            letterSpacing: "0.125px",
+            color: "white",
+            textShadow: "0 2px 4px rgba(0,0,0,0.3)"
+          }}>Nearly <span style={{ fontWeight: 700 }}>10 million pets</span> are lost or stolen in the U.S. each year.</Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.375rem", sm: "1.375rem", md: "1.375rem" },
+            fontSize: { xs: "1.1rem", sm: "1.175rem", md: "1.275rem", lg: "1.375rem" },
+            px: { xs: 1, sm: 4, lg: 0 },
             fontWeight: 300,
-            lineHeight: 1.8,
+            lineHeight: { xs: 1.4, md: 1.8 },
             letterSpacing: "0.35px",
             color: "rgba(255, 255, 255, 0.95)",
             textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}>
-            Very few of them are ever reunited with their families.
+            Most are never reunited with the families who love them.
           </Typography>
         </Box>
       </Box>
