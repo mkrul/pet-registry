@@ -37,10 +37,11 @@ const AboutPage = () => {
         <Box sx={{
           position: "relative",
           zIndex: 2,
-          textAlign: "right",
+          textAlign: { xs: "center", md: "right" },
           px: { xs: 3, md: 12 },
           maxWidth: "900px",
-          ml: "auto"
+          ml: { xs: "auto", md: "auto" },
+          mr: { xs: "auto", md: 0 }
         }}>
           <Typography
             variant="h1"
@@ -48,7 +49,7 @@ const AboutPage = () => {
             gutterBottom
             sx={{
               fontWeight: 400,
-              fontSize: { xs: "1.75rem", md: "2.75rem" },
+              fontSize: { xs: "2.25rem", sm: "2.5rem", md: "2.75rem" },
               mb: 3,
               lineHeight: 1.25,
               letterSpacing: "0.125px",
@@ -59,7 +60,7 @@ const AboutPage = () => {
             <strong>10 million pets</strong> are lost or stolen in the United States each year.
           </Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.125rem", sm: "1.25rem", md: "1.375rem" },
+            fontSize: { xs: "1.375rem", sm: "1.375rem", md: "1.375rem" },
             fontWeight: 300,
             lineHeight: 1.8,
             letterSpacing: "0.35px",
