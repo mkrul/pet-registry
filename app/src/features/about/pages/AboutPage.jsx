@@ -107,7 +107,7 @@ const AboutPage = () => {
 
         <Box sx={{
           mb: 9,
-          backgroundColor: "#e8f4fd",
+          backgroundColor: "white",
           borderRadius: 0,
           p: { xs: 3, md: 8 },
           border: "none",
@@ -118,71 +118,88 @@ const AboutPage = () => {
           marginLeft: "-50vw",
           marginRight: "-50vw"
         }}>
-          <Box sx={{ maxWidth: "800px", mx: "auto" }}>
-            <Typography
-              variant="h2"
-              component="h2"
-              gutterBottom
-              color="#333333"
-              sx={{
-                fontWeight: 700,
-                letterSpacing: "-0.02em",
-                fontSize: { xs: "2rem", md: "2rem" },
-                lineHeight: 1.5,
-                mb: 3,
-                textAlign: "center"
-              }} >
-              A Solution for Lost Pet Reunification
-            </Typography>
-          <Typography variant="body1" paragraph sx={{ fontSize: "1.225rem", lineHeight: 1.6, color: "text.secondary", mb: 6 }}>
-            Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
-            We do this by offering a platform that is:
-          </Typography>
+          <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
+            <Grid2 container spacing={0} sx={{ alignItems: "stretch" }}>
+              <Grid2 size={{ xs: 12, md: 6 }}>
+                <Box
+                  component="img"
+                  src="/images/woman-and-puppy.jpg"
+                  alt="Woman with puppy"
+                  sx={{
+                    width: "100%",
+                    height: { xs: "350px", md: "100%" },
+                    objectFit: "cover"
+                  }}
+                />
+              </Grid2>
+              <Grid2 size={{ xs: 12, md: 6 }}>
+                <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", height: "100%", p: { xs: 3, md: 6 } }}>
+                  <Typography
+                    variant="h2"
+                    component="h2"
+                    gutterBottom
+                    color="#333333"
+                    sx={{
+                      fontWeight: 700,
+                      letterSpacing: "-0.02em",
+                      fontSize: { xs: "2rem", md: "2rem" },
+                      lineHeight: 1.5,
+                      mb: 3
+                    }} >
+                    The Future of Lost Pet Reunification
+                  </Typography>
+                  <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 4 }}>
+                    Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
+                    We do this by offering a platform that is:
+                  </Typography>
 
-          <Box sx={{ mb: 5 }}>
-            <Box sx={{ display: "flex", gap: 3, mb: 2 }}>
-              <StorageIcon sx={{ fontSize: 40, color: "info.dark", flexShrink: 0 }} />
-              <Box>
-                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "info.dark" }}>
-                  Centralized
-                </Typography>
-                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  We manage a single, searchable database where lost pets and their whereabouts are <strong>easily accessible</strong>, giving them a better chance of being found.
-                </Typography>
-              </Box>
-            </Box>
-            <Divider sx={{ my: 4 }} />
-          </Box>
+                  <Box sx={{ mb: 4 }}>
+                    <Box sx={{ display: "flex", gap: 3, mb: 2 }}>
+                      <StorageIcon sx={{ fontSize: 40, color: "info.dark", flexShrink: 0 }} />
+                      <Box>
+                        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "info.dark" }}>
+                          Centralized
+                        </Typography>
+                        <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 0 }}>
+                          We manage a single, searchable database where lost pets and their whereabouts are <strong>easily accessible</strong>, giving them a better chance of being found.
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Divider sx={{ my: 3 }} />
+                  </Box>
 
-          <Box sx={{ mb: 5 }}>
-            <Box sx={{ display: "flex", gap: 3, mb: 2 }}>
-              <SecurityIcon sx={{ fontSize: 40, color: "success.dark", flexShrink: 0 }} />
-              <Box>
-                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "success.dark" }}>
-                  Proactive
-                </Typography>
-                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  By registering your pets <i>before</i> they go missing, <strong>you can be prepared</strong> when the worst happens.
-                  Make a report, print out flyers, and access other features with a few clicks.
-                </Typography>
-              </Box>
-            </Box>
-            <Divider sx={{ my: 4 }} />
-          </Box>
+                  <Box sx={{ mb: 4 }}>
+                    <Box sx={{ display: "flex", gap: 3, mb: 2 }}>
+                      <SecurityIcon sx={{ fontSize: 40, color: "success.dark", flexShrink: 0 }} />
+                      <Box>
+                        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "success.dark" }}>
+                          Proactive
+                        </Typography>
+                        <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 0 }}>
+                          By registering your pets <i>before</i> they go missing, <strong>you can be prepared</strong> when the worst happens.
+                          Make a report, print out flyers, and access other features with a few clicks.
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Divider sx={{ my: 3 }} />
+                  </Box>
 
-          <Box sx={{ mb: 0 }}>
-            <Box sx={{ display: "flex", gap: 3 }}>
-              <GroupIcon sx={{ fontSize: 40, color: "warning.dark", flexShrink: 0 }} />
-              <Box>
-                <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "warning.dark" }}>
-                  Community-Driven
-                </Typography>
-                <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 2 }}>
-                  We connect pet owners, good samaritans, animal shelters, and rescue organizations in a <strong>unified effort</strong> to bring lost pets home and increase reunification rates.
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
+                  <Box sx={{ mb: 0 }}>
+                    <Box sx={{ display: "flex", gap: 3 }}>
+                      <GroupIcon sx={{ fontSize: 40, color: "warning.dark", flexShrink: 0 }} />
+                      <Box>
+                        <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, color: "warning.dark" }}>
+                          Community-Driven
+                        </Typography>
+                        <Typography variant="body1" paragraph sx={{ fontSize: "1.125rem", lineHeight: 1.6, color: "text.secondary", mb: 0 }}>
+                          We connect pet owners, good samaritans, animal shelters, and rescue organizations in a <strong>unified effort</strong> to bring lost pets home and increase reunification rates.
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid2>
+            </Grid2>
           </Box>
         </Box>
 
