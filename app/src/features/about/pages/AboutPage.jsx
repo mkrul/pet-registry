@@ -112,8 +112,8 @@ const AboutPage = () => {
             <Grid2 size={{ xs: 12, md: 6 }}>
               <Box
                 component="img"
-                src="/images/cat.png"
-                alt="Lost pet in shelter"
+                src="/images/shelter-dog.jpg"
+                alt="Lost dog in shelter"
                 sx={{
                   width: "100%",
                   height: { xs: "300px", md: "380px" },
@@ -131,8 +131,8 @@ const AboutPage = () => {
             <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 1, md: 1 } }}>
               <Box
                 component="img"
-                src="/images/golden-retriever.png"
-                alt="A golden retriever dog"
+                src="/images/woman-holding-cat.jpg"
+                alt="Woman holding a cat"
                 sx={{
                   width: "100%",
                   height: { xs: "300px", md: "380px" },
