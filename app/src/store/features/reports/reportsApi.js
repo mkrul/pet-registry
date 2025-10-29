@@ -31,9 +31,12 @@ export const reportsApi = createApi({
     getReports: build.query({
       query: params => {
         const queryParams = {
-          page: params.page?.toString() || "1",
-          per_page: params.items?.toString() || "21" // This will be overridden by useReportsData hook
+          page: params.page?.toString() || "1"
         };
+
+        if (params.items) {
+          queryParams.per_page = params.items.toString();
+        }
 
         if (params.breed) {
           queryParams.breed = params.breed;
@@ -182,9 +185,12 @@ export const reportsApi = createApi({
     getUserReports: build.query({
       query: params => {
         const queryParams = {
-          page: params.page?.toString() || "1",
-          per_page: params.items?.toString() || "21"
+          page: params.page?.toString() || "1"
         };
+
+        if (params.items) {
+          queryParams.per_page = params.items.toString();
+        }
 
         if (params.status) {
           queryParams.status = params.status;

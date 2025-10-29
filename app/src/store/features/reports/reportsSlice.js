@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   data: [],
   query: "",
-  perPage: 21 // Default value, will be updated from API response
+  perPage: null
 };
 
 const reportsSlice = createSlice({

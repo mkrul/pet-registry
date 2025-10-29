@@ -24,7 +24,7 @@ class Report < ApplicationRecord
   after_update :update_pet_status_on_archive, if: :saved_change_to_status?
   after_destroy :update_pet_status_on_destroy
 
-  REPORT_INDEX_PAGE_LIMIT = 21
+  REPORT_INDEX_PAGE_LIMIT = 20
 
   def associate_with_pet(pet)
     return unless pet.is_a?(Pet)

@@ -63,7 +63,6 @@ const AboutPage = () => {
             textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}>
             Many are never reunited with the families who love them.
-            <sup><a href="https://pet911.org/post/lost_found_pets_usa" target="_blank" rel="noopener noreferrer" style={{ color: "#ffffff", textDecoration: "none" }}>1</a></sup>
           </Typography>
         </Box>
       </Box>
@@ -76,28 +75,22 @@ const AboutPage = () => {
               <Box sx={{ p: { xs: 1, sm: 0, md: 1 }, mr: { md: 2 } }}>
                 <Box sx={{ mb: { xs: 3, sm: 2, md: 4 } }}>
                   <Typography
-                    variant="h2"
-                    sx={{
-                      fontWeight: 800,
-                      fontSize: { xs: "2.75rem", sm: "2.15rem", md: "3rem" },
-                      lineHeight: 1,
-                      color: "#e74c3c",
-                      mb: 1
-                    }}
-                  >
-                    3 to 7 days
-                  </Typography>
-                  <Typography
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.375rem", sm: "1.15rem", md: "1.375rem" },
+                      fontSize: { xs: "1.475rem", sm: "1.5rem", md: "1.675rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
-                      mb: { xs: 3, sm: 1, md: 3 }
+                      mb: 1
                     }}
                   >
-                    is the average stray hold period.
+                    The average stray hold period is{" "}
+                    <span style={{ fontWeight: 800, color: "#e74c3c" }}>
+                      only 2 to 3 days.
+                      <sup>
+                        <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none", fontSize: "0.7em", fontWeight: "normal" }}>1</a>
+                      </sup>
+                    </span>
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
@@ -108,7 +101,7 @@ const AboutPage = () => {
                   marginBottom: { xs: 3, sm: 0, md: 0 }
                 }}>
                   Shelters will typically hold lost pets for a short period of time so that their owners have a chance to reclaim them.
-                  But once the stray hold expires, a reunion becomes far less likely.
+                  Unfortunately, once the stray hold expires, reuniting lost pets with their families becomes far less likely.
                 </Typography>
               </Box>
             </Grid2>
@@ -149,28 +142,16 @@ const AboutPage = () => {
               <Box sx={{ p: { xs: 1, sm: 1, md: 1 }, ml: { md: 2 } }}>
                 <Box sx={{ mb: { xs: 3, sm: 2, md: 4 } }}>
                   <Typography
-                    variant="h2"
-                    sx={{
-                      fontWeight: 800,
-                      fontSize: { xs: "2.75rem", sm: "2.15rem", md: "3rem" },
-                      lineHeight: 1,
-                      color: "#e74c3c",
-                      mb: 1
-                    }}
-                  >
-                    Only 17 to 19%
-                  </Typography>
-                  <Typography
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.375rem", sm: "1.15rem", md: "1.375rem" },
+                      fontSize: { xs: "1.475rem", sm: "1.5rem", md: "1.675rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
                       mb: { xs: 3, sm: 1, md: 3 }
                     }}
                   >
-                    of lost pets ever make it home.
+                    Microchipping helps, but sometimes <span style={{ fontWeight: 800, color: "#e74c3c" }}>it&apos;s not enough.</span>
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
@@ -179,8 +160,10 @@ const AboutPage = () => {
                   color: "text.secondary",
                   mb: 3
                 }}>
-                  These pets may be adopted out or transferred hundreds of miles away. For some families, reclaim fees and implicit biases create barriers that are difficult or impossible to overcome.
-                  <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
+                  Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, their pets may be adopted out to other families or transferred to another facility hundreds of miles away.
+                  <sup>
+                    <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a>
+                  </sup>
                 </Typography>
               </Box>
             </Grid2>
@@ -474,7 +457,9 @@ const AboutPage = () => {
             color: "#999",
             lineHeight: 1.5
           }}>
-            Sources: 1. <a href="https://pet911.org/post/lost_found_pets_usa" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Pet911.org</a> • 2. <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Human Animal Support Services</a>
+            Sources: 1.{" "}
+            <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Lost Pet Research</a> • 2.{" "}
+            <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Human Animal Support Services</a>
           </Typography>
         </Box>
       </Container>
