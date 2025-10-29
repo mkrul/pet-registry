@@ -98,13 +98,16 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
             </div>
           </div>
           <div className="flex flex-col sm:ml-4 flex-grow">
-            <h2 className="text-xl font-bold">
+            <h2 className="text-lg font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
+            <p className="mt-2 text-gray-900 font-medium">
+              Last seen at:
+            </p>
             <LocationDisplay
-              area={report.area}
-              state={report.state}
-              intersection={report.intersection}
+              area={report.lastSeenLocation?.area || report.area}
+              state={report.lastSeenLocation?.state || report.state}
+              intersection={report.lastSeenLocation?.intersection || report.intersection}
               useStateAbbreviation={true}
             />
           </div>

@@ -3,7 +3,8 @@ class ReportSerializer < ActiveModel::Serializer
              :color_1, :color_2, :color_3, :name, :gender, :image, :is_altered,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
-             :area, :state, :country, :latitude, :longitude, :intersection, :pet_id
+             :area, :state, :country, :latitude, :longitude, :intersection, :pet_id,
+             :last_seen_location
 
   def attributes(*args)
     data = super
@@ -98,5 +99,35 @@ class ReportSerializer < ActiveModel::Serializer
 
   def pet_id
     object.pet&.id
+  end
+
+  def last_seen_location
+    recent_tip = object.tips
+      .where("data->>'latitude' IS NOT NULL AND data->>'longitude' IS NOT NULL")
+      .where("data->>'latitude' != '' AND data->>'longitude' != ''")
+      .order(created_at: :desc)
+      .first
+
+    if recent_tip
+      {
+        area: recent_tip.area,
+        state: recent_tip.state,
+        country: recent_tip.country,
+        latitude: recent_tip.latitude&.to_f,
+        longitude: recent_tip.longitude&.to_f,
+        intersection: recent_tip.intersection,
+        source: 'tip'
+      }
+    else
+      {
+        area: object.area,
+        state: object.state,
+        country: object.country,
+        latitude: object.latitude&.to_f,
+        longitude: object.longitude&.to_f,
+        intersection: object.intersection,
+        source: 'report'
+      }
+    end
   end
 end
