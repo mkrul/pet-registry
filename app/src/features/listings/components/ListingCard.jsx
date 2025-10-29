@@ -101,15 +101,28 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
             <h2 className="text-lg font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
-            <p className="mt-2 text-gray-900 font-medium">
-              Last seen at:
-            </p>
-            <LocationDisplay
-              area={report.lastSeenLocation?.area || report.area}
-              state={report.lastSeenLocation?.state || report.state}
-              intersection={report.lastSeenLocation?.intersection || report.intersection}
-              useStateAbbreviation={true}
-            />
+            {report.breed1 && (
+              <p className="mt-0 text-sm text-gray-600">
+                {report.breed2 ? `${report.breed1} / ${report.breed2}` : report.breed1}
+              </p>
+            )}
+            <div className="mt-2 text-sm text-gray-600">
+              <span className="font-medium">Last seen at: </span>
+              {(() => {
+                const area = report.lastSeenLocation?.area || report.area;
+                const state = report.lastSeenLocation?.state || report.state;
+                const intersection = report.lastSeenLocation?.intersection || report.intersection;
+
+                if (area && state) {
+                  const stateAbbrev = state.length > 2 ? state.substring(0, 2).toUpperCase() : state;
+                  const locationText = intersection && intersection !== ""
+                    ? `${intersection} in ${area}, ${stateAbbrev}`
+                    : `${area}, ${stateAbbrev}`;
+                  return <span>{locationText}</span>;
+                }
+                return null;
+              })()}
+            </div>
           </div>
         </div>
       </Link>
