@@ -3,12 +3,17 @@ import React, { useEffect, useState } from "react";
 const calculateDuration = (message) => {
   const baseTime = 3000;
   const charTime = 50;
-  return Math.min(baseTime + (message.length * charTime), 10000);
+  const messageLength = message ? message.length : 0;
+  return Math.min(baseTime + (messageLength * charTime), 10000);
 };
 
 const ToastNotification = ({ id, type, message, onDismiss }) => {
   const [isExiting, setIsExiting] = useState(false);
   const [isEntering, setIsEntering] = useState(true);
+
+  if (!message) {
+    return null;
+  }
 
   const typeStyles = {
     "SUCCESS": "bg-green-100 dark:bg-green-900 border-green-400 dark:border-green-600 text-green-700 dark:text-green-300",

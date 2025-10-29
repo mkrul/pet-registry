@@ -15,8 +15,15 @@ const notificationsSlice = createSlice({
       state.notification = action.payload;
     },
     addNotification: (state, action) => {
+      const { type, message } = action.payload;
+
+      if (!message) {
+        return;
+      }
+
       const notification = {
-        ...action.payload,
+        type,
+        message,
         id: ++notificationIdCounter
       };
       state.notifications.push(notification);

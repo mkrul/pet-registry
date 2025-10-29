@@ -94,6 +94,14 @@ const SearchContainer = ({ onSearchComplete }) => {
         onReset={handleReset}
       />
 
+      <FilterContainer
+        initialFilters={filters}
+        onFiltersChange={setFilters}
+        onReset={handleReset}
+        rememberFilters={rememberFilters}
+        onRememberFiltersToggle={handleRememberFiltersToggle}
+      />
+
       <div className="text-sm text-gray-500 p-2 mt-2">
         <button
           onClick={handleSearchTipsToggle}
@@ -112,30 +120,22 @@ const SearchContainer = ({ onSearchComplete }) => {
           <ul>
             <li className="mb-1">
               <Tip emoji="🔍" showTipLabel={false}>
-                Adding filters can improve or narrow down your search.
+                Adding filters can improve your search.
               </Tip>
             </li>
             <li className="mb-1">
               <Tip emoji="🔍" showTipLabel={false}>
-                Double check your spelling and use simple keywords
+                Double check spelling & use simple keywords
               </Tip>
             </li>
             <li className="mb-1">
               <Tip emoji="🔍" showTipLabel={false}>
-                Try different keywords if you can't find what you're looking for. For example, a lost American Bully might have been reported as a "bulldog" or "pit bull".
+                Try different keywords (e.g., an American Bully might have been reported as a "bulldog" or "pit bull")
               </Tip>
             </li>
           </ul>
         </div>
       </div>
-
-      <FilterContainer
-        initialFilters={filters}
-        onFiltersChange={setFilters}
-        onReset={handleReset}
-        rememberFilters={rememberFilters}
-        onRememberFiltersToggle={handleRememberFiltersToggle}
-      />
     </>
   );
 };

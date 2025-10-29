@@ -67,7 +67,7 @@ const SearchTab = ({ isOpen, setIsOpen, onSearchComplete }) => {
             transition={{ type: "tween" }}
             className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 shadow-lg"
           >
-            <div className="p-4 pt-16 flex flex-col h-full overflow-y-auto">
+            <div className="p-4 flex flex-col h-full overflow-y-auto">
               <SearchContainer onSearchComplete={wrappedOnSearchComplete} />
             </div>
           </motion.div>

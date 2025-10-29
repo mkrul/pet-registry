@@ -58,9 +58,10 @@ export const useUserReportsData = (page, filter = 'active', preloadAll = false, 
   useEffect(() => {
     if (error && "data" in error) {
       const apiError = error;
+      const errorMessage = apiError.data?.message || "An error occurred while loading user reports";
       dispatch(addNotification({
         type: "ERROR",
-        message: apiError.data?.message
+        message: errorMessage
       }));
     }
   }, [error, dispatch]);
