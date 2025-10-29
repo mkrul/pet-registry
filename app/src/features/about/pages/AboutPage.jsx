@@ -73,12 +73,12 @@ const AboutPage = () => {
           <Grid2 container spacing={{ xs: 0, sm: 2 }} sx={{ mb: 8, alignItems: "center" }}>
             <Grid2 size={{ xs: 12, sm: 6 }}>
               <Box sx={{ p: { xs: 1, sm: 0, md: 1 } }}>
-                <Box sx={{ mb: { xs: 4, sm: 2, md: 4 } }}>
+                <Box sx={{ mb: { xs: 3, sm: 2, md: 4 } }}>
                   <Typography
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "3rem", sm: "2.25rem", md: "3rem" },
+                      fontSize: { xs: "2.75rem", sm: "2.25rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -103,7 +103,8 @@ const AboutPage = () => {
                   fontSize: "1.125rem",
                   lineHeight: { xs: 1.7, sm: 1.7, md: 1.7 },
                   color: "text.secondary",
-                  paddingRight: { xs: 0, sm: 1 }
+                  paddingRight: { xs: 0, sm: 1 },
+                  marginBottom: { xs: 3, sm: 0, md: 0 }
                 }}>
                   Shelters will typically hold strays for a short time so that their owners have a chance to reclaim them.
                   But once the stray hold expires, a reunion becomes far less likely.
@@ -145,12 +146,12 @@ const AboutPage = () => {
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 6 }} sx={{ order: { xs: 1, sm: 2 } }}>
               <Box sx={{ p: { xs: 1, sm: 1, md: 1 } }}>
-                <Box sx={{ mb: { xs: 4, sm: 2, md: 4 } }}>
+                <Box sx={{ mb: { xs: 3, sm: 2, md: 4 } }}>
                   <Typography
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "3rem", sm: "2.25rem", md: "3rem" },
+                      fontSize: { xs: "2.75rem", sm: "2.25rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -198,7 +199,7 @@ const AboutPage = () => {
           marginRight: "-50vw"
         }}>
           <Grid2 container spacing={0} sx={{ alignItems: "stretch" }}>
-            <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0 }}>
+            <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0, order: { xs: 2, lg: 1 } }}>
               <Box
                 component="img"
                 src="/images/woman-and-puppy.jpg"
@@ -212,7 +213,7 @@ const AboutPage = () => {
                 }}
               />
             </Grid2>
-            <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0 }}>
+            <Grid2 size={{ xs: 12, lg: 6 }} sx={{ p: 0, order: { xs: 1, lg: 2 } }}>
               <Box sx={{
                 display: "flex",
                 flexDirection: "column",
