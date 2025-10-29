@@ -45,14 +45,14 @@ const AboutPage = () => {
         }}>
           <Typography variant="h1" component="h1" gutterBottom sx={{
             fontWeight: 400,
-            fontSize: { xs: "1.85rem", sm: "2.15rem", md: "2.75rem", lg: "3.25rem" },
+            fontSize: { xs: "1.85rem", sm: "2.15rem", md: "2.75rem", lg: "3.14rem" },
             mb: 3,
             px: { xs: 1, sm: 4, lg: 0 },
             lineHeight: 1.25,
-            letterSpacing: "0.125px",
+            letterSpacing: "0.115px",
             color: "white",
             textShadow: "0 2px 4px rgba(0,0,0,0.3)"
-          }}>Nearly <span style={{ fontWeight: 700 }}>10 million pets</span> are lost or stolen in the U.S. each year.</Typography>
+          }}>Each year, <span style={{ fontWeight: 700 }}>millions of pets</span> are lost or stolen in the United States.</Typography>
           <Typography variant="h4" component="p" sx={{
             fontSize: { xs: "1.15rem", sm: "1.275rem", md: "1.375rem", lg: "1.475rem" },
             px: { xs: 1, sm: 4, lg: 0 },
@@ -63,6 +63,7 @@ const AboutPage = () => {
             textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}>
             Many are never reunited with the families who love them.
+            <sup><a href="https://pet911.org/post/lost_found_pets_usa" target="_blank" rel="noopener noreferrer" style={{ color: "#ffffff", textDecoration: "none" }}>1</a></sup>
           </Typography>
         </Box>
       </Box>
@@ -72,7 +73,7 @@ const AboutPage = () => {
         <Box sx={{ mb: 8 }}>
           <Grid2 container spacing={{ xs: 0, sm: 2 }} sx={{ mb: 8, alignItems: "center" }}>
             <Grid2 size={{ xs: 12, sm: 6 }}>
-              <Box sx={{ p: { xs: 1, sm: 0, md: 1 } }}>
+              <Box sx={{ p: { xs: 1, sm: 0, md: 1 }, mr: { md: 2 } }}>
                 <Box sx={{ mb: { xs: 3, sm: 2, md: 4 } }}>
                   <Typography
                     variant="h2"
@@ -145,7 +146,7 @@ const AboutPage = () => {
               />
             </Grid2>
             <Grid2 size={{ xs: 12, sm: 6 }} sx={{ order: { xs: 1, sm: 2 } }}>
-              <Box sx={{ p: { xs: 1, sm: 1, md: 1 } }}>
+              <Box sx={{ p: { xs: 1, sm: 1, md: 1 }, ml: { md: 2 } }}>
                 <Box sx={{ mb: { xs: 3, sm: 2, md: 4 } }}>
                   <Typography
                     variant="h2"
@@ -179,7 +180,7 @@ const AboutPage = () => {
                   mb: 3
                 }}>
                   These pets may be adopted out or transferred hundreds of miles away to other shelters or rescues. For some families, reclaim fees and implicit biases can make reunification nearly impossible.
-                  <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
+                  <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                 </Typography>
               </Box>
             </Grid2>
@@ -260,8 +261,8 @@ const AboutPage = () => {
                       maxWidth: { xs: "800px", lg: "none" },
                       mx: { xs: "auto", lg: "0" }
                     }}>
-                      Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
-                      We do this by managing a platform that is:
+                      Our mission is to improve reunification rates in our communities by delivering a platform that is accessible,
+                      actionable, and puts real-time data about lost pets within reach.
                     </Typography>
                   </Box>
 
@@ -423,7 +424,7 @@ const AboutPage = () => {
             mb: 3,
             lineHeight: 1.3,
             maxWidth: { xs: "600px", lg: "none" },
-            px: { xs: 1.75, sm: 4, md: 8, lg: 15 },
+            px: { xs: 1.75, sm: 4, md: 6, lg: 15 },
             mx: "auto"
           }}>
             Because their safety matters — and so does your peace of mind.
