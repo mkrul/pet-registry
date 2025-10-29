@@ -79,26 +79,26 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
   return (
     <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
       <Link to={reportUrl} className="block" onClick={handleReportClick}>
-        <div className="p-4 bg-white rounded-lg sm:flex w-full">
-          <div className="flex-shrink-0 relative w-full sm:w-48 h-72 sm:h-48 mb-4 sm:mb-0">
+        <div className="p-4 bg-white rounded-lg w-full">
+          <div className="relative w-full aspect-square mb-4">
             {imageIsLoading && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
                 <Spinner />
               </div>
             )}
-            <div className={`relative w-full h-72 sm:h-48 ${ringStyle}`}>
+            <div className={`relative w-full h-full ${ringStyle}`}>
               <img
                 src={imageSrc}
                 alt={report.title}
-                className={`w-full h-72 sm:h-48 object-cover rounded-lg ${imageIsLoading ? "hidden" : "block"}`}
+                className={`w-full h-full object-cover rounded-lg ${imageIsLoading ? "hidden" : "block"}`}
                 onLoad={handleImageLoad}
                 onError={handleImageError}
               />
               {badge}
             </div>
           </div>
-          <div className="flex flex-col sm:ml-4 flex-grow">
-            <h2 className="text-lg font-bold">
+          <div className="flex flex-col flex-grow">
+            <h2 className="text-base md:text-lg font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
             {report.breed1 && (
