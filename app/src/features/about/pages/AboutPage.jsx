@@ -45,7 +45,7 @@ const AboutPage = () => {
         }}>
           <Typography variant="h1" component="h1" gutterBottom sx={{
             fontWeight: 400,
-            fontSize: { xs: "1.75rem", sm: "2.15rem", md: "2.75rem", lg: "3.25rem" },
+            fontSize: { xs: "1.85rem", sm: "2.15rem", md: "2.75rem", lg: "3.25rem" },
             mb: 3,
             px: { xs: 1, sm: 4, lg: 0 },
             lineHeight: 1.25,
@@ -54,7 +54,7 @@ const AboutPage = () => {
             textShadow: "0 2px 4px rgba(0,0,0,0.3)"
           }}>Nearly <span style={{ fontWeight: 700 }}>10 million pets</span> are lost or stolen in the U.S. each year.</Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.1rem", sm: "1.275rem", md: "1.375rem", lg: "1.475rem" },
+            fontSize: { xs: "1.15rem", sm: "1.275rem", md: "1.375rem", lg: "1.475rem" },
             px: { xs: 1, sm: 4, lg: 0 },
             fontWeight: 300,
             lineHeight: { xs: 1.4, md: 1.8 },
@@ -62,7 +62,7 @@ const AboutPage = () => {
             color: "rgba(255, 255, 255, 0.95)",
             textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}>
-            Most are never reunited with the families who love them.
+            Many are never reunited with the families who love them.
           </Typography>
         </Box>
       </Box>
@@ -70,15 +70,15 @@ const AboutPage = () => {
       <Container maxWidth="md" sx={{ py: 0 }}>
 
         <Box sx={{ mb: 8 }}>
-          <Grid2 container spacing={6} sx={{ mb: 8, alignItems: "center" }}>
-            <Grid2 size={{ xs: 12, md: 6 }}>
-              <Box sx={{ p: { xs: 2, md: 1 } }}>
-                <Box sx={{ mb: 4 }}>
+          <Grid2 container spacing={{ xs: 0, sm: 2 }} sx={{ mb: 8, alignItems: "center" }}>
+            <Grid2 size={{ xs: 12, sm: 6 }}>
+              <Box sx={{ p: { xs: 1, sm: 0, md: 1 } }}>
+                <Box sx={{ mb: { xs: 4, sm: 2, md: 4 } }}>
                   <Typography
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "3rem", md: "3rem" },
+                      fontSize: { xs: "3rem", sm: "2.25rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -90,10 +90,10 @@ const AboutPage = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.375rem", md: "1.375rem" },
+                      fontSize: { xs: "1.375rem", sm: "1.25rem", md: "1.375rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
-                      mb: 3
+                      mb: { xs: 3, sm: 1, md: 3 }
                     }}
                   >
                     is the average stray hold period.
@@ -101,22 +101,23 @@ const AboutPage = () => {
                 </Box>
                 <Typography variant="body1" sx={{
                   fontSize: "1.125rem",
-                  lineHeight: 1.7,
-                  color: "text.secondary"
+                  lineHeight: { xs: 1.7, sm: 1.7, md: 1.7 },
+                  color: "text.secondary",
+                  paddingRight: { xs: 0, sm: 1 }
                 }}>
-                  Shelters are required to hold lost pets for a short time so that their owners have a chance to reclaim them.
-                  But once that time is up, a reunion becomes far less likely.
+                  Shelters will typically hold strays for a short time so that their owners have a chance to reclaim them.
+                  But once the stray hold expires, a reunion becomes far less likely.
                 </Typography>
               </Box>
             </Grid2>
-            <Grid2 size={{ xs: 12, md: 6 }}>
+            <Grid2 size={{ xs: 12, sm: 6 }}>
               <Box
                 component="img"
                 src="/images/shelter-dog.jpg"
                 alt="Lost dog in shelter"
                 sx={{
                   width: "100%",
-                  height: { xs: "300px", md: "380px" },
+                  height: { xs: "300px", sm: "350px", md: "380px" },
                   objectFit: "cover",
                   borderRadius: 3,
                   boxShadow: "0 12px 40px rgba(0,0,0,0.15)"
@@ -127,29 +128,29 @@ const AboutPage = () => {
         </Box>
 
         <Box sx={{ mb: 9 }}>
-          <Grid2 container spacing={6} sx={{ alignItems: "center" }}>
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 1, md: 1 } }}>
+          <Grid2 container spacing={{ xs: 0, sm: 2 }} sx={{ mb: 8, alignItems: "center" }}>
+            <Grid2 size={{ xs: 12, sm: 6 }} sx={{ order: { xs: 2, sm: 1 } }}>
               <Box
                 component="img"
                 src="/images/woman-holding-cat.jpg"
                 alt="Woman holding a cat"
                 sx={{
                   width: "100%",
-                  height: { xs: "300px", md: "380px" },
+                  height: { xs: "300px", sm: "350px", md: "380px" },
                   objectFit: "cover",
                   borderRadius: 3,
                   boxShadow: "0 12px 40px rgba(0,0,0,0.15)"
                 }}
               />
             </Grid2>
-            <Grid2 size={{ xs: 12, md: 6 }} sx={{ order: { xs: 2, md: 2 } }}>
-              <Box sx={{ p: { xs: 2, md: 1 } }}>
-                <Box sx={{ mb: 4 }}>
+            <Grid2 size={{ xs: 12, sm: 6 }} sx={{ order: { xs: 1, sm: 2 } }}>
+              <Box sx={{ p: { xs: 1, sm: 1, md: 1 } }}>
+                <Box sx={{ mb: { xs: 4, sm: 2, md: 4 } }}>
                   <Typography
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "3rem", md: "3rem" },
+                      fontSize: { xs: "3rem", sm: "2.25rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -161,31 +162,23 @@ const AboutPage = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.375rem", md: "1.375rem" },
-                      lineHeight: 1.3,
+                      fontSize: { xs: "1.375rem", sm: "1.25rem", md: "1.375rem" },
+                      lineHeight: 1.4,
                       color: "#2c3e50",
-                      mb: 3
+                      mb: { xs: 3, sm: 1, md: 3 }
                     }}
                   >
                     of lost pets ever make it home.
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
-                  fontSize: "1.125rem",
-                  lineHeight: 1.7,
+                  fontSize: { xs: "1.125rem",  md: "1.125rem" },
+                  lineHeight: { xs: 1.7, sm: 1.7, md: 1.7 },
                   color: "text.secondary",
                   mb: 3
                 }}>
-                  After the stray hold expires, pets may be adopted by new families or transferred hundreds of miles away, making reunification nearly impossible.
-                  <sup><a href="https://www.humananimalsupportservices.org/blog/barriers-to-reclaim/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
-                </Typography>
-                <Typography variant="body2" sx={{
-                  fontSize: "1rem",
-                  fontStyle: "italic",
-                  color: "text.secondary"
-                }}>
-                  Even when pets are located successfully, reclaim fees, implicit biases, & other barriers can make it difficult to get them back.{" "}
-                  <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
+                  These pets may be adopted out or transferred hundreds of miles away to other shelters or rescues. For some families, reclaim fees and implicit biases can make reunification nearly impossible.
+                  <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>1</a></sup>
                 </Typography>
               </Box>
             </Grid2>
