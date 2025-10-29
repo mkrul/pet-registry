@@ -54,7 +54,7 @@ const AboutPage = () => {
             textShadow: "0 2px 4px rgba(0,0,0,0.3)"
           }}>Nearly <span style={{ fontWeight: 700 }}>10 million pets</span> are lost or stolen in the U.S. each year.</Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.1rem", sm: "1.175rem", md: "1.275rem", lg: "1.375rem" },
+            fontSize: { xs: "1.1rem", sm: "1.275rem", md: "1.375rem", lg: "1.475rem" },
             px: { xs: 1, sm: 4, lg: 0 },
             fontWeight: 300,
             lineHeight: { xs: 1.4, md: 1.8 },
@@ -78,7 +78,7 @@ const AboutPage = () => {
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "4rem", md: "4rem" },
+                      fontSize: { xs: "3rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -96,7 +96,7 @@ const AboutPage = () => {
                       mb: 3
                     }}
                   >
-                    is all the time that shelters have to hold stray animals.
+                    is the average stray hold period.
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
@@ -104,7 +104,7 @@ const AboutPage = () => {
                   lineHeight: 1.7,
                   color: "text.secondary"
                 }}>
-                  Shelters are required to hold lost pets for a short period so that their owners have a chance to reclaim them.
+                  Shelters are required to hold lost pets for a short time so that their owners have a chance to reclaim them.
                   But once that time is up, a reunion becomes far less likely.
                 </Typography>
               </Box>
@@ -149,13 +149,13 @@ const AboutPage = () => {
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "4rem", md: "4rem" },
+                      fontSize: { xs: "3rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
                     }}
                   >
-                    17 to 19%
+                    Only 17 to 19%
                   </Typography>
                   <Typography
                     variant="h4"
@@ -167,7 +167,7 @@ const AboutPage = () => {
                       mb: 3
                     }}
                   >
-                    of lost pets make it home.
+                    of lost pets ever make it home.
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
@@ -266,8 +266,8 @@ const AboutPage = () => {
                       maxWidth: { xs: "800px", lg: "none" },
                       mx: { xs: "auto", lg: "0" }
                     }}>
-                      Our mission is to improve reunification rates and give families and their pets the happy endings they deserve
-                      by offering a platform that is:
+                      Our mission is to improve reunification rates and give families and their pets the happy endings they deserve.
+                      We do this by managing a platform that is:
                     </Typography>
                   </Box>
 
@@ -432,10 +432,10 @@ const AboutPage = () => {
             px: { xs: 1.75, sm: 4, md: 8, lg: 15 },
             mx: "auto"
           }}>
-            Their safety matters — and so does your peace of mind.
+            Because their safety matters — and so does your peace of mind.
           </Typography>
           <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.15rem", md: "1.275rem" },
+            fontSize: { xs: "1.15rem", md: "1.175rem" },
             lineHeight: 1.5,
             fontWeight: 500,
             color: "text.secondary",
@@ -465,7 +465,7 @@ const AboutPage = () => {
               mb: { xs: 1, md: 4 }
             }}
           >
-            Sign Up Today
+            Get Started
           </Button>
         </Box>
       </Container>
