@@ -107,7 +107,7 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
               </p>
             )}
             <div className="mt-2 text-sm text-gray-600">
-              <span className="font-medium">Last seen at: </span>
+              <div className="font-medium text-gray-800">Last seen at: </div>
               {(() => {
                 const area = report.lastSeenLocation?.area || report.area;
                 const state = report.lastSeenLocation?.state || report.state;

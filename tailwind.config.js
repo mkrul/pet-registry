@@ -48,6 +48,7 @@ module.exports = {
       'lg': '1080px',
       'xl': '1280px',
       '2xl': '1400px',
+      '2.5xl': '1520px',
       '3xl': '1720px'
     },
     fontFamily: {
