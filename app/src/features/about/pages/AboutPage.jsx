@@ -100,7 +100,7 @@ const AboutPage = () => {
                   paddingRight: { xs: 0, sm: 1 },
                   marginBottom: { xs: 3, sm: 0, md: 0 }
                 }}>
-                  Shelters will typically hold lost pets for a short period of time so that their owners have a chance to reclaim them.
+                  Shelters will typically hold strays for a short amount of time so that their owners have a chance to reclaim them.
                   Unfortunately, once the stray hold expires, reuniting lost pets with their families becomes far less likely.
                 </Typography>
               </Box>
@@ -160,7 +160,7 @@ const AboutPage = () => {
                   color: "text.secondary",
                   mb: 3
                 }}>
-                  Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, their pets may be adopted out to other families or transferred to another facility hundreds of miles away.
+                  Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, lost pets may be adopted out to other families or transferred to another facility hundreds of miles away.
                   <sup>
                     <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a>
                   </sup>
