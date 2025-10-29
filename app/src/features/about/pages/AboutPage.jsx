@@ -79,7 +79,7 @@ const AboutPage = () => {
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "2.75rem", sm: "2.25rem", md: "3rem" },
+                      fontSize: { xs: "2.75rem", sm: "2.15rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -91,7 +91,7 @@ const AboutPage = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.375rem", sm: "1.25rem", md: "1.375rem" },
+                      fontSize: { xs: "1.375rem", sm: "1.15rem", md: "1.375rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
                       mb: { xs: 3, sm: 1, md: 3 }
@@ -101,13 +101,13 @@ const AboutPage = () => {
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
-                  fontSize: "1.125rem",
-                  lineHeight: { xs: 1.7, sm: 1.7, md: 1.7 },
+                  fontSize: { xs: "1.125rem", sm: "1.05rem", md: "1.125rem" },
+                  lineHeight: { xs: 1.7, sm: 1.65, md: 1.7 },
                   color: "text.secondary",
                   paddingRight: { xs: 0, sm: 1 },
                   marginBottom: { xs: 3, sm: 0, md: 0 }
                 }}>
-                  Shelters will typically hold strays for a short time so that their owners have a chance to reclaim them.
+                  Shelters will typically hold lost pets for a short period of time so that their owners have a chance to reclaim them.
                   But once the stray hold expires, a reunion becomes far less likely.
                 </Typography>
               </Box>
@@ -152,7 +152,7 @@ const AboutPage = () => {
                     variant="h2"
                     sx={{
                       fontWeight: 800,
-                      fontSize: { xs: "2.75rem", sm: "2.25rem", md: "3rem" },
+                      fontSize: { xs: "2.75rem", sm: "2.15rem", md: "3rem" },
                       lineHeight: 1,
                       color: "#e74c3c",
                       mb: 1
@@ -164,7 +164,7 @@ const AboutPage = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.375rem", sm: "1.25rem", md: "1.375rem" },
+                      fontSize: { xs: "1.375rem", sm: "1.15rem", md: "1.375rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
                       mb: { xs: 3, sm: 1, md: 3 }
@@ -174,12 +174,12 @@ const AboutPage = () => {
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{
-                  fontSize: { xs: "1.125rem",  md: "1.125rem" },
-                  lineHeight: { xs: 1.7, sm: 1.7, md: 1.7 },
+                  fontSize: { xs: "1.125rem", sm: "1.05rem", md: "1.125rem" },
+                  lineHeight: { xs: 1.7, sm: 1.65, md: 1.7 },
                   color: "text.secondary",
                   mb: 3
                 }}>
-                  These pets may be adopted out or transferred hundreds of miles away to other shelters or rescues. For some families, reclaim fees and implicit biases can make reunification nearly impossible.
+                  These pets may be adopted out or transferred hundreds of miles away. For some families, reclaim fees and implicit biases create barriers that are difficult or impossible to overcome.
                   <sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a></sup>
                 </Typography>
               </Box>
@@ -462,6 +462,20 @@ const AboutPage = () => {
           >
             Get Started
           </Button>
+        </Box>
+
+        <Box sx={{
+          textAlign: "center",
+          pb: 4,
+          mt: 0
+        }}>
+          <Typography variant="caption" sx={{
+            fontSize: "0.75rem",
+            color: "#999",
+            lineHeight: 1.5
+          }}>
+            Sources: 1. <a href="https://pet911.org/post/lost_found_pets_usa" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Pet911.org</a> • 2. <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Human Animal Support Services</a>
+          </Typography>
         </Box>
       </Container>
     </Box>
