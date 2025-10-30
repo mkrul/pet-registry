@@ -253,3 +253,9 @@
 - Not exposed in `UserSerializer` and not permitted via sign up/update params
 - No changes to seeds; existing users default to non-admin
 
+
+### TipsSection ownership check hardening (October 30, 2025)
+- Fixed owner detection in `TipsSection.jsx` by normalizing owner id lookup and type comparison
+- Now checks `userId`, `user_id`, `ownerId`, `owner_id`, and `user.id` on report and compares as strings
+- Impact: non-owners reliably see the “Start a Conversation” button; owners still don’t
+

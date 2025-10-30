@@ -19,7 +19,8 @@ const TipsSection = ({ reportId, report }) => {
     perPage: 5
   });
 
-  const isOwner = user && report && user.id === report.userId;
+  const reportOwnerId = report?.userId ?? report?.user_id ?? report?.ownerId ?? report?.owner_id ?? report?.user?.id;
+  const isOwner = Boolean(user && report && reportOwnerId != null && String(user.id) === String(reportOwnerId));
   const isArchived = report && report.status === 'archived';
 
   const handleTipSuccess = () => {

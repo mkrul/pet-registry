@@ -8,6 +8,10 @@
 
 - No changes to registration or profile update params; `admin` is managed internally.
 
+## Frontend
+
+- TipsSection ownership check: `isOwner` now derives from `report.userId || report.user_id || report.ownerId || report.owner_id || report.user?.id` and compares to `user.id` as strings to avoid type/shape mismatches.
+
 ## Deployment Notes
 
 - Run migrations: `bin/rails db:migrate`
