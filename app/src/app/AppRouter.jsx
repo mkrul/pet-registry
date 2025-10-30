@@ -38,6 +38,7 @@ const AppRouter = () => {
             <Route path="pets" element={null} />
             <Route path="profile" element={null} />
             <Route path="settings" element={null} />
+            <Route path="messages" element={null} />
           </Route>
         </Route>
 

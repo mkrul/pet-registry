@@ -17,6 +17,14 @@ Rails.application.routes.draw do
     delete '/logout', to: 'sessions#destroy'
     delete '/account', to: 'registrations#destroy'
 
+    resources :conversations, only: [:index, :create, :show]
+    resources :messages, only: [] do
+      collection do
+        get :unread_count
+      end
+    end
+    post '/conversations/:conversation_id/messages', to: 'messages#create'
+
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
     get 'filters/states', to: 'filters#states'
     get 'filters/cities', to: 'filters#cities'
@@ -28,6 +36,7 @@ Rails.application.routes.draw do
       end
       member do
         patch :archive
+        post :start_conversation, to: 'conversations#create_from_report'
       end
       resources :events, only: [:index, :create], controller: 'events' do
         collection do

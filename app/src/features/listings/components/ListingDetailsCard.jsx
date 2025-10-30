@@ -4,6 +4,8 @@ import Spinner from "../../../shared/components/common/Spinner.jsx";
 import LocationDisplay from "../../../shared/components/common/LocationDisplay.jsx";
 import DateDisplay from "./common/DateDisplay.jsx";
 import TipsSection from "../../tips/components/TipsSection.jsx";
+import { useSelector } from 'react-redux';
+import { useCreateConversationForReportMutation } from '../../../store/features/messages/messagesApi.js';
 import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
 
 const ListingDetailsCard = ({ report }) => {
@@ -11,6 +13,8 @@ const ListingDetailsCard = ({ report }) => {
   const tips = tipsData?.tips || [];
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const user = useSelector(state => state.auth.user);
+  const [startConversation, { isLoading: isStarting }] = useCreateConversationForReportMutation();
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -45,6 +49,14 @@ const ListingDetailsCard = ({ report }) => {
 
   const handleImageClick = () => {
     setIsImageModalOpen(true);
+  };
+
+  const handleMessageOwner = async () => {
+    try {
+      await startConversation(report.id).unwrap();
+      navigate('/dashboard/messages');
+    } catch (e) {
+    }
   };
 
   const handleCloseModal = () => {
@@ -126,6 +138,18 @@ const ListingDetailsCard = ({ report }) => {
                       </span>
                     )}
                   </div>
+                  {user && user.id !== report.userId && (
+                    <div className="mt-2">
+                      <button
+                        onClick={handleMessageOwner}
+                        disabled={isStarting}
+                        className="inline-flex items-center bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                        aria-label="Send a message to the report owner"
+                      >
+                        {isStarting ? 'Starting…' : 'Message owner'}
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 {(report.name || report.species) && (

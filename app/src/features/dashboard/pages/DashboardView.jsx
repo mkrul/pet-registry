@@ -6,6 +6,8 @@ import DashboardReports from '../components/DashboardReports';
 import DashboardPets from '../components/DashboardPets';
 import DashboardProfile from '../components/DashboardProfile';
 import DashboardSettings from '../components/DashboardSettings';
+import MessagesPage from '../../messages/pages/MessagesPage.jsx';
+import { useGetUnreadCountQuery } from '../../../store/features/messages/messagesApi';
 
 const DashboardView = () => {
   const user = useAppSelector(state => state.auth.user);
@@ -16,7 +18,7 @@ const DashboardView = () => {
   const getInitialSection = () => {
     const pathParts = location.pathname.split('/');
     const section = pathParts[2];
-    return section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section) ? section : 'overview';
+    return section && ['overview', 'reports', 'pets', 'profile', 'settings', 'messages'].includes(section) ? section : 'overview';
   };
 
   const [activeSection, setActiveSection] = useState(getInitialSection);
@@ -24,7 +26,7 @@ const DashboardView = () => {
   useEffect(() => {
     const pathParts = location.pathname.split('/');
     const section = pathParts[2];
-    if (section && ['overview', 'reports', 'pets', 'profile', 'settings'].includes(section)) {
+    if (section && ['overview', 'reports', 'pets', 'profile', 'settings', 'messages'].includes(section)) {
       setActiveSection(section);
     }
   }, [location.pathname]);
@@ -55,10 +57,14 @@ const DashboardView = () => {
         return <DashboardProfile user={user} />;
       case 'settings':
         return <DashboardSettings />;
+      case 'messages':
+        return <MessagesPage />;
       default:
         return <DashboardOverview onNavigate={setActiveSection} />;
     }
   };
+  const { data: unreadData } = useGetUnreadCountQuery();
+  const unreadCount = unreadData?.unread_count || unreadData?.unreadCount || 0;
 
   return (
     <div className="min-h-screen bg-page dark:bg-gray-900">
@@ -82,6 +88,24 @@ const DashboardView = () => {
                     }`}
                   >
                     Overview
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => handleSectionChange('messages')}
+                    className={`w-full flex items-center justify-between text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      activeSection === 'messages'
+                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
+                    }`}
+                    aria-label="Messages"
+                  >
+                    <span>Inbox</span>
+                    {unreadCount > 0 && (
+                      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {unreadCount}
+                      </span>
+                    )}
                   </button>
                 </li>
                 <li>

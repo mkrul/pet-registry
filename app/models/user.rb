@@ -6,6 +6,9 @@ class User < ApplicationRecord
   has_many :reports, dependent: :destroy
   has_many :pets, dependent: :destroy
   has_many :events, dependent: :destroy
+  has_many :conversations_as_sender, class_name: 'Conversation', foreign_key: :sender_id, dependent: :destroy
+  has_many :conversations_as_recipient, class_name: 'Conversation', foreign_key: :recipient_id, dependent: :destroy
+  has_many :messages, dependent: :destroy
 
   # Add case-insensitive email validation
   before_validation :downcase_email

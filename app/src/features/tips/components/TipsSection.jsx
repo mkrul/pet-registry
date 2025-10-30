@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks.js';
 import { useGetTipsQuery } from '../../../store/features/tips/tipsApi.js';
 import TipForm from './TipForm.jsx';
 import TipList from './TipList.jsx';
+import { useCreateConversationForReportMutation } from '../../../store/features/messages/messagesApi.js';
 
 const TipsSection = ({ reportId, report }) => {
   const [showTipForm, setShowTipForm] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const user = useAppSelector(state => state.auth.user);
+  const navigate = useNavigate();
+  const [startConversation, { isLoading: isStarting }] = useCreateConversationForReportMutation();
   const { data: tipsData, isLoading } = useGetTipsQuery({
     reportId,
     page: currentPage,
@@ -33,6 +37,14 @@ const TipsSection = ({ reportId, report }) => {
 
   const tips = tipsData?.tips || [];
   const totalTipsCount = tipsData?.pagination?.count || tips.length;
+
+  const handleMessageOwner = async () => {
+    try {
+      await startConversation(reportId).unwrap();
+      navigate('/dashboard/messages');
+    } catch (e) {
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -78,12 +90,24 @@ const TipsSection = ({ reportId, report }) => {
               <p className="text-gray-600 mb-4">
                 If you've seen this pet or have any information that might help, please share it.
               </p>
-              <button
-                onClick={() => setShowTipForm(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Submit a Tip
-              </button>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setShowTipForm(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Submit a Tip
+                </button>
+                {!isOwner && (
+                  <button
+                    onClick={handleMessageOwner}
+                    disabled={isStarting}
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50"
+                    aria-label="Send a message to the report owner"
+                  >
+                    {isStarting ? 'Starting…' : 'Start a Conversation'}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )

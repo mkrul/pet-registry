@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_30_120000) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_30_121200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_30_120000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "recipient_id", null: false
+    t.string "messageable_type"
+    t.bigint "messageable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["messageable_type", "messageable_id"], name: "index_conversations_on_messageable"
+    t.index ["recipient_id"], name: "index_conversations_on_recipient_id"
+    t.index ["sender_id", "recipient_id", "messageable_type", "messageable_id"], name: "index_conversations_on_participants_and_messageable", unique: true
+    t.index ["sender_id"], name: "index_conversations_on_sender_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "category", null: false
     t.string "eventable_type", null: false
@@ -59,6 +72,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_30_120000) do
     t.string "jti", null: false
     t.datetime "exp", null: false
     t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
+  create_table "message_read_receipts", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id", "user_id"], name: "index_read_receipts_on_message_and_user", unique: true
+    t.index ["message_id"], name: "index_message_read_receipts_on_message_id"
+    t.index ["user_id"], name: "index_message_read_receipts_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id", "created_at"], name: "index_messages_on_conversation_id_and_created_at"
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "pets", force: :cascade do |t|
@@ -134,6 +169,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_30_120000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversations", "users", column: "recipient_id"
+  add_foreign_key "conversations", "users", column: "sender_id"
   add_foreign_key "events", "users"
+  add_foreign_key "message_read_receipts", "messages"
+  add_foreign_key "message_read_receipts", "users"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "pets", "users"
 end
