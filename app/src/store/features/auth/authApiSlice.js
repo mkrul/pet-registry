@@ -214,6 +214,40 @@ export const authApiSlice = createApi({
           throw err;
         }
       }
+    }),
+    deleteAccount: builder.mutation({
+      query: () => ({
+        url: "/account",
+        method: "DELETE",
+        credentials: "include"
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          localStorage.clear();
+          sessionStorage.clear();
+          dispatch(clearUser());
+          dispatch(authApiSlice.util.resetApiState());
+          dispatch(
+            addNotification({
+              type: "SUCCESS",
+              message: data?.message || "Account deleted"
+            })
+          );
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 1200);
+        } catch (err) {
+          const errorMessage = err?.error?.data?.error || err?.error?.data?.message || "Account deletion failed";
+          dispatch(
+            addNotification({
+              type: "ERROR",
+              message: errorMessage
+            })
+          );
+          throw err;
+        }
+      }
     })
   })
 });
@@ -226,5 +260,6 @@ export const {
   usePollSessionMutation,
   useUpdateUserMutation,
   useChangePasswordMutation,
-  useUpdateSettingsMutation
+  useUpdateSettingsMutation,
+  useDeleteAccountMutation
 } = authApiSlice;

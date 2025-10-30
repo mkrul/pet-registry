@@ -98,6 +98,22 @@ module Api
       render json: { error: 'Settings update failed' }, status: :internal_server_error
     end
 
+    def destroy
+      return render json: { error: 'Not authenticated' }, status: :unauthorized unless current_user
+
+      outcome = Users::Delete.run(user: current_user)
+
+      if outcome.valid?
+        sign_out(:user)
+        reset_session
+        render json: { message: 'Your account has been deleted.' }, status: :ok
+      else
+        render json: { message: 'Account deletion failed.', errors: outcome.errors.full_messages }, status: :unprocessable_entity
+      end
+    rescue => e
+      render json: { error: 'Account deletion failed' }, status: :internal_server_error
+    end
+
     private
 
     def sign_up_params

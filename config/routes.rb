@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     post '/login', to: 'sessions#create'
     get '/current_user', to: 'sessions#show'
     delete '/logout', to: 'sessions#destroy'
+    delete '/account', to: 'registrations#destroy'
 
     get 'cloudinary/credentials', to: 'cloudinary#credentials'
     get 'filters/states', to: 'filters#states'

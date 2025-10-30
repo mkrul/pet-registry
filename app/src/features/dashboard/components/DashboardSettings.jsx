@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '../../../shared/hooks/useTheme';
-import { useUpdateSettingsMutation } from '../../../store/features/auth/authApiSlice';
+import { useUpdateSettingsMutation, useDeleteAccountMutation } from '../../../store/features/auth/authApiSlice';
+import ConfirmationModal from '../../../shared/components/common/ConfirmationModal';
 
 const DashboardSettings = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const user = useSelector((state) => state.auth.user);
   const [updateSettings, { isLoading }] = useUpdateSettingsMutation();
+  const [deleteAccount, { isLoading: isDeleting }] = useDeleteAccountMutation();
 
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [allowContact, setAllowContact] = useState(true);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   useEffect(() => {
     if (user?.settings) {
@@ -39,6 +42,17 @@ const DashboardSettings = () => {
         dark_mode: isDarkMode
       }).unwrap();
     } catch (err) {
+    }
+  };
+
+  const handleOpenDelete = () => setIsDeleteOpen(true);
+  const handleCloseDelete = () => setIsDeleteOpen(false);
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteAccount().unwrap();
+    } catch (err) {
+    } finally {
+      setIsDeleteOpen(false);
     }
   };
 
@@ -136,9 +150,30 @@ const DashboardSettings = () => {
             >
               Reset to Defaults
             </button>
+            <button
+              onClick={handleOpenDelete}
+              className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              aria-label="Delete my account"
+              data-testid="delete-account-button"
+            >
+              Delete my account
+            </button>
           </div>
         </div>
       </div>
+
+      <ConfirmationModal
+        isOpen={isDeleteOpen}
+        onClose={handleCloseDelete}
+        onConfirm={handleConfirmDelete}
+        title="Delete your account?"
+        message={
+          "This action is permanent. Your account, pets, and reports will be deleted."
+        }
+        confirmText="Yes, delete my account"
+        cancelText="Cancel"
+        isLoading={isDeleting}
+      />
     </div>
   );
 };
