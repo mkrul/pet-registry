@@ -1,6 +1,5 @@
 import React from "react";
 import { MenuItem, Select, FormControl } from "@mui/material";
-import BreedSearch from "../../../shared/components/common/BreedSearch.jsx";
 import LocationFilter from "./LocationFilter";
 import FilterWithClear from "../../../shared/components/common/FilterWithClear.jsx";
 import speciesListJson from "../../../../../config/species.json";
@@ -52,24 +51,6 @@ const Filters = ({ filters, handleFilterChange, onReset, onClearFilter }) => {
               ))}
             </Select>
           </FormControl>
-        </FilterWithClear>
-
-        <FilterWithClear
-          hasValue={!!filters.breed}
-          onClear={() => onClearFilter('breed')}
-          label="Breed"
-        >
-          <BreedSearch
-            species={filters.species}
-            value={filters.breed}
-            onChange={(value) =>
-              handleFilterChange({
-                target: { name: "breed", value }
-              })
-            }
-            disableClearable={true}
-            hideLabel={true}
-          />
         </FilterWithClear>
 
         <FilterWithClear

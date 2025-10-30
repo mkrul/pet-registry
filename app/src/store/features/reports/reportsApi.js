@@ -38,10 +38,6 @@ export const reportsApi = createApi({
           queryParams.per_page = params.items.toString();
         }
 
-        if (params.breed) {
-          queryParams.breed = params.breed;
-        }
-
         if (params.query) {
           queryParams.query = params.query;
         }

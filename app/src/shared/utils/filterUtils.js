@@ -11,8 +11,7 @@ export const getInitialFilters = (searchParams) => {
     area: searchParams.get("area") || "",
     state: searchParams.get("state") || "",
     country: searchParams.get("country") || "",
-    sort: searchParams.get("sort") || "Newest",
-    breed: searchParams.get("breed") || ""
+    sort: searchParams.get("sort") || "Newest"
   };
 
   // If URL has any filters, use them (URL takes precedence)
@@ -62,8 +61,7 @@ export const getDefaultFilters = () => ({
   area: "",
   state: "",
   country: "",
-  sort: "Newest",
-  breed: ""
+  sort: "Newest"
 });
 
 export const saveSearchToLocalStorage = (query, filters) => {
@@ -96,7 +94,7 @@ export const updateSearchParams = (query, filters) => {
   const newParams = new URLSearchParams();
   if (query) newParams.set("query", query);
   Object.entries(filters).forEach(([key, value]) => {
-    if (value) newParams.set(key, value);
+    if (key !== 'breed' && value) newParams.set(key, value);
   });
   return newParams;
 };

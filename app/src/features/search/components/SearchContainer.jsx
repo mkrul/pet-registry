@@ -43,7 +43,8 @@ const SearchContainer = ({ onSearchComplete }) => {
     const params = new URLSearchParams();
     if (searchQuery) params.set("query", searchQuery);
     Object.entries(filters).forEach(([key, value]) => {
-      if (value) params.set(key, value);
+      // Do not include breed in the URL search params anymore
+      if (key !== "breed" && value) params.set(key, value);
     });
     setSearchParams(params);
 
