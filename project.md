@@ -246,3 +246,10 @@
   - `/app/src/shared/components/common/Footer.jsx`
 - **Result:** Footer and navbar now have consistent background colors, improving visual consistency across the application
 
+
+### Add admin flag to users (October 30, 2025)
+- Added migration to introduce `admin:boolean` on `users`
+- Default `false`, `null: false` to ensure consistency and backwards compatibility
+- Not exposed in `UserSerializer` and not permitted via sign up/update params
+- No changes to seeds; existing users default to non-admin
+
