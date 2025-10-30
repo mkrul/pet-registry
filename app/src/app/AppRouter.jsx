@@ -40,6 +40,8 @@ const AppRouter = () => {
             <Route path="settings" element={null} />
             <Route path="messages" element={null} />
           </Route>
+          {/* Direct route for mobile thread view */}
+          <Route path="/dashboard/messages/:id" element={<DashboardView />} />
         </Route>
 
         {/* Fallback Route */}

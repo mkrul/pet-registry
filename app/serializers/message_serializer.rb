@@ -4,7 +4,7 @@ class MessageSerializer < ActiveModel::Serializer
   attributes :id, :body, :created_at, :user, :read_at
 
   def user
-    { id: object.user.id, display_name: object.user.display_name || object.user.email }
+    { id: object.user.id, display_name: object.user.display_name }
   end
 
   def read_at

@@ -259,3 +259,15 @@
 - Now checks `userId`, `user_id`, `ownerId`, `owner_id`, and `user.id` on report and compares as strings
 - Impact: non-owners reliably see the “Start a Conversation” button; owners still don’t
 
+### Conversations: show report context and last-recipient message (October 30, 2025)
+- Backend: `ConversationSerializer` now returns `messageable` with report `title` and `image` (thumb/variant)
+- Backend: removed email exposure and "Member" fallback; added `last_message_from_other`
+- Frontend: `MessagesPage.jsx` shows report image/title and uses the last message from the other participant as the preview line
+
+### Conversations: remove duplicate preview (October 30, 2025)
+- Frontend: removed secondary preview line in `MessagesPage.jsx` to avoid duplicate message under each conversation item
+
+### Conversations: left/right alignment (October 30, 2025)
+- Frontend: sender messages align right with blue bubble; recipient messages align left with gray bubble in `MessagesPage.jsx`
+- Implementation: flex column container with `self-end`/`self-start`; normalized id comparison to string
+
