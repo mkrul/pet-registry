@@ -24,7 +24,7 @@ const SearchBar = ({
               }
             }}
             className="appearance-none border-2 pl-10 border-gray-300 hover:border-gray-400 transition-colors rounded-md w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:ring-gray-300 focus:border-gray-300 focus:shadow-outline"
-            placeholder="Keywords (e.g. 'calico', 'male', 'cat')"
+            placeholder="Keywords (e.g. 'german', 'shepherd', 'dog')"
             autoComplete="off"
           />
           <div className="absolute left-0 inset-y-0 flex items-center">

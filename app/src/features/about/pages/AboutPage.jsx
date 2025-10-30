@@ -160,7 +160,7 @@ const AboutPage = () => {
                   color: "text.secondary",
                   mb: 3
                 }}>
-                  Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, lost pets may be adopted out to other families or transferred to another facility hundreds of miles away.
+                  Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, lost pets may be adopted out to other families or transferred to a different facility hundreds of miles away.
                   <sup>
                     <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", textDecoration: "none" }}>2</a>
                   </sup>
