@@ -1,6 +1,8 @@
 import { transformToCamelCase } from "../../../shared/apiHelpers.js";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getStateOptions } from "../../../shared/reports/stateList.js";
+import { eventsApi } from "../events/eventsApi.js";
+import petsApi from "../pets/petsApi.js";
 
 export const reportsApi = createApi({
   reducerPath: "reportsApi",
@@ -111,11 +113,23 @@ export const reportsApi = createApi({
         url: `reports/${id}/archive`,
         method: "PATCH"
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            eventsApi.util.invalidateTags([{ type: "Events", id: "LIST" }])
+          );
+          dispatch(
+            petsApi.util.invalidateTags([{ type: "Pets", id: "LIST" }, { type: "Pets", id: "USER_LIST" }])
+          );
+        } catch {}
+      },
       invalidatesTags: (result, error, id) => [
         { type: "Reports", id },
         { type: "Reports", id: "LIST" },
         { type: "Reports", id: "USER_LIST" },
-        { type: "Events", id: "LIST" }
+        { type: "Pets", id: "LIST" },
+        { type: "Pets", id: "USER_LIST" }
       ]
     }),
     deleteReport: build.mutation({
@@ -123,6 +137,14 @@ export const reportsApi = createApi({
         url: `reports/${id}`,
         method: "DELETE"
       }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            eventsApi.util.invalidateTags([{ type: "Events", id: "LIST" }])
+          );
+        } catch {}
+      },
       invalidatesTags: (result, error, id) => [
         { type: "Reports", id },
         { type: "Reports", id: "LIST" },

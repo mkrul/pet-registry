@@ -1,7 +1,7 @@
 import React from 'react';
 import StatusPill from "../../../shared/components/common/StatusPill";
 
-const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDeleteReport, showSuccessPulse = false }) => {
+const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiveReport }) => {
   const handleEditClick = (e) => {
     e.stopPropagation();
     onEdit?.(pet);
@@ -17,9 +17,9 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
     onCreateReport?.(pet);
   };
 
-  const handleDeleteReportClick = (e) => {
+  const handleArchiveReportClick = (e) => {
     e.stopPropagation();
-    onDeleteReport?.(pet);
+    onArchiveReport?.(pet);
   };
 
   const getStatusPill = () => {
@@ -46,11 +46,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
         </button>
       </div>
 
-      <div className={`bg-white border rounded-lg overflow-hidden relative transition-all duration-300 ${
-        showSuccessPulse
-          ? 'border-green-500 shadow-lg shadow-green-500/50 animate-pulse'
-          : 'border-gray-200'
-      }`}>
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden relative">
         <div className="md:flex">
           <div className="md:w-1/2">
             <img
@@ -147,10 +143,10 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onDelete
                   {pet.status === 'missing' && (
                     <div>
                       <button
-                        onClick={handleDeleteReportClick}
+                        onClick={handleArchiveReportClick}
                         className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
                       >
-                        <span className="mr-1">🎉</span> My pet was found! Delete this report.
+                        <span className="mr-1">🎉</span> My pet was found! Archive the report.
                       </button>
                     </div>
                   )}

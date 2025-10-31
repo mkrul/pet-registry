@@ -3,11 +3,12 @@ class Event < ApplicationRecord
   include Events::Report::Create
   include Events::Report::Update
   include Events::Report::Archive
+  include Events::Report::Delete
   include Events::Pet::Create
   include Events::Pet::Update
   include Events::Pet::Archive
 
-  belongs_to :eventable, polymorphic: true
+  belongs_to :eventable, polymorphic: true, optional: true
   belongs_to :user
 
   validates :category, presence: true

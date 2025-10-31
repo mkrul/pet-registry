@@ -7,7 +7,7 @@ import PetEditForm from '../../pets/components/forms/PetEditForm.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
 import PetNewForm from '../../pets/components/forms/PetNewForm.jsx';
 import { useDeletePetMutation, useArchivePetMutation, useGetUserPetsQuery } from '../../../store/features/pets/petsApi.js';
-import { useDeleteReportMutation } from '../../../store/features/reports/reportsApi.js';
+import { useDeleteReportMutation, useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.js';
 import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
@@ -26,7 +26,6 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [selectedPet, setSelectedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
   const [petToArchive, setPetToArchive] = useState(null);
-  const [showSuccessPulse, setShowSuccessPulse] = useState(false);
   const action = searchParams.get('action');
   const filterParam = searchParams.get('filter');
   const petIdParam = searchParams.get('petId');
@@ -51,6 +50,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [deletePet, { isLoading: isDeleting }] = useDeletePetMutation();
   const [archivePet, { isLoading: isArchiving }] = useArchivePetMutation();
   const [deleteReport, { isLoading: isDeletingReport }] = useDeleteReportMutation();
+  const [archiveReport, { isLoading: isArchivingReport }] = useArchiveReportMutation();
 
   const handleSelectPet = (pet) => {
     setSelectedPet(pet);
@@ -121,27 +121,20 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     navigate(`/dashboard/reports?action=create&petId=${pet.id}`);
   };
 
-  const handleDeleteReport = async (pet) => {
+  const handleArchiveReport = async (pet) => {
     if (!pet.reportId) return;
 
     try {
-      await deleteReport(pet.reportId).unwrap();
+      await archiveReport(pet.reportId).unwrap();
       dispatch(addNotification({
         type: "SUCCESS",
-        message: 'Report deleted successfully. Pet status updated to home.'
+        message: 'Report archived successfully. Pet status updated to home.'
       }));
-      // Refetch pets to ensure fresh data with updated status
-      await refetchPets();
-      // Show success pulse animation
-      setShowSuccessPulse(true);
-      // Hide pulse after 2 seconds
-      setTimeout(() => {
-        setShowSuccessPulse(false);
-      }, 2000);
+      navigate('/dashboard/pets');
     } catch (error) {
       dispatch(addNotification({
         type: "ERROR",
-        message: error.data?.message || 'Failed to delete report'
+        message: error.data?.message || 'Failed to archive report'
       }));
     }
   };
@@ -284,8 +277,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
           onEdit={handleEditPet}
           onDelete={handleArchivePet}
           onCreateReport={handleCreateReport}
-          onDeleteReport={handleDeleteReport}
-          showSuccessPulse={showSuccessPulse}
+          onArchiveReport={handleArchiveReport}
         />
       ) : !isLoading && !isPreloading && pets.length > 0 ? (
         <ItemGrid>

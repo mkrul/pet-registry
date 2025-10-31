@@ -126,6 +126,12 @@ module Api
     end
 
     def destroy
+      unless @report.user == current_user
+        render json: { message: "You can only delete your own reports" }, status: :forbidden
+        return
+      end
+
+      Event.create_report_deleted(eventable: @report, user: current_user)
       @report.destroy!
 
       head :no_content

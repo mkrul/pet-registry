@@ -16,7 +16,7 @@ class Report < ApplicationRecord
 
   belongs_to :user
   has_one :pet, dependent: :nullify
-  has_many :events, as: :eventable, dependent: :destroy
+  has_many :events, as: :eventable
   has_many :tips, -> { where(category: Events::Report::Tip::CATEGORY) }, class_name: 'Event', as: :eventable
 
   enum :status, { active: STATUS_ACTIVE, archived: STATUS_ARCHIVED }

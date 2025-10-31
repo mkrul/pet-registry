@@ -17,6 +17,7 @@ module Reports
       )
       if new_report.save
         update_pet
+        Event.create_report_created(eventable: new_report, user: pet.user)
         new_report
       else
         errors.merge!(new_report.errors)

@@ -4,6 +4,9 @@ import { Container, Box, Typography, Grid2, Divider, Button } from "@mui/materia
 import StorageIcon from "@mui/icons-material/Storage";
 import SecurityIcon from "@mui/icons-material/Security";
 import GroupIcon from "@mui/icons-material/Group";
+import PetsIcon from "@mui/icons-material/Pets";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import PrintIcon from "@mui/icons-material/Print";
 
 const AboutPage = () => {
   return (
@@ -398,6 +401,190 @@ const AboutPage = () => {
                 </Box>
               </Grid2>
             </Grid2>
+        </Box>
+
+        <Box sx={{ mb: 9, mt: 8 }}>
+          <Container maxWidth="lg">
+            <Box sx={{ textAlign: "center", mb: 6 }}>
+              <Typography
+                variant="h2"
+                component="h2"
+                gutterBottom
+                color="#2c3e50"
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: "1.875rem", lg: "2.25rem" },
+                  lineHeight: 1.3,
+                  mb: 3,
+                  position: "relative",
+                  display: "inline-block",
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    bottom: "-24px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: "60px",
+                    height: "3px",
+                    backgroundColor: "#3498db",
+                    borderRadius: "2px"
+                  }
+                }}
+              >
+                How It Works
+              </Typography>
+            </Box>
+
+            <Grid2 container spacing={4} sx={{ mt: 2 }}>
+              <Grid2 size={{ xs: 12, md: 4 }}>
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 4,
+                  height: "100%",
+                  bgcolor: "#f8f9fa",
+                  borderRadius: 3,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
+                    transform: "translateY(-4px)"
+                  }
+                }}>
+                  <Box sx={{
+                    p: 3,
+                    bgcolor: "#e3f2fd",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: 3
+                  }}>
+                    <PetsIcon sx={{ fontSize: 40, color: "#1976d2" }} />
+                  </Box>
+                  <Typography variant="h5" gutterBottom sx={{
+                    fontWeight: 700,
+                    color: "#2c3e50",
+                    fontSize: "1.5rem",
+                    mb: 2
+                  }}>
+                    1. Add Your Pets
+                  </Typography>
+                  <Typography variant="body1" sx={{
+                    fontSize: "1.05rem",
+                    lineHeight: 1.7,
+                    color: "#5a6c7d"
+                  }}>
+                    Create an account and register your pets in our database before they go missing. This proactive step ensures all their information is ready when you need it most.
+                  </Typography>
+                </Box>
+              </Grid2>
+
+              <Grid2 size={{ xs: 12, md: 4 }}>
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 4,
+                  height: "100%",
+                  bgcolor: "#f8f9fa",
+                  borderRadius: 3,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
+                    transform: "translateY(-4px)"
+                  }
+                }}>
+                  <Box sx={{
+                    p: 3,
+                    bgcolor: "#ffebee",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: 3
+                  }}>
+                    <ReportProblemIcon sx={{ fontSize: 40, color: "#d32f2f" }} />
+                  </Box>
+                  <Typography variant="h5" gutterBottom sx={{
+                    fontWeight: 700,
+                    color: "#2c3e50",
+                    fontSize: "1.5rem",
+                    mb: 2
+                  }}>
+                    2. Report If Lost
+                  </Typography>
+                  <Typography variant="body1" sx={{
+                    fontSize: "1.05rem",
+                    lineHeight: 1.7,
+                    color: "#5a6c7d"
+                  }}>
+                    If your pet goes missing, report it instantly from your dashboard with just one click. Your pet's information is immediately available to the community.
+                  </Typography>
+                </Box>
+              </Grid2>
+
+              <Grid2 size={{ xs: 12, md: 4 }}>
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 4,
+                  height: "100%",
+                  bgcolor: "#f8f9fa",
+                  borderRadius: 3,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
+                    transform: "translateY(-4px)"
+                  }
+                }}>
+                  <Box sx={{
+                    p: 3,
+                    bgcolor: "#f3e5f5",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: 3
+                  }}>
+                    <PrintIcon sx={{ fontSize: 40, color: "#9c27b0" }} />
+                  </Box>
+                  <Typography variant="h5" gutterBottom sx={{
+                    fontWeight: 700,
+                    color: "#2c3e50",
+                    fontSize: "1.5rem",
+                    mb: 2
+                  }}>
+                    3. Create Flyers
+                  </Typography>
+                  <Typography variant="body1" sx={{
+                    fontSize: "1.05rem",
+                    lineHeight: 1.7,
+                    color: "#5a6c7d"
+                  }}>
+                    Generate printable flyers instantly with your pet's photo and details. Print and distribute to help spread the word in your neighborhood.
+                  </Typography>
+                </Box>
+              </Grid2>
+            </Grid2>
+
+            <Box sx={{ textAlign: "center", mt: 5 }}>
+              <Typography variant="body1" sx={{
+                fontSize: "1.1rem",
+                lineHeight: 1.7,
+                color: "#5a6c7d",
+                fontStyle: "italic",
+                maxWidth: "700px",
+                mx: "auto"
+              }}>
+                <strong>Pro tip:</strong> Register your pets now, before they go missing. Being prepared means you can act quickly during an already stressful time.
+              </Typography>
+            </Box>
+          </Container>
         </Box>
 
         <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, py: { xs: 4, md: 5 }, paddingBottom: { xs: 11, md: 8 } }}>
