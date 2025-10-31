@@ -7,7 +7,7 @@ import { createMapLocation } from '../../../shared/utils/mapUtils.js';
 
 const TIP_ZOOM_LEVEL = 15;
 
-const TipForm = ({ reportId, onSuccess }) => {
+const TipForm = ({ reportId, onSuccess, onCancel }) => {
   const [createTip, { isLoading }] = useCreateTipMutation();
   const { data: lastLocationData } = useGetLastLocationQuery(reportId);
   const dispatch = useAppDispatch();
@@ -209,7 +209,17 @@ const TipForm = ({ reportId, onSuccess }) => {
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-3">
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              disabled={isFormDisabled}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+          )}
           <button
             type="submit"
             disabled={isFormDisabled}

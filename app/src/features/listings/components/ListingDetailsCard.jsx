@@ -7,6 +7,7 @@ import TipsSection from "../../tips/components/TipsSection.jsx";
 import { useSelector } from 'react-redux';
 import { useCreateConversationForReportMutation } from '../../../store/features/messages/messagesApi.js';
 import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
+import ConversationForm from "../../messages/components/ConversationForm.jsx";
 
 const ListingDetailsCard = ({ report }) => {
   const { data: tipsData } = useGetAllTipsQuery(report.id);
@@ -18,6 +19,8 @@ const ListingDetailsCard = ({ report }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [conversationId, setConversationId] = useState(null);
+  const [messageSent, setMessageSent] = useState(false);
 
   const handleBackClick = () => {
     const query = searchParams.get("query") || "";
@@ -53,10 +56,20 @@ const ListingDetailsCard = ({ report }) => {
 
   const handleMessageOwner = async () => {
     try {
-      await startConversation(report.id).unwrap();
-      navigate('/dashboard/messages');
+      const result = await startConversation(report.id).unwrap();
+      setConversationId(result.id);
+      setMessageSent(false);
     } catch (e) {
     }
+  };
+
+  const handleConversationCancel = () => {
+    setConversationId(null);
+    setMessageSent(false);
+  };
+
+  const handleMessageSent = () => {
+    setMessageSent(true);
   };
 
   const handleCloseModal = () => {
@@ -138,7 +151,7 @@ const ListingDetailsCard = ({ report }) => {
                       </span>
                     )}
                   </div>
-                  {user && user.id !== report.userId && (
+                  {user && user.id !== report.userId && !conversationId && (
                     <div className="mt-2">
                       <button
                         onClick={handleMessageOwner}
@@ -148,6 +161,48 @@ const ListingDetailsCard = ({ report }) => {
                       >
                         {isStarting ? 'Starting…' : 'Message owner'}
                       </button>
+                    </div>
+                  )}
+                  {conversationId && !messageSent && (
+                    <div className="mt-4">
+                      <ConversationForm
+                        conversationId={conversationId}
+                        onSend={handleMessageSent}
+                        onCancel={handleConversationCancel}
+                        placeholder="Type your message to the report owner..."
+                      />
+                    </div>
+                  )}
+                  {conversationId && messageSent && (
+                    <div className="mt-4 bg-white rounded-lg border border-gray-200 p-4">
+                      <div className="text-center">
+                        <div className="mb-3">
+                          <svg className="mx-auto h-10 w-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <h3 className="text-base font-semibold text-gray-900 mb-2">Message sent!</h3>
+                        <p className="text-sm text-gray-600 mb-3">
+                          Your message has been sent to the report owner.
+                        </p>
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => {
+                              setConversationId(null);
+                              setMessageSent(false);
+                            }}
+                            className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                          >
+                            Close
+                          </button>
+                          <button
+                            onClick={() => navigate(`/dashboard/messages/${conversationId}`)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                          >
+                            View Conversation
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>

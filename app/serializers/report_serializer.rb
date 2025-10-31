@@ -4,7 +4,7 @@ class ReportSerializer < ActiveModel::Serializer
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
              :area, :state, :country, :latitude, :longitude, :intersection, :pet_id,
-             :last_seen_location
+             :last_seen_location, :user_id
 
   def attributes(*args)
     data = super
