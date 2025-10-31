@@ -42,7 +42,7 @@ const ConversationListItem = ({ conversation, isActive, onSelect }) => {
 const MessageComposer = ({ onSend, isSending }) => {
   const [value, setValue] = useState('');
   const submit = async () => {
-    if (!value.trim()) return;
+    if (!value.trim() || isSending) return;
     await onSend(value);
     setValue('');
   };
@@ -53,12 +53,18 @@ const MessageComposer = ({ onSend, isSending }) => {
         id="message"
         rows="2"
         className="w-full border rounded-md p-2 text-sm dark:bg-gray-800 dark:text-gray-100"
-        placeholder="Type a message"
+        placeholder="Type a message (Press Enter to send, Shift+Enter for new line)"
         value={value}
         onChange={e => setValue(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submit();
+          }
+        }}
       />
       <div className="flex justify-end mt-2">
-        <button onClick={submit} disabled={isSending} className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm">{isSending ? 'Sending...' : 'Send'}</button>
+        <button onClick={submit} disabled={isSending || !value.trim()} className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm">{isSending ? 'Sending...' : 'Send'}</button>
       </div>
     </div>
   );
@@ -147,14 +153,38 @@ const ConversationThread = ({ conversationId, onBack }) => {
 const MessagesPage = () => {
   const { id: routeId } = useParams();
   const navigate = useNavigate();
-  const { data: conversations } = useGetConversationsQuery(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [allConversations, setAllConversations] = useState([]);
+  const { data, isLoading } = useGetConversationsQuery(currentPage);
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
     if (routeId) setActiveId(routeId);
   }, [routeId]);
 
-  const hasConversations = Array.isArray(conversations) && conversations.length > 0;
+  useEffect(() => {
+    if (data?.conversations) {
+      if (currentPage === 1) {
+        setAllConversations(data.conversations);
+      } else {
+        setAllConversations(prev => {
+          const existingIds = new Set(prev.map(c => c.id));
+          const newConversations = data.conversations.filter(c => !existingIds.has(c.id));
+          return [...prev, ...newConversations];
+        });
+      }
+    }
+  }, [data?.conversations, currentPage]);
+
+  const pagination = data?.pagination;
+  const hasConversations = allConversations.length > 0;
+  const hasMorePages = pagination && currentPage < pagination.pages;
+
+  const handleLoadMore = () => {
+    if (hasMorePages && !isLoading) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   const handleSelect = (id) => {
     const isDesktop = window.matchMedia('(min-width: 768px)').matches;
@@ -172,13 +202,28 @@ const MessagesPage = () => {
     <div className="md:grid md:grid-cols-12 md:gap-4 h-[70vh]">
       <div className={`border rounded-lg overflow-hidden ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'}`}>
         <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 font-semibold">Conversations</div>
-        <div className="divide-y overflow-y-auto h-full">
-          {hasConversations ? (
-            conversations.map(c => (
-              <ConversationListItem key={c.id} conversation={c} isActive={activeId === c.id} onSelect={() => handleSelect(c.id)} />
-            ))
-          ) : (
-            <div className="p-4 text-sm text-gray-500 dark:text-gray-400">No conversations yet.</div>
+        <div className="divide-y overflow-y-auto h-full flex flex-col">
+          <div className="flex-1">
+            {hasConversations ? (
+              allConversations.map(c => (
+                <ConversationListItem key={c.id} conversation={c} isActive={activeId === c.id} onSelect={() => handleSelect(c.id)} />
+              ))
+            ) : isLoading && currentPage === 1 ? (
+              <div className="p-4 text-sm text-gray-500 dark:text-gray-400">Loading...</div>
+            ) : (
+              <div className="p-4 text-sm text-gray-500 dark:text-gray-400">No conversations yet.</div>
+            )}
+          </div>
+          {hasMorePages && (
+            <div className="p-4 border-t">
+              <button
+                onClick={handleLoadMore}
+                disabled={isLoading}
+                className="w-full px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 disabled:text-gray-400 disabled:cursor-not-allowed"
+              >
+                {isLoading ? 'Loading...' : 'Load More'}
+              </button>
+            </div>
           )}
         </div>
       </div>

@@ -17,7 +17,16 @@ export const messagesApi = createApi({
   endpoints: builder => ({
     getConversations: builder.query({
       query: (page = 1) => ({ url: `/conversations?page=${page}` }),
-      providesTags: ["Conversations", "UnreadCount"]
+      providesTags: ["Conversations", "UnreadCount"],
+      transformResponse: (response) => {
+        if (Array.isArray(response)) {
+          return { conversations: response, pagination: null };
+        }
+        return {
+          conversations: response.data || [],
+          pagination: response.pagination || null
+        };
+      }
     }),
     createConversation: builder.mutation({
       query: (payload) => ({ url: "/conversations", method: "POST", body: payload }),

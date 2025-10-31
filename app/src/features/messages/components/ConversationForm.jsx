@@ -39,6 +39,12 @@ const ConversationForm = ({ conversationId, onSend, onCancel, placeholder = "Typ
           placeholder={placeholder}
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit();
+            }
+          }}
           required
         />
         <div className="flex justify-end gap-3 mt-3">

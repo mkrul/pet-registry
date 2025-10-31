@@ -48,9 +48,9 @@ const ProfileDropdown = () => {
   const handleLogout = async () => {
     try {
       await logout({}).unwrap();
-      window.location.href = "/";
     } catch (err) {
       console.error("Failed to logout:", err);
+      window.location.href = "/login";
     }
   };
 

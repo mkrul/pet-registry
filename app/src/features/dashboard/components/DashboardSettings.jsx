@@ -136,8 +136,10 @@ const DashboardSettings = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Allow Contact</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Let other users contact you directly about reports</p>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Allow Direct Messages</label>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Let other users contact you directly about your reports
+                </p>
               </div>
               <button
                 onClick={() => setAllowContact(!allowContact)}

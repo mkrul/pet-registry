@@ -5,16 +5,34 @@ module Api
 
     def index
       page = (params[:page] || 1).to_i
-      per_page = 20
+      per_page = 10
 
-      conversations = Conversation
+      conversations_query = Conversation
         .for_user(current_user.id)
         .includes(:sender, :recipient)
         .order(updated_at: :desc)
-        .offset((page - 1) * per_page)
-        .limit(per_page)
 
-      render json: conversations.map { |c| ConversationSerializer.new(c, scope: { current_user: current_user }).as_json }
+      total_count = conversations_query.count
+      offset = (page - 1) * per_page
+      conversations = conversations_query.limit(per_page).offset(offset)
+
+      paginated_conversations = PaginatedCollection.new(
+        conversations.to_a,
+        total: total_count,
+        page: page,
+        per_page: per_page
+      )
+
+      render json: {
+        data: paginated_conversations.map { |c| ConversationSerializer.new(c, scope: { current_user: current_user }).as_json },
+        pagination: {
+          pages: paginated_conversations.total_pages,
+          count: paginated_conversations.total_entries,
+          page: paginated_conversations.current_page,
+          items: paginated_conversations.per_page,
+          per_page: per_page
+        }
+      }
     end
 
     def create
