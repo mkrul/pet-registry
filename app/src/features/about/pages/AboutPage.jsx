@@ -627,10 +627,11 @@ const AboutPage = () => {
                 lineHeight: 1.7,
                 color: "#5a6c7d",
                 fontStyle: "italic",
-                maxWidth: "700px",
+                maxWidth: "800px",
                 mx: "auto"
               }}>
-                <strong>Pro tip:</strong> You can submit reports for lost pets that you've found to help them find their way home faster!
+                <span role="img" aria-label="Pro tip" style={{ marginRight: 8 }}>💡</span>
+                <strong>Pro tip:</strong> You can submit reports for lost pets that you've found to help them find their way home!
               </Typography>
             </Box>
           </Container>
