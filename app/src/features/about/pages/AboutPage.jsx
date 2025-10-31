@@ -7,6 +7,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import PetsIcon from "@mui/icons-material/Pets";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import PrintIcon from "@mui/icons-material/Print";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const AboutPage = () => {
   return (
@@ -438,7 +439,7 @@ const AboutPage = () => {
             </Box>
 
             <Grid2 container spacing={4} sx={{ mt: 2 }}>
-              <Grid2 size={{ xs: 12, md: 4 }}>
+              <Grid2 size={{ xs: 12, md: 6, lg: 3 }}>
                 <Box sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -484,7 +485,7 @@ const AboutPage = () => {
                 </Box>
               </Grid2>
 
-              <Grid2 size={{ xs: 12, md: 4 }}>
+              <Grid2 size={{ xs: 12, md: 6, lg: 3 }}>
                 <Box sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -529,7 +530,7 @@ const AboutPage = () => {
                 </Box>
               </Grid2>
 
-              <Grid2 size={{ xs: 12, md: 4 }}>
+              <Grid2 size={{ xs: 12, md: 6, lg: 3 }}>
                 <Box sx={{
                   display: "flex",
                   flexDirection: "column",
@@ -573,6 +574,51 @@ const AboutPage = () => {
                   </Typography>
                 </Box>
               </Grid2>
+
+              <Grid2 size={{ xs: 12, md: 6, lg: 3 }}>
+                <Box sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 4,
+                  height: "100%",
+                  bgcolor: "#f8f9fa",
+                  borderRadius: 3,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
+                    transform: "translateY(-4px)"
+                  }
+                }}>
+                  <Box sx={{
+                    p: 3,
+                    bgcolor: "#e8f5e9",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: 3
+                  }}>
+                    <FavoriteIcon sx={{ fontSize: 40, color: "#2e7d32" }} />
+                  </Box>
+                  <Typography variant="h5" gutterBottom sx={{
+                    fontWeight: 700,
+                    color: "#2c3e50",
+                    fontSize: "1.5rem",
+                    mb: 2
+                  }}>
+                    4. Support the Community
+                  </Typography>
+                  <Typography variant="body1" sx={{
+                    fontSize: "1.05rem",
+                    lineHeight: 1.7,
+                    color: "#5a6c7d"
+                  }}>
+                    Help reunite lost pets with their families by submitting tips, sharing reports, and keeping an eye out for missing pets in your area.
+                  </Typography>
+                </Box>
+              </Grid2>
             </Grid2>
 
             <Box sx={{ textAlign: "center", mt: 5 }}>
@@ -584,7 +630,7 @@ const AboutPage = () => {
                 maxWidth: "700px",
                 mx: "auto"
               }}>
-                <strong>Pro tip:</strong> Register your pets now, before they go missing. Being prepared means you can act quickly during an already stressful time.
+                <strong>Pro tip:</strong> You can submit reports for lost pets that you've found to help them find their way home faster!
               </Typography>
             </Box>
           </Container>
