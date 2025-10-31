@@ -402,7 +402,9 @@ const AboutPage = () => {
               </Grid2>
             </Grid2>
         </Box>
+      </Container>
 
+      <Container maxWidth="lg">
         <Box sx={{ mb: 9, mt: 8 }}>
           <Container maxWidth="lg">
             <Box sx={{ textAlign: "center", mb: 6 }}>
@@ -469,14 +471,15 @@ const AboutPage = () => {
                     fontSize: "1.5rem",
                     mb: 2
                   }}>
-                    1. Add Your Pets
+                    1. Register Your Pets
                   </Typography>
                   <Typography variant="body1" sx={{
                     fontSize: "1.05rem",
                     lineHeight: 1.7,
                     color: "#5a6c7d"
                   }}>
-                    Create an account and register your pets in our database before they go missing. This proactive step ensures all their information is ready when you need it most.
+                    Create an account and register your pets in our database.
+                    This ensures that all their information is ready in case they go missing.
                   </Typography>
                 </Box>
               </Grid2>
@@ -514,14 +517,14 @@ const AboutPage = () => {
                     fontSize: "1.5rem",
                     mb: 2
                   }}>
-                    2. Report If Lost
+                    2. Submit a Report
                   </Typography>
                   <Typography variant="body1" sx={{
                     fontSize: "1.05rem",
                     lineHeight: 1.7,
                     color: "#5a6c7d"
                   }}>
-                    If your pet goes missing, report it instantly from your dashboard with just one click. Your pet's information is immediately available to the community.
+                    If your pet goes missing, you can submit a report with just a few clicks. Your pet's information is immediately available to the community.
                   </Typography>
                 </Box>
               </Grid2>
@@ -559,14 +562,14 @@ const AboutPage = () => {
                     fontSize: "1.5rem",
                     mb: 2
                   }}>
-                    3. Create Flyers
+                    3. Boost for Visibility
                   </Typography>
                   <Typography variant="body1" sx={{
                     fontSize: "1.05rem",
                     lineHeight: 1.7,
                     color: "#5a6c7d"
                   }}>
-                    Generate printable flyers instantly with your pet's photo and details. Print and distribute to help spread the word in your neighborhood.
+                    Generate printable flyers instantly with your pet's photo and details, or share the report on social media to help spread the word.
                   </Typography>
                 </Box>
               </Grid2>
