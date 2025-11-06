@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks.js';
-import { useGetTipsQuery } from '../../../store/features/tips/tipsApi.js';
+import { useGetTipsQuery, useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
 import TipForm from './TipForm.jsx';
 import TipList from './TipList.jsx';
 import { useCreateConversationForReportMutation } from '../../../store/features/messages/messagesApi.js';
@@ -15,7 +15,7 @@ const TipsSection = ({ reportId, report }) => {
   const [messageSent, setMessageSent] = useState(false);
   const user = useAppSelector(state => state.auth.user);
   const navigate = useNavigate();
-  const [startConversation, { isLoading: isStarting }] = useCreateConversationForReportMutation();
+  const [startConversation] = useCreateConversationForReportMutation();
   const { data: tipsData, isLoading } = useGetTipsQuery({
     reportId,
     page: currentPage,
@@ -28,6 +28,11 @@ const TipsSection = ({ reportId, report }) => {
     String(user.id) === String(report.userId)
   );
   const isArchived = report?.status === 'archived';
+  const canShowTipForm = user && !isArchived && !isOwner;
+
+  useGetLastLocationQuery(reportId, {
+    skip: !canShowTipForm
+  });
 
   console.log('[TipsSection] isOwner:', isOwner);
 
@@ -160,11 +165,10 @@ const TipsSection = ({ reportId, report }) => {
                 {!isOwner && (
                   <button
                     onClick={handleMessageOwner}
-                    disabled={isStarting}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50"
+                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors"
                     aria-label="Send a message to the report owner"
                   >
-                    {isStarting ? 'Starting…' : 'Start a Conversation'}
+                    Start a Conversation
                   </button>
                 )}
               </div>

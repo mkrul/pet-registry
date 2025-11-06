@@ -76,8 +76,8 @@ const DashboardSettings = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Report Tips</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive email notifications when other users leave tips on your reports</p>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Tips</label>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone posts a tip on your report</p>
               </div>
               <button
                 onClick={() => setEmailNotifications(!emailNotifications)}
@@ -94,8 +94,8 @@ const DashboardSettings = () => {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">New Messages</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive email notifications when somebody sends you a new message</p>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Messages</label>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone sends you a message</p>
               </div>
               <button
                 onClick={() => setEmailMessageNotifications(!emailMessageNotifications)}
@@ -112,8 +112,8 @@ const DashboardSettings = () => {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">New Conversations</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive email notifications when somebody starts a new conversation with you</p>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Conversations</label>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone starts a new conversation with you</p>
               </div>
               <button
                 onClick={() => setEmailNewConversationNotifications(!emailNewConversationNotifications)}

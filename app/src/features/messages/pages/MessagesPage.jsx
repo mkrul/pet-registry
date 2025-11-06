@@ -204,14 +204,14 @@ const MessagesPage = () => {
         <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 font-semibold">Conversations</div>
         <div className="divide-y overflow-y-auto h-full flex flex-col">
           <div className="flex-1">
-            {hasConversations ? (
+          {hasConversations ? (
               allConversations.map(c => (
-                <ConversationListItem key={c.id} conversation={c} isActive={activeId === c.id} onSelect={() => handleSelect(c.id)} />
-              ))
+              <ConversationListItem key={c.id} conversation={c} isActive={activeId === c.id} onSelect={() => handleSelect(c.id)} />
+            ))
             ) : isLoading && currentPage === 1 ? (
               <div className="p-4 text-sm text-gray-500 dark:text-gray-400">Loading...</div>
-            ) : (
-              <div className="p-4 text-sm text-gray-500 dark:text-gray-400">No conversations yet.</div>
+          ) : (
+            <div className="p-4 text-sm text-gray-500 dark:text-gray-400">No conversations yet.</div>
             )}
           </div>
           {hasMorePages && (

@@ -3,26 +3,26 @@ class EventSerializer < ActiveModel::Serializer
 
   def eventable_summary
     if object.eventable
-      case object.eventable_type
-      when 'Report'
-        {
-          type: 'Report',
-          id: object.eventable.id,
-          title: object.eventable.title,
-          status: object.eventable.status
-        }
-      when 'Pet'
-        {
-          type: 'Pet',
-          id: object.eventable.id,
-          name: object.eventable.name,
-          species: object.eventable.species
-        }
-      else
-        {
-          type: object.eventable_type,
-          id: object.eventable.id
-        }
+    case object.eventable_type
+    when 'Report'
+      {
+        type: 'Report',
+        id: object.eventable.id,
+        title: object.eventable.title,
+        status: object.eventable.status
+      }
+    when 'Pet'
+      {
+        type: 'Pet',
+        id: object.eventable.id,
+        name: object.eventable.name,
+        species: object.eventable.species
+      }
+    else
+      {
+        type: object.eventable_type,
+        id: object.eventable.id
+      }
       end
     else
       case object.eventable_type

@@ -20,6 +20,7 @@ export const TipLocationSelect = ({
   onLocationSelect,
   initialLocation,
   isLoading,
+  isLocationDataLoading = false,
   error,
   required = true,
   onProcessingStateChange,
@@ -28,6 +29,14 @@ export const TipLocationSelect = ({
   initialZoom,
   showInitialMarker = false
 }) => {
+  console.log('[TipLocationSelect] Component render:', {
+    initialLocation,
+    hasInitialLocation: !!initialLocation,
+    initialLocationLat: initialLocation?.latitude,
+    initialLocationLng: initialLocation?.longitude,
+    showInitialMarker
+  });
+
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
       ? {
@@ -54,12 +63,12 @@ export const TipLocationSelect = ({
   }, [isProcessingAddress, isProcessingMap, onProcessingStateChange]);
 
   React.useEffect(() => {
-    if (required && !currentMapLocation && !initialLocation) {
+    if (required && !isLocationDataLoading && !currentMapLocation && !initialLocation) {
       setHasLocationError(true);
     } else {
       setHasLocationError(false);
     }
-  }, [required, currentMapLocation, initialLocation]);
+  }, [required, isLocationDataLoading, currentMapLocation, initialLocation]);
 
   const fetchAddressSuggestions = React.useMemo(
     () =>
@@ -117,6 +126,11 @@ export const TipLocationSelect = ({
   }, []);
 
   useLayoutEffect(() => {
+    console.log('[TipLocationSelect] useLayoutEffect triggered:', {
+      initialLocation,
+      hasInitialLocation: !!initialLocation,
+      showInitialMarker
+    });
     if (initialLocation) {
       const locationData = {
         area: initialLocation.area || "",
@@ -124,10 +138,14 @@ export const TipLocationSelect = ({
         country: initialLocation.country || "",
         intersection: initialLocation.intersection || ""
       };
+      console.log('[TipLocationSelect] Setting location data from initialLocation:', locationData);
       setSelectedLocation(locationData);
       if (showInitialMarker) {
+        console.log('[TipLocationSelect] Setting currentMapLocation (showInitialMarker=true):', initialLocation);
         setCurrentMapLocation(initialLocation);
       }
+    } else {
+      console.log('[TipLocationSelect] No initialLocation provided, skipping location setup');
     }
   }, [initialLocation, showInitialMarker]);
 
@@ -168,12 +186,22 @@ export const TipLocationSelect = ({
   }, [onLocationSelect]);
 
   const mapLocation = useMemo(() => {
+    console.log('[TipLocationSelect] mapLocation useMemo calculating:', {
+      currentMapLocation,
+      initialLocation,
+      showInitialMarker
+    });
     if (currentMapLocation) {
-      return createMapLocation(currentMapLocation);
+      const location = createMapLocation(currentMapLocation);
+      console.log('[TipLocationSelect] mapLocation returning currentMapLocation:', location);
+      return location;
     }
     if (initialLocation && !showInitialMarker) {
-      return createMapLocation(initialLocation);
+      const location = createMapLocation(initialLocation);
+      console.log('[TipLocationSelect] mapLocation returning initialLocation:', location);
+      return location;
     }
+    console.log('[TipLocationSelect] mapLocation returning undefined');
     return undefined;
   }, [currentMapLocation, initialLocation, showInitialMarker]);
 

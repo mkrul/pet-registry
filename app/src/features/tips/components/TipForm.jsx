@@ -9,9 +9,17 @@ const TIP_ZOOM_LEVEL = 15;
 
 const TipForm = ({ reportId, onSuccess, onCancel }) => {
   const [createTip, { isLoading }] = useCreateTipMutation();
-  const { data: lastLocationData } = useGetLastLocationQuery(reportId);
+  const { data: lastLocationData, isLoading: isLastLocationLoading, isFetching: isLastLocationFetching } = useGetLastLocationQuery(reportId);
   const dispatch = useAppDispatch();
   const [isProcessingLocation, setIsProcessingLocation] = useState(false);
+
+  console.log('[TipForm] Component render:', {
+    reportId,
+    lastLocationData,
+    isLastLocationLoading,
+    isLastLocationFetching,
+    hasLastLocationData: !!lastLocationData
+  });
 
   const [formData, setFormData] = useState({
     message: '',
@@ -124,9 +132,23 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
   const isFormDisabled = isLoading || isProcessingLocation;
 
   const getInitialLocation = () => {
+    console.log('[TipForm] getInitialLocation called:', {
+      hasFormData: !!(formData.latitude && formData.longitude),
+      formData: {
+        latitude: formData.latitude,
+        longitude: formData.longitude,
+        area: formData.area,
+        state: formData.state,
+        country: formData.country
+      },
+      lastLocationData,
+      isLastLocationLoading,
+      isLastLocationFetching
+    });
+
     // First check if we have form data (user has already selected a location)
     if (formData.latitude && formData.longitude) {
-      return createMapLocation({
+      const location = createMapLocation({
         latitude: parseFloat(formData.latitude),
         longitude: parseFloat(formData.longitude),
         area: formData.area,
@@ -134,11 +156,13 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
         country: formData.country,
         intersection: formData.intersection
       });
+      console.log('[TipForm] getInitialLocation returning formData location:', location);
+      return location;
     }
 
     // If no form data, use the last location from events or report
     if (lastLocationData?.latitude && lastLocationData?.longitude) {
-      return createMapLocation({
+      const location = createMapLocation({
         latitude: parseFloat(lastLocationData.latitude),
         longitude: parseFloat(lastLocationData.longitude),
         area: lastLocationData.area,
@@ -146,8 +170,11 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
         country: lastLocationData.country,
         intersection: lastLocationData.intersection
       });
+      console.log('[TipForm] getInitialLocation returning lastLocationData location:', location);
+      return location;
     }
 
+    console.log('[TipForm] getInitialLocation returning null (no location data available)');
     return null;
   };
 
@@ -195,17 +222,24 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
 
           {/* Right column - Location */}
           <div>
-            <TipLocationSelect
-              onLocationSelect={handleLocationSelect}
-              initialLocation={getInitialLocation()}
-              isLoading={isFormDisabled}
-              required={true}
-              onProcessingStateChange={handleLocationProcessingStateChange}
-              showTip={false}
-              labelStyle="microchip"
-              initialZoom={TIP_ZOOM_LEVEL}
-              showInitialMarker={false}
-            />
+            {(() => {
+              const initialLocation = getInitialLocation();
+              console.log('[TipForm] Rendering TipLocationSelect with initialLocation:', initialLocation);
+              return (
+                <TipLocationSelect
+                  onLocationSelect={handleLocationSelect}
+                  initialLocation={initialLocation}
+                  isLoading={isFormDisabled}
+                  isLocationDataLoading={isLastLocationLoading}
+                  required={true}
+                  onProcessingStateChange={handleLocationProcessingStateChange}
+                  showTip={false}
+                  labelStyle="microchip"
+                  initialZoom={TIP_ZOOM_LEVEL}
+                  showInitialMarker={false}
+                />
+              );
+            })()}
           </div>
         </div>
 

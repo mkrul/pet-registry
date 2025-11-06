@@ -634,11 +634,47 @@ const AboutPage = () => {
             </Typography>
           </Box>
         </Box>
+      </Container>
 
-        <Divider sx={{ my: { xs: 8, md: 10 }, borderColor: "rgba(0, 0, 0, 0.08)" }} />
-
-        <Box sx={{ textAlign: "center", py: { xs: 6, md: 8 }, py: { xs: 4, md: 5 }, paddingBottom: { xs: 11, md: 8 } }}>
-          <Typography variant="h3" component="h2" gutterBottom color="#2c3e50" sx={{
+      <Container maxWidth="xl">
+      <Box sx={{
+          width: "100vw",
+          position: "relative",
+          left: "50%",
+          right: "50%",
+          marginLeft: "-50vw",
+          marginRight: "-50vw",
+          minHeight: { xs: "50vh", md: "60vh" },
+          backgroundImage: "url('/images/woman-and-dog.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          py: { xs: 6, md: 8 },
+          px: { xs: 4, md: 6 }
+        }}>
+          <Box sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%)",
+            zIndex: 1
+          }} />
+          <Box sx={{
+            position: "relative",
+            zIndex: 2,
+            textAlign: "center",
+            width: "100%",
+            maxWidth: "1200px",
+            mx: "auto"
+          }}>
+            <Typography variant="h3" component="h2" gutterBottom sx={{
+              color: "white",
+              textShadow: "0 2px 4px rgba(0,0,0,0.3)",
             fontWeight: 700,
             fontSize: { xs: "1.75rem", sm: "1.75rem", md: "2rem" },
             mb: 3,
@@ -653,7 +689,8 @@ const AboutPage = () => {
             fontSize: { xs: "1.15rem", md: "1.175rem" },
             lineHeight: 1.5,
             fontWeight: 500,
-            color: "text.secondary",
+            color: "rgba(255, 255, 255, 0.95)",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
             mb: 6,
             pt: 1,
             maxWidth: { xs: "550px", lg: "none" },
@@ -662,42 +699,18 @@ const AboutPage = () => {
           }}>
             Registering your pet is fast, easy, and completely <strong>free</strong>.
           </Typography>
-          <Button
-            component={Link}
-            to="/signup"
-            variant="contained"
-            size="large"
-            sx={{
-              bgcolor: "info.main",
-              color: "white",
-              "&:hover": { bgcolor: "info.dark" },
-              px: 6,
-              py: 2,
-              fontSize: "1.125rem",
-              textTransform: "none",
-              fontWeight: 600,
-              borderRadius: 2,
-              mb: { xs: 1, md: 4 }
-            }}
-          >
-            Get Started
-          </Button>
-        </Box>
-
-        <Box sx={{
-          textAlign: "center",
-          pb: 4,
-          mt: 0
-        }}>
-          <Typography variant="caption" sx={{
-            fontSize: "0.75rem",
-            color: "#999",
-            lineHeight: 1.5
-          }}>
-            Sources: 1.{" "}
-            <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Lost Pet Research</a> • 2.{" "}
-            <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "none" }}>Human Animal Support Services</a>
-          </Typography>
+            <Typography variant="caption" sx={{
+              fontSize: "0.75rem",
+              color: "rgba(255, 255, 255, 0.8)",
+              lineHeight: 1.5,
+              mt: 4,
+              display: "block"
+            }}>
+              Sources: 1.{" "}
+              <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255, 255, 255, 0.8)", textDecoration: "none" }}>Lost Pet Research</a> • 2.{" "}
+              <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255, 255, 255, 0.8)", textDecoration: "none" }}>Human Animal Support Services</a>
+            </Typography>
+          </Box>
         </Box>
       </Container>
     </Box>

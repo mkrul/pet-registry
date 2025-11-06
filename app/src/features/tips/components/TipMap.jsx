@@ -15,17 +15,35 @@ const MapView = ({ initialLocation, initialZoom, hasSetInitialView, setHasSetIni
   const map = useMap();
 
   useEffect(() => {
-    if (!hasSetInitialView) {
-      if (initialLocation?.latitude && initialLocation?.longitude) {
-        map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
-          animate: true
-        });
-      } else {
-        map.setView([DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude], initialZoom, {
-          animate: true
-        });
+    console.log('[TipMap MapView] useEffect triggered:', {
+      hasSetInitialView,
+      initialLocation,
+      hasInitialLocation: !!initialLocation,
+      initialLocationLat: initialLocation?.latitude,
+      initialLocationLng: initialLocation?.longitude,
+      initialZoom
+    });
+
+    if (initialLocation?.latitude && initialLocation?.longitude) {
+      console.log('[TipMap MapView] Setting map view to initialLocation:', {
+        lat: initialLocation.latitude,
+        lng: initialLocation.longitude,
+        zoom: initialZoom
+      });
+      map.setView([initialLocation.latitude, initialLocation.longitude], initialZoom, {
+        animate: true
+      });
+      if (!hasSetInitialView) {
+        setHasSetInitialView(true);
+        console.log('[TipMap MapView] Set hasSetInitialView to true');
       }
+    } else if (!hasSetInitialView) {
+      console.log('[TipMap MapView] No initialLocation, setting map view to DEFAULT_MAP_CENTER:', DEFAULT_MAP_CENTER);
+      map.setView([DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude], initialZoom, {
+        animate: true
+      });
       setHasSetInitialView(true);
+      console.log('[TipMap MapView] Set hasSetInitialView to true');
     }
   }, [
     map,
@@ -124,6 +142,15 @@ export const TipMap = ({
   onProcessingStateChange,
   showInitialMarker = false
 }) => {
+  console.log('[TipMap] Component render:', {
+    initialLocation,
+    hasInitialLocation: !!initialLocation,
+    initialLocationLat: initialLocation?.latitude,
+    initialLocationLng: initialLocation?.longitude,
+    initialZoom,
+    showInitialMarker
+  });
+
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
       <LeafletMapContainer
