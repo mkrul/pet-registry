@@ -77,15 +77,81 @@ const ConversationThread = ({ conversationId, onBack }) => {
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
   const headerRef = useRef(null);
+  const messagesContainerRef = useRef(null);
+  const isAtBottomRef = useRef(true);
+  const lastMessageIdRef = useRef(null);
+
+  const checkIfAtBottom = () => {
+    const container = messagesContainerRef.current;
+    if (!container) return false;
+    const threshold = 100;
+    const isAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < threshold;
+    isAtBottomRef.current = isAtBottom;
+    return isAtBottom;
+  };
+
+  const scrollToBottom = () => {
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  };
 
   useEffect(() => {
     if (conversationId && data) {
-      // Opening a conversation marks messages read on the server; refresh unread counters and list
       dispatch(messagesApi.util.invalidateTags(['UnreadCount', 'Conversations']));
-      // Move focus to header for a11y on open (useful on mobile)
       headerRef.current?.focus?.();
     }
   }, [conversationId, data, dispatch]);
+
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      checkIfAtBottom();
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!conversationId || !data?.messages || data.messages.length === 0) return;
+
+    const messages = data.messages;
+    const lastMessage = messages[messages.length - 1];
+    const currentLastMessageId = lastMessage?.id;
+
+    if (currentLastMessageId && currentLastMessageId !== lastMessageIdRef.current) {
+      const wasAtBottom = isAtBottomRef.current;
+      lastMessageIdRef.current = currentLastMessageId;
+
+      if (wasAtBottom) {
+        setTimeout(() => {
+          scrollToBottom();
+        }, 0);
+      }
+    } else if (currentLastMessageId && lastMessageIdRef.current === null) {
+      lastMessageIdRef.current = currentLastMessageId;
+      setTimeout(() => {
+        scrollToBottom();
+        isAtBottomRef.current = true;
+      }, 0);
+    }
+  }, [data?.messages, conversationId]);
+
+  useEffect(() => {
+    if (conversationId) {
+      lastMessageIdRef.current = null;
+      isAtBottomRef.current = true;
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }
+  }, [conversationId]);
 
   if (!conversationId) {
     return <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">Select a conversation</div>;
@@ -116,7 +182,7 @@ const ConversationThread = ({ conversationId, onBack }) => {
         )}
         <div ref={headerRef} tabIndex={-1} className="font-semibold text-gray-900 dark:text-gray-100">{`re: ${headerTitle}` || 'Conversation'}</div>
       </div>
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-white dark:bg-gray-900">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-white dark:bg-gray-900">
         {data?.messages?.map(m => {
           const messageUserId = m.user?.id ?? m.userId ?? m.user_id;
           const otherUserId = data?.conversation?.other_user?.id ?? data?.conversation?.otherUser?.id;
