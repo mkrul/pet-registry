@@ -17,6 +17,7 @@ const ListingDetailsCard = ({ report }) => {
   const navigate = useNavigate();
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [pendingUrl, setPendingUrl] = useState(null);
+  const [expandedTips, setExpandedTips] = useState(new Set());
 
   const extractUrlsFromText = (text) => {
     if (!text) return [];
@@ -74,6 +75,19 @@ const ListingDetailsCard = ({ report }) => {
 
   const handleTipsPageChange = (page) => {
     setTipsPage(page);
+    setExpandedTips(new Set());
+  };
+
+  const toggleTipExpansion = (tipId) => {
+    setExpandedTips(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(tipId)) {
+        newSet.delete(tipId);
+      } else {
+        newSet.add(tipId);
+      }
+      return newSet;
+    });
   };
 
   const [searchParams] = useSearchParams();
@@ -280,73 +294,134 @@ const ListingDetailsCard = ({ report }) => {
               </div>
             )}
 
-            {tips.map((tip) => (
-              <div key={tip.id} className="border-t border-gray-200 pt-3">
-                <div className="flex items-start gap-4 mb-2">
-                  <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0 pt-1">
-                    {(tip.createdAt || tip.created_at) ? (
-                      <>
-                        {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
-                          year: "numeric",
-                          month: "numeric",
-                          day: "numeric"
-                        })}, {new Date(tip.createdAt || tip.created_at).toLocaleTimeString(undefined, {
-                          hour: "numeric",
-                          minute: "numeric",
-                          hour12: true
-                        })}
-                      </>
-                    ) : (
-                      '—'
-                    )}
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    {(tip.area || tip.state || tip.country || tip.intersection) && (
-                      <LocationDisplay
-                        textStyle="font-medium text-black"
-                        area={tip.area}
-                        state={tip.state}
-                        country={tip.country}
-                        intersection={tip.intersection}
-                        useStateAbbreviation={true}
-                        showReportedMissing={true}
-                      />
-                    )}
-                    {tip.latitude && tip.longitude && (
-                      <a
-                        href={`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`}
-                        onClick={(e) => handleLinkClick(`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`, e)}
-                        className="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-block cursor-pointer"
-                      >
-                        🗺️📍 View on Google Maps
-                      </a>
-                    )}
-                    {tip.message && (
-                      <p className="text-sm text-gray-700 whitespace-pre-wrap">
-                        <MessageText text={tip.message} />
-                      </p>
-                    )}
-                    {(() => {
-                      const uniqueLinks = getUniqueExternalLinks(tip);
-                      return uniqueLinks.length > 0 && (
-                        <div className="space-y-1">
-                          {uniqueLinks.map((link, index) => (
-                            <a
-                              key={index}
-                              href={link}
-                              onClick={(e) => handleLinkClick(link, e)}
-                              className="text-sm text-blue-600 hover:text-blue-800 hover:underline block cursor-pointer"
-                            >
-                              🔗 {link}
-                            </a>
-                          ))}
-                        </div>
-                      );
-                    })()}
+            {tips.map((tip) => {
+              const isExpanded = expandedTips.has(tip.id);
+              const hasLocation = tip.area || tip.state || tip.country || tip.intersection;
+              const hasMapLink = tip.latitude && tip.longitude;
+              const uniqueLinks = getUniqueExternalLinks(tip);
+              const hasLinks = uniqueLinks.length > 0;
+              const hasContent = hasLocation || hasMapLink || tip.message || hasLinks;
+
+              return (
+                <div key={tip.id} className="border-t border-gray-200 pt-3">
+                  <div className="flex items-start gap-4">
+                    <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0 pt-1">
+                      {(tip.createdAt || tip.created_at) ? (
+                        <>
+                          {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric"
+                          })}, {new Date(tip.createdAt || tip.created_at).toLocaleTimeString(undefined, {
+                            hour: "numeric",
+                            minute: "numeric",
+                            hour12: true
+                          })}
+                        </>
+                      ) : (
+                        '—'
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0 flex items-start gap-2">
+                      <div className="flex-1 min-w-0">
+                        {isExpanded ? (
+                          <div className="space-y-2">
+                            {hasLocation && (
+                              <LocationDisplay
+                                textStyle="font-medium text-black"
+                                area={tip.area}
+                                state={tip.state}
+                                country={tip.country}
+                                intersection={tip.intersection}
+                                useStateAbbreviation={true}
+                                showReportedMissing={true}
+                              />
+                            )}
+                            {hasMapLink && (
+                              <a
+                                href={`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`}
+                                onClick={(e) => handleLinkClick(`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`, e)}
+                                className="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-block cursor-pointer"
+                              >
+                                🗺️📍 View on Google Maps
+                              </a>
+                            )}
+                            {tip.message && (
+                              <p className="text-sm text-gray-700 whitespace-pre-wrap pt-0.5">
+                                <MessageText text={tip.message} />
+                              </p>
+                            )}
+                            {hasLinks && (
+                              <div className="space-y-1">
+                                {uniqueLinks.map((link, index) => (
+                                  <a
+                                    key={index}
+                                    href={link}
+                                    onClick={(e) => handleLinkClick(link, e)}
+                                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline block cursor-pointer"
+                                  >
+                                    🔗 {link}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2 min-w-0">
+                            <div className="flex-1 min-w-0">
+                              {hasLocation && (
+                                <div className="truncate">
+                                  <LocationDisplay
+                                    textStyle="font-medium text-black"
+                                    area={tip.area}
+                                    state={tip.state}
+                                    country={tip.country}
+                                    intersection={tip.intersection}
+                                    useStateAbbreviation={true}
+                                    showReportedMissing={true}
+                                  />
+                                </div>
+                              )}
+                              {!hasLocation && hasMapLink && (
+                                <div className="truncate text-sm text-blue-600">
+                                  🗺️📍 View on Google Maps
+                                </div>
+                              )}
+                              {!hasLocation && !hasMapLink && tip.message && (
+                                <p className="text-sm text-gray-700 truncate pt-0.5" title={tip.message}>
+                                  {tip.message}
+                                </p>
+                              )}
+                              {!hasLocation && !hasMapLink && !tip.message && hasLinks && (
+                                <div className="truncate text-sm text-blue-600">
+                                  🔗 {uniqueLinks[0]}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      {hasContent && (
+                        <button
+                          onClick={() => toggleTipExpansion(tip.id)}
+                          className="flex-shrink-0 mt-1 text-gray-400 hover:text-gray-600 transition-colors"
+                          aria-label={isExpanded ? "Collapse tip" : "Expand tip"}
+                        >
+                          <svg
+                            className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           {pagination && pagination.pages > 1 && (
             <TipsPagination
