@@ -2,10 +2,12 @@ module Api
   class FiltersController < ApplicationController
     def states
       country = params[:country]
-      states = Report.where(country: country)
-                    .where.not(state: [nil, ''])
+      states = Event.where(category: Events::Report::Tip::CATEGORY)
+                    .where("data->>'country' = ?", country)
+                    .where("data->>'state' IS NOT NULL")
+                    .where("data->>'state' != ''")
                     .distinct
-                    .pluck(:state)
+                    .pluck("data->>'state'")
                     .compact
                     .sort
 

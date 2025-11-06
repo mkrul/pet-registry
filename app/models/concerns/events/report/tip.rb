@@ -7,6 +7,7 @@ module Events
 
       included do
         validate :validate_tip_data, if: -> { category == CATEGORY }
+        before_save :normalize_tip_location_data, if: -> { category == CATEGORY }
       end
 
       class_methods do
@@ -60,6 +61,28 @@ module Events
       end
 
       private
+
+      def normalize_tip_location_data
+        return unless data.is_a?(Hash)
+
+        normalized_data = data.dup
+
+        normalized_data['area'] = normalized_data['area'].to_s.strip.presence if normalized_data['area'].present?
+        normalized_data['state'] = normalized_data['state'].to_s.strip.presence if normalized_data['state'].present?
+        normalized_data['country'] = normalized_data['country'].to_s.strip.presence if normalized_data['country'].present?
+        normalized_data['intersection'] = normalized_data['intersection'].to_s.strip.presence if normalized_data['intersection'].present?
+        normalized_data['message'] = normalized_data['message'].to_s.strip.presence if normalized_data['message'].present?
+
+        if normalized_data['latitude'].present?
+          normalized_data['latitude'] = normalized_data['latitude'].to_s.strip.presence
+        end
+
+        if normalized_data['longitude'].present?
+          normalized_data['longitude'] = normalized_data['longitude'].to_s.strip.presence
+        end
+
+        self.data = normalized_data
+      end
 
       def validate_tip_data
         if data['message'].blank?
