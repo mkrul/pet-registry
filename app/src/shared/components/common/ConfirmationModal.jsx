@@ -8,7 +8,8 @@ const ConfirmationModal = ({
   message,
   confirmText = 'Confirm',
   cancelText = 'Cancel',
-  isLoading = false
+  isLoading = false,
+  confirmButtonColor = 'red'
 }) => {
   useEffect(() => {
     const handleEscape = (e) => {
@@ -44,12 +45,12 @@ const ConfirmationModal = ({
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full text-left">
         <div className="p-6">
-          <h3 id="modal-title" className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 id="modal-title" className="text-lg font-semibold text-gray-900 mb-4 text-left">
             {title}
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 mb-6 whitespace-pre-line break-words text-left">
             {message}
           </p>
           <div className="flex justify-end space-x-3">
@@ -63,7 +64,11 @@ const ConfirmationModal = ({
             <button
               onClick={onConfirm}
               disabled={isLoading}
-              className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className={`px-4 py-2 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+                confirmButtonColor === 'blue'
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : 'bg-red-600 hover:bg-red-700'
+              }`}
             >
               {isLoading ? 'Processing...' : confirmText}
             </button>

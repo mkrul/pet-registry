@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { messagesApi } from '../../../store/features/messages/messagesApi';
 import { useParams, useNavigate } from 'react-router-dom';
+import MessageText from '../components/MessageText.jsx';
 
 const ConversationListItem = ({ conversation, isActive, onSelect }) => {
   const unread = conversation.unread_count || conversation.unreadCount;
@@ -127,7 +128,9 @@ const ConversationThread = ({ conversationId, onBack }) => {
             <div key={m.id} className={`w-full flex ${isMine ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-xl ${isMine ? 'text-right' : ''}`}>
                 <div className="text-xs text-gray-500 dark:text-gray-400">{m.user?.display_name || m.user?.displayName}</div>
-                <div className={`inline-block rounded-md px-3 py-2 text-sm whitespace-pre-wrap ${isMine ? 'bg-blue-100 text-blue-900 dark:bg-blue-200 dark:text-blue-900' : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'}`}>{m.body}</div>
+                <div className={`inline-block rounded-md px-3 py-2 text-sm whitespace-pre-wrap ${isMine ? 'bg-blue-100 text-blue-900 dark:bg-blue-200 dark:text-blue-900 text-right' : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'}`}>
+                  <MessageText text={m.body} />
+                </div>
                 <div className={`mt-1 text-[11px] text-gray-400 ${isMine ? 'text-right' : 'text-left'}`}>
                   {(() => {
                     const ts = m.created_at || m.createdAt;
