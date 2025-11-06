@@ -11,11 +11,27 @@ module Api
       Rails.logger.info "EventsController#create_tip: Permitted params: #{tip_params.inspect}"
       Rails.logger.info "EventsController#create_tip: Report ID: #{@report.id}, User ID: #{current_user.id}"
 
+      formatted_message = tip_params[:message] || ''
+
+      if tip_params[:latitude].present? && tip_params[:longitude].present?
+        formatted_message += "\n\n🗺️📍 Location:\n https://www.google.com/maps?q=#{tip_params[:latitude]},#{tip_params[:longitude]}"
+      end
+
+      external_links = tip_params[:external_links].to_a.reject(&:blank?)
+      if external_links.any?
+        formatted_message += "\n\n"
+        external_links.each do |link|
+          formatted_message += "🔗 #{link}\n"
+        end
+      end
+
+      tip_data = tip_params.merge(message: formatted_message)
+
       outcome = Events::Create.run(
         eventable: @report,
         user: current_user,
         category: Events::Report::Tip::CATEGORY,
-        data: tip_params
+        data: tip_data
       )
 
       if outcome.valid?

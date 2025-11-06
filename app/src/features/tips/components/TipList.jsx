@@ -1,6 +1,7 @@
 import React from 'react';
 import DateDisplay from '../../listings/components/common/DateDisplay.jsx';
 import Pagination from '../../../shared/components/common/Pagination.jsx';
+import MessageText from '../../messages/components/MessageText.jsx';
 
 const TipList = ({ reportId, tipsData, pagination, onPageChange }) => {
   const tips = tipsData?.tips || [];
@@ -34,34 +35,9 @@ const TipList = ({ reportId, tipsData, pagination, onPageChange }) => {
               </div>
             </div>
 
-            <p className="text-gray-700 mb-3">{tip.message}</p>
-
-            {(tip.area || tip.state || tip.country) && (
-              <div className="text-sm text-gray-500 mb-2">
-                <span className="font-medium">Location:</span>{' '}
-                {[tip.area, tip.state, tip.country].filter(Boolean).join(', ')}
-              </div>
-            )}
-
-            {tip.external_links && tip.external_links.length > 0 && (
-              <div className="mt-3">
-                <span className="text-sm font-medium text-gray-700">Links:</span>
-                <div className="mt-1 space-y-1">
-                  {tip.external_links.map((link, index) => (
-                    <div key={index}>
-                      <a
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 text-sm underline break-all"
-                      >
-                        {link}
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <p className="text-gray-700 mb-3 whitespace-pre-wrap">
+              <MessageText text={tip.message} />
+            </p>
           </div>
         ))}
       </div>
