@@ -65,6 +65,39 @@ module Events
         if data['message'].blank?
           errors.add(:data, 'message is required for tip events')
         end
+
+        has_location_data = data['area'].present? || data['country'].present? ||
+                           data['latitude'].present? || data['longitude'].present?
+
+        if has_location_data
+          if data['area'].blank?
+            errors.add(:data, 'area is required')
+          end
+
+          if data['country'].blank?
+            errors.add(:data, 'country is required')
+          end
+
+          if data['latitude'].blank?
+            errors.add(:data, 'latitude is required')
+          end
+
+          if data['longitude'].blank?
+            errors.add(:data, 'longitude is required')
+          end
+
+          if data['area'].present? && data['area'].downcase != 'washington' && data['state'].blank?
+            errors.add(:data, 'state is required')
+          end
+
+          if data['country'].present? && data['country'] != 'United States'
+            errors.add(:data, 'country must be United States')
+          end
+
+          if data['intersection'].present? && data['intersection'].length > 100
+            errors.add(:data, 'intersection must be 100 characters or less')
+          end
+        end
       end
     end
   end

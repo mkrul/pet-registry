@@ -17,11 +17,19 @@ class Event < ApplicationRecord
 
   scope :by_category, ->(category) { where(category: category) }
 
+  after_commit :reindex_report_if_tip, on: [:create, :update]
+
   private
 
   def data_must_be_hash
     unless data.is_a?(Hash)
       errors.add(:data, 'must be a hash')
+    end
+  end
+
+  def reindex_report_if_tip
+    if category == Events::Report::Tip::CATEGORY && eventable.is_a?(Report)
+      eventable.reindex
     end
   end
 end

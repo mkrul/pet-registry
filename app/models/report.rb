@@ -1,7 +1,6 @@
 class Report < ApplicationRecord
   include BreedList
   include GenderList
-  include LocationValidations
   include ImageValidations
   include ColorValidations
   include ReportValidations
@@ -30,6 +29,38 @@ class Report < ApplicationRecord
     return unless pet.is_a?(Pet)
 
     pet.update!(report_id: id)
+  end
+
+  def cache_latest_tip_location
+    @cached_tip_location ||= begin
+      recent_tip = tips
+        .where("data->>'latitude' IS NOT NULL AND data->>'longitude' IS NOT NULL")
+        .where("data->>'latitude' != '' AND data->>'longitude' != ''")
+        .order(created_at: :desc)
+        .first
+
+      if recent_tip
+        {
+          area: recent_tip.area,
+          state: recent_tip.state,
+          country: recent_tip.country
+        }
+      else
+        {}
+      end
+    end
+  end
+
+  def cached_area
+    cache_latest_tip_location[:area]
+  end
+
+  def cached_state
+    cache_latest_tip_location[:state]
+  end
+
+  def cached_country
+    cache_latest_tip_location[:country]
   end
 
   private

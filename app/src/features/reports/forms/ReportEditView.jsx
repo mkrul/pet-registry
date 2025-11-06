@@ -7,9 +7,7 @@ import { BasicInfoFields } from '../../listings/components/common/BasicInfoField
 import { IdentificationFields } from '../../listings/components/common/IdentificationFields.jsx';
 import { ColorFields } from '../../listings/components/common/ColorFields.jsx';
 import { ImageUpload } from '../../listings/components/common/ImageUpload.jsx';
-import { ReportLocationSelect } from '../components/ReportLocationSelect.jsx';
 import DateDisplay from '../../listings/components/common/DateDisplay.jsx';
-import { createMapLocation } from '../../../shared/utils/mapUtils.js';
 import AssociatedRecordUpdateModal from '../../../shared/components/common/AssociatedRecordUpdateModal.jsx';
 
 const ReportEditForm = ({
@@ -17,8 +15,6 @@ const ReportEditForm = ({
   onBack,
   onSaveSuccess
 }) => {
-  const [isProcessingLocation, setIsProcessingLocation] = useState(false);
-
   const {
     formData,
     isSaving,
@@ -33,7 +29,6 @@ const ReportEditForm = ({
     handleImageLoad,
     handleImageError,
     handleSaveChanges,
-    handleLocationSelect,
     getFilteredBreedOptions,
     getFilteredColorOptions,
     showConfirmModal,
@@ -41,7 +36,7 @@ const ReportEditForm = ({
     handleCancelSave
   } = useReportEdit(report);
 
-  const isFormDisabled = isSaving || isProcessingLocation;
+  const isFormDisabled = isSaving;
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -119,22 +114,6 @@ const ReportEditForm = ({
             handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
             handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
             handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
-          />
-
-          <ReportLocationSelect
-            onLocationSelect={handleLocationSelect}
-            initialLocation={createMapLocation({
-              latitude: formData.latitude ?? 0,
-              longitude: formData.longitude ?? 0,
-              area: formData.area ?? "",
-              state: formData.state ?? "",
-              country: formData.country ?? "",
-              intersection: formData.intersection ?? ""
-            })}
-            isLoading={isSaving}
-            required={false}
-            onProcessingStateChange={handleLocationProcessingStateChange}
-            showInitialMarker={false}
           />
 
           <DateDisplay createdAt={formData.createdAt ?? ""} updatedAt={formData.updatedAt ?? ""} />

@@ -109,9 +109,9 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
             <div className="mt-2 text-sm text-gray-600">
               <div className="font-medium text-gray-800">Last seen at: </div>
               {(() => {
-                const area = report.lastSeenLocation?.area || report.area;
-                const state = report.lastSeenLocation?.state || report.state;
-                const intersection = report.lastSeenLocation?.intersection || report.intersection;
+                const area = report.lastSeenLocation?.area;
+                const state = report.lastSeenLocation?.state;
+                const intersection = report.lastSeenLocation?.intersection;
 
                 if (area && state) {
                   const stateAbbrev = state.length > 2 ? state.substring(0, 2).toUpperCase() : state;

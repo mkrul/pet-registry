@@ -4,9 +4,23 @@
 
 - Users table: added `admin:boolean` (default: false, null: false). This flag is used for authorization checks. Not exposed via public serializers and not mass-assignable via registration/profile endpoints.
 
+## Location Data Migration (November 6, 2025)
+
+- **Report Location Migration:** All location data has been migrated from reports to tip events
+  - Location fields (area, state, country, latitude, longitude, intersection) removed from reports table
+  - Initial report location is now stored as a tip event created automatically when a report is created
+  - Location updates should be done via tip submission, not report updates
+  - Report location is accessed via `lastSeenLocation` which pulls from the most recent tip with location data
+  - Search indexing uses cached tip location data from the most recent tip
+  - Initial report locations use privacy offset (0.0025 degrees) for coordinates
+  - Subsequent tip locations store exact coordinates (no privacy offset)
+
 ## API
 
 - No changes to registration or profile update params; `admin` is managed internally.
+- Report creation API still accepts location parameters, but stores them as tip events instead of on the report
+- Report update API no longer accepts location parameters
+- Report serializer returns `lastSeenLocation` instead of direct location fields
 
 ## Frontend
 
@@ -15,8 +29,13 @@
 - Messages: Removed duplicate preview line in the conversations list items.
 - Messages: Conversation thread now aligns current user messages to the right and other participant messages to the left.
 - Messages: Alignment uses flex column with `self-end`/`self-start` and compares user ids as strings to avoid type mismatches.
+- Report edit form: Location editing removed; location updates should be done via tip submission
+- Report display components: All now use `lastSeenLocation` from tips instead of direct report location fields
 
 ## Deployment Notes
 
 - Run migrations: `bin/rails db:migrate`
+  - First run `20251106084319_migrate_report_locations_to_tips.rb` to backfill existing locations as tips
+  - Then run `20251106084426_remove_location_from_reports.rb` to remove location columns
 - Existing users will automatically have `admin` set to `false`.
+- After migration, all existing report locations will be available as tip events with message "Initial location when reported"

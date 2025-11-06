@@ -271,3 +271,29 @@
 - Frontend: sender messages align right with blue bubble; recipient messages align left with gray bubble in `MessagesPage.jsx`
 - Implementation: flex column container with `self-end`/`self-start`; normalized id comparison to string
 
+### Location Data Migration to Tip Events (November 6, 2025)
+- **Backend Changes:**
+  - Created migration to backfill existing report locations as tip events (`20251106084319_migrate_report_locations_to_tips.rb`)
+  - Added location validations to tip event concern (`Events::Report::Tip`)
+  - Removed `LocationValidations` concern from Report model
+  - Updated `Reports::Create` service to create initial tip event with location instead of storing on report
+  - Removed location update logic from `Reports::Update` service
+  - Updated `Reports::CopyFromPet` to create initial tip if location provided
+  - Removed direct location fields from `ReportSerializer`, updated `last_seen_location` to only use tips
+  - Removed location fields from `Api::ReportsController#new` action response
+  - Added location caching methods to Report model for search indexing (`cache_latest_tip_location`, `cached_area`, `cached_state`, `cached_country`)
+  - Updated `ReportSearchable` concern to use cached tip location data
+  - Added `after_commit` callback to Event model to reindex reports when tips are created/updated
+  - Created migration to remove location columns from reports table (`20251106084426_remove_location_from_reports.rb`)
+- **Frontend Changes:**
+  - Removed location editing from `ReportEditView` component
+  - Updated `useReportEdit` hook to exclude location fields from form submission
+  - Updated `ListingDetailsCard`, `ListingCard`, and `ReportDetailView` to use `lastSeenLocation` only
+  - All display components now consistently use tip-based location data
+- **Design Decisions:**
+  - Initial report location creates automatic tip event with privacy offset applied (0.0025 degrees)
+  - Subsequent tip locations store exact coordinates (no privacy offset) for accuracy
+  - Location updates must be done via tip submission, not report updates
+  - Search indexing uses denormalized location data from most recent tip
+  - Backward compatibility maintained: frontend still sends location with report creation, backend handles tip creation automatically
+

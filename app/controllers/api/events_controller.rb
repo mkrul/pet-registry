@@ -146,17 +146,6 @@ module Api
           intersection: recent_event.intersection,
           source: 'event'
         }, status: :ok
-      elsif @report.latitude.present? && @report.longitude.present?
-        # Fall back to report location if no events have location data
-        render json: {
-          latitude: @report.latitude,
-          longitude: @report.longitude,
-          area: @report.area,
-          state: @report.state,
-          country: @report.country,
-          intersection: @report.intersection,
-          source: 'report'
-        }, status: :ok
       else
         render json: { message: 'No location data available' }, status: :not_found
       end

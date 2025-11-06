@@ -167,9 +167,11 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
               <div>
                 <h4 className="text-sm font-medium text-gray-500 mb-1">Last seen:</h4>
                 <p className="text-gray-900">
-                  {[report.area, report.state, report.country]
-                    .filter(Boolean)
-                    .join(', ') || 'Location not specified'}
+                  {report.lastSeenLocation
+                    ? [report.lastSeenLocation.area, report.lastSeenLocation.state, report.lastSeenLocation.country]
+                        .filter(Boolean)
+                        .join(', ')
+                    : 'Location not specified'}
                 </p>
               </div>
 

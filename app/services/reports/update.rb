@@ -16,12 +16,6 @@ class Reports::Update < ActiveInteraction::Base
   string :color_3, default: nil
   string :microchip_id, default: nil
   file :image, default: nil
-  string :area, default: nil
-  string :state, default: nil
-  string :country, default: nil
-  float :latitude, default: nil
-  float :longitude, default: nil
-  string :intersection, default: nil
   boolean :is_altered, default: nil
   string :status, default: nil
 
@@ -44,16 +38,6 @@ class Reports::Update < ActiveInteraction::Base
   private
 
   def update_report_attributes
-    # Apply privacy offset to coordinates if they're being updated
-    processed_latitude = latitude
-    processed_longitude = longitude
-
-    if latitude && longitude
-      offset_coords = apply_privacy_offset(latitude.to_f, longitude.to_f)
-      processed_latitude = offset_coords[:latitude]
-      processed_longitude = offset_coords[:longitude]
-    end
-
     report.update(
       title: title,
       description: description,
@@ -66,27 +50,9 @@ class Reports::Update < ActiveInteraction::Base
       color_2: color_2&.downcase,
       color_3: color_3&.downcase,
       microchip_id: microchip_id,
-      area: area,
-      state: state,
-      country: country,
-      latitude: processed_latitude,
-      longitude: processed_longitude,
-      intersection: intersection,
       is_altered: is_altered,
       status: status
     )
-  end
-
-  def apply_privacy_offset(lat, lng)
-    privacy_offset = 0.0025
-    offset_lat = lat + (rand - 0.5) * privacy_offset
-    offset_lng = lng + (rand - 0.5) * privacy_offset
-
-    Rails.logger.info "[PRIVACY] Original coordinates: #{lat}, #{lng}"
-    Rails.logger.info "[PRIVACY] Privacy offset applied: #{offset_lat}, #{offset_lng}"
-    Rails.logger.info "[PRIVACY] Offset amount: lat #{(offset_lat - lat).round(6)}, lng #{(offset_lng - lng).round(6)}"
-
-    { latitude: offset_lat, longitude: offset_lng }
   end
 
   def update_associated_pet

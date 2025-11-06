@@ -322,31 +322,6 @@ const ListingDetailsCard = ({ report }) => {
             </p>
           </div>
           <div className="space-y-3">
-            {tipsPage === 1 && (
-              <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
-                <div className="text-sm text-gray-600 whitespace-nowrap">
-                  {new Date(report.createdAt).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric"
-                  })}, {new Date(report.createdAt).toLocaleTimeString(undefined, {
-                    hour: "numeric",
-                    minute: "numeric",
-                    hour12: true
-                  })}
-                </div>
-                <LocationDisplay
-                  textStyle="font-medium text-black"
-                  area={report.area}
-                  state={report.state}
-                  country={report.country}
-                  intersection={report.intersection}
-                  useStateAbbreviation={true}
-                  showReportedMissing={true}
-                />
-              </div>
-            )}
-
             {tips.map((tip) => {
               const isExpanded = expandedTips.has(tip.id);
               const hasLocation = tip.area || tip.state || tip.country || tip.intersection;

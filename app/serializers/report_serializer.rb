@@ -3,8 +3,7 @@ class ReportSerializer < ActiveModel::Serializer
              :color_1, :color_2, :color_3, :name, :gender, :image, :is_altered,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
-             :area, :state, :country, :latitude, :longitude, :intersection, :pet_id,
-             :last_seen_location, :user_id
+             :pet_id, :last_seen_location, :user_id
 
   def attributes(*args)
     data = super
@@ -69,14 +68,6 @@ class ReportSerializer < ActiveModel::Serializer
     image_data
   end
 
-  def latitude
-    object.latitude.to_f if object.latitude
-  end
-
-  def longitude
-    object.longitude.to_f if object.longitude
-  end
-
   def recently_created
     return false unless object.created_at >= 1.hour.ago
     return false if object.updated_at > object.created_at + 10.seconds
@@ -91,10 +82,6 @@ class ReportSerializer < ActiveModel::Serializer
     return true if time_between_update_and_creation > 5.seconds && object.updated_at >= 24.hours.ago
 
     false
-  end
-
-  def intersection
-    object&.intersection
   end
 
   def pet_id
@@ -119,15 +106,7 @@ class ReportSerializer < ActiveModel::Serializer
         source: 'tip'
       }
     else
-      {
-        area: object.area,
-        state: object.state,
-        country: object.country,
-        latitude: object.latitude&.to_f,
-        longitude: object.longitude&.to_f,
-        intersection: object.intersection,
-        source: 'report'
-      }
+      nil
     end
   end
 end

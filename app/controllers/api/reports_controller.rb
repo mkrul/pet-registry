@@ -62,13 +62,7 @@ module Api
           color_1: nil,
           color_2: nil,
           color_3: nil,
-          microchip_id: nil,
-          area: nil,
-          state: nil,
-          country: nil,
-          latitude: nil,
-          longitude: nil,
-          intersection: nil
+          microchip_id: nil
         }
       }, status: :ok
     rescue StandardError => e

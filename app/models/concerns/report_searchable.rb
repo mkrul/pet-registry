@@ -11,6 +11,8 @@ module ReportSearchable
   end
 
   def search_data
+    location_data = cache_latest_tip_location
+
     {
       title: title&.downcase,
       description: description&.downcase,
@@ -23,9 +25,9 @@ module ReportSearchable
       name: name&.downcase,
       gender: gender&.downcase,
       status: status&.downcase,
-      country: country&.downcase,
-      state: state&.downcase,
-      area: area&.downcase,
+      country: location_data[:country]&.downcase,
+      state: location_data[:state]&.downcase,
+      area: location_data[:area]&.downcase,
       updated_at: updated_at,
       created_at: created_at
     }

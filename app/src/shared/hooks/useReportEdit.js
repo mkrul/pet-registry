@@ -113,7 +113,9 @@ export const useReportEdit = (report) => {
 
     const excludedFields = [
       "id", "image", "created_at", "updated_at",
-      "recently_updated", "recently_created", "user_id"
+      "recently_updated", "recently_created", "user_id",
+      "area", "state", "country", "latitude", "longitude", "intersection",
+      "last_seen_location", "pet_id"
     ];
 
     Object.entries(snakeCaseData).forEach(([key, value]) => {

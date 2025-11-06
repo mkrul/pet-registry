@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_30_121200) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_06_084426) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -133,16 +133,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_30_121200) do
     t.string "name"
     t.string "gender"
     t.string "microchip_id"
-    t.string "area"
-    t.string "state"
-    t.string "country"
-    t.float "latitude"
-    t.float "longitude"
-    t.string "intersection"
     t.boolean "is_altered"
     t.bigint "user_id", null: false
     t.index ["archived_at"], name: "index_reports_on_archived_at"
-    t.index ["country", "state"], name: "index_reports_on_country_and_state"
     t.index ["created_at"], name: "index_reports_on_created_at"
     t.index ["species"], name: "index_reports_on_species"
     t.index ["status"], name: "index_reports_on_status"

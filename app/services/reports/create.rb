@@ -26,35 +26,59 @@ module Reports
     boolean :is_altered, default: nil
 
     def execute
+      ActiveRecord::Base.transaction do
+        # Convert string inputs to appropriate types
+        processed_inputs = inputs.to_h.dup
+        processed_inputs[:is_altered] = case inputs[:is_altered]
+                                       when 'true', '1', 1, true then true
+                                       when 'false', '0', 0, false then false
+                                       else nil
+                                       end
 
-      # Convert string inputs to appropriate types
-      processed_inputs = inputs.to_h.dup
-      processed_inputs[:is_altered] = case inputs[:is_altered]
-                                     when 'true', '1', 1, true then true
-                                     when 'false', '0', 0, false then false
-                                     else nil
-                                     end
+        # Remove location fields from report attributes
+        report_attributes = processed_inputs.except(:area, :state, :country, :latitude, :longitude, :intersection)
 
-      # Apply privacy offset to coordinates
-      if processed_inputs[:latitude] && processed_inputs[:longitude]
-        offset_coords = apply_privacy_offset(
-          processed_inputs[:latitude].to_f,
-          processed_inputs[:longitude].to_f
-        )
-        processed_inputs[:latitude] = offset_coords[:latitude]
-        processed_inputs[:longitude] = offset_coords[:longitude]
+        report = Report.new(report_attributes.merge(status: 'active'))
+
+        unless report.save
+          errors.merge!(report.errors)
+          return nil
+        end
+
+        Event.create_report_created(eventable: report, user: User.find(user_id))
+
+        # Create initial tip event with location data if provided
+        if area.present? && country.present? && latitude.present? && longitude.present?
+          offset_coords = apply_privacy_offset(latitude.to_f, longitude.to_f)
+
+          tip_data = {
+            message: 'Initial location when reported',
+            area: area,
+            state: state,
+            country: country,
+            latitude: offset_coords[:latitude].to_s,
+            longitude: offset_coords[:longitude].to_s
+          }
+          tip_data[:intersection] = intersection if intersection.present?
+
+          tip = Event.new(
+            eventable: report,
+            user: User.find(user_id),
+            category: Events::Report::Tip::CATEGORY,
+            data: tip_data,
+            created_at: report.created_at,
+            updated_at: report.created_at
+          )
+
+          unless tip.save
+            Rails.logger.error "Failed to create initial tip for report #{report.id}: #{tip.errors.full_messages.join(', ')}"
+            errors.add(:base, "Failed to create location tip: #{tip.errors.full_messages.join(', ')}")
+            raise ActiveRecord::Rollback
+          end
+        end
+
+        report
       end
-
-      report = Report.new(processed_inputs.merge(status: 'active'))
-
-      unless report.save
-        errors.merge!(report.errors)
-        return nil
-      end
-
-      Event.create_report_created(eventable: report, user: User.find(user_id))
-
-      report
     end
 
     private
