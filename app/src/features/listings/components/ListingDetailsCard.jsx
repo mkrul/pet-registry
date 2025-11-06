@@ -356,7 +356,7 @@ const ListingDetailsCard = ({ report }) => {
                           <div className="space-y-2">
                             {hasLocation && (
                               <LocationDisplay
-                                textStyle="font-medium text-black"
+                                textStyle="text-sm font-medium text-black"
                                 area={tip.area}
                                 state={tip.state}
                                 country={tip.country}
@@ -407,7 +407,7 @@ const ListingDetailsCard = ({ report }) => {
                               {hasLocation && (
                                 <div className="truncate">
                                   <LocationDisplay
-                                    textStyle="font-medium text-black"
+                                    textStyle="text-sm font-medium text-black"
                                     area={tip.area}
                                     state={tip.state}
                                     country={tip.country}
