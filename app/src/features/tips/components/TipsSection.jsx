@@ -50,6 +50,8 @@ const TipsSection = ({ reportId, report }) => {
 
   const tips = tipsData?.tips || [];
   const totalTipsCount = tipsData?.pagination?.count || tips.length;
+  const hasTips = totalTipsCount > 0;
+  const canViewTips = isOwner || (user && hasTips);
 
   const handleMessageOwner = () => {
     setShowConversationForm(true);
@@ -69,7 +71,7 @@ const TipsSection = ({ reportId, report }) => {
 
   return (
     <div className="space-y-6">
-      {isOwner && (
+      {canViewTips && (
         <div className="bg-white rounded-lg border border-gray-200">
           <button
             onClick={toggleCollapse}

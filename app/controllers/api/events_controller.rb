@@ -3,7 +3,7 @@
 module Api
   class EventsController < ApplicationController
     before_action :set_report, only: [:create_tip, :index_tips, :all_tips, :last_location]
-    before_action :authenticate_user!, only: [:create_tip, :user_events]
+    before_action :authenticate_user!, only: [:create_tip, :user_events, :index_tips, :all_tips]
     skip_before_action :verify_authenticity_token
 
     def create_tip
@@ -60,7 +60,14 @@ module Api
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 5).to_i
 
-      tips_query = @report.tips.includes(:user).order(created_at: :desc)
+      is_report_owner = @report.user_id == current_user.id
+
+      tips_query = @report.tips.includes(:user)
+      unless is_report_owner
+        tips_query = tips_query.where(user_id: current_user.id)
+      end
+
+      tips_query = tips_query.order(created_at: :desc)
       total_count = tips_query.count
       offset = (page - 1) * per_page
       tips = tips_query.limit(per_page).offset(offset)
@@ -102,7 +109,14 @@ module Api
     end
 
     def all_tips
-      tips = @report.tips.includes(:user).order(created_at: :desc)
+      is_report_owner = @report.user_id == current_user.id
+
+      tips = @report.tips.includes(:user)
+      unless is_report_owner
+        tips = tips.where(user_id: current_user.id)
+      end
+
+      tips = tips.order(created_at: :desc)
 
       render json: {
         tips: tips.map do |tip|
