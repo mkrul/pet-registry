@@ -4,13 +4,16 @@ import Spinner from "../../../shared/components/common/Spinner.jsx";
 import LocationDisplay from "../../../shared/components/common/LocationDisplay.jsx";
 import DateDisplay from "./common/DateDisplay.jsx";
 import TipsSection from "../../tips/components/TipsSection.jsx";
-import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
+import { useGetTipsQuery } from "../../../store/features/tips/tipsApi.js";
 import MessageText from "../../messages/components/MessageText.jsx";
 import ConfirmationModal from "../../../shared/components/common/ConfirmationModal.jsx";
+import TipsPagination from "./TipsPagination.jsx";
 
 const ListingDetailsCard = ({ report }) => {
-  const { data: tipsData } = useGetAllTipsQuery(report.id);
+  const [tipsPage, setTipsPage] = useState(1);
+  const { data: tipsData } = useGetTipsQuery({ reportId: report.id, page: tipsPage, perPage: 5 });
   const tips = tipsData?.tips || [];
+  const pagination = tipsData?.pagination;
   const navigate = useNavigate();
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [pendingUrl, setPendingUrl] = useState(null);
@@ -67,6 +70,10 @@ const ListingDetailsCard = ({ report }) => {
   const handleCloseLinkModal = () => {
     setShowLinkModal(false);
     setPendingUrl(null);
+  };
+
+  const handleTipsPageChange = (page) => {
+    setTipsPage(page);
   };
 
   const [searchParams] = useSearchParams();
@@ -241,40 +248,39 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Sightings</h4>
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Sightings & Tips</h4>
           <div className="flex items-start gap-2 mb-5">
             <p className="text-sm text-gray-600 mt-2">
               The information below lists the original location where the animal went missing, along with any subsequent sightings or tips reported by community members.
             </p>
           </div>
           <div className="space-y-3">
-            <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
-              <div className="text-sm text-gray-600 whitespace-nowrap">
-                {new Date(report.createdAt).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "numeric",
-                  day: "numeric"
-                })}, {new Date(report.createdAt).toLocaleTimeString(undefined, {
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true
-                })}
+            {tipsPage === 1 && (
+              <div className="grid grid-cols-[auto_1fr] gap-4 items-center">
+                <div className="text-sm text-gray-600 whitespace-nowrap">
+                  {new Date(report.createdAt).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                  })}, {new Date(report.createdAt).toLocaleTimeString(undefined, {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true
+                  })}
+                </div>
+                <LocationDisplay
+                  textStyle="font-medium text-black"
+                  area={report.area}
+                  state={report.state}
+                  country={report.country}
+                  intersection={report.intersection}
+                  useStateAbbreviation={true}
+                  showReportedMissing={true}
+                />
               </div>
-              <LocationDisplay
-                textStyle="font-medium text-black"
-                area={report.area}
-                state={report.state}
-                country={report.country}
-                intersection={report.intersection}
-                useStateAbbreviation={true}
-                showReportedMissing={true}
-              />
-            </div>
+            )}
 
-            {tips
-              .slice()
-              .reverse()
-              .map((tip) => (
+            {tips.map((tip) => (
               <div key={tip.id} className="border-t border-gray-200 pt-3">
                 <div className="flex items-start gap-4 mb-2">
                   <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0 pt-1">
@@ -342,6 +348,13 @@ const ListingDetailsCard = ({ report }) => {
               </div>
             ))}
           </div>
+          {pagination && pagination.pages > 1 && (
+            <TipsPagination
+              currentPage={pagination.page}
+              totalPages={pagination.pages}
+              onPageChange={handleTipsPageChange}
+            />
+          )}
         </div>
 
         <div className="mt-8">
