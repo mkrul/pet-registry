@@ -7,6 +7,7 @@ class Event < ApplicationRecord
   include Events::Pet::Create
   include Events::Pet::Update
   include Events::Pet::Archive
+  include Events::Conversation::Create
 
   belongs_to :eventable, polymorphic: true, optional: true
   belongs_to :user

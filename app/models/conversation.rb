@@ -4,6 +4,7 @@ class Conversation < ApplicationRecord
   belongs_to :messageable, polymorphic: true, optional: true
 
   has_many :messages, dependent: :destroy
+  has_many :events, as: :eventable, dependent: :destroy
 
   validates :sender_id, presence: true
   validates :recipient_id, presence: true

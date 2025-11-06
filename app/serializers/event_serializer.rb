@@ -18,6 +18,14 @@ class EventSerializer < ActiveModel::Serializer
         name: object.eventable.name,
         species: object.eventable.species
       }
+    when 'Conversation'
+      {
+        type: 'Conversation',
+        id: object.eventable.id,
+        recipient_id: object.eventable.recipient_id,
+        messageable_type: object.eventable.messageable_type,
+        messageable_id: object.eventable.messageable_id
+      }
     else
       {
         type: object.eventable_type,
@@ -39,6 +47,14 @@ class EventSerializer < ActiveModel::Serializer
           id: object.eventable_id,
           name: object.data['name'] || 'Deleted Pet',
           species: object.data['species'] || 'Unknown'
+        }
+      when 'Conversation'
+        {
+          type: 'Conversation',
+          id: object.eventable_id,
+          recipient_id: object.data['recipient_id'],
+          messageable_type: object.data['messageable_type'],
+          messageable_id: object.data['messageable_id']
         }
       else
         {

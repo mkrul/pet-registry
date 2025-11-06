@@ -26,12 +26,16 @@ module Conversations
       conversation = scope.first
       return conversation if conversation
 
-      ::Conversation.create!(
+      conversation = ::Conversation.create!(
         sender_id: sender_id,
         recipient_id: recipient_id_canon,
         messageable_type: messageable_type,
         messageable_id: messageable_id
       )
+
+      Event.create_conversation_started(eventable: conversation, user: current_user)
+
+      conversation
     end
   end
 end

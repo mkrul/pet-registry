@@ -26,6 +26,8 @@ const DashboardOverview = ({ onNavigate }) => {
         return 'Updated a pet';
       case 'pet_archived':
         return 'Archived a pet';
+      case 'conversation_started':
+        return 'Started a conversation';
       default:
         return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     }
@@ -81,6 +83,12 @@ const DashboardOverview = ({ onNavigate }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
         );
+      case 'conversation_started':
+        return (
+          <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        );
       default:
         return (
           <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,6 +106,8 @@ const DashboardOverview = ({ onNavigate }) => {
         return `for ${eventableSummary.title} (${eventableSummary.status})`;
       case 'Pet':
         return `for ${eventableSummary.name} (${eventableSummary.species})`;
+      case 'Conversation':
+        return `with user #${eventableSummary.recipientId}`;
       default:
         return `for ${eventableSummary.type} #${eventableSummary.id}`;
     }
@@ -111,6 +121,8 @@ const DashboardOverview = ({ onNavigate }) => {
         return `/reports/${eventableSummary.id}?query=&page=1`;
       case 'Pet':
         return `/dashboard/pets?petId=${eventableSummary.id}`;
+      case 'Conversation':
+        return `/dashboard/messages/${eventableSummary.id}`;
       default:
         return null;
     }
