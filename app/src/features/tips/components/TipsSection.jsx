@@ -4,18 +4,17 @@ import { useAppSelector } from '../../../store/hooks.js';
 import { useGetTipsQuery, useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
 import TipForm from './TipForm.jsx';
 import TipList from './TipList.jsx';
-import { useCreateConversationForReportMutation } from '../../../store/features/messages/messagesApi.js';
-import ConversationForm from '../../messages/components/ConversationForm.jsx';
+import ConversationStartForm from '../../messages/components/ConversationStartForm.jsx';
 
 const TipsSection = ({ reportId, report }) => {
   const [showTipForm, setShowTipForm] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showConversationForm, setShowConversationForm] = useState(false);
   const [conversationId, setConversationId] = useState(null);
   const [messageSent, setMessageSent] = useState(false);
   const user = useAppSelector(state => state.auth.user);
   const navigate = useNavigate();
-  const [startConversation] = useCreateConversationForReportMutation();
   const { data: tipsData, isLoading } = useGetTipsQuery({
     reportId,
     page: currentPage,
@@ -52,22 +51,20 @@ const TipsSection = ({ reportId, report }) => {
   const tips = tipsData?.tips || [];
   const totalTipsCount = tipsData?.pagination?.count || tips.length;
 
-  const handleMessageOwner = async () => {
-    try {
-      const result = await startConversation(reportId).unwrap();
-      setConversationId(result.id);
-      setMessageSent(false);
-    } catch (e) {
-    }
+  const handleMessageOwner = () => {
+    setShowConversationForm(true);
   };
 
   const handleConversationCancel = () => {
+    setShowConversationForm(false);
     setConversationId(null);
     setMessageSent(false);
   };
 
-  const handleMessageSent = () => {
+  const handleConversationSuccess = (convId) => {
+    setConversationId(convId);
     setMessageSent(true);
+    setShowConversationForm(false);
   };
 
   return (
@@ -108,46 +105,43 @@ const TipsSection = ({ reportId, report }) => {
             onSuccess={handleTipSuccess}
             onCancel={() => setShowTipForm(false)}
           />
-        ) : conversationId ? (
-          messageSent ? (
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <div className="text-center">
-                <div className="mb-4">
-                  <svg className="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Message sent!</h3>
-                <p className="text-gray-600 mb-4">
-                  Your message has been sent to the report owner.
-                </p>
-                <div className="flex items-center justify-center gap-3">
-                  <button
-                    onClick={() => {
-                      setConversationId(null);
-                      setMessageSent(false);
-                    }}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors"
-                  >
-                    Close
-                  </button>
-                  <button
-                    onClick={() => navigate(`/dashboard/messages/${conversationId}`)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
-                  >
-                    View Conversation
-                  </button>
-                </div>
+        ) : showConversationForm ? (
+          <ConversationStartForm
+            reportId={reportId}
+            onSuccess={handleConversationSuccess}
+            onCancel={handleConversationCancel}
+          />
+        ) : messageSent ? (
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="text-center">
+              <div className="mb-4">
+                <svg className="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Message sent!</h3>
+              <p className="text-gray-600 mb-4">
+                Your message has been sent to the report owner.
+              </p>
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => {
+                    setConversationId(null);
+                    setMessageSent(false);
+                  }}
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => navigate(`/dashboard/messages/${conversationId}`)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
+                >
+                  View Conversation
+                </button>
               </div>
             </div>
-          ) : (
-            <ConversationForm
-              conversationId={conversationId}
-              onSend={handleMessageSent}
-              onCancel={handleConversationCancel}
-              placeholder="Type your message to the report owner..."
-            />
-          )
+          </div>
         ) : (
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <div className="text-center">

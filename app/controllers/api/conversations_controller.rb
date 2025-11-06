@@ -92,6 +92,54 @@ module Api
     rescue => e
       render json: { error: 'Failed to start conversation' }, status: :internal_server_error
     end
+
+    def create_from_report_with_message
+      report = ::Report.find(params[:id] || params[:report_id])
+      if report.user_id == current_user.id
+        render json: { error: 'Cannot start a conversation with yourself' }, status: :unprocessable_entity and return
+      end
+
+      conversation_outcome = Conversations::Upsert.run(
+        current_user: current_user,
+        recipient_id: report.user_id,
+        messageable_type: 'Report',
+        messageable_id: report.id
+      )
+
+      unless conversation_outcome.valid?
+        render json: { errors: conversation_outcome.errors.full_messages }, status: :unprocessable_entity and return
+      end
+
+      conversation = conversation_outcome.result
+
+      formatted_body = params[:body] || ''
+
+      if params[:latitude].present? && params[:longitude].present?
+        formatted_body += "\n\nLocation: https://www.google.com/maps?q=#{params[:latitude]},#{params[:longitude]}"
+      end
+
+      external_links = params[:external_links].to_a.reject(&:blank?)
+      if external_links.any?
+        formatted_body += "\n\nLinks:\n"
+        external_links.each do |link|
+          formatted_body += "- #{link}\n"
+        end
+      end
+
+      message_outcome = Messages::Create.run(
+        conversation: conversation,
+        user: current_user,
+        body: formatted_body
+      )
+
+      if message_outcome.valid?
+        render json: ConversationSerializer.new(conversation, scope: { current_user: current_user }).as_json, status: :created
+      else
+        render json: { errors: message_outcome.errors.full_messages }, status: :unprocessable_entity
+      end
+    rescue => e
+      render json: { error: 'Failed to send message' }, status: :internal_server_error
+    end
   end
 end
 

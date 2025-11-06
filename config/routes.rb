@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       member do
         patch :archive
         post :start_conversation, to: 'conversations#create_from_report'
+        post :start_conversation_with_message, to: 'conversations#create_from_report_with_message'
       end
       resources :events, only: [:index, :create], controller: 'events' do
         collection do

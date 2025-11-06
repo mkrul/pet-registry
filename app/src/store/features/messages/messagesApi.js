@@ -36,6 +36,14 @@ export const messagesApi = createApi({
       query: (reportId) => ({ url: `/reports/${reportId}/start_conversation`, method: "POST" }),
       invalidatesTags: ["Conversations"]
     }),
+    createConversationForReportWithMessage: builder.mutation({
+      query: (payload) => ({
+        url: `/reports/${payload.reportId}/start_conversation_with_message`,
+        method: "POST",
+        body: payload
+      }),
+      invalidatesTags: ["Conversations"]
+    }),
     getConversation: builder.query({
       query: ({ id, page = 1 }) => ({ url: `/conversations/${id}?page=${page}` }),
       providesTags: (result, error, arg) => [{ type: "Conversation", id: arg.id }]
@@ -63,6 +71,7 @@ export const {
   useGetConversationsQuery,
   useCreateConversationMutation,
   useCreateConversationForReportMutation,
+  useCreateConversationForReportWithMessageMutation,
   useGetConversationQuery,
   useSendMessageMutation,
   useGetUnreadCountQuery
