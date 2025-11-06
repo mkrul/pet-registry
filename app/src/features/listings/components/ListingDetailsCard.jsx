@@ -18,6 +18,7 @@ const ListingDetailsCard = ({ report }) => {
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [pendingUrl, setPendingUrl] = useState(null);
   const [expandedTips, setExpandedTips] = useState(new Set());
+  const [truncatedTips, setTruncatedTips] = useState(new Set());
 
   const extractUrlsFromText = (text) => {
     if (!text) return [];
@@ -76,6 +77,7 @@ const ListingDetailsCard = ({ report }) => {
   const handleTipsPageChange = (page) => {
     setTipsPage(page);
     setExpandedTips(new Set());
+    setTruncatedTips(new Set());
   };
 
   const toggleTipExpansion = (tipId) => {
@@ -85,6 +87,49 @@ const ListingDetailsCard = ({ report }) => {
         newSet.delete(tipId);
       } else {
         newSet.add(tipId);
+      }
+      return newSet;
+    });
+  };
+
+  const checkTruncation = (tipId, containerElement) => {
+    if (!containerElement) return;
+
+    const truncatedElements = containerElement.querySelectorAll('.truncate');
+    let isTruncated = false;
+
+    truncatedElements.forEach(element => {
+      if (element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight) {
+        isTruncated = true;
+      }
+    });
+
+    if (!isTruncated) {
+      const contentDiv = containerElement.querySelector('.flex-1');
+      if (contentDiv) {
+        const childCount = Array.from(contentDiv.children).filter(child => {
+          return child.textContent && child.textContent.trim().length > 0;
+        }).length;
+        const tip = tips.find(t => t.id === tipId);
+        if (tip) {
+          const hasLocation = tip.area || tip.state || tip.country || tip.intersection;
+          const hasMapLink = tip.latitude && tip.longitude;
+          const uniqueLinks = getUniqueExternalLinks(tip);
+          const hasLinks = uniqueLinks.length > 0;
+          const totalItems = (hasLocation ? 1 : 0) + (hasMapLink ? 1 : 0) + (tip.message ? 1 : 0) + (hasLinks ? uniqueLinks.length : 0);
+          if (totalItems > 1) {
+            isTruncated = true;
+          }
+        }
+      }
+    }
+
+    setTruncatedTips(prev => {
+      const newSet = new Set(prev);
+      if (isTruncated) {
+        newSet.add(tipId);
+      } else {
+        newSet.delete(tipId);
       }
       return newSet;
     });
@@ -152,6 +197,14 @@ const ListingDetailsCard = ({ report }) => {
       };
     }
   }, [isImageModalOpen]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setTruncatedTips(new Set());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [tips]);
 
   return (
     <div className="min-h-screen bg-page py-8">
@@ -367,7 +420,14 @@ const ListingDetailsCard = ({ report }) => {
                             )}
                           </div>
                         ) : (
-                          <div className="flex items-center gap-2 min-w-0">
+                          <div
+                            ref={(el) => {
+                              if (el && !isExpanded) {
+                                setTimeout(() => checkTruncation(tip.id, el), 100);
+                              }
+                            }}
+                            className="flex items-center gap-2 min-w-0"
+                          >
                             <div className="flex-1 min-w-0">
                               {hasLocation && (
                                 <div className="truncate">
@@ -401,7 +461,7 @@ const ListingDetailsCard = ({ report }) => {
                           </div>
                         )}
                       </div>
-                      {hasContent && (
+                      {hasContent && (truncatedTips.has(tip.id) || isExpanded) && (
                         <button
                           onClick={() => toggleTipExpansion(tip.id)}
                           className="flex-shrink-0 mt-1 text-gray-400 hover:text-gray-600 transition-colors"
