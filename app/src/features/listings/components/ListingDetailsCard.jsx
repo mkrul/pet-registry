@@ -5,11 +5,70 @@ import LocationDisplay from "../../../shared/components/common/LocationDisplay.j
 import DateDisplay from "./common/DateDisplay.jsx";
 import TipsSection from "../../tips/components/TipsSection.jsx";
 import { useGetAllTipsQuery } from "../../../store/features/tips/tipsApi.js";
+import MessageText from "../../messages/components/MessageText.jsx";
+import ConfirmationModal from "../../../shared/components/common/ConfirmationModal.jsx";
 
 const ListingDetailsCard = ({ report }) => {
   const { data: tipsData } = useGetAllTipsQuery(report.id);
   const tips = tipsData?.tips || [];
   const navigate = useNavigate();
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [pendingUrl, setPendingUrl] = useState(null);
+
+  const extractUrlsFromText = (text) => {
+    if (!text) return [];
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const matches = text.match(urlRegex);
+    return matches || [];
+  };
+
+  const getUniqueExternalLinks = (tip) => {
+    if (!tip.external_links || tip.external_links.length === 0) return [];
+    const messageUrls = extractUrlsFromText(tip.message);
+    const googleMapsUrl = tip.latitude && tip.longitude
+      ? `https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`
+      : null;
+    return tip.external_links.filter(link => {
+      if (messageUrls.includes(link)) return false;
+      if (googleMapsUrl && link.includes('google.com/maps')) return false;
+      return true;
+    });
+  };
+
+  const isExternalUrl = (url) => {
+    try {
+      const urlObj = new URL(url);
+      const currentHostname = window.location.hostname;
+      return urlObj.hostname !== currentHostname;
+    } catch {
+      return false;
+    }
+  };
+
+  const handleLinkClick = (url, e) => {
+    e.preventDefault();
+
+    if (isExternalUrl(url)) {
+      setPendingUrl(url);
+      setShowLinkModal(true);
+    } else {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  const handleConfirmLinkOpen = () => {
+    if (pendingUrl) {
+      window.open(pendingUrl, '_blank', 'noopener,noreferrer');
+    }
+    setShowLinkModal(false);
+    setPendingUrl(null);
+  };
+
+  const handleCloseLinkModal = () => {
+    setShowLinkModal(false);
+    setPendingUrl(null);
+  };
+
   const [searchParams] = useSearchParams();
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [imageSrc, setImageSrc] = useState(report.image?.variantUrl || "/images/placeholder.png");
@@ -182,10 +241,10 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Location Details</h4>
+          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Sightings</h4>
           <div className="flex items-start gap-2 mb-5">
             <p className="text-sm text-gray-600 mt-2">
-              The information below lists the original report location and any subsequent sightings reported by community members.
+              The information below lists the original location where the animal went missing, along with any subsequent sightings or tips reported by community members.
             </p>
           </div>
           <div className="space-y-3">
@@ -213,37 +272,73 @@ const ListingDetailsCard = ({ report }) => {
             </div>
 
             {tips
-              .filter(tip => tip.area || tip.state || tip.country || tip.intersection)
               .slice()
               .reverse()
               .map((tip) => (
-              <div key={tip.id} className="grid grid-cols-[auto_1fr] gap-4 items-center border-t border-gray-200 pt-3">
-                <div className="text-sm text-gray-600 whitespace-nowrap">
-                  {(tip.createdAt || tip.created_at) ? (
-                    <>
-                      {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric"
-                      })}, {new Date(tip.createdAt || tip.created_at).toLocaleTimeString(undefined, {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: true
-                      })}
-                    </>
-                  ) : (
-                    '—'
-                  )}
+              <div key={tip.id} className="border-t border-gray-200 pt-3">
+                <div className="flex items-start gap-4 mb-2">
+                  <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0 pt-1">
+                    {(tip.createdAt || tip.created_at) ? (
+                      <>
+                        {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
+                          year: "numeric",
+                          month: "numeric",
+                          day: "numeric"
+                        })}, {new Date(tip.createdAt || tip.created_at).toLocaleTimeString(undefined, {
+                          hour: "numeric",
+                          minute: "numeric",
+                          hour12: true
+                        })}
+                      </>
+                    ) : (
+                      '—'
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    {(tip.area || tip.state || tip.country || tip.intersection) && (
+                      <LocationDisplay
+                        textStyle="font-medium text-black"
+                        area={tip.area}
+                        state={tip.state}
+                        country={tip.country}
+                        intersection={tip.intersection}
+                        useStateAbbreviation={true}
+                        showReportedMissing={true}
+                      />
+                    )}
+                    {tip.latitude && tip.longitude && (
+                      <a
+                        href={`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`}
+                        onClick={(e) => handleLinkClick(`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`, e)}
+                        className="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-block cursor-pointer"
+                      >
+                        🗺️📍 View on Google Maps
+                      </a>
+                    )}
+                    {tip.message && (
+                      <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                        <MessageText text={tip.message} />
+                      </p>
+                    )}
+                    {(() => {
+                      const uniqueLinks = getUniqueExternalLinks(tip);
+                      return uniqueLinks.length > 0 && (
+                        <div className="space-y-1">
+                          {uniqueLinks.map((link, index) => (
+                            <a
+                              key={index}
+                              href={link}
+                              onClick={(e) => handleLinkClick(link, e)}
+                              className="text-sm text-blue-600 hover:text-blue-800 hover:underline block cursor-pointer"
+                            >
+                              🔗 {link}
+                            </a>
+                          ))}
+                        </div>
+                      );
+                    })()}
+                  </div>
                 </div>
-                <LocationDisplay
-                  textStyle="font-medium text-black"
-                  area={tip.area}
-                  state={tip.state}
-                  country={tip.country}
-                  intersection={tip.intersection}
-                  useStateAbbreviation={true}
-                  showReportedMissing={true}
-                />
               </div>
             ))}
           </div>
@@ -284,6 +379,17 @@ const ListingDetailsCard = ({ report }) => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={showLinkModal}
+        onClose={handleCloseLinkModal}
+        onConfirm={handleConfirmLinkOpen}
+        title="You are about to open an external link."
+        message={`If the link you clicked is not from a trusted source, it may contain potential security risks. \n\nAre you sure you want to open it?`}
+        confirmText="Continue"
+        cancelText="Cancel"
+        confirmButtonColor="blue"
+      />
     </div>
   );
 };

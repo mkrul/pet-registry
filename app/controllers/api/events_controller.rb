@@ -11,21 +11,7 @@ module Api
       Rails.logger.info "EventsController#create_tip: Permitted params: #{tip_params.inspect}"
       Rails.logger.info "EventsController#create_tip: Report ID: #{@report.id}, User ID: #{current_user.id}"
 
-      formatted_message = tip_params[:message] || ''
-
-      if tip_params[:latitude].present? && tip_params[:longitude].present?
-        formatted_message += "\n\n🗺️📍 Location:\n https://www.google.com/maps?q=#{tip_params[:latitude]},#{tip_params[:longitude]}"
-      end
-
-      external_links = tip_params[:external_links].to_a.reject(&:blank?)
-      if external_links.any?
-        formatted_message += "\n\n"
-        external_links.each do |link|
-          formatted_message += "🔗 #{link}\n"
-        end
-      end
-
-      tip_data = tip_params.merge(message: formatted_message)
+      tip_data = tip_params
 
       outcome = Events::Create.run(
         eventable: @report,
@@ -76,14 +62,7 @@ module Api
       page = (params[:page] || 1).to_i
       per_page = (params[:per_page] || 5).to_i
 
-      is_report_owner = @report.user_id == current_user.id
-
-      tips_query = @report.tips.includes(:user)
-      unless is_report_owner
-        tips_query = tips_query.where(user_id: current_user.id)
-      end
-
-      tips_query = tips_query.order(created_at: :desc)
+      tips_query = @report.tips.includes(:user).order(created_at: :desc)
       total_count = tips_query.count
       offset = (page - 1) * per_page
       tips = tips_query.limit(per_page).offset(offset)
@@ -125,14 +104,7 @@ module Api
     end
 
     def all_tips
-      is_report_owner = @report.user_id == current_user.id
-
-      tips = @report.tips.includes(:user)
-      unless is_report_owner
-        tips = tips.where(user_id: current_user.id)
-      end
-
-      tips = tips.order(created_at: :desc)
+      tips = @report.tips.includes(:user).order(created_at: :desc)
 
       render json: {
         tips: tips.map do |tip|

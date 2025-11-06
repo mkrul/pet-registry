@@ -112,24 +112,10 @@ module Api
 
       conversation = conversation_outcome.result
 
-      formatted_body = params[:body] || ''
-
-      if params[:latitude].present? && params[:longitude].present?
-        formatted_body += "\n\n🗺️📍 Location:\n https://www.google.com/maps?q=#{params[:latitude]},#{params[:longitude]}"
-      end
-
-      external_links = params[:external_links].to_a.reject(&:blank?)
-      if external_links.any?
-        formatted_body += "\n\n"
-        external_links.each do |link|
-          formatted_body += "🔗 #{link}\n"
-        end
-      end
-
       message_outcome = Messages::Create.run(
         conversation: conversation,
         user: current_user,
-        body: formatted_body
+        body: params[:body] || ''
       )
 
       if message_outcome.valid?

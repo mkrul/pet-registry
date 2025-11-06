@@ -27,7 +27,9 @@ export const TipLocationSelect = ({
   showTip = true,
   labelStyle = "default",
   initialZoom,
-  showInitialMarker = false
+  showInitialMarker = false,
+  placeholderText,
+  mapCenterLocation
 }) => {
   console.log('[TipLocationSelect] Component render:', {
     initialLocation,
@@ -186,24 +188,24 @@ export const TipLocationSelect = ({
   }, [onLocationSelect]);
 
   const mapLocation = useMemo(() => {
-    console.log('[TipLocationSelect] mapLocation useMemo calculating:', {
-      currentMapLocation,
-      initialLocation,
-      showInitialMarker
-    });
     if (currentMapLocation) {
-      const location = createMapLocation(currentMapLocation);
-      console.log('[TipLocationSelect] mapLocation returning currentMapLocation:', location);
-      return location;
+      return createMapLocation(currentMapLocation);
     }
     if (initialLocation && !showInitialMarker) {
-      const location = createMapLocation(initialLocation);
-      console.log('[TipLocationSelect] mapLocation returning initialLocation:', location);
-      return location;
+      return createMapLocation(initialLocation);
     }
-    console.log('[TipLocationSelect] mapLocation returning undefined');
+    if (mapCenterLocation?.latitude && mapCenterLocation?.longitude) {
+      return createMapLocation({
+        latitude: parseFloat(mapCenterLocation.latitude),
+        longitude: parseFloat(mapCenterLocation.longitude),
+        area: mapCenterLocation.area,
+        state: mapCenterLocation.state,
+        country: mapCenterLocation.country,
+        intersection: mapCenterLocation.intersection
+      });
+    }
     return undefined;
-  }, [currentMapLocation, initialLocation, showInitialMarker]);
+  }, [currentMapLocation, initialLocation, showInitialMarker, mapCenterLocation]);
 
   const mapZoom = useMemo(() => {
     if (initialZoom) {
@@ -227,7 +229,7 @@ export const TipLocationSelect = ({
           Click on the map or type the address where the animal was last seen. To protect your privacy, the published report will only list the general area or nearest intersection.
         </Tip>
       )}
-      {selectedLocation && (
+      {selectedLocation ? (
         <LocationDisplay
           area={selectedLocation.area}
           state={selectedLocation.state}
@@ -235,7 +237,9 @@ export const TipLocationSelect = ({
           intersection={selectedLocation.intersection}
           displayTip={true}
         />
-      )}
+      ) : placeholderText ? (
+        <p className="text-sm text-gray-500">{placeholderText}</p>
+      ) : null}
       <div className="flex gap-2 mb-4">
         <Autocomplete
           fullWidth

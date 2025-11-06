@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks.js';
-import { useGetTipsQuery, useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
+import { useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
 import TipForm from './TipForm.jsx';
-import TipList from './TipList.jsx';
 import ConversationStartForm from '../../messages/components/ConversationStartForm.jsx';
 
 const TipsSection = ({ reportId, report }) => {
   const [showTipForm, setShowTipForm] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [showConversationForm, setShowConversationForm] = useState(false);
   const [conversationId, setConversationId] = useState(null);
   const [messageSent, setMessageSent] = useState(false);
   const user = useAppSelector(state => state.auth.user);
   const navigate = useNavigate();
-  const { data: tipsData, isLoading } = useGetTipsQuery({
-    reportId,
-    page: currentPage,
-    perPage: 5
-  });
 
   const isOwner = Boolean(
     user?.id &&
@@ -33,25 +25,9 @@ const TipsSection = ({ reportId, report }) => {
     skip: !canShowTipForm
   });
 
-  console.log('[TipsSection] isOwner:', isOwner);
-
   const handleTipSuccess = () => {
     setShowTipForm(false);
-    setCurrentPage(1);
   };
-
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const tips = tipsData?.tips || [];
-  const totalTipsCount = tipsData?.pagination?.count || tips.length;
-  const hasTips = totalTipsCount > 0;
-  const canViewTips = isOwner || (user && hasTips);
 
   const handleMessageOwner = () => {
     setShowConversationForm(true);
@@ -71,35 +47,6 @@ const TipsSection = ({ reportId, report }) => {
 
   return (
     <div className="space-y-6">
-      {canViewTips && (
-        <div className="bg-white rounded-lg border border-gray-200">
-          <button
-            onClick={toggleCollapse}
-            className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
-          >
-            <h3 className="text-lg font-semibold text-gray-900">Tips ({totalTipsCount})</h3>
-            <svg
-              className={`w-5 h-5 text-gray-500 transition-transform ${isCollapsed ? 'rotate-180' : ''}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          {!isCollapsed && (
-            <div className="px-6 pb-6">
-              <TipList
-                reportId={reportId}
-                tipsData={tipsData}
-                pagination={tipsData?.pagination}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          )}
-        </div>
-      )}
-
       {user && !isArchived && !isOwner && (
         showTipForm ? (
           <TipForm

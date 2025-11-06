@@ -67,14 +67,6 @@ const ConversationStartForm = ({ reportId, onSuccess, onCancel }) => {
       return;
     }
 
-    if (!formData.latitude || !formData.longitude) {
-      dispatch(addNotification({
-        type: 'ERROR',
-        message: 'Please select a location on the map or type the address '
-      }));
-      return;
-    }
-
     const payload = {
       reportId,
       body: formData.message,
@@ -132,23 +124,18 @@ const ConversationStartForm = ({ reportId, onSuccess, onCancel }) => {
       });
     }
 
-    if (lastLocationData?.latitude && lastLocationData?.longitude) {
-      return createMapLocation({
-        latitude: parseFloat(lastLocationData.latitude),
-        longitude: parseFloat(lastLocationData.longitude),
-        area: lastLocationData.area,
-        state: lastLocationData.state,
-        country: lastLocationData.country,
-        intersection: lastLocationData.intersection
-      });
-    }
-
     return null;
   };
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Start a Conversation</h3>
+
+      <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+        <p className="text-sm text-gray-700">
+          <strong>Privacy Notice:</strong> Only yourself and the recipient will be able to see this conversation and any provided links or location data.
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -196,12 +183,14 @@ const ConversationStartForm = ({ reportId, onSuccess, onCancel }) => {
                   initialLocation={initialLocation}
                   isLoading={isFormDisabled}
                   isLocationDataLoading={isLastLocationLoading}
-                  required={true}
+                  required={false}
                   onProcessingStateChange={handleLocationProcessingStateChange}
                   showTip={false}
                   labelStyle="microchip"
                   initialZoom={TIP_ZOOM_LEVEL}
                   showInitialMarker={false}
+                  placeholderText="Enter an address or click on the map where the animal was last seen."
+                  mapCenterLocation={lastLocationData}
                 />
               );
             })()}

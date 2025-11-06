@@ -60,11 +60,54 @@ const MessageText = ({ text }) => {
     return parts.length > 0 ? parts : [{ type: 'text', content: text }];
   };
 
-  const parts = parseUrls(text);
+  const parseMessage = (text) => {
+    const googleMapsPattern = /🗺️📍\s*Location:\s*\n?\s*(https?:\/\/www\.google\.com\/maps\?q=([\d.-]+),([\d.-]+))/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = googleMapsPattern.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        const beforeText = text.slice(lastIndex, match.index);
+        parts.push(...parseUrls(beforeText));
+      }
+      const latitude = match[2];
+      const longitude = match[3];
+      const mapsUrl = match[1];
+      parts.push({
+        type: 'googleMaps',
+        url: mapsUrl,
+        latitude,
+        longitude
+      });
+      lastIndex = match.index + match[0].length;
+    }
+
+    if (lastIndex < text.length) {
+      const remainingText = text.slice(lastIndex);
+      parts.push(...parseUrls(remainingText));
+    }
+
+    return parts.length > 0 ? parts : parseUrls(text);
+  };
+
+  const parts = parseMessage(text);
 
   return (
     <>
       {parts.map((part, index) => {
+        if (part.type === 'googleMaps') {
+          return (
+            <a
+              key={index}
+              href={part.url}
+              onClick={(e) => handleLinkClick(part.url, e)}
+              className="text-blue-600 hover:text-blue-800 underline cursor-pointer inline-block"
+            >
+              🗺️📍 View on Google Maps
+            </a>
+          );
+        }
         if (part.type === 'url') {
           return (
             <a

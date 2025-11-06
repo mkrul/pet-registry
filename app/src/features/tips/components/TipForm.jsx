@@ -13,14 +13,6 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
   const dispatch = useAppDispatch();
   const [isProcessingLocation, setIsProcessingLocation] = useState(false);
 
-  console.log('[TipForm] Component render:', {
-    reportId,
-    lastLocationData,
-    isLastLocationLoading,
-    isLastLocationFetching,
-    hasLastLocationData: !!lastLocationData
-  });
-
   const [formData, setFormData] = useState({
     message: '',
     area: '',
@@ -74,14 +66,6 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
       return;
     }
 
-    if (!formData.latitude || !formData.longitude) {
-      dispatch(addNotification({
-        type: 'ERROR',
-        message: 'Please select a location on the map or type the address '
-      }));
-      return;
-    }
-
     const tipPayload = {
       reportId,
       message: formData.message,
@@ -94,11 +78,8 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
       external_links: formData.external_links.filter(link => link.trim() !== '')
     };
 
-    console.log('TipForm: Submitting tip with payload:', tipPayload);
-
     try {
       const result = await createTip(tipPayload).unwrap();
-      console.log('TipForm: Tip submitted successfully:', result);
 
       dispatch(addNotification({
         type: 'SUCCESS',
@@ -121,7 +102,6 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
       }
     } catch (error) {
       console.error('TipForm: Error submitting tip:', error);
-      console.error('TipForm: Error details:', error.data);
       dispatch(addNotification({
         type: 'ERROR',
         message: error.data?.message || 'Failed to submit tip'
@@ -132,23 +112,8 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
   const isFormDisabled = isLoading || isProcessingLocation;
 
   const getInitialLocation = () => {
-    console.log('[TipForm] getInitialLocation called:', {
-      hasFormData: !!(formData.latitude && formData.longitude),
-      formData: {
-        latitude: formData.latitude,
-        longitude: formData.longitude,
-        area: formData.area,
-        state: formData.state,
-        country: formData.country
-      },
-      lastLocationData,
-      isLastLocationLoading,
-      isLastLocationFetching
-    });
-
-    // First check if we have form data (user has already selected a location)
     if (formData.latitude && formData.longitude) {
-      const location = createMapLocation({
+      return createMapLocation({
         latitude: parseFloat(formData.latitude),
         longitude: parseFloat(formData.longitude),
         area: formData.area,
@@ -156,31 +121,20 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
         country: formData.country,
         intersection: formData.intersection
       });
-      console.log('[TipForm] getInitialLocation returning formData location:', location);
-      return location;
     }
 
-    // If no form data, use the last location from events or report
-    if (lastLocationData?.latitude && lastLocationData?.longitude) {
-      const location = createMapLocation({
-        latitude: parseFloat(lastLocationData.latitude),
-        longitude: parseFloat(lastLocationData.longitude),
-        area: lastLocationData.area,
-        state: lastLocationData.state,
-        country: lastLocationData.country,
-        intersection: lastLocationData.intersection
-      });
-      console.log('[TipForm] getInitialLocation returning lastLocationData location:', location);
-      return location;
-    }
-
-    console.log('[TipForm] getInitialLocation returning null (no location data available)');
     return null;
   };
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Submit a Tip</h3>
+
+      <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
+        <p className="text-sm text-gray-700">
+          <strong>Privacy Notice:</strong> Tips are publicly viewable by all users. This includes the message, location information, and any links you provide.
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -224,19 +178,20 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
           <div>
             {(() => {
               const initialLocation = getInitialLocation();
-              console.log('[TipForm] Rendering TipLocationSelect with initialLocation:', initialLocation);
               return (
                 <TipLocationSelect
                   onLocationSelect={handleLocationSelect}
                   initialLocation={initialLocation}
                   isLoading={isFormDisabled}
                   isLocationDataLoading={isLastLocationLoading}
-                  required={true}
+                  required={false}
                   onProcessingStateChange={handleLocationProcessingStateChange}
                   showTip={false}
                   labelStyle="microchip"
                   initialZoom={TIP_ZOOM_LEVEL}
                   showInitialMarker={false}
+                  placeholderText="Enter an address or click on the map where the animal was last seen."
+                  mapCenterLocation={lastLocationData}
                 />
               );
             })()}
