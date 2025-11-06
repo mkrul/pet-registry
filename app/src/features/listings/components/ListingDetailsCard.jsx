@@ -333,7 +333,7 @@ const ListingDetailsCard = ({ report }) => {
               return (
                 <div key={tip.id} className="border-t border-gray-200 pt-3">
                   <div className="flex items-start gap-4">
-                    <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0 pt-1">
+                    <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0">
                       {(tip.createdAt || tip.created_at) ? (
                         <>
                           {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
@@ -423,7 +423,7 @@ const ListingDetailsCard = ({ report }) => {
                                 </div>
                               )}
                               {!hasLocation && !hasMapLink && tip.message && (
-                                <p className="text-sm text-gray-700 truncate pt-0.5" title={tip.message}>
+                                <p className="text-sm text-gray-700 truncate" title={tip.message}>
                                   {tip.message}
                                 </p>
                               )}
@@ -459,11 +459,13 @@ const ListingDetailsCard = ({ report }) => {
             })}
           </div>
           {pagination && pagination.pages > 1 && (
-            <TipsPagination
-              currentPage={pagination.page}
-              totalPages={pagination.pages}
-              onPageChange={handleTipsPageChange}
-            />
+            <div className="mt-4">
+              <TipsPagination
+                currentPage={pagination.page}
+                totalPages={pagination.pages}
+                onPageChange={handleTipsPageChange}
+              />
+            </div>
           )}
         </div>
 
