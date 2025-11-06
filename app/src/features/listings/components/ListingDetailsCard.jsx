@@ -386,7 +386,8 @@ const ListingDetailsCard = ({ report }) => {
                                     key={index}
                                     href={link}
                                     onClick={(e) => handleLinkClick(link, e)}
-                                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline block cursor-pointer"
+                                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline block cursor-pointer truncate"
+                                    title={link}
                                   >
                                     🔗 {link}
                                   </a>
