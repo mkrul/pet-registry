@@ -289,7 +289,7 @@ const MessagesPage = () => {
   return (
     <div className="flex flex-col h-[70vh] md:h-[80vh]">
       <div className="md:grid md:grid-cols-12 md:gap-4 flex-1 min-h-0">
-        <div className={`border rounded-lg overflow-hidden ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'} flex flex-col h-full`}>
+        <div className={`border rounded-lg overflow-auto ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'} flex flex-col h-full`}>
           <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 font-semibold flex-shrink-0">Conversations</div>
           <div className="flex-1 divide-y overflow-y-auto min-h-0" aria-busy={isPageChanging}>
             {isInitialLoading ? (
@@ -303,7 +303,7 @@ const MessagesPage = () => {
             )}
           </div>
         </div>
-        <div className={`border rounded-lg overflow-hidden ${activeId ? 'block md:block md:col-span-8' : 'hidden md:block md:col-span-8'} h-full`}>
+        <div className={`border rounded-lg overflow-auto ${activeId ? 'block md:block md:col-span-8' : 'hidden md:block md:col-span-8'} h-full`}>
           {hasConversations || activeId ? (
             <ConversationThread conversationId={activeId} onBack={handleBackToList} />
           ) : (
