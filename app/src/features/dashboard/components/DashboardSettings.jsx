@@ -128,6 +128,24 @@ const DashboardSettings = () => {
                 />
               </button>
             </div>
+            <div className="flex items-center justify-between">
+              <div>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Matches</label>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification someone reports a lost pet that looks like yours</p>
+              </div>
+              <button
+                onClick={() => setEmailMessageNotifications(!emailMessageNotifications)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  emailMessageNotifications ? 'bg-blue-600' : 'bg-gray-200'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    emailMessageNotifications ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
           </div>
         </div>
 

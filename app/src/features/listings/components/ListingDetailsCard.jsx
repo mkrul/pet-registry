@@ -329,25 +329,33 @@ const ListingDetailsCard = ({ report }) => {
               const uniqueLinks = getUniqueExternalLinks(tip);
               const hasLinks = uniqueLinks.length > 0;
               const hasContent = hasLocation || hasMapLink || tip.message || hasLinks;
+              const tipTimestamp = tip.createdAt || tip.created_at ? new Date(tip.createdAt || tip.created_at) : null;
+              const formattedDate = tipTimestamp
+                ? tipTimestamp.toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
+                  })
+                : null;
+              const formattedTime = tipTimestamp
+                ? tipTimestamp.toLocaleTimeString(undefined, {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true
+                  })
+                : null;
 
               return (
                 <div key={tip.id} className="border-t border-gray-200 pt-3">
                   <div className="flex items-start gap-4">
-                    <div className="text-sm text-gray-600 whitespace-nowrap flex-shrink-0">
-                      {(tip.createdAt || tip.created_at) ? (
+                    <div className="text-sm text-gray-600 flex flex-col md:flex-row md:items-center flex-shrink-0">
+                      {formattedDate && formattedTime ? (
                         <>
-                          {new Date(tip.createdAt || tip.created_at).toLocaleDateString(undefined, {
-                            year: "numeric",
-                            month: "numeric",
-                            day: "numeric"
-                          })}, {new Date(tip.createdAt || tip.created_at).toLocaleTimeString(undefined, {
-                            hour: "numeric",
-                            minute: "numeric",
-                            hour12: true
-                          })}
+                          <span>{`${formattedDate},`}</span>
+                          <span className="md:ml-1">{formattedTime}</span>
                         </>
                       ) : (
-                        '—'
+                        <span>—</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0 flex items-start gap-2">
@@ -444,7 +452,7 @@ const ListingDetailsCard = ({ report }) => {
                           aria-label={isExpanded ? "Collapse tip" : "Expand tip"}
                         >
                           <svg
-                            className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                            className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
