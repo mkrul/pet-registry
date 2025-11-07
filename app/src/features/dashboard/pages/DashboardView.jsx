@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../../store/hooks.js';
 import DashboardOverview from '../components/DashboardOverview';
@@ -22,6 +22,7 @@ const DashboardView = () => {
   };
 
   const [activeSection, setActiveSection] = useState(getInitialSection);
+  const prevSectionRef = useRef(activeSection);
 
   useEffect(() => {
     const pathParts = location.pathname.split('/');
@@ -31,9 +32,16 @@ const DashboardView = () => {
     }
   }, [location.pathname]);
 
-  // Scroll to top when active section changes
+  // Scroll to top when active section changes, but not when navigating within messages
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const prevSection = prevSectionRef.current;
+    const isMessagesNavigation = activeSection === 'messages' && prevSection === 'messages';
+
+    if (!isMessagesNavigation && activeSection !== prevSection) {
+      window.scrollTo(0, 0);
+    }
+
+    prevSectionRef.current = activeSection;
   }, [activeSection]);
 
   // Scroll to top when component mounts (handles direct URL navigation)

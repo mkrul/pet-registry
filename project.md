@@ -271,6 +271,22 @@
 - Frontend: sender messages align right with blue bubble; recipient messages align left with gray bubble in `MessagesPage.jsx`
 - Implementation: flex column container with `self-end`/`self-start`; normalized id comparison to string
 
+### Dashboard Messages scroll fix (November 7, 2025)
+- Frontend: updated `MessagesPage.jsx` conversations column to use full-height flex layout with `min-h-0` so long conversation lists remain scrollable
+- Layout: adjusted grid height on desktop to 80vh to give threads more space without affecting mobile flow
+
+### Conversations Pagination Update (November 7, 2025)
+- Created shared `PaginationControls` component in `app/src/shared/components/common/PaginationControls.jsx` for reusable numbered pagination UI
+- Updated `MessagesPage.jsx` to use numbered pagination controls matching the Sightings & Tips section, replacing the load-more pattern on desktop and mobile
+- Repositioned pagination controls outside the conversation panel grid layout, below the entire messages interface, ensuring they remain visible on all viewports including larger screens while remaining flush with the conversation list on mobile
+- Re-exported the shared pagination component from `TipsPagination.jsx` to keep the listings view aligned without refactoring imports
+
+### Messages Navigation Scroll Fix (November 7, 2025)
+- Updated `ScrollToTop` component to skip scroll-to-top behavior when navigating within messages section (e.g., `/dashboard/messages` to `/dashboard/messages/:id`)
+- Updated `DashboardView` to prevent scroll when staying within messages section
+- Removed focus call from `ConversationThread` that was causing unwanted scroll behavior
+- Users can now click conversations without losing their scroll position on the page
+
 ### Location Data Migration to Tip Events (November 6, 2025)
 - **Backend Changes:**
   - Created migration to backfill existing report locations as tip events (`20251106084319_migrate_report_locations_to_tips.rb`)

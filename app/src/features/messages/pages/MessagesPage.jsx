@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { messagesApi } from '../../../store/features/messages/messagesApi';
 import { useParams, useNavigate } from 'react-router-dom';
 import MessageText from '../components/MessageText.jsx';
+import PaginationControls from '../../../shared/components/common/PaginationControls.jsx';
 
 const ConversationListItem = ({ conversation, isActive, onSelect }) => {
   const unread = conversation.unread_count || conversation.unreadCount;
@@ -100,7 +101,6 @@ const ConversationThread = ({ conversationId, onBack }) => {
   useEffect(() => {
     if (conversationId && data) {
       dispatch(messagesApi.util.invalidateTags(['UnreadCount', 'Conversations']));
-      headerRef.current?.focus?.();
     }
   }, [conversationId, data, dispatch]);
 
@@ -223,36 +223,26 @@ const MessagesPage = () => {
   const { id: routeId } = useParams();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [allConversations, setAllConversations] = useState([]);
-  const { data, isLoading } = useGetConversationsQuery(currentPage);
+  const { data, isLoading, isFetching } = useGetConversationsQuery(currentPage);
   const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
     if (routeId) setActiveId(routeId);
   }, [routeId]);
 
-  useEffect(() => {
-    if (data?.conversations) {
-      if (currentPage === 1) {
-        setAllConversations(data.conversations);
-      } else {
-        setAllConversations(prev => {
-          const existingIds = new Set(prev.map(c => c.id));
-          const newConversations = data.conversations.filter(c => !existingIds.has(c.id));
-          return [...prev, ...newConversations];
-        });
-      }
-    }
-  }, [data?.conversations, currentPage]);
-
+  const conversations = data?.conversations || [];
+  const hasConversations = conversations.length > 0;
   const pagination = data?.pagination;
-  const hasConversations = allConversations.length > 0;
-  const hasMorePages = pagination && currentPage < pagination.pages;
+  const totalPages = pagination?.pages ?? (hasConversations ? 1 : 0);
+  const resolvedPage = pagination?.page ?? currentPage;
+  const isInitialLoading = isLoading && !data;
+  const isPageChanging = isFetching && !isInitialLoading;
 
-  const handleLoadMore = () => {
-    if (hasMorePages && !isLoading) {
-      setCurrentPage(currentPage + 1);
-    }
+  const handlePageChange = (page) => {
+    if (isPageChanging) return;
+    if (page < 1 || page > totalPages) return;
+    if (page === resolvedPage) return;
+    setCurrentPage(page);
   };
 
   const handleSelect = (id) => {
@@ -268,43 +258,43 @@ const MessagesPage = () => {
   };
 
   return (
-    <div className="md:grid md:grid-cols-12 md:gap-4 h-[70vh]">
-      <div className={`border rounded-lg overflow-hidden ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'}`}>
-        <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 font-semibold">Conversations</div>
-        <div className="divide-y overflow-y-auto h-full flex flex-col">
-          <div className="flex-1">
-          {hasConversations ? (
-              allConversations.map(c => (
-              <ConversationListItem key={c.id} conversation={c} isActive={activeId === c.id} onSelect={() => handleSelect(c.id)} />
-            ))
-            ) : isLoading && currentPage === 1 ? (
+    <div className="flex flex-col h-[70vh] md:h-[80vh]">
+      <div className="md:grid md:grid-cols-12 md:gap-4 flex-1 min-h-0">
+        <div className={`border rounded-lg overflow-hidden ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'} flex flex-col h-full`}>
+          <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 font-semibold flex-shrink-0">Conversations</div>
+          <div className="flex-1 divide-y overflow-y-auto min-h-0" aria-busy={isPageChanging}>
+            {isInitialLoading ? (
               <div className="p-4 text-sm text-gray-500 dark:text-gray-400">Loading...</div>
-          ) : (
-            <div className="p-4 text-sm text-gray-500 dark:text-gray-400">No conversations yet.</div>
+            ) : hasConversations ? (
+              conversations.map(c => (
+                <ConversationListItem key={c.id} conversation={c} isActive={activeId === c.id} onSelect={() => handleSelect(c.id)} />
+              ))
+            ) : (
+              <div className="p-4 text-sm text-gray-500 dark:text-gray-400">No conversations yet.</div>
             )}
           </div>
-          {hasMorePages && (
-            <div className="p-4 border-t">
-              <button
-                onClick={handleLoadMore}
-                disabled={isLoading}
-                className="w-full px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 disabled:text-gray-400 disabled:cursor-not-allowed"
-              >
-                {isLoading ? 'Loading...' : 'Load More'}
-              </button>
+        </div>
+        <div className={`border rounded-lg overflow-hidden ${activeId ? 'block md:block md:col-span-8' : 'hidden md:block md:col-span-8'} h-full`}>
+          {hasConversations || activeId ? (
+            <ConversationThread conversationId={activeId} onBack={handleBackToList} />
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
+              You have no messages yet.
             </div>
           )}
         </div>
       </div>
-      <div className={`border rounded-lg overflow-hidden ${activeId ? 'block md:block md:col-span-8' : 'hidden md:block md:col-span-8'}`}>
-        {hasConversations ? (
-          <ConversationThread conversationId={activeId} onBack={handleBackToList} />
-        ) : (
-          <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
-            You have no messages yet.
+      {totalPages > 1 && (
+        <div className="px-3 py-2 bg-white dark:bg-gray-900 flex-shrink-0 md:mt-2">
+          <div className="md:max-w-[33.333333%]">
+            <PaginationControls
+              currentPage={resolvedPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
