@@ -130,8 +130,11 @@ const DashboardSettings = () => {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Matches</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification someone reports a lost pet that looks like yours</p>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Matches
+                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">Powered by AI</span>
+                </label>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone reports a lost pet that looks like yours</p>
               </div>
               <button
                 onClick={() => setEmailMessageNotifications(!emailMessageNotifications)}

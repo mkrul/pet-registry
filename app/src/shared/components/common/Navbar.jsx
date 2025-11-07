@@ -69,7 +69,7 @@ const NavBar = () => {
                 </svg>
               </button>
               <ul
-                className={`menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow ${
+                className={`menu menu-sm dropdown-content bg-white rounded-box z-[50] mt-3 w-52 p-2 shadow ${
                   isMenuOpen ? "block" : "hidden"
                 }`}
                 data-testid="mobile-menu"

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useGetUserEventsQuery } from '../../../store/features/events/eventsApi.js';
-import Pagination from '../../../shared/components/common/Pagination.jsx';
+import PaginationControls from '../../../shared/components/common/PaginationControls.jsx';
 import LoadingState from '../../../shared/components/common/LoadingState.jsx';
-import formatDate from '../../../shared/formatDate.js';
 
 const DashboardOverview = ({ onNavigate }) => {
   const [page, setPage] = useState(1);
@@ -132,6 +131,21 @@ const DashboardOverview = ({ onNavigate }) => {
     setPage(newPage);
   };
 
+  const formatTimestamp = (dateString) => {
+    const date = new Date(dateString);
+    const datePart = date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric"
+    });
+    const timePart = date.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true
+    });
+    return { datePart, timePart };
+  };
+
   if (isLoading) {
     return (
       <div>
@@ -171,7 +185,9 @@ const DashboardOverview = ({ onNavigate }) => {
       ) : (
         <div>
           <div className="space-y-4">
-            {events.map((event) => (
+            {events.map((event) => {
+              const timestamp = formatTimestamp(event.createdAt);
+              return (
               <div key={event.id} className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
                 <div className="flex items-start space-x-3">
                   <div className="flex-shrink-0">
@@ -184,9 +200,10 @@ const DashboardOverview = ({ onNavigate }) => {
                       <p className="text-sm font-medium text-gray-900">
                         {formatEventCategory(event.category)}
                       </p>
-                      <p className="text-xs text-gray-500">
-                        {formatDate(event.createdAt)}
-                      </p>
+                      <div className="text-xs text-gray-500">
+                        <span className="block sm:inline">{timestamp.datePart},</span>
+                        <span className="block sm:inline sm:ml-1">{timestamp.timePart}</span>
+                      </div>
                     </div>
                     {event.eventableSummary && (
                       <div className="mt-1">
@@ -210,12 +227,13 @@ const DashboardOverview = ({ onNavigate }) => {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {pagination && pagination.pages > 1 && (
             <div className="mt-6">
-              <Pagination
+              <PaginationControls
                 currentPage={pagination.page}
                 totalPages={pagination.pages}
                 onPageChange={handlePageChange}

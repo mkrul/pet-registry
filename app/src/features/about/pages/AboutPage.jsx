@@ -437,7 +437,7 @@ const AboutPage = () => {
             </Typography>
           </Box>
 
-          <Grid2 container spacing={4} sx={{ mt: 2 }}>
+          <Grid2 container spacing={4} sx={{ mt: 2, justifyContent: { xs: "center", md: "flex-start" } }}>
             <Grid2 size={{ xs: 12, md: 6, lg: 3 }}>
               <Box sx={{
                 display: "flex",
@@ -449,6 +449,8 @@ const AboutPage = () => {
                 bgcolor: "#f8f9fa",
                 borderRadius: 3,
                 transition: "all 0.3s ease",
+                maxWidth: { xs: "30rem", md: "none" },
+                mx: { xs: "auto", md: 0 },
                 "&:hover": {
                   boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                   transform: "translateY(-4px)"
@@ -495,6 +497,8 @@ const AboutPage = () => {
                 bgcolor: "#f8f9fa",
                 borderRadius: 3,
                 transition: "all 0.3s ease",
+                maxWidth: { xs: "30rem", md: "none" },
+                mx: { xs: "auto", md: 0 },
                 "&:hover": {
                   boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                   transform: "translateY(-4px)"
@@ -540,6 +544,8 @@ const AboutPage = () => {
                 bgcolor: "#f8f9fa",
                 borderRadius: 3,
                 transition: "all 0.3s ease",
+                maxWidth: { xs: "30rem", md: "none" },
+                mx: { xs: "auto", md: 0 },
                 "&:hover": {
                   boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                   transform: "translateY(-4px)"
@@ -585,6 +591,8 @@ const AboutPage = () => {
                 bgcolor: "#f8f9fa",
                 borderRadius: 3,
                 transition: "all 0.3s ease",
+                maxWidth: { xs: "30rem", md: "none" },
+                mx: { xs: "auto", md: 0 },
                 "&:hover": {
                   boxShadow: "0 4px 20px rgba(0,0,0,0.12)",
                   transform: "translateY(-4px)"
