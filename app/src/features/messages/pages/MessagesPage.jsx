@@ -225,6 +225,35 @@ const MessagesPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data, isLoading, isFetching } = useGetConversationsQuery(currentPage);
   const [activeId, setActiveId] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(min-width: 768px)').matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const mediaQuery = window.matchMedia('(min-width: 768px)');
+
+    const handleMediaChange = (event) => {
+      setIsDesktop(event.matches);
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleMediaChange);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(handleMediaChange);
+    }
+
+    setIsDesktop(mediaQuery.matches);
+
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleMediaChange);
+      } else if (mediaQuery.removeListener) {
+        mediaQuery.removeListener(handleMediaChange);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (routeId) setActiveId(routeId);
@@ -246,16 +275,16 @@ const MessagesPage = () => {
   };
 
   const handleSelect = (id) => {
-    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
     setActiveId(id);
     if (!isDesktop) navigate(`/dashboard/messages/${id}`);
   };
 
   const handleBackToList = () => {
-    const isDesktop = window.matchMedia('(min-width: 768px)').matches;
     if (!isDesktop) navigate('/dashboard/messages');
     setActiveId(null);
   };
+
+  const shouldShowPagination = totalPages > 1 && (isDesktop || !activeId);
 
   return (
     <div className="flex flex-col h-[70vh] md:h-[80vh]">
@@ -284,7 +313,7 @@ const MessagesPage = () => {
           )}
         </div>
       </div>
-      {totalPages > 1 && (
+      {shouldShowPagination && (
         <div className="px-3 py-2 bg-white dark:bg-gray-900 flex-shrink-0 md:mt-2">
           <div className="md:max-w-[33.333333%]">
             <PaginationControls

@@ -286,6 +286,7 @@
 - Updated `DashboardView` to prevent scroll when staying within messages section
 - Removed focus call from `ConversationThread` that was causing unwanted scroll behavior
 - Users can now click conversations without losing their scroll position on the page
+- Pagination controls now hide on smaller viewports when a conversation thread is open to keep the message view focused
 
 ### Location Data Migration to Tip Events (November 6, 2025)
 - **Backend Changes:**

@@ -30,7 +30,7 @@
 - Messages: Conversation thread now aligns current user messages to the right and other participant messages to the left.
 - Messages: Alignment uses flex column with `self-end`/`self-start` and compares user ids as strings to avoid type mismatches.
 - Messages: Conversations list column is now flexed with `min-h-0` overflow handling so long lists scroll correctly.
-- Messages: Conversations list now uses shared pagination controls matching the Sightings & Tips section, positioned below the conversation panel outside the grid layout for visibility on all viewports, with mobile layout keeping controls flush against the conversation list.
+- Messages: Conversations list now uses shared pagination controls matching the Sightings & Tips section, positioned below the conversation panel outside the grid layout for visibility on all viewports, with mobile layout keeping controls flush against the conversation list and hiding pagination when a conversation is open on smaller screens.
 - Messages: Scroll-to-top behavior disabled when navigating within messages section (e.g., clicking a conversation to view thread) to preserve user's scroll position.
 - Report edit form: Location editing removed; location updates should be done via tip submission
 - Report display components: All now use `lastSeenLocation` from tips instead of direct report location fields
