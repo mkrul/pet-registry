@@ -165,7 +165,7 @@ const ConversationThread = ({ conversationId, onBack }) => {
   const conversation = data?.conversation || {};
   const messageable = conversation.messageable || {};
   const headerTitle = messageable.title;
-  const headerImage = messageable.image?.variant_url || messageable.image?.variantUrl || messageable.image?.thumbnail_url || messageable.image?.thumbnailUrl;
+  const headerImage = messageable.image?.thumbnail_url || messageable.image?.thumbnailUrl || messageable.image?.variant_url || messageable.image?.variantUrl;
 
   return (
     <div className="flex flex-col h-full">
