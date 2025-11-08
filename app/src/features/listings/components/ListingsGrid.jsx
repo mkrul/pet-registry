@@ -1,6 +1,6 @@
 import React from "react";
 import ReportCard from "./ListingCard.jsx";
-import Pagination from "../../../shared/components/common/Pagination.jsx";
+import PaginationControls from "../../../shared/components/common/PaginationControls.jsx";
 
 const ListingsGrid = ({
   reports,
@@ -22,11 +22,13 @@ const ListingsGrid = ({
         ))}
       </div>
       {pagination && pagination.pages > 1 && onPageChange && (
-        <Pagination
-          currentPage={pagination.page}
-          totalPages={pagination.pages}
-          onPageChange={onPageChange}
-        />
+        <div className="mt-4 flex justify-center">
+          <PaginationControls
+            currentPage={pagination.page}
+            totalPages={pagination.pages}
+            onPageChange={onPageChange}
+          />
+        </div>
       )}
     </div>
   );

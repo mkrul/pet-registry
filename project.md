@@ -2,6 +2,10 @@
 
 ## Completed Tasks
 
+### Report Index Pagination Alignment (November 8, 2025)
+- Updated `ListingsGrid.jsx` to reuse the shared `PaginationControls` component so the home/report index pagination matches the recent activity experience.
+- Removed the legacy `Pagination.jsx` component now that all screens share the same pagination controls.
+
 ### Event Infrastructure Implementation (October 22, 2025)
 - Created polymorphic events system for tracking events related to reports and other resources
 - **Database Layer:**

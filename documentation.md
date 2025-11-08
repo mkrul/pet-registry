@@ -34,6 +34,7 @@
 - Messages: Scroll-to-top behavior disabled when navigating within messages section (e.g., clicking a conversation to view thread) to preserve user's scroll position.
 - Report edit form: Location editing removed; location updates should be done via tip submission
 - Report display components: All now use `lastSeenLocation` from tips instead of direct report location fields
+- Report index pagination now reuses `PaginationControls`, bringing the home page pagination styling in line with the recent activity experience.
 
 ## Deployment Notes
 
