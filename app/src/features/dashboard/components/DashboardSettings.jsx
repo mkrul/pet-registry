@@ -86,7 +86,7 @@ const DashboardSettings = () => {
               </div>
               <button
                 onClick={() => setSendEmailForTip(!sendEmailForTip)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                   sendEmailForTip ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -104,7 +104,7 @@ const DashboardSettings = () => {
               </div>
               <button
                 onClick={() => setSendEmailForMessage(!sendEmailForMessage)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                   sendEmailForMessage ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -122,7 +122,7 @@ const DashboardSettings = () => {
               </div>
               <button
                 onClick={() => setSendEmailForConversation(!sendEmailForConversation)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                   sendEmailForConversation ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -143,7 +143,7 @@ const DashboardSettings = () => {
               </div>
               <button
                 onClick={() => setSendEmailForMatch(!sendEmailForMatch)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                   sendEmailForMatch ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -169,7 +169,7 @@ const DashboardSettings = () => {
               </div>
               <button
                 onClick={() => setAllowContact(!allowContact)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                   allowContact ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
@@ -193,7 +193,7 @@ const DashboardSettings = () => {
               </div>
               <button
                 onClick={toggleDarkMode}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
                   isDarkMode ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
