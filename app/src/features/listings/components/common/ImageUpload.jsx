@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, FormControl } from "@mui/material";
+import React, { useRef } from "react";
+import { Button } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import { commonInputStyles } from "../../../../shared/commonStyles.js";
 import Tip from "../../../../shared/components/common/Tip.jsx";
@@ -15,8 +15,10 @@ export const ImageUpload = ({
   onImageLoad,
   onImageError,
   error,
-  required = true
+  required = true,
+  dashboard = false
 }) => {
+  const fileInputRef = useRef(null);
   const dispatch = useAppDispatch();
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -48,45 +50,64 @@ export const ImageUpload = ({
     }
   };
 
+  const handleDashboardButtonClick = () => {
+    if (disabled) {
+      return;
+    }
+    fileInputRef.current?.click();
+  };
+
+  const renderButton = () => {
+    if (dashboard) {
+      return (
+        <button
+          type="button"
+          onClick={handleDashboardButtonClick}
+          className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900/60 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:bg-gray-100 disabled:text-gray-400"
+          disabled={disabled}
+        >
+          <CloudUpload fontSize="small" />
+          Choose File
+        </button>
+      );
+    }
+
+    return (
+      <Button
+        variant="outlined"
+        startIcon={<CloudUpload />}
+        disabled={disabled}
+        sx={{
+          ...commonInputStyles,
+          width: "fit-content",
+          position: "relative",
+          borderColor: error ? "error.main" : undefined
+        }}
+      >
+        Choose File
+      </Button>
+    );
+  };
+
   return (
     <div className="space-y-2">
-      <label className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Photo:</label>
+      <label className={`mb-2 ${dashboard ? 'block text-sm font-medium text-gray-700 dark:text-gray-300' : 'text-lg font-medium text-gray-900 dark:text-gray-100'}`}>
+        Photo
+      </label>
       <Tip>We support images up to 5MB (JPEG or PNG only). The photo should be well lit, with the animal centered in the frame.</Tip>
       <div className="mt-1">
-        <div className="relative">
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{
-              opacity: 0,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              cursor: "pointer",
-              zIndex: 1
-            }}
-            disabled={disabled}
-            data-testid="file-input"
-            required={required}
-          />
-          <Button
-            variant="outlined"
-            startIcon={<CloudUpload />}
-            disabled={disabled}
-            sx={{
-              ...commonInputStyles,
-              width: "fit-content",
-              position: "relative",
-              borderColor: error ? "error.main" : undefined
-            }}
-          >
-            Choose File
-          </Button>
-        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          name="image"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+          disabled={disabled}
+          data-testid="file-input"
+          required={required}
+        />
+        {renderButton()}
         <FormFieldError error={error} />
         {preview && (
           <div className="mt-2 relative w-48 h-48">

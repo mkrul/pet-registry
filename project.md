@@ -2,6 +2,11 @@
 
 ## Completed Tasks
 
+### Dashboard Pet Edit Styling Alignment (November 8, 2025)
+- Updated `PetEditForm` to render inside the same dashboard card layout as the settings and profile pages, including a shared action footer.
+- Added a `dashboard` variant to `PetBasicInfoFields`, `PetIdentificationFields`, and `PetColorFields` so the dashboard edit experience uses the same native inputs, labels, and accessibility patterns as other dashboard forms while keeping the existing Material UI presentation for non-dashboard contexts.
+- Ensured all newly styled inputs preserve existing behavior, validation, and BreedSearch integration for a backwards-compatible update.
+
 ### User Settings Notification Expansion (November 8, 2025)
 - Added migration `20251108093000_update_user_settings_defaults.rb` to replace the legacy `email_notifications` flag with granular preferences (`send_email_for_tip`, `send_email_for_message`, `send_email_for_conversation`, `send_email_for_match`) and updated defaults (`allow_contact: false`, `dark_mode: false`, email preferences true) while preserving each user’s existing choices.
 - Updated `User` validation logic, `Api::RegistrationsController` strong parameters, and `Users::Delete` service to align with the new settings schema.

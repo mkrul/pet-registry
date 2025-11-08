@@ -52,66 +52,72 @@ const PetEditForm = ({
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Pet</h2>
-        <div className="flex gap-2">
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
-          >
-            {isSaving ? (
-              <div className="flex items-center">
-                <Spinner inline size={16} className="mr-2" color="text-white" />
-                Saving...
-              </div>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faSave} className="mr-2" />
-                Save
-              </>
-            )}
-          </button>
-          <button
-            onClick={onBack}
-            className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-          >
-            Back to Pets
-          </button>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Edit Pet</h2>
+
+      <div className="max-w-2xl">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+          <form id="edit-pet-form" className="space-y-6">
+            <PetBasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} dashboard />
+
+            <ImageUpload
+              onFileChange={handleFileChange}
+              preview={imageSrc}
+              disabled={isSaving}
+              onImageLoad={handleImageLoad}
+              onImageError={handleImageError}
+              required={true}
+              dashboard
+            />
+
+            <PetIdentificationFields
+              formData={formData}
+              onInputChange={handleInputChange}
+              isLoading={isSaving}
+              error=""
+              breedError=""
+              alteredError=""
+              microchipError=""
+              dashboard
+            />
+
+            <PetColorFields
+              formData={formData}
+              isLoading={isSaving}
+              handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
+              handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
+              handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
+              dashboard
+            />
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex space-x-4">
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                {isSaving ? (
+                  <div className="flex items-center">
+                    <Spinner inline size={16} className="mr-2" color="text-white" />
+                    Saving...
+                  </div>
+                ) : (
+                  <>
+                    <FontAwesomeIcon icon={faSave} className="mr-2" />
+                    Save
+                  </>
+                )}
+              </button>
+              <button
+                onClick={onBack}
+                className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+              >
+                Back to Pets
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="w-full mx-auto px-2">
-        <form id="edit-pet-form" className="space-y-4">
-          <PetBasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} />
-
-          <ImageUpload
-            onFileChange={handleFileChange}
-            preview={imageSrc}
-            disabled={isSaving}
-            onImageLoad={handleImageLoad}
-            onImageError={handleImageError}
-            required={true}
-          />
-
-          <PetIdentificationFields
-            formData={formData}
-            onInputChange={handleInputChange}
-            isLoading={isSaving}
-            error=""
-            breedError=""
-            alteredError=""
-            microchipError=""
-          />
-
-          <PetColorFields
-            formData={formData}
-            isLoading={isSaving}
-            handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
-            handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
-            handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
-          />
-        </form>
       </div>
 
       <AssociatedRecordUpdateModal

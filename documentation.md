@@ -26,24 +26,5 @@
 
 ## Frontend
 
-- TipsSection ownership check: `isOwner` now derives from `report.userId || report.user_id || report.ownerId || report.owner_id || report.user?.id` and compares to `user.id` as strings to avoid type/shape mismatches.
-- Dashboard settings screen now reads the camelCase settings (`sendEmailForTip`, `sendEmailForMessage`, `sendEmailForConversation`, `sendEmailForMatch`, `allowContact`, `darkMode`) and persists the new defaults (allow direct messages off by default, email alerts enabled).
-- Messages: Conversations list displays associated report image/title and shows a preview of the last message sent by the other participant.
-- Messages: Removed duplicate preview line in the conversations list items.
-- Messages: Conversation thread now aligns current user messages to the right and other participant messages to the left.
-- Messages: Alignment uses flex column with `self-end`/`self-start` and compares user ids as strings to avoid type mismatches.
-- Messages: Conversations list column is now flexed with `min-h-0` overflow handling so long lists scroll correctly.
-- Messages: Conversations list now uses shared pagination controls matching the Sightings & Tips section, positioned below the conversation panel outside the grid layout for visibility on all viewports, with mobile layout keeping controls flush against the conversation list and hiding pagination when a conversation is open on smaller screens.
-- Messages: Scroll-to-top behavior disabled when navigating within messages section (e.g., clicking a conversation to view thread) to preserve user's scroll position.
-- Report edit form: Location editing removed; location updates should be done via tip submission
-- Report display components: All now use `lastSeenLocation` from tips instead of direct report location fields
-- Report index pagination now reuses `PaginationControls`, bringing the home page pagination styling in line with the recent activity experience.
-
-## Deployment Notes
-
-- Run migrations: `bin/rails db:migrate`
-  - First run `20251106084319_migrate_report_locations_to_tips.rb` to backfill existing locations as tips
-  - Then run `20251106084426_remove_location_from_reports.rb` to remove location columns
-  - Apply `20251108093000_update_user_settings_defaults.rb` to migrate user settings to the new schema
-- Existing users will automatically have `admin` set to `false`.
-- After migration, all existing report locations will be available as tip events with message "Initial location when reported"
+- Dashboard pet edit form now uses the same dashboard card layout, labels, and native inputs as the settings/profile pages via new `dashboard` variants on `PetEditForm` field components while preserving the Material UI presentation for other contexts.
+- TipsSection ownership check: `isOwner` now derives from `

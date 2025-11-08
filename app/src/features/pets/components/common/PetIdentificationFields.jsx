@@ -25,7 +25,8 @@ export const PetIdentificationFields = ({
   error,
   breedError,
   alteredError,
-  microchipError
+  microchipError,
+  dashboard = false
 }) => {
   const [showSpeciesRequired, setShowSpeciesRequired] = useState(false);
   const genderOptions = getGenderOptions();
@@ -38,6 +39,20 @@ export const PetIdentificationFields = ({
 
   const handleFieldChange = (name) => (value) => {
     onInputChange(createChangeEvent(name, value));
+  };
+
+  const mapAlteredValue = (value) => {
+    if (value === "true" || value === true) {
+      return true;
+    }
+    if (value === "false" || value === false) {
+      return false;
+    }
+    return null;
+  };
+
+  const handleAlteredChange = (value) => {
+    onInputChange(createChangeEvent("isAltered", mapAlteredValue(value)));
   };
 
   const handleSpeciesChange = (e) => {
@@ -61,11 +76,207 @@ export const PetIdentificationFields = ({
     onInputChange(createChangeEvent("breed2", ""));
   };
 
-  const handleBreedClick = () => {
-    if (!formData.species) {
-      setShowSpeciesRequired(true);
-    }
-  };
+  if (dashboard) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <label htmlFor="microchip-id" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Microchip ID
+            <span className="text-sm text-gray-500 dark:text-gray-400 font-normal ml-1">(Leave blank if not known)</span>
+          </label>
+          <input
+            id="microchip-id"
+            data-testid="microchip-id-input"
+            name="microchipId"
+            type="text"
+            value={formData.microchipId || ""}
+            onChange={onInputChange}
+            disabled={isLoading}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            placeholder="Enter microchip ID"
+          />
+          <FormFieldError error={microchipError} />
+        </div>
+
+        <div>
+          <label htmlFor="gender" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Gender
+            <span className="text-sm text-gray-500 dark:text-gray-400 font-normal ml-1">(Leave blank if not known)</span>
+          </label>
+          <div className="flex items-center gap-2">
+            <select
+              id="gender"
+              data-testid="gender-select"
+              value={formData.gender || ""}
+              onChange={(e) => handleFieldChange("gender")(e.target.value)}
+              disabled={isLoading}
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="">Select gender</option>
+              {genderOptions.map((gender, index) => (
+                <option key={index} value={gender} data-testid="gender-option">
+                  {gender}
+                </option>
+              ))}
+            </select>
+            {formData.gender && (
+              <button
+                type="button"
+                onClick={handleClearGender}
+                disabled={isLoading}
+                data-testid="remove-gender-button"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Clear gender"
+              >
+                <CloseIcon fontSize="small" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Is the pet spayed or neutered?</label>
+          <div className="space-y-2">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="isAltered"
+                value="true"
+                checked={formData.isAltered === true}
+                onChange={(e) => handleAlteredChange(e.target.value)}
+                disabled={isLoading}
+                className="mr-2 text-blue-600 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">Yes</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="isAltered"
+                value="false"
+                checked={formData.isAltered === false}
+                onChange={(e) => handleAlteredChange(e.target.value)}
+                disabled={isLoading}
+                className="mr-2 text-blue-600 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">No</span>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="isAltered"
+                value=""
+                checked={formData.isAltered === null || formData.isAltered === ""}
+                onChange={(e) => handleAlteredChange(e.target.value)}
+                disabled={isLoading}
+                className="mr-2 text-blue-600 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700 dark:text-gray-300">I don't know</span>
+            </label>
+          </div>
+          <FormFieldError error={alteredError} />
+        </div>
+
+        <div>
+          <label htmlFor="species" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Species
+          </label>
+          <select
+            id="species"
+            name="species"
+            value={formData.species?.toLowerCase() || ""}
+            onChange={handleSpeciesChange}
+            required
+            disabled={isLoading}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <option value="">Select species</option>
+            {speciesOptions.map(option => (
+              <option key={option} value={option.toLowerCase()}>
+                {option}
+              </option>
+            ))}
+          </select>
+          <FormFieldError error={error} />
+          {showSpeciesRequired && (
+            <div className="mt-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-500/40 rounded-md text-sm text-yellow-800 dark:text-yellow-200">
+              Please select a species first
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Breed</label>
+          <div className="flex items-center gap-2">
+            <div className="flex-1">
+              <BreedSearch
+                species={formData.species?.toLowerCase()}
+                value={formData.breed1}
+                onChange={handleBreedChange}
+                disabled={isLoading}
+                excludeBreeds={formData.breed2 ? [formData.breed2] : []}
+                required
+                size="medium"
+                hideLabel
+                disableClearable
+                error={!!breedError}
+                onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+                showBreedPlaceholder={false}
+                dashboard
+                data-testid="breed-search"
+              />
+            </div>
+            {formData.breed1 && (
+              <button
+                type="button"
+                onClick={handleClearBreed1}
+                disabled={isLoading}
+                data-testid="remove-breed1-button"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Clear first breed"
+              >
+                <CloseIcon fontSize="small" />
+              </button>
+            )}
+          </div>
+          <FormFieldError error={breedError} />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Second Breed</label>
+          <div className="flex items-center gap-2">
+            <div className="flex-1">
+              <BreedSearch
+                species={formData.species?.toLowerCase()}
+                value={formData.breed2}
+                onChange={handleBreed2Change}
+                disabled={isLoading}
+                excludeBreeds={[formData.breed1]}
+                size="medium"
+                hideLabel
+                onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
+                showBreedPlaceholder={false}
+                dashboard
+                data-testid="breed2-search"
+              />
+            </div>
+            {formData.breed2 && (
+              <button
+                type="button"
+                onClick={handleClearBreed2}
+                disabled={isLoading}
+                data-testid="remove-breed2-button"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Clear second breed"
+              >
+                <CloseIcon fontSize="small" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -141,12 +352,7 @@ export const PetIdentificationFields = ({
           <RadioGroup
             name="isAltered"
             value={formData.isAltered === null ? "" : String(formData.isAltered)}
-            onChange={e => {
-              const value = e.target.value === "true" ? true : e.target.value === "false" ? false : null;
-              onInputChange({
-                target: { name: "isAltered", value }
-              });
-            }}
+            onChange={(e) => handleAlteredChange(e.target.value)}
           >
             <FormControlLabel value="true" control={<Radio />} label="Yes" />
             <FormControlLabel value="false" control={<Radio />} label="No" />
