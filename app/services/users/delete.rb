@@ -24,7 +24,14 @@ module Users
       ::User.find_or_create_by!(email: 'lostpetregistry.dev@gmail.com') do |u|
         u.password = SecureRandom.hex(16)
         u.password_confirmation = u.password
-        u.settings = { email_notifications: false, allow_contact: false, dark_mode: false }
+        u.settings = {
+          allow_contact: false,
+          dark_mode: false,
+          send_email_for_tip: false,
+          send_email_for_message: false,
+          send_email_for_conversation: false,
+          send_email_for_match: false
+        }
       end
     end
 

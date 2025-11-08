@@ -3,6 +3,7 @@
 ## Database
 
 - Users table: added `admin:boolean` (default: false, null: false). This flag is used for authorization checks. Not exposed via public serializers and not mass-assignable via registration/profile endpoints.
+- Users `settings` JSONB default now includes granular email preferences (`send_email_for_tip`, `send_email_for_message`, `send_email_for_conversation`, `send_email_for_match`) alongside `allow_contact` and `dark_mode`. Migration `20251108093000_update_user_settings_defaults.rb` preserves each user's prior preferences when backfilling from the legacy `email_notifications` flag.
 
 ## Location Data Migration (November 6, 2025)
 
@@ -18,6 +19,7 @@
 ## API
 
 - No changes to registration or profile update params; `admin` is managed internally.
+- Settings update endpoint now accepts `allow_contact`, `dark_mode`, `send_email_for_tip`, `send_email_for_message`, `send_email_for_conversation`, and `send_email_for_match`; legacy `email_notifications` is no longer used.
 - Report creation API still accepts location parameters, but stores them as tip events instead of on the report
 - Report update API no longer accepts location parameters
 - Report serializer returns `lastSeenLocation` instead of direct location fields
@@ -25,6 +27,7 @@
 ## Frontend
 
 - TipsSection ownership check: `isOwner` now derives from `report.userId || report.user_id || report.ownerId || report.owner_id || report.user?.id` and compares to `user.id` as strings to avoid type/shape mismatches.
+- Dashboard settings screen now reads the camelCase settings (`sendEmailForTip`, `sendEmailForMessage`, `sendEmailForConversation`, `sendEmailForMatch`, `allowContact`, `darkMode`) and persists the new defaults (allow direct messages off by default, email alerts enabled).
 - Messages: Conversations list displays associated report image/title and shows a preview of the last message sent by the other participant.
 - Messages: Removed duplicate preview line in the conversations list items.
 - Messages: Conversation thread now aligns current user messages to the right and other participant messages to the left.
@@ -41,5 +44,6 @@
 - Run migrations: `bin/rails db:migrate`
   - First run `20251106084319_migrate_report_locations_to_tips.rb` to backfill existing locations as tips
   - Then run `20251106084426_remove_location_from_reports.rb` to remove location columns
+  - Apply `20251108093000_update_user_settings_defaults.rb` to migrate user settings to the new schema
 - Existing users will automatically have `admin` set to `false`.
 - After migration, all existing report locations will be available as tip events with message "Initial location when reported"

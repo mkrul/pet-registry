@@ -10,27 +10,30 @@ const DashboardSettings = () => {
   const [updateSettings, { isLoading }] = useUpdateSettingsMutation();
   const [deleteAccount, { isLoading: isDeleting }] = useDeleteAccountMutation();
 
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [emailMessageNotifications, setEmailMessageNotifications] = useState(true);
-  const [emailNewConversationNotifications, setEmailNewConversationNotifications] = useState(true);
-  const [allowContact, setAllowContact] = useState(true);
+  const [sendEmailForTip, setSendEmailForTip] = useState(true);
+  const [sendEmailForMessage, setSendEmailForMessage] = useState(true);
+  const [sendEmailForConversation, setSendEmailForConversation] = useState(true);
+  const [sendEmailForMatch, setSendEmailForMatch] = useState(true);
+  const [allowContact, setAllowContact] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   useEffect(() => {
     if (user?.settings) {
-      setEmailNotifications(user.settings.emailNotifications ?? true);
-      setEmailMessageNotifications(user.settings.emailMessageNotifications ?? true);
-      setEmailNewConversationNotifications(user.settings.emailNewConversationNotifications ?? true);
-      setAllowContact(user.settings.allowContact ?? true);
+      setSendEmailForTip(user.settings.sendEmailForTip ?? true);
+      setSendEmailForMessage(user.settings.sendEmailForMessage ?? true);
+      setSendEmailForConversation(user.settings.sendEmailForConversation ?? true);
+      setSendEmailForMatch(user.settings.sendEmailForMatch ?? true);
+      setAllowContact(user.settings.allowContact ?? false);
     }
   }, [user]);
 
   const handleSaveSettings = async () => {
     try {
       await updateSettings({
-        email_notifications: emailNotifications,
-        email_message_notifications: emailMessageNotifications,
-        email_new_conversation_notifications: emailNewConversationNotifications,
+        send_email_for_tip: sendEmailForTip,
+        send_email_for_message: sendEmailForMessage,
+        send_email_for_conversation: sendEmailForConversation,
+        send_email_for_match: sendEmailForMatch,
         allow_contact: allowContact,
         dark_mode: isDarkMode
       }).unwrap();
@@ -40,15 +43,17 @@ const DashboardSettings = () => {
 
   const handleResetToDefaults = async () => {
     try {
-      setEmailNotifications(true);
-      setEmailMessageNotifications(true);
-      setEmailNewConversationNotifications(true);
-      setAllowContact(true);
+      setSendEmailForTip(true);
+      setSendEmailForMessage(true);
+      setSendEmailForConversation(true);
+      setSendEmailForMatch(true);
+      setAllowContact(false);
       await updateSettings({
-        email_notifications: true,
-        email_message_notifications: true,
-        email_new_conversation_notifications: true,
-        allow_contact: true,
+        send_email_for_tip: true,
+        send_email_for_message: true,
+        send_email_for_conversation: true,
+        send_email_for_match: true,
+        allow_contact: false,
         dark_mode: isDarkMode
       }).unwrap();
     } catch (err) {
@@ -80,14 +85,14 @@ const DashboardSettings = () => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone posts a tip on your report</p>
               </div>
               <button
-                onClick={() => setEmailNotifications(!emailNotifications)}
+                onClick={() => setSendEmailForTip(!sendEmailForTip)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  emailNotifications ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForTip ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    emailNotifications ? 'translate-x-6' : 'translate-x-1'
+                    sendEmailForTip ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
@@ -98,14 +103,14 @@ const DashboardSettings = () => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone sends you a message</p>
               </div>
               <button
-                onClick={() => setEmailMessageNotifications(!emailMessageNotifications)}
+                onClick={() => setSendEmailForMessage(!sendEmailForMessage)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  emailMessageNotifications ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForMessage ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    emailMessageNotifications ? 'translate-x-6' : 'translate-x-1'
+                    sendEmailForMessage ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
@@ -116,14 +121,14 @@ const DashboardSettings = () => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone starts a new conversation with you</p>
               </div>
               <button
-                onClick={() => setEmailNewConversationNotifications(!emailNewConversationNotifications)}
+                onClick={() => setSendEmailForConversation(!sendEmailForConversation)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  emailNewConversationNotifications ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForConversation ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    emailNewConversationNotifications ? 'translate-x-6' : 'translate-x-1'
+                    sendEmailForConversation ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
@@ -137,14 +142,14 @@ const DashboardSettings = () => {
                 <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone reports a lost pet that looks like yours</p>
               </div>
               <button
-                onClick={() => setEmailMessageNotifications(!emailMessageNotifications)}
+                onClick={() => setSendEmailForMatch(!sendEmailForMatch)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  emailMessageNotifications ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForMatch ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    emailMessageNotifications ? 'translate-x-6' : 'translate-x-1'
+                    sendEmailForMatch ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>
@@ -178,7 +183,7 @@ const DashboardSettings = () => {
           </div>
         </div>
 
-        {/* <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Appearance</h3>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -200,7 +205,7 @@ const DashboardSettings = () => {
               </button>
             </div>
           </div>
-        </div> */}
+        </div>
 
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Account Actions</h3>

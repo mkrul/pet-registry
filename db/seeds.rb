@@ -11,9 +11,12 @@ User.create!(
   password: 'Lprdev123!',
   password_confirmation: 'Lprdev123!',
   settings: {
-    email_notifications: false,
     allow_contact: false,
-    dark_mode: false
+    dark_mode: false,
+    send_email_for_tip: false,
+    send_email_for_message: false,
+    send_email_for_conversation: false,
+    send_email_for_match: false
   }
 )
 

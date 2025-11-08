@@ -83,18 +83,24 @@ module Api
     def update_settings
       user = current_user
 
-      if user.update(settings_params)
+      permitted_settings = settings_params[:settings]&.to_h || {}
+      Rails.logger.info("User settings update requested user_id=#{user.id} payload=#{permitted_settings}")
+
+      if user.update(settings: permitted_settings)
+        Rails.logger.info("User settings update succeeded user_id=#{user.id} settings=#{user.settings}")
         render json: {
           message: 'Settings updated successfully.',
           user: UserSerializer.new(user).as_json
         }, status: :ok
       else
+        Rails.logger.warn("User settings update failed user_id=#{user.id} errors=#{user.errors.full_messages}")
         render json: {
           message: "Settings update failed.",
           errors: user.errors.full_messages
         }, status: :unprocessable_entity
       end
     rescue => e
+      Rails.logger.error("User settings update exception user_id=#{current_user&.id} error=#{e.message} backtrace=#{e.backtrace&.first(5)}")
       render json: { error: 'Settings update failed' }, status: :internal_server_error
     end
 
@@ -129,7 +135,16 @@ module Api
     end
 
     def settings_params
-      params.require(:user).permit(settings: [:email_notifications, :allow_contact, :dark_mode])
+      params.require(:user).permit(
+        settings: [
+          :allow_contact,
+          :dark_mode,
+          :send_email_for_tip,
+          :send_email_for_message,
+          :send_email_for_conversation,
+          :send_email_for_match
+        ]
+      )
     end
 
     def warden

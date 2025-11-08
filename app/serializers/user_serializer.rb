@@ -9,6 +9,15 @@ class UserSerializer < ActiveModel::Serializer
     data
   end
 
+  def settings
+    raw_settings = object.settings
+    return {} unless raw_settings.is_a?(Hash)
+
+    raw_settings.each_with_object({}) do |(key, value), memo|
+      memo[key.to_s.camelize(:lower)] = value
+    end
+  end
+
   def member_since
     suffix = object.created_at.day.ordinalize
     object.created_at.strftime("%B #{suffix}, %Y")

@@ -47,19 +47,22 @@ class User < ApplicationRecord
     return if settings.blank?
 
     unless settings.is_a?(Hash)
+      Rails.logger.warn("User settings validation failed user_id=#{id} reason=non_hash settings_class=#{settings.class.name}")
       errors.add(:settings, "must be a hash")
       return
     end
 
-    valid_keys = %w[email_notifications allow_contact dark_mode]
+    valid_keys = %w[allow_contact dark_mode send_email_for_tip send_email_for_message send_email_for_conversation send_email_for_match]
     settings.each_key do |key|
       unless valid_keys.include?(key.to_s)
+        Rails.logger.warn("User settings validation failed user_id=#{id} reason=invalid_key key=#{key}")
         errors.add(:settings, "contains invalid key: #{key}")
       end
     end
 
     settings.each do |key, value|
       unless [true, false].include?(value)
+        Rails.logger.warn("User settings validation failed user_id=#{id} reason=non_boolean key=#{key} value=#{value.inspect}")
         errors.add(:settings, "#{key} must be a boolean")
       end
     end

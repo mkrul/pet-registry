@@ -2,6 +2,12 @@
 
 ## Completed Tasks
 
+### User Settings Notification Expansion (November 8, 2025)
+- Added migration `20251108093000_update_user_settings_defaults.rb` to replace the legacy `email_notifications` flag with granular preferences (`send_email_for_tip`, `send_email_for_message`, `send_email_for_conversation`, `send_email_for_match`) and updated defaults (`allow_contact: false`, `dark_mode: false`, email preferences true) while preserving each user’s existing choices.
+- Updated `User` validation logic, `Api::RegistrationsController` strong parameters, and `Users::Delete` service to align with the new settings schema.
+- Refreshed `DashboardSettings.jsx` to read and persist the new camelCase keys with defaults that match the backend configuration.
+- Seed data now provisions the system user with the expanded settings keys disabled to avoid outbound notifications.
+
 ### Report Index Pagination Alignment (November 8, 2025)
 - Updated `ListingsGrid.jsx` to reuse the shared `PaginationControls` component so the home/report index pagination matches the recent activity experience.
 - Removed the legacy `Pagination.jsx` component now that all screens share the same pagination controls.
@@ -207,13 +213,13 @@
 ### User Settings Infrastructure Implementation (October 27, 2025)
 - **Database Layer:**
   - Created migration to add `settings` JSONB column to users table
-  - Set default values: `email_notifications: true`, `allow_contact: true`, `dark_mode: false`
+- Set initial default values: `email_notifications: true`, `allow_contact: true`, `dark_mode: false` (superseded by November 8, 2025 update adding granular email preferences)
   - Added GIN index on settings column for efficient querying
   - All existing users automatically receive default settings values
 - **Model Layer:**
   - Updated `User` model with settings validation
   - Added `settings_structure` validation method to ensure settings is a hash with valid keys and boolean values
-  - Valid settings keys: `email_notifications`, `allow_contact`, `dark_mode`
+- Valid settings keys originally limited to `email_notifications`, `allow_contact`, `dark_mode`; expanded on November 8, 2025 to include granular email preferences
 - **API Layer:**
   - Added `update_settings` action to `RegistrationsController`
   - Created `PATCH /api/settings` endpoint for updating user settings
@@ -232,7 +238,7 @@
   - Component reads current settings from Redux user state
   - Toggles for email notifications, allow contact, and dark mode
   - "Save Settings" button persists changes to backend and updates Redux state
-  - "Reset to Defaults" button restores default values (email_notifications: true, allow_contact: true)
+- "Reset to Defaults" button restores default values (currently sets email notifications to true and allow_contact to false)
   - Loading states and disabled buttons during save operations
   - Dark mode toggle continues to work with existing `useTheme` hook while also being persisted to database
 - **User Experience:**
