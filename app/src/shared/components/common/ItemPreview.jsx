@@ -15,8 +15,8 @@ const ItemPreview = ({
 
   return (
     <div onClick={() => onClick(item)} className="block group">
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
-        <div className="relative w-full pb-[100%] bg-gray-100">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+        <div className="relative w-full pb-[100%] bg-gray-100 dark:bg-gray-700">
           {isImageLoading && (
             <div className="absolute inset-0 flex items-center justify-center z-10">
               <Spinner size={40} inline={true} />
@@ -41,7 +41,7 @@ const ItemPreview = ({
           )}
         </div>
         <div className="p-3">
-          <h3 className="font-medium text-gray-900 truncate">{title}</h3>
+          <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">{title}</h3>
         </div>
       </div>
     </div>

@@ -70,8 +70,8 @@ export const PetIdentificationFields = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Microchip ID:</label>
-        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">Microchip ID:</label>
+        <span className="text-sm text-gray-500 dark:text-gray-400"> (Leave blank if not known)</span>
         <TextField
           data-testid="microchip-id-input"
           name="microchipId"
@@ -87,8 +87,8 @@ export const PetIdentificationFields = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900 mb-2">Gender:</label>{" "}
-        <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Gender:</label>{" "}
+        <span className="text-sm text-gray-500 dark:text-gray-400"> (Leave blank if not known)</span>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <FormControl fullWidth>
             <Select
@@ -134,7 +134,7 @@ export const PetIdentificationFields = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">
           Is the pet spayed or neutered?
         </label>
         <div>
@@ -156,7 +156,7 @@ export const PetIdentificationFields = ({
         </div>
       </div>
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Species:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">Species:</label>
         <div>
           <TextField
             select
@@ -186,7 +186,7 @@ export const PetIdentificationFields = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">First Breed:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">First Breed:</label>
         <div className="space-y-2">
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <BreedSearch
@@ -226,7 +226,7 @@ export const PetIdentificationFields = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Second Breed:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">Second Breed:</label>
         <div className="space-y-2">
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <BreedSearch

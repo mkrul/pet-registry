@@ -47,7 +47,7 @@ export const PetColorFields = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">First Color:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">First Color:</label>
         <div className="flex-grow">
           <FormControl fullWidth>
             <Select
@@ -78,7 +78,7 @@ export const PetColorFields = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Second Color:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">Second Color:</label>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <FormControl fullWidth>
             <Select
@@ -124,7 +124,7 @@ export const PetColorFields = ({
       </div>
 
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Third Color:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">Third Color:</label>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <FormControl fullWidth>
             <Select

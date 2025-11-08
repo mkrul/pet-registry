@@ -16,10 +16,10 @@ const FilterButtons = ({
           disabled={disabled}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             disabled
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
               : activeFilter === filter.value
               ? `${activeColor} text-white`
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
           }`}
         >
           {filter.label}

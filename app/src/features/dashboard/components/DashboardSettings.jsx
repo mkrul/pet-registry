@@ -16,16 +16,42 @@ const DashboardSettings = () => {
   const [sendEmailForMatch, setSendEmailForMatch] = useState(true);
   const [allowContact, setAllowContact] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [initialSettings, setInitialSettings] = useState({
+    sendEmailForTip: true,
+    sendEmailForMessage: true,
+    sendEmailForConversation: true,
+    sendEmailForMatch: true,
+    allowContact: false,
+    darkMode: false,
+  });
 
   useEffect(() => {
     if (user?.settings) {
-      setSendEmailForTip(user.settings.sendEmailForTip ?? true);
-      setSendEmailForMessage(user.settings.sendEmailForMessage ?? true);
-      setSendEmailForConversation(user.settings.sendEmailForConversation ?? true);
-      setSendEmailForMatch(user.settings.sendEmailForMatch ?? true);
-      setAllowContact(user.settings.allowContact ?? false);
+      const nextSettings = {
+        sendEmailForTip: user.settings.sendEmailForTip ?? true,
+        sendEmailForMessage: user.settings.sendEmailForMessage ?? true,
+        sendEmailForConversation: user.settings.sendEmailForConversation ?? true,
+        sendEmailForMatch: user.settings.sendEmailForMatch ?? true,
+        allowContact: user.settings.allowContact ?? false,
+        darkMode: isDarkMode ?? false,
+      };
+
+      setSendEmailForTip(nextSettings.sendEmailForTip);
+      setSendEmailForMessage(nextSettings.sendEmailForMessage);
+      setSendEmailForConversation(nextSettings.sendEmailForConversation);
+      setSendEmailForMatch(nextSettings.sendEmailForMatch);
+      setAllowContact(nextSettings.allowContact);
+      setInitialSettings(nextSettings);
     }
-  }, [user]);
+  }, [user, isDarkMode]);
+
+  const hasChanges =
+    sendEmailForTip !== initialSettings.sendEmailForTip ||
+    sendEmailForMessage !== initialSettings.sendEmailForMessage ||
+    sendEmailForConversation !== initialSettings.sendEmailForConversation ||
+    sendEmailForMatch !== initialSettings.sendEmailForMatch ||
+    allowContact !== initialSettings.allowContact ||
+    isDarkMode !== initialSettings.darkMode;
 
   const handleSaveSettings = async () => {
     try {
@@ -48,6 +74,14 @@ const DashboardSettings = () => {
       setSendEmailForConversation(true);
       setSendEmailForMatch(true);
       setAllowContact(false);
+      setInitialSettings({
+        sendEmailForTip: true,
+        sendEmailForMessage: true,
+        sendEmailForConversation: true,
+        sendEmailForMatch: true,
+        allowContact: false,
+        darkMode: isDarkMode,
+      });
       await updateSettings({
         send_email_for_tip: true,
         send_email_for_message: true,
@@ -87,7 +121,7 @@ const DashboardSettings = () => {
               <button
                 onClick={() => setSendEmailForTip(!sendEmailForTip)}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  sendEmailForTip ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForTip ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
                 }`}
               >
                 <span
@@ -105,7 +139,7 @@ const DashboardSettings = () => {
               <button
                 onClick={() => setSendEmailForMessage(!sendEmailForMessage)}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  sendEmailForMessage ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForMessage ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
                 }`}
               >
                 <span
@@ -123,7 +157,7 @@ const DashboardSettings = () => {
               <button
                 onClick={() => setSendEmailForConversation(!sendEmailForConversation)}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  sendEmailForConversation ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForConversation ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
                 }`}
               >
                 <span
@@ -144,7 +178,7 @@ const DashboardSettings = () => {
               <button
                 onClick={() => setSendEmailForMatch(!sendEmailForMatch)}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  sendEmailForMatch ? 'bg-blue-600' : 'bg-gray-200'
+                  sendEmailForMatch ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
                 }`}
               >
                 <span
@@ -170,7 +204,7 @@ const DashboardSettings = () => {
               <button
                 onClick={() => setAllowContact(!allowContact)}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  allowContact ? 'bg-blue-600' : 'bg-gray-200'
+                  allowContact ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
                 }`}
               >
                 <span
@@ -194,7 +228,7 @@ const DashboardSettings = () => {
               <button
                 onClick={toggleDarkMode}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  isDarkMode ? 'bg-blue-600' : 'bg-gray-200'
+                  isDarkMode ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
                 }`}
               >
                 <span
@@ -212,8 +246,8 @@ const DashboardSettings = () => {
           <div className="flex gap-3">
             <button
               onClick={handleSaveSettings}
-              disabled={isLoading}
-              className="w-48 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                disabled={isLoading || !hasChanges}
+                className="w-48 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
             >
               {isLoading ? 'Saving...' : 'Save Settings'}
             </button>

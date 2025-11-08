@@ -50,7 +50,7 @@ export const ImageUpload = ({
 
   return (
     <div className="space-y-2">
-      <label className="text-lg font-medium text-gray-900 mb-2">Photo:</label>
+      <label className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Photo:</label>
       <Tip>We support images up to 5MB (JPEG or PNG only). The photo should be well lit, with the animal centered in the frame.</Tip>
       <div className="mt-1">
         <div className="relative">

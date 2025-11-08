@@ -12,7 +12,7 @@ export const PetBasicInfoFields = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Pet Name:</label>
+        <label className="text-lg font-medium text-gray-900 dark:text-gray-100">Pet Name:</label>
         <TextField
           name="name"
           value={formData.name}

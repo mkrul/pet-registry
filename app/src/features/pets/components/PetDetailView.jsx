@@ -37,7 +37,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
-          className="flex items-center text-gray-600 hover:text-gray-900"
+          className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -46,7 +46,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
         </button>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden relative">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden relative">
         <div className="md:flex">
           <div className="md:w-1/2">
             <img
@@ -57,15 +57,15 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
           </div>
           <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-gray-900 truncate flex-1 mr-4">{pet.name}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 truncate flex-1 mr-4">{pet.name}</h3>
               <div className="flex space-x-2">
                 {onEdit && pet.status !== 'archived' && (
                   <button
                     onClick={handleEditClick}
-                    className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                    className="p-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full transition-colors"
                     aria-label="Edit pet"
                   >
-                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                   </button>
@@ -73,7 +73,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
                 {onDelete && pet.status !== 'archived' && (
                   <button
                     onClick={handleDeleteClick}
-                    className="p-2 bg-gray-100 hover:bg-red-100 rounded-full transition-colors"
+                    className="p-2 bg-gray-100 dark:bg-gray-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full transition-colors"
                     aria-label="Archive pet"
                   >
                     <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,35 +87,35 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
             <div className="space-y-4 flex-1">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
-                  <p className="text-gray-900 capitalize">
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Status</h4>
+                  <p className="text-gray-900 dark:text-gray-100 capitalize">
                     {getStatusPill()}
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
-                  <p className="text-gray-900 truncate">{pet.breed1}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Breed</h4>
+                  <p className="text-gray-900 dark:text-gray-100 truncate">{pet.breed1}</p>
                   {pet.breed2 && (
-                    <p className="text-gray-900 truncate">{pet.breed2}</p>
+                    <p className="text-gray-900 dark:text-gray-100 truncate">{pet.breed2}</p>
                   )}
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Gender</h4>
-                  <p className="text-gray-900 capitalize">{pet.gender || 'Unknown'}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Gender</h4>
+                  <p className="text-gray-900 dark:text-gray-100 capitalize">{pet.gender || 'Unknown'}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Spayed/Neutered</h4>
-                  <p className="text-gray-900 truncate">{pet.isAltered ? 'Yes' : 'No'}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Spayed/Neutered</h4>
+                  <p className="text-gray-900 dark:text-gray-100 truncate">{pet.isAltered ? 'Yes' : 'No'}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Microchip ID</h4>
-                  <p className="text-gray-900 truncate">{pet.microchipId || 'Unknown'}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Microchip ID</h4>
+                  <p className="text-gray-900 dark:text-gray-100 truncate">{pet.microchipId || 'Unknown'}</p>
                 </div>
               </div>
 
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-1">Registered</h4>
-                <p className="text-gray-900 truncate">
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Registered</h4>
+                <p className="text-gray-900 dark:text-gray-100 truncate">
                   {new Date(pet.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -134,7 +134,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
                     <div>
                       <button
                         onClick={handleCreateReportClick}
-                        className="px-3 py-1 bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors"
+                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-red-500 text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg text-sm font-medium transition-colors"
                       >
                         <span className="mr-1">🔍</span> My pet is missing! Create a new report.
                       </button>
@@ -144,7 +144,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
                     <div>
                       <button
                         onClick={handleArchiveReportClick}
-                        className="px-3 py-1 bg-white border-2 border-green-500 text-green-500 hover:bg-green-50 rounded-lg text-sm font-medium transition-colors"
+                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-green-500 text-green-500 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg text-sm font-medium transition-colors"
                       >
                         <span className="mr-1">🎉</span> My pet was found! Archive the report.
                       </button>
