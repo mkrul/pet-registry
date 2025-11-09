@@ -164,38 +164,40 @@ const IdentificationFields = ({
             Gender
             <span className="text-sm text-gray-500 dark:text-gray-400 font-normal ml-1">(Leave blank if not known)</span>
           </label>
-          <FormControl fullWidth>
-            <Select
-              data-testid="gender-select"
-              id="gender"
-              name="gender"
-              value={formData.gender || ""}
-              onChange={(e) => handleGenderChange(e.target.value)}
-              sx={dashboardSelectSx}
-              disabled={isLoading}
-              MenuProps={dashboardMenuProps}
-              displayEmpty
-              renderValue={(selected) => selected || <span style={placeholderStyle}>Select gender</span>}
-            >
-              {genderOptions.map((gender, index) => (
-                <MenuItem key={index} value={gender} data-testid="gender-option">
-                  {gender}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          {formData.gender && (
-            <button
-              type="button"
-              onClick={handleClearGender}
-              disabled={isLoading}
-              data-testid="remove-gender-button"
-              className="mt-2 p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Clear gender"
-            >
-              <CloseIcon fontSize="small" />
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            <FormControl fullWidth>
+              <Select
+                data-testid="gender-select"
+                id="gender"
+                name="gender"
+                value={formData.gender || ""}
+                onChange={(e) => handleGenderChange(e.target.value)}
+                sx={dashboardSelectSx}
+                disabled={isLoading}
+                MenuProps={dashboardMenuProps}
+                displayEmpty
+                renderValue={(selected) => selected || <span style={placeholderStyle}>Select gender</span>}
+              >
+                {genderOptions.map((gender, index) => (
+                  <MenuItem key={index} value={gender} data-testid="gender-option">
+                    {gender}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {formData.gender && (
+              <button
+                type="button"
+                onClick={handleClearGender}
+                disabled={isLoading}
+                data-testid="remove-gender-button"
+                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Clear gender"
+              >
+                <CloseIcon fontSize="small" />
+              </button>
+            )}
+          </div>
         </div>
 
         <div>

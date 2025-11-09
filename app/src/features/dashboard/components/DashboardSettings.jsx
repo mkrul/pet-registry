@@ -123,7 +123,7 @@ const DashboardSettings = () => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Settings</h2>
 
-      <div className="max-w-2xl space-y-8">
+      <div className="w-full space-y-8">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Notifications</h3>
           <div className="space-y-4">

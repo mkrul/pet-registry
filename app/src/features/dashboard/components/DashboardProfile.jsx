@@ -108,7 +108,7 @@ const DashboardProfile = ({ user }) => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Profile</h2>
 
-      <div className="max-w-2xl">
+      <div className="w-full">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <div className="flex items-center space-x-6 mb-6">
             <div className="flex-shrink-0">

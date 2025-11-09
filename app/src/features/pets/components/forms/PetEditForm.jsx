@@ -87,7 +87,7 @@ const PetEditForm = ({
         <ActionButtons />
       </div>
 
-      <div className="max-w-2xl">
+      <div className="w-full">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <form id="edit-pet-form" className="space-y-6">
             <PetBasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} dashboard />

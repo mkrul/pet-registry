@@ -45,7 +45,7 @@ const NewPetForm = () => {
 
   return (
     <div>
-      <div className="max-w-2xl">
+      <div className="w-full">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <form id="new-pet-form" className="space-y-6" onSubmit={e => handleFormSubmit(e, formData, selectedImage)} encType="multipart/form-data" noValidate>
             <PetFormPopulateButton
