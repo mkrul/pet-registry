@@ -41,7 +41,6 @@ export const ReportLocationSelect = ({
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isProcessingAddress, setIsProcessingAddress] = useState(false);
   const [isProcessingMap, setIsProcessingMap] = useState(false);
-  const [hasLocationError, setHasLocationError] = useState(false);
   const isDisabled = isLoading || isProcessingAddress || isProcessingMap;
 
   React.useEffect(() => {
@@ -49,14 +48,6 @@ export const ReportLocationSelect = ({
       onProcessingStateChange(isProcessingAddress || isProcessingMap);
     }
   }, [isProcessingAddress, isProcessingMap, onProcessingStateChange]);
-
-  React.useEffect(() => {
-    if (required && !currentMapLocation && !initialLocation) {
-      setHasLocationError(true);
-    } else {
-      setHasLocationError(false);
-    }
-  }, [required, currentMapLocation, initialLocation]);
 
   const fetchAddressSuggestions = React.useMemo(
     () =>
@@ -105,7 +96,6 @@ export const ReportLocationSelect = ({
       intersection: location.intersection
     });
     setCurrentMapLocation(location);
-    setHasLocationError(false);
     onLocationSelect(location);
   }, [onLocationSelect]);
 
@@ -152,7 +142,6 @@ export const ReportLocationSelect = ({
             country: locationData.country,
             intersection: locationData.intersection
           });
-          setHasLocationError(false);
           onLocationSelect(locationData);
           setCurrentMapLocation(locationData);
           console.log('[DEBUG] Address selected, setting currentMapLocation:', locationData);
@@ -336,7 +325,7 @@ export const ReportLocationSelect = ({
               aria-label="Enter an address"
               name="location-search"
               autoComplete="off"
-              required={false}
+              required={required}
               error={!!error}
               sx={getAutocompleteInputSx()}
             />
@@ -344,7 +333,7 @@ export const ReportLocationSelect = ({
           disabled={isDisabled}
         />
       </div>
-      <FormFieldError error={error || (hasLocationError ? "Please select a location on the map or type the address " : null)} />
+      <FormFieldError error={error} />
       <div className="relative mt-1">
         {console.log('[DEBUG] Rendering ReportMap with:', { mapLocation, showPin: !!currentMapLocation, currentMapLocation })}
         <ReportMap
