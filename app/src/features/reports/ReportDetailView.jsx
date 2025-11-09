@@ -73,7 +73,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
       <div className="flex items-center justify-between">
         <button
           onClick={onBack}
-          className="flex items-center text-gray-600 hover:text-gray-900"
+          className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -82,11 +82,11 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
         </button>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
         <div className="md:flex">
           <div className="md:w-1/2 relative">
             {imageLoading && !imageError && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-20">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-20">
                 <Spinner size={40} inline={true} bgFaded={false} />
               </div>
             )}
@@ -109,15 +109,15 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
           </div>
           <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-gray-900 truncate flex-1 mr-4">{report.title}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 truncate flex-1 mr-4">{report.title}</h3>
               <div className="flex space-x-2">
                 {onEdit && report.status !== 'archived' && (
                   <button
                     onClick={handleEditClick}
-                    className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                    className="p-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full transition-colors"
                     aria-label="Edit report"
                   >
-                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
                   </button>
@@ -125,7 +125,7 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
                 {onDelete && report.status !== 'archived' && (
                   <button
                     onClick={handleDeleteClick}
-                    className="p-2 bg-gray-100 hover:bg-red-100 rounded-full transition-colors"
+                    className="p-2 bg-gray-100 dark:bg-gray-700 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-full transition-colors"
                     aria-label="Delete report"
                   >
                     <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,34 +139,34 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
             <div className="space-y-4 flex-1">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Status</h4>
-                  <p className="text-gray-900 capitalize">
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Status</h4>
+                  <p className="text-gray-900 dark:text-gray-100 capitalize">
                     {getStatusPill()}
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Name</h4>
-                  <p className="text-gray-900">{report.name || 'Unknown'}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Name</h4>
+                  <p className="text-gray-900 dark:text-gray-100">{report.name || 'Unknown'}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Breed</h4>
-                  <p className="text-gray-900">{report.breed1}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Breed</h4>
+                  <p className="text-gray-900 dark:text-gray-100">{report.breed1}</p>
                   {report.breed2 && (
-                    <p className="text-gray-900">{report.breed2}</p>
+                    <p className="text-gray-900 dark:text-gray-100">{report.breed2}</p>
                   )}
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 mb-1">Spayed/Neutered</h4>
-                  <p className="text-gray-900 truncate">{report.isAltered ? 'Yes' : 'No'}</p>
+                  <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Spayed/Neutered</h4>
+                  <p className="text-gray-900 dark:text-gray-100 truncate">{report.isAltered ? 'Yes' : 'No'}</p>
                 </div>
               </div>
 
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-1">Last seen:</h4>
-                <p className="text-gray-900">
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Last seen:</h4>
+                <p className="text-gray-900 dark:text-gray-100">
                   {report.lastSeenLocation
                     ? [report.lastSeenLocation.area, report.lastSeenLocation.state, report.lastSeenLocation.country]
                         .filter(Boolean)
@@ -176,8 +176,8 @@ const ReportDetailView = ({ report, user, onBack, onEdit, onDelete }) => {
               </div>
 
               <div>
-                <h4 className="text-sm font-medium text-gray-500 mb-1">Reported</h4>
-                <p className="text-gray-900">
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Reported</h4>
+                <p className="text-gray-900 dark:text-gray-100">
                   {new Date(report.createdAt).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',

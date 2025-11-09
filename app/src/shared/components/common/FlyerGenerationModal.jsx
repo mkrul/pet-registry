@@ -60,21 +60,21 @@ const FlyerGenerationModal = ({
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-        <h3 id="modal-title" className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+          <h3 id="modal-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
           Generate Lost Pet Flyer
         </h3>
 
         <div className="space-y-4 mb-6">
           <div>
-            <label htmlFor="reward-amount" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="reward-amount" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Reward Amount (Optional)
             </label>
             <input
@@ -85,12 +85,12 @@ const FlyerGenerationModal = ({
               placeholder="e.g., $500"
               maxLength={10}
               disabled={isLoading}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100 dark:disabled:bg-gray-700"
             />
           </div>
 
           <div>
-            <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Phone Number (Optional)
             </label>
             <input
@@ -100,12 +100,12 @@ const FlyerGenerationModal = ({
               onChange={handlePhoneChange}
               placeholder="(XXX) XXX-XXXX"
               disabled={isLoading}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100 dark:disabled:bg-gray-700"
             />
           </div>
 
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Description
             </label>
             <textarea
@@ -115,7 +115,7 @@ const FlyerGenerationModal = ({
               placeholder="Edit the description for the flyer..."
               rows={4}
               disabled={isLoading}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:bg-gray-100 dark:disabled:bg-gray-700"
             />
           </div>
         </div>
@@ -124,7 +124,7 @@ const FlyerGenerationModal = ({
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>

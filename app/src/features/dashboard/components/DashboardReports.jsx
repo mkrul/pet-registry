@@ -3,9 +3,9 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useUserReportsData } from '../../../shared/hooks/useUserReportsData.js';
 import ReportPreview from '../../reports/ReportPreview.jsx';
 import ReportDetailView from '../../reports/ReportDetailView.jsx';
-import ReportEditView from '../../reports/forms/ReportEditView.jsx';
+import ReportEditForm from '../../reports/forms/ReportEditForm.jsx';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal.jsx';
-import ReportNewView from '../../reports/forms/ReportNewView.jsx';
+import ReportNewForm from '../../reports/forms/ReportNewForm.jsx';
 import { useArchiveReportMutation } from '../../../store/features/reports/reportsApi.js';
 import { useGetPetQuery } from '../../../store/features/pets/petsApi.js';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.js';
@@ -263,7 +263,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
           className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}
       >
-        <ReportNewView
+        <ReportNewForm
           initialData={petData ? mapPetToReportForm(petData) : undefined}
           petId={petId ? parseInt(petId) : undefined}
         />
@@ -273,7 +273,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
 
   if (editingReport) {
     return (
-      <ReportEditView
+      <ReportEditForm
         report={editingReport}
         onBack={handleBackToReports}
         onSaveSuccess={handleEditSaveSuccess}

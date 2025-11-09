@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem, IconButton, Box } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { getColorOptions } from "../../../../shared/reports/colorList.js";
 import { commonInputStyles } from "../../../../shared/commonStyles.js";

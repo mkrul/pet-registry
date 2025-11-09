@@ -85,6 +85,16 @@ const ReportNewForm = ({ initialData, petId }) => {
               dashboard
             />
 
+            <ImageUpload
+              onImageSelect={handleImageSelect}
+              preview={imagePreview}
+              disabled={isFormDisabled}
+              onImageLoad={handleImageLoad}
+              onImageError={handleImageError}
+              error={""}
+              dashboard
+            />
+
             <IdentificationFields
               formData={formData}
               onInputChange={handleInputChange}
@@ -102,16 +112,6 @@ const ReportNewForm = ({ initialData, petId }) => {
               handleColor1Change={value => handleInputChange({ target: { name: "color1", value } })}
               handleColor2Change={value => handleInputChange({ target: { name: "color2", value } })}
               handleColor3Change={value => handleInputChange({ target: { name: "color3", value } })}
-              error={""}
-              dashboard
-            />
-
-            <ImageUpload
-              onImageSelect={handleImageSelect}
-              preview={imagePreview}
-              disabled={isFormDisabled}
-              onImageLoad={handleImageLoad}
-              onImageError={handleImageError}
               error={""}
               dashboard
             />

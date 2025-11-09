@@ -26,6 +26,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const [selectedPet, setSelectedPet] = useState(null);
   const [editingPet, setEditingPet] = useState(null);
   const [petToArchive, setPetToArchive] = useState(null);
+  const [reportToArchive, setReportToArchive] = useState(null);
   const action = searchParams.get('action');
   const filterParam = searchParams.get('filter');
   const petIdParam = searchParams.get('petId');
@@ -121,11 +122,17 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     navigate(`/dashboard/reports?action=create&petId=${pet.id}`);
   };
 
-  const handleArchiveReport = async (pet) => {
+  const handleArchiveReport = (pet) => {
     if (!pet.reportId) return;
+    setReportToArchive(pet);
+  };
+
+  const handleConfirmArchiveReport = async () => {
+    if (!reportToArchive?.reportId) return;
 
     try {
-      await archiveReport(pet.reportId).unwrap();
+      await archiveReport(reportToArchive.reportId).unwrap();
+      setReportToArchive(null);
       dispatch(addNotification({
         type: "SUCCESS",
         message: 'Report archived successfully. Pet status updated to home.'
@@ -137,6 +144,10 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         message: error.data?.message || 'Failed to archive report'
       }));
     }
+  };
+
+  const handleCancelArchiveReport = () => {
+    setReportToArchive(null);
   };
 
   const handleBackToPets = () => {
@@ -323,6 +334,16 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         confirmText="Archive"
         cancelText="Cancel"
         isLoading={isArchiving}
+      />
+      <ConfirmationModal
+        isOpen={!!reportToArchive}
+        onClose={handleCancelArchiveReport}
+        onConfirm={handleConfirmArchiveReport}
+        title="Archive Report"
+        message={`Are you sure you want to archive the report for "${reportToArchive?.name}"? This will mark them as home and hide the report from search results.`}
+        confirmText="Archive"
+        cancelText="Cancel"
+        isLoading={isArchivingReport}
       />
     </div>
   );
