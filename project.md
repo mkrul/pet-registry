@@ -2,6 +2,19 @@
 
 ## Completed Tasks
 
+### Create New Report Styling Alignment (November 9, 2025)
+- Added `dashboard` variant to `BasicInfoFields`, `IdentificationFields`, `ColorFields`, and `ReportLocationSelect` with tailwind-styled inputs and labels matching pet form styling.
+- Restructured `ReportNewView` to wrap the form in the dashboard card layout with `bg-white dark:bg-gray-800` border and padding.
+- Replaced `SubmitButton` component with a blue action footer button matching the edit form structure, with Spinner and FontAwesome icon.
+- Create New Report form now uses identical styling to pet registration and edit forms, providing a unified dashboard experience.
+
+### Register New Pet Styling Alignment (November 9, 2025)
+- Updated `PetNewForm` to render inside the same dashboard card layout as `PetEditForm` with matching border, background, and spacing.
+- Added `dashboard` variant prop to `PetBasicInfoFields`, `PetIdentificationFields`, `PetColorFields`, and `ImageUpload` calls.
+- Reworked submit button section to match edit form footer with border separator, icon, and loading state aligned to the action footer pattern.
+- Removed `SubmitButton` component dependency and implemented native button with Spinner, FontAwesome icon, and consistent green styling.
+- Register and Edit pet forms now have identical styling and UX across all fields and actions.
+
 ### Dark Mode Persistence Fix (November 9, 2025)
 - Investigated why dashboard theme toggles appeared to persist without updating the database and traced it to `DashboardSettings` bootstrapping from the theme context instead of the stored user settings.
 - Updated `DashboardSettings` to derive defaults from the serialized user settings, expose reset defaults that match backend configuration, and sync the theme via the new `setDarkMode` helper so the Save flow now persists `dark_mode` correctly.

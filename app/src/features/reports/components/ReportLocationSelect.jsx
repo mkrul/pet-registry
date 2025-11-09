@@ -22,7 +22,8 @@ export const ReportLocationSelect = ({
   showTip = true,
   labelStyle = "default",
   initialZoom,
-  showInitialMarker = true
+  showInitialMarker = true,
+  dashboard = false
 }) => {
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
@@ -186,10 +187,35 @@ export const ReportLocationSelect = ({
   }, [currentMapLocation, initialLocation, showInitialMarker, initialZoom]);
 
   const getLabelClassName = () => {
-    if (labelStyle === "microchip") {
-      return "text-lg font-medium text-gray-900";
+    if (dashboard) {
+      return "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2";
     }
-    return "text-lg font-medium text-gray-900 mb-2";
+    if (labelStyle === "microchip") {
+      return "text-lg font-medium text-gray-900 dark:text-gray-100";
+    }
+    return "text-lg font-medium text-gray-900 dark:text-gray-100 mb-2";
+  };
+
+  const getAutocompleteInputSx = () => {
+    if (!dashboard) {
+      return {
+        backgroundColor: "white",
+        "& .MuiOutlinedInput-root": {
+          backgroundColor: "white",
+          "& fieldset": {
+            borderColor: "rgb(209 213 219)"
+          },
+          "&:hover fieldset": {
+            borderColor: "rgb(156 163 175)"
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "rgb(59 130 246)"
+          }
+        }
+      };
+    }
+    // Dashboard mode uses default MUI styling which adapts to dark mode
+    return {};
   };
 
   return (
@@ -230,21 +256,7 @@ export const ReportLocationSelect = ({
               autoComplete="off"
               required={false}
               error={!!error}
-              sx={{
-                backgroundColor: "white",
-                "& .MuiOutlinedInput-root": {
-                  backgroundColor: "white",
-                  "& fieldset": {
-                    borderColor: "rgb(209 213 219)"
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgb(156 163 175)"
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "rgb(59 130 246)"
-                  }
-                }
-              }}
+              sx={getAutocompleteInputSx()}
             />
           )}
           disabled={isDisabled}
