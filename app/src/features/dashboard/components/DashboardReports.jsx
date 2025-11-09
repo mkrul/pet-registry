@@ -89,6 +89,13 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
 
   const handleEditReport = (report) => {
     setEditingReport(report);
+    const params = new URLSearchParams();
+    params.set('reportId', report.id);
+    params.set('action', 'edit');
+    if (activeFilter !== 'active') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/reports?${params.toString()}`);
   };
 
   const handleDeleteReport = (report) => {
@@ -194,6 +201,17 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       setIsCreatingReport(false);
     }
   }, [action, isCreatingReport]);
+
+  useEffect(() => {
+    if (action === 'edit' && reportId && reports.length > 0) {
+      const report = reports.find(r => r.id === parseInt(reportId));
+      if (report && !editingReport) {
+        setEditingReport(report);
+      }
+    } else if (action !== 'edit' && editingReport) {
+      setEditingReport(null);
+    }
+  }, [action, reportId, reports, editingReport]);
 
   useEffect(() => {
     if (selectedReport && reports.length > 0) {

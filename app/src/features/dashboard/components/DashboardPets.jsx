@@ -74,6 +74,13 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
 
   const handleEditPet = (pet) => {
     setEditingPet(pet);
+    const params = new URLSearchParams();
+    params.set('petId', pet.id);
+    params.set('action', 'edit');
+    if (activeFilter !== 'all') {
+      params.set('filter', activeFilter);
+    }
+    navigate(`/dashboard/pets?${params.toString()}`);
   };
 
   const handleArchivePet = (pet) => {
@@ -164,6 +171,14 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
 
   const handleEditSaveSuccess = () => {
     setEditingPet(null);
+    if (selectedPet) {
+      const params = new URLSearchParams();
+      params.set('petId', selectedPet.id);
+      if (activeFilter !== 'all') {
+        params.set('filter', activeFilter);
+      }
+      navigate(`/dashboard/pets?${params.toString()}`);
+    }
   };
 
   useEffect(() => {
@@ -179,6 +194,17 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       setIsCreatingPet(false);
     }
   }, [action, isCreatingPet]);
+
+  useEffect(() => {
+    if (action === 'edit' && petIdParam && pets.length > 0) {
+      const pet = pets.find(p => p.id === parseInt(petIdParam));
+      if (pet && !editingPet) {
+        setEditingPet(pet);
+      }
+    } else if (action !== 'edit' && editingPet) {
+      setEditingPet(null);
+    }
+  }, [action, petIdParam, pets, editingPet]);
 
   useEffect(() => {
     const validFilters = ['all', 'dog', 'cat', 'archived'];

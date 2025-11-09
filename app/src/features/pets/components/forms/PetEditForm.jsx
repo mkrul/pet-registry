@@ -50,9 +50,42 @@ const PetEditForm = ({
     }
   };
 
+  const ActionButtons = () => (
+    <div className="flex space-x-4">
+      <button
+        type="button"
+        onClick={handleSave}
+        disabled={isSaving}
+        className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+      >
+        {isSaving ? (
+          <div className="flex items-center">
+            <Spinner inline size={16} className="mr-2" color="text-white" />
+            Saving...
+          </div>
+        ) : (
+          <>
+            <FontAwesomeIcon icon={faSave} className="mr-2" />
+            Save
+          </>
+        )}
+      </button>
+      <button
+        type="button"
+        onClick={onBack}
+        className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+      >
+        Back to Pets
+      </button>
+    </div>
+  );
+
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Edit Pet</h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Pet</h2>
+        <ActionButtons />
+      </div>
 
       <div className="max-w-2xl">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
@@ -91,31 +124,7 @@ const PetEditForm = ({
           </form>
 
           <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex space-x-4">
-              <button
-                onClick={handleSave}
-                disabled={isSaving}
-                className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                {isSaving ? (
-                  <div className="flex items-center">
-                    <Spinner inline size={16} className="mr-2" color="text-white" />
-                    Saving...
-                  </div>
-                ) : (
-                  <>
-                    <FontAwesomeIcon icon={faSave} className="mr-2" />
-                    Save
-                  </>
-                )}
-              </button>
-              <button
-                onClick={onBack}
-                className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Back to Pets
-              </button>
-            </div>
+            <ActionButtons />
           </div>
         </div>
       </div>
