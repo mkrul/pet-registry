@@ -9,6 +9,7 @@ import { processAddress } from "../../../shared/geocoding";
 import { FormFieldError } from "../../../shared/components/common/FormFieldError";
 import Tip from "../../../shared/components/common/Tip";
 import { REPORT_ZOOM_LEVELS } from "../../../shared/constants/map";
+import { useTheme } from "../../../shared/contexts/ThemeContext";
 
 const MemoizedReportMap = React.memo(ReportMap);
 
@@ -25,6 +26,7 @@ export const ReportLocationSelect = ({
   showInitialMarker = true,
   dashboard = false
 }) => {
+  const { isDarkMode } = useTheme();
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
       ? {
@@ -238,49 +240,49 @@ export const ReportLocationSelect = ({
 
     return {
       "& .MuiOutlinedInput-root": {
-        backgroundColor: "rgba(29, 29, 29, 1)",
+        backgroundColor: isDarkMode ? "rgba(29, 29, 29, 1)" : "white",
         borderRadius: "0.375rem",
         padding: 0,
         "& .MuiAutocomplete-input": {
           padding: "12px 14px",
-          color: "rgb(243, 244, 246)",
+          color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(17, 24, 39)",
           ...typography
         },
         "& .MuiAutocomplete-endAdornment": {
-          color: "rgb(156, 163, 175)",
+          color: isDarkMode ? "rgb(156, 163, 175)" : "rgb(107, 114, 128)",
           right: "10px"
         },
         "& fieldset": {
-          borderColor: "rgb(55 65 81)"
+          borderColor: isDarkMode ? "rgb(55 65 81)" : "rgb(209 213 219)"
         },
         "&:hover fieldset": {
-          borderColor: "rgb(75 85 99)"
+          borderColor: isDarkMode ? "rgb(75 85 99)" : "rgb(156 163 175)"
         },
         "&.Mui-focused fieldset": {
           borderColor: "rgb(59 130 246)"
         }
       },
       "& .MuiAutocomplete-popupIndicator": {
-        color: "rgb(243, 244, 246)"
+        color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(75 85 99)"
       },
       "& .MuiAutocomplete-clearIndicator": {
-        color: "rgb(243, 244, 246)"
+        color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(75 85 99)"
       },
       "& .MuiAutocomplete-paper": {
-        backgroundColor: "rgba(29, 29, 29, 1)",
-        color: "rgb(243, 244, 246)",
+        backgroundColor: isDarkMode ? "rgba(29, 29, 29, 1)" : "white",
+        color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(17, 24, 39)",
         borderRadius: "0.375rem",
-        border: "1px solid rgba(29, 29, 29, 1)",
+        border: isDarkMode ? "1px solid rgba(29, 29, 29, 1)" : "1px solid rgb(209 213 219)",
         ...typography
       },
       "& .MuiAutocomplete-option": {
         ...typography,
         "&[aria-selected='true']": {
           backgroundColor: "rgba(59, 130, 246, 0.12)",
-          color: "rgb(147, 197, 253)"
+          color: isDarkMode ? "rgb(147, 197, 253)" : "rgb(30, 64, 175)"
         },
         "&:hover": {
-          backgroundColor: "rgba(75, 85, 99, 0.6)"
+          backgroundColor: isDarkMode ? "rgba(75, 85, 99, 0.6)" : "rgb(243 244 246)"
         }
       },
       "& .MuiAutocomplete-listbox": {
