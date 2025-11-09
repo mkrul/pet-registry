@@ -17,6 +17,7 @@ import speciesListJson from "../../../../../../config/species.json";
 import BreedSearch from "../../../../shared/components/common/BreedSearch.jsx";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
+import { useTheme } from "../../../../shared/contexts/ThemeContext";
 
 export const PetIdentificationFields = ({
   formData,
@@ -31,6 +32,7 @@ export const PetIdentificationFields = ({
   const [showSpeciesRequired, setShowSpeciesRequired] = useState(false);
   const genderOptions = getGenderOptions();
   const speciesOptions = speciesListJson.options;
+  const { isDarkMode } = useTheme();
 
   const createChangeEvent = (name, value) =>
     ({
@@ -77,6 +79,72 @@ export const PetIdentificationFields = ({
   };
 
   if (dashboard) {
+    const selectTypography = {
+      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+      fontSize: '1rem',
+      fontWeight: 400,
+      lineHeight: '1.5rem'
+    };
+
+    const dashboardSelectSx = {
+      '& .MuiSelect-select': {
+        padding: '12px 14px',
+        backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
+        borderRadius: '0.375rem',
+        color: isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)',
+        ...selectTypography
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'rgb(209, 213, 219)'
+      },
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'rgb(156, 163, 175)'
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'rgb(59, 130, 246)',
+        borderWidth: '2px'
+      },
+      backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
+      borderRadius: '0.375rem'
+    };
+
+    const placeholderStyle = {
+      color: isDarkMode ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)',
+      ...selectTypography
+    };
+
+    const dashboardMenuProps = {
+      PaperProps: {
+        sx: {
+          borderRadius: '0.375rem',
+          border: isDarkMode ? '1px solid rgba(29, 29, 29, 1)' : '1px solid rgb(209, 213, 219)',
+          backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
+          '& .MuiMenuItem-root': {
+            color: isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)',
+            ...selectTypography,
+            '&.Mui-selected': {
+              backgroundColor: 'rgba(59, 130, 246, 0.12)',
+              color: isDarkMode ? 'rgb(147, 197, 253)' : '#1d4ed8'
+            },
+            '&.Mui-selected:hover': {
+              backgroundColor: 'rgba(59, 130, 246, 0.2)'
+            },
+            '&:hover': {
+              backgroundColor: isDarkMode ? 'rgba(75, 85, 99, 0.6)' : 'rgb(243, 244, 246)'
+            }
+          }
+        }
+      }
+    };
+
+    const renderSpeciesValue = (selected) => {
+      if (!selected) {
+        return <span style={placeholderStyle}>Select species</span>;
+      }
+      const match = speciesOptions.find(option => option.toLowerCase() === selected);
+      return match || selected;
+    };
+
     return (
       <div className="space-y-6">
         <div>
@@ -104,21 +172,34 @@ export const PetIdentificationFields = ({
             <span className="text-sm text-gray-500 dark:text-gray-400 font-normal ml-1">(Leave blank if not known)</span>
           </label>
           <div className="flex items-center gap-2">
-            <select
-              id="gender"
-              data-testid="gender-select"
-              value={formData.gender || ""}
-              onChange={(e) => handleFieldChange("gender")(e.target.value)}
-              disabled={isLoading}
-              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option value="">Select gender</option>
-              {genderOptions.map((gender, index) => (
-                <option key={index} value={gender} data-testid="gender-option">
-                  {gender}
-                </option>
-              ))}
-            </select>
+            <FormControl fullWidth>
+              <Select
+                id="gender"
+                data-testid="gender-select"
+                value={formData.gender || ""}
+                onChange={(e) => handleFieldChange("gender")(e.target.value)}
+                disabled={isLoading}
+                displayEmpty
+                sx={dashboardSelectSx}
+                MenuProps={dashboardMenuProps}
+                renderValue={(selected) =>
+                  selected ? (
+                    selected
+                  ) : (
+                    <span style={placeholderStyle}>Select gender</span>
+                  )
+                }
+              >
+                <MenuItem value="" disabled>
+                  <span style={placeholderStyle}>Select gender</span>
+                </MenuItem>
+                {genderOptions.map((gender, index) => (
+                  <MenuItem key={index} value={gender} data-testid="gender-option">
+                    {gender}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             {formData.gender && (
               <button
                 type="button"
@@ -135,7 +216,7 @@ export const PetIdentificationFields = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Is the pet spayed or neutered?</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Is your pet spayed or neutered?</label>
           <div className="space-y-2">
             <label className="flex items-center">
               <input
@@ -181,22 +262,29 @@ export const PetIdentificationFields = ({
           <label htmlFor="species" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             Species
           </label>
-          <select
-            id="species"
-            name="species"
-            value={formData.species?.toLowerCase() || ""}
-            onChange={handleSpeciesChange}
-            required
-            disabled={isLoading}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <option value="">Select species</option>
-            {speciesOptions.map(option => (
-              <option key={option} value={option.toLowerCase()}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <FormControl fullWidth>
+            <Select
+              id="species"
+              name="species"
+              value={formData.species?.toLowerCase() || ""}
+              onChange={handleSpeciesChange}
+              required
+              disabled={isLoading}
+              displayEmpty
+              sx={dashboardSelectSx}
+              MenuProps={dashboardMenuProps}
+              renderValue={renderSpeciesValue}
+            >
+              <MenuItem value="" disabled>
+                <span style={placeholderStyle}>Select species</span>
+              </MenuItem>
+              {speciesOptions.map(option => (
+                <MenuItem key={option} value={option.toLowerCase()}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormFieldError error={error} />
           {showSpeciesRequired && (
             <div className="mt-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-500/40 rounded-md text-sm text-yellow-800 dark:text-yellow-200">
@@ -254,6 +342,7 @@ export const PetIdentificationFields = ({
                 excludeBreeds={[formData.breed1]}
                 size="medium"
                 hideLabel
+                disableClearable
                 onEmptySpeciesClick={() => setShowSpeciesRequired(true)}
                 showBreedPlaceholder={false}
                 dashboard
