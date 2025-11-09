@@ -27,4 +27,5 @@
 ## Frontend
 
 - Dashboard pet edit form now uses the same dashboard card layout, labels, and native inputs as the settings/profile pages via new `dashboard` variants on `PetEditForm` field components while preserving the Material UI presentation for other contexts.
+- `DashboardSettings` now initializes from persisted user settings; the dark mode toggle persists to the backend and rehydrates the theme via the new `setDarkMode` helper exposed by `ThemeContext`.
 - TipsSection ownership check: `isOwner` now derives from `

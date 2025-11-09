@@ -5,7 +5,7 @@ import { useUpdateSettingsMutation, useDeleteAccountMutation } from '../../../st
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal';
 
 const DashboardSettings = () => {
-  const { isDarkMode, toggleDarkMode } = useTheme();
+  const { isDarkMode, toggleDarkMode, setDarkMode } = useTheme();
   const user = useSelector((state) => state.auth.user);
   const [updateSettings, { isLoading }] = useUpdateSettingsMutation();
   const [deleteAccount, { isLoading: isDeleting }] = useDeleteAccountMutation();
@@ -26,24 +26,34 @@ const DashboardSettings = () => {
   });
 
   useEffect(() => {
-    if (user?.settings) {
-      const nextSettings = {
-        sendEmailForTip: user.settings.sendEmailForTip ?? true,
-        sendEmailForMessage: user.settings.sendEmailForMessage ?? true,
-        sendEmailForConversation: user.settings.sendEmailForConversation ?? true,
-        sendEmailForMatch: user.settings.sendEmailForMatch ?? true,
-        allowContact: user.settings.allowContact ?? false,
-        darkMode: isDarkMode ?? false,
-      };
-
-      setSendEmailForTip(nextSettings.sendEmailForTip);
-      setSendEmailForMessage(nextSettings.sendEmailForMessage);
-      setSendEmailForConversation(nextSettings.sendEmailForConversation);
-      setSendEmailForMatch(nextSettings.sendEmailForMatch);
-      setAllowContact(nextSettings.allowContact);
-      setInitialSettings(nextSettings);
+    if (!user?.settings) {
+      return;
     }
-  }, [user, isDarkMode]);
+
+    const nextSettings = {
+      sendEmailForTip: user.settings.sendEmailForTip ?? true,
+      sendEmailForMessage: user.settings.sendEmailForMessage ?? true,
+      sendEmailForConversation: user.settings.sendEmailForConversation ?? true,
+      sendEmailForMatch: user.settings.sendEmailForMatch ?? true,
+      allowContact: user.settings.allowContact ?? false,
+      darkMode: user.settings.darkMode ?? false,
+    };
+
+    setSendEmailForTip(nextSettings.sendEmailForTip);
+    setSendEmailForMessage(nextSettings.sendEmailForMessage);
+    setSendEmailForConversation(nextSettings.sendEmailForConversation);
+    setSendEmailForMatch(nextSettings.sendEmailForMatch);
+    setAllowContact(nextSettings.allowContact);
+    setInitialSettings(nextSettings);
+  }, [user]);
+
+  useEffect(() => {
+    if (typeof user?.settings?.darkMode !== 'boolean') {
+      return;
+    }
+
+    setDarkMode(user.settings.darkMode);
+  }, [user?.settings?.darkMode, setDarkMode]);
 
   const hasChanges =
     sendEmailForTip !== initialSettings.sendEmailForTip ||
@@ -69,26 +79,30 @@ const DashboardSettings = () => {
 
   const handleResetToDefaults = async () => {
     try {
-      setSendEmailForTip(true);
-      setSendEmailForMessage(true);
-      setSendEmailForConversation(true);
-      setSendEmailForMatch(true);
-      setAllowContact(false);
-      setInitialSettings({
+      const defaultSettings = {
         sendEmailForTip: true,
         sendEmailForMessage: true,
         sendEmailForConversation: true,
         sendEmailForMatch: true,
         allowContact: false,
-        darkMode: isDarkMode,
-      });
+        darkMode: false,
+      };
+
+      setSendEmailForTip(defaultSettings.sendEmailForTip);
+      setSendEmailForMessage(defaultSettings.sendEmailForMessage);
+      setSendEmailForConversation(defaultSettings.sendEmailForConversation);
+      setSendEmailForMatch(defaultSettings.sendEmailForMatch);
+      setAllowContact(defaultSettings.allowContact);
+      setInitialSettings(defaultSettings);
+      setDarkMode(defaultSettings.darkMode);
+
       await updateSettings({
-        send_email_for_tip: true,
-        send_email_for_message: true,
-        send_email_for_conversation: true,
-        send_email_for_match: true,
-        allow_contact: false,
-        dark_mode: isDarkMode
+        send_email_for_tip: defaultSettings.sendEmailForTip,
+        send_email_for_message: defaultSettings.sendEmailForMessage,
+        send_email_for_conversation: defaultSettings.sendEmailForConversation,
+        send_email_for_match: defaultSettings.sendEmailForMatch,
+        allow_contact: defaultSettings.allowContact,
+        dark_mode: defaultSettings.darkMode
       }).unwrap();
     } catch (err) {
     }
@@ -228,7 +242,7 @@ const DashboardSettings = () => {
               <button
                 onClick={toggleDarkMode}
                 className={`ml-6 relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors ${
-                  isDarkMode ? 'bg-blue-600' : isDarkMode ? 'dark:bg-gray-600 bg-gray-200' : 'bg-gray-200'
+                  isDarkMode ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-600'
                 }`}
               >
                 <span

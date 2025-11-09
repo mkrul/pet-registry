@@ -2,6 +2,11 @@
 
 ## Completed Tasks
 
+### Dark Mode Persistence Fix (November 9, 2025)
+- Investigated why dashboard theme toggles appeared to persist without updating the database and traced it to `DashboardSettings` bootstrapping from the theme context instead of the stored user settings.
+- Updated `DashboardSettings` to derive defaults from the serialized user settings, expose reset defaults that match backend configuration, and sync the theme via the new `setDarkMode` helper so the Save flow now persists `dark_mode` correctly.
+- Extended `ThemeContext` with a `setDarkMode` setter to hydrate the theme from persisted preferences without forcing an extra toggle.
+
 ### Dashboard Pet Edit Styling Alignment (November 8, 2025)
 - Updated `PetEditForm` to render inside the same dashboard card layout as the settings and profile pages, including a shared action footer.
 - Added a `dashboard` variant to `PetBasicInfoFields`, `PetIdentificationFields`, and `PetColorFields` so the dashboard edit experience uses the same native inputs, labels, and accessibility patterns as other dashboard forms while keeping the existing Material UI presentation for non-dashboard contexts.
