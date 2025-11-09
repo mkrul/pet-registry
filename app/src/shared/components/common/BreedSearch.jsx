@@ -96,9 +96,9 @@ export const BreedSearch = ({
         padding: '12px 14px !important',
         color: `${isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)'} !important`,
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-        fontSize: '0.875rem',
+        fontSize: '1rem',
         fontWeight: '400',
-        lineHeight: '1.25rem'
+        lineHeight: '1.5rem'
       },
       "& .MuiInputBase-input::placeholder": {
         color: `${isDarkMode ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'} !important`,
@@ -123,7 +123,7 @@ export const BreedSearch = ({
               ? '0 10px 15px -3px rgba(0, 0, 0, 0.2)'
               : '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
             '& .MuiAutocomplete-option': {
-              fontSize: '0.875rem',
+              fontSize: '1rem',
               padding: '8px 12px',
               color: isDarkMode
                 ? 'rgb(243, 244, 246) !important'
