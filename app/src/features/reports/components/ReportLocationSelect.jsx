@@ -197,25 +197,107 @@ export const ReportLocationSelect = ({
   };
 
   const getAutocompleteInputSx = () => {
+    const baseStyles = {
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "0.375rem",
+        padding: 0,
+        "& .MuiAutocomplete-input": {
+          padding: "12px 14px",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+          fontSize: "1rem",
+          fontWeight: 400,
+          lineHeight: "1.5rem"
+        },
+        "& fieldset": {
+          borderColor: "rgb(209 213 219)"
+        },
+        "&:hover fieldset": {
+          borderColor: "rgb(156 163 175)"
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "rgb(59 130 246)"
+        }
+      },
+      "& .MuiAutocomplete-paper": {
+        backgroundColor: "rgb(255 255 255)"
+      }
+    };
+
     if (!dashboard) {
       return {
-        backgroundColor: "white",
+        ...baseStyles,
         "& .MuiOutlinedInput-root": {
+          ...baseStyles["& .MuiOutlinedInput-root"],
           backgroundColor: "white",
-          "& fieldset": {
-            borderColor: "rgb(209 213 219)"
-          },
-          "&:hover fieldset": {
-            borderColor: "rgb(156 163 175)"
-          },
-          "&.Mui-focused fieldset": {
-            borderColor: "rgb(59 130 246)"
+          "& .MuiAutocomplete-input": {
+            ...baseStyles["& .MuiOutlinedInput-root"]["& .MuiAutocomplete-input"],
+            color: "rgb(17, 24, 39)"
           }
         }
       };
     }
-    // Dashboard mode uses default MUI styling which adapts to dark mode
-    return {};
+
+    // Dashboard styling (dark background with translucent dropdown)
+    const typography = {
+      fontFamily:
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+      fontSize: "1rem",
+      fontWeight: 400,
+      lineHeight: "1.5rem"
+    };
+
+    return {
+      "& .MuiOutlinedInput-root": {
+        backgroundColor: "rgba(29, 29, 29, 1)",
+        borderRadius: "0.375rem",
+        padding: 0,
+        "& .MuiAutocomplete-input": {
+          padding: "12px 14px",
+          color: "rgb(243, 244, 246)",
+          ...typography
+        },
+        "& .MuiAutocomplete-endAdornment": {
+          color: "rgb(156, 163, 175)",
+          right: "10px"
+        },
+        "& fieldset": {
+          borderColor: "rgb(55 65 81)"
+        },
+        "&:hover fieldset": {
+          borderColor: "rgb(75 85 99)"
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "rgb(59 130 246)"
+        }
+      },
+      "& .MuiAutocomplete-popupIndicator": {
+        color: "rgb(243, 244, 246)"
+      },
+      "& .MuiAutocomplete-clearIndicator": {
+        color: "rgb(243, 244, 246)"
+      },
+      "& .MuiAutocomplete-paper": {
+        backgroundColor: "rgba(29, 29, 29, 1)",
+        color: "rgb(243, 244, 246)",
+        borderRadius: "0.375rem",
+        border: "1px solid rgba(29, 29, 29, 1)",
+        ...typography
+      },
+      "& .MuiAutocomplete-option": {
+        ...typography,
+        "&[aria-selected='true']": {
+          backgroundColor: "rgba(59, 130, 246, 0.12)",
+          color: "rgb(147, 197, 253)"
+        },
+        "&:hover": {
+          backgroundColor: "rgba(75, 85, 99, 0.6)"
+        }
+      },
+      "& .MuiAutocomplete-listbox": {
+        padding: 0
+      }
+    };
   };
 
   return (

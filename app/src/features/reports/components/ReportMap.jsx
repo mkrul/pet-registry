@@ -5,6 +5,13 @@ import "../../../shared/utils/leafletSetup";
 import { processAddress } from "../../../shared/geocoding";
 import Spinner from "../../../shared/components/common/Spinner";
 import { DEFAULT_MAP_CENTER, REPORT_ZOOM_LEVELS } from "../../../shared/constants/map";
+import { useTheme } from "../../../shared/contexts/ThemeContext";
+
+const LIGHT_TILE_LAYER = {
+  id: "light-base",
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+};
 
 const MapView = ({ initialLocation, initialZoom, hasSetInitialView, setHasSetInitialView }) => {
   const map = useMap();
@@ -114,7 +121,7 @@ const MapEvents = ({
         setHasSetInitialView={setHasSetInitialView}
       />
       {isProcessing ? (
-        <div className="absolute inset-0 bg-white/75 z-[1000] flex items-center justify-center">
+        <div className="absolute inset-0 z-[1000] flex items-center justify-center bg-white/75">
           <Spinner size={32} bgFaded={false} inline={true} className="text-gray-300" />
         </div>
       ) : null}
@@ -132,6 +139,8 @@ export const ReportMap = ({
   showInitialMarker = true,
   showPin = false
 }) => {
+  const tileLayers = [LIGHT_TILE_LAYER];
+
   console.log('[DEBUG] ReportMap received props:', { showPin, initialLocation, showInitialMarker });
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
@@ -140,10 +149,9 @@ export const ReportMap = ({
         zoom={initialZoom || REPORT_ZOOM_LEVELS.DEFAULT}
         className="h-full"
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        {tileLayers.map(({ id, attribution, url, zIndex }) => (
+          <TileLayer key={id} attribution={attribution} url={url} zIndex={zIndex} />
+        ))}
         <MapEvents
           onLocationSelect={onLocationSelect}
           initialLocation={initialLocation}

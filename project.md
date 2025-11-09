@@ -2,11 +2,12 @@
 
 ## Completed Tasks
 
-### Create New Report Styling Alignment (November 9, 2025)
+-### Create New Report Styling Alignment (November 9, 2025)
 - Added `dashboard` variant to `BasicInfoFields`, `IdentificationFields`, `ColorFields`, and `ReportLocationSelect` with tailwind-styled inputs and labels matching pet form styling.
 - Restructured `ReportNewView` to wrap the form in the dashboard card layout with `bg-white dark:bg-gray-800` border and padding.
-- Replaced `SubmitButton` component with a blue action footer button matching the edit form structure, with Spinner and FontAwesome icon.
+- Replaced `SubmitButton` component with a green action footer button matching the edit form structure, with Spinner and FontAwesome icon.
 - Create New Report form now uses identical styling to pet registration and edit forms, providing a unified dashboard experience.
+- Dark mode map tiles now layer CARTO's `dark_nolabels` base with `light_only_labels` to keep street labels readable while preserving the darker backdrop.
 
 ### Register New Pet Styling Alignment (November 9, 2025)
 - Updated `PetNewForm` to render inside the same dashboard card layout as `PetEditForm` with matching border, background, and spacing.

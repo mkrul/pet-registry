@@ -28,6 +28,7 @@
 
 - Dashboard pet edit and registration forms now use the same dashboard card layout, labels, and native inputs as the settings/profile pages via new `dashboard` variants on `PetBasicInfoFields`, `PetIdentificationFields`, `PetColorFields`, and `ImageUpload` components while preserving the Material UI presentation for other contexts.
 - Register New Pet form (`PetNewForm`) now renders inside the same dashboard card wrapper with footer action buttons matching the edit form, ensuring consistent styling and UX across both forms.
-- Create New Report form (`ReportNewView`) now uses the same dashboard card layout with `dashboard` variants on `BasicInfoFields`, `IdentificationFields`, `ColorFields`, `ImageUpload`, and `ReportLocationSelect`, plus a blue action footer to match the edit report form, providing consistent styling across all dashboard forms.
+- Create New Report form (`ReportNewView`) now uses the same dashboard card layout with `dashboard` variants on `BasicInfoFields`, `IdentificationFields`, `ColorFields`, `ImageUpload`, and `ReportLocationSelect`, plus a green action footer to match the edit report form, providing consistent styling across all dashboard forms.
+- Dark mode map tiles on the Create Report form now layer CARTO's light-only labels over the dark base to keep street names legible while preserving the subdued background styling.
 - `DashboardSettings` now initializes from persisted user settings; the dark mode toggle persists to the backend and rehydrates the theme via the new `setDarkMode` helper exposed by `ThemeContext`.
 - TipsSection ownership check: `isOwner` now derives from `
