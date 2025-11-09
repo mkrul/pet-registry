@@ -4,6 +4,7 @@ import { Close as CloseIcon } from "@mui/icons-material";
 import { getColorOptions } from "../../../../shared/reports/colorList";
 import { commonInputStyles } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
+import { useTheme } from "../../../../shared/contexts/ThemeContext";
 
 export const PetColorFields = ({
   formData,
@@ -14,6 +15,7 @@ export const PetColorFields = ({
   error,
   dashboard = false
 }) => {
+  const { isDarkMode } = useTheme();
   const colorOptions = getColorOptions();
 
   const getFilteredColorOptions = (excludeColors) => {
@@ -46,27 +48,92 @@ export const PetColorFields = ({
   };
 
   if (dashboard) {
+    const selectTypography = {
+      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+      fontSize: '1rem',
+      fontWeight: 400,
+      lineHeight: '1.5rem'
+    };
+
+    const dashboardSelectSx = {
+      '& .MuiSelect-select': {
+        padding: '12px 14px',
+        backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
+        borderRadius: '0.375rem',
+        color: isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)',
+        ...selectTypography
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'rgb(209, 213, 219)'
+      },
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'rgb(156, 163, 175)'
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'rgb(59, 130, 246)',
+        borderWidth: '2px'
+      },
+      backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
+      borderRadius: '0.375rem'
+    };
+
+    const placeholderStyle = {
+      color: isDarkMode ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)',
+      ...selectTypography
+    };
+
+    const dashboardMenuProps = {
+      PaperProps: {
+        sx: {
+          borderRadius: '0.375rem',
+          border: isDarkMode ? '1px solid rgba(29, 29, 29, 1)' : '1px solid rgb(209, 213, 219)',
+          backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
+          '& .MuiMenuItem-root': {
+            color: isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)',
+            ...selectTypography,
+            '&.Mui-selected': {
+              backgroundColor: 'rgba(59, 130, 246, 0.12)',
+              color: isDarkMode ? 'rgb(147, 197, 253)' : '#1d4ed8'
+            },
+            '&.Mui-selected:hover': {
+              backgroundColor: 'rgba(59, 130, 246, 0.2)'
+            },
+            '&:hover': {
+              backgroundColor: isDarkMode ? 'rgba(75, 85, 99, 0.6)' : 'rgb(243, 244, 246)'
+            }
+          }
+        }
+      }
+    };
+
+    const renderValue = (value, placeholder) =>
+      value ? value : <span style={placeholderStyle}>{placeholder}</span>;
+
     return (
       <div className="space-y-6">
         <div>
           <label htmlFor="color1" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             First Color
           </label>
-          <select
-            id="color1"
-            data-testid="color1-select"
-            value={formData.color1 || ""}
-            onChange={handleColor1SelectChange}
-            disabled={isLoading}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <option value="">Select color</option>
-            {getFilteredColorOptions([formData.color2, formData.color3].filter(Boolean)).map((color, index) => (
-              <option key={index} value={color} data-testid="color1-option">
-                {color}
-              </option>
-            ))}
-          </select>
+          <FormControl fullWidth>
+            <Select
+              id="color1"
+              data-testid="color1-select"
+              value={formData.color1 || ""}
+              onChange={handleColor1SelectChange}
+              disabled={isLoading}
+              displayEmpty
+              sx={dashboardSelectSx}
+              MenuProps={dashboardMenuProps}
+              renderValue={(selected) => renderValue(selected, "Select color")}
+            >
+              {getFilteredColorOptions([formData.color2, formData.color3].filter(Boolean)).map((color, index) => (
+                <MenuItem key={index} value={color} data-testid="color1-option">
+                  {color}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormFieldError error={error} />
         </div>
 
@@ -75,21 +142,25 @@ export const PetColorFields = ({
             Second Color
           </label>
           <div className="flex items-center gap-2">
-            <select
-              id="color2"
-              data-testid="color2-select"
-              value={formData.color2 || ""}
-              onChange={handleColor2SelectChange}
-              disabled={isLoading}
-              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option value="">Select color</option>
-              {getFilteredColorOptions([formData.color1, formData.color3].filter(Boolean)).map((color, index) => (
-                <option key={index} value={color} data-testid="color2-option">
-                  {color}
-                </option>
-              ))}
-            </select>
+            <FormControl fullWidth>
+              <Select
+                id="color2"
+                data-testid="color2-select"
+                value={formData.color2 || ""}
+                onChange={handleColor2SelectChange}
+                disabled={isLoading}
+                displayEmpty
+                sx={dashboardSelectSx}
+                MenuProps={dashboardMenuProps}
+                renderValue={(selected) => renderValue(selected, "Select color")}
+              >
+                {getFilteredColorOptions([formData.color1, formData.color3].filter(Boolean)).map((color, index) => (
+                  <MenuItem key={index} value={color} data-testid="color2-option">
+                    {color}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             {formData.color2 && (
               <button
                 type="button"
@@ -110,21 +181,25 @@ export const PetColorFields = ({
             Third Color
           </label>
           <div className="flex items-center gap-2">
-            <select
-              id="color3"
-              data-testid="color3-select"
-              value={formData.color3 || ""}
-              onChange={handleColor3SelectChange}
-              disabled={isLoading}
-              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900/60 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option value="">Select color</option>
-              {getFilteredColorOptions([formData.color1, formData.color2].filter(Boolean)).map((color, index) => (
-                <option key={index} value={color} data-testid="color3-option">
-                  {color}
-                </option>
-              ))}
-            </select>
+            <FormControl fullWidth>
+              <Select
+                id="color3"
+                data-testid="color3-select"
+                value={formData.color3 || ""}
+                onChange={handleColor3SelectChange}
+                disabled={isLoading}
+                displayEmpty
+                sx={dashboardSelectSx}
+                MenuProps={dashboardMenuProps}
+                renderValue={(selected) => renderValue(selected, "Select color")}
+              >
+                {getFilteredColorOptions([formData.color1, formData.color2].filter(Boolean)).map((color, index) => (
+                  <MenuItem key={index} value={color} data-testid="color3-option">
+                    {color}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             {formData.color3 && (
               <button
                 type="button"
