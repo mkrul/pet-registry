@@ -71,8 +71,7 @@ const AboutPage = () => {
         </Box>
       </Box>
 
-      <Container maxWidth="md" sx={{ py: 0 }}>
-
+      <Container maxWidth="md" sx={{ pt: 3 }}>
         <Box sx={{ mb: 8 }}>
           <Grid2 container spacing={{ xs: 0, sm: 2 }} sx={{ mb: 8, alignItems: "center" }}>
             <Grid2 size={{ xs: 12, sm: 6 }}>
@@ -82,10 +81,11 @@ const AboutPage = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.475rem", sm: "1.5rem", md: "1.675rem" },
+                      fontSize: { xs: "1.775rem", sm: "1.5rem", md: "1.675rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
-                      mb: 1
+                      mb: 1,
+                      textAlign: { xs: "center", sm: "left" }
                     }}
                   >
                     The average stray hold period is{" "}
@@ -102,7 +102,8 @@ const AboutPage = () => {
                   lineHeight: { xs: 1.7, sm: 1.65, md: 1.7 },
                   color: "text.secondary",
                   paddingRight: { xs: 0, sm: 1 },
-                  marginBottom: { xs: 3, sm: 0, md: 0 }
+                  marginBottom: { xs: 3, sm: 0, md: 0 },
+                  textAlign: { xs: "justify", sm: "left" }
                 }}>
                   Shelters will typically hold strays for a short amount of time so that their owners have a chance to reclaim them.
                   Unfortunately, once the stray hold expires, reuniting lost pets with their families becomes far less likely.
@@ -149,10 +150,11 @@ const AboutPage = () => {
                     variant="h4"
                     sx={{
                       fontWeight: 700,
-                      fontSize: { xs: "1.475rem", sm: "1.5rem", md: "1.675rem" },
+                      fontSize: { xs: "1.775rem", sm: "1.5rem", md: "1.675rem" },
                       lineHeight: 1.4,
                       color: "#2c3e50",
-                      mb: { xs: 3, sm: 1, md: 3 }
+                      mb: { xs: 3, sm: 1, md: 3 },
+                      textAlign: { xs: "center", sm: "left" }
                     }}
                   >
                     Microchipping helps, but sometimes <span style={{ fontWeight: 800, color: "#e74c3c" }}>it&apos;s not enough.</span>
@@ -162,7 +164,8 @@ const AboutPage = () => {
                   fontSize: { xs: "1.125rem", sm: "1.05rem", md: "1.125rem" },
                   lineHeight: { xs: 1.7, sm: 1.65, md: 1.7 },
                   color: "text.secondary",
-                  mb: 3
+                  mb: 3,
+                  textAlign: { xs: "justify", sm: "left" }
                 }}>
                   Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, lost pets may be adopted out to other families or transferred to a different facility hundreds of miles away.
                   <sup>
@@ -172,6 +175,18 @@ const AboutPage = () => {
               </Box>
             </Grid2>
           </Grid2>
+          <Typography variant="caption" sx={{
+              fontSize: "0.75rem",
+              color: "#5a6c7d",
+              lineHeight: 1.5,
+              mt: 4,
+              display: "block",
+              textAlign: "center"
+            }}>
+              Sources: 1.{" "}
+              <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: "#5a6c7d", textDecoration: "none" }}>Lost Pet Research</a> • 2.{" "}
+              <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "#5a6c7d", textDecoration: "none" }}>Human Animal Support Services</a>
+            </Typography>
         </Box>
 
         <Box sx={{
@@ -248,8 +263,8 @@ const AboutPage = () => {
                       maxWidth: { xs: "800px", lg: "none" },
                       mx: { xs: "auto", lg: "0" }
                     }}>
-                      Our mission is to improve reunification rates in our communities by delivering a platform that is accessible,
-                      actionable, and puts real-time data about lost pets within reach.
+                      Our mission is to improve reunification rates in our communities by delivering a platform that is accessible and
+                      actionable, putting real-time data about lost pets within reach.
                     </Typography>
                   </Box>
 
@@ -297,7 +312,7 @@ const AboutPage = () => {
                           color: "#495057",
                           mb: 0
                         }}>
-                          A nationwide network that puts real-time data about lost pets within reach, improving their chances of being found.
+                          Information silos inhibit communication between shelters, rescues, and pet parents. We offer a nationwide network that relies on a single database to trace lost pets so they can be found quickly.
                         </Typography>
                       </Box>
                     </Box>
@@ -345,6 +360,7 @@ const AboutPage = () => {
                           color: "#495057",
                           mb: 0
                         }}>
+                          One in three pets will become lost at some point in their lifetime.
                           By registering pets <i>before</i> they go missing, owners can
                           be prepared to act quickly when the unexpected occurs.
                         </Typography>
@@ -394,7 +410,8 @@ const AboutPage = () => {
                           color: "#495057",
                           mb: 0
                         }}>
-                          We connect pet owners, neighbors, and animal welfare professionals in a unified effort to bring lost pets home.
+                          When pets go missing, community support is essential.
+                          Our platform connects pet owners, neighbors, and animal welfare professionals in a unified effort to bring lost pets home.
                         </Typography>
                       </Box>
                     </Box>
@@ -645,7 +662,7 @@ const AboutPage = () => {
       </Container>
 
       <Container maxWidth="xl">
-      <Box sx={{
+        <Box sx={{
           width: "100vw",
           position: "relative",
           left: "50%",
@@ -672,51 +689,40 @@ const AboutPage = () => {
             background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.6) 100%)",
             zIndex: 1
           }} />
-          <Box sx={{
-            position: "relative",
-            zIndex: 2,
-            textAlign: "center",
-            width: "100%",
-            maxWidth: "1200px",
-            mx: "auto"
-          }}>
-            <Typography variant="h3" component="h2" gutterBottom sx={{
-              color: "white",
-              textShadow: "0 2px 4px rgba(0,0,0,0.3)",
-            fontWeight: 700,
-            fontSize: { xs: "1.75rem", sm: "1.75rem", md: "2rem" },
-            mb: 3,
-            lineHeight: 1.3,
-            maxWidth: { xs: "600px", lg: "900px" },
-            px: { xs: 1.75, sm: 4, md: 6, lg: 15 },
-            mx: "auto"
-          }}>
-            Because their safety matters — and so does your peace of mind.
-          </Typography>
-          <Typography variant="h4" component="p" sx={{
-            fontSize: { xs: "1.15rem", md: "1.175rem" },
-            lineHeight: 1.5,
-            fontWeight: 500,
-            color: "rgba(255, 255, 255, 0.95)",
-            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
-            mb: 6,
-            pt: 1,
-            maxWidth: { xs: "550px", lg: "none" },
-            mx: "auto",
-            px: { xs: 4, sm: 2, lg: 0 }
-          }}>
-            Registering your pet is fast, easy, and completely <strong>free</strong>.
-          </Typography>
-            <Typography variant="caption" sx={{
-              fontSize: "0.75rem",
-              color: "rgba(255, 255, 255, 0.8)",
-              lineHeight: 1.5,
-              mt: 4,
-              display: "block"
+            <Box sx={{
+              position: "relative",
+              zIndex: 2,
+              textAlign: "center",
+              width: "100%",
+              maxWidth: "1200px",
+              mx: "auto"
             }}>
-              Sources: 1.{" "}
-              <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255, 255, 255, 0.8)", textDecoration: "none" }}>Lost Pet Research</a> • 2.{" "}
-              <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255, 255, 255, 0.8)", textDecoration: "none" }}>Human Animal Support Services</a>
+              <Typography variant="h3" component="h2" gutterBottom sx={{
+                  color: "white",
+                  textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                fontWeight: 700,
+                fontSize: { xs: "1.75rem", sm: "1.75rem", md: "2rem" },
+                mb: 3,
+                lineHeight: 1.3,
+                maxWidth: { xs: "600px", lg: "900px" },
+                px: { xs: 1.75, sm: 4, md: 6, lg: 15 },
+                mx: "auto"
+              }}>
+                Because their safety matters — and so does your peace of mind.
+              </Typography>
+              <Typography variant="h4" component="p" sx={{
+                fontSize: { xs: "1.15rem", md: "1.175rem" },
+                lineHeight: 1.5,
+                fontWeight: 500,
+                color: "rgba(255, 255, 255, 0.95)",
+                textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                mb: 6,
+                pt: 1,
+                maxWidth: { xs: "550px", lg: "none" },
+                mx: "auto",
+                px: { xs: 4, sm: 2, lg: 0 }
+              }}>
+                Registering your pet is fast, easy, and completely <strong>free</strong>.
             </Typography>
           </Box>
         </Box>
