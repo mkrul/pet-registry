@@ -57,7 +57,7 @@ const PetDetailView = ({ pet, onBack, onEdit, onDelete, onCreateReport, onArchiv
           </div>
           <div className="md:w-1/2 p-6 flex flex-col">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 truncate flex-1 mr-4">{pet.name}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 truncate flex-1 mr-4">{pet.name}</h3>
               <div className="flex space-x-2">
                 {onEdit && pet.status !== 'archived' && (
                   <button

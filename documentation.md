@@ -108,3 +108,6 @@ When editing a report, the location map should initialize with the report's exis
 ### Dashboard Label Styling
 - When `ReportLocationSelect` is rendered in dashboard flows, the `Location` label matches the typography and spacing used by adjacent form labels (e.g., `Third Color`) for visual consistency.
 
+### Listing Detail Text Weight
+- `ListingDetailsCard` presents report attribute values (name, description, breeds, gender, microchip details) with normal font weight so the emphasis stays on the section labels while the content remains easy to scan.
+

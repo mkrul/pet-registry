@@ -368,7 +368,7 @@ const IdentificationFields = ({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <label className="text-lg font-medium text-gray-900">Microchip ID:</label>
+        <label className="text-lg font-normal text-gray-900">Microchip ID:</label>
         <span className="text-sm text-gray-500"> (Leave blank if not known)</span>
         <TextField
           data-testid="microchip-id-input"

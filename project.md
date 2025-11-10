@@ -35,3 +35,6 @@
 ### Report Creation Label Alignment
 - Matched the `Location` label styling in the dashboard report form to the surrounding color selectors and linked it to the address input for better accessibility.
 
+### Listing Detail Typography
+- Adjusted `ListingDetailsCard` so report attribute values (name, description, breeds, gender, microchip) render with normal font weight while the labels retain emphasis, matching the public report spec.
+

@@ -265,38 +265,38 @@ const ListingDetailsCard = ({ report }) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                     {report.name && (
                       <div>
-                        <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Name</h4>
-                        <p className="text-gray-900 font-medium">{report.name}</p>
+                        <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Name</h4>
+                        <p className="text-gray-700 font-normal">{report.name}</p>
                       </div>
                     )}
                   </div>
                 )}
 
                 <div>
-                  <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Description</h4>
-                  <p className="text-gray-900 font-medium">{report.description}</p>
+                  <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Description</h4>
+                  <p className="text-gray-700 font-normal">{report.description}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                   <div>
-                    <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Breed</h4>
-                    <p className="text-gray-900 font-medium">{report.breed1}</p>
+                    <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Breed</h4>
+                    <p className="text-gray-700 font-normal">{report.breed1}</p>
                     {report.breed2 && (
-                      <p className="text-gray-900 font-medium">{report.breed2}</p>
+                      <p className="text-gray-700 font-normal">{report.breed2}</p>
                     )}
                   </div>
 
                   {report.gender && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Gender</h4>
-                      <p className="text-gray-900 font-medium capitalize">{report.gender}</p>
+                      <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Gender</h4>
+                      <p className="text-gray-700 font-normal capitalize">{report.gender}</p>
                     </div>
                   )}
 
                   {report.isAltered !== null && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
-                      <p className="text-gray-900 font-medium">
+                      <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
+                      <p className="text-gray-700 font-normal">
                         {report.isAltered ? "Yes" : "No"}
                       </p>
                     </div>
@@ -304,8 +304,8 @@ const ListingDetailsCard = ({ report }) => {
 
                   {report.microchipId && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-1">Microchip ID</h4>
-                      <p className="text-gray-900 font-medium font-mono">{report.microchipId}</p>
+                      <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Microchip ID</h4>
+                      <p className="text-gray-700 font-normal">{report.microchipId}</p>
                     </div>
                   )}
                 </div>
@@ -315,7 +315,7 @@ const ListingDetailsCard = ({ report }) => {
         </div>
 
         <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">Sightings & Tips</h4>
+          <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-2">Sightings & Tips</h4>
           <div className="flex items-start gap-2 mb-5">
             <p className="text-sm text-gray-600 mt-2">
               The information below lists the original location where the animal went missing, along with any subsequent sightings or tips reported by community members.
@@ -364,7 +364,7 @@ const ListingDetailsCard = ({ report }) => {
                           <div className="space-y-2">
                             {hasLocation && (
                               <LocationDisplay
-                                textStyle="text-sm font-medium text-black"
+                                textStyle="text-sm font-normal text-black"
                                 area={tip.area}
                                 state={tip.state}
                                 country={tip.country}
@@ -416,7 +416,7 @@ const ListingDetailsCard = ({ report }) => {
                               {hasLocation && (
                                 <div className="truncate">
                                   <LocationDisplay
-                                    textStyle="text-sm font-medium text-black"
+                                    textStyle="text-sm font-normal text-black"
                                     area={tip.area}
                                     state={tip.state}
                                     country={tip.country}
