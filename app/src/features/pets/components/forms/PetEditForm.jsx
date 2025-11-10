@@ -3,6 +3,7 @@ import { usePetEdit } from '../../../../shared/hooks/usePetEdit.js';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import Spinner from '../../../../shared/components/common/Spinner.jsx';
+import FormLayout from '../../../../shared/components/common/FormLayout.jsx';
 import { PetBasicInfoFields } from '../common/PetBasicInfoFields.jsx';
 import { PetIdentificationFields } from '../common/PetIdentificationFields.jsx';
 import { PetColorFields } from '../common/PetColorFields.jsx';
@@ -50,83 +51,70 @@ const PetEditForm = ({
     }
   };
 
-  const ActionButtons = () => (
-    <div className="flex space-x-4">
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={isSaving}
-        className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-      >
-        {isSaving ? (
-          <div className="flex items-center">
-            <Spinner inline size={16} className="mr-2" color="text-white" />
-            Saving...
-          </div>
-        ) : (
-          <>
-            <FontAwesomeIcon icon={faSave} className="mr-2" />
-            Save
-          </>
-        )}
-      </button>
-      <button
-        type="button"
-        onClick={onBack}
-        className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-      >
-        Back to Pets
-      </button>
-    </div>
+  const SaveButtonContent = () => (
+    isSaving ? (
+      <div className="flex items-center">
+        <Spinner inline size={16} className="mr-2" color="text-white" />
+        Saving...
+      </div>
+    ) : (
+      <>
+        <FontAwesomeIcon icon={faSave} className="mr-2" />
+        Save
+      </>
+    )
   );
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Edit Pet</h2>
-        <ActionButtons />
-      </div>
+    <FormLayout
+      title="Edit Pet"
+      primaryAction={{
+        label: <SaveButtonContent />,
+        onClick: handleSave,
+        disabled: isSaving,
+        className: "bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+      }}
+      secondaryAction={{
+        label: "Back to Pets",
+        onClick: onBack,
+        className: "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+      }}
+      formWrapperClassName="w-full"
+    >
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+        <form id="edit-pet-form" className="space-y-6">
+          <PetBasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} dashboard />
 
-      <div className="w-full">
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-          <form id="edit-pet-form" className="space-y-6">
-            <PetBasicInfoFields formData={formData} onInputChange={handleInputChange} readOnly={isSaving} dashboard />
+          <ImageUpload
+            onFileChange={handleFileChange}
+            preview={imageSrc}
+            disabled={isSaving}
+            onImageLoad={handleImageLoad}
+            onImageError={handleImageError}
+            required={true}
+            dashboard
+          />
 
-            <ImageUpload
-              onFileChange={handleFileChange}
-              preview={imageSrc}
-              disabled={isSaving}
-              onImageLoad={handleImageLoad}
-              onImageError={handleImageError}
-              required={true}
-              dashboard
-            />
+          <PetIdentificationFields
+            formData={formData}
+            onInputChange={handleInputChange}
+            isLoading={isSaving}
+            error=""
+            breedError=""
+            alteredError=""
+            microchipError=""
+            dashboard
+          />
 
-            <PetIdentificationFields
-              formData={formData}
-              onInputChange={handleInputChange}
-              isLoading={isSaving}
-              error=""
-              breedError=""
-              alteredError=""
-              microchipError=""
-              dashboard
-            />
-
-            <PetColorFields
-              formData={formData}
-              isLoading={isSaving}
-              handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
-              handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
-              handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
-              dashboard
-            />
-          </form>
-
-          <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <ActionButtons />
-          </div>
-        </div>
+          <PetColorFields
+            formData={formData}
+            isLoading={isSaving}
+            handleColor1Change={(value) => handleInputChange({ target: { name: "color1", value } })}
+            handleColor2Change={(value) => handleInputChange({ target: { name: "color2", value } })}
+            handleColor3Change={(value) => handleInputChange({ target: { name: "color3", value } })}
+            dashboard
+          />
+        </form>
       </div>
 
       <AssociatedRecordUpdateModal
@@ -136,7 +124,7 @@ const PetEditForm = ({
         recordType="pet"
         isLoading={isSaving}
       />
-    </div>
+    </FormLayout>
   );
 };
 

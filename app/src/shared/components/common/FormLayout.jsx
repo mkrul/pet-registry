@@ -5,22 +5,68 @@ const FormLayout = ({
   title,
   backButton,
   children,
-  formWrapperClassName = "w-full mx-auto px-2"
+  formWrapperClassName = "w-full mx-auto px-2",
+  primaryAction,
+  secondaryAction
 }) => {
+  const renderActionButtons = () => {
+    if (!primaryAction && !secondaryAction) return null;
+
+    return (
+      <div className="flex gap-2">
+        {primaryAction && (
+          <button
+            type={primaryAction.type || "button"}
+            onClick={primaryAction.onClick}
+            disabled={primaryAction.disabled}
+            className={primaryAction.className || "bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"}
+          >
+            {primaryAction.label}
+          </button>
+        )}
+        {secondaryAction && (
+          <button
+            type={secondaryAction.type || "button"}
+            onClick={secondaryAction.onClick}
+            disabled={secondaryAction.disabled}
+            className={secondaryAction.className || "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"}
+          >
+            {secondaryAction.label}
+          </button>
+        )}
+      </div>
+    );
+  };
+
+  const headerButton = backButton && {
+    label: backButton.label,
+    onClick: backButton.onClick,
+    className: backButton.className || "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+  };
+
   return (
     <div>
-      <DashboardHeader
-        title={title}
-        actionButton={{
-          label: backButton.label,
-          onClick: backButton.onClick,
-          className: backButton.className || "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-        }}
-      />
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
+        {(primaryAction || secondaryAction) ? renderActionButtons() : (headerButton && (
+          <button
+            onClick={headerButton.onClick}
+            className={headerButton.className}
+          >
+            {headerButton.label}
+          </button>
+        ))}
+      </div>
 
       <div className={formWrapperClassName}>
         {children}
       </div>
+
+      {(primaryAction || secondaryAction) && (
+        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+          {renderActionButtons()}
+        </div>
+      )}
     </div>
   );
 };
