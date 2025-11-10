@@ -29,3 +29,9 @@
 - **Solution**: Updated `useReportEdit.js` to hydrate the `formData` state with location fields (area, state, country, latitude, longitude, intersection) from `report.lastSeenLocation` if available
 - **Result**: The map now correctly initializes with the tip-derived location, and the location fields are properly populated in the form state
 
+### Report Location Tip Visibility
+- Updated `ReportLocationSelect` so the location tip displays only when no location has been selected yet, keeping the interface focused once location details are confirmed.
+
+### Report Creation Label Alignment
+- Matched the `Location` label styling in the dashboard report form to the surrounding color selectors and linked it to the address input for better accessibility.
+

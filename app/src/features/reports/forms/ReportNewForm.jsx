@@ -74,6 +74,9 @@ const ReportNewForm = ({ initialData, petId }) => {
                 Use this form to report a lost or found pet in your area. Please include as many details
                 as possible in the description, and upload your best photo of the animal.
               </p>
+              <p className="text-md text-gray-500 dark:text-gray-400 mt-3">
+                <strong>Note:</strong> To help protect your privacy, the published location will be slightly offset and the address will only list the general area or nearest intersection.
+              </p>
             </div>
 
             <BasicInfoFields

@@ -149,7 +149,7 @@ const DashboardOverview = ({ onNavigate }) => {
   if (isLoading) {
     return (
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
         <LoadingState />
       </div>
     );
@@ -158,7 +158,7 @@ const DashboardOverview = ({ onNavigate }) => {
   if (error) {
     return (
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
         <div className="bg-red-50 rounded-lg p-6 text-center">
           <h3 className="text-sm font-medium text-red-900">Error loading activity</h3>
           <p className="mt-1 text-sm text-red-600">Unable to load recent activity. Please try again later.</p>
@@ -172,7 +172,7 @@ const DashboardOverview = ({ onNavigate }) => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
 
       {events.length === 0 ? (
         <div className="bg-gray-50 rounded-lg p-6 text-center">

@@ -226,7 +226,7 @@ export const TipLocationSelect = ({
       <label className={getLabelClassName()}>Location:</label>
       {showTip && (
         <Tip>
-          Click on the map or type the address where the animal was last seen. To protect your privacy, the published report will only list the general area or nearest intersection.
+          Click on the map or type the address where the animal was last seen.
         </Tip>
       )}
       {selectedLocation ? (

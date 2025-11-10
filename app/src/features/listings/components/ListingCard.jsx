@@ -98,7 +98,7 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
             </div>
           </div>
           <div className="flex flex-col flex-grow">
-            <h2 className="text-base md:text-lg font-bold">
+            <h2 className="text-base md:text-md font-bold">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
             {report.breed1 && (

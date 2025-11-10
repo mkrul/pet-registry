@@ -291,12 +291,16 @@ export const ReportLocationSelect = ({
     };
   };
 
+  const labelText = dashboard ? "Location" : "Location:";
+
   return (
     <div className="space-y-2">
-      <label className={getLabelClassName()}>Location:</label>
-      {showTip && (
+      <label htmlFor="report-location-search" className={getLabelClassName()}>
+        {labelText}
+      </label>
+      {showTip && !selectedLocation && (
         <Tip>
-          Click on the map or type the address where the animal was last seen. To protect your privacy, the published report will only list the general area or nearest intersection.
+          Click on the map or type the address where the animal was last seen.
         </Tip>
       )}
       {selectedLocation && (
@@ -325,6 +329,7 @@ export const ReportLocationSelect = ({
             <TextField
               {...params}
               aria-label="Enter an address"
+              id="report-location-search"
               name="location-search"
               autoComplete="off"
               required={required}

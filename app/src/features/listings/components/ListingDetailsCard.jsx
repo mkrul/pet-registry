@@ -252,7 +252,7 @@ const ListingDetailsCard = ({ report }) => {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-start justify-between gap-4 mb-2">
-                    <h1 className="text-2xl font-bold text-gray-900">{report.title}</h1>
+                    <h1 className="text-xl font-bold text-gray-900">{report.title}</h1>
                     {report.status === 'archived' && (
                       <span className="px-3 py-1 text-sm font-medium bg-gray-100 text-gray-600 rounded-full flex-shrink-0">
                         Archived

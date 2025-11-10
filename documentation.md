@@ -102,3 +102,9 @@ When editing a report, the location map should initialize with the report's exis
 - The location data persists throughout the editing session and can be modified via the map or address search
 - On save, location changes are handled by `handleLocationSelect` which updates the form state
 
+### Tip Visibility
+- The tip in `ReportLocationSelect` only renders when no location has been selected yet. This keeps the guidance visible for first-time entries without duplicating information once a location is present.
+
+### Dashboard Label Styling
+- When `ReportLocationSelect` is rendered in dashboard flows, the `Location` label matches the typography and spacing used by adjacent form labels (e.g., `Third Color`) for visual consistency.
+
