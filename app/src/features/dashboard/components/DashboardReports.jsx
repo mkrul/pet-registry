@@ -260,7 +260,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
     if (petId && isLoadingPet) {
       return (
         <FormLayout
-          title="Create New Report"
+          title="New Report"
           backButton={{
             label: "Back to Reports",
             onClick: handleBackToReports,
@@ -274,7 +274,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
 
     return (
       <FormLayout
-        title="Create New Report"
+        title="New Report"
         backButton={{
           label: "Back to Reports",
           onClick: handleBackToReports,
@@ -309,7 +309,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
       <DashboardHeader
         title="My Reports"
         actionButton={{
-          label: "Create New Report",
+          label: "New Report",
           onClick: handleCreateReport,
           className: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}

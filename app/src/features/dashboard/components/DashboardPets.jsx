@@ -255,7 +255,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   if (isCreatingPet) {
     return (
       <FormLayout
-        title="Register New Pet"
+        title="New Pet"
         backButton={{
           label: "Back to Pets",
           onClick: handleBackToPets,
@@ -289,7 +289,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
       <DashboardHeader
         title="My Pets"
         actionButton={{
-          label: "Register New Pet",
+          label: "New Pet",
           onClick: handleCreatePet,
           className: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}
