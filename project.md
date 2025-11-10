@@ -20,3 +20,12 @@
 - Consistent button placement (header and footer) on edit screens
 - Easier maintenance and future UI updates
 
+---
+
+### Report Edit Map Initialization Fix
+- Fixed map initialization in the Edit Report form to display the report's existing location from the first associated tip event
+- **Issue**: When editing a report, the map was displaying default coordinates instead of the location associated with the report's first tip event
+- **Root Cause**: The `ReportSerializer` includes `lastSeenLocation` which derives location data from the report's tip events, but `useReportEdit.js` wasn't extracting these fields into the form state
+- **Solution**: Updated `useReportEdit.js` to hydrate the `formData` state with location fields (area, state, country, latitude, longitude, intersection) from `report.lastSeenLocation` if available
+- **Result**: The map now correctly initializes with the tip-derived location, and the location fields are properly populated in the form state
+

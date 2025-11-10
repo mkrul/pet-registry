@@ -481,7 +481,7 @@ const AboutPage = () => {
                   color: "#5a6c7d"
                 }}>
                   Create an account and register your pets in our database.
-                  This ensures that all their information is ready in case they go missing.
+                  This ensures that all of their information is available in case they go missing.
                 </Typography>
               </Box>
             </Grid2>
@@ -528,7 +528,7 @@ const AboutPage = () => {
                   lineHeight: 1.7,
                   color: "#5a6c7d"
                 }}>
-                  If your pet goes missing, you can submit a report with just a few clicks. Your pet's information is immediately available to the community.
+                  If your pet gets lost, you can submit a report with just a few clicks. Others can report sightings or contact you directly if they find your pet.
                 </Typography>
               </Box>
             </Grid2>
@@ -575,7 +575,7 @@ const AboutPage = () => {
                   lineHeight: 1.7,
                   color: "#5a6c7d"
                 }}>
-                  Generate printable flyers instantly with your pet's photo and details, or share the report on social media to help spread the word.
+                  Share lost pet reports on social media to help spread the word, or generate printable flyers to distribute in your community.
                 </Typography>
               </Box>
             </Grid2>
@@ -615,14 +615,14 @@ const AboutPage = () => {
                   fontSize: "1.4rem",
                   mb: 2
                 }}>
-                  4. Support the Community
+                  4. Support Others
                 </Typography>
                 <Typography variant="body1" sx={{
                   fontSize: "1.05rem",
                   lineHeight: 1.7,
                   color: "#5a6c7d"
                 }}>
-                  Help reunite lost pets with their families by submitting tips, sharing reports, and keeping an eye out for missing pets in your area.
+                  Provide support for other pet parents by sharing reports, submitting tips, and keeping an eye out for missing pets in your area.
                 </Typography>
               </Box>
             </Grid2>

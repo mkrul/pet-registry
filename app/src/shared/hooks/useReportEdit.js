@@ -7,10 +7,30 @@ import { getSpeciesOptions } from "../reports/speciesList.js";
 import { transformToSnakeCase, transformToCamelCase } from "../apiHelpers.js";
 
 export const useReportEdit = (report) => {
-  const [formData, setFormData] = useState(report);
+  const [formData, setFormData] = useState(() => {
+    const initialData = { ...report };
+    if (report.lastSeenLocation) {
+      initialData.area = report.lastSeenLocation.area;
+      initialData.state = report.lastSeenLocation.state;
+      initialData.country = report.lastSeenLocation.country;
+      initialData.latitude = report.lastSeenLocation.latitude;
+      initialData.longitude = report.lastSeenLocation.longitude;
+      initialData.intersection = report.lastSeenLocation.intersection;
+    }
+    return initialData;
+  });
 
   useEffect(() => {
-    setFormData(report);
+    const updatedFormData = { ...report };
+    if (report.lastSeenLocation) {
+      updatedFormData.area = report.lastSeenLocation.area;
+      updatedFormData.state = report.lastSeenLocation.state;
+      updatedFormData.country = report.lastSeenLocation.country;
+      updatedFormData.latitude = report.lastSeenLocation.latitude;
+      updatedFormData.longitude = report.lastSeenLocation.longitude;
+      updatedFormData.intersection = report.lastSeenLocation.intersection;
+    }
+    setFormData(updatedFormData);
     setImageSrc(report.image?.variantUrl || "/images/placeholder.png");
   }, [report]);
 

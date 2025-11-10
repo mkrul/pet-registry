@@ -83,3 +83,22 @@
 - `PetEditForm.jsx`: Edit flow with `primaryAction` and `secondaryAction`
 - `ReportEditForm.jsx`: Edit flow with `primaryAction` and `secondaryAction`
 
+---
+
+## Report Location Initialization in Edit Forms
+
+### Overview
+When editing a report, the location map should initialize with the report's existing location data, which is stored as tip events on the report.
+
+### Data Flow
+1. **Backend**: `ReportSerializer` includes `lastSeenLocation` which queries the most recent tip event with location data
+2. **Frontend**: `useReportEdit.js` hook hydrates the form state with location fields from `report.lastSeenLocation`
+3. **Map Component**: `ReportLocationSelect` receives `initialLocation={formData}` with latitude/longitude populated
+4. **Rendering**: `ReportMap` initializes with the tip-derived coordinates instead of defaults
+
+### Implementation Details
+- `useReportEdit.js` extracts area, state, country, latitude, longitude, and intersection from `report.lastSeenLocation`
+- These fields are merged into the `formData` state during initialization and on report updates
+- The location data persists throughout the editing session and can be modified via the map or address search
+- On save, location changes are handled by `handleLocationSelect` which updates the form state
+
