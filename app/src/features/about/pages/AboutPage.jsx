@@ -8,8 +8,11 @@ import PetsIcon from "@mui/icons-material/Pets";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useAppSelector } from "../../../store/hooks.js";
 
 const AboutPage = () => {
+  const user = useAppSelector(state => state.auth.user);
+
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "white" }}>
       <Box sx={{
@@ -670,14 +673,15 @@ const AboutPage = () => {
           marginLeft: "-50vw",
           marginRight: "-50vw",
           minHeight: { xs: "50vh", md: "60vh" },
-          backgroundImage: "url('/images/woman-and-dog.jpg')",
+          backgroundImage: "url('/images/man-with-dog.jpg')",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "center 48%",
           backgroundRepeat: "no-repeat",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          py: { xs: 6, md: 8 },
+          pt: { xs: 6, md: 8 },
+          pb: { xs: 4, md: 6 },
           px: { xs: 4, md: 6 }
         }}>
           <Box sx={{
@@ -724,6 +728,32 @@ const AboutPage = () => {
               }}>
                 Registering your pet is fast, easy, and completely <strong>free</strong>.
             </Typography>
+              <Button
+                component={Link}
+                to={user ? "/dashboard/pets?action=create" : "/signup"}
+                variant="contained"
+                size="large"
+                sx={{
+                  mt: { xs: 2, md: 3 },
+                  px: { xs: 5, md: 7 },
+                  py: { xs: 1.35, md: 1.65 },
+                  fontWeight: 700,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  fontSize: { xs: "1.05rem", md: "1.15rem" },
+                  letterSpacing: "0.015em",
+                  boxShadow: "0 12px 30px rgba(31, 64, 111, 0.35)",
+                  backdropFilter: "blur(4px)",
+                  background: "linear-gradient(135deg, rgba(59, 130, 246, 0.95) 0%, rgba(96, 165, 250, 0.95) 100%)",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, rgba(37, 99, 235, 1) 0%, rgba(59, 130, 246, 1) 100%)",
+                    boxShadow: "0 16px 40px rgba(37, 99, 235, 0.45)",
+                    transform: "translateY(-2px)"
+                  }
+                }}
+              >
+                Get Started
+              </Button>
           </Box>
         </Box>
       </Container>
