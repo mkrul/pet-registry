@@ -309,6 +309,23 @@ The Navbar and Footer components have been updated to properly support dark mode
 
 ---
 
+## Search Panel Dark Mode Styling
+
+### Overview
+The slide-out search experience now mirrors dashboard form styling and responds to dark-mode preferences.
+
+### Changes Made
+- **SearchTab.jsx**: Toggle button now has dark-mode states, enhanced focus outlines, and announces its pressed state via `aria-pressed`; the slide-out panel adopts `dark:bg-gray-900` with matching borders.
+- **SearchContainer.jsx**: Filters and tip sections sit inside bordered panels that switch to `dark:bg-gray-900` and `dark:bg-gray-800`, and the tips toggle gains dark-friendly typography and focus outlines.
+- Tweaked panel backgrounds to use `dark:bg-gray-800` / `dark:bg-gray-700` for a lighter dark-mode tone without losing contrast.
+- **SearchBar.jsx / SearchButtons.jsx**: Input fields reuse dashboard focus rings, placeholder contrast, and a visible clear control; primary/reset buttons add dark-mode hover and focus treatments.
+- **Filters.jsx / LocationFilter.jsx / RememberFiltersToggle.jsx**: Dropdowns receive theme-aware MUI `sx` styling (palette, focus, and menu paper), clear icons maintain contrast, and the remember-toggle reflects the active theme.
+
+### Result
+Users now see consistent, legible styling throughout the search panel regardless of dark-mode preference, matching dashboard forms.
+
+---
+
 ## Runtime Logger Removal
 
 ### Overview

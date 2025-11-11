@@ -6,7 +6,8 @@ const FilterWithClear = ({
   children,
   hasValue,
   onClear,
-  label
+  label,
+  isDarkMode = false
 }) => {
   return (
     <div className="relative">
@@ -21,11 +22,11 @@ const FilterWithClear = ({
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 1000,
-            color: "gray",
-            backgroundColor: "rgba(255, 255, 255, 0.9)",
+            color: "rgb(255, 255, 255)",
+            backgroundColor: "rgba(29, 29, 29, 0.9)",
             "&:hover": {
-              backgroundColor: "rgba(255, 255, 255, 1)",
-              color: "darkgray"
+              backgroundColor: "rgba(55, 65, 81, 0.85)",
+              color: "rgb(255, 255, 255)"
             },
             width: "24px",
             height: "24px",

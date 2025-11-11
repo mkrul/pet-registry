@@ -95,41 +95,43 @@ const SearchContainer = ({ onSearchComplete }) => {
         onReset={handleReset}
       />
 
-      <FilterContainer
-        initialFilters={filters}
-        onFiltersChange={setFilters}
-        onReset={handleReset}
-        rememberFilters={rememberFilters}
-        onRememberFiltersToggle={handleRememberFiltersToggle}
-      />
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <FilterContainer
+          initialFilters={filters}
+          onFiltersChange={setFilters}
+          onReset={handleReset}
+          rememberFilters={rememberFilters}
+          onRememberFiltersToggle={handleRememberFiltersToggle}
+        />
+      </div>
 
-      <div className="text-sm text-gray-500 p-2 mt-2">
+      <div className="text-sm text-gray-600 dark:text-gray-300 p-3 mt-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 transition-colors">
         <button
           onClick={handleSearchTipsToggle}
-          className="font-semibold text-base mb-1 flex items-center w-full"
+          className="font-semibold text-base flex items-center justify-between w-full text-gray-800 dark:text-gray-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:focus-visible:outline-blue-400 rounded-md"
           aria-expanded={isSearchTipsOpen}
           aria-controls="search-tips-content"
         >
           <span>Search Tips</span>
-          <span className="ml-2 text-xs">{isSearchTipsOpen ? "▼" : "▶"}</span>
+          <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">{isSearchTipsOpen ? "▼" : "▶"}</span>
         </button>
         <div
           id="search-tips-content"
           className={isSearchTipsOpen ? "block" : "hidden"}
           aria-hidden={!isSearchTipsOpen}
         >
-          <ul>
-            <li className="mb-1">
+          <ul className="space-y-2">
+            <li className="mt-2">
               <Tip emoji="🔍" showTipLabel={false}>
                 Adding filters can improve your search.
               </Tip>
             </li>
-            <li className="mb-1">
+            <li>
               <Tip emoji="🔍" showTipLabel={false}>
                 Double check spelling & use simple keywords
               </Tip>
             </li>
-            <li className="mb-1">
+            <li>
               <Tip emoji="🔍" showTipLabel={false}>
                 Try different keywords (e.g., an American Bully might have been reported as a "bulldog" or "pit bull")
               </Tip>

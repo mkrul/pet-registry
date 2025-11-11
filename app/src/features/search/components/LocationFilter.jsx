@@ -5,20 +5,13 @@ import { useGetStatesQuery } from "../../../store/features/reports/reportsApi.js
 const LocationSelect = ({
   state,
   onFilterChange,
-  selectClassName
+  selectSx,
+  menuProps,
+  placeholderStyle
 }) => {
   const { data: states = [], isLoading: isLoadingStates } = useGetStatesQuery("United States", {
     skip: false
   });
-
-  const menuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 200
-      }
-    },
-    disableScrollLock: true
-  };
 
   return (
     <FormControl fullWidth size="small">
@@ -28,9 +21,11 @@ const LocationSelect = ({
         onChange={onFilterChange}
         disabled={isLoadingStates}
         displayEmpty
-        sx={selectClassName}
+        sx={selectSx}
         MenuProps={menuProps}
-        renderValue={value => value || "State"}
+        renderValue={value =>
+          value ? value : <span style={placeholderStyle}>State</span>
+        }
       >
         {states.map(state => (
           <MenuItem key={state} value={state}>

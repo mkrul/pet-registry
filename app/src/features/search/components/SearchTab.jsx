@@ -32,10 +32,11 @@ const SearchTab = ({ isOpen, setIsOpen, onSearchComplete }) => {
         ref={closeButtonRef}
         onClick={handleClick}
         className={`fixed bottom-16 md:bottom-10 right-0 z-50 ${
-          isOpen ? "bg-gray-500" : "bg-green-600"
-        } transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base ${
+          isOpen ? "bg-gray-500 dark:bg-gray-700" : "bg-green-600 dark:bg-green-700"
+        } transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300 dark:focus-visible:outline-green-500 ${
           !hasBeenClicked ? "animate-glow-pulse" : ""
         }`}
+        aria-pressed={isOpen}
       >
         {/* Mobile: Icon only, Desktop: Icon + Text in flex container */}
         <div className="flex items-center gap-2">
@@ -65,9 +66,9 @@ const SearchTab = ({ isOpen, setIsOpen, onSearchComplete }) => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween" }}
-            className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white z-40 shadow-lg"
+            className="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white border-l border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-40 shadow-lg"
           >
-            <div className="p-4 flex flex-col h-full overflow-y-auto">
+            <div className="p-4 flex flex-col h-full overflow-y-auto bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
               <SearchContainer onSearchComplete={wrappedOnSearchComplete} />
             </div>
           </motion.div>
