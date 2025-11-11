@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useGetUserEventsQuery } from '../../../store/features/events/eventsApi.js';
 import PaginationControls from '../../../shared/components/common/PaginationControls.jsx';
-import LoadingState from '../../../shared/components/common/LoadingState.jsx';
 
 const DashboardOverview = ({ onNavigate }) => {
   const [page, setPage] = useState(1);
-  const { data: eventsData, isLoading, error } = useGetUserEventsQuery({ page });
+  const { data: eventsData, isLoading, error } = useGetUserEventsQuery({ page }, {
+    refetchOnMountOrArgChange: false
+  });
 
   const formatEventCategory = (category) => {
     switch (category) {
@@ -146,14 +147,8 @@ const DashboardOverview = ({ onNavigate }) => {
     return { datePart, timePart };
   };
 
-  if (isLoading) {
-    return (
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Activity</h2>
-        <LoadingState />
-      </div>
-    );
-  }
+  const events = eventsData?.data || [];
+  const pagination = eventsData?.pagination;
 
   if (error) {
     return (
@@ -166,9 +161,6 @@ const DashboardOverview = ({ onNavigate }) => {
       </div>
     );
   }
-
-  const events = eventsData?.data || [];
-  const pagination = eventsData?.pagination;
 
   return (
     <div>

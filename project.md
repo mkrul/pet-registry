@@ -66,3 +66,40 @@
 ### Messages Dark Mode Contrast
 - Updated the `Conversations` list header in `MessagesPage.jsx` to include `dark:text-white`, ensuring the title remains readable against the dark background.
 
+---
+
+### Dashboard Loading State Optimization
+
+**Objective**: Remove global loading states from dashboard tabs to enable instant rendering with cached data for better user experience.
+
+**Changes Made**:
+1. **DashboardPets.jsx**:
+   - Removed global loading spinner (`isLoading || isPreloading` check)
+   - Component now renders cached data, item grids, or empty states immediately
+   - Removed unused LoadingState import
+
+2. **DashboardReports.jsx**:
+   - Removed global loading spinner in main view
+   - Preserved form-specific LoadingState for pet data loading during report creation
+   - Component renders cached data or empty states immediately
+
+3. **DashboardOverview.jsx**:
+   - Removed loading state check and global spinner
+   - Component renders events immediately or shows empty state
+   - Removed LoadingState import
+
+4. **useUserPetsData.js**:
+   - Added `refetchOnMountOrArgChange: false` to main query
+   - Ensures instant tab switches with cached data
+
+5. **DashboardOverview query configuration**:
+   - Configured `useGetUserEventsQuery` with `refetchOnMountOrArgChange: false`
+   - Prevents unnecessary refetches on tab mount
+
+**Benefits**:
+- Instant tab switching: cached data renders immediately
+- Improved perceived performance: no full-page spinners
+- Better UX: users see content or empty states right away
+- Background fetches still update data when needed
+- Form-specific loading states preserved where appropriate
+

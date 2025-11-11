@@ -323,7 +323,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
         activeColor="bg-blue-600"
       />
 
-      {!isLoading && selectedReport ? (
+      {selectedReport ? (
         <ReportDetailView
           report={selectedReport}
           user={user}
@@ -331,7 +331,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
           onEdit={handleEditReport}
           onDelete={handleDeleteReport}
         />
-      ) : !isLoading && reports.length > 0 ? (
+      ) : reports.length > 0 ? (
         <ItemGrid>
           {reports.map(report => (
             <ReportPreview
@@ -341,8 +341,6 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
             />
           ))}
         </ItemGrid>
-      ) : isLoading ? (
-        <LoadingState />
       ) : (
         <EmptyState
           icon={

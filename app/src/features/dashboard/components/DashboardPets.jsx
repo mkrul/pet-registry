@@ -13,7 +13,6 @@ import { addNotification } from '../../../store/features/notifications/notificat
 import DashboardHeader from '../../../shared/components/common/DashboardHeader.jsx';
 import FilterButtons from '../../../shared/components/common/FilterButtons.jsx';
 import EmptyState from '../../../shared/components/common/EmptyState.jsx';
-import LoadingState from '../../../shared/components/common/LoadingState.jsx';
 import ItemGrid from '../../../shared/components/common/ItemGrid.jsx';
 import FormLayout from '../../../shared/components/common/FormLayout.jsx';
 
@@ -303,11 +302,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
         activeColor="bg-green-600"
       />
 
-      {(isLoading || isPreloading) && (
-        <LoadingState className="flex justify-center items-center py-12" />
-      )}
-
-      {!isLoading && !isPreloading && selectedPet ? (
+      {selectedPet ? (
         <PetDetailView
           pet={selectedPet}
           onBack={handleDeselectPet}
@@ -316,7 +311,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
           onCreateReport={handleCreateReport}
           onArchiveReport={handleArchiveReport}
         />
-      ) : !isLoading && !isPreloading && pets.length > 0 ? (
+      ) : pets.length > 0 ? (
         <ItemGrid>
           {pets.map((pet) => (
             <PetPreview
@@ -326,7 +321,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
             />
           ))}
         </ItemGrid>
-      ) : !isLoading && !isPreloading ? (
+      ) : (
         <EmptyState
           icon={
             <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,7 +344,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
               : undefined
           }
         />
-      ) : null}
+      )}
 
       <ConfirmationModal
         isOpen={!!petToArchive}

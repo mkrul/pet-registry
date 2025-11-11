@@ -136,3 +136,29 @@ The "Start a Conversation" button is only displayed if the report owner has enab
 ### Dark Mode Readability
 - The `Conversations` list header applies `dark:text-white` to preserve contrast when users enable dark mode.
 
+---
+
+## Dashboard Loading State Optimization
+
+### Overview
+Dashboard components (DashboardPets, DashboardReports, DashboardOverview) have been optimized to skip the full-page spinner entirely and provide instant rendering with cached data for improved user experience.
+
+### Changes Made
+1. **Removed Global Loading Spinners**: All three dashboard tabs no longer show overarching loading states
+2. **Immediate Rendering**: Components render cached data, item grids, or empty states immediately, even while background fetches run
+3. **Cache-First Strategy**: Queries are configured with `refetchOnMountOrArgChange: false` to ensure tab switches use cached data instantly
+4. **Form-Specific Loading Preserved**: LoadingState is retained only where form-specific loading cases apply (e.g., loading pet data for report creation in DashboardReports)
+
+### Implementation Details
+- `DashboardPets`: Removed conditional rendering based on `isLoading || isPreloading`, renders content immediately
+- `DashboardReports`: Removed global loading check, but kept form-specific loading for pet data in report creation
+- `DashboardOverview`: Removed loading state check, renders events immediately or empty state
+- `useUserPetsData`: Main query now includes `refetchOnMountOrArgChange: false` for instant tab switches
+- `useGetUserEventsQuery`: Called with `refetchOnMountOrArgChange: false` in DashboardOverview
+
+### Benefits
+- Instant tab switching using cached data
+- Better perceived performance with immediate content rendering
+- Per-item loaders can still show individual fetch states
+- No jarring full-page spinners on navigation
+

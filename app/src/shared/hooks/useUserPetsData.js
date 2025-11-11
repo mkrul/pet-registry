@@ -14,6 +14,8 @@ export const useUserPetsData = (page, filter, preloadAll = false) => {
     items: 21,
     species: speciesFilter,
     archived: archivedFilter
+  }, {
+    refetchOnMountOrArgChange: false
   });
 
   const { data: allData, isLoading: isLoadingAll } = useGetUserPetsQuery({
