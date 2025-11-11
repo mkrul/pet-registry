@@ -77,7 +77,6 @@ export const LocationSelect = ({
           const data = await response.json();
           setSuggestions(data);
         } catch (error) {
-          console.error("Error fetching suggestions:", error);
           setSuggestions([]);
         }
       }, 300),
@@ -160,7 +159,6 @@ export const LocationSelect = ({
         // Clear searchInput after processing is complete to avoid setState during render
         setTimeout(() => setSearchInput(""), 0);
       } catch (error) {
-        console.error("Error handling location:", error);
       } finally {
         setIsProcessingAddress(false);
       }

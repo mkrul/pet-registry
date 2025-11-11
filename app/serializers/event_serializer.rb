@@ -63,8 +63,7 @@ class EventSerializer < ActiveModel::Serializer
         }
       end
     end
-  rescue => e
-    Rails.logger.error "EventSerializer#eventable_summary: Error serializing event #{object.id}: #{e.message}"
+  rescue => _error
     {
       type: object.eventable_type || 'Unknown',
       id: object.eventable_id

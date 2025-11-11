@@ -307,3 +307,35 @@ The Navbar and Footer components have been updated to properly support dark mode
 - Dropdown menu: Added `dark:bg-gray-800 dark:shadow-lg dark:border dark:border-gray-700` matching mobile hamburger menu
 - Menu items: Added `dark:hover:bg-gray-700` for hover states in dark mode
 
+---
+
+## Runtime Logger Removal
+
+### Overview
+All debug and runtime logging statements have been removed from both frontend and backend codebases to produce cleaner production code without logging noise.
+
+### Frontend Changes
+Removed all `console.log`, `console.error`, and `console.warn` statements from:
+- Map components: TipLocationSelect, MapEvents, ReportMap, ReportLocationSelect, TipMap
+- Utility functions: geocoding.js, filterUtils.js, locationUtils.js
+- Hooks: useFlyerGeneration.js, useFormSubmission.js
+- Components: ErrorBoundary, ProfileDropdown, DashboardProfile, TipForm, ConversationStartForm
+
+All error handling logic was preserved; only logging statements were removed.
+
+### Backend Changes
+Removed all `Rails.logger.*` calls from:
+- Controllers: EventsController, RegistrationsController
+- Services: Reports::Create, Reports::CopyFromPet, Events::Create
+- Models: User (settings validation warnings)
+- Serializers: EventSerializer
+- Migrations: migrate_report_locations_to_tips.rb
+- Initializers: searchkick.rb, byebug.rb
+- Test configuration: spec/rails_helper.rb, spec/requests/api/sessions_controller_spec.rb
+
+### Result
+- Production code is cleaner without debug logging statements
+- Reduced console and server log output
+- All error handling remains functional; only logging was removed
+- Test setup simplified by removing logger configuration
+

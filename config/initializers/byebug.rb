@@ -12,6 +12,5 @@ if Rails.env.development?
     end
 
   rescue Errno::EADDRINUSE
-    Rails.logger.debug 'Byebug server already running'
   end
 end

@@ -10,11 +10,6 @@ class ErrorBoundary extends Component {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error, errorInfo) {
-    console.error("🚨 ErrorBoundary: Error caught:", error, errorInfo);
-    console.error("🚨 ErrorBoundary: Error stack:", error.stack);
-  }
-
   handleClose = () => {
     this.setState({ hasError: false, error: null });
   };

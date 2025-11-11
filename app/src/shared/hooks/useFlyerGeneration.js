@@ -26,7 +26,6 @@ const useFlyerGeneration = (reportId) => {
   }, [isGenerating]);
 
   const handleGenerateFlyer = useCallback(({ rewardAmount: reward, description: customDesc, phoneNumber: phone }) => {
-    console.log('handleGenerateFlyer called with:', { reward, customDesc, phone });
     setRewardAmount(reward);
     setCustomDescription(customDesc);
     setPhoneNumber(phone);
@@ -34,12 +33,9 @@ const useFlyerGeneration = (reportId) => {
 
     setTimeout(async () => {
       const startTime = Date.now();
-      console.log('About to trigger print, flyerRef:', flyerRef.current);
       if (flyerRef.current) {
         try {
-          console.log('Print dialog opened');
           await handlePrint();
-          console.log('Print dialog closed');
 
           const elapsed = Date.now() - startTime;
           const minimumWait = 1000;
@@ -52,7 +48,6 @@ const useFlyerGeneration = (reportId) => {
           setPhoneNumber('');
           setIsGenerating(false);
         } catch (error) {
-          console.error('Error calling handlePrint:', error);
           const elapsed = Date.now() - startTime;
           const minimumWait = 1000;
           const remainingTime = Math.max(0, minimumWait - elapsed);
@@ -61,7 +56,6 @@ const useFlyerGeneration = (reportId) => {
           setIsGenerating(false);
         }
       } else {
-        console.error('Flyer ref is not available');
         await new Promise(resolve => setTimeout(resolve, 1000));
         setIsGenerating(false);
       }

@@ -28,7 +28,6 @@ export const getInitialFilters = (searchParams) => {
       return { ...getDefaultFilters(), ...parsed };
     }
   } catch (error) {
-    console.warn("Failed to load saved search filters:", error);
   }
 
   return getDefaultFilters();
@@ -48,7 +47,6 @@ export const getInitialSearchQuery = (searchParams) => {
       return savedQuery;
     }
   } catch (error) {
-    console.warn("Failed to load saved search query:", error);
   }
 
   return "";
@@ -77,7 +75,6 @@ export const saveSearchToLocalStorage = (query, filters) => {
     localStorage.setItem(SEARCH_PERSISTENCE_KEY, JSON.stringify(filtersToSave));
     localStorage.setItem(SEARCH_QUERY_KEY, query);
   } catch (error) {
-    console.warn("Failed to save search to localStorage:", error);
   }
 };
 
@@ -86,7 +83,6 @@ export const clearSearchFromLocalStorage = () => {
     localStorage.removeItem(SEARCH_PERSISTENCE_KEY);
     localStorage.removeItem(SEARCH_QUERY_KEY);
   } catch (error) {
-    console.warn("Failed to clear search from localStorage:", error);
   }
 };
 

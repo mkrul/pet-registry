@@ -135,7 +135,6 @@ export const findNearbyStreets = async (lat, lng) => {
 
     return roads.length > 0 ? `${mainRoad} at ${roads[0]}` : null;
   } catch (error) {
-    console.error("Error finding nearby streets:", error);
     return null;
   }
 };

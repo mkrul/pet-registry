@@ -19,8 +19,6 @@ module Events
     attr_accessor :eventable
 
     def execute
-      Rails.logger.info "Events::Create#execute: Creating event with eventable class: #{eventable.class}, category: #{category}"
-
       event = Event.new(
         eventable: eventable,
         user: user,
@@ -28,15 +26,11 @@ module Events
         data: data
       )
 
-      Rails.logger.info "Events::Create#execute: Event object built: #{event.inspect}"
-
       unless event.save
-        Rails.logger.error "Events::Create#execute: Event save failed: #{event.errors.full_messages.join(', ')}"
         errors.merge!(event.errors)
         return nil
       end
 
-      Rails.logger.info "Events::Create#execute: Event saved successfully with ID: #{event.id}"
       event
     end
 

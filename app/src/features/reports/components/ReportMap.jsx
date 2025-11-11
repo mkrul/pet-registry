@@ -50,7 +50,6 @@ const MapEvents = ({
   showInitialMarker,
   showPin = false
 }) => {
-  console.log('[DEBUG] ReportMap MapEvents received props:', { showPin, initialLocation, showInitialMarker });
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [hasSetInitialView, setHasSetInitialView] = useState(false);
@@ -79,7 +78,6 @@ const MapEvents = ({
 
   useEffect(() => {
     if (showPin && initialLocation?.latitude && initialLocation?.longitude) {
-      console.log('[DEBUG] Setting pin from showPin and initialLocation:', initialLocation);
       setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
       const currentZoom = map.getZoom();
       const targetZoom = Math.max(currentZoom, REPORT_ZOOM_LEVELS.EDIT);
@@ -106,7 +104,6 @@ const MapEvents = ({
         onLocationSelect(locationData);
       }
     } catch (error) {
-      console.error("Error handling location:", error);
     } finally {
       setIsProcessing(false);
     }
@@ -141,7 +138,6 @@ export const ReportMap = ({
 }) => {
   const tileLayers = [LIGHT_TILE_LAYER];
 
-  console.log('[DEBUG] ReportMap received props:', { showPin, initialLocation, showInitialMarker });
   return (
     <div className="h-[400px] w-full rounded-lg overflow-hidden">
       <LeafletMapContainer

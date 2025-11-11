@@ -254,3 +254,28 @@ Applied layered overflow clipping:
 
 ---
 
+### Runtime Logger Removal
+
+**Objective**: Remove all debug and runtime logging statements from both frontend and backend codebases to clean up production code.
+
+**Changes Made**:
+
+1. **Frontend console logging removal**:
+   - Removed all `console.log`, `console.error`, and `console.warn` statements from React components and utilities
+   - Affected files include: TipLocationSelect, MapEvents, ReportMap, ReportLocationSelect, TipMap, geocoding utilities, filterUtils, useFlyerGeneration, ErrorBoundary, and various form components
+   - Preserved all error handling logic; only removed logging statements
+
+2. **Backend Rails.logger removal**:
+   - Removed all `Rails.logger.info`, `Rails.logger.error`, `Rails.logger.warn`, and `Rails.logger.debug` calls from controllers, services, models, serializers, and migrations
+   - Affected files include: EventsController, RegistrationsController, Reports::Create, Reports::CopyFromPet, Events::Create, User model, EventSerializer, and migration files
+   - Removed logger configuration from test files (spec/rails_helper.rb, spec/requests/api/sessions_controller_spec.rb)
+   - Removed logger call from byebug initializer
+
+**Result**:
+- Cleaner production code without debug logging noise
+- Reduced console output in browser and server logs
+- All error handling pathways remain intact; only logging statements were removed
+- Test configuration simplified by removing logger setup
+
+---
+

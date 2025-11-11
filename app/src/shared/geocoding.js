@@ -118,7 +118,6 @@ export const findNearbyStreets = async (lat, lng) => {
 
     return roads.length > 0 ? `${mainRoad} at ${roads[0]}` : null;
   } catch (error) {
-    console.error("Error finding nearby streets:", error);
     return null;
   }
 };
@@ -143,7 +142,6 @@ export const getLocationDetails = async (lat, lng) => {
       intersectionStr: data.display_name || ""
     };
   } catch (error) {
-    console.error("Error fetching location details:", error);
     return null;
   }
 };
@@ -191,7 +189,6 @@ export const processAddress = async (lat, lng) => {
       intersection: intersectionStr || ""
     };
   } catch (error) {
-    console.error("Error processing address:", error);
     return {
       latitude: lat,
       longitude: lng,

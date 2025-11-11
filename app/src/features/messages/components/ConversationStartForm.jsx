@@ -102,7 +102,6 @@ const ConversationStartForm = ({ reportId, onSuccess, onCancel }) => {
         onSuccess(result.id);
       }
     } catch (error) {
-      console.error('ConversationStartForm: Error sending message:', error);
       dispatch(addNotification({
         type: 'ERROR',
         message: error.data?.message || 'Failed to send message'

@@ -9,5 +9,3 @@ else
   Searchkick.client = Elasticsearch::Client.new(url: ENV['ELASTICSEARCH_URL'] || 'http://localhost:9200')
 end
 
-# Log the configuration for debugging
-Rails.logger.info "Searchkick configured with Elasticsearch at: #{ENV['ELASTICSEARCH_URL'] || 'http://localhost:9200'}"

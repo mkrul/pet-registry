@@ -76,7 +76,7 @@ module Api
           errors: ["Current password is incorrect"]
         }, status: :unprocessable_entity
       end
-    rescue => e
+    rescue => _error
       render json: { error: 'Password change failed' }, status: :internal_server_error
     end
 
@@ -84,23 +84,18 @@ module Api
       user = current_user
 
       permitted_settings = settings_params[:settings]&.to_h || {}
-      Rails.logger.info("User settings update requested user_id=#{user.id} payload=#{permitted_settings}")
-
       if user.update(settings: permitted_settings)
-        Rails.logger.info("User settings update succeeded user_id=#{user.id} settings=#{user.settings}")
         render json: {
           message: 'Settings updated successfully.',
           user: UserSerializer.new(user).as_json
         }, status: :ok
       else
-        Rails.logger.warn("User settings update failed user_id=#{user.id} errors=#{user.errors.full_messages}")
         render json: {
           message: "Settings update failed.",
           errors: user.errors.full_messages
         }, status: :unprocessable_entity
       end
-    rescue => e
-      Rails.logger.error("User settings update exception user_id=#{current_user&.id} error=#{e.message} backtrace=#{e.backtrace&.first(5)}")
+    rescue => _error
       render json: { error: 'Settings update failed' }, status: :internal_server_error
     end
 
@@ -116,7 +111,7 @@ module Api
       else
         render json: { message: 'Account deletion failed.', errors: outcome.errors.full_messages }, status: :unprocessable_entity
       end
-    rescue => e
+    rescue => _error
       render json: { error: 'Account deletion failed' }, status: :internal_server_error
     end
 

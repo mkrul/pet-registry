@@ -21,7 +21,7 @@ class MigrateReportLocationsToTips < ActiveRecord::Migration[8.0]
 
       tip_data[:intersection] = report.intersection if report.intersection.present?
 
-      tip = Event.create!(
+      Event.create!(
         eventable: report,
         user: report.user,
         category: Events::Report::Tip::CATEGORY,
@@ -29,8 +29,6 @@ class MigrateReportLocationsToTips < ActiveRecord::Migration[8.0]
         created_at: report.created_at,
         updated_at: report.created_at
       )
-
-      Rails.logger.info "Migrated location for report #{report.id} to tip #{tip.id}"
     end
   end
 

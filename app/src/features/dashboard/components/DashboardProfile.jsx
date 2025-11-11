@@ -39,7 +39,10 @@ const DashboardProfile = ({ user }) => {
       }).unwrap();
       setIsEditing(false);
     } catch (error) {
-      console.error('Failed to update profile:', error);
+      dispatch(addNotification({
+        type: "ERROR",
+        message: error?.data?.message || "Failed to update profile"
+      }));
     }
   };
 
@@ -93,7 +96,10 @@ const DashboardProfile = ({ user }) => {
       setNewPassword('');
       setConfirmPassword('');
     } catch (error) {
-      console.error('Failed to change password:', error);
+      dispatch(addNotification({
+        type: "ERROR",
+        message: error?.data?.message || "Failed to change password"
+      }));
     }
   };
 

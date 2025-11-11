@@ -7,10 +7,6 @@ module Api
     skip_before_action :verify_authenticity_token
 
     def create_tip
-      Rails.logger.info "EventsController#create_tip: Received params: #{params.inspect}"
-      Rails.logger.info "EventsController#create_tip: Permitted params: #{tip_params.inspect}"
-      Rails.logger.info "EventsController#create_tip: Report ID: #{@report.id}, User ID: #{current_user.id}"
-
       tip_data = tip_params
 
       outcome = Events::Create.run(
@@ -21,7 +17,6 @@ module Api
       )
 
       if outcome.valid?
-        Rails.logger.info "EventsController#create_tip: Tip created successfully with ID: #{outcome.result.id}"
         render json: {
           message: "Tip submitted successfully",
           tip: {
@@ -42,16 +37,12 @@ module Api
           }
         }, status: :created
       else
-        Rails.logger.error "EventsController#create_tip: Validation failed: #{outcome.errors.full_messages.join(', ')}"
-        Rails.logger.error "EventsController#create_tip: Errors object: #{outcome.errors.inspect}"
         render json: {
           errors: outcome.errors.full_messages,
           message: outcome.errors.full_messages.join(", ")
         }, status: :unprocessable_entity
       end
     rescue StandardError => e
-      Rails.logger.error "EventsController#create_tip: Exception raised: #{e.class} - #{e.message}"
-      Rails.logger.error "EventsController#create_tip: Backtrace: #{e.backtrace.first(10).join("\n")}"
       render json: {
         error: "Internal server error",
         message: e.message
@@ -184,8 +175,6 @@ module Api
         }
       }, status: :ok
     rescue StandardError => e
-      Rails.logger.error "EventsController#user_events: Exception raised: #{e.class} - #{e.message}"
-      Rails.logger.error "EventsController#user_events: Backtrace: #{e.backtrace.first(10).join("\n")}"
       render json: {
         error: "Internal server error",
         message: e.message

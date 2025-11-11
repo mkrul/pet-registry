@@ -71,7 +71,6 @@ module Reports
           )
 
           unless tip.save
-            Rails.logger.error "Failed to create initial tip for report #{report.id}: #{tip.errors.full_messages.join(', ')}"
             errors.add(:base, "Failed to create location tip: #{tip.errors.full_messages.join(', ')}")
             raise ActiveRecord::Rollback
           end
@@ -87,10 +86,6 @@ module Reports
       privacy_offset = 0.0025
       offset_lat = lat + (rand - 0.5) * privacy_offset
       offset_lng = lng + (rand - 0.5) * privacy_offset
-
-      Rails.logger.info "[PRIVACY] Original coordinates: #{lat}, #{lng}"
-      Rails.logger.info "[PRIVACY] Privacy offset applied: #{offset_lat}, #{offset_lng}"
-      Rails.logger.info "[PRIVACY] Offset amount: lat #{(offset_lat - lat).round(6)}, lng #{(offset_lng - lng).round(6)}"
 
       { latitude: offset_lat, longitude: offset_lng }
     end

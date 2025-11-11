@@ -10,13 +10,6 @@ RSpec.describe "Api::SessionsController", type: :request do
   let(:user) { FactoryBot.create(:user, email: 'test@example.com', password: 'password123') }
   let(:headers) { { 'ACCEPT' => 'application/json', 'CONTENT_TYPE' => 'application/json' } }
 
-  around do |example|
-    old_logger = Rails.logger
-    Rails.logger = Logger.new(STDOUT)
-    example.run
-    Rails.logger = old_logger
-  end
-
   around(:each) do |example|
     ActiveSupport::LogSubscriber.logger.level = :debug
     example.run

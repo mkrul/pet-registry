@@ -31,14 +31,6 @@ export const TipLocationSelect = ({
   placeholderText,
   mapCenterLocation
 }) => {
-  console.log('[TipLocationSelect] Component render:', {
-    initialLocation,
-    hasInitialLocation: !!initialLocation,
-    initialLocationLat: initialLocation?.latitude,
-    initialLocationLng: initialLocation?.longitude,
-    showInitialMarker
-  });
-
   const [selectedLocation, setSelectedLocation] = useState(
     initialLocation
       ? {
@@ -89,7 +81,6 @@ export const TipLocationSelect = ({
           const data = await response.json();
           setSuggestions(data);
         } catch (error) {
-          console.error("Error fetching suggestions:", error);
           setSuggestions([]);
         }
       }, 300),
@@ -128,11 +119,6 @@ export const TipLocationSelect = ({
   }, []);
 
   useLayoutEffect(() => {
-    console.log('[TipLocationSelect] useLayoutEffect triggered:', {
-      initialLocation,
-      hasInitialLocation: !!initialLocation,
-      showInitialMarker
-    });
     if (initialLocation) {
       const locationData = {
         area: initialLocation.area || "",
@@ -140,14 +126,11 @@ export const TipLocationSelect = ({
         country: initialLocation.country || "",
         intersection: initialLocation.intersection || ""
       };
-      console.log('[TipLocationSelect] Setting location data from initialLocation:', locationData);
       setSelectedLocation(locationData);
       if (showInitialMarker) {
-        console.log('[TipLocationSelect] Setting currentMapLocation (showInitialMarker=true):', initialLocation);
         setCurrentMapLocation(initialLocation);
       }
     } else {
-      console.log('[TipLocationSelect] No initialLocation provided, skipping location setup');
     }
   }, [initialLocation, showInitialMarker]);
 
@@ -180,7 +163,6 @@ export const TipLocationSelect = ({
         setSelectedAddress(null);
         setTimeout(() => setSearchInput(""), 0);
       } catch (error) {
-        console.error("Error handling location:", error);
       } finally {
         setIsProcessingAddress(false);
       }

@@ -68,7 +68,6 @@ export const ReportLocationSelect = ({
           const data = await response.json();
           setSuggestions(data);
         } catch (error) {
-          console.error("Error fetching suggestions:", error);
           setSuggestions([]);
         }
       }, 300),
@@ -146,12 +145,10 @@ export const ReportLocationSelect = ({
           });
           onLocationSelect(locationData);
           setCurrentMapLocation(locationData);
-          console.log('[DEBUG] Address selected, setting currentMapLocation:', locationData);
         }
         setSelectedAddress(null);
         setTimeout(() => setSearchInput(""), 0);
       } catch (error) {
-        console.error("Error handling location:", error);
       } finally {
         setIsProcessingAddress(false);
       }
@@ -161,7 +158,6 @@ export const ReportLocationSelect = ({
   const mapLocation = useMemo(() => {
     if (currentMapLocation) {
       const location = createMapLocation(currentMapLocation);
-      console.log('[DEBUG] mapLocation created from currentMapLocation:', location);
       return location;
     }
     if (initialLocation && !showInitialMarker) {
@@ -342,7 +338,6 @@ export const ReportLocationSelect = ({
       </div>
       <FormFieldError error={error} />
       <div className="relative mt-1">
-        {console.log('[DEBUG] Rendering ReportMap with:', { mapLocation, showPin: !!currentMapLocation, currentMapLocation })}
         <ReportMap
           onLocationSelect={handleLocationSelect}
           initialLocation={mapLocation}

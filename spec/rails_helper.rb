@@ -30,8 +30,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.strategy = :transaction
     Warden.test_mode!
-    Rails.logger = ActiveSupport::Logger.new(STDOUT)
-    Rails.logger.level = :debug
     ActiveSupport::LogSubscriber.colorize_logging = true
   end
 

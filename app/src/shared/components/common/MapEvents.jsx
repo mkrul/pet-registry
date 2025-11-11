@@ -5,9 +5,6 @@ import Spinner from "./Spinner";
 import { MapView } from "./MapView";
 import { MAP_ZOOM_LEVELS } from "../../constants/map";
 
-console.log('[DEBUG] MapEvents component loaded');
-
-
 export const MapEvents = ({
   onLocationSelect,
   initialLocation,
@@ -17,7 +14,6 @@ export const MapEvents = ({
   showInitialMarker = true,
   showPin = false
 }) => {
-  console.log('[DEBUG] MapEvents received props:', { showPin, initialLocation, showInitialMarker });
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [hasSetInitialView, setHasSetInitialView] = useState(false);
@@ -46,13 +42,10 @@ export const MapEvents = ({
   }, [initialLocation?.latitude, initialLocation?.longitude, showInitialMarker, map]);
 
   useEffect(() => {
-    console.log('[DEBUG] MapEvents showPin changed:', showPin, 'initialLocation:', initialLocation);
     if (showPin && initialLocation?.latitude && initialLocation?.longitude) {
       setSelectedPosition([initialLocation.latitude, initialLocation.longitude]);
-      console.log('[DEBUG] Setting pin at:', initialLocation.latitude, initialLocation.longitude);
     } else if (!showPin) {
       setSelectedPosition(null);
-      console.log('[DEBUG] Removing pin');
     }
   }, [showPin, initialLocation?.latitude, initialLocation?.longitude]);
 
@@ -75,7 +68,6 @@ export const MapEvents = ({
         onLocationSelect(locationData);
       }
     } catch (error) {
-      console.error("Error handling location:", error);
     } finally {
       setIsProcessing(false);
     }

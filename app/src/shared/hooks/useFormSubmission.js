@@ -17,7 +17,6 @@ export const useFormSubmission = (handleSubmit) => {
         return;
       }
 
-      console.error("Form submission error:", error);
     }
   };
 

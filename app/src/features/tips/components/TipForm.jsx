@@ -101,7 +101,6 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
         onSuccess();
       }
     } catch (error) {
-      console.error('TipForm: Error submitting tip:', error);
       dispatch(addNotification({
         type: 'ERROR',
         message: error.data?.message || 'Failed to submit tip'
