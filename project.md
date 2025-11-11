@@ -61,3 +61,8 @@
 - Backend protection: double-check prevents contact if owner disables setting mid-session
 - Performance: eager loading prevents N+1 queries on report searches
 
+---
+
+### Messages Dark Mode Contrast
+- Updated the `Conversations` list header in `MessagesPage.jsx` to include `dark:text-white`, ensuring the title remains readable against the dark background.
+

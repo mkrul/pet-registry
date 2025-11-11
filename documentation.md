@@ -133,3 +133,6 @@ The "Start a Conversation" button is only displayed if the report owner has enab
 - On error, a notification displays and user remains on the report page
 - No inline form is rendered; the `ConversationStartForm` component is no longer used for this flow
 
+### Dark Mode Readability
+- The `Conversations` list header applies `dark:text-white` to preserve contrast when users enable dark mode.
+
