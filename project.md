@@ -25,7 +25,7 @@
 ### Search Panel Dark Mode Refresh
 - Updated `SearchTab.jsx` and `SearchContainer.jsx` so the slide-out panel, toggle button, and tips block adopt dashboard dark-mode colors, borders, and focus outlines (now tuned to slightly lighter `dark:bg-gray-800`/`dark:bg-gray-700` tones).
 - Restyled `SearchBar.jsx` and `SearchButtons.jsx` so inputs and actions share dashboard focus rings, placeholder contrast, and dark-mode hover states, plus a visible clear control.
-- Reworked `Filters.jsx`, `LocationFilter.jsx`, `FilterWithClear.jsx`, and `RememberFiltersToggle.jsx` to use theme-aware MUI `sx` styling for dropdowns, menus, and clear buttons, ensuring legibility in dark mode.
+- Reworked `Filters.jsx`, `LocationFilter.jsx`, `FilterWithClear.jsx`, and `RememberFiltersToggle.jsx` to use theme-aware MUI `sx` styling for dropdowns, menus, clear buttons, and a unified `rgba(29, 29, 29, 1)` background for the remember-toggle, ensuring legibility in dark mode.
 
 ---
 

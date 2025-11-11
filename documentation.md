@@ -319,7 +319,7 @@ The slide-out search experience now mirrors dashboard form styling and responds 
 - **SearchContainer.jsx**: Filters and tip sections sit inside bordered panels that switch to `dark:bg-gray-900` and `dark:bg-gray-800`, and the tips toggle gains dark-friendly typography and focus outlines.
 - Tweaked panel backgrounds to use `dark:bg-gray-800` / `dark:bg-gray-700` for a lighter dark-mode tone without losing contrast.
 - **SearchBar.jsx / SearchButtons.jsx**: Input fields reuse dashboard focus rings, placeholder contrast, and a visible clear control; primary/reset buttons add dark-mode hover and focus treatments.
-- **Filters.jsx / LocationFilter.jsx / RememberFiltersToggle.jsx**: Dropdowns receive theme-aware MUI `sx` styling (palette, focus, and menu paper), clear icons maintain contrast, and the remember-toggle reflects the active theme.
+- **Filters.jsx / LocationFilter.jsx / RememberFiltersToggle.jsx**: Dropdowns receive theme-aware MUI `sx` styling (palette, focus, and menu paper), clear icons maintain contrast, and the remember-toggle now uses a unified `rgba(29, 29, 29, 1)` background with accessible focus cues.
 
 ### Result
 Users now see consistent, legible styling throughout the search panel regardless of dark-mode preference, matching dashboard forms.
