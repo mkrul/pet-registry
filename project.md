@@ -38,3 +38,26 @@
 ### Listing Detail Typography
 - Adjusted `ListingDetailsCard` so report attribute values (name, description, breeds, gender, microchip) render with normal font weight while the labels retain emphasis, matching the public report spec.
 
+---
+
+### Conversation Redirect & Contact Preference Integration
+
+**Objective**: Redirect "Start a Conversation" flow directly to the messages dashboard and gate by report owner's contact preference.
+
+**Changes Made**:
+1. **ReportSerializer**: Added `owner_allow_contact` attribute that reads from report owner's `settings.allow_contact` (defaults to true)
+2. **Reports::Search**: Updated both elasticsearch query methods to eagerly load user associations to prevent N+1 queries
+3. **Api::ConversationsController**: Added allow-contact guards in `create_from_report` and `create_from_report_with_message` that block conversation creation if owner has disabled contact
+4. **TipsSection**: Completely refactored to:
+   - Remove inline `ConversationStartForm` rendering
+   - Conditionally render "Start a Conversation" button only when `report.ownerAllowContact` is true
+   - Use `useCreateConversationForReportMutation` to create empty conversation
+   - Navigate directly to `/dashboard/messages/<conversationId>` on success
+   - Provide button loading state and error notifications
+
+**Benefits**:
+- Better UX: users go straight to messaging without intermediate form
+- Respects user contact preferences: button hidden if owner opted out
+- Backend protection: double-check prevents contact if owner disables setting mid-session
+- Performance: eager loading prevents N+1 queries on report searches
+

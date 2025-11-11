@@ -140,7 +140,9 @@ const ConversationStartForm = ({ reportId, onSuccess, onCancel }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label className="text-lg font-medium text-gray-900">Message:</label>
+            <label className="text-sm font-medium text-gray-900 uppercase tracking-wide">
+              Message
+            </label>
             <textarea
               id="message"
               name="message"
@@ -152,25 +154,28 @@ const ConversationStartForm = ({ reportId, onSuccess, onCancel }) => {
               required
               disabled={isFormDisabled}
             />
-              <div className="mt-8">
-              <label className="text-lg font-medium text-gray-900">
-                External Links (optional):
-              </label>
-              <p className="text-sm text-gray-500 mb-3">
-                Add up to 3 links to social media posts, news articles, or other relevant information.
-              </p>
-              {formData.external_links.map((link, index) => (
-                <div key={index} className="mb-3">
-                  <input
-                    type="url"
-                    value={link}
-                    onChange={(e) => handleExternalLinkChange(index, e.target.value)}
-                    placeholder={`Link ${index + 1} (e.g., https://www.facebook.com/...)`}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    disabled={isFormDisabled}
-                  />
-                </div>
-              ))}
+
+            <div>
+              <div className="mt-6">
+                <label className="text-sm font-medium text-gray-900 uppercase tracking-wide">
+                  External Links (optional):
+                </label>
+                <p className="text-sm text-gray-500 mb-3">
+                  Add up to 3 links to social media posts, news articles, or other relevant information.
+                </p>
+                {formData.external_links.map((link, index) => (
+                  <div key={index} className="mb-3">
+                    <input
+                      type="url"
+                      value={link}
+                      onChange={(e) => handleExternalLinkChange(index, e.target.value)}
+                      placeholder={`Link ${index + 1} (e.g., https://www.facebook.com/...)`}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      disabled={isFormDisabled}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

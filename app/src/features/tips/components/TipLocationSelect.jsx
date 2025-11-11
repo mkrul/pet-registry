@@ -214,21 +214,9 @@ export const TipLocationSelect = ({
     return currentMapLocation ? TIP_ZOOM_LEVELS.FORM : TIP_ZOOM_LEVELS.DEFAULT;
   }, [currentMapLocation, initialZoom]);
 
-  const getLabelClassName = () => {
-    if (labelStyle === "microchip") {
-      return "text-lg font-medium text-gray-900";
-    }
-    return "text-lg font-medium text-gray-900 mb-2";
-  };
-
   return (
     <div className="space-y-2">
-      <label className={getLabelClassName()}>Location:</label>
-      {showTip && (
-        <Tip>
-          Click on the map or type the address where the animal was last seen.
-        </Tip>
-      )}
+      <label className="text-sm font-medium text-gray-900 uppercase tracking-wide">Location</label>
       {selectedLocation ? (
         <LocationDisplay
           area={selectedLocation.area}

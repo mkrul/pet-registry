@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../store/hooks.js';
+import { useAppSelector, useAppDispatch } from '../../../store/hooks.js';
 import { useGetLastLocationQuery } from '../../../store/features/tips/tipsApi.js';
+import { useCreateConversationForReportMutation } from '../../../store/features/messages/messagesApi.js';
+import { addNotification } from '../../../store/features/notifications/notificationsSlice.js';
 import TipForm from './TipForm.jsx';
-import ConversationStartForm from '../../messages/components/ConversationStartForm.jsx';
 
 const TipsSection = ({ reportId, report }) => {
   const [showTipForm, setShowTipForm] = useState(false);
-  const [showConversationForm, setShowConversationForm] = useState(false);
-  const [conversationId, setConversationId] = useState(null);
-  const [messageSent, setMessageSent] = useState(false);
+  const [createConversation, { isLoading: isCreatingConversation }] = useCreateConversationForReportMutation();
   const user = useAppSelector(state => state.auth.user);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const isOwner = Boolean(
@@ -20,6 +20,7 @@ const TipsSection = ({ reportId, report }) => {
   );
   const isArchived = report?.status === 'archived';
   const canShowTipForm = user && !isArchived && !isOwner;
+  const ownerAllowsContact = report?.ownerAllowContact ?? true;
 
   useGetLastLocationQuery(reportId, {
     skip: !canShowTipForm
@@ -29,20 +30,20 @@ const TipsSection = ({ reportId, report }) => {
     setShowTipForm(false);
   };
 
-  const handleMessageOwner = () => {
-    setShowConversationForm(true);
-  };
-
-  const handleConversationCancel = () => {
-    setShowConversationForm(false);
-    setConversationId(null);
-    setMessageSent(false);
-  };
-
-  const handleConversationSuccess = (convId) => {
-    setConversationId(convId);
-    setMessageSent(true);
-    setShowConversationForm(false);
+  const handleStartConversation = async () => {
+    try {
+      const result = await createConversation(reportId).unwrap();
+      dispatch(addNotification({
+        type: 'SUCCESS',
+        message: 'Conversation started'
+      }));
+      navigate(`/dashboard/messages/${result.id}`);
+    } catch (error) {
+      dispatch(addNotification({
+        type: 'ERROR',
+        message: error.data?.error || 'Failed to start conversation'
+      }));
+    }
   };
 
   return (
@@ -54,43 +55,6 @@ const TipsSection = ({ reportId, report }) => {
             onSuccess={handleTipSuccess}
             onCancel={() => setShowTipForm(false)}
           />
-        ) : showConversationForm ? (
-          <ConversationStartForm
-            reportId={reportId}
-            onSuccess={handleConversationSuccess}
-            onCancel={handleConversationCancel}
-          />
-        ) : messageSent ? (
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="text-center">
-              <div className="mb-4">
-                <svg className="mx-auto h-12 w-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Message sent!</h3>
-              <p className="text-gray-600 mb-4">
-                Your message has been sent to the report owner.
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <button
-                  onClick={() => {
-                    setConversationId(null);
-                    setMessageSent(false);
-                  }}
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => navigate(`/dashboard/messages/${conversationId}`)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  View Conversation
-                </button>
-              </div>
-            </div>
-          </div>
         ) : (
           <div className="bg-white rounded-lg border border-gray-200 p-6">
             <div className="text-center">
@@ -105,13 +69,14 @@ const TipsSection = ({ reportId, report }) => {
                 >
                   Submit a Tip
                 </button>
-                {!isOwner && (
+                {ownerAllowsContact && (
                   <button
-                    onClick={handleMessageOwner}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors"
+                    onClick={handleStartConversation}
+                    disabled={isCreatingConversation}
+                    className="bg-gray-100 hover:bg-gray-200 disabled:opacity-50 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors"
                     aria-label="Send a message to the report owner"
                   >
-                    Start a Conversation
+                    {isCreatingConversation ? 'Starting...' : 'Start a Conversation'}
                   </button>
                 )}
               </div>

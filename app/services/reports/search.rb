@@ -365,7 +365,7 @@ class Reports::Search < ActiveInteraction::Base
     total = response['hits']['total']['value']
 
     report_ids = hits.map { |hit| hit['_id'].to_i }
-    reports = Report.includes(image_attachment: :blob).where(id: report_ids).index_by(&:id)
+    reports = Report.includes(:user, image_attachment: :blob).where(id: report_ids).index_by(&:id)
     ordered_reports = report_ids.map { |id| reports[id] }.compact
 
     PaginatedCollection.new(
@@ -405,7 +405,7 @@ class Reports::Search < ActiveInteraction::Base
     total = response['hits']['total']['value']
 
     report_ids = hits.map { |hit| hit['_id'].to_i }
-    reports = Report.includes(image_attachment: :blob).where(id: report_ids).index_by(&:id)
+    reports = Report.includes(:user, image_attachment: :blob).where(id: report_ids).index_by(&:id)
     ordered_reports = report_ids.map { |id| reports[id] }.compact
 
     PaginatedCollection.new(

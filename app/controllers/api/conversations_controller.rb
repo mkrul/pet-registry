@@ -77,6 +77,10 @@ module Api
         render json: { error: 'Cannot start a conversation with yourself' }, status: :unprocessable_entity and return
       end
 
+      unless owner_allows_contact?(report.user)
+        render json: { error: 'This user does not accept contact messages' }, status: :unprocessable_entity and return
+      end
+
       outcome = Conversations::Upsert.run(
         current_user: current_user,
         recipient_id: report.user_id,
@@ -97,6 +101,10 @@ module Api
       report = ::Report.find(params[:id] || params[:report_id])
       if report.user_id == current_user.id
         render json: { error: 'Cannot start a conversation with yourself' }, status: :unprocessable_entity and return
+      end
+
+      unless owner_allows_contact?(report.user)
+        render json: { error: 'This user does not accept contact messages' }, status: :unprocessable_entity and return
       end
 
       conversation_outcome = Conversations::Upsert.run(
@@ -125,6 +133,16 @@ module Api
       end
     rescue => e
       render json: { error: 'Failed to send message' }, status: :internal_server_error
+    end
+
+    private
+
+    def owner_allows_contact?(user)
+      settings = user&.settings
+      return true unless settings.is_a?(Hash)
+
+      value = settings['allow_contact']
+      value.nil? ? true : value
     end
   end
 end

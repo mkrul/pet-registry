@@ -3,7 +3,7 @@ class ReportSerializer < ActiveModel::Serializer
              :color_1, :color_2, :color_3, :name, :gender, :image, :is_altered,
              :microchip_id, :created_at, :updated_at, :archived_at,
              :recently_updated, :recently_created,
-             :pet_id, :last_seen_location, :user_id
+             :pet_id, :last_seen_location, :user_id, :owner_allow_contact
 
   def attributes(*args)
     data = super
@@ -108,5 +108,13 @@ class ReportSerializer < ActiveModel::Serializer
     else
       nil
     end
+  end
+
+  def owner_allow_contact
+    settings = object.user&.settings
+    return true unless settings.is_a?(Hash)
+
+    value = settings['allow_contact']
+    value.nil? ? true : value
   end
 end

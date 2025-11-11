@@ -111,3 +111,25 @@ When editing a report, the location map should initialize with the report's exis
 ### Listing Detail Text Weight
 - `ListingDetailsCard` presents report attribute values (name, description, breeds, gender, microchip details) with normal font weight so the emphasis stays on the section labels while the content remains easy to scan.
 
+---
+
+## Conversation Flow & Contact Preference Integration
+
+### Overview
+When users click "Start a Conversation" on a report listing, they are now taken directly to the messages dashboard with a new conversation instantiated, rather than displaying an inline form.
+
+### Contact Gating
+The "Start a Conversation" button is only displayed if the report owner has enabled contact in their settings (`allow_contact: true`). This preference is exposed through the `ownerAllowContact` field on report payloads.
+
+### Data Flow
+1. **Backend**: `ReportSerializer` includes `owner_allow_contact` which reads the report owner's `settings.allow_contact` (defaults to true)
+2. **Search Optimization**: `Reports::Search` now eagerly loads user associations to prevent N+1 queries
+3. **Conversation Guards**: `Api::ConversationsController` blocks conversation creation if the owner has disabled contact
+4. **Frontend**: `TipsSection` checks `report.ownerAllowContact` to conditionally render the button, then invokes `useCreateConversationForReportMutation` and redirects to `/dashboard/messages/<conversationId>`
+
+### Implementation Details
+- The button is disabled during mutation and shows "Starting..." feedback
+- On success, user is navigated to the new conversation thread
+- On error, a notification displays and user remains on the report page
+- No inline form is rendered; the `ConversationStartForm` component is no longer used for this flow
+
