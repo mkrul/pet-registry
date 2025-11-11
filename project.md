@@ -129,3 +129,31 @@
 - Gray archived icons (report_archived, pet_archived) now use `dark:text-gray-300` to stay readable in dark mode
 - Archived chevron icons are nudged with `transform -translate-x-0.5 translate-y-0.5` so they appear visually centered inside their circular badges
 
+---
+
+### Dashboard Navigation Responsive Redesign
+
+**Objective**: Improve dashboard UX on small/medium screens by displaying navigation as horizontal tabs instead of a vertical sidebar.
+
+**Changes Made**:
+1. **Navigation Container**: Changed from vertical (`space-y-2`) to horizontal wrapping tabs (`flex flex-wrap gap-1`)
+2. **Tab Styling**:
+   - Each tab uses `flex-1 min-w-max` to allow wrapping while preventing text truncation
+   - Added `whitespace-nowrap lg:whitespace-normal` to keep tab text on one line
+   - Tab text centered on small screens, left-aligned on large screens
+   - Medium screens bump typography to `md:text-base`, large screens to `lg:text-base`, keeping phones at compact `text-sm`
+3. **Tab Labels**: Shortened for mobile readability ("My Reports" → "Reports", "My Pets" → "Pets")
+4. **Unread Badge**: Updated with `dark:bg-blue-700 dark:text-blue-100` for dark mode compatibility
+5. **Responsive Classes**:
+   - `lg:flex-col lg:space-y-2` reverts to vertical sidebar on lg+ breakpoints
+   - `lg:w-auto` allows sidebar to size naturally on large screens
+
+**Breakpoint Behavior**:
+- **Small/Medium (default)**: Horizontal tabs in a flexbox, centered text, wrapped if needed
+- **Large (lg)**: Vertical sidebar layout with original styling and 256px fixed width
+
+**Benefits**:
+- Better space utilization on tablets and phones
+- Cleaner appearance on smaller viewports
+- Maintains familiar sidebar layout on desktop
+

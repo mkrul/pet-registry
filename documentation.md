@@ -193,3 +193,27 @@ All color changes follow the dashboard pattern established in DashboardView:
 - **report_archived / pet_archived icons**: Changed to `dark:text-gray-300` for higher contrast on dark backgrounds
 - **Archived icons alignment**: Applied `transform -translate-x-0.5 translate-y-0.5` to center chevron icons within their circular containers
 
+---
+
+## Dashboard Navigation Responsive Redesign
+
+### Overview
+The dashboard navigation has been redesigned to use horizontal tabs on small/medium screens and a vertical sidebar on large screens, providing a better mobile and tablet experience.
+
+### Changes Made
+1. **DashboardView.jsx**:
+   - Navigation ul changed from `space-y-2` to `flex flex-wrap gap-1 lg:flex-col lg:space-y-2`
+   - Each nav button now uses `flex-1 min-w-max lg:w-auto` for responsive sizing
+   - Added `whitespace-nowrap lg:whitespace-normal` to prevent text wrapping on small screens
+   - Text alignment: `text-center lg:text-left` for tab-style appearance on small screens
+   - Increased tab font size on medium screens with `md:text-base` and large screens with `lg:text-base` while retaining compact `text-sm` on smaller viewports
+   - Tab labels shortened on small screens (e.g., "My Reports" → "Reports", "My Pets" → "Pets")
+   - Unread count badge styled with `dark:bg-blue-700 dark:text-blue-100` for dark mode visibility
+   - Messages button uses `flex items-center justify-center lg:justify-between` for proper badge alignment
+
+### Responsive Behavior
+- **Small/Medium screens (default)**: Horizontal tabs that wrap if needed, all on one line or less
+- **Large screens (lg breakpoint)**: Vertical sidebar layout with full-width text
+- Tab text remains centered on small screens, left-aligned on large screens
+- All functionality and styling preserved across breakpoints
+

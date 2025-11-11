@@ -85,11 +85,11 @@ const DashboardView = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           <nav className="lg:w-64 flex-shrink-0">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-              <ul className="space-y-2">
-                <li>
+              <ul className="flex flex-wrap gap-1 lg:flex-col lg:space-y-2">
+                <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('overview')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'overview'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -98,10 +98,10 @@ const DashboardView = () => {
                     Overview
                   </button>
                 </li>
-                <li>
+                <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('messages')}
-                    className={`w-full flex items-center justify-between text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`w-full flex items-center justify-center lg:justify-between text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'messages'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -110,40 +110,40 @@ const DashboardView = () => {
                   >
                     <span>Inbox</span>
                     {unreadCount > 0 && (
-                      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-700 text-blue-800 dark:text-blue-100 ml-1 lg:ml-0">
                         {unreadCount}
                       </span>
                     )}
                   </button>
                 </li>
-                <li>
+                <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('reports')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'reports'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
-                    My Reports
+                    Reports
                   </button>
                 </li>
-                <li>
+                <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('pets')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'pets'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
                     }`}
                   >
-                    My Pets
+                    Pets
                   </button>
                 </li>
-                <li>
+                <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('profile')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'profile'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -152,10 +152,10 @@ const DashboardView = () => {
                     Profile
                   </button>
                 </li>
-                <li>
+                <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('settings')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'settings'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
