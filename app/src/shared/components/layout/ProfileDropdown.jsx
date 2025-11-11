@@ -70,7 +70,7 @@ const ProfileDropdown = () => {
     <div className="flex-none gap-2">
       <div className="dropdown dropdown-end" ref={dropdownRef}>
         <button
-          className="btn btn-ghost hover:bg-blue-300 btn-circle avatar sm:mr-2"
+          className="btn btn-ghost hover:bg-blue-300 dark:hover:bg-gray-700 btn-circle avatar sm:mr-2 dark:text-gray-200"
           onClick={handleToggle}
           data-testid="profile-button"
         >
@@ -79,14 +79,14 @@ const ProfileDropdown = () => {
           </div>
         </button>
         <ul
-          className={`menu menu-sm dropdown-content bg-white rounded-box z-[50] mt-3 w-52 p-2 shadow ${
+          className={`menu menu-sm dropdown-content bg-white dark:bg-gray-800 rounded-box z-[50] mt-3 w-52 p-2 shadow dark:shadow-lg dark:border dark:border-gray-700 ${
             isOpen ? "block" : "hidden"
           }`}
         >
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
             <NavLink linkTo="/dashboard">Dashboard</NavLink>
           </li>
-          <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
             <LogoutButton onCompleted={handleLogout} />
           </li>
         </ul>

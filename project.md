@@ -157,3 +157,54 @@
 - Cleaner appearance on smaller viewports
 - Maintains familiar sidebar layout on desktop
 
+---
+
+### Global Navigation Dark Mode Support
+
+**Objective**: Enable dark mode for top-level Navbar and Footer components.
+
+**Changes Made**:
+
+1. **Navbar.jsx**:
+   - Added `dark:bg-gray-900` to nav and navbar containers
+   - Hamburger button: `dark:text-gray-200` for icon visibility
+   - Mobile dropdown menu: `dark:bg-gray-800 dark:shadow-lg dark:border dark:border-gray-700`
+   - Mobile menu items: `dark:hover:bg-gray-700` for hover feedback
+   - Brand/logo link: `dark:hover:bg-transparent dark:text-gray-100` to prevent default hover styling in dark mode
+
+2. **Footer.jsx**:
+   - Container: `dark:bg-gray-900` for consistent dark background
+   - Text: `dark:text-gray-400` for proper contrast and readability
+
+3. **NavLink.jsx**:
+   - Added baseClasses styling: `text-gray-700 dark:text-gray-200` for link visibility in both modes
+   - Added hover states: `hover:text-gray-900 dark:hover:text-gray-900` for interactive feedback
+   - Ensures all navigation links (in Navbar and Footer) respect dark mode
+
+4. **ProfileDropdown.jsx**:
+   - Profile button: `dark:hover:bg-gray-700 dark:text-gray-200` for dark mode styling
+   - Dropdown menu: `dark:bg-gray-800 dark:shadow-lg dark:border dark:border-gray-700` to match mobile menu
+   - Menu items: `dark:hover:bg-gray-700` for consistent hover feedback
+
+**Result**: All navigation components (Navbar, Footer, NavLinks, and ProfileDropdown) now properly adapt to dark mode with appropriate contrast and visibility across all interactive elements and links.
+
+---
+
+### Global Loading State Dark Mode Support
+
+**Objective**: Fix the white loading overlay that appears when fetching backend data to respect dark mode enablement.
+
+**Changes Made**:
+1. **Spinner.jsx**:
+   - Updated background styling from `bg-white bg-opacity-75` to `bg-white dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75`
+   - Applies when `bgFaded={true}` (default), which is used for the global page-level loading overlay
+
+2. **LoadingState.jsx**:
+   - Updated default className background from `bg-gray-50` to `bg-gray-50 dark:bg-gray-800`
+   - Ensures the loading state container respects dark mode
+
+**Result**:
+- When navigating from dashboard back to home/index page while reports load, the loading spinner no longer shows a white flash in dark mode
+- Loading overlay now displays with dark background (`dark:bg-gray-900`) when dark mode is enabled, matching the rest of the application's color scheme
+- Maintains visual consistency and prevents the jarring contrast shift during page transitions with active data fetches
+

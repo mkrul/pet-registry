@@ -40,15 +40,15 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-page">
+    <nav className="bg-page dark:bg-gray-900">
       <div data-testid="navbar">
         {/* Main Navbar */}
-        <div className="navbar">
+        <div className="navbar dark:bg-gray-900">
           {/* Hamburger Menu for Mobile/Tablet */}
           <div className="flex-none sm:hidden">
             <div className="dropdown" ref={menuRef}>
               <button
-                className="btn btn-ghost btn-circle"
+                className="btn btn-ghost btn-circle dark:text-gray-200"
                 onClick={handleMenuToggle}
                 data-testid="hamburger-menu-button"
                 aria-label="Toggle navigation menu"
@@ -69,20 +69,20 @@ const NavBar = () => {
                 </svg>
               </button>
               <ul
-                className={`menu menu-sm dropdown-content bg-white rounded-box z-[50] mt-3 w-52 p-2 shadow ${
+                className={`menu menu-sm dropdown-content bg-white dark:bg-gray-800 rounded-box z-[50] mt-3 w-52 p-2 shadow dark:shadow-lg dark:border dark:border-gray-700 ${
                   isMenuOpen ? "block" : "hidden"
                 }`}
                 data-testid="mobile-menu"
               >
                 {isAuthenticated && (
-                  <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
+                  <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
                     <NavLink linkTo="/dashboard/reports?action=create" handler={() => setIsMenuOpen(false)}>Report a Lost Pet</NavLink>
                   </li>
                 )}
-                <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
+                <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
                   <NavLink linkTo="/reports" handler={() => setIsMenuOpen(false)}>Search</NavLink>
                 </li>
-                <li className="hover:bg-base-200 rounded-lg transition-colors duration-200">
+                <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
                   <NavLink linkTo="/about" handler={() => setIsMenuOpen(false)}>About</NavLink>
                 </li>
               </ul>
@@ -93,7 +93,7 @@ const NavBar = () => {
             <Link
               to="/"
               onClick={handleHomeClick}
-              className="btn btn-ghost text-xl hover:bg-transparent pl-1 sm:pl-4"
+              className="btn btn-ghost text-xl hover:bg-transparent dark:hover:bg-transparent dark:text-gray-100 pl-1 sm:pl-4"
             >
               Lost Pets Registry
             </Link>

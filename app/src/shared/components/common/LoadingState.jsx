@@ -2,7 +2,7 @@ import React from 'react';
 import Spinner from './Spinner';
 
 const LoadingState = ({
-  className = "bg-gray-50 rounded-lg p-8 text-center"
+  className = "bg-gray-50 dark:bg-gray-800 rounded-lg p-8 text-center"
 }) => {
   return (
     <div className={className}>

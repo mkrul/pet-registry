@@ -39,7 +39,7 @@ const Spinner = ({
     <div
       data-testid="spinner"
       className={`absolute inset-0 flex justify-center items-center ${
-        bgFaded ? "bg-white bg-opacity-75" : ""
+        bgFaded ? "bg-white dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75" : ""
       } h-full`}
     >
       {spinnerContent}

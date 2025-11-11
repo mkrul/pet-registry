@@ -217,3 +217,55 @@ The dashboard navigation has been redesigned to use horizontal tabs on small/med
 - Tab text remains centered on small screens, left-aligned on large screens
 - All functionality and styling preserved across breakpoints
 
+---
+
+## Global Loading State Dark Mode Support
+
+### Overview
+The global loading state components (`Spinner` and `LoadingState`) have been updated to properly support dark mode styling.
+
+### Changes Made
+
+**Spinner.jsx**:
+- Background: Updated from `bg-white bg-opacity-75` to `bg-white dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75`
+- This ensures the loading overlay uses a white semi-transparent background in light mode and a dark semi-transparent background in dark mode
+- Applies when `bgFaded={true}` (the default), showing the overlay when fetching backend data
+
+**LoadingState.jsx**:
+- Default className: Updated from `bg-gray-50 rounded-lg p-8 text-center` to `bg-gray-50 dark:bg-gray-800 rounded-lg p-8 text-center`
+- Container background now respects dark mode with `dark:bg-gray-800` for proper contrast
+
+### Result
+When navigating between pages (e.g., dashboard → home) with data fetching in progress, the loading spinner now displays with appropriate styling for dark mode, eliminating the white flash and maintaining visual consistency with the rest of the application's dark mode design.
+
+---
+
+## Global Navigation Dark Mode Support
+
+### Overview
+The Navbar and Footer components have been updated to properly support dark mode styling.
+
+### Changes Made
+
+**Navbar.jsx**:
+- Outer nav: Added `dark:bg-gray-900` for dark background
+- Navbar container: Added `dark:bg-gray-900` for consistency
+- Hamburger button: Added `dark:text-gray-200` for visibility
+- Mobile menu dropdown: Added `dark:bg-gray-800 dark:shadow-lg dark:border dark:border-gray-700` for dark styling
+- Mobile menu items: Added `dark:hover:bg-gray-700` for hover states
+- Logo/brand link: Added `dark:hover:bg-transparent dark:text-gray-100` to ensure text is visible in dark mode
+
+**Footer.jsx**:
+- Container: Added `dark:bg-gray-900` for dark background
+- Text content: Added `dark:text-gray-400` to footer text for proper contrast in dark mode
+
+**NavLink.jsx**:
+- Added text color styling to baseClasses: `text-gray-700 dark:text-gray-200` for link text visibility
+- Added hover state: `hover:text-gray-900 dark:hover:text-gray-900` for interactive feedback in both light and dark modes
+- This ensures all navigation links in Navbar and Footer respect dark mode
+
+**ProfileDropdown.jsx**:
+- Profile button: Added `dark:hover:bg-gray-700 dark:text-gray-200` for dark mode button styling
+- Dropdown menu: Added `dark:bg-gray-800 dark:shadow-lg dark:border dark:border-gray-700` matching mobile hamburger menu
+- Menu items: Added `dark:hover:bg-gray-700` for hover states in dark mode
+
