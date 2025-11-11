@@ -1,5 +1,4 @@
 import React from "react";
-import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { useReportsData } from "../../../shared/hooks/useReportsData.js";
 import ListingsGrid from "./ListingsGrid.jsx";
 
@@ -9,15 +8,7 @@ const ListingsContainer = ({
   page,
   onPageChange,
 }) => {
-  const { reports, data, isLoading } = useReportsData(query, filters, page);
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <Spinner />
-      </div>
-    );
-  }
+  const { reports, data } = useReportsData(query, filters, page);
 
   return (
     <ListingsGrid

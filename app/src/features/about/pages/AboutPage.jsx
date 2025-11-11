@@ -14,7 +14,7 @@ const AboutPage = () => {
   const user = useAppSelector(state => state.auth.user);
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "white" }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "white", overflow: "hidden" }}>
       <Box sx={{
         width: "100vw",
         position: "relative",
@@ -28,6 +28,7 @@ const AboutPage = () => {
         backgroundPosition: { xs: "center center", md: "0% 47%" },
         backgroundRepeat: "no-repeat",
         display: "flex",
+        overflow: "hidden",
         alignItems: "center",
         justifyContent: "center",
         mb: 8
@@ -677,6 +678,7 @@ const AboutPage = () => {
           backgroundSize: "cover",
           backgroundPosition: "center 48%",
           backgroundRepeat: "no-repeat",
+          overflow: "hidden",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

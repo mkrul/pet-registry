@@ -190,13 +190,41 @@
 
 ---
 
+### About Page Horizontal Scrollbar Fix
+
+**Objective**: Eliminate unwanted horizontal scrollbar on the About page caused by full-width hero sections overflowing the viewport.
+
+**Root Cause**:
+- `width: "100vw"` includes the browser scrollbar width in its calculation
+- Hero sections exceeded viewport width when scrollbar was present
+- `overflowY: "hidden"` only hid vertical overflow, allowing horizontal scroll to trigger
+
+**Solution**:
+Applied layered overflow clipping:
+1. **Root container** (line 17): Added `overflow: "hidden"` to main page Box
+   - Clips any overflow from child elements at the page level
+   - Prevents horizontal scrollbar regardless of child element widths
+
+2. **Individual sections** (lines 31 and 681):
+   - Top hero (stray cat): Changed from `overflowY: "hidden"` to `overflow: "hidden"`
+   - Bottom hero (man-with-dog): Changed from `overflowY: "hidden"` to `overflow: "hidden"`
+   - Clips overflow in both axes within each section
+
+**Result**:
+- No horizontal scrollbar at any viewport size
+- Full-width hero sections render edge-to-edge cleanly
+- Images no longer overhang beyond page boundaries
+- Maintained visual appearance of full-bleed hero sections
+
+
+
 ### Global Loading State Dark Mode Support
 
 **Objective**: Fix the white loading overlay that appears when fetching backend data to respect dark mode enablement.
 
 **Changes Made**:
 1. **Spinner.jsx**:
-   - Updated background styling from `bg-white bg-opacity-75` to `bg-white dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75`
+   - Updated background styling from `bg-white bg-opacity-75` to `bg-white/75 dark:bg-gray-900/75`
    - Applies when `bgFaded={true}` (default), which is used for the global page-level loading overlay
 
 2. **LoadingState.jsx**:
@@ -207,4 +235,22 @@
 - When navigating from dashboard back to home/index page while reports load, the loading spinner no longer shows a white flash in dark mode
 - Loading overlay now displays with dark background (`dark:bg-gray-900`) when dark mode is enabled, matching the rest of the application's color scheme
 - Maintains visual consistency and prevents the jarring contrast shift during page transitions with active data fetches
+
+---
+
+### Reports Index Loading UX
+
+**Objective**: Eliminate the global loading flash on the public reports index when navigating from dashboard views.
+
+**Changes Made**:
+
+1. **ListingsContainer.jsx**:
+   - Removed the blocking loading state check and page-level spinner
+   - Component now renders `ListingsGrid` immediately using cached report data returned by `useReportsData`
+
+**Result**:
+- Reports render instantly from cache on the home/index page without a white flash, even in dark mode
+- Matches the dashboard loading optimization pattern while allowing background fetches to refresh content
+
+---
 

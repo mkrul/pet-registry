@@ -227,7 +227,7 @@ The global loading state components (`Spinner` and `LoadingState`) have been upd
 ### Changes Made
 
 **Spinner.jsx**:
-- Background: Updated from `bg-white bg-opacity-75` to `bg-white dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75`
+- Background: Updated from `bg-white bg-opacity-75` to `bg-white/75 dark:bg-gray-900/75`
 - This ensures the loading overlay uses a white semi-transparent background in light mode and a dark semi-transparent background in dark mode
 - Applies when `bgFaded={true}` (the default), showing the overlay when fetching backend data
 
@@ -237,6 +237,44 @@ The global loading state components (`Spinner` and `LoadingState`) have been upd
 
 ### Result
 When navigating between pages (e.g., dashboard → home) with data fetching in progress, the loading spinner now displays with appropriate styling for dark mode, eliminating the white flash and maintaining visual consistency with the rest of the application's dark mode design.
+
+---
+
+## Reports Index Loading UX
+
+### Overview
+The public reports index now renders immediately using cached data, removing the global loading spinner that previously blocked the page and produced a white flash in dark mode.
+
+### Changes Made
+- `app/src/features/listings/components/ListingContainer.jsx`: Removed the `isLoading` gate and global spinner so the component always renders `ListingsGrid` with whatever data is available from `useReportsData`.
+
+### Result
+- Navigating from dashboard views back to the index page no longer triggers a white flash; content persists while background fetches refresh data.
+- Aligns the index page with the dashboard loading optimization strategy for a consistent user experience.
+
+---
+
+## About Page Horizontal Scrollbar Fix
+
+### Overview
+The About page had two full-width hero sections that were causing an unwanted horizontal scrollbar to appear due to overflow from images extending beyond the viewport.
+
+### Root Cause
+The `width: "100vw"` property includes the browser scrollbar width in its calculation. This caused the hero sections to exceed the actual viewport width, creating horizontal overflow. The child sections also used `overflowY: "hidden"`, which only hid vertical overflow and didn't prevent horizontal scrolling.
+
+### Solution
+Applied a three-layer overflow clipping strategy:
+1. **Root page container** (line 17): Added `overflow: "hidden"` to the main Box wrapping the entire page
+   - This ensures any overflow from child elements is clipped at the page level
+   - Prevents horizontal scrollbar from appearing regardless of child element widths
+
+2. **Individual sections** (lines 31 and 681): Changed from `overflowY: "hidden"` to `overflow: "hidden"`
+   - Top hero section (stray cat image)
+   - Bottom hero section (man-with-dog image)
+   - This clips overflow on both axes within each section
+
+### Result
+The About page now displays without a horizontal scrollbar at any viewport size. The full-width sections render correctly edge-to-edge, and images no longer overhang beyond the page boundaries.
 
 ---
 
