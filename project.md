@@ -103,3 +103,28 @@
 - Background fetches still update data when needed
 - Form-specific loading states preserved where appropriate
 
+---
+
+### DashboardOverview Dark Mode Styling
+
+**Objective**: Enable proper dark mode support throughout the DashboardOverview component to match other dashboard pages.
+
+**Changes Made**:
+- Added `dark:text-gray-100` to all headings and primary text
+- Updated empty state background to `dark:bg-gray-700`
+- Updated event card backgrounds to `dark:bg-gray-700` with `dark:border-gray-600` borders
+- Added `dark:bg-gray-600` to icon containers for proper contrast
+- Updated secondary text to `dark:text-gray-400` and `dark:text-gray-500`
+- Updated body text to `dark:text-gray-300`
+- Updated link colors to `dark:text-blue-400` with hover state `dark:hover:text-blue-300`
+- Updated error state background to `dark:bg-red-900/30` with `dark:text-red-400` and `dark:text-red-300`
+
+**Styling Pattern**:
+- Follows DashboardView established pattern: `gray-50`/`gray-100` backgrounds become `gray-700` in dark mode
+- Text hierarchy maintained: headings `dark:text-gray-100`, body `dark:text-gray-300`, secondary `dark:text-gray-400`
+- Accent colors use lighter shades in dark mode (`blue-400`, `blue-300`)
+
+**Icon Color Improvements**:
+- Blue icons (report_tip, conversation_started) now use `dark:text-blue-500` for better visibility and contrast against dark backgrounds
+- Gray archived icons (report_archived, pet_archived) now use `dark:text-gray-300` to stay readable in dark mode
+

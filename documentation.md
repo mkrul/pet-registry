@@ -162,3 +162,33 @@ Dashboard components (DashboardPets, DashboardReports, DashboardOverview) have b
 - Per-item loaders can still show individual fetch states
 - No jarring full-page spinners on navigation
 
+---
+
+## DashboardOverview Dark Mode Styling
+
+### Overview
+DashboardOverview component has been updated to properly support dark mode throughout all UI elements.
+
+### Changes Made
+- **Heading**: Added `dark:text-gray-100` for proper contrast
+- **Empty State**: Updated background (`dark:bg-gray-700`), heading, and description text colors
+- **Empty State Icon**: Added `dark:text-gray-500` for proper icon visibility
+- **Event Cards**: Added `dark:bg-gray-700` background and `dark:border-gray-600` borders
+- **Event Icon Background**: Added `dark:bg-gray-600` for contrast
+- **Event Category Text**: Added `dark:text-gray-100` for headings
+- **Event Timestamps**: Added `dark:text-gray-400` for secondary text
+- **Event Description**: Added `dark:text-gray-300` for body text
+- **Event Links**: Added `dark:text-blue-400` and `dark:hover:text-blue-300` for proper link styling
+- **Error State**: Updated background (`dark:bg-red-900/30`), heading (`dark:text-red-400`), and description (`dark:text-red-300`)
+
+### Styling Pattern
+All color changes follow the dashboard pattern established in DashboardView:
+- Light backgrounds use `gray-50` / `gray-100` → `gray-700` in dark mode
+- Text hierarchy: `gray-900` → `gray-100` (headings), `gray-600` → `gray-300` (body), `gray-500` → `gray-400` (secondary)
+- Accent colors (blue) use lighter shades in dark mode (`blue-400`, `blue-300`)
+
+### Icon Color Dark Mode Updates
+- **report_tip icon**: Changed to `dark:text-blue-500` for better visibility in dark mode
+- **conversation_started icon**: Changed to `dark:text-blue-500` for better visibility in dark mode
+- **report_archived / pet_archived icons**: Changed to `dark:text-gray-300` for higher contrast on dark backgrounds
+
