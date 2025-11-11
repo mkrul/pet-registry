@@ -127,4 +127,5 @@
 **Icon Color Improvements**:
 - Blue icons (report_tip, conversation_started) now use `dark:text-blue-500` for better visibility and contrast against dark backgrounds
 - Gray archived icons (report_archived, pet_archived) now use `dark:text-gray-300` to stay readable in dark mode
+- Archived chevron icons are nudged with `transform -translate-x-0.5 translate-y-0.5` so they appear visually centered inside their circular badges
 

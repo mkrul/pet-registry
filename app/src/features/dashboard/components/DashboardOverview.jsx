@@ -55,8 +55,8 @@ const DashboardOverview = ({ onNavigate }) => {
         );
       case 'report_archived':
         return (
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8l6 6 6-6" />
+          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300 transform translate-x-0.3 translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8l6 6 6-6" />
           </svg>
         );
       case 'report_deleted':

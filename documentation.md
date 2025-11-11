@@ -191,4 +191,5 @@ All color changes follow the dashboard pattern established in DashboardView:
 - **report_tip icon**: Changed to `dark:text-blue-500` for better visibility in dark mode
 - **conversation_started icon**: Changed to `dark:text-blue-500` for better visibility in dark mode
 - **report_archived / pet_archived icons**: Changed to `dark:text-gray-300` for higher contrast on dark backgrounds
+- **Archived icons alignment**: Applied `transform -translate-x-0.5 translate-y-0.5` to center chevron icons within their circular containers
 
