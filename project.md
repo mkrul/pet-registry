@@ -2,6 +2,21 @@
 
 ## Completed Tasks
 
+### Profile Dropdown Dark Mode Refresh
+
+**Objective**: Lighten the dark-mode palette for the user-avatar dropdown so it remains distinct from the surrounding navbar.
+
+**Changes Made**:
+
+1. **ProfileDropdown.jsx**
+   - Dropdown panel now uses `dark:bg-gray-700` with `dark:border-gray-600`
+   - Menu hover states updated to `dark:hover:bg-gray-600` for consistent feedback against the lighter panel
+
+**Result**:
+- The profile menu is easier to discern in dark mode, aligning with the dashboard’s refined tone hierarchy
+
+---
+
 ### Dark Mode Preload Script
 
 **Objective**: Eliminate the white flash that appeared before dark mode styles applied on initial paint.

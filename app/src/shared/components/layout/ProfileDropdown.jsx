@@ -78,14 +78,14 @@ const ProfileDropdown = () => {
           </div>
         </button>
         <ul
-          className={`menu menu-sm dropdown-content bg-white dark:bg-gray-800 rounded-box z-[50] mt-3 w-52 p-2 shadow dark:shadow-lg dark:border dark:border-gray-700 ${
+          className={`menu menu-sm dropdown-content bg-white dark:bg-gray-700 rounded-box z-[50] mt-3 w-52 p-2 shadow dark:shadow-lg dark:border dark:border-gray-600 ${
             isOpen ? "block" : "hidden"
           }`}
         >
-          <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 dark:hover:bg-gray-500 rounded-lg transition-colors duration-200">
             <NavLink linkTo="/dashboard">Dashboard</NavLink>
           </li>
-          <li className="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+          <li className="hover:bg-base-200 dark:hover:bg-gray-500 rounded-lg transition-colors duration-200">
             <LogoutButton onCompleted={handleLogout} />
           </li>
         </ul>

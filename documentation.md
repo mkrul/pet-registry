@@ -1,3 +1,17 @@
+# Profile Dropdown Dark Mode Refresh
+
+## Overview
+The user-avatar dropdown now uses a lighter dark-mode palette so the menu stands out against the navbar background.
+
+## Changes Made
+- Dropdown container: `dark:bg-gray-700` with `dark:border-gray-600` to soften contrast while maintaining definition
+- Menu items: hover state updated to `dark:hover:bg-gray-600` for clearer feedback without blending into the background
+
+## Result
+The profile menu remains legible in dark mode with improved separation from the surrounding UI, matching the rest of the dashboard’s dark-tone hierarchy.
+
+---
+
 # Dark Mode Preload Script
 
 ## Overview
