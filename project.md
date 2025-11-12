@@ -2,6 +2,10 @@
 
 ## Completed Tasks
 
+### Pagination Controls Dark Mode & Placement
+- Updated `PaginationControls.jsx` so non-active page buttons and navigation labels adopt dark-mode color tokens while preserving hover and disabled states.
+- Adjusted `ListingsGrid.jsx` to render pagination at both the top and bottom of the reports grid, reducing scroll overhead for users navigating large result sets.
+
 ### FormLayout Component Enhancement for Edit Screens
 - Extended `FormLayout.jsx` to support edit flows with both save/back button actions
 - Added `primaryAction` and `secondaryAction` props to render action buttons in header and footer

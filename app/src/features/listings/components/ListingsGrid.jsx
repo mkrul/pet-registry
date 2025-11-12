@@ -11,6 +11,15 @@ const ListingsGrid = ({
 }) => {
   return (
     <div>
+      {pagination && pagination.pages > 1 && onPageChange && (
+        <div className="mb-4 flex justify-center">
+          <PaginationControls
+            currentPage={pagination.page}
+            totalPages={pagination.pages}
+            onPageChange={onPageChange}
+          />
+        </div>
+      )}
       <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
         {reports.map(report => (
           <ReportCard

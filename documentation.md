@@ -1,3 +1,19 @@
+# Pagination Controls
+
+## Overview
+`PaginationControls` renders paging navigation shared by listings across the app. Controls now honor dark mode styling and render at both the top and bottom of paginated grids on the public reports index for quicker navigation.
+
+## Styling
+- Default state uses `text-gray-600` with hover treatments, while dark mode applies `dark:text-gray-400` for unselected numbers and `dark:text-gray-500` for navigation labels to keep contrast balanced.
+- Active page adopts `dark:bg-gray-700 dark:text-gray-100` so the current selection remains legible in dark mode.
+- Disabled navigation buttons retain `cursor-not-allowed` and shift to `dark:text-gray-500` to signal unavailable actions.
+
+## Usage Notes
+- `PaginationControls` auto-hides when `totalPages` is `<= 1`.
+- Place the component above and below long grids to reduce scrolling; the reports index uses this pattern by default.
+
+---
+
 # FormLayout Component Documentation
 
 ## Overview
