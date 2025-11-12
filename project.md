@@ -2,6 +2,18 @@
 
 ## Completed Tasks
 
+### Conversation Email Notification
+
+**Objective**: Alert report owners when a new conversation is initiated, respecting their email preferences.
+
+**Changes Made**:
+1. Updated `Conversations::Upsert` to detect first-time conversation creation and enqueue a notification email via `NotificationMailer`.
+2. Guards against users who disabled `send_email_for_conversation`, defaulting to opt-in when the preference is unset.
+3. Email copy highlights the initiator, references the report title when available, and links recipients directly to their dashboard conversation thread with a settings-based unsubscribe link.
+
+**Result**:
+- Report owners receive timely alerts when someone starts a new conversation about their listings, keeping engagement high without ignoring opt-out settings.
+
 ### Email Notification Template
 
 **Objective**: Provide a reusable notification mailer with branded styling for future email alerts (account, pet, and system updates).

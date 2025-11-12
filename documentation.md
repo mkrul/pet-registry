@@ -31,6 +31,24 @@ NotificationMailer.notification_email(
 
 ---
 
+# Conversation Email Notification
+
+## Overview
+When a user starts a conversation, the counterpart now receives an email alert—provided their settings keep `send_email_for_conversation` enabled (default: true). The notification funnels recipients straight to the dashboard thread and exposes an unsubscribe path through dashboard settings.
+
+## Trigger Details
+- Introduced in `Conversations::Upsert`; the notifier only fires when a conversation record is newly created (not when an existing thread is reused).
+- The initiator is derived from `current_user` and the recipient via `conversation.other_participant_for(current_user)`.
+- Preferences honour the `settings['send_email_for_conversation']` flag; missing values assume opt-in.
+- Subject lines highlight the initiator and reference the report title when the conversation is tied to a report.
+- CTA links point to `/dashboard/messages/:conversation_id`, while unsubscribe links direct to `/dashboard/settings`.
+
+## Extensibility Notes
+- For additional notification types, favour the existing helper methods in `Conversations::Upsert` to keep copy and routing consistent.
+- Extending the unsubscribe behaviour to a dedicated preference endpoint will only require updating `dashboard_settings_url` inside the service.
+
+---
+
 # Dashboard Archived Event Icon
 
 ## Overview
