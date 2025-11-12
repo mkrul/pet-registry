@@ -77,12 +77,12 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
   };
 
   return (
-    <div className="flex flex-col justify-between h-full bg-white rounded-lg shadow">
+    <div className="flex flex-col justify-between h-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow hover:shadow-md transition-shadow">
       <Link to={reportUrl} className="block" onClick={handleReportClick}>
-        <div className="p-4 bg-white rounded-lg w-full">
+        <div className="p-4 w-full">
           <div className="relative w-full aspect-square mb-4">
             {imageIsLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg">
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-lg">
                 <Spinner />
               </div>
             )}
@@ -98,16 +98,16 @@ const ReportCard = ({ report, currentPage, currentQuery }) => {
             </div>
           </div>
           <div className="flex flex-col flex-grow">
-            <h2 className="text-base md:text-md font-bold">
+            <h2 className="text-base md:text-md font-bold text-gray-900 dark:text-gray-100">
               {report.title.length > 25 ? `${report.title.substring(0, 25)}...` : report.title}
             </h2>
             {report.breed1 && (
-              <p className="mt-0 text-sm text-gray-600">
+              <p className="mt-0 text-sm text-gray-600 dark:text-gray-400">
                 {report.breed2 ? `${report.breed1} / ${report.breed2}` : report.breed1}
               </p>
             )}
-            <div className="mt-2 text-sm text-gray-600">
-              <div className="font-medium text-gray-800">Last seen at: </div>
+            <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <div className="font-medium text-gray-800 dark:text-gray-300">Last seen at: </div>
               {(() => {
                 const area = report.lastSeenLocation?.area;
                 const state = report.lastSeenLocation?.state;

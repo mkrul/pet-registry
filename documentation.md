@@ -1,3 +1,21 @@
+# Public Report Cards Dark Mode Styling
+
+## Overview
+The report cards on the public listings/home page (ListingCard component) have been updated to honor dark mode settings, matching the dark mode styling used throughout the dashboard.
+
+## Changes Made
+- **Card container**: Updated to `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700` for consistent dark mode appearance
+- **Image loading state**: Changed placeholder background to `bg-gray-100 dark:bg-gray-700` for proper visibility in dark mode
+- **Card title**: Added `text-gray-900 dark:text-gray-100` for proper contrast
+- **Breed/metadata text**: Updated to `text-gray-600 dark:text-gray-400` for secondary content
+- **Location label and text**: Updated to `text-gray-800 dark:text-gray-300` and `text-gray-600 dark:text-gray-400` respectively
+- **Shadow and hover effects**: Added `hover:shadow-md transition-shadow` for consistent interaction feedback
+
+## Result
+The public report cards now seamlessly match the dark mode styling of dashboard report cards (ItemPreview component), providing a cohesive experience across the entire application. Users see properly styled cards with appropriate contrast in both light and dark modes.
+
+---
+
 # Inbox Dark Mode Styling
 
 ## Overview
