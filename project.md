@@ -2,6 +2,53 @@
 
 ## Completed Tasks
 
+### Search Tab Persistent Green
+
+**Objective**: Ensure the floating "Search" trigger retains brand-consistent styling across themes and open state.
+
+**Changes Made**:
+
+1. **SearchTab.jsx**
+   - Replaced conditional gray/green background logic with a fixed `bg-green-600 hover:bg-green-700`
+   - Removed dark-mode overrides so the button renders identically in both themes
+   - Kept focus outlines (`focus-visible:outline-green-300`) and first-click glow pulse
+
+**Result**:
+- Users always see the Search tab in the brand green regardless of theme or whether the panel is open
+- Maintains visual consistency and reinforces discoverability of the search experience
+
+---
+
+### Public Report Cards Dark Mode Styling
+
+**Objective**: Ensure report cards on the public listings/home page (ListingCard component) honor dark mode settings, matching dashboard card styling.
+
+**Changes Made**:
+
+1. **ListingCard.jsx** - Updated report card styling to support dark mode:
+   - Card container: `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700` with `hover:shadow-md transition-shadow`
+   - Removed redundant `bg-white` from inner wrapper
+   - Image placeholder: `bg-gray-100 dark:bg-gray-700`
+   - Card title (h2): `text-gray-900 dark:text-gray-100`
+   - Breed/metadata (p): `text-gray-600 dark:text-gray-400`
+   - Location section background: `text-gray-600 dark:text-gray-400`
+   - Location label: `text-gray-800 dark:text-gray-300`
+
+**Pattern Consistency**:
+- Matches ItemPreview component used in dashboard (DashboardPets, DashboardReports)
+- Uses same dark mode color palette as established dashboard pattern:
+  - Container: `dark:bg-gray-800`
+  - Borders: `dark:border-gray-700`
+  - Loading state: `dark:bg-gray-700`
+  - Text: `dark:text-gray-100` (headings), `dark:text-gray-400` (secondary)
+
+**Result**:
+- Public report listings now have consistent dark mode styling with dashboard
+- Proper contrast and visibility in both light and dark modes
+- Users see a cohesive experience across the entire application
+
+---
+
 ### Inbox Dark Mode Styling Refinement
 
 **Objective**: Improve the visual distinction and contrast in dark mode for the Inbox/Messages view.

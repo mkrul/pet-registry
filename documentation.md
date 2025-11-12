@@ -1,3 +1,18 @@
+# Search Tab Persistent Green
+
+## Overview
+The floating "Search" tab that opens the listings search panel now retains the same green treatment in both light and dark modes and regardless of open state.
+
+## Changes Made
+- Button background now uses a fixed `bg-green-600 hover:bg-green-700` without dark-mode overrides
+- Removed the state-based gray styling so the tab remains consistently green when toggled open
+- Preserved focus outlines and glow pulse cue for first-time users
+
+## Result
+The floating search affordance maintains a consistent brand color, ensuring recognition across themes while keeping accessibility treatments intact.
+
+---
+
 # Public Report Cards Dark Mode Styling
 
 ## Overview
