@@ -92,6 +92,26 @@ const ListingDetailsCard = ({ report }) => {
     });
   };
 
+  const interactiveElementsSelector = 'a, button, input, textarea, select, [role="button"]';
+
+  const handleTipContainerClick = (event, tipId) => {
+    const target = event.target;
+    if (typeof Element !== 'undefined' && target instanceof Element) {
+      const interactiveAncestor = target.closest(interactiveElementsSelector);
+      if (interactiveAncestor && interactiveAncestor !== event.currentTarget) {
+        return;
+      }
+    }
+    toggleTipExpansion(tipId);
+  };
+
+  const handleTipContainerKeyDown = (event, tipId) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggleTipExpansion(tipId);
+    }
+  };
+
   const checkTruncation = (tipId, containerElement) => {
     if (!containerElement) return;
 
@@ -347,7 +367,14 @@ const ListingDetailsCard = ({ report }) => {
 
               return (
                 <div key={tip.id} className="border-t border-gray-200 dark:border-gray-700 pt-3">
-                  <div className="flex items-start gap-4">
+                  <div
+                    className={`flex items-start gap-4${hasContent ? ' cursor-pointer rounded-md transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-800' : ''}`}
+                    onClick={hasContent ? (event) => handleTipContainerClick(event, tip.id) : undefined}
+                    onKeyDown={hasContent ? (event) => handleTipContainerKeyDown(event, tip.id) : undefined}
+                    role={hasContent ? 'button' : undefined}
+                    tabIndex={hasContent ? 0 : undefined}
+                    aria-expanded={hasContent ? isExpanded : undefined}
+                  >
                     <div className="text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row md:items-center flex-shrink-0">
                       {formattedDate && formattedTime ? (
                         <>
@@ -446,11 +473,7 @@ const ListingDetailsCard = ({ report }) => {
                         )}
                       </div>
                       {hasContent && (truncatedTips.has(tip.id) || isExpanded) && (
-                        <button
-                          onClick={() => toggleTipExpansion(tip.id)}
-                          className="flex-shrink-0 mt-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                          aria-label={isExpanded ? "Collapse tip" : "Expand tip"}
-                        >
+                        <span className="flex-shrink-0 mt-1 text-gray-400 dark:text-gray-500 transition-colors" aria-hidden="true">
                           <svg
                             className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
                             fill="none"
@@ -459,7 +482,7 @@ const ListingDetailsCard = ({ report }) => {
                           >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
-                        </button>
+                        </span>
                       )}
                     </div>
                   </div>

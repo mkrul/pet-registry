@@ -89,7 +89,7 @@ const DashboardView = () => {
                 <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('overview')}
-                    className={`w-full text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm md:text-sm lg:text-sm font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'overview'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -101,7 +101,7 @@ const DashboardView = () => {
                 <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('messages')}
-                    className={`w-full flex items-center justify-center lg:justify-between text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
+                    className={`w-full flex items-center justify-center lg:justify-between text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-sm lg:text-sm font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'messages'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -119,7 +119,7 @@ const DashboardView = () => {
                 <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('reports')}
-                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-sm lg:text-sm font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'reports'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -131,7 +131,7 @@ const DashboardView = () => {
                 <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('pets')}
-                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-sm lg:text-sm font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'pets'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -143,7 +143,7 @@ const DashboardView = () => {
                 <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('profile')}
-                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-sm lg:text-sm font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'profile'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
@@ -155,7 +155,7 @@ const DashboardView = () => {
                 <li className="flex-1 min-w-max lg:w-auto">
                   <button
                     onClick={() => handleSectionChange('settings')}
-                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-sm md:text-base lg:text-base font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
+                    className={`w-full text-center lg:text-left px-3 py-2 rounded-md text-xs md:text-sm lg:text-sm font-medium transition-colors whitespace-nowrap lg:whitespace-normal ${
                       activeSection === 'settings'
                         ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300'
                         : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'

@@ -1,3 +1,35 @@
+# Dashboard Archived Event Icon
+
+## Overview
+Archived events in the Recent Activity feed now reuse the same archive icon shown in status pills for a consistent visual language across the app.
+
+## Changes Made
+- Imported the Material UI `Archive` icon into `DashboardOverview.jsx`.
+- Replaced the chevron and heart glyphs previously shown for `report_archived` and `pet_archived` events with the shared archive icon.
+
+## Result
+- Archived report and pet events in Recent Activity now display the archive box icon users already recognize from Archived status pills, improving visual consistency.
+
+---
+
+# Sightings & Tips Interaction
+
+## Overview
+Tips in the Sightings & Tips section can now be expanded or collapsed by clicking anywhere on the tip row, providing a larger target than the chevron icon alone.
+
+## Changes Made
+- Converted each tip row into a keyboard-focusable region that toggles its details on click or Enter/Space.
+- Preserved link interactions inside expanded tips by ignoring clicks originating from nested interactive elements.
+- Kept the chevron icon as a visual indicator while removing its standalone button control to avoid duplicate semantics.
+- Tuned the dark-mode hover glow to a deeper shade so expanded tips stand out without feeling washed out.
+
+## Result
+- Users can quickly open a tip from anywhere in the row.
+- Keyboard users gain direct access via focus and Enter/Space support.
+- Existing link behavior and visual affordances remain unchanged.
+
+---
+
 # Contact Page
 
 ## Overview

@@ -2,6 +2,37 @@
 
 ## Completed Tasks
 
+### Dashboard Archived Event Icon Alignment
+
+**Objective**: Align archived event icons in Recent Activity with the archived status pill visuals.
+
+**Changes Made**:
+1. Updated `DashboardOverview.jsx` to import the shared Material UI `Archive` icon.
+2. Replaced the chevron and heart glyphs used for `report_archived` and `pet_archived` events with the archive icon, matching the status pill treatment.
+
+**Result**:
+- Archived report and pet events in the Recent Activity feed now display the same archive icon used in status pills, providing a consistent visual cue throughout the app.
+
+---
+
+### Sightings & Tips Click Target
+
+**Objective**: Allow users to expand a tip by clicking anywhere on the tip row, not just the chevron.
+
+**Changes Made**:
+
+1. Wrapped each tip entry in `ListingDetailsCard.jsx` with a focusable container that toggles expansion on click or Enter/Space.
+2. Added logic to ignore clicks originating from nested interactive elements (e.g., external links) so their behavior remains intact.
+3. Converted the chevron into a decorative indicator now that the entire row handles the interaction.
+4. Darkened the dark-mode hover glow so expanded tips stand out with appropriate contrast.
+
+**Result**:
+- Users enjoy a much larger click target for opening a tip.
+- Keyboard navigation now enables expanding/collapsing tips directly.
+- Existing tip content and link behaviors remain unchanged.
+
+---
+
 ### Contact Page
 
 **Objective**: Create a public contact page with a form that sends submissions to lostpetsregistry.dev@gmail.com.

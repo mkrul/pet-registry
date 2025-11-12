@@ -13,7 +13,7 @@ const Footer = () => {
           )}
           <NavLink linkTo="/reports">Search</NavLink>
           <NavLink linkTo="/about">About</NavLink>
-          <NavLink linkTo="#">Contact</NavLink>
+          <NavLink linkTo="/contact">Contact</NavLink>
         </div>
         <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
           <p>&copy; {currentYear} Lost Pets Registry. All rights reserved.</p>

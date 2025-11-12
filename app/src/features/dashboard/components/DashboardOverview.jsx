@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Archive } from '@mui/icons-material';
 import { useGetUserEventsQuery } from '../../../store/features/events/eventsApi.js';
 import PaginationControls from '../../../shared/components/common/PaginationControls.jsx';
 
@@ -55,9 +56,10 @@ const DashboardOverview = ({ onNavigate }) => {
         );
       case 'report_archived':
         return (
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300 transform translate-x-0.3 translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8l6 6 6-6" />
-          </svg>
+          <Archive
+            className="text-gray-600 dark:text-gray-300"
+            sx={{ fontSize: 20 }}
+          />
         );
       case 'report_deleted':
         return (
@@ -79,9 +81,10 @@ const DashboardOverview = ({ onNavigate }) => {
         );
       case 'pet_archived':
         return (
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
+          <Archive
+            className="text-gray-600 dark:text-gray-300"
+            sx={{ fontSize: 20 }}
+          />
         );
       case 'conversation_started':
         return (
