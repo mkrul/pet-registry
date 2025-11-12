@@ -2,20 +2,21 @@
 
 ## Completed Tasks
 
-### Search Tab Persistent Green
+### Search Tab Color Behavior
 
-**Objective**: Ensure the floating "Search" trigger retains brand-consistent styling across themes and open state.
+**Objective**: Keep the floating "Search" trigger on brand while still signaling the active "Close" state.
 
 **Changes Made**:
 
 1. **SearchTab.jsx**
-   - Replaced conditional gray/green background logic with a fixed `bg-green-600 hover:bg-green-700`
-   - Removed dark-mode overrides so the button renders identically in both themes
-   - Kept focus outlines (`focus-visible:outline-green-300`) and first-click glow pulse
+   - Closed state uses `bg-green-600 hover:bg-green-700`
+   - Open state switches to `bg-gray-500 hover:bg-gray-600`
+   - Removed theme-specific overrides so the palette is identical in light and dark modes
+   - Preserved focus outlines (`focus-visible:outline-green-300`) and first-click glow pulse
 
 **Result**:
-- Users always see the Search tab in the brand green regardless of theme or whether the panel is open
-- Maintains visual consistency and reinforces discoverability of the search experience
+- Users see the familiar green button when the search panel is closed
+- When the panel is open ("Close" label), the button adopts a neutral gray to indicate its active state, independent of theme
 
 ---
 

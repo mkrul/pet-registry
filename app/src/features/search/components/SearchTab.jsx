@@ -31,9 +31,9 @@ const SearchTab = ({ isOpen, setIsOpen, onSearchComplete }) => {
       <button
         ref={closeButtonRef}
         onClick={handleClick}
-        className={`fixed bottom-16 md:bottom-10 right-0 z-50 bg-green-600 hover:bg-green-700 transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300 ${
-          !hasBeenClicked ? "animate-glow-pulse" : ""
-        }`}
+        className={`fixed bottom-16 md:bottom-10 right-0 z-50 transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300 ${
+          isOpen ? "bg-gray-500 hover:bg-gray-600" : "bg-green-600 hover:bg-green-700"
+        } ${!hasBeenClicked ? "animate-glow-pulse" : ""}`}
         aria-pressed={isOpen}
       >
         {/* Mobile: Icon only, Desktop: Icon + Text in flex container */}
