@@ -125,7 +125,7 @@ export const TipMap = ({
   showInitialMarker = false
 }) => {
   return (
-    <div className="h-[400px] w-full rounded-lg overflow-hidden">
+    <div className="h-[22.5rem] w-full rounded-lg overflow-hidden">
       <LeafletMapContainer
         center={[DEFAULT_MAP_CENTER.latitude, DEFAULT_MAP_CENTER.longitude]}
         zoom={initialZoom || TIP_ZOOM_LEVELS.DEFAULT}

@@ -126,11 +126,11 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Submit a Tip</h3>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-4">Submit a Tip</h4>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6">
-        <p className="text-sm text-gray-700">
+      <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-md p-4 mb-6">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           <strong>Privacy Notice:</strong> Tips are publicly viewable by all users. This includes the message, location information, and any links you provide.
         </p>
       </div>
@@ -139,23 +139,23 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left column - Message */}
           <div className="space-y-2">
-            <label className="text-lg font-medium text-gray-900">Message:</label>
+            <label className="text-sm font-medium text-gray-900 dark:text-gray-100">Message:</label>
             <textarea
               id="message"
               name="message"
               value={formData.message}
               onChange={handleInputChange}
               rows={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400"
               placeholder="Share any information about this lost pet. Describe what you saw, when you saw it, and any other details that might help."
               required
               disabled={isFormDisabled}
             />
               <div className="mt-8">
-              <label className="text-lg font-medium text-gray-900">
+              <label className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 External Links (optional):
               </label>
-              <p className="text-sm text-gray-500 mb-3">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                 Add up to 3 links to social media posts, news articles, or other relevant information.
               </p>
               {formData.external_links.map((link, index) => (
@@ -165,7 +165,7 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
                     value={link}
                     onChange={(e) => handleExternalLinkChange(index, e.target.value)}
                     placeholder={`Link ${index + 1} (e.g., https://www.facebook.com/...)`}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400"
                     disabled={isFormDisabled}
                   />
                 </div>
@@ -189,7 +189,7 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
                   labelStyle="microchip"
                   initialZoom={TIP_ZOOM_LEVEL}
                   showInitialMarker={false}
-                  placeholderText="Enter an address or click on the map where the animal was last seen."
+                  placeholderText=""
                   mapCenterLocation={lastLocationData}
                 />
               );
@@ -203,7 +203,7 @@ const TipForm = ({ reportId, onSuccess, onCancel }) => {
               type="button"
               onClick={onCancel}
               disabled={isFormDisabled}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50"
+              className="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50"
             >
               Cancel
             </button>

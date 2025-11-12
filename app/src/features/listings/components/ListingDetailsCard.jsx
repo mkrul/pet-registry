@@ -207,12 +207,12 @@ const ListingDetailsCard = ({ report }) => {
   }, [tips]);
 
   return (
-    <div className="min-h-screen bg-page py-8">
+    <div className="min-h-screen py-8 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <button
             onClick={handleBackClick}
-            className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -221,11 +221,11 @@ const ListingDetailsCard = ({ report }) => {
           </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
           <div className="md:flex">
             <div className="md:w-1/2 relative md:flex md:items-stretch">
               {isImageLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-20">
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-20">
                   <Spinner />
                 </div>
               )}
@@ -252,9 +252,9 @@ const ListingDetailsCard = ({ report }) => {
               <div className="space-y-4">
                 <div>
                   <div className="flex items-start justify-between gap-4 mb-2">
-                    <h1 className="text-xl font-bold text-gray-900">{report.title}</h1>
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{report.title}</h1>
                     {report.status === 'archived' && (
-                      <span className="px-3 py-1 text-sm font-medium bg-gray-100 text-gray-600 rounded-full flex-shrink-0">
+                      <span className="px-3 py-1 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full flex-shrink-0">
                         Archived
                       </span>
                     )}
@@ -265,38 +265,38 @@ const ListingDetailsCard = ({ report }) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                     {report.name && (
                       <div>
-                        <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Name</h4>
-                        <p className="text-gray-700 font-normal">{report.name}</p>
+                        <h4 className="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Name</h4>
+                        <p className="text-gray-700 dark:text-gray-100 font-normal">{report.name}</p>
                       </div>
                     )}
                   </div>
                 )}
 
                 <div>
-                  <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Description</h4>
-                  <p className="text-gray-700 font-normal">{report.description}</p>
+                  <h4 className="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Description</h4>
+                  <p className="text-gray-700 dark:text-gray-100 font-normal">{report.description}</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                   <div>
-                    <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Breed</h4>
-                    <p className="text-gray-700 font-normal">{report.breed1}</p>
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Breed</h4>
+                    <p className="text-gray-700 dark:text-gray-100 font-normal">{report.breed1}</p>
                     {report.breed2 && (
-                      <p className="text-gray-700 font-normal">{report.breed2}</p>
+                      <p className="text-gray-700 dark:text-gray-100 font-normal">{report.breed2}</p>
                     )}
                   </div>
 
                   {report.gender && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Gender</h4>
-                      <p className="text-gray-700 font-normal capitalize">{report.gender}</p>
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Gender</h4>
+                      <p className="text-gray-700 dark:text-gray-100 font-normal capitalize">{report.gender}</p>
                     </div>
                   )}
 
                   {report.isAltered !== null && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
-                      <p className="text-gray-700 font-normal">
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
+                      <p className="text-gray-700 dark:text-gray-100 font-normal">
                         {report.isAltered ? "Yes" : "No"}
                       </p>
                     </div>
@@ -304,8 +304,8 @@ const ListingDetailsCard = ({ report }) => {
 
                   {report.microchipId && (
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-1">Microchip ID</h4>
-                      <p className="text-gray-700 font-normal">{report.microchipId}</p>
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Microchip ID</h4>
+                      <p className="text-gray-700 dark:text-gray-100 font-normal">{report.microchipId}</p>
                     </div>
                   )}
                 </div>
@@ -314,10 +314,10 @@ const ListingDetailsCard = ({ report }) => {
           </div>
         </div>
 
-        <div className="mt-6 bg-white rounded-lg shadow-lg p-6 md:p-8">
-          <h4 className="text-sm font-medium text-gray-900 uppercase tracking-wide mb-2">Sightings & Tips</h4>
+        <div className="mt-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-6 md:p-8">
+          <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-2">Sightings & Tips</h4>
           <div className="flex items-start gap-2 mb-5">
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               The information below lists the original location where the animal went missing, along with any subsequent sightings or tips reported by community members.
             </p>
           </div>
@@ -346,9 +346,9 @@ const ListingDetailsCard = ({ report }) => {
                 : null;
 
               return (
-                <div key={tip.id} className="border-t border-gray-200 pt-3">
+                <div key={tip.id} className="border-t border-gray-200 dark:border-gray-700 pt-3">
                   <div className="flex items-start gap-4">
-                    <div className="text-sm text-gray-600 flex flex-col md:flex-row md:items-center flex-shrink-0">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row md:items-center flex-shrink-0">
                       {formattedDate && formattedTime ? (
                         <>
                           <span>{`${formattedDate},`}</span>
@@ -364,7 +364,7 @@ const ListingDetailsCard = ({ report }) => {
                           <div className="space-y-2">
                             {hasLocation && (
                               <LocationDisplay
-                                textStyle="text-sm font-normal text-black"
+                                textStyle="text-sm font-normal text-gray-700 dark:text-gray-200"
                                 area={tip.area}
                                 state={tip.state}
                                 country={tip.country}
@@ -377,13 +377,13 @@ const ListingDetailsCard = ({ report }) => {
                               <a
                                 href={`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`}
                                 onClick={(e) => handleLinkClick(`https://www.google.com/maps?q=${tip.latitude},${tip.longitude}`, e)}
-                                className="text-sm text-blue-600 hover:text-blue-800 hover:underline inline-block cursor-pointer"
+                                className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline inline-block cursor-pointer"
                               >
                                 🗺️📍 View on Google Maps
                               </a>
                             )}
                             {tip.message && (
-                              <p className="text-sm text-gray-700 whitespace-pre-wrap pt-0.5">
+                              <p className="text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap pt-0.5">
                                 <MessageText text={tip.message} />
                               </p>
                             )}
@@ -394,7 +394,7 @@ const ListingDetailsCard = ({ report }) => {
                                     key={index}
                                     href={link}
                                     onClick={(e) => handleLinkClick(link, e)}
-                                    className="text-sm text-blue-600 hover:text-blue-800 hover:underline block cursor-pointer truncate"
+                                    className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block cursor-pointer truncate"
                                     title={link}
                                   >
                                     🔗 {link}
@@ -416,7 +416,7 @@ const ListingDetailsCard = ({ report }) => {
                               {hasLocation && (
                                 <div className="truncate">
                                   <LocationDisplay
-                                    textStyle="text-sm font-normal text-black"
+                                    textStyle="text-sm font-normal text-gray-700 dark:text-gray-200"
                                     area={tip.area}
                                     state={tip.state}
                                     country={tip.country}
@@ -427,17 +427,17 @@ const ListingDetailsCard = ({ report }) => {
                                 </div>
                               )}
                               {!hasLocation && hasMapLink && (
-                                <div className="truncate text-sm text-blue-600">
+                                <div className="truncate text-sm text-blue-600 dark:text-blue-400">
                                   🗺️📍 View on Google Maps
                                 </div>
                               )}
                               {!hasLocation && !hasMapLink && tip.message && (
-                                <p className="text-sm text-gray-700 truncate" title={tip.message}>
+                                <p className="text-sm text-gray-700 dark:text-gray-200 truncate" title={tip.message}>
                                   {tip.message}
                                 </p>
                               )}
                               {!hasLocation && !hasMapLink && !tip.message && hasLinks && (
-                                <div className="truncate text-sm text-blue-600">
+                                <div className="truncate text-sm text-blue-600 dark:text-blue-400">
                                   🔗 {uniqueLinks[0]}
                                 </div>
                               )}
@@ -448,7 +448,7 @@ const ListingDetailsCard = ({ report }) => {
                       {hasContent && (truncatedTips.has(tip.id) || isExpanded) && (
                         <button
                           onClick={() => toggleTipExpansion(tip.id)}
-                          className="flex-shrink-0 mt-1 text-gray-400 hover:text-gray-600 transition-colors"
+                          className="flex-shrink-0 mt-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                           aria-label={isExpanded ? "Collapse tip" : "Expand tip"}
                         >
                           <svg

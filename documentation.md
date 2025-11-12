@@ -386,6 +386,86 @@ Users now see consistent, legible styling throughout the search panel regardless
 
 ---
 
+## Report Detail Page Dark Mode Support
+
+### Overview
+The report detail page (`ListingDetailsCard`) now properly respects dark mode settings by using Tailwind's native `dark:` prefix utilities, exactly matching the dashboard report detail styling pattern (`ReportDetailView`).
+
+### Changes Made
+- **Main container**: Background now uses `bg-gray-50 dark:bg-gray-900` for proper light/dark contrast
+- **Back button**: Text colors updated to `text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200`
+- **Report card**: Now uses `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700` matching dashboard styling
+- **Image loading state**: Updated to `bg-gray-100 dark:bg-gray-900` for proper spinner visibility
+- **Report details section**: All text now uses Tailwind dark: prefix:
+  - Headings: `text-gray-900 dark:text-gray-100`
+  - Values: `text-gray-700 dark:text-gray-100`
+  - Labels: `text-gray-900 dark:text-gray-400`
+- **Archived badge**: Now uses `bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300`
+- **Tips section**: Card styled with `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700`
+- **Tips list styling**:
+  - Borders: `border-gray-200 dark:border-gray-700`
+  - Timestamps: `text-gray-600 dark:text-gray-400`
+  - Messages and location text: `text-gray-700 dark:text-gray-200`
+  - Links: `text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300`
+  - Expand/collapse buttons: `text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300`
+- **LocationDisplay textStyle**: Updated to use `text-gray-700 dark:text-gray-200` for proper contrast
+
+### TipsSection and TipForm Dark Mode Support
+
+**Overview**: The tip submission and action panels now include dark mode styling throughout.
+
+**Changes Made**:
+- **TipsSection.jsx** "Have Information?" card: `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700`
+  - Heading: `text-gray-900 dark:text-gray-100`
+  - Description: `text-gray-600 dark:text-gray-400`
+  - "Start a Conversation" button: `bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200`
+
+- **TipForm.jsx** "Submit a Tip" card: `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700`
+  - Heading: `text-sm font-medium text-gray-900 dark:text-gray-100 uppercase tracking-wide` (matches Sightings & Tips section)
+  - Privacy notice box: `bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800`
+  - Privacy notice text: `text-sm text-gray-600 dark:text-gray-400` (matches Sightings & Tips description)
+  - Form labels: `text-sm font-medium text-gray-900 dark:text-gray-100` (matches section styling)
+  - TextArea and inputs: `bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400`
+  - Form focus states: `focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400`
+  - Cancel button: `bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200`
+  - Helper text: `text-sm text-gray-600 dark:text-gray-400` (matches section description)
+
+### TipLocationSelect Dark Mode Support
+
+**Overview**: The Location input field in the tip form now supports dark mode with proper styling for the autocomplete input, dropdown, and placeholder text.
+
+**Changes Made**:
+- **TipLocationSelect.jsx**:
+  - Added `useTheme` hook to access `isDarkMode` state
+  - Location label: `text-sm font-medium text-gray-900 dark:text-gray-100` (matches other form labels like "Message:" and "External Links (optional):")
+  - Placeholder text: `text-sm text-gray-600 dark:text-gray-400`
+  - Autocomplete input background: `rgb(55 65 81)` (dark) / `white` (light)
+  - Autocomplete input text: `rgb(243 244 246)` (dark) / `rgb(17 24 39)` (light)
+  - Input borders: `rgb(75 85 99)` (dark) / `rgb(209 213 219)` (light)
+  - Hover borders: `rgb(107 114 128)` (dark) / `rgb(156 163 175)` (light)
+  - Focus borders: `rgb(59 130 246)` (both modes)
+  - Dropdown background: `rgb(31 41 55)` (dark) / `white` (light)
+  - Dropdown text: `rgb(243 244 246)` (dark) / `rgb(17 24 39)` (light)
+  - Selected option: `rgba(59, 130, 246, 0.3)` bg (dark) / `rgba(59, 130, 246, 0.12)` (light)
+  - Option hover: `rgb(55 65 81)` (dark) / `rgb(243 244 246)` (light)
+
+### Result
+Report detail pages now display identically to dashboard report details, with seamless dark mode support using Tailwind's native utilities throughout all components, including the tip submission, action panels, and location selection fields.
+
+---
+
+### TipMap Height Optimization
+
+**Overview**: The map in the "Submit a Tip" form has been resized to be more compact and better proportioned.
+
+**Changes Made**:
+- **TipMap.jsx**: Changed map container from `h-[400px]` (fixed height) to `h-[22.5rem]` (360px fixed height)
+
+**Result**:
+- Map takes up less vertical space in the "Submit a Tip" form while remaining visible at all breakpoints
+- Better visual balance with other form elements
+- Maintains full functionality while being more compact
+
 ## Runtime Logger Removal
 
 ### Overview

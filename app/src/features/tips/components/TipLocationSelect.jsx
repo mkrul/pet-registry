@@ -8,6 +8,7 @@ import { createMapLocation } from "../../../shared/utils/mapUtils";
 import { processAddress } from "../../../shared/geocoding";
 import { FormFieldError } from "../../../shared/components/common/FormFieldError";
 import Tip from "../../../shared/components/common/Tip";
+import { useTheme } from "../../../shared/hooks/useTheme";
 
 const TIP_ZOOM_LEVELS = {
   FORM: 15,
@@ -189,6 +190,8 @@ export const TipLocationSelect = ({
     return undefined;
   }, [currentMapLocation, initialLocation, showInitialMarker, mapCenterLocation]);
 
+  const { isDarkMode } = useTheme();
+
   const mapZoom = useMemo(() => {
     if (initialZoom) {
       return initialZoom;
@@ -196,9 +199,42 @@ export const TipLocationSelect = ({
     return currentMapLocation ? TIP_ZOOM_LEVELS.FORM : TIP_ZOOM_LEVELS.DEFAULT;
   }, [currentMapLocation, initialZoom]);
 
+  const getAutocompleteInputSx = () => ({
+    backgroundColor: isDarkMode ? "rgb(55 65 81)" : "white",
+    "& .MuiOutlinedInput-root": {
+      backgroundColor: isDarkMode ? "rgb(55 65 81)" : "white",
+      color: isDarkMode ? "rgb(243 244 246)" : "rgb(17 24 39)",
+      "& .MuiAutocomplete-input": {
+        color: isDarkMode ? "rgb(243 244 246)" : "rgb(17 24 39)"
+      },
+      "& fieldset": {
+        borderColor: isDarkMode ? "rgb(75 85 99)" : "rgb(209 213 219)"
+      },
+      "&:hover fieldset": {
+        borderColor: isDarkMode ? "rgb(107 114 128)" : "rgb(156 163 175)"
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "rgb(59 130 246)"
+      }
+    },
+    "& .MuiAutocomplete-paper": {
+      backgroundColor: isDarkMode ? "rgb(31 41 55)" : "white",
+      color: isDarkMode ? "rgb(243 244 246)" : "rgb(17 24 39)",
+      "& .MuiAutocomplete-option": {
+        "&[aria-selected='true']": {
+          backgroundColor: isDarkMode ? "rgba(59, 130, 246, 0.3)" : "rgba(59, 130, 246, 0.12)",
+          color: isDarkMode ? "rgb(147 197 253)" : "rgb(30 64 175)"
+        },
+        "&:hover": {
+          backgroundColor: isDarkMode ? "rgb(55 65 81)" : "rgb(243 244 246)"
+        }
+      }
+    }
+  });
+
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-gray-900 uppercase tracking-wide">Location</label>
+      <label className="text-sm font-medium text-gray-900 dark:text-gray-100">Location (optional):</label>
       {selectedLocation ? (
         <LocationDisplay
           area={selectedLocation.area}
@@ -208,7 +244,7 @@ export const TipLocationSelect = ({
           displayTip={true}
         />
       ) : placeholderText ? (
-        <p className="text-sm text-gray-500">{placeholderText}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">{placeholderText}</p>
       ) : null}
       <div className="flex gap-2 mb-4">
         <Autocomplete
@@ -232,21 +268,7 @@ export const TipLocationSelect = ({
               autoComplete="off"
               required={false}
               error={!!error}
-              sx={{
-                backgroundColor: "white",
-                "& .MuiOutlinedInput-root": {
-                  backgroundColor: "white",
-                  "& fieldset": {
-                    borderColor: "rgb(209 213 219)"
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgb(156 163 175)"
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "rgb(59 130 246)"
-                  }
-                }
-              }}
+              sx={getAutocompleteInputSx()}
             />
           )}
           disabled={isDisabled}
