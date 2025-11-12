@@ -1,3 +1,26 @@
+# Inbox Dark Mode Styling
+
+## Overview
+The Inbox (MessagesPage) has been updated to improve dark mode styling with better contrast and visual distinction between UI elements.
+
+## Changes Made
+- **Conversation list items**: Active conversations now use `bg-blue-50 dark:bg-gray-700` for better distinction from inactive items (`dark:bg-gray-800`), with a subtle blue tint in light mode for familiarity
+- **Unread badges**: Updated to `bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200` for proper contrast in both themes
+- **Thread header**: Changed from `bg-gray-50 dark:bg-gray-800` to `bg-white dark:bg-gray-800` with explicit `border-gray-200 dark:border-gray-700` for consistency
+- **Message composer**: Enhanced to `bg-white dark:bg-gray-800` with `dark:bg-gray-700` textarea input for better visual hierarchy
+- **Conversation list container**: Added explicit `bg-white dark:bg-gray-800` and `border-gray-200 dark:border-gray-700` styling for cohesion
+- **Dividers**: All borders now use `divide-gray-200 dark:divide-gray-700` for consistent separation lines
+- **Pagination section**: Updated to match containers with `bg-white dark:bg-gray-800` and proper dark mode borders
+
+## Result
+The Inbox now has a more refined dark mode appearance with:
+- Clearer distinction between selected and unselected conversations
+- Consistent container styling across all sections
+- Better contrast for text and interactive elements
+- Unified dark mode palette matching the rest of the dashboard
+
+---
+
 # Pagination Controls
 
 ## Overview

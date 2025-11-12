@@ -2,6 +2,44 @@
 
 ## Completed Tasks
 
+### Inbox Dark Mode Styling Refinement
+
+**Objective**: Improve the visual distinction and contrast in dark mode for the Inbox/Messages view.
+
+**Changes Made**:
+
+1. **ConversationListItem.jsx** - Updated active conversation styling:
+   - Active state: `bg-blue-50 dark:bg-gray-700` (previously `dark:bg-gray-800`)
+   - Inactive state: `bg-white dark:bg-gray-800` (unchanged but now consistent)
+   - Unread badge: Added dark mode support with `dark:bg-blue-900 text-blue-800 dark:text-blue-200`
+   - Added `transition-colors` for smooth theme switching
+
+2. **MessageComposer** - Enhanced textarea and container styling:
+   - Container: `bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700`
+   - Textarea: `bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600`
+   - Added placeholder contrast: `placeholder-gray-500 dark:placeholder-gray-400`
+   - Added text color: `text-gray-900 dark:text-gray-100`
+
+3. **ConversationThread** - Updated header and messages container:
+   - Header: `bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700` (changed from `bg-gray-50`)
+   - Messages container: `bg-gray-50 dark:bg-gray-900` (adjusted for light mode)
+
+4. **MessagesPage** - Updated main layout containers:
+   - Conversation list: Added explicit `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700`
+   - Header: `bg-gray-50 dark:bg-gray-900` with `border-b border-gray-200 dark:border-gray-700`
+   - Dividers: Changed to `divide-y divide-gray-200 dark:divide-gray-700`
+   - Thread container: Added `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700`
+   - Pagination: `bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700`
+
+**Result**:
+- Clearer visual hierarchy with better color contrast in dark mode
+- Active conversations now pop with `dark:bg-gray-700` while inactive remain at `dark:bg-gray-800`
+- Unread badges have proper dark mode contrast
+- All containers and dividers now use consistent dark mode palette
+- Smooth transitions between light and dark modes
+
+---
+
 ### Dashboard Settings Reset Confirmation
 - Wrapped the `Reset to Defaults` action in `DashboardSettings.jsx` with a confirmation modal so users must affirm before preferences change.
 - Reused the shared `ConfirmationModal` component and mutation loading state to ensure consistent UX with other dashboard confirmations.

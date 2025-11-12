@@ -18,7 +18,7 @@ const ConversationListItem = ({ conversation, isActive, onSelect }) => {
   return (
     <button
       onClick={onSelect}
-      className={`w-full text-left px-4 py-3 border-b ${isActive ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-gray-900'}`}
+      className={`w-full text-left px-4 py-3 border-b transition-colors ${isActive ? 'bg-blue-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800'}`}
       aria-label={`Open conversation with ${name}`}
     >
       <div className="flex items-center justify-between">
@@ -32,7 +32,7 @@ const ConversationListItem = ({ conversation, isActive, onSelect }) => {
           </div>
         </div>
         {unread > 0 && (
-          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+          <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
             {unread}
           </span>
         )}
@@ -49,12 +49,12 @@ const MessageComposer = ({ onSend, isSending }) => {
     setValue('');
   };
   return (
-    <div className="p-3 border-t bg-white dark:bg-gray-900">
+    <div className="p-3 border-t bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
       <label htmlFor="message" className="sr-only">Message</label>
       <textarea
         id="message"
         rows="2"
-        className="w-full border rounded-md p-2 text-sm dark:bg-gray-800 dark:text-gray-100"
+        className="w-full border border-gray-300 dark:border-gray-600 rounded-md p-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
         placeholder="Type a message (Press Enter to send, Shift+Enter for new line)"
         value={value}
         onChange={e => setValue(e.target.value)}
@@ -169,7 +169,7 @@ const ConversationThread = ({ conversationId, onBack }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-3 p-3 border-b bg-gray-50 dark:bg-gray-800">
+      <div className="flex items-center gap-3 p-3 border-b bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
         <button
           onClick={onBack}
           className="md:hidden inline-flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100"
@@ -182,7 +182,7 @@ const ConversationThread = ({ conversationId, onBack }) => {
         )}
         <div ref={headerRef} tabIndex={-1} className="font-semibold text-gray-900 dark:text-gray-100">{`re: ${headerTitle}` || 'Conversation'}</div>
       </div>
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-white dark:bg-gray-900">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-gray-900">
         {data?.messages?.map(m => {
           const messageUserId = m.user?.id ?? m.userId ?? m.user_id;
           const otherUserId = data?.conversation?.other_user?.id ?? data?.conversation?.otherUser?.id;
@@ -289,9 +289,9 @@ const MessagesPage = () => {
   return (
     <div className="flex flex-col h-[70vh] md:h-[80vh]">
       <div className="md:grid md:grid-cols-12 md:gap-4 flex-1 min-h-0">
-        <div className={`border rounded-lg overflow-auto ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'} flex flex-col h-full`}>
-          <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 font-semibold text-gray-900 dark:text-white flex-shrink-0">Conversations</div>
-          <div className="flex-1 divide-y overflow-y-auto min-h-0" aria-busy={isPageChanging}>
+        <div className={`border border-gray-200 dark:border-gray-700 rounded-lg overflow-auto ${activeId ? 'hidden md:block md:col-span-4' : 'block md:block md:col-span-4'} flex flex-col h-full bg-white dark:bg-gray-800`}>
+          <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 font-semibold text-gray-900 dark:text-gray-100 flex-shrink-0 border-b border-gray-200 dark:border-gray-700">Conversations</div>
+          <div className="flex-1 divide-y divide-gray-200 dark:divide-gray-700 overflow-y-auto min-h-0" aria-busy={isPageChanging}>
             {isInitialLoading ? (
               <div className="p-4 text-sm text-gray-500 dark:text-gray-400">Loading...</div>
             ) : hasConversations ? (
@@ -303,7 +303,7 @@ const MessagesPage = () => {
             )}
           </div>
         </div>
-        <div className={`border rounded-lg overflow-auto ${activeId ? 'block md:block md:col-span-8' : 'hidden md:block md:col-span-8'} h-full`}>
+        <div className={`border border-gray-200 dark:border-gray-700 rounded-lg overflow-auto ${activeId ? 'block md:block md:col-span-8' : 'hidden md:block md:col-span-8'} h-full bg-white dark:bg-gray-800`}>
           {hasConversations || activeId ? (
             <ConversationThread conversationId={activeId} onBack={handleBackToList} />
           ) : (
@@ -314,7 +314,7 @@ const MessagesPage = () => {
         </div>
       </div>
       {shouldShowPagination && (
-        <div className="px-3 py-2 bg-white dark:bg-gray-900 flex-shrink-0 md:mt-2">
+        <div className="px-3 py-2 bg-white dark:bg-gray-800 flex-shrink-0 md:mt-2 border-t border-gray-200 dark:border-gray-700">
           <div className="md:max-w-[33.333333%]">
             <PaginationControls
               currentPage={resolvedPage}
