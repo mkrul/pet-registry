@@ -1,0 +1,72 @@
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#dddaf4; border-radius:16px 16px 0 0;">
+  <tbody>
+    <tr>
+      <td align="center" style="padding: 32px 24px;">
+        <a href="<%= root_url %>" style="text-decoration: none; color: inherit;">
+          <span style="display:inline-block; font-size: 24px; font-weight: 700; color: #fbf8ee; letter-spacing: 0.04em;">Lost Pets Registry</span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#ffffff;">
+  <tbody>
+    <tr>
+      <td style="padding: 32px 24px 16px; color:#22224f;">
+        <p style="margin: 0 0 16px; font-size: 18px; font-weight: 600; color:#473c8b;"><%= @greeting %></p>
+        <% if @intro.present? %>
+          <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color:#22224f;"><%= @intro %></p>
+        <% end %>
+        <% @body_lines.each do |line| %>
+          <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color:#22224f;"><%= line %></p>
+        <% end %>
+        <% if @cta_label.present? && @cta_url.present? %>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin: 24px 0;">
+            <tbody>
+              <tr>
+                <td bgcolor="#9fa8f0" style="border-radius: 999px; text-align: center;">
+                  <a href="<%= @cta_url %>" style="display:inline-block; padding: 14px 32px; font-size: 16px; font-weight: 600; color:#22224f; text-decoration: none;">
+                    <%= @cta_label %>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+        <p style="margin: 32px 0 0; font-size: 14px; line-height: 1.6; color:#473c8b;">Thank you for being part of the Lost Pets Registry community.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#dddaf4; border-radius:0 0 16px 16px;">
+  <tbody>
+    <tr>
+      <td style="padding: 24px;">
+        <p style="margin: 0 0 16px; font-size: 14px; color:#22224f; font-weight: 600;">Stay connected</p>
+        <% if @social_links.any? %>
+          <table role="presentation" cellpadding="0" cellspacing="0" style="width: 100%; margin-bottom: 16px;">
+            <tbody>
+              <tr>
+                <% @social_links.each do |link| %>
+                  <td style="padding-right: 12px; padding-bottom: 8px;">
+                    <a href="<%= link[:url] %>" style="font-size: 14px; color:#473c8b; text-decoration:none; font-weight: 600;">
+                      <%= link[:label] %>
+                    </a>
+                  </td>
+                <% end %>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+        <p style="margin: 0; font-size: 12px; color:#473c8b;">
+          You are receiving this email because you opted in to Lost Pets Registry notifications.
+          <% if @unsubscribe_url.present? %>
+            <br />
+            <a href="<%= @unsubscribe_url %>" style="color:#473c8b; text-decoration:underline;">Unsubscribe from these emails</a>
+          <% end %>
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

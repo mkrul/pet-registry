@@ -2,6 +2,18 @@
 
 ## Completed Tasks
 
+### Email Notification Template
+
+**Objective**: Provide a reusable notification mailer with branded styling for future email alerts (account, pet, and system updates).
+
+**Changes Made**:
+1. Added `NotificationMailer` (`app/mailers/notification_mailer.rb`) with a `notification_email` method that accepts dynamic content, CTA, unsubscribe, and social links.
+2. Introduced a dedicated layout (`app/views/layouts/notification_mailer.html.erb`) implementing the periwinkle palette and hidden preheader support.
+3. Created HTML and text templates (`app/views/notification_mailer/notification_email.html.erb` / `.text.erb`) featuring logo header, CTA button, socials block, and unsubscribe copy.
+
+**Result**:
+- Any feature can now deliver consistent email notifications by calling `NotificationMailer.notification_email`, ensuring branding, accessibility, and unsubscribe compliance.
+
 ### Dashboard Archived Event Icon Alignment
 
 **Objective**: Align archived event icons in Recent Activity with the archived status pill visuals.

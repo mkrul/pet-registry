@@ -1,3 +1,36 @@
+# Notification Mailer Template
+
+## Overview
+A reusable notification mailer delivers branded email updates spanning account, pet, and system events while honouring the new periwinkle palette and accessibility baseline.
+
+## How It Works
+- `NotificationMailer.notification_email` accepts keyword arguments: `user`, `subject`, `intro`, `body_lines`, `cta_label`, `cta_url`, `unsubscribe_url`, plus optional `social_links`, `preheader`, and `greeting`.
+- Dynamic content is rendered inside HTML and plain-text templates so email clients receive both formats automatically.
+- The HTML email applies a header with the Lost Pets Registry wordmark, a prominent call-to-action button, social links block, and unsubscribe copy in the footer.
+- Layout styles live in `app/views/layouts/notification_mailer.html.erb`, keeping the structure isolated from other mailers.
+
+## Usage Example
+```ruby
+NotificationMailer.notification_email(
+  user: user,
+  subject: "Tip received on Bella's report",
+  intro: "Great news—someone just shared new information about Bella.",
+  body_lines: [
+    "Open the dashboard to review the latest tip and respond directly from your inbox.",
+    "We recommend replying within 24 hours to keep the conversation moving."
+  ],
+  cta_label: "View the tip",
+  cta_url: dashboard_report_url(report),
+  unsubscribe_url: edit_user_settings_url,
+  social_links: {
+    "Instagram" => "https://instagram.com/lostpetsregistry",
+    "Twitter" => "https://twitter.com/lostpetsreg"
+  }
+)
+```
+
+---
+
 # Dashboard Archived Event Icon
 
 ## Overview

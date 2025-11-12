@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= mail&.subject || "Notification" %></title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fbf8ee;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        color: #22224f;
+      }
+
+      .preheader {
+        display: none !important;
+        visibility: hidden;
+        opacity: 0;
+        color: transparent;
+        height: 0;
+        width: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <% if defined?(@preheader) && @preheader.present? %>
+      <div class="preheader"><%= @preheader %></div>
+    <% end %>
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#fbf8ee; padding: 24px 0;">
+      <tbody>
+        <tr>
+          <td align="center">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width: 640px; width: 100%;">
+              <tbody>
+                <tr>
+                  <td style="padding: 0 24px;">
+                    <%= yield %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
+
