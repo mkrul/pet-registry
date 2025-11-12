@@ -108,7 +108,7 @@ const SearchContainer = ({ onSearchComplete }) => {
       <div className="text-sm text-gray-600 dark:text-gray-300 p-3 mt-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 transition-colors">
         <button
           onClick={handleSearchTipsToggle}
-          className="font-semibold text-base flex items-center justify-between w-full text-gray-800 dark:text-gray-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:focus-visible:outline-blue-400 rounded-md"
+          className="font-medium text-medium flex items-center justify-between w-full text-gray-800 dark:text-gray-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:focus-visible:outline-blue-400 rounded-md"
           aria-expanded={isSearchTipsOpen}
           aria-controls="search-tips-content"
         >

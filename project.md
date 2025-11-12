@@ -7,6 +7,10 @@
 - Reused the shared `ConfirmationModal` component and mutation loading state to ensure consistent UX with other dashboard confirmations.
 - Reset flow now reapplies default notification, privacy, and dark-mode values only after confirmation, keeping accidental clicks from altering saved settings.
 
+### Search Panel Light Mode Styling
+- Updated `SearchBar.jsx` to read the active theme, swapping border, text, and focus treatments so the keyword input renders light colors when dark mode is off.
+- Refined `RememberFiltersToggle.jsx` to derive its background and focus-ring styling from `isDarkMode`, keeping the toggle and label legible in both themes while preserving the darker panel in dark mode.
+
 ### Pagination Controls Dark Mode & Placement
 - Updated `PaginationControls.jsx` so non-active page buttons and navigation labels adopt dark-mode color tokens while preserving hover and disabled states.
 - Adjusted `ListingsGrid.jsx` to render pagination at both the top and bottom of the reports grid, reducing scroll overhead for users navigating large result sets.

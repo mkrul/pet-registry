@@ -1,5 +1,6 @@
 import React from "react";
 import SearchButtons from "./SearchButtons";
+import { useTheme } from "../../../shared/hooks/useTheme";
 
 const SearchBar = ({
   searchQuery,
@@ -7,6 +8,14 @@ const SearchBar = ({
   onSearch,
   onReset
 }) => {
+  const { isDarkMode } = useTheme();
+
+  const inputClassName = `appearance-none border transition-colors rounded-md w-full py-2.5 px-3 pl-11 leading-tight focus:outline-none focus:ring-2 ${
+    isDarkMode
+      ? "border-gray-600 hover:border-gray-500 text-white placeholder-gray-300 focus:ring-blue-600 focus:border-blue-500"
+      : "border-gray-300 hover:border-gray-400 text-gray-900 placeholder-gray-500 focus:ring-blue-200 focus:border-blue-400"
+  }`;
+
   return (
     <div className="flex flex-col gap-4 p-2">
       <div className="w-full">
@@ -23,10 +32,14 @@ const SearchBar = ({
                 onSearch();
               }
             }}
-            className="appearance-none border border-gray-600 hover:border-gray-500 transition-colors rounded-md w-full py-2.5 px-3 pl-11 text-white leading-tight placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-200"
+            className={inputClassName}
             placeholder="Keywords (e.g. 'german', 'shepherd', 'dog')"
             autoComplete="off"
-            style={{ backgroundColor: "rgba(29, 29, 29, 1)" }}
+            style={
+              isDarkMode
+                ? { backgroundColor: "rgba(29, 29, 29, 1)" }
+                : undefined
+            }
           />
           <div className="absolute left-0 inset-y-0 flex items-center">
             <svg

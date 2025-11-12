@@ -26,6 +26,17 @@ Resetting dashboard settings now routes through a confirmation modal, matching t
 
 ---
 
+# Search Panel Light Mode Styling
+
+## Overview
+The search slide-out now respects light theme preferences for the keyword input and the remember-preferences toggle.
+
+## Behavior
+- `SearchBar` pulls `isDarkMode` to swap text, border, and focus-ring treatments and only applies the dark background when appropriate.
+- `RememberFiltersToggle` derives its background, border, and focus styles from the current theme, keeping copy legible in both modes.
+
+---
+
 # Search Panel Filters
 
 ## Overview

@@ -54,7 +54,7 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
           aria-label="Previous page"
           className={`px-2 py-1 text-sm rounded transition-colors ${
             isFirstPage
-              ? "text-gray-400 cursor-not-allowed"
+              ? "text-gray-500 dark:text-gray-400 cursor-not-allowed"
               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-gray-100 dark:hover:bg-gray-700"
           }`}
         >
@@ -96,7 +96,7 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
           aria-label="Next page"
           className={`px-2 py-1 text-sm rounded transition-colors ${
             isLastPage
-              ? "text-gray-400 cursor-not-allowed dark:text-gray-500"
+              ? "text-gray-500 dark:text-gray-400 cursor-not-allowed"
               : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-gray-100 dark:hover:bg-gray-700"
           }`}
         >
