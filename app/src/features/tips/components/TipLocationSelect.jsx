@@ -199,51 +199,91 @@ export const TipLocationSelect = ({
     return currentMapLocation ? TIP_ZOOM_LEVELS.FORM : TIP_ZOOM_LEVELS.DEFAULT;
   }, [currentMapLocation, initialZoom]);
 
-  const getAutocompleteInputSx = () => ({
-    backgroundColor: isDarkMode ? "rgb(55 65 81)" : "white",
-    "& .MuiOutlinedInput-root": {
-      backgroundColor: isDarkMode ? "rgb(55 65 81)" : "white",
-      color: isDarkMode ? "rgb(243 244 246)" : "rgb(17 24 39)",
-      "& .MuiAutocomplete-input": {
-        color: isDarkMode ? "rgb(243 244 246)" : "rgb(17 24 39)"
+  const getAutocompleteInputSx = () => {
+    const typography = {
+      fontFamily:
+        "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+      fontSize: "1rem",
+      fontWeight: 400,
+      lineHeight: "1.5rem"
+    };
+
+    const baseStyles = {
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "0.375rem",
+        padding: 0,
+        "& .MuiAutocomplete-input": {
+          padding: "12px 14px",
+          ...typography
+        },
+        "& fieldset": {
+          borderColor: "rgb(209 213 219)"
+        },
+        "&:hover fieldset": {
+          borderColor: "rgb(156 163 175)"
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "rgb(59 130 246)"
+        }
       },
-      "& fieldset": {
-        borderColor: isDarkMode ? "rgb(75 85 99)" : "rgb(209 213 219)"
-      },
-      "&:hover fieldset": {
-        borderColor: isDarkMode ? "rgb(107 114 128)" : "rgb(156 163 175)"
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "rgb(59 130 246)"
+      "& .MuiAutocomplete-paper": {
+        backgroundColor: "rgb(255 255 255)"
       }
-    },
-    "& .MuiAutocomplete-paper": {
-      backgroundColor: isDarkMode ? "rgb(31 41 55)" : "white",
-      color: isDarkMode ? "rgb(243 244 246)" : "rgb(17 24 39)",
+    };
+
+    return {
+      ...baseStyles,
+      "& .MuiOutlinedInput-root": {
+        ...baseStyles["& .MuiOutlinedInput-root"],
+        backgroundColor: isDarkMode ? "rgba(29, 29, 29, 1)" : "white",
+        "& .MuiAutocomplete-input": {
+          ...baseStyles["& .MuiOutlinedInput-root"]["& .MuiAutocomplete-input"],
+          color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(17, 24, 39)"
+        },
+        "& .MuiAutocomplete-endAdornment": {
+          color: isDarkMode ? "rgb(156, 163, 175)" : "rgb(107, 114, 128)",
+          right: "10px"
+        },
+        "& fieldset": {
+          borderColor: isDarkMode ? "rgb(55 65 81)" : "rgb(209 213 219)"
+        },
+        "&:hover fieldset": {
+          borderColor: isDarkMode ? "rgb(75 85 99)" : "rgb(156 163 175)"
+        },
+        "&.Mui-focused fieldset": {
+          borderColor: "rgb(59 130 246)"
+        }
+      },
+      "& .MuiAutocomplete-popupIndicator": {
+        color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(75 85 99)"
+      },
+      "& .MuiAutocomplete-clearIndicator": {
+        color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(75 85 99)"
+      },
+      "& .MuiAutocomplete-paper": {
+        backgroundColor: isDarkMode ? "rgba(29, 29, 29, 1)" : "white",
+        color: isDarkMode ? "rgb(243, 244, 246)" : "rgb(17, 24, 39)",
+        borderRadius: "0.375rem",
+        border: isDarkMode ? "1px solid rgba(29, 29, 29, 1)" : "1px solid rgb(209 213 219)",
+        ...typography
+      },
       "& .MuiAutocomplete-option": {
+        ...typography,
         "&[aria-selected='true']": {
-          backgroundColor: isDarkMode ? "rgba(59, 130, 246, 0.3)" : "rgba(59, 130, 246, 0.12)",
-          color: isDarkMode ? "rgb(147 197 253)" : "rgb(30 64 175)"
+          backgroundColor: "rgba(59, 130, 246, 0.12)",
+          color: isDarkMode ? "rgb(147, 197, 253)" : "rgb(30, 64, 175)"
         },
         "&:hover": {
-          backgroundColor: isDarkMode ? "rgb(55 65 81)" : "rgb(243 244 246)"
+          backgroundColor: isDarkMode ? "rgba(75, 85, 99, 0.6)" : "rgb(243 244 246)"
         }
       }
-    }
-  });
+    };
+  };
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium text-gray-900 dark:text-gray-100">Location (optional):</label>
-      {selectedLocation ? (
-        <LocationDisplay
-          area={selectedLocation.area}
-          state={selectedLocation.state}
-          country={selectedLocation.country}
-          intersection={selectedLocation.intersection}
-          displayTip={true}
-        />
-      ) : placeholderText ? (
+      {!selectedLocation && placeholderText ? (
         <p className="text-sm text-gray-600 dark:text-gray-400">{placeholderText}</p>
       ) : null}
       <div className="flex gap-2 mb-4">

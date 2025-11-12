@@ -439,6 +439,10 @@ The report detail page (`ListingDetailsCard`) now properly respects dark mode se
   - Added `useTheme` hook to access `isDarkMode` state
   - Location label: `text-sm font-medium text-gray-900 dark:text-gray-100` (matches other form labels like "Message:" and "External Links (optional):")
   - Placeholder text: `text-sm text-gray-600 dark:text-gray-400`
+  - Suppressed the post-selection location preview under the label to keep the form concise
+  - Address autocomplete uses identical typography, padding, and focus states as the New Report form (12px × 14px input padding, 0.375rem radius, dark-mode aware adornments and menu styling)
+- **ReportLocationSelect.jsx**: Added `dark:` placeholder styling so the "Enter a location" placeholder remains visible when users enable dark mode.
+  - Also wired the TextField to pass `placeholder="Enter a location"` so the UX matches Submit a Tip.
   - Autocomplete input background: `rgb(55 65 81)` (dark) / `white` (light)
   - Autocomplete input text: `rgb(243 244 246)` (dark) / `rgb(17 24 39)` (light)
   - Input borders: `rgb(75 85 99)` (dark) / `rgb(209 213 219)` (light)

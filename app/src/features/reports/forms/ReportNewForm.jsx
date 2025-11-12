@@ -104,11 +104,11 @@ const ReportNewForm = ({ initialData, petId, onHeaderActionsChange }) => {
 
             <div className="mt-[0.5rem]">
               <p className="text-md text-gray-500 dark:text-gray-400">
-                Use this form to report a lost or found pet in your area. Please include as many details
-                as possible in the description, and upload your best photo of the animal.
+                Use this form to report a lost or found pet in your area. List as much information
+                as possible about the animal, such as coat color, markings, breed, and any other details.
               </p>
               <p className="text-md text-gray-500 dark:text-gray-400 mt-3">
-                <strong>IMPORTANT:</strong> To help us protect your privacy, please do not include any personally identifying information such as phone numbers and home addresses.
+              ⚠️ <span className="font-semibold">IMPORTANT:</span> To help us protect your privacy, please <span className="font-semibold">do not</span> include any personally identifying information such as names, phone numbers, and home addresses in the description.
               </p>
             </div>
 

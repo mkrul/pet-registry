@@ -220,6 +220,10 @@ export const ReportLocationSelect = ({
           "& .MuiAutocomplete-input": {
             ...baseStyles["& .MuiOutlinedInput-root"]["& .MuiAutocomplete-input"],
             color: "rgb(17, 24, 39)"
+          },
+          "& .MuiAutocomplete-input::placeholder": {
+            color: "rgb(107, 114, 128)",
+            opacity: 1
           }
         }
       };
@@ -283,6 +287,10 @@ export const ReportLocationSelect = ({
       },
       "& .MuiAutocomplete-listbox": {
         padding: 0
+      },
+      "& .MuiAutocomplete-input::placeholder": {
+        color: isDarkMode ? "rgb(156, 163, 175)" : "rgb(107, 114, 128)",
+        opacity: 1
       }
     };
   };
@@ -328,6 +336,7 @@ export const ReportLocationSelect = ({
               id="report-location-search"
               name="location-search"
               autoComplete="off"
+              placeholder="Enter a location"
               required={required}
               error={!!error}
               sx={getAutocompleteInputSx()}

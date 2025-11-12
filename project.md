@@ -354,6 +354,10 @@ Applied layered overflow clipping:
    - Added `useTheme` hook to access `isDarkMode` state
    - Location label: `text-sm font-medium text-gray-900 dark:text-gray-100` "Location:" (matches form label styling)
    - Placeholder text: `text-sm text-gray-600 dark:text-gray-400`
+   - Removed the selected-location preview under the label to reduce duplication with the map
+   - Address autocomplete matches the New Report form (12px × 14px input padding, 0.375rem radius, dark-friendly adornments, dropdown, and option styling)
+   - Synced ReportLocationSelect placeholder colors so "Enter a location" stays readable in dark mode
+   - Ensured ReportLocationSelect explicitly sets `placeholder="Enter a location"` so both forms show identical helper copy
    - Created `getAutocompleteInputSx()` function for dynamic MUI styling based on `isDarkMode`
    - Autocomplete input: Dark mode uses `rgb(55 65 81)` background with `rgb(243 244 246)` text
    - Input borders: `rgb(75 85 99)` (dark) / `rgb(209 213 219)` (light)
