@@ -7,7 +7,7 @@ require 'progress_bar'
 require_relative 'create_report'
 
 User.create!(
-  email: 'lostpetregistry.dev@gmail.com',
+  email: 'lostpetsregistry.dev@gmail.com',
   password: 'Lprdev123!',
   password_confirmation: 'Lprdev123!',
   settings: {

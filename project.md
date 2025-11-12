@@ -2,6 +2,33 @@
 
 ## Completed Tasks
 
+### Contact Page
+
+**Objective**: Create a public contact page with a form that sends submissions to lostpetsregistry.dev@gmail.com.
+
+**Changes Made**:
+
+1. **Backend**:
+   - Added `POST /api/contact_messages` route in `config/routes.rb`
+   - Created `Api::ContactMessagesController` with validation for required fields (name, email, message)
+   - Implemented `ContactMailer` that sends emails to lostpetsregistry.dev@gmail.com with reply-to header
+   - Created HTML and text email templates in `app/views/contact_mailer/`
+
+2. **Frontend**:
+   - Created `ContactPage` component at `app/src/features/contact/pages/ContactPage.jsx` with form fields (name, email, subject, message)
+   - Added `/contact` route in `AppRouter.jsx` as a public route
+   - Added Contact link to both mobile and desktop navigation menus in `Navbar.jsx`
+   - Implemented client-side validation with inline error messages
+   - Integrated with toast notification system for success/error feedback
+   - Full dark mode support matching existing public page patterns
+
+**Result**:
+- Visitors can now easily contact the team through a user-friendly form
+- All submissions are sent to lostpetsregistry.dev@gmail.com with proper formatting
+- Form includes validation, loading states, and user feedback consistent with the rest of the application
+
+---
+
 ### Profile Dropdown Dark Mode Refresh
 
 **Objective**: Lighten the dark-mode palette for the user-avatar dropdown so it remains distinct from the surrounding navbar.

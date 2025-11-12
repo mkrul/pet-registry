@@ -8,6 +8,7 @@ import PrivateRoute from "../shared/components/common/PrivateRoute.jsx";
 import LoginPage from "../features/auth/pages/LoginPage.jsx";
 import SignUpPage from "../features/auth/pages/SignUpPage.jsx";
 import AboutPage from "../features/about/pages/AboutPage.jsx";
+import ContactPage from "../features/contact/pages/ContactPage.jsx";
 import { useAppSelector } from "../store/hooks.js";
 import ToastManager from "../shared/components/common/ToastManager.jsx";
 import ComponentLoader from "../shared/components/common/ComponentLoader.jsx";
@@ -27,6 +28,7 @@ const AppRouter = () => {
         <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUpPage />} />
         <Route path="/" element={<ReportIndexPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/reports/:id" element={<ListingShowView />} />
 
         {/* Protected Routes */}

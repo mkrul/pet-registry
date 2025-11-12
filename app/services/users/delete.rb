@@ -21,7 +21,7 @@ module Users
     private
 
     def find_or_create_system_user
-      ::User.find_or_create_by!(email: 'lostpetregistry.dev@gmail.com') do |u|
+      ::User.find_or_create_by!(email: 'lostpetsregistry.dev@gmail.com') do |u|
         u.password = SecureRandom.hex(16)
         u.password_confirmation = u.password
         u.settings = {

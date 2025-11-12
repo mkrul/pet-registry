@@ -1,3 +1,30 @@
+# Contact Page
+
+## Overview
+A new public contact page allows visitors to send messages directly to lostpetsregistry.dev@gmail.com via a simple form interface.
+
+## Backend Implementation
+- **Route**: `POST /api/contact_messages` endpoint handles form submissions
+- **Controller**: `Api::ContactMessagesController` validates required fields (name, email, message) and optional subject
+- **Mailer**: `ContactMailer` sends formatted emails to lostpetsregistry.dev@gmail.com with reply-to set to the submitter's email
+- **Email Templates**: Both HTML and text versions are provided for proper email client compatibility
+
+## Frontend Implementation
+- **Route**: `/contact` public route accessible to all users
+- **Component**: `ContactPage` follows existing public layout patterns with dark mode support
+- **Form Fields**: Name (required), Email (required), Subject (optional), Message (required)
+- **Validation**: Client-side validation with inline error messages
+- **Feedback**: Success/error notifications via toast system consistent with other forms
+- **Navigation**: Contact link added to both mobile and desktop navigation menus
+
+## User Experience
+- Form clears on successful submission
+- Loading state prevents duplicate submissions
+- Clear error messages guide users to fix validation issues
+- Consistent styling with rest of application including dark mode support
+
+---
+
 # Profile Dropdown Dark Mode Refresh
 
 ## Overview

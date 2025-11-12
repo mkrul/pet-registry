@@ -61,6 +61,8 @@ Rails.application.routes.draw do
 
     resource :session, only: [:create, :show, :destroy]
     get 'user_info', to: 'sessions#user_info'
+
+    post 'contact_messages', to: 'contact_messages#create'
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
