@@ -55,7 +55,7 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
           className={`px-2 py-1 text-sm rounded transition-colors ${
             isFirstPage
               ? "text-gray-400 cursor-not-allowed"
-              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-gray-100 dark:hover:bg-gray-700"
           }`}
         >
           Previous
@@ -64,7 +64,7 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
           {pageNumbers.map((page, index) => {
             if (page === "ellipsis") {
               return (
-                <span key={`ellipsis-${index}`} className="text-xs text-gray-400 px-1">
+                <span key={`ellipsis-${index}`} className="text-xs text-gray-400 px-1 dark:text-gray-500">
                   ...
                 </span>
               );
@@ -80,8 +80,8 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
                 aria-current={isCurrentPage ? "page" : undefined}
                 className={`min-w-[28px] px-2 py-1 text-sm rounded transition-colors ${
                   isCurrentPage
-                    ? "bg-gray-200 text-gray-900 font-medium"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    ? "bg-gray-200 text-gray-900 font-medium dark:bg-gray-700 dark:text-gray-100"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-gray-100 dark:hover:bg-gray-700"
                 }`}
               >
                 {page}
@@ -96,8 +96,8 @@ const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
           aria-label="Next page"
           className={`px-2 py-1 text-sm rounded transition-colors ${
             isLastPage
-              ? "text-gray-400 cursor-not-allowed"
-              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              ? "text-gray-400 cursor-not-allowed dark:text-gray-500"
+              : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-500 dark:hover:text-gray-100 dark:hover:bg-gray-700"
           }`}
         >
           Next
