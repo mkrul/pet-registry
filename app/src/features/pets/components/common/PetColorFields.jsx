@@ -2,7 +2,7 @@ import React from "react";
 import { FormControl, Select, MenuItem, IconButton, Box } from "@mui/material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import { getColorOptions } from "../../../../shared/reports/colorList";
-import { commonInputStyles } from "../../../../shared/commonStyles";
+import { commonInputStyles, getDashboardSelectConfig } from "../../../../shared/commonStyles";
 import { FormFieldError } from "../../../../shared/components/common/FormFieldError.jsx";
 import { useTheme } from "../../../../shared/contexts/ThemeContext";
 
@@ -48,63 +48,11 @@ export const PetColorFields = ({
   };
 
   if (dashboard) {
-    const selectTypography = {
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-      fontSize: '1rem',
-      fontWeight: 400,
-      lineHeight: '1.5rem'
-    };
-
-    const dashboardSelectSx = {
-      '& .MuiSelect-select': {
-        padding: '12px 14px',
-        backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
-        borderRadius: '0.375rem',
-        color: isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)',
-        ...selectTypography
-      },
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'rgb(209, 213, 219)'
-      },
-      '&:hover .MuiOutlinedInput-notchedOutline': {
-        borderColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'rgb(156, 163, 175)'
-      },
-      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'rgb(59, 130, 246)',
-        borderWidth: '2px'
-      },
-      backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
-      borderRadius: '0.375rem'
-    };
-
-    const placeholderStyle = {
-      color: isDarkMode ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)',
-      ...selectTypography
-    };
-
-    const dashboardMenuProps = {
-      PaperProps: {
-        sx: {
-          borderRadius: '0.375rem',
-          border: isDarkMode ? '1px solid rgba(29, 29, 29, 1)' : '1px solid rgb(209, 213, 219)',
-          backgroundColor: isDarkMode ? 'rgba(29, 29, 29, 1)' : 'white',
-          '& .MuiMenuItem-root': {
-            color: isDarkMode ? 'rgb(243, 244, 246)' : 'rgb(17, 24, 39)',
-            ...selectTypography,
-            '&.Mui-selected': {
-              backgroundColor: 'rgba(59, 130, 246, 0.12)',
-              color: isDarkMode ? 'rgb(147, 197, 253)' : '#1d4ed8'
-            },
-            '&.Mui-selected:hover': {
-              backgroundColor: 'rgba(59, 130, 246, 0.2)'
-            },
-            '&:hover': {
-              backgroundColor: isDarkMode ? 'rgba(75, 85, 99, 0.6)' : 'rgb(243, 244, 246)'
-            }
-          }
-        }
-      }
-    };
+    const {
+      selectSx: dashboardSelectSx,
+      placeholderStyle,
+      menuProps: dashboardMenuProps
+    } = getDashboardSelectConfig(isDarkMode);
 
     const renderValue = (value, placeholder) =>
       value ? value : <span style={placeholderStyle}>{placeholder}</span>;

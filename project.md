@@ -6,6 +6,11 @@
 - Updated `PaginationControls.jsx` so non-active page buttons and navigation labels adopt dark-mode color tokens while preserving hover and disabled states.
 - Adjusted `ListingsGrid.jsx` to render pagination at both the top and bottom of the reports grid, reducing scroll overhead for users navigating large result sets.
 
+### Search Panel Select Parity
+- Extracted `getDashboardSelectConfig` in `shared/commonStyles.js` to encapsulate the New Pet form select styling across themes.
+- Updated `PetColorFields.jsx` to consume the shared helper so the New Pet form remains the canonical source of truth.
+- Pointed `Filters.jsx` and `LocationFilter.jsx` to the shared config, ensuring slide-out search dropdowns (inputs and menus) visually match the `First Color` control in both light and dark modes.
+
 ### FormLayout Component Enhancement for Edit Screens
 - Extended `FormLayout.jsx` to support edit flows with both save/back button actions
 - Added `primaryAction` and `secondaryAction` props to render action buttons in header and footer

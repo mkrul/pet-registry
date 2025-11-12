@@ -14,6 +14,23 @@
 
 ---
 
+# Search Panel Filters
+
+## Overview
+Slide-out search filters now share the exact select styling used by the New Pet form’s `First Color` dropdown, ensuring identical visuals and interactions in light and dark themes.
+
+## Styling
+- All selects import `getDashboardSelectConfig`, which standardizes padding, typography, border radii, and light/dark colors for the input and the options menu.
+- Menu popovers inherit the same border, background, hover, and selected-state treatments as the New Pet form, so option lists match one-to-one.
+- Placeholder text uses the same muted gray palette, keeping guidance legible without overpowering selected values.
+
+## Usage Notes
+- `Filters.jsx` extends the shared `menuProps` with `disableScrollLock` for the slide-out panel while keeping the core styling intact.
+- `LocationFilter.jsx` passes the shared config through to state selection, guaranteeing parity across all dropdowns in the search experience.
+- Future dashboard-style selects should prefer `getDashboardSelectConfig` instead of duplicating inline style objects.
+
+---
+
 # FormLayout Component Documentation
 
 ## Overview

@@ -75,7 +75,8 @@ const ReportNewForm = ({ initialData, petId }) => {
                 as possible in the description, and upload your best photo of the animal.
               </p>
               <p className="text-md text-gray-500 dark:text-gray-400 mt-3">
-                <strong>Note:</strong> To help protect your privacy, the published location will be slightly offset and the address will only list the general area or nearest intersection.
+                <strong>IMPORTANT:</strong> To help us protect your privacy, please do not include any personally identifying information such as phone numbers and home addresses.
+                The location you select on the map at the bottom of this form will be slightly offset, and only the general area or nearest intersection will be listed on the report.
               </p>
             </div>
 

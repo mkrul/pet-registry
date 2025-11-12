@@ -14,7 +14,7 @@ const LocationSelect = ({
   });
 
   return (
-    <FormControl fullWidth size="small">
+    <FormControl fullWidth>
       <Select
         name="state"
         value={state}
