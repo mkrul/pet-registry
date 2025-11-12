@@ -4,6 +4,15 @@ import { useTheme } from '../../../shared/hooks/useTheme';
 import { useUpdateSettingsMutation, useDeleteAccountMutation } from '../../../store/features/auth/authApiSlice';
 import ConfirmationModal from '../../../shared/components/common/ConfirmationModal';
 
+const DEFAULT_SETTINGS = {
+  sendEmailForTip: true,
+  sendEmailForMessage: true,
+  sendEmailForConversation: true,
+  sendEmailForMatch: true,
+  allowContact: false,
+  darkMode: false,
+};
+
 const DashboardSettings = () => {
   const { isDarkMode, toggleDarkMode, setDarkMode } = useTheme();
   const user = useSelector((state) => state.auth.user);
@@ -16,6 +25,7 @@ const DashboardSettings = () => {
   const [sendEmailForMatch, setSendEmailForMatch] = useState(true);
   const [allowContact, setAllowContact] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isResetOpen, setIsResetOpen] = useState(false);
   const [initialSettings, setInitialSettings] = useState({
     sendEmailForTip: true,
     sendEmailForMessage: true,
@@ -77,16 +87,17 @@ const DashboardSettings = () => {
     }
   };
 
-  const handleResetToDefaults = async () => {
+  const handleResetToDefaults = () => {
+    setIsResetOpen(true);
+  };
+
+  const handleCloseReset = () => {
+    setIsResetOpen(false);
+  };
+
+  const handleConfirmReset = async () => {
     try {
-      const defaultSettings = {
-        sendEmailForTip: true,
-        sendEmailForMessage: true,
-        sendEmailForConversation: true,
-        sendEmailForMatch: true,
-        allowContact: false,
-        darkMode: false,
-      };
+      const defaultSettings = { ...DEFAULT_SETTINGS };
 
       setSendEmailForTip(defaultSettings.sendEmailForTip);
       setSendEmailForMessage(defaultSettings.sendEmailForMessage);
@@ -105,6 +116,8 @@ const DashboardSettings = () => {
         dark_mode: defaultSettings.darkMode
       }).unwrap();
     } catch (err) {
+    } finally {
+      setIsResetOpen(false);
     }
   };
 
@@ -295,6 +308,16 @@ const DashboardSettings = () => {
         confirmText="Yes, delete my account"
         cancelText="Cancel"
         isLoading={isDeleting}
+      />
+      <ConfirmationModal
+        isOpen={isResetOpen}
+        onClose={handleCloseReset}
+        onConfirm={handleConfirmReset}
+        title="Reset settings to default?"
+        message="This will overwrite your current preferences with the default settings."
+        confirmText="Confirm"
+        cancelText="Cancel"
+        isLoading={isLoading}
       />
     </div>
   );

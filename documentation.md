@@ -14,6 +14,18 @@
 
 ---
 
+# Dashboard Settings Reset Confirmation
+
+## Overview
+Resetting dashboard settings now routes through a confirmation modal, matching the existing dashboard confirmation pattern and preventing accidental preference changes.
+
+## Behavior
+- Clicking `Reset to Defaults` opens `ConfirmationModal` with contextual copy and primary/secondary actions.
+- Confirming applies the default notification, privacy, and dark-mode values through `updateSettings`.
+- The modal reuses the mutation loading state to disable confirm while the request is pending.
+
+---
+
 # Search Panel Filters
 
 ## Overview

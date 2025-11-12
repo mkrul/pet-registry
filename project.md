@@ -2,6 +2,11 @@
 
 ## Completed Tasks
 
+### Dashboard Settings Reset Confirmation
+- Wrapped the `Reset to Defaults` action in `DashboardSettings.jsx` with a confirmation modal so users must affirm before preferences change.
+- Reused the shared `ConfirmationModal` component and mutation loading state to ensure consistent UX with other dashboard confirmations.
+- Reset flow now reapplies default notification, privacy, and dark-mode values only after confirmation, keeping accidental clicks from altering saved settings.
+
 ### Pagination Controls Dark Mode & Placement
 - Updated `PaginationControls.jsx` so non-active page buttons and navigation labels adopt dark-mode color tokens while preserving hover and disabled states.
 - Adjusted `ListingsGrid.jsx` to render pagination at both the top and bottom of the reports grid, reducing scroll overhead for users navigating large result sets.
