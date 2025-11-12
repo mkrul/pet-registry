@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useSubmitPetMutation
 } from "../../../../store/features/pets/petsApi.js";
@@ -10,12 +10,15 @@ import { PetIdentificationFields } from "../common/PetIdentificationFields.jsx";
 import { PetColorFields } from "../common/PetColorFields.jsx";
 import { ImageUpload } from "../../../listings/components/common/ImageUpload.jsx";
 import { PetFormPopulateButton } from "../../../../shared/components/common/PetFormPopulateButton.jsx";
+import { useAppSelector } from "../../../../store/hooks.js";
 import Spinner from "../../../../shared/components/common/Spinner.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 
-const NewPetForm = () => {
+const NewPetForm = ({ onHeaderActionsChange }) => {
   const [submitPet, { isLoading }] = useSubmitPetMutation();
+  const user = useAppSelector(state => state.auth.user);
+  const isAdmin = !!user?.admin;
 
   const {
     formData,
@@ -43,15 +46,45 @@ const NewPetForm = () => {
     onSubmit(e, formData, selectedImage);
   };
 
+  useEffect(() => {
+    if (!onHeaderActionsChange) return undefined;
+
+    if (!isAdmin) {
+      onHeaderActionsChange(null);
+      return () => {
+        onHeaderActionsChange(null);
+      };
+    }
+
+    const headerButton = (
+      <PetFormPopulateButton
+        key="pet-form-populate"
+        setFormData={setFormData}
+        handleImageSelect={handleImageSelect}
+        className="!mb-0"
+      />
+    );
+
+    onHeaderActionsChange(headerButton);
+
+    return () => {
+      onHeaderActionsChange(null);
+    };
+  }, [handleImageSelect, onHeaderActionsChange, setFormData, isAdmin]);
+
+  const shouldRenderInlinePopulateButton = !onHeaderActionsChange && isAdmin;
+
   return (
     <div>
       <div className="w-full">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <form id="new-pet-form" className="space-y-6" onSubmit={e => handleFormSubmit(e, formData, selectedImage)} encType="multipart/form-data" noValidate>
-            <PetFormPopulateButton
-              setFormData={setFormData}
-              handleImageSelect={handleImageSelect}
-            />
+            {shouldRenderInlinePopulateButton && (
+              <PetFormPopulateButton
+                setFormData={setFormData}
+                handleImageSelect={handleImageSelect}
+              />
+            )}
 
             <div className="mt-[0.5rem]">
               <p className="text-md text-gray-500 dark:text-gray-400">

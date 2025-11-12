@@ -30,6 +30,7 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
   const filterParam = searchParams.get('filter');
   const petIdParam = searchParams.get('petId');
   const [isCreatingPet, setIsCreatingPet] = useState(action === 'create');
+  const [formHeaderAction, setFormHeaderAction] = useState(null);
   const getInitialFilter = () => {
     const validFilters = ['all', 'dog', 'cat', 'archived'];
     return validFilters.includes(filterParam) ? filterParam : 'all';
@@ -250,18 +251,25 @@ const DashboardPets = ({ shouldCreatePet = false }) => {
     }
   }, [isCreatingPet, editingPet]);
 
+  useEffect(() => {
+    if (!isCreatingPet) {
+      setFormHeaderAction(null);
+    }
+  }, [isCreatingPet]);
+
 
   if (isCreatingPet) {
     return (
-      <FormLayout
+        <FormLayout
         title="New Pet"
         backButton={{
           label: "Back to Pets",
           onClick: handleBackToPets,
           className: "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}
+          headerActions={formHeaderAction}
       >
-        <PetNewForm />
+        <PetNewForm onHeaderActionsChange={setFormHeaderAction} />
       </FormLayout>
     );
   }

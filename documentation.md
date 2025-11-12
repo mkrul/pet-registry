@@ -48,6 +48,8 @@ Slide-out search filters now share the exact select styling used by the New Pet 
   - `onClick` (function): Click handler
   - `className` (string): Optional custom styling
 
+- `headerActions` (React.ReactNode | React.ReactNode[]): Optional elements rendered on the right side of the header before any action/back buttons. Useful for environment-only controls like the dev Form Fill button.
+
 - `primaryAction` (object): Primary action button (typically "Save")
   - `label` (React.ReactNode): Button label (can be JSX for dynamic content)
   - `onClick` (function): Click handler
@@ -70,6 +72,8 @@ Slide-out search filters now share the exact select styling used by the New Pet 
 - Action buttons render in both header and footer
 - Buttons are centered and spaced with `gap-2`
 - Footer section includes a top border separator
+- `headerActions` render (if provided) to the left of the primary/secondary/back buttons, keeping supplemental controls aligned with the header actions.
+- Dev-only form populate buttons plug into `headerActions` and only render when `NODE_ENV === "development"` and the current user has `admin: true`.
 
 ### When only backButton is provided:
 - Single button renders in header (legacy pattern, used for creation flows)

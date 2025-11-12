@@ -196,6 +196,7 @@ export const LocationSelect = ({
       {showTip && (
         <Tip>
           Click on the map or type the address where the animal was last seen.
+          To help protect your privacy, only the general area or nearest intersection will be listed on the report.
         </Tip>
       )}
       {selectedLocation && (

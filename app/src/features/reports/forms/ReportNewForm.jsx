@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useSubmitReportMutation
 } from "../../../store/features/reports/reportsApi.js";
@@ -11,13 +11,16 @@ import { ColorFields } from "../../listings/components/common/ColorFields.jsx";
 import { ImageUpload } from "../../listings/components/common/ImageUpload.jsx";
 import { ReportLocationSelect } from "../components/ReportLocationSelect.jsx";
 import { FormPopulateButton } from "../../../shared/components/common/FormPopulateButton.jsx";
+import { useAppSelector } from "../../../store/hooks.js";
 import Spinner from "../../../shared/components/common/Spinner.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 
-const ReportNewForm = ({ initialData, petId }) => {
+const ReportNewForm = ({ initialData, petId, onHeaderActionsChange }) => {
   const [submitReport, { isLoading }] = useSubmitReportMutation();
   const [isProcessingLocation, setIsProcessingLocation] = useState(false);
+  const user = useAppSelector(state => state.auth.user);
+  const isAdmin = !!user?.admin;
 
   const {
     formData,
@@ -57,6 +60,34 @@ const ReportNewForm = ({ initialData, petId }) => {
     setIsProcessingLocation(isProcessing);
   };
 
+  useEffect(() => {
+    if (!onHeaderActionsChange) return undefined;
+
+    if (!isAdmin) {
+      onHeaderActionsChange(null);
+      return () => {
+        onHeaderActionsChange(null);
+      };
+    }
+
+    const headerButton = (
+      <FormPopulateButton
+        key="report-form-populate"
+        setFormData={setFormData}
+        handleImageSelect={handleImageSelect}
+        className="!mb-0"
+      />
+    );
+
+    onHeaderActionsChange(headerButton);
+
+    return () => {
+      onHeaderActionsChange(null);
+    };
+  }, [handleImageSelect, onHeaderActionsChange, setFormData, isAdmin]);
+
+  const shouldRenderInlinePopulateButton = !onHeaderActionsChange && isAdmin;
+
   const isFormDisabled = isLoading || isProcessingLocation;
 
   return (
@@ -64,10 +95,12 @@ const ReportNewForm = ({ initialData, petId }) => {
       <div className="w-full">
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
           <form id="new-report-form" className="space-y-6" onSubmit={e => handleFormSubmit(e, formData, selectedImage)} encType="multipart/form-data" noValidate>
-            <FormPopulateButton
-              setFormData={setFormData}
-              handleImageSelect={handleImageSelect}
-            />
+            {shouldRenderInlinePopulateButton && (
+              <FormPopulateButton
+                setFormData={setFormData}
+                handleImageSelect={handleImageSelect}
+              />
+            )}
 
             <div className="mt-[0.5rem]">
               <p className="text-md text-gray-500 dark:text-gray-400">
@@ -76,7 +109,6 @@ const ReportNewForm = ({ initialData, petId }) => {
               </p>
               <p className="text-md text-gray-500 dark:text-gray-400 mt-3">
                 <strong>IMPORTANT:</strong> To help us protect your privacy, please do not include any personally identifying information such as phone numbers and home addresses.
-                The location you select on the map at the bottom of this form will be slightly offset, and only the general area or nearest intersection will be listed on the report.
               </p>
             </div>
 

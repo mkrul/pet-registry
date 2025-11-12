@@ -7,7 +7,8 @@ const FormLayout = ({
   children,
   formWrapperClassName = "w-full mx-auto px-2",
   primaryAction,
-  secondaryAction
+  secondaryAction,
+  headerActions
 }) => {
   const renderActionButtons = () => {
     if (!primaryAction && !secondaryAction) return null;
@@ -44,18 +45,46 @@ const FormLayout = ({
     className: backButton.className || "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
   };
 
+  const renderHeaderActions = () => {
+    const actions = [];
+
+    if (headerActions) {
+      const extras = Array.isArray(headerActions) ? headerActions : [headerActions];
+      actions.push(...extras.filter(Boolean));
+    }
+
+    if (primaryAction || secondaryAction) {
+      actions.push(
+        <React.Fragment key="form-actions">
+          {renderActionButtons()}
+        </React.Fragment>
+      );
+    } else if (headerButton) {
+      actions.push(
+        <button
+          key="back-button"
+          onClick={headerButton.onClick}
+          className={headerButton.className}
+        >
+          {headerButton.label}
+        </button>
+      );
+    }
+
+    if (actions.length === 0) return null;
+
+    return (
+      <div className="flex items-center gap-2">
+        {actions}
+      </div>
+    );
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h1>
-        {(primaryAction || secondaryAction) ? renderActionButtons() : (headerButton && (
-          <button
-            onClick={headerButton.onClick}
-            className={headerButton.className}
-          >
-            {headerButton.label}
-          </button>
-        ))}
+        {renderHeaderActions()}
       </div>
 
       <div className={formWrapperClassName}>

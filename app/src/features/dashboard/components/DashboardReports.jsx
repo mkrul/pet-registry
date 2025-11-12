@@ -50,6 +50,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   const action = searchParams.get('action');
   const filterParam = searchParams.get('filter');
   const [isCreatingReport, setIsCreatingReport] = useState(action === 'create');
+  const [formHeaderAction, setFormHeaderAction] = useState(null);
   const getInitialFilter = () => {
     const validFilters = ['active', 'archived'];
     return validFilters.includes(filterParam) ? filterParam : 'active';
@@ -195,6 +196,12 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
   }, [isCreatingReport, editingReport]);
 
   useEffect(() => {
+    if (!isCreatingReport) {
+      setFormHeaderAction(null);
+    }
+  }, [isCreatingReport]);
+
+  useEffect(() => {
     if (action === 'create') {
       setIsCreatingReport(true);
     } else if (action !== 'create' && isCreatingReport) {
@@ -266,6 +273,7 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
             onClick: handleBackToReports,
             className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
           }}
+          headerActions={formHeaderAction}
         >
           <LoadingState className="flex justify-center items-center py-12" />
         </FormLayout>
@@ -280,10 +288,12 @@ const DashboardReports = ({ shouldCreateReport = false }) => {
           onClick: handleBackToReports,
           className: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors"
         }}
+        headerActions={formHeaderAction}
       >
         <ReportNewForm
           initialData={petData ? mapPetToReportForm(petData) : undefined}
           petId={petId ? parseInt(petId) : undefined}
+          onHeaderActionsChange={setFormHeaderAction}
         />
       </FormLayout>
     );

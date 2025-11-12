@@ -11,6 +11,12 @@
 - Updated `PetColorFields.jsx` to consume the shared helper so the New Pet form remains the canonical source of truth.
 - Pointed `Filters.jsx` and `LocationFilter.jsx` to the shared config, ensuring slide-out search dropdowns (inputs and menus) visually match the `First Color` control in both light and dark modes.
 
+### Dev Form Populate Button Placement
+- Extended `FormLayout.jsx` with a `headerActions` slot so supplemental controls can render alongside back/action buttons without layout hacks.
+- Updated `PetNewForm.jsx` and `ReportNewForm.jsx` to register their dev-only populate buttons with the layout (falling back to inline rendering when the slot isn't provided).
+- Wired `DashboardPets.jsx` and `DashboardReports.jsx` to pass the header slot down, placing the "Form Fill (Dev Only)" button immediately to the left of each respective back button during creation flows.
+- Gated the populate buttons so they only render for admin users in development; added the `admin` flag to `UserSerializer` and leveraged `useAppSelector` checks in the shared button components.
+
 ### FormLayout Component Enhancement for Edit Screens
 - Extended `FormLayout.jsx` to support edit flows with both save/back button actions
 - Added `primaryAction` and `secondaryAction` props to render action buttons in header and footer

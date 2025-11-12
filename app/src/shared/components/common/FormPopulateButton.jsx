@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { useAppSelector } from "../../../store/hooks.js";
 
 
 const generateMicrochipId = () => {
@@ -10,8 +10,12 @@ const generateMicrochipId = () => {
 
 export const FormPopulateButton = ({
   setFormData,
-  handleImageSelect
+  handleImageSelect,
+  className = "mb-4"
 }) => {
+  const user = useAppSelector(state => state.auth.user);
+  const isAdmin = !!user?.admin;
+
   const loadDummyImage = () => {
     fetch("/images/golden-retriever.png")
       .then(res => res.blob())
@@ -60,16 +64,15 @@ export const FormPopulateButton = ({
     loadDummyImage();
   };
 
-  if (process.env.NODE_ENV !== "development") return null;
+  if (process.env.NODE_ENV !== "development" || !isAdmin) return null;
 
   return (
-    <Button
-      variant="outlined"
-      color="secondary"
+    <button
+      type="button"
       onClick={populateFormWithDummyData}
-      className="mb-4"
+      className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors border border-purple-200 bg-purple-100 text-purple-700 hover:bg-purple-200 hover:border-purple-300 dark:border-purple-700 dark:bg-purple-700/30 dark:text-purple-200 dark:hover:bg-purple-600/40 dark:hover:border-purple-600 ${className}`}
     >
       Form Fill (Dev Only)
-    </Button>
+    </button>
   );
 };
