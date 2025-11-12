@@ -1,3 +1,19 @@
+# Dark Mode Preload Script
+
+## Overview
+To prevent the light flash when navigating in dark mode, the layout now pre-applies the `dark` class before styles load whenever a stored dark-mode preference exists, and global styles include a dark-mode background override.
+
+## Changes Made
+- Injected an inline script in `application.html.erb` ahead of stylesheet/script tags to read `localStorage.darkMode` and add the `dark` class early
+- Added an inline `<style>` block that sets `html` to `#f5f5f5` by default and `html.dark` to `#111827` so the very first paint honors the active theme
+- Updated `index.css` so `html.dark`, `body`, and `#root` all share the dark background color once assets load
+- Wrapped the script in a `try/catch` so environments without localStorage continue rendering without disruption
+
+## Result
+Visitors who previously enabled dark mode now see the correct theme from the very first paint, eliminating the white flash on reloads or navigation.
+
+---
+
 # Search Tab Color Behavior
 
 ## Overview

@@ -13,8 +13,10 @@ html, body, #root {
 }
 
 /* Dark mode support */
-.dark body {
-  background-color: #111827;
+html.dark,
+html.dark body,
+html.dark #root {
+  background-color: rgb(23 23 23 / var(--tw-bg-opacity, 1));
 }
 
 .MuiModal-root {

@@ -2,6 +2,23 @@
 
 ## Completed Tasks
 
+### Dark Mode Preload Script
+
+**Objective**: Eliminate the white flash that appeared before dark mode styles applied on initial paint.
+
+**Changes Made**:
+
+1. **application.html.erb**
+   - Added a small inline script before the asset tags to read `localStorage.darkMode` and apply the `dark` class immediately when the stored preference is `true`
+   - Added a lightweight inline `<style>` block that sets `html` to the light background by default and switches to the dark background when the `dark` class is present, ensuring the very first paint uses the correct color
+2. **app/src/shared/index.css**
+   - Updated global styles so `html.dark`, `body`, and `#root` all share the dark background color once the stylesheet loads
+
+**Result**:
+- Dark mode now renders correctly from the first paint, removing the light-theme flash during navigation or reloads
+
+---
+
 ### Search Tab Color Behavior
 
 **Objective**: Keep the floating "Search" trigger on brand while still signaling the active "Close" state.
@@ -447,54 +464,4 @@ Applied layered overflow clipping:
    - Created `getAutocompleteInputSx()` function for dynamic MUI styling based on `isDarkMode`
    - Autocomplete input: Dark mode uses `rgb(55 65 81)` background with `rgb(243 244 246)` text
    - Input borders: `rgb(75 85 99)` (dark) / `rgb(209 213 219)` (light)
-   - Dropdown menu: `rgb(31 41 55)` background (dark) / `white` (light)
-   - Selected options: `rgba(59, 130, 246, 0.3)` (dark) / `rgba(59, 130, 246, 0.12)` (light)
-   - All hover and focus states properly styled for both light and dark modes
-
-**Result**:
-- Location selection now fully respects dark mode in the "Submit a Tip" form
-- Autocomplete dropdown remains readable with proper contrast in all modes
-- Consistent dark mode styling across all tip submission form elements
-
-### TipMap Height Optimization
-
-**Objective**: Make the map in the "Submit a Tip" form more compact by reducing its vertical height.
-
-**Changes Made**:
-
-1. **TipMap.jsx** - Map container height update:
-   - Changed from `h-[400px]` (fixed height of 400px)
-   - Changed to `h-[22.5rem]` (fixed height of 360px / 22.5rem)
-
-**Result**:
-- Map takes up less vertical space in the "Submit a Tip" form while remaining visible at all breakpoints
-- Better visual balance with other form elements
-- Maintains full functionality while being more compact
-
----
-
-### Runtime Logger Removal
-
-**Objective**: Remove all debug and runtime logging statements from both frontend and backend codebases to clean up production code.
-
-**Changes Made**:
-
-1. **Frontend console logging removal**:
-   - Removed all `console.log`, `console.error`, and `console.warn` statements from React components and utilities
-   - Affected files include: TipLocationSelect, MapEvents, ReportMap, ReportLocationSelect, TipMap, geocoding utilities, filterUtils, useFlyerGeneration, ErrorBoundary, and various form components
-   - Preserved all error handling logic; only removed logging statements
-
-2. **Backend Rails.logger removal**:
-   - Removed all `Rails.logger.info`, `Rails.logger.error`, `Rails.logger.warn`, and `Rails.logger.debug` calls from controllers, services, models, serializers, and migrations
-   - Affected files include: EventsController, RegistrationsController, Reports::Create, Reports::CopyFromPet, Events::Create, User model, EventSerializer, and migration files
-   - Removed logger configuration from test files (spec/rails_helper.rb, spec/requests/api/sessions_controller_spec.rb)
-   - Removed logger call from byebug initializer
-
-**Result**:
-- Cleaner production code without debug logging noise
-- Reduced console output in browser and server logs
-- All error handling pathways remain intact; only logging statements were removed
-- Test configuration simplified by removing logger setup
-
----
-
+   - Dropdown menu: `rgb(31 41 55)`
