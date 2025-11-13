@@ -92,6 +92,9 @@ Rails.application.routes.draw do
         [404, {}, ['Vite server not available']]
       end
     }
+
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   # Catch-all route to handle client-side routing by React

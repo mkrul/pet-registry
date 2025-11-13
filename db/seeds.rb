@@ -6,11 +6,10 @@ require 'open-uri'
 require 'progress_bar'
 require_relative 'create_report'
 
-User.create!(
-  email: 'lostpetsregistry.dev@gmail.com',
-  password: 'Lprdev123!',
-  password_confirmation: 'Lprdev123!',
-  settings: {
+User.find_or_create_by!(email: 'lostpetsregistry.dev@gmail.com') do |user|
+  user.password = 'Lprdev123!'
+  user.password_confirmation = 'Lprdev123!'
+  user.settings = {
     allow_contact: false,
     dark_mode: false,
     send_email_for_tip: false,
@@ -18,7 +17,7 @@ User.create!(
     send_email_for_conversation: false,
     send_email_for_match: false
   }
-)
+end
 
 if Rails.env.development?
   print('Purging old seed data...')
@@ -32,10 +31,16 @@ if Rails.env.development?
   end
 
   print('Creating seed user...')
-  seed_user = User.find_or_create_by!(email: 'seed@example.com') do |user|
-    user.password = 'password123'
-    user.password_confirmation = 'password123'
+  seed_user = User.find_or_initialize_by(email: 'seed@example.com')
+  if seed_user.new_record?
+    seed_user.password = 'password123'
+    seed_user.password_confirmation = 'password123'
   end
+  if seed_user.settings.is_a?(Hash)
+    valid_keys = %w[allow_contact dark_mode send_email_for_tip send_email_for_message send_email_for_conversation send_email_for_match]
+    seed_user.settings = seed_user.settings.select { |k, _| valid_keys.include?(k.to_s) }
+  end
+  seed_user.save!
   puts "Seed user created: #{seed_user.email}"
 
   print('Seeding database with sample data...')

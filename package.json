@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "build:css": "tailwindcss -i ./app/javascript/entrypoints/application.css -o ./app/assets/builds/application.css --minify",
+    "build:css": "tailwindcss -i ./app/src/entrypoints/application.css -o ./app/assets/builds/application.css --minify",
     "dev": "bin/vite dev",
     "test": "vitest",
     "test:ui": "vitest --ui",

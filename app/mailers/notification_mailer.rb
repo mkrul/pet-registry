@@ -5,6 +5,7 @@ class NotificationMailer < ApplicationMailer
 
   def notification_email(user:, subject:, intro:, body_lines:, cta_label:, cta_url:, unsubscribe_url:, social_links: {}, preheader: nil, greeting: nil)
     @user = user
+    @subject = subject
     @intro = intro
     @body_lines = Array(body_lines).flatten.compact
     @cta_label = cta_label

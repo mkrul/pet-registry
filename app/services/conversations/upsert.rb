@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'active_interaction'
-require 'uri'
 
 module Conversations
   class Upsert < ActiveInteraction::Base
@@ -107,13 +106,19 @@ module Conversations
     end
 
     def dashboard_conversation_url(conversation)
-      base = Rails.application.routes.url_helpers.root_url
-      URI.join(base, "dashboard/messages/#{conversation.id}").to_s
+      host = Rails.application.routes.default_url_options[:host] || 'localhost'
+      port = Rails.application.routes.default_url_options[:port]
+      protocol = Rails.env.production? ? 'https' : 'http'
+      port_str = port ? ":#{port}" : ''
+      "#{protocol}://#{host}#{port_str}/dashboard/messages/#{conversation.id}"
     end
 
     def dashboard_settings_url
-      base = Rails.application.routes.url_helpers.root_url
-      URI.join(base, "dashboard/settings").to_s
+      host = Rails.application.routes.default_url_options[:host] || 'localhost'
+      port = Rails.application.routes.default_url_options[:port]
+      protocol = Rails.env.production? ? 'https' : 'http'
+      port_str = port ? ":#{port}" : ''
+      "#{protocol}://#{host}#{port_str}/dashboard/settings"
     end
   end
 end

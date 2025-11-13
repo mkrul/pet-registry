@@ -24,6 +24,8 @@ gem 'cssbundling-rails', '~> 1.4', '>= 1.4.1'
 gem 'jbuilder', '~> 2.12'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 5.3'
+# Background job processing
+gem 'sidekiq'
 
 # use searchkick for search
 gem 'searchkick', '~> 5.3', '>= 5.3.1'

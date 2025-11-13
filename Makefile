@@ -1,4 +1,4 @@
-.PHONY: help build up down logs shell console test clean reset
+.PHONY: help build up down logs shell console sidekiq sidekiq-d sidekiq-logs test clean reset
 
 # Docker commands for Pet Registry application
 
@@ -40,6 +40,15 @@ restartweb: ## Restart web container and attach to it
 
 console: ## Access Rails console
 	docker-compose exec web bundle exec rails console
+
+sidekiq: ## Start Sidekiq worker (foreground)
+	docker-compose up sidekiq
+
+sidekiq-d: ## Start Sidekiq worker in background
+	docker-compose up -d sidekiq
+
+sidekiq-logs: ## View Sidekiq logs
+	docker-compose logs -f sidekiq
 
 test: ## Run RSpec tests
 	docker-compose exec web bundle exec rspec

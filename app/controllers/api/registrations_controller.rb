@@ -23,6 +23,8 @@ module Api
           user: user.as_json(only: [:id, :email])
         }, status: :ok
       else
+        Rails.logger.error "User registration failed: #{user.errors.full_messages.inspect}"
+        Rails.logger.error "User attributes: #{user.attributes.inspect}"
         render json: {
           message: "Sign up failed.",
           errors: user.errors.full_messages

@@ -5,7 +5,7 @@ class CreateReport
 
   def call(params)
     report = Report.new
-    report.assign_attributes(params.except(:image_url))
+    report.assign_attributes(params.except(:image_url, :area, :state, :country, :latitude, :longitude, :intersection))
     report.user = @user if @user
 
     handle_image(report, params[:image_url])

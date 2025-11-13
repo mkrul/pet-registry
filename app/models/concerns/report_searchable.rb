@@ -5,7 +5,14 @@ module ReportSearchable
     searchkick searchable: [:breed_1, :breed_2, :description, :title, :color_1, :color_2, :color_3, :species, :gender],
                filterable: [:status, :species, :gender, :country, :state, :area, :color_1, :color_2, :color_3],
                suggest: [:breed_1, :breed_2],
-               batch_size: 200
+               batch_size: 200,
+               merge_mappings: true,
+               mappings: {
+                 properties: {
+                   created_at: { type: 'date' },
+                   updated_at: { type: 'date' }
+                 }
+               }
 
     after_commit :reindex_report
   end

@@ -12,7 +12,7 @@ Rails.application.configure do
     ActiveStorage::Blob
   end
 
-  host = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :host)
+  host = Rails.application.credentials.dig(:domain, Rails.env.to_sym, :host) || 'localhost'
 
   Rails.application.routes.default_url_options = { host: host, port: 3000 }
   config.action_controller.default_url_options = { host: host, port: 3000 }
@@ -51,6 +51,10 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  # Emails are written to tmp/mail directory instead of being sent
+  # Check tmp/mail/ for email files when testing notifications
+  config.action_mailer.delivery_method = :file
+
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
@@ -72,6 +76,9 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  # Use Sidekiq for background job processing
+  config.active_job.queue_adapter = :sidekiq
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true

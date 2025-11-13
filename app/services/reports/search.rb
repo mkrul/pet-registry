@@ -353,7 +353,7 @@ class Reports::Search < ActiveInteraction::Base
     end
 
     client = elasticsearch_client
-    index_name = "reports_#{Rails.env}"
+    index_name = Report.searchkick_index.name
 
 
     response = client.search(

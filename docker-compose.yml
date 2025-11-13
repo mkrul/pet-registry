@@ -149,6 +149,36 @@ services:
     depends_on:
       - web
 
+  # Sidekiq Worker for Background Jobs
+  sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    command: bundle exec sidekiq
+    volumes:
+      - .:/app
+      - ./config/master.key:/app/config/master.key:ro
+      - ./config/credentials:/app/config/credentials:ro
+      - bundle_cache:/usr/local/bundle
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - RAILS_ENV=development
+      - POSTGRES_DB=pet_registry_development
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/pet_registry_development
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    stdin_open: true
+    tty: true
+
 volumes:
   postgres_data:
   redis_data:
