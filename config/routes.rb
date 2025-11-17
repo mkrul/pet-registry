@@ -95,6 +95,7 @@ Rails.application.routes.draw do
 
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
   end
 
   # Catch-all route to handle client-side routing by React

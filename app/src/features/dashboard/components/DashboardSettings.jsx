@@ -161,7 +161,7 @@ const DashboardSettings = () => {
             <div className="flex items-center justify-between">
               <div>
                 <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Messages</label>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification when someone sends you a message</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Receive an email notification about unread messages</p>
               </div>
               <button
                 onClick={() => setSendEmailForMessage(!sendEmailForMessage)}

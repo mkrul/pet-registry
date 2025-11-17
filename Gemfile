@@ -81,6 +81,8 @@ group :development do
   gem 'error_highlight', '>= 0.4.0', platforms: [:ruby]
   gem 'factory_bot_rails'
   gem 'database_cleaner-active_record'
+  gem 'letter_opener'
+  gem 'letter_opener_web'
 end
 
 group :test do

@@ -51,9 +51,9 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
-  # Emails are written to tmp/mail directory instead of being sent
-  # Check tmp/mail/ for email files when testing notifications
-  config.action_mailer.delivery_method = :file
+  # Emails are saved and viewable at http://localhost:3000/letter_opener
+  config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.perform_deliveries = true
 
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.

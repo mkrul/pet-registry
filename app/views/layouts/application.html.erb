@@ -30,8 +30,7 @@
       html { background-color: #f5f5f5; }
       html.dark { background-color: rgb(23 23 23 / var(--tw-bg-opacity, 1)); }
     </style>
-    <%= vite_stylesheet_tag 'application', data: { "turbo-track": "reload" } %>
-    <%= vite_javascript_tag 'application.jsx' %>
+    <%= vite_javascript_tag 'application.jsx', data: { "turbo-track": "reload" } %>
     <script>
       // Force cache busting
       const timestamp = new Date().getTime();
