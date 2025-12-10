@@ -61,16 +61,39 @@
    - `application_component.rb` - Base component class with Pagy integration
    - **UI Components**: `button`, `card`, `spinner`, `toast`, `modal`, `pagination`, `empty_state`
    - **Shared Components**: `navbar`, `footer`, `status_pill`
-   - **Form Components**: `text_field`, `select`, `image_upload`
+   - **Form Components**: `text_field`, `select`, `textarea`, `image_upload`
 
-6. **Pagy Configuration**:
+6. **Hotwire JavaScript Entry Point**:
+   - Created `app/javascript/hotwire.js` that imports Turbo Rails and Stimulus controllers
+   - This entry point will be used for server-rendered Hotwire pages (separate from React SPA)
+
+7. **Layout Partials**:
+   - `app/views/layouts/_navbar.html.erb` - Renders navbar ViewComponent
+   - `app/views/layouts/_footer.html.erb` - Renders footer ViewComponent
+   - `app/views/layouts/_flash.html.erb` - Flash message rendering
+   - `app/views/layouts/_dark_mode_script.html.erb` - Dark mode FOUC prevention
+
+8. **Pagy Configuration**:
    - Created `config/initializers/pagy.rb` with overflow handling
+
+9. **SimpleForm Configuration**:
+   - Generated `config/initializers/simple_form.rb` with default configuration
+   - Created `config/locales/simple_form.en.yml` for form labels
+
+10. **Lookbook Routes**:
+    - Added Lookbook engine mount at `/lookbook` in development environment
+    - Enables ViewComponent previews at `http://localhost:3000/lookbook`
 
 **Files Created**:
 - `config/initializers/feature_flags.rb`
 - `config/initializers/pagy.rb`
+- `config/initializers/simple_form.rb`
+- `config/locales/simple_form.en.yml`
+- `app/javascript/hotwire.js` - Hotwire entry point
 - `app/views/layouts/_flash.html.erb`
 - `app/views/layouts/_dark_mode_script.html.erb`
+- `app/views/layouts/_navbar.html.erb`
+- `app/views/layouts/_footer.html.erb`
 - `app/javascript/controllers/dropdown_controller.js`
 - `app/javascript/controllers/modal_controller.js`
 - `app/javascript/controllers/toast_controller.js`
@@ -80,7 +103,7 @@
 - `app/components/application_component.rb`
 - `app/components/ui/*.rb` (7 components)
 - `app/components/shared/*.rb` (3 components)
-- `app/components/forms/*.rb` (3 components)
+- `app/components/forms/*.rb` (4 components: text_field, select, textarea, image_upload)
 
 **Result**:
 - Infrastructure is ready for Phase 1: Authentication & Layout
