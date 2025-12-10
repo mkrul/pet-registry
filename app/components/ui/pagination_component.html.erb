@@ -1,0 +1,23 @@
+<nav class="flex items-center justify-center space-x-1" aria-label="Pagination">
+  <% if previous_disabled? %>
+    <span class="<%= nav_button_classes(disabled: true) %>">Previous</span>
+  <% else %>
+    <%= link_to "Previous", pagy_url_for(@pagy, @pagy.page - 1), class: nav_button_classes(disabled: false), data: { turbo_frame: "_self" } %>
+  <% end %>
+
+  <% @pagy.series.each do |item| %>
+    <% if item.is_a?(Integer) %>
+      <%= link_to item, pagy_url_for(@pagy, item), class: page_link_classes(active: item == @pagy.page), data: { turbo_frame: "_self" } %>
+    <% elsif item == :gap %>
+      <span class="px-3 py-1 text-gray-500 dark:text-gray-400">...</span>
+    <% elsif item.is_a?(String) %>
+      <span class="<%= page_link_classes(active: true) %>"><%= item %></span>
+    <% end %>
+  <% end %>
+
+  <% if next_disabled? %>
+    <span class="<%= nav_button_classes(disabled: true) %>">Next</span>
+  <% else %>
+    <%= link_to "Next", pagy_url_for(@pagy, @pagy.page + 1), class: nav_button_classes(disabled: false), data: { turbo_frame: "_self" } %>
+  <% end %>
+</nav>

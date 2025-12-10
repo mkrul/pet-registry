@@ -2,59 +2,93 @@
 
 ## In Progress
 
-### React to Stimulus/Turbo Migration Planning
+### React to Stimulus/Turbo Migration (Phase 0 Complete)
 
-**Objective**: Create a comprehensive plan to migrate from React SPA to Rails-native Hotwire (Turbo + Stimulus) implementation.
+**Objective**: Migrate from React SPA to Rails-native Hotwire (Turbo + Stimulus) implementation.
 
 **Plan Document**: `cursor/plan.md` (~3000 lines)
 
-**Plan Includes**:
-1. **9-Phase Migration Timeline** (16-24 weeks estimated)
-   - Phase 0: Infrastructure Setup
-   - Phase 1: Authentication & Layout
-   - Phase 2: Public Pages
-   - Phase 3: Dashboard Core
-   - Phase 4: Dashboard Reports & Pets
-   - Phase 5: Dashboard Messages
-   - Phase 6: Search & Filtering
-   - Phase 7: Maps & Geocoding
-   - Phase 8: Image Upload & Cloudinary
-   - Phase 9: Cleanup & Polish
+**Current Status**: Phase 0 Infrastructure Setup - COMPLETE ✅
 
-2. **LLM-Specific Implementation Guide** (Appendices C-K)
-   - Context requirements before each conversion
-   - Conversion pattern templates (React → Rails/Stimulus)
-   - Stimulus controller templates
-   - ViewComponent templates
-   - Turbo Frame/Stream patterns
-   - API response structure reference
-   - TailwindCSS class preservation reference
-   - File-by-file conversion guide
-   - Common mistakes to avoid
-   - Form validation patterns
-   - Accessibility requirements
-   - Real-time messaging implementation detail
+**Next Phase**: Phase 1 - Authentication & Layout
 
-3. **Technical Decisions**
-   - Keep TailwindCSS, drop Material UI
-   - Use ViewComponent for reusable UI
-   - Use ActionCable + Turbo Streams for real-time (replacing RTK Query polling)
-   - Vanilla Leaflet + Stimulus for maps
-   - Direct Cloudinary uploads retained
-
-4. **Risk Assessment**
-   - High: Real-time messaging, Map interactions, Form state management
-   - Medium: Search/filter state, Image upload UX, Dark mode persistence
-   - Low: Static pages, CRUD operations, Authentication
-
-**Next Steps**:
-1. Review plan with stakeholders
-2. Begin Phase 0: Infrastructure Setup
-3. Parallel development approach (new routes at `/v2/...`)
+**Migration Phases**:
+1. ✅ Phase 0: Infrastructure Setup (Complete)
+2. ⏳ Phase 1: Authentication & Layout (Next)
+3. ⬜ Phase 2: Public Pages
+4. ⬜ Phase 3: Dashboard Core
+5. ⬜ Phase 4: Dashboard Reports & Pets
+6. ⬜ Phase 5: Dashboard Messages
+7. ⬜ Phase 6: Search & Filtering
+8. ⬜ Phase 7: Maps & Geocoding
+9. ⬜ Phase 8: Image Upload & Cloudinary
+10. ⬜ Phase 9: Cleanup & Polish
 
 ---
 
 ## Completed Tasks
+
+### Phase 0: Infrastructure Setup (Migration)
+
+**Objective**: Set up the foundational infrastructure for the React to Stimulus/Turbo migration.
+
+**Changes Made**:
+
+1. **Gemfile Updates**:
+   - Added `view_component` (~> 3.0) for reusable UI components
+   - Added `lookbook` (~> 2.0) for component previews in development
+   - Added `simple_form` (~> 5.3) for form helpers
+   - Added `pagy` (~> 9.0) for lightweight pagination
+   - Added `local_time` (~> 3.0) for relative timestamps
+
+2. **Feature Flags System**:
+   - Created `config/initializers/feature_flags.rb` with `use_hotwire?` and `hotwire_enabled_for?` methods
+   - Enables parallel development approach for gradual migration
+
+3. **Layout Partials**:
+   - `app/views/layouts/_flash.html.erb` - Flash message rendering with Stimulus toast controller
+   - `app/views/layouts/_dark_mode_script.html.erb` - Inline dark mode script for FOUC prevention
+
+4. **Stimulus Controllers** (`app/javascript/controllers/`):
+   - `dropdown_controller.js` - Dropdown menus with outside click and escape key handling
+   - `modal_controller.js` - Modal dialogs with focus trapping and keyboard navigation
+   - `toast_controller.js` - Auto-dismissing toast notifications
+   - `theme_controller.js` - Dark mode toggle with localStorage persistence
+   - `form_controller.js` - Form submission states and client-side validation
+   - `image_upload_controller.js` - Drag-and-drop image uploads with preview
+
+5. **ViewComponent Structure** (`app/components/`):
+   - `application_component.rb` - Base component class with Pagy integration
+   - **UI Components**: `button`, `card`, `spinner`, `toast`, `modal`, `pagination`, `empty_state`
+   - **Shared Components**: `navbar`, `footer`, `status_pill`
+   - **Form Components**: `text_field`, `select`, `image_upload`
+
+6. **Pagy Configuration**:
+   - Created `config/initializers/pagy.rb` with overflow handling
+
+**Files Created**:
+- `config/initializers/feature_flags.rb`
+- `config/initializers/pagy.rb`
+- `app/views/layouts/_flash.html.erb`
+- `app/views/layouts/_dark_mode_script.html.erb`
+- `app/javascript/controllers/dropdown_controller.js`
+- `app/javascript/controllers/modal_controller.js`
+- `app/javascript/controllers/toast_controller.js`
+- `app/javascript/controllers/theme_controller.js`
+- `app/javascript/controllers/form_controller.js`
+- `app/javascript/controllers/image_upload_controller.js`
+- `app/components/application_component.rb`
+- `app/components/ui/*.rb` (7 components)
+- `app/components/shared/*.rb` (3 components)
+- `app/components/forms/*.rb` (3 components)
+
+**Result**:
+- Infrastructure is ready for Phase 1: Authentication & Layout
+- All base Stimulus controllers registered
+- ViewComponent structure established with dark mode support throughout
+- Feature flag system enables parallel development
+
+---
 
 ### Conversation Email Notification
 
