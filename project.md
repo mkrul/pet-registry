@@ -1,5 +1,59 @@
 # Project Status
 
+## In Progress
+
+### React to Stimulus/Turbo Migration Planning
+
+**Objective**: Create a comprehensive plan to migrate from React SPA to Rails-native Hotwire (Turbo + Stimulus) implementation.
+
+**Plan Document**: `cursor/plan.md` (~3000 lines)
+
+**Plan Includes**:
+1. **9-Phase Migration Timeline** (16-24 weeks estimated)
+   - Phase 0: Infrastructure Setup
+   - Phase 1: Authentication & Layout
+   - Phase 2: Public Pages
+   - Phase 3: Dashboard Core
+   - Phase 4: Dashboard Reports & Pets
+   - Phase 5: Dashboard Messages
+   - Phase 6: Search & Filtering
+   - Phase 7: Maps & Geocoding
+   - Phase 8: Image Upload & Cloudinary
+   - Phase 9: Cleanup & Polish
+
+2. **LLM-Specific Implementation Guide** (Appendices C-K)
+   - Context requirements before each conversion
+   - Conversion pattern templates (React → Rails/Stimulus)
+   - Stimulus controller templates
+   - ViewComponent templates
+   - Turbo Frame/Stream patterns
+   - API response structure reference
+   - TailwindCSS class preservation reference
+   - File-by-file conversion guide
+   - Common mistakes to avoid
+   - Form validation patterns
+   - Accessibility requirements
+   - Real-time messaging implementation detail
+
+3. **Technical Decisions**
+   - Keep TailwindCSS, drop Material UI
+   - Use ViewComponent for reusable UI
+   - Use ActionCable + Turbo Streams for real-time (replacing RTK Query polling)
+   - Vanilla Leaflet + Stimulus for maps
+   - Direct Cloudinary uploads retained
+
+4. **Risk Assessment**
+   - High: Real-time messaging, Map interactions, Form state management
+   - Medium: Search/filter state, Image upload UX, Dark mode persistence
+   - Low: Static pages, CRUD operations, Authentication
+
+**Next Steps**:
+1. Review plan with stakeholders
+2. Begin Phase 0: Infrastructure Setup
+3. Parallel development approach (new routes at `/v2/...`)
+
+---
+
 ## Completed Tasks
 
 ### Conversation Email Notification
