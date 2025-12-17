@@ -1,0 +1,11 @@
+<div class="space-y-3">
+  <% tips.each do |tip| %>
+    <%= render Reports::TipComponent.new(tip: tip, report: report) %>
+  <% end %>
+</div>
+
+<% if pagy.pages > 1 %>
+  <div class="mt-4">
+    <%= render Ui::PaginationComponent.new(pagy: pagy, turbo_frame: "tips_list_#{report.id}") %>
+  </div>
+<% end %>

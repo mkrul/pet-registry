@@ -1,0 +1,59 @@
+<nav class="flex items-center justify-center gap-1" aria-label="Pagination">
+  <% if prev_page %>
+    <%= link_to page_url(prev_page), class: link_classes, data: turbo_data, aria: { label: "Previous page" } do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    <% end %>
+  <% else %>
+    <span class="<%= link_classes(disabled: true) %>" aria-disabled="true">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </span>
+  <% end %>
+
+  <% if show_first_page? %>
+    <%= link_to "1", page_url(1), class: link_classes, data: turbo_data %>
+  <% end %>
+
+  <% if show_first_ellipsis? %>
+    <span class="px-2 text-gray-500 dark:text-gray-400">...</span>
+  <% end %>
+
+  <% page_range.each do |page| %>
+    <% if page == current_page %>
+      <span class="<%= link_classes(active: true) %>" aria-current="page">
+        <%= page %>
+      </span>
+    <% else %>
+      <%= link_to page.to_s, page_url(page), class: link_classes, data: turbo_data %>
+    <% end %>
+  <% end %>
+
+  <% if show_last_ellipsis? %>
+    <span class="px-2 text-gray-500 dark:text-gray-400">...</span>
+  <% end %>
+
+  <% if show_last_page? %>
+    <%= link_to total_pages.to_s, page_url(total_pages), class: link_classes, data: turbo_data %>
+  <% end %>
+
+  <% if next_page %>
+    <%= link_to page_url(next_page), class: link_classes, data: turbo_data, aria: { label: "Next page" } do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    <% end %>
+  <% else %>
+    <span class="<%= link_classes(disabled: true) %>" aria-disabled="true">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </span>
+  <% end %>
+</nav>
+
+<div class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+  Page <%= current_page %> of <%= total_pages %> (<%= number_with_delimiter(total_count) %> results)
+</div>

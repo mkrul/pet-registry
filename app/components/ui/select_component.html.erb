@@ -1,0 +1,61 @@
+<div class="<%= wrapper_classes %>"
+     data-controller="select"
+     data-select-name-value="<%= name %>">
+
+  <% if label.present? %>
+    <label for="<%= input_id %>" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      <%= label %>
+    </label>
+  <% end %>
+
+  <input type="hidden"
+         name="<%= name %>"
+         id="<%= input_id %>"
+         value="<%= selected %>"
+         data-select-target="input">
+
+  <button type="button"
+          class="<%= button_classes %>"
+          data-select-target="button"
+          data-action="click->select#toggle keydown->select#handleKeydown"
+          aria-haspopup="listbox"
+          aria-expanded="false">
+    <span data-select-target="label" class="<%= selected.blank? ? placeholder_classes : '' %> truncate">
+      <%= selected_label || placeholder %>
+    </span>
+    <span class="flex items-center gap-1">
+      <% if clearable && selected.present? %>
+        <span class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              data-action="click->select#clear:stop"
+              data-select-target="clearButton">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </span>
+      <% end %>
+      <svg class="w-5 h-5 text-gray-400 transition-transform duration-200" data-select-target="chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </span>
+  </button>
+
+  <ul class="<%= dropdown_classes %>"
+      data-select-target="dropdown"
+      role="listbox"
+      tabindex="-1">
+    <% options.each_with_index do |option, index| %>
+      <% value = option_value(option) %>
+      <% label_text = option_label(option) %>
+      <% is_selected = value.to_s == selected.to_s %>
+      <li class="<%= option_classes %> <%= is_selected ? selected_option_classes : '' %>"
+          role="option"
+          aria-selected="<%= is_selected %>"
+          data-value="<%= value %>"
+          data-action="click->select#selectOption keydown->select#handleOptionKeydown"
+          data-select-target="option"
+          tabindex="0">
+        <%= label_text %>
+      </li>
+    <% end %>
+  </ul>
+</div>

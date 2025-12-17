@@ -1,0 +1,100 @@
+<div data-controller="search-panel"
+     data-search-panel-open-value="false">
+
+  <button type="button"
+          class="fixed bottom-16 md:bottom-10 right-0 z-50 transition-colors duration-300 text-white px-3 py-0 md:px-4 md:py-2.5 h-11 md:h-auto rounded-l-lg shadow-lg text-sm md:text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-300 bg-green-600 hover:bg-green-700"
+          data-search-panel-target="toggleButton"
+          data-action="click->search-panel#toggle"
+          aria-pressed="false"
+          aria-controls="search-panel-content">
+    <div class="flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="h-7 w-7 md:h-5 md:w-5"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke="currentColor">
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <span class="hidden md:inline" data-search-panel-target="buttonLabel">Search</span>
+    </div>
+  </button>
+
+  <div id="search-panel-content"
+       class="fixed top-0 right-0 w-full xs:w-[27rem] h-screen bg-white border-l border-gray-200 dark:bg-gray-800 dark:border-gray-700 z-40 shadow-lg transform translate-x-full transition-transform duration-300 ease-out"
+       data-search-panel-target="panel"
+       aria-hidden="true">
+    <div class="p-4 flex flex-col h-full overflow-y-auto bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+
+      <%= form_with url: reports_path, method: :get, local: true, data: { turbo_frame: "reports_list", turbo_action: "advance", controller: "filter", action: "submit->search-panel#handleSearch" } do |f| %>
+        <div class="mb-6">
+          <label for="search_query" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search</label>
+          <div class="relative">
+            <%= f.text_field :query,
+                             value: current_query,
+                             id: "search_query",
+                             class: "w-full px-3 py-2 pr-10 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400",
+                             placeholder: "Search for pets...",
+                             data: { filter_target: "queryInput" } %>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <%= render Reports::FiltersComponent.new(filters: filters, remember_filters: remember_filters) %>
+
+        <div class="flex gap-3 mt-6">
+          <%= f.submit "Search",
+                       class: "flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer" %>
+
+          <button type="button"
+                  class="flex-1 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  data-action="click->filter#reset">
+            Reset
+          </button>
+        </div>
+      <% end %>
+
+      <div class="text-sm text-gray-600 dark:text-gray-300 p-3 mt-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 transition-colors"
+           data-controller="collapsible"
+           data-collapsible-open-value="true">
+        <button type="button"
+                class="font-medium text-medium flex items-center justify-between w-full text-gray-800 dark:text-gray-100 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:focus-visible:outline-blue-400 rounded-md"
+                data-action="click->collapsible#toggle"
+                aria-expanded="true"
+                aria-controls="search-tips-content">
+          <span>Search Tips</span>
+          <span class="ml-2 text-xs text-gray-500 dark:text-gray-400" data-collapsible-target="indicator">▼</span>
+        </button>
+        <div id="search-tips-content"
+             class="mt-2"
+             data-collapsible-target="content">
+          <ul class="space-y-2">
+            <li class="flex items-start gap-2">
+              <span>🔍</span>
+              <span>Adding filters can improve your search.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span>🔍</span>
+              <span>Double check spelling & use simple keywords</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span>🔍</span>
+              <span>Try different keywords (e.g., an American Bully might have been reported as a "bulldog" or "pit bull")</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed inset-0 bg-black/50 z-30 hidden"
+       data-search-panel-target="backdrop"
+       data-action="click->search-panel#close"
+       aria-hidden="true"></div>
+</div>

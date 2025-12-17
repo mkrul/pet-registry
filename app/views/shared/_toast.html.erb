@@ -1,0 +1,21 @@
+<% alert_class = case type.to_sym
+                 when :notice, :success then "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-green-200 dark:border-green-800"
+                 when :alert, :error then "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-red-200 dark:border-red-800"
+                 when :warning then "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800"
+                 else "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                 end %>
+<div class="max-w-7xl mx-auto px-4 mt-4"
+     data-controller="toast"
+     data-toast-auto-dismiss-value="true"
+     data-toast-delay-value="5000">
+  <div class="<%= alert_class %> border rounded-md p-4 flex justify-between items-center">
+    <span><%= message %></span>
+    <button type="button"
+            data-action="click->toast#dismiss"
+            class="text-current opacity-70 hover:opacity-100">
+      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+</div>

@@ -1,38 +1,225 @@
-<% content_for :title, "About - Lost Pets Registry" %>
+<% content_for :title, "About - Pet Registry" %>
 
-<div class="max-w-4xl mx-auto px-4 py-12">
-  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">About Lost Pets Registry</h1>
-
-    <div class="prose dark:prose-invert max-w-none">
-      <p class="text-gray-700 dark:text-gray-300 mb-6 text-lg">
-        Lost Pets Registry is a platform dedicated to helping reunite lost pets with their families.
+<div class="min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
+  <div class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[60vh] md:min-h-[70vh] bg-cover bg-center md:bg-[center_47%] bg-no-repeat flex overflow-hidden items-center justify-center mb-8"
+       style="background-image: url('/images/stray-cat-black-and-white.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50 z-[1]"></div>
+    <div class="relative z-[2] text-center xl:text-right px-3 md:px-12 max-w-[950px] ml-auto mr-auto xl:mr-0">
+      <h1 class="font-normal text-[1.85rem] sm:text-[2.15rem] md:text-[2.75rem] lg:text-[3.14rem] mb-3 px-1 sm:px-4 lg:px-0 leading-[1.25] tracking-[0.115px] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+        Each year, <span class="font-bold">millions of pets</span> are lost or stolen in the United States.
+      </h1>
+      <p class="text-[1.15rem] sm:text-[1.275rem] md:text-[1.375rem] lg:text-[1.475rem] px-1 sm:px-4 lg:px-0 font-light leading-[1.4] md:leading-[1.8] tracking-[0.35px] text-white/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
+        Many are never reunited with the families who love them.
       </p>
+    </div>
+  </div>
 
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">Our Mission</h2>
-      <p class="text-gray-700 dark:text-gray-300 mb-4">
-        Every year, millions of pets go missing. Our mission is to provide a free, easy-to-use platform where pet owners can report lost animals and community members can report found pets, helping to bring families back together.
+  <div class="max-w-3xl mx-auto pt-3 px-4">
+    <div class="mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-2 mb-8 items-center">
+        <div class="p-1 sm:p-0 md:p-1 mr-0 md:mr-2">
+          <div class="mb-3 sm:mb-2 md:mb-4">
+            <h2 class="font-bold text-[1.775rem] sm:text-[1.5rem] md:text-[1.675rem] leading-[1.4] text-[#2c3e50] dark:text-gray-100 mb-1 text-center sm:text-left">
+              The average stray hold period is
+              <span class="font-extrabold text-[#e74c3c]">
+                only 2 to 3 days.<sup><a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" class="text-[#1976d2] dark:text-blue-400 no-underline text-[0.7em] font-normal">1</a></sup>
+              </span>
+            </h2>
+          </div>
+          <p class="text-[1.125rem] sm:text-[1.05rem] md:text-[1.125rem] leading-[1.7] sm:leading-[1.65] md:leading-[1.7] text-gray-600 dark:text-gray-400 pr-0 sm:pr-1 mb-3 sm:mb-0 text-justify sm:text-left">
+            Shelters will typically hold strays for a short amount of time so that their owners have a chance to reclaim them.
+            Unfortunately, once the stray hold expires, reuniting lost pets with their families becomes far less likely.
+          </p>
+        </div>
+        <div>
+          <img src="/images/shelter-dog.jpg"
+               alt="Lost dog in shelter"
+               class="w-full h-[300px] sm:h-[350px] md:h-[380px] object-cover rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.15)]">
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-9">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-2 mb-8 items-center">
+        <div class="order-2 sm:order-1">
+          <img src="/images/woman-holding-cat.jpg"
+               alt="Woman holding a cat"
+               class="w-full h-[300px] sm:h-[350px] md:h-[380px] object-cover rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.15)]">
+        </div>
+        <div class="order-1 sm:order-2 p-1 sm:p-1 md:p-1 ml-0 md:ml-2">
+          <div class="mb-3 sm:mb-2 md:mb-4">
+            <h2 class="font-bold text-[1.775rem] sm:text-[1.5rem] md:text-[1.675rem] leading-[1.4] text-[#2c3e50] dark:text-gray-100 mb-3 sm:mb-1 md:mb-3 text-center sm:text-left">
+              Microchipping helps, but sometimes <span class="font-extrabold text-[#e74c3c]">it's not enough.</span>
+            </h2>
+          </div>
+          <p class="text-[1.125rem] sm:text-[1.05rem] md:text-[1.125rem] leading-[1.7] sm:leading-[1.65] md:leading-[1.7] text-gray-600 dark:text-gray-400 mb-3 text-justify sm:text-left">
+            Bureaucracy, fines, reclaim fees, and systemic biases can create barriers that are difficult for pet parents to overcome. If not reclaimed in time, lost pets may be adopted out to other families or transferred to a different facility hundreds of miles away.<sup><a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" class="text-[#1976d2] dark:text-blue-400 no-underline">2</a></sup>
+          </p>
+        </div>
+      </div>
+      <p class="text-xs text-[#5a6c7d] dark:text-gray-500 leading-[1.5] mt-4 block text-center">
+        Sources: 1. <a href="https://lostpetresearch.com/2019/03/lost-pet-statistics/" target="_blank" rel="noopener noreferrer" class="text-[#5a6c7d] dark:text-gray-500 no-underline">Lost Pet Research</a> • 2. <a href="https://www.humananimalsupportservices.org/blog/barrier-busting-basics-for-busy-animal-shelters/" target="_blank" rel="noopener noreferrer" class="text-[#5a6c7d] dark:text-gray-500 no-underline">Human Animal Support Services</a>
       </p>
+    </div>
 
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">How It Works</h2>
-      <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 space-y-2 mb-4">
-        <li><strong>Report a lost pet</strong> - Create a detailed listing with photos and last known location</li>
-        <li><strong>Report a found pet</strong> - Help a lost pet find its way home by posting sighting information</li>
-        <li><strong>Search listings</strong> - Browse reported pets in your area</li>
-        <li><strong>Connect with others</strong> - Message other users about potential matches</li>
-        <li><strong>Submit tips</strong> - Share sightings and helpful information on pet listings</li>
-      </ul>
+    <div class="mb-9 bg-white dark:bg-gray-800 rounded-none border-none w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch">
+        <div class="p-0 order-2 lg:order-1">
+          <img src="/images/woman-and-puppy.jpg"
+               alt="Woman with puppy"
+               class="w-full h-[350px] lg:h-full object-cover lg:object-[80%_0%] block">
+        </div>
+        <div class="p-0 order-1 lg:order-2">
+          <div class="flex flex-col justify-center min-h-0 lg:min-h-[600px] py-8 lg:py-10 px-4 lg:px-6 bg-[#f8f9fa] dark:bg-gray-800 relative">
+            <div class="mb-5 text-center lg:text-left">
+              <h2 class="font-extrabold text-[1.875rem] lg:text-[2.25rem] leading-[1.3] text-[#2c3e50] dark:text-gray-100 mb-3 relative after:content-[''] after:absolute after:-bottom-6 after:left-1/2 lg:after:left-0 after:-translate-x-1/2 lg:after:translate-x-0 after:w-[60px] after:h-[3px] after:bg-[#3498db] after:rounded-sm">
+                The Future of Lost Pet Reunification
+              </h2>
+              <p class="text-[1.15rem] leading-[1.7] text-[#5a6c7d] dark:text-gray-400 mb-0 mt-6 font-medium max-w-[800px] lg:max-w-none mx-auto lg:mx-0">
+                Our mission is to improve reunification rates in our communities by delivering a platform that is accessible and
+                actionable, putting real-time data about lost pets within reach.
+              </p>
+            </div>
 
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">Get Involved</h2>
-      <p class="text-gray-700 dark:text-gray-300 mb-4">
-        This project runs on the generosity of others. If you'd like to support our work, consider making a donation or spreading the word about our platform.
-      </p>
+            <div class="flex flex-col gap-4 items-center lg:items-stretch">
+              <div class="flex items-start gap-3 p-3 bg-white dark:bg-gray-700 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-[#e9ecef] dark:border-gray-600 transition-all duration-300 max-w-[800px] lg:max-w-none w-full hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+                <div class="p-2 bg-[#e3f2fd] dark:bg-blue-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg class="w-7 h-7 text-[#1976d2] dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-bold text-[#1976d2] dark:text-blue-400 text-[1.25rem] mb-1">Centralized</h3>
+                  <p class="text-base leading-[1.6] text-[#495057] dark:text-gray-300 mb-0">
+                    Information silos inhibit communication between shelters, rescues, and pet parents. We offer a nationwide network that relies on a single database to trace lost pets so they can be found quickly.
+                  </p>
+                </div>
+              </div>
 
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">Contact Us</h2>
-      <p class="text-gray-700 dark:text-gray-300 mb-4">
-        Have questions or feedback? We'd love to hear from you.
-        <%= link_to "Contact us", "/contact", class: "text-blue-600 dark:text-blue-400 hover:underline" %>
-      </p>
+              <div class="flex items-start gap-3 p-3 bg-white dark:bg-gray-700 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-[#e9ecef] dark:border-gray-600 transition-all duration-300 max-w-[800px] lg:max-w-none w-full hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+                <div class="p-2 bg-[#e8f5e8] dark:bg-green-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg class="w-7 h-7 text-[#2e7d32] dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-bold text-[#2e7d32] dark:text-green-400 text-[1.25rem] mb-1">Proactive</h3>
+                  <p class="text-base leading-[1.6] text-[#495057] dark:text-gray-300 mb-0">
+                    One in three pets will become lost at some point in their lifetime.
+                    By registering pets <em>before</em> they go missing, owners can
+                    be prepared to act quickly when the unexpected occurs.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-3 bg-white dark:bg-gray-700 rounded-xl shadow-[0_2px_12px_rgba(0,0,0,0.08)] border border-[#e9ecef] dark:border-gray-600 transition-all duration-300 max-w-[800px] lg:max-w-none w-full hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-0.5">
+                <div class="p-2 bg-[#fff3e0] dark:bg-orange-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg class="w-7 h-7 text-[#f57c00] dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="font-bold text-[#f57c00] dark:text-orange-400 text-[1.25rem] mb-1">Community-Driven</h3>
+                  <p class="text-base leading-[1.6] text-[#495057] dark:text-gray-300 mb-0">
+                    When pets go missing, community support is essential.
+                    Our platform connects pet owners, neighbors, and animal welfare professionals in a unified effort to bring lost pets home.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="mb-9 mt-8">
+      <div class="text-center mb-6">
+        <h2 class="font-extrabold text-[1.875rem] lg:text-[2.25rem] leading-[1.3] text-[#2c3e50] dark:text-gray-100 mb-3 relative inline-block after:content-[''] after:absolute after:-bottom-6 after:left-1/2 after:-translate-x-1/2 after:w-[60px] after:h-[3px] after:bg-[#3498db] after:rounded-sm">
+          How It Works
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10 justify-center">
+        <div class="flex flex-col items-center text-center p-4 h-full bg-[#f8f9fa] dark:bg-gray-800 rounded-xl transition-all duration-300 max-w-[30rem] md:max-w-none mx-auto md:mx-0 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1">
+          <div class="p-3 bg-[#e3f2fd] dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-3">
+            <svg class="w-10 h-10 text-[#1976d2] dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </div>
+          <h3 class="font-bold text-[#2c3e50] dark:text-gray-100 text-[1.4rem] mb-2">1. Register Your Pets</h3>
+          <p class="text-[1.05rem] leading-[1.7] text-[#5a6c7d] dark:text-gray-400">
+            Create an account and register your pets in our database.
+            This ensures that all of their information is available in case they go missing.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center p-4 h-full bg-[#f8f9fa] dark:bg-gray-800 rounded-xl transition-all duration-300 max-w-[30rem] md:max-w-none mx-auto md:mx-0 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1">
+          <div class="p-3 bg-[#ffebee] dark:bg-red-900/30 rounded-full flex items-center justify-center mb-3">
+            <svg class="w-10 h-10 text-[#d32f2f] dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+          <h3 class="font-bold text-[#2c3e50] dark:text-gray-100 text-[1.4rem] mb-2">2. Submit a Report</h3>
+          <p class="text-[1.05rem] leading-[1.7] text-[#5a6c7d] dark:text-gray-400">
+            If your pet gets lost, you can submit a report with just a few clicks. Others can report sightings or contact you directly if they find your pet.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center p-4 h-full bg-[#f8f9fa] dark:bg-gray-800 rounded-xl transition-all duration-300 max-w-[30rem] md:max-w-none mx-auto md:mx-0 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1">
+          <div class="p-3 bg-[#f3e5f5] dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-3">
+            <svg class="w-10 h-10 text-[#9c27b0] dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+            </svg>
+          </div>
+          <h3 class="font-bold text-[#2c3e50] dark:text-gray-100 text-[1.4rem] mb-2">3. Boost for Visibility</h3>
+          <p class="text-[1.05rem] leading-[1.7] text-[#5a6c7d] dark:text-gray-400">
+            Share lost pet reports on social media to help spread the word, or generate printable flyers to distribute in your community.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center p-4 h-full bg-[#f8f9fa] dark:bg-gray-800 rounded-xl transition-all duration-300 max-w-[30rem] md:max-w-none mx-auto md:mx-0 hover:shadow-[0_4px_20px_rgba(0,0,0,0.12)] hover:-translate-y-1">
+          <div class="p-3 bg-[#e8f5e9] dark:bg-green-900/30 rounded-full flex items-center justify-center mb-3">
+            <svg class="w-10 h-10 text-[#2e7d32] dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+          </div>
+          <h3 class="font-bold text-[#2c3e50] dark:text-gray-100 text-[1.4rem] mb-2">4. Support Others</h3>
+          <p class="text-[1.05rem] leading-[1.7] text-[#5a6c7d] dark:text-gray-400">
+            Provide support for other pet parents by sharing reports, submitting tips, and keeping an eye out for missing pets in your area.
+          </p>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <p class="text-[1.1rem] leading-[1.7] text-[#5a6c7d] dark:text-gray-400 italic max-w-[800px] mx-auto">
+          <span role="img" aria-label="Pro tip" class="mr-2">💡</span>
+          <strong>Pro tip:</strong> You can submit reports for lost pets that you've found to help them find their way home!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto">
+    <div class="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[50vh] md:min-h-[60vh] bg-cover bg-[center_48%] bg-no-repeat overflow-hidden flex items-center justify-center pt-6 md:pt-8 pb-4 md:pb-6 px-4 md:px-6"
+         style="background-image: url('/images/man-with-dog.jpg');">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 z-[1]"></div>
+      <div class="relative z-[2] text-center w-full max-w-[1200px] mx-auto">
+        <h2 class="text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] font-bold text-[1.75rem] sm:text-[1.75rem] md:text-[2rem] mb-3 leading-[1.3] max-w-[600px] lg:max-w-[900px] px-[1.75rem] sm:px-4 md:px-6 lg:px-[3.75rem] mx-auto">
+          Because their safety matters — and so does your peace of mind.
+        </h2>
+        <p class="text-[1.15rem] md:text-[1.175rem] leading-[1.5] font-medium text-white/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] mb-6 pt-1 max-w-[550px] lg:max-w-none mx-auto px-4 sm:px-2 lg:px-0">
+          Registering your pet is fast, easy, and completely <strong>free</strong>.
+        </p>
+        <% if user_signed_in? %>
+          <%= link_to "Get Started", "/dashboard/pets?action=create",
+                      class: "inline-block mt-2 md:mt-3 px-5 md:px-7 py-[0.35rem] md:py-[0.65rem] font-bold rounded-lg no-underline text-[1.05rem] md:text-[1.15rem] tracking-[0.015em] shadow-[0_12px_30px_rgba(31,64,111,0.35)] backdrop-blur-sm bg-gradient-to-br from-blue-500/95 to-blue-400/95 text-white hover:from-blue-600 hover:to-blue-500 hover:shadow-[0_16px_40px_rgba(37,99,235,0.45)] hover:-translate-y-0.5 transition-all duration-200" %>
+        <% else %>
+          <%= link_to "Get Started", new_user_registration_path,
+                      class: "inline-block mt-2 md:mt-3 px-5 md:px-7 py-[0.35rem] md:py-[0.65rem] font-bold rounded-lg no-underline text-[1.05rem] md:text-[1.15rem] tracking-[0.015em] shadow-[0_12px_30px_rgba(31,64,111,0.35)] backdrop-blur-sm bg-gradient-to-br from-blue-500/95 to-blue-400/95 text-white hover:from-blue-600 hover:to-blue-500 hover:shadow-[0_16px_40px_rgba(37,99,235,0.45)] hover:-translate-y-0.5 transition-all duration-200" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

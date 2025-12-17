@@ -1,0 +1,71 @@
+<div class="flex flex-col gap-3"
+     data-controller="filter"
+     data-filter-remember-value="<%= remember_filters %>">
+
+  <div class="mb-2">
+    <%= render Ui::SelectComponent.new(
+          name: "species",
+          options: species_options,
+          selected: current_species,
+          placeholder: "Species",
+          clearable: true,
+          label: "Species"
+        ) %>
+  </div>
+
+  <div class="mb-2">
+    <%= render Ui::SelectComponent.new(
+          name: "color",
+          options: color_options,
+          selected: current_color,
+          placeholder: "Color",
+          clearable: true,
+          label: "Color"
+        ) %>
+  </div>
+
+  <div class="mb-2">
+    <%= render Ui::SelectComponent.new(
+          name: "gender",
+          options: gender_options,
+          selected: current_gender,
+          placeholder: "Gender",
+          clearable: true,
+          label: "Gender"
+        ) %>
+  </div>
+
+  <div class="mb-2">
+    <%= render Ui::SelectComponent.new(
+          name: "state",
+          options: state_options,
+          selected: current_state,
+          placeholder: "State",
+          clearable: true,
+          label: "State"
+        ) %>
+  </div>
+
+  <div class="mb-2">
+    <%= render Ui::SelectComponent.new(
+          name: "sort",
+          options: sort_options,
+          selected: current_sort,
+          placeholder: "Sort by",
+          clearable: false,
+          label: "Sort by"
+        ) %>
+  </div>
+
+  <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <label class="flex items-center cursor-pointer">
+      <input type="checkbox"
+             id="remember_filters"
+             class="w-4 h-4 text-blue-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400"
+             <%= remember_filters ? "checked" : "" %>
+             data-filter-target="rememberCheckbox"
+             data-action="change->filter#toggleRemember">
+      <span class="ml-2 text-sm text-gray-700 dark:text-gray-300">Remember filters</span>
+    </label>
+  </div>
+</div>

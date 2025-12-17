@@ -1,0 +1,172 @@
+<% content_for :title, "#{@report.title} - Pet Registry" %>
+
+<div class="min-h-screen py-8 bg-gray-50 dark:bg-gray-900" data-testid="report-show">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-6">
+      <%= link_to reports_path(query: params[:query], page: params[:page]),
+                  class: "flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors",
+                  data: { turbo_frame: "_top" } do %>
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Back to Reports
+      <% end %>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden">
+      <div class="md:flex">
+        <div class="md:w-1/2 relative md:flex md:items-stretch">
+          <%= render Ui::ImageModalComponent.new(
+                image_url: @report.image.attached? ? url_for(@report.image) : "/images/placeholder.png",
+                alt_text: @report.title,
+                caption: @report.title
+              ) do %>
+            <div class="relative w-full"
+                 data-controller="image-loader"
+                 data-image-loader-placeholder-value="/images/placeholder.png">
+              <div class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-20"
+                   data-image-loader-target="spinner">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              </div>
+              <%= image_tag(@report.image.attached? ? url_for(@report.image) : "/images/placeholder.png",
+                            alt: @report.title,
+                            class: "w-full h-64 md:h-full md:min-h-[350px] sm:min-h-[400px] xs:min-h-[300px] object-cover #{@report.status == 'archived' ? 'grayscale' : ''} hidden",
+                            data: {
+                              image_loader_target: "image",
+                              action: "load->image-loader#loaded error->image-loader#error"
+                            }) %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="md:w-1/2 p-6 md:p-8 flex flex-col">
+          <div class="space-y-4">
+            <div>
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h1 class="text-xl font-bold text-gray-900 dark:text-gray-100"><%= @report.title %></h1>
+                <% if @report.status == 'archived' %>
+                  <span class="px-3 py-1 text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full flex-shrink-0">
+                    Archived
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
+            <% if @report.name.present? || @report.species.present? %>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                <% if @report.name.present? %>
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Name</h4>
+                    <p class="text-gray-700 dark:text-gray-100 font-normal"><%= @report.name %></p>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <div>
+              <h4 class="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Description</h4>
+              <p class="text-gray-700 dark:text-gray-100 font-normal"><%= @report.description %></p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+              <div>
+                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Breed</h4>
+                <p class="text-gray-700 dark:text-gray-100 font-normal"><%= @report.breed_1 %></p>
+                <% if @report.breed_2.present? %>
+                  <p class="text-gray-700 dark:text-gray-100 font-normal"><%= @report.breed_2 %></p>
+                <% end %>
+              </div>
+
+              <% if @report.gender.present? %>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Gender</h4>
+                  <p class="text-gray-700 dark:text-gray-100 font-normal capitalize"><%= @report.gender %></p>
+                </div>
+              <% end %>
+
+              <% unless @report.is_altered.nil? %>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Spayed/Neutered</h4>
+                  <p class="text-gray-700 dark:text-gray-100 font-normal">
+                    <%= @report.is_altered ? "Yes" : "No" %>
+                  </p>
+                </div>
+              <% end %>
+
+              <% if @report.microchip_id.present? %>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900 dark:text-gray-400 uppercase tracking-wide mb-1">Microchip ID</h4>
+                  <p class="text-gray-700 dark:text-gray-100 font-normal"><%= @report.microchip_id %></p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-6 md:p-8">
+      <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-2">Sightings & Tips</h4>
+      <div class="flex items-start gap-2 mb-5">
+        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          The information below lists the original location where the animal went missing, along with any subsequent sightings or tips reported by community members.
+        </p>
+      </div>
+
+      <%= turbo_frame_tag "tips_list_#{@report.id}" do %>
+        <%= render partial: "reports/tips_list", locals: { tips: @tips, report: @report, pagy: @tips_pagy } %>
+      <% end %>
+    </div>
+
+    <div class="mt-8" id="tip_form_<%= @report.id %>">
+      <% if @can_submit_tip %>
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6"
+             data-controller="tip-prompt">
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Have Information?</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              If you've seen this pet or have any information that might help, please share it.
+            </p>
+            <div class="flex items-center justify-center gap-3">
+              <button type="button"
+                      class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md text-sm font-medium transition-colors"
+                      data-action="click->tip-prompt#showForm">
+                Submit a Tip
+              </button>
+              <% if @owner_allows_contact %>
+                <button type="button"
+                        class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-md text-sm font-medium transition-colors"
+                        aria-label="Send a message to the report owner"
+                        data-controller="conversation"
+                        data-conversation-report-id-value="<%= @report.id %>"
+                        data-action="click->conversation#startConversation"
+                        data-conversation-target="button">
+                  Start a Conversation
+                </button>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% elsif !user_signed_in? %>
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Have Information?</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">
+              <%= link_to "Log in", new_user_session_path, class: "text-blue-600 dark:text-blue-400 hover:underline" %> to submit a tip or start a conversation.
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="flash_messages"></div>
+
+  <%= render Ui::ConfirmModalComponent.new(
+        title: "You are about to open an external link.",
+        message: "If the link you clicked is not from a trusted source, it may contain potential security risks.\n\nAre you sure you want to open it?",
+        confirm_text: "Continue",
+        cancel_text: "Cancel",
+        confirm_button_color: "blue"
+      ) %>
+</div>

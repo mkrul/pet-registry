@@ -34,6 +34,18 @@ Rails.application.routes.draw do
   get '/privacy', to: 'pages#privacy', as: :privacy
   get '/about',   to: 'pages#about',   as: :about
 
+  # Phase 2: Public pages (Hotwire)
+  resources :reports, only: [:index, :show] do
+    member do
+      post :submit_tip
+      get :tip_form
+    end
+  end
+
+  # Contact page
+  get  '/contact', to: 'contact_messages#new', as: :contact
+  post '/contact', to: 'contact_messages#create'
+
   namespace :api do
     # Custom auth routes
     post '/sign_up', to: 'registrations#create'
@@ -126,11 +138,11 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: '/letter_opener'
   end
 
-  # Catch-all route to handle client-side routing by React
+  # Catch-all route to handle client-side routing by React (for unmigrated pages)
   get '*path', to: 'home#index', constraints: ->(req) { req.format.html? }
 
-  # Render the React app
-  root to: 'home#index'
+  # Root route - Phase 2: Now serves reports index (Hotwire)
+  root to: 'reports#index'
 
   direct :rails_blob do |blob|
     route_for(:rails_blob, blob, only_path: true)

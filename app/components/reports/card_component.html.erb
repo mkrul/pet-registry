@@ -1,0 +1,56 @@
+<div class="flex flex-col justify-between h-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow hover:shadow-md transition-shadow">
+  <%= link_to report_url, class: "block", data: { turbo_frame: "_top" } do %>
+    <div class="p-4 w-full">
+      <div class="relative w-full aspect-square mb-4 overflow-hidden rounded-lg <%= ring_style %>"
+           data-controller="image-loader"
+           data-image-loader-placeholder-value="/images/placeholder.png">
+        <div class="absolute inset-0 z-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 transition-opacity duration-300"
+             data-image-loader-target="spinner">
+          <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        </div>
+
+        <%= image_tag image_url,
+                      alt: report.title,
+                      class: "w-full h-full object-cover opacity-0 transition-opacity duration-300",
+                      loading: "lazy",
+                      data: {
+                        image_loader_target: "image",
+                        action: "load->image-loader#loaded error->image-loader#error"
+                      } %>
+
+        <% if badge_type == :new %>
+          <span class="absolute bottom-0 right-0 z-20 bg-blue-500 text-blue-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-blue-500 dark:text-blue-100"
+                tabindex="0"
+                aria-label="Report created within the last hour">
+            NEW
+          </span>
+        <% elsif badge_type == :updated %>
+          <span class="absolute bottom-0 right-0 z-20 bg-green-500 text-green-100 text-base font-medium px-3 pb-0.5 pt-1 rounded-tl-md cursor-pointer dark:bg-green-500 dark:text-green-100"
+                tabindex="0"
+                aria-label="Report updated within the last two days">
+            UPDATED
+          </span>
+        <% end %>
+      </div>
+
+      <div class="flex flex-col flex-grow">
+        <h2 class="text-base md:text-md font-bold text-gray-900 dark:text-gray-100">
+          <%= truncated_title %>
+        </h2>
+
+        <% if breed_display.present? %>
+          <p class="mt-0 text-sm text-gray-600 dark:text-gray-400">
+            <%= breed_display %>
+          </p>
+        <% end %>
+
+        <div class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          <div class="font-medium text-gray-800 dark:text-gray-300">Last seen at:</div>
+          <% if last_seen_location.present? %>
+            <span><%= last_seen_location %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,106 @@
+<div id="<%= dom_id %>"
+     class="border-t border-gray-200 dark:border-gray-700 pt-3"
+     data-controller="tip-expander truncation"
+     data-tip-expander-expanded-value="false"
+     data-truncation-tip-id-value="<%= tip.id %>">
+  <div class="<%= has_content? ? 'cursor-pointer rounded-md transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-800' : '' %> flex items-start gap-4"
+       <%= has_content? ? 'data-action="click->tip-expander#toggle keydown->tip-expander#handleKeydown" role="button" tabindex="0"' : '' %>
+       aria-expanded="<%= has_content? ? 'false' : nil %>"
+       data-tip-expander-target="container">
+
+    <div class="text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row md:items-center flex-shrink-0">
+      <% if formatted_date && formatted_time %>
+        <span><%= formatted_date %>,</span>
+        <span class="md:ml-1"><%= formatted_time %></span>
+      <% else %>
+        <span>—</span>
+      <% end %>
+    </div>
+
+    <div class="flex-1 min-w-0 flex items-start gap-2">
+      <div class="flex-1 min-w-0">
+        <div data-tip-expander-target="collapsed" data-truncation-target="collapsedContent">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="flex-1 min-w-0">
+              <% if has_location? %>
+                <div class="truncate text-sm font-normal text-gray-700 dark:text-gray-200"
+                     data-truncation-target="truncatable">
+                  <%= location_display %>
+                </div>
+              <% elsif has_map_link? %>
+                <div class="truncate text-sm text-blue-600 dark:text-blue-400">
+                  🗺️📍 View on Google Maps
+                </div>
+              <% elsif has_message? %>
+                <p class="text-sm text-gray-700 dark:text-gray-200 truncate"
+                   data-truncation-target="truncatable"
+                   title="<%= tip.message %>">
+                  <%= tip.message %>
+                </p>
+              <% elsif has_links? %>
+                <div class="truncate text-sm text-blue-600 dark:text-blue-400">
+                  🔗 <%= unique_external_links.first %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div data-tip-expander-target="expanded" class="hidden">
+          <div class="space-y-2">
+            <% if has_location? %>
+              <div class="text-sm font-normal text-gray-700 dark:text-gray-200">
+                <%= location_display %>
+              </div>
+            <% end %>
+
+            <% if has_map_link? %>
+              <a href="<%= google_maps_url %>"
+                 class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline inline-block cursor-pointer"
+                 data-controller="external-link"
+                 data-action="click->external-link#intercept">
+                🗺️📍 View on Google Maps
+              </a>
+            <% end %>
+
+            <% if has_message? %>
+              <p class="text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap pt-0.5"
+                 data-controller="message-text">
+                <%= tip.message %>
+              </p>
+            <% end %>
+
+            <% if has_links? %>
+              <div class="space-y-1">
+                <% unique_external_links.each do |link| %>
+                  <a href="<%= link %>"
+                     class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline block cursor-pointer truncate"
+                     title="<%= link %>"
+                     data-controller="external-link"
+                     data-action="click->external-link#intercept">
+                    🔗 <%= link %>
+                  </a>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <% if has_content? %>
+        <span class="flex-shrink-0 mt-1 text-gray-400 dark:text-gray-500 transition-colors"
+              aria-hidden="true"
+              data-tip-expander-target="chevron"
+              data-truncation-target="chevron">
+          <svg class="w-4 h-4 transition-transform"
+               data-tip-expander-target="chevronIcon"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </span>
+      <% end %>
+    </div>
+  </div>
+</div>
