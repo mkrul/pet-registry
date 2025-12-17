@@ -1,0 +1,29 @@
+<%# Screen reader announcement %>
+<div aria-live="assertive" aria-atomic="true" class="sr-only" role="status">
+  <span><%= screen_reader_prefix %><%= @message %></span>
+</div>
+
+<%# Visual toast notification %>
+<div class="fixed top-4 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4 z-[9999] pointer-events-none"
+     style="perspective: 1000px;">
+  <div class="pointer-events-auto"
+       data-controller="toast"
+       data-toast-auto-dismiss-value="<%= @auto_dismiss %>"
+       data-toast-delay-value="<%= dismiss_delay %>">
+    <div class="<%= type_classes %> border-l-4 px-6 py-4 rounded-r-lg shadow-lg flex justify-between items-center min-w-[320px] max-w-md animate-slideDownBounce"
+         role="alert"
+         aria-live="assertive"
+         aria-atomic="true"
+         data-action="click->toast#dismiss"
+         style="cursor: pointer;">
+      <span class="block text-base font-normal pr-4"><%= @message %></span>
+      <button
+        type="button"
+        data-action="click->toast#dismiss"
+        class="flex-shrink-0 ml-2 hover:opacity-70 transition-opacity"
+        aria-label="Close">
+        <span class="text-2xl leading-none" aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+</div>

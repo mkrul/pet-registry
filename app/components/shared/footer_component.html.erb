@@ -1,0 +1,17 @@
+<div class="bg-page dark:bg-gray-900 pt-12 pb-5" role="contentinfo" data-testid="footer">
+  <div class="container mx-auto px-4 text-center">
+    <div class="flex justify-center space-x-6 pb-3">
+      <% nav_links.each do |link| %>
+        <%= link_to link[:label], link[:path],
+            class: "text-base focus:outline-none active:outline-none no-tap-highlight text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100" %>
+      <% end %>
+    </div>
+    <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+      <p>&copy; <%= current_year %> Lost Pets Registry. All rights reserved.</p>
+    </div>
+
+    <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+      This project runs on the generosity of others. Please consider donating to help support our work.
+    </div>
+  </div>
+</div>

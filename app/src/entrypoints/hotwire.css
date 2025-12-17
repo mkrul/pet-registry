@@ -1,0 +1,20 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+div[data-lastpass-icon-root] {
+  display: none;
+}
+
+.no-tap-highlight {
+  outline: none;
+}
+
+.no-tap-highlight:focus,
+.no-tap-highlight:hover,
+.no-tap-highlight:active,
+.no-tap-highlight:visited,
+.no-tap-highlight:link {
+  background-color: transparent !important;
+  outline: none !important;
+}

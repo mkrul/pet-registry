@@ -1,0 +1,80 @@
+<nav class="bg-page dark:bg-gray-900">
+  <div data-testid="navbar">
+    <div class="navbar dark:bg-gray-900">
+      <%# Mobile hamburger menu %>
+      <div class="flex-none sm:hidden" data-controller="mobile-menu">
+        <div class="dropdown">
+          <button
+            class="btn btn-ghost btn-circle dark:text-gray-200"
+            data-action="click->mobile-menu#toggle"
+            data-testid="hamburger-menu-button"
+            aria-label="Toggle navigation menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <ul
+            class="menu menu-sm dropdown-content bg-white dark:bg-gray-800 rounded-box z-[50] mt-3 w-52 p-2 shadow dark:shadow-lg dark:border dark:border-gray-700 hidden"
+            data-mobile-menu-target="menu"
+            data-testid="mobile-menu">
+            <% mobile_nav_links.each do |link| %>
+              <li class="hover:bg-base-200 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200">
+                <%= link_to link[:label], link[:path],
+                    class: "text-base focus:outline-none active:outline-none no-tap-highlight text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100",
+                    data: { action: "click->mobile-menu#close" } %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <%# Logo %>
+      <div class="flex-1">
+        <%= link_to "Lost Pets Registry", root_path,
+            class: "btn btn-ghost text-xl hover:bg-transparent dark:hover:bg-transparent dark:text-gray-100 pl-1 sm:pl-4" %>
+      </div>
+
+      <%# Desktop navigation %>
+      <div class="hidden sm:flex flex-none">
+        <ul class="menu menu-horizontal [&>li>a]:px-[0.875rem]" data-testid="desktop-nav" aria-label="desktop navigation">
+          <% desktop_nav_links.each do |link| %>
+            <li>
+              <%= link_to link[:label], link[:path],
+                  class: "text-base focus:outline-none active:outline-none no-tap-highlight text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <%# Profile dropdown (authenticated users only) %>
+      <% if authenticated? %>
+        <div class="flex-none gap-2" data-controller="profile-dropdown">
+          <div class="dropdown dropdown-end">
+            <button
+              class="btn btn-ghost hover:bg-blue-300 dark:hover:bg-gray-700 btn-circle avatar sm:mr-2 dark:text-gray-200"
+              data-action="click->profile-dropdown#toggle"
+              data-testid="profile-button">
+              <div class="w-11 h-11 rounded-full">
+                <img alt="User avatar" src="/images/placeholder-blue.jpg" class="object-cover w-full h-full" />
+              </div>
+            </button>
+            <ul
+              class="menu menu-sm dropdown-content bg-white dark:bg-gray-700 rounded-box z-[50] mt-3 w-52 p-2 shadow dark:shadow-lg dark:border dark:border-gray-600 hidden"
+              data-profile-dropdown-target="menu">
+              <li class="hover:bg-base-200 dark:hover:bg-gray-500 rounded-lg transition-colors duration-200">
+                <%= link_to "Dashboard", "/dashboard",
+                    class: "text-base focus:outline-none active:outline-none no-tap-highlight text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100" %>
+              </li>
+              <li class="hover:bg-base-200 dark:hover:bg-gray-500 rounded-lg transition-colors duration-200">
+                <%= button_to "Logout", destroy_user_session_path,
+                    method: :delete,
+                    class: "text-base focus:outline-none active:outline-none no-tap-highlight text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 w-full text-left",
+                    data: { turbo: false } %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</nav>

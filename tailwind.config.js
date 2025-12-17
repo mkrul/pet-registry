@@ -16,6 +16,7 @@ module.exports = {
     './app/assets/stylesheets/**/*.css',
     './app/src/stylesheets/**/*.css',
     './app/src/stylesheets/*.css',
+    './app/components/**/*.{rb,erb,html}',
   ],
   daisyui: {
     themes: [{

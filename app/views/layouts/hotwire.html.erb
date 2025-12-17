@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Lost Pets Registry" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+
+    <script>
+      (function() {
+        try {
+          if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <style>
+      html { background-color: #f5f5f5; }
+      html.dark { background-color: rgb(23 23 23 / var(--tw-bg-opacity, 1)); }
+    </style>
+
+    <%= vite_client_tag %>
+    <%= vite_stylesheet_tag 'hotwire.css', data: { "turbo-track": "reload" } %>
+    <%= vite_javascript_tag 'hotwire.js', data: { "turbo-track": "reload" } %>
+  </head>
+
+  <body class="min-h-screen bg-page dark:bg-gray-900 flex flex-col">
+    <%= render Shared::NavbarComponent.new(current_user: current_user) %>
+
+    <main class="flex-1">
+      <%= render "shared/flash" %>
+      <%= yield %>
+    </main>
+
+    <%= render Shared::FooterComponent.new(current_user: current_user) %>
+  </body>
+</html>

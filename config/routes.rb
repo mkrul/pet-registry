@@ -4,7 +4,35 @@ Rails.application.routes.draw do
 
   get 'up', to: 'home#up'
 
-  devise_for :users
+  # Custom Devise routes for /login, /signup, etc.
+  devise_for :users, skip: [:sessions, :registrations, :passwords, :confirmations]
+
+  devise_scope :user do
+    # Sessions (login/logout)
+    get    'login',  to: 'users/sessions#new',     as: :new_user_session
+    post   'login',  to: 'users/sessions#create',  as: :user_session
+    delete 'logout', to: 'users/sessions#destroy', as: :destroy_user_session
+
+    # Registrations (signup)
+    get  'signup', to: 'users/registrations#new',    as: :new_user_registration
+    post 'signup', to: 'users/registrations#create', as: :user_registration
+
+    # Password recovery
+    get   'forgot-password',     to: 'users/passwords#new',    as: :new_user_password
+    post  'forgot-password',     to: 'users/passwords#create', as: :user_password
+    get   'reset-password/edit', to: 'users/passwords#edit',   as: :edit_user_password
+    patch 'reset-password',      to: 'users/passwords#update'
+    put   'reset-password',      to: 'users/passwords#update'
+
+    # Email confirmation
+    get  'confirm-email',        to: 'users/confirmations#show',   as: :user_confirmation
+    post 'confirm-email/resend', to: 'users/confirmations#create', as: :new_user_confirmation
+  end
+
+  # Static pages
+  get '/terms',   to: 'pages#terms',   as: :terms
+  get '/privacy', to: 'pages#privacy', as: :privacy
+  get '/about',   to: 'pages#about',   as: :about
 
   namespace :api do
     # Custom auth routes

@@ -1,3 +1,131 @@
+# Phase 1 Migration: Authentication & Layout Components
+
+## Overview
+Phase 1 of the React to Hotwire migration introduces server-rendered authentication pages and global layout components that coexist with the existing React SPA during the transition period.
+
+## Custom Devise Routes
+
+| Path | Controller | Description |
+|------|------------|-------------|
+| `/login` | `users/sessions#new` | Login page |
+| `/signup` | `users/registrations#new` | Registration page |
+| `/logout` | `users/sessions#destroy` | Logout action (DELETE) |
+| `/forgot-password` | `users/passwords#new` | Request password reset |
+| `/reset-password/edit` | `users/passwords#edit` | Set new password |
+| `/confirm-email` | `users/confirmations#show` | Confirm email token |
+| `/confirm-email/resend` | `users/confirmations#create` | Resend confirmation |
+
+## Stimulus Controllers
+
+### password-visibility
+Toggles password field visibility between text and password type.
+
+**Targets**:
+- `input` - The password input field
+- `iconShow` - Eye icon (visible when password is hidden)
+- `iconHide` - Eye-off icon (visible when password is shown)
+
+**Usage**:
+```erb
+<div data-controller="password-visibility">
+  <input type="password" data-password-visibility-target="input">
+  <button data-action="click->password-visibility#toggle">
+    <svg data-password-visibility-target="iconShow">...</svg>
+    <svg data-password-visibility-target="iconHide" class="hidden">...</svg>
+  </button>
+</div>
+```
+
+### form-submit
+Disables submit button and shows loading text during form submission.
+
+**Targets**:
+- `button` - The submit button
+
+**Values**:
+- `submittingText` (String, default: "Submitting...")
+
+**Actions**:
+- `disable` - Called on `turbo:submit-start`
+- `enable` - Called on `turbo:submit-end`
+
+### form-validation
+Client-side password match validation for signup/reset forms.
+
+**Targets**:
+- `password` - The password field
+- `passwordConfirmation` - The confirmation field
+- `passwordError` - Error message element
+
+**Actions**:
+- `validatePasswordMatch` - Called on input to check if passwords match
+
+### mobile-menu / profile-dropdown
+Toggle menu visibility with click-outside-to-close behavior.
+
+**Targets**:
+- `menu` - The dropdown menu element
+
+**Values**:
+- `open` (Boolean, default: false)
+
+## ViewComponents
+
+### Shared::NavbarComponent
+Renders the navigation bar with authentication-aware links.
+
+**Parameters**:
+- `current_user` (User or nil) - The logged-in user
+
+**Behavior**:
+- Unauthenticated: Shows Search, About, Contact, Log In
+- Authenticated: Shows New Report, Search, About, Contact, Profile Dropdown (Dashboard, Logout)
+- Mobile menu includes all links for both states
+
+### Shared::FooterComponent
+Renders the page footer with navigation links.
+
+**Parameters**:
+- `current_user` (User or nil) - The logged-in user
+
+**Links shown**:
+- New Report (authenticated only)
+- Search, About, Contact
+
+### Ui::ToastComponent
+Renders flash notifications with auto-dismiss and animations.
+
+**Parameters**:
+- `type` (Symbol) - :success, :error, :warning, :info, :notice, :alert
+- `message` (String) - The notification text
+- `auto_dismiss` (Boolean, default: true) - Whether to auto-dismiss
+
+**Styling**:
+- Uses border-left accent color based on type
+- Auto-dismiss duration calculated from message length (3-10 seconds)
+- Includes screen reader announcements
+
+## Email Confirmation Flow
+
+1. User signs up at `/signup`
+2. Account created with `confirmed_at: nil`
+3. Confirmation email sent with token link
+4. User clicks link → `/confirm-email?confirmation_token=...`
+5. Account confirmed, user redirected to `/login`
+6. Token expires after 3 days (configurable in devise.rb)
+
+## Dark Mode Support
+
+All Phase 1 views use Tailwind `dark:` prefix classes:
+- Backgrounds: `bg-gray-100 dark:bg-gray-900`
+- Cards: `bg-white dark:bg-gray-800`
+- Text: `text-gray-900 dark:text-gray-100`
+- Inputs: `bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600`
+
+Dark mode is detected from `localStorage.darkMode` via inline script in layout head.
+
+---
+
 # Notification Mailer Template
 
 ## Overview

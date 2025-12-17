@@ -2,59 +2,84 @@
 
 ## In Progress
 
-### React to Stimulus/Turbo Migration Planning
+### React to Stimulus/Turbo Migration - Phase 2 Ready
 
-**Objective**: Create a comprehensive plan to migrate from React SPA to Rails-native Hotwire (Turbo + Stimulus) implementation.
+**Objective**: Migrate from React SPA to Rails-native Hotwire (Turbo + Stimulus) implementation.
 
-**Plan Document**: `cursor/plan.md` (~3000 lines)
+**Plan Document**: `cursor/plan.md` (~3750 lines)
 
-**Plan Includes**:
-1. **9-Phase Migration Timeline** (16-24 weeks estimated)
-   - Phase 0: Infrastructure Setup
-   - Phase 1: Authentication & Layout
-   - Phase 2: Public Pages
-   - Phase 3: Dashboard Core
-   - Phase 4: Dashboard Reports & Pets
-   - Phase 5: Dashboard Messages
-   - Phase 6: Search & Filtering
-   - Phase 7: Maps & Geocoding
-   - Phase 8: Image Upload & Cloudinary
-   - Phase 9: Cleanup & Polish
+**Completed Phases**:
+- ✅ **Phase 0**: Infrastructure Setup (ViewComponent, Stimulus controllers, layouts)
+- ✅ **Phase 1**: Authentication & Layout (Devise views, Navbar, Footer, Toast)
 
-2. **LLM-Specific Implementation Guide** (Appendices C-K)
-   - Context requirements before each conversion
-   - Conversion pattern templates (React → Rails/Stimulus)
-   - Stimulus controller templates
-   - ViewComponent templates
-   - Turbo Frame/Stream patterns
-   - API response structure reference
-   - TailwindCSS class preservation reference
-   - File-by-file conversion guide
-   - Common mistakes to avoid
-   - Form validation patterns
-   - Accessibility requirements
-   - Real-time messaging implementation detail
-
-3. **Technical Decisions**
-   - Keep TailwindCSS, drop Material UI
-   - Use ViewComponent for reusable UI
-   - Use ActionCable + Turbo Streams for real-time (replacing RTK Query polling)
-   - Vanilla Leaflet + Stimulus for maps
-   - Direct Cloudinary uploads retained
-
-4. **Risk Assessment**
-   - High: Real-time messaging, Map interactions, Form state management
-   - Medium: Search/filter state, Image upload UX, Dark mode persistence
-   - Low: Static pages, CRUD operations, Authentication
+**Current Status**: Ready to begin Phase 2 (Public Pages)
 
 **Next Steps**:
-1. Review plan with stakeholders
-2. Begin Phase 0: Infrastructure Setup
-3. Parallel development approach (new routes at `/v2/...`)
+1. Convert listings index page
+2. Convert report detail page
+3. Convert about page
+4. Convert contact page
 
 ---
 
 ## Completed Tasks
+
+### Phase 1: Authentication & Layout Migration
+
+**Objective**: Convert authentication pages and global layout components from React to Rails/Hotwire.
+
+**Changes Made**:
+
+1. **Email Confirmation (Devise Confirmable)**
+   - Created migration `20251218000001_add_confirmable_to_users.rb` with confirmation columns
+   - Added `:confirmable` to User model
+   - Configured 3-day confirmation window in devise.rb
+   - Created email templates for confirmation instructions
+
+2. **Custom Devise Routes**
+   - `/login`, `/signup`, `/logout` (instead of Devise defaults)
+   - `/forgot-password`, `/reset-password/edit` for password recovery
+   - `/confirm-email`, `/confirm-email/resend` for email confirmation
+
+3. **Devise Views with Dark Mode Support**
+   - `app/views/devise/sessions/new.html.erb` - Login page with remember me checkbox
+   - `app/views/devise/registrations/new.html.erb` - Signup page with password validation
+   - `app/views/devise/passwords/new.html.erb` - Forgot password page
+   - `app/views/devise/passwords/edit.html.erb` - Reset password page
+   - `app/views/devise/confirmations/new.html.erb` - Resend confirmation page
+   - Email templates: confirmation_instructions.html.erb, reset_password_instructions.html.erb
+
+4. **Stimulus Controllers**
+   - `password_visibility_controller.js` - Toggle password show/hide
+   - `form_submit_controller.js` - Loading state on form submission
+   - `form_validation_controller.js` - Client-side password match validation
+   - `mobile_menu_controller.js` - Mobile hamburger menu toggle
+   - `profile_dropdown_controller.js` - User profile dropdown toggle
+
+5. **ViewComponents**
+   - `Shared::NavbarComponent` - Navigation bar with auth-dependent links
+   - `Shared::FooterComponent` - Footer with navigation links
+   - `Ui::ToastComponent` - Flash notification with auto-dismiss
+
+6. **Placeholder Pages**
+   - `/terms` - Terms of Service placeholder
+   - `/privacy` - Privacy Policy placeholder
+   - `/about` - About page placeholder (server-rendered)
+
+7. **Configuration**
+   - Post-login redirect to `/dashboard`
+   - Post-logout redirect to `/login`
+   - Custom Devise controllers using hotwire layout
+
+**Result**:
+- New auth pages available at `/login`, `/signup`, etc. using Rails server rendering
+- Existing React app continues to work via catch-all route
+- Dark mode support on all auth pages
+- Remember me functionality with checkbox
+- Password visibility toggles on all password fields
+- Client-side password match validation on signup/reset
+
+---
 
 ### Conversation Email Notification
 

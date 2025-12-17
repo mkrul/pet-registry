@@ -1,0 +1,42 @@
+<% content_for :title, "Privacy Policy - Lost Pets Registry" %>
+
+<div class="max-w-4xl mx-auto px-4 py-12">
+  <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">Privacy Policy</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        <em>Last updated: <%= Date.current.strftime("%B %d, %Y") %></em>
+      </p>
+
+      <p class="text-gray-700 dark:text-gray-300 mb-6">
+        This is a placeholder page for the Privacy Policy. The full policy will be added here.
+      </p>
+
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">1. Information We Collect</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        We collect information you provide directly to us, such as when you create an account, submit a lost or found pet report, or contact us for support.
+      </p>
+
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">2. How We Use Your Information</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        We use the information we collect to provide, maintain, and improve our services, to process transactions, and to communicate with you.
+      </p>
+
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">3. Information Sharing</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        We do not sell your personal information. We may share your information with third parties only as described in this policy or with your consent.
+      </p>
+
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">4. Data Security</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        We take reasonable measures to help protect your personal information from loss, theft, misuse, and unauthorized access.
+      </p>
+
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-8 mb-4">5. Contact</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">
+        If you have questions about this Privacy Policy, please <%= link_to "contact us", "/contact", class: "text-blue-600 dark:text-blue-400 hover:underline" %>.
+      </p>
+    </div>
+  </div>
+</div>

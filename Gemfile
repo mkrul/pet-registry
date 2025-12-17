@@ -56,6 +56,18 @@ gem 'cloudinary', '~> 1.29.0'
 
 # authorization
 gem 'pundit', '~> 2.3'
+
+# ViewComponent for reusable UI
+gem 'view_component', '~> 3.0'
+
+# Simple form for form helpers
+gem 'simple_form', '~> 5.3'
+
+# Pagy for pagination (lighter than Kaminari)
+gem 'pagy', '~> 9.0'
+
+# Local time for relative timestamps
+gem 'local_time', '~> 3.0'
 gem 'activestorage-cloudinary-service', '~> 0.2.3'
 gem 'image_processing', '~> 1.12'
 gem 'mini_magick', '~> 4.11'
