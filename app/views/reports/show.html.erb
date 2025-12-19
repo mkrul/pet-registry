@@ -21,16 +21,16 @@
                 alt_text: @report.title,
                 caption: @report.title
               ) do %>
-            <div class="relative w-full"
+            <div class="relative w-full h-64 md:h-full md:min-h-[350px] sm:min-h-[400px] xs:min-h-[300px]"
                  data-controller="image-loader"
                  data-image-loader-placeholder-value="/images/placeholder.png">
-              <div class="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900 z-20"
+              <div class="absolute inset-0 z-10 flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-opacity duration-300"
                    data-image-loader-target="spinner">
                 <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
               </div>
               <%= image_tag(@report.image.attached? ? url_for(@report.image) : "/images/placeholder.png",
                             alt: @report.title,
-                            class: "w-full h-64 md:h-full md:min-h-[350px] sm:min-h-[400px] xs:min-h-[300px] object-cover #{@report.status == 'archived' ? 'grayscale' : ''} hidden",
+                            class: "w-full h-full object-cover #{@report.status == 'archived' ? 'grayscale' : ''} opacity-0 transition-opacity duration-300",
                             data: {
                               image_loader_target: "image",
                               action: "load->image-loader#loaded error->image-loader#error"
